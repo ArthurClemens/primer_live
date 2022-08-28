@@ -56,7 +56,7 @@ defmodule PrimerLive.Components.PaginationTest do
              |> format_html()
   end
 
-  test "many pages" do
+  test "Many pages" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -82,7 +82,7 @@ defmodule PrimerLive.Components.PaginationTest do
              |> format_html()
   end
 
-  test "Option: far_end_page_link_count" do
+  test "Option: boundary_count" do
     assigns = %{page_count: 10, current_page: 5}
 
     assert rendered_to_string(~H"""
@@ -90,7 +90,7 @@ defmodule PrimerLive.Components.PaginationTest do
              page_count={@page_count}
              current_page={@current_page}
              link_path={fn page_num -> "/page/#{page_num}" end}
-             far_end_page_link_count="1"
+             boundary_count="1"
            />
            """)
            |> format_html() ==
@@ -111,7 +111,7 @@ defmodule PrimerLive.Components.PaginationTest do
              |> format_html()
   end
 
-  test "Option: surrounding_page_link_count" do
+  test "Option: sibling_count" do
     assigns = %{page_count: 10, current_page: 5}
 
     assert rendered_to_string(~H"""
@@ -119,7 +119,7 @@ defmodule PrimerLive.Components.PaginationTest do
              page_count={@page_count}
              current_page={@current_page}
              link_path={fn page_num -> "/page/#{page_num}" end}
-             surrounding_page_link_count="1"
+             sibling_count="1"
            />
            """)
            |> format_html() ==
@@ -288,6 +288,29 @@ defmodule PrimerLive.Components.PaginationTest do
                  aria-current="page">1</em><a aria-label="Page 2" data-phx-link="redirect" data-phx-link-state="replace"
                  href="/page/2" replace> 2 </a><a aria-label="Next page" class="next_page" data-phx-link="redirect"
                  data-phx-link-state="replace" href="/page/2" rel="next" replace> Next </a></div>
+             </nav>
+             """
+             |> format_html()
+  end
+
+  test "Extra attributes" do
+    assigns = %{page_count: 2, current_page: 1}
+
+    assert rendered_to_string(~H"""
+           <.pagination
+             page_count={@page_count}
+             current_page={@current_page}
+             link_path={fn page_num -> "/page/#{page_num}" end}
+             dir="rtl"
+           />
+           """)
+           |> format_html() ==
+             """
+             <nav class="paginate-container" dir="rtl" aria-label="Navigation">
+             <div class="pagination"><span class="previous_page" aria-disabled="true">Previous</span><em
+             aria-current="page">1</em><a aria-label="Page 2" data-phx-link="redirect" data-phx-link-state="push"
+             href="/page/2"> 2 </a><a aria-label="Next page" class="next_page" data-phx-link="redirect"
+             data-phx-link-state="push" href="/page/2" rel="next"> Next </a></div>
              </nav>
              """
              |> format_html()

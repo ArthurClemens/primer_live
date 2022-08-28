@@ -1,8 +1,8 @@
-defmodule PrimerLive.Components.Pagination.Options.Classes do
-  use ComponentSchema
+defmodule PrimerLive.Options.Pagination.Classes do
+  use Options
 
   @moduledoc """
-  Schema for `PrimerLive.Components.Pagination.Options`, option `classes`.
+  Options for `classes` in `PrimerLive.Options.Pagination`.
 
   | **Classname** | **Description** |
   | `pagination_container` | `nav` element that contains `navigation`. |
@@ -22,16 +22,16 @@ defmodule PrimerLive.Components.Pagination.Options.Classes do
     field(:page, :string)
   end
 
-  @impl ComponentSchema
+  @impl Options
   def changeset(struct, attrs \\ %{}) do
     struct
     |> cast(attrs, [:pagination_container, :pagination, :previous_page, :next_page, :page, :gap])
   end
 end
 
-defmodule PrimerLive.Components.Pagination.Options.Labels do
+defmodule PrimerLive.Options.Pagination.Labels do
   @moduledoc """
-  Schema for Pagination options, option `labels`.
+  Options for `labels` in `PrimerLive.Options.Pagination`.
 
   | **Label** | **Default** |
   | `aria_label_container` | Navigation |
@@ -43,7 +43,7 @@ defmodule PrimerLive.Components.Pagination.Options.Labels do
   | `previous_page` | Previous |
   """
 
-  use ComponentSchema
+  use Options
 
   typed_embedded_schema do
     field(:aria_label_container, :string, default: "Navigation")
@@ -55,7 +55,7 @@ defmodule PrimerLive.Components.Pagination.Options.Labels do
     field(:previous_page, :string, default: "Previous")
   end
 
-  @impl ComponentSchema
+  @impl Options
   def changeset(struct, attrs \\ %{}) do
     struct
     |> cast(attrs, [
@@ -70,47 +70,46 @@ defmodule PrimerLive.Components.Pagination.Options.Labels do
   end
 end
 
-defmodule PrimerLive.Components.Pagination.Options.LinkOptions do
+defmodule PrimerLive.Options.Pagination.LinkOptions do
   @moduledoc """
-  Schema for `PrimerLive.Components.Pagination.Options`, option `link_options`.
-
+  Options for `link_options` in `PrimerLive.Options.Pagination`.
 
   | **Name**    | **Type**  | **Validation** | **Default**  | **Description** |
   | `replace`   | `boolean` |  | false | Result page count. |
   """
 
-  use ComponentSchema
+  use Options
 
   typed_embedded_schema do
     field(:replace, :boolean, default: false)
   end
 
-  @impl ComponentSchema
+  @impl Options
   def changeset(struct, attrs \\ %{}) do
     struct
     |> cast(attrs, [:pagination_container, :pagination, :prev_next_link, :gap])
   end
 end
 
-defmodule PrimerLive.Components.Pagination.Options do
-  use ComponentSchema
+defmodule PrimerLive.Options.Pagination do
+  use Options
 
-  alias PrimerLive.Components.Pagination.Options.{Classes, Labels, LinkOptions}
+  alias PrimerLive.Options.Pagination.{Classes, Labels, LinkOptions}
 
   @moduledoc """
-  Schema for `PrimerLive.Components.Pagination.pagination/1` options.
+  Options for component `PrimerLive.Components.pagination/1`.
 
   | **Name**          | **Type** | **Validation** | **Default**  | **Description** |
   | `page_count*`   | `integer` | `>= 0` | - | Result page count. |
   | `current_page*` | `integer` | `>= 1` | - | Current page. |
   | `link_path*`    | `(page_number) -> path` | `>= 1` | - | Function that returns a path for the given page number. The link builder uses `live_redirect`. Extra options can be passed with `link_options`. |
-  | `far_end_page_link_count` | `integer` | `1..3` | `2` | Number of page links at both ends. |
-  | `surrounding_page_link_count` | `integer` | `1..5` | `2` | How many page links to show on each side of the current page. |
+  | `boundary_count` | `integer` | `1..3` | `2` | Number of page links at both ends. |
+  | `sibling_count` | `integer` | `1..5` | `2` | How many page links to show on each side of the current page. |
   | `is_numbered` | `boolean` |  | `true` | Showing page numbers. |
   | `class` | `string` |  | - | Additional classname for the main component. For more control, use `classes`. |
-  | `classes` | `map` |  | - | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Components.Pagination.Options.Classes`. |
-  | `labels` | `map` |  | - | Map of textual labels. See `PrimerLive.Components.Pagination.Options.Labels`. |
-  | `link_options` | `map` |  | - | Map of link options. See `PrimerLive.Components.Pagination.Options.LinkOptions`. |
+  | `classes` | `map` |  | - | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Pagination.Classes`. |
+  | `labels` | `map` |  | - | Map of textual labels. See `PrimerLive.Options.Pagination.Labels`. |
+  | `link_options` | `map` |  | - | Map of link options. See `PrimerLive.Options.Pagination.LinkOptions`. |
 
   """
 
@@ -120,8 +119,8 @@ defmodule PrimerLive.Components.Pagination.Options do
     field(:current_page, :integer, enforce: true)
     field(:link_path, :any, virtual: true, enforce: true)
     # Optional options
-    field(:far_end_page_link_count, :integer, default: 2)
-    field(:surrounding_page_link_count, :integer, default: 2)
+    field(:boundary_count, :integer, default: 2)
+    field(:sibling_count, :integer, default: 2)
     field(:is_numbered, :boolean, default: true)
     field(:class, :string)
     # Embedded options
@@ -130,17 +129,17 @@ defmodule PrimerLive.Components.Pagination.Options do
     embeds_one(:link_options, LinkOptions)
   end
 
-  @impl ComponentSchema
+  @impl Options
   def changeset(struct, attrs \\ %{}) do
     struct
     |> cast(attrs, [
       :class,
       :current_page,
-      :far_end_page_link_count,
+      :boundary_count,
       :is_numbered,
       :link_path,
       :page_count,
-      :surrounding_page_link_count
+      :sibling_count
     ])
     |> cast_embed_with_defaults(attrs, :classes, %{})
     |> cast_embed_with_defaults(attrs, :link_options, %LinkOptions{})
@@ -152,9 +151,9 @@ defmodule PrimerLive.Components.Pagination.Options do
     ])
     |> validate_number(:page_count, greater_than_or_equal_to: 0)
     |> validate_number(:current_page, greater_than_or_equal_to: 1)
-    |> validate_number(:far_end_page_link_count, greater_than_or_equal_to: 1)
-    |> validate_number(:far_end_page_link_count, less_than_or_equal_to: 3)
-    |> validate_number(:surrounding_page_link_count, greater_than_or_equal_to: 1)
-    |> validate_number(:surrounding_page_link_count, less_than_or_equal_to: 5)
+    |> validate_number(:boundary_count, greater_than_or_equal_to: 1)
+    |> validate_number(:boundary_count, less_than_or_equal_to: 3)
+    |> validate_number(:sibling_count, greater_than_or_equal_to: 1)
+    |> validate_number(:sibling_count, less_than_or_equal_to: 5)
   end
 end

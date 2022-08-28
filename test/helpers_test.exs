@@ -3,5 +3,5 @@ defmodule PrimerLiveHelpersTest do
   doctest PrimerLive.Helpers.Classes
   doctest PrimerLive.Helpers.Schema
   doctest PrimerLive.Helpers.TestHelpers
-  doctest PrimerLive.Components.Pagination
+  doctest PrimerLive.Components
 end

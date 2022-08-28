@@ -1,11 +1,11 @@
-defmodule ComponentSchema do
+defmodule Options do
   @moduledoc false
 
   @callback changeset(struct(), map()) :: Ecto.Changeset.t()
 
   defmacro __using__(opts) do
     quote do
-      @behaviour ComponentSchema
+      @behaviour Options
 
       use TypedEctoSchema
 
@@ -24,6 +24,7 @@ defmodule ComponentSchema do
         changeset |> put_embed(key, Map.merge(defaults, values))
       end
 
+      @doc false
       def parse(attrs) do
         struct(__MODULE__)
         |> changeset(attrs)
@@ -35,7 +36,7 @@ defmodule ComponentSchema do
   defp add_builder(opts) do
     if Keyword.get(opts, :parser, true) do
       quote do
-        @before_compile ComponentSchema
+        @before_compile Options
       end
     end
   end

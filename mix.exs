@@ -38,11 +38,10 @@ defmodule PrimerLive.MixProject do
     [
       main: "PrimerLive",
       groups_for_modules: [
-        Components: ~r/PrimerLive.Component/
+        "Component options": ~r/PrimerLive.Options/
       ],
       nest_modules_by_prefix: [
-        PrimerLive.Components,
-        PrimerLive.Components.Pagination
+        PrimerLive.Options
       ],
       extras: [
         "LICENSE.md"

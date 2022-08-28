@@ -8,8 +8,8 @@ defmodule PrimerLive.Helpers.Schema do
 
   ## Examples
 
-      iex> PrimerLive.Helpers.Schema.get_keys(PrimerLive.Components.Pagination.Options)
-      [:class, :classes, :current_page, :far_end_page_link_count, :is_numbered, :labels, :link_options, :link_path, :page_count, :surrounding_page_link_count]
+      iex> PrimerLive.Helpers.Schema.get_keys(PrimerLive.Options.Pagination)
+      [:boundary_count, :class, :classes, :current_page, :is_numbered, :labels, :link_options, :link_path, :page_count, :sibling_count]
   """
   def get_keys(module) do
     module.__struct__()
@@ -24,7 +24,7 @@ defmodule PrimerLive.Helpers.Schema do
 
       iex> import Phoenix.LiveViewTest, only: [rendered_to_string: 1]
       iex> import PrimerLive.Helpers.TestHelpers, only: [format_html: 1]
-      iex> %PrimerLive.Components.Pagination.Options{page_count: 1, current_page: 1, link_path: nil} |> PrimerLive.Components.Pagination.Options.changeset() |> PrimerLive.Helpers.Schema.show_errors("Pagination") |> rendered_to_string() |> format_html()
+      iex> %PrimerLive.Options.Pagination{page_count: 1, current_page: 1, link_path: nil} |> PrimerLive.Options.Pagination.changeset() |> PrimerLive.Helpers.Schema.show_errors("Pagination") |> rendered_to_string() |> format_html()
       "<div class=\"flash flash-error\"><p>Pagination component received invalid options:</p><p>link_path: can&#39;t be blank</p></div>"
   """
   def show_errors(changeset, component_name) do
@@ -43,13 +43,22 @@ defmodule PrimerLive.Helpers.Schema do
       end)
 
     ~H"""
-    <div class="flash flash-error">
-      <p><%= assigns.component_name %> component received invalid options:</p>
+    <.error_message component_name={@component_name}>
       <%= for {option_name, messages} <- errors do %>
         <%= for message <- messages do %>
           <p><%= option_name %>: <%= message %></p>
         <% end %>
       <% end %>
+    </.error_message>
+    """
+  end
+
+  @doc false
+  def error_message(assigns) do
+    ~H"""
+    <div class="flash flash-error">
+      <p><%= @component_name %> component received invalid options:</p>
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
