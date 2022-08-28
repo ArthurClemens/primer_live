@@ -5,6 +5,7 @@ defmodule PrimerLive.Options.Button do
   Options for component `PrimerLive.Components.button/1`.
 
   | **Name** | **Type** | **Validation** | **Default**  | **Description** |
+  | `inner_block*` | `element` |  | - | Button child content. |
   | `type`   | `string` | "button" or "submit" | "button" | Button type. |
   | `class`   | `string` | - | - | Additional classname. |
   | `is_block` | `boolean` | - | false | Creates a full-width button. Equivalent to adding "btn-block" class. |

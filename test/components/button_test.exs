@@ -58,6 +58,19 @@ defmodule PrimerLive.Components.ButtonTest do
              |> format_html()
   end
 
+  test "Option: class" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.button class="x">Button</.button>
+           """)
+           |> format_html() ==
+             """
+             <button class="btn x" type="button">Button</button>
+             """
+             |> format_html()
+  end
+
   test "Option: is_block" do
     assigns = []
 
@@ -259,6 +272,19 @@ defmodule PrimerLive.Components.ButtonTest do
            |> format_html() ==
              """
              <button class="close-button" type="button" aria-label="Close"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"></path></svg></button>
+             """
+             |> format_html()
+  end
+
+  test "Extra attributes" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.button dir="rtl">Button</.button>
+           """)
+           |> format_html() ==
+             """
+             <button class="btn" type="button" dir="rtl"> Button </button>
              """
              |> format_html()
   end

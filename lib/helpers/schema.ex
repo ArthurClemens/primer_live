@@ -16,7 +16,7 @@ defmodule PrimerLive.Helpers.Schema do
       assigns =
         assigns
         |> assign(options |> Map.from_struct())
-        |> assign(:extra, assigns_to_attributes(assigns, option_names))
+        |> assign(:extra, assigns_to_attributes(assigns, option_names ++ [:extra]))
 
       {:ok, assigns}
     else

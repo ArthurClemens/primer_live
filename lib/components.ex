@@ -109,6 +109,104 @@ defmodule PrimerLive.Components do
   end
 
   # ------------------------------------------------------------------------------------
+  # button_group
+  # ------------------------------------------------------------------------------------
+
+  @doc ~S"""
+  Creates a group of buttons.
+
+  Use the button wrapper component `button_group_item/1` to automatically apply the correct classes to the buttons.
+
+  ### Example
+
+  ```
+  <.button_group>
+    <.button_group_item>Button 1</.button_group_item>
+    <.button_group_item is_selected>Button 2</.button_group_item>
+    <.button_group_item is_danger>Button 3</.button_group_item>
+  </.button_group>
+  ```
+
+  ### Options
+
+  - `PrimerLive.Options.ButtonGroup`
+  - Additional HTML attributes to be passed to the button element
+
+  ### Reference
+
+  - [Primer/CSS Button groups](https://primer.style/css/components/buttons#button-groups)
+
+  """
+  def button_group(assigns) do
+    with {:ok, assigns} <- Schema.validate_options(assigns, Options.ButtonGroup, "button_group") do
+      render_button_group(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_button_group(assigns) do
+    %{
+      class: class
+    } = assigns
+
+    assigns =
+      assigns
+      |> assign(
+        :class,
+        Attributes.join_classnames([
+          "BtnGroup",
+          class
+        ])
+      )
+
+    ~H"""
+    <div class={@class} {@extra}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # button_group_item
+  # ------------------------------------------------------------------------------------
+
+  @doc ~S"""
+  Wrapper for a button inside a `button_group/1`.
+
+  ### Options
+
+  - Equal to `PrimerLive.Options.Button`
+
+  """
+  def button_group_item(assigns) do
+    with {:ok, assigns} <-
+           Schema.validate_options(assigns, Options.ButtonGroupItem, "button_group_item") do
+      render_button_group_item(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_button_group_item(assigns) do
+    %{
+      class: class
+    } = assigns
+
+    assigns =
+      assigns
+      |> assign(
+        :class,
+        Attributes.join_classnames([
+          "BtnGroup-item",
+          class
+        ])
+      )
+
+    button(assigns)
+  end
+
+  # ------------------------------------------------------------------------------------
   # pagination
   # ------------------------------------------------------------------------------------
 
