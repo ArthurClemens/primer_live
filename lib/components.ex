@@ -2,8 +2,111 @@ defmodule PrimerLive.Components do
   use Phoenix.Component
   use Phoenix.HTML
 
-  alias PrimerLive.Helpers.{Schema, Classes}
+  alias PrimerLive.Helpers.{Schema, Attributes}
   alias PrimerLive.Options
+
+  # ------------------------------------------------------------------------------------
+  # button
+  # ------------------------------------------------------------------------------------
+
+  @doc ~S"""
+  Creates a button.
+
+  ### Examples
+
+  ```
+  <.button is_primary>Sign in</.button>
+  ```
+
+  ```
+  <.button is_primary>
+    <.octicon name="download-16" />
+    <span>Clone</span>
+    <span class="dropdown-caret"></span>
+  </.button>
+  ```
+
+  ### Options
+
+  - `PrimerLive.Options.Button`
+  - Additional HTML attributes to be passed to the button element
+
+  ### Reference
+
+  - [Primer/CSS Buttons](https://primer.style/css/components/buttons)
+
+  """
+
+  def button(assigns) do
+    with {:ok, assigns} <- Schema.validate_options(assigns, Options.Button, "button") do
+      render_button(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_button(assigns) do
+    %{
+      type: type,
+      is_selected: is_selected,
+      is_disabled: is_disabled,
+      is_link: is_link,
+      is_icon_only: is_icon_only,
+      is_close_button: is_close_button,
+      class: class
+    } = assigns
+
+    class =
+      Attributes.join_classnames([
+        if !is_link and !is_icon_only and !is_close_button do
+          "btn"
+        end,
+        class,
+        if is_link do
+          "btn-link"
+        end,
+        if is_icon_only do
+          "btn-octicon"
+        end,
+        if assigns.is_danger do
+          if is_icon_only do
+            "btn-octicon-danger"
+          else
+            "btn-danger"
+          end
+        end,
+        if assigns.is_large do
+          "btn-large"
+        end,
+        if assigns.is_primary do
+          "btn-primary"
+        end,
+        if assigns.is_outline do
+          "btn-outline"
+        end,
+        if assigns.is_small do
+          "btn-sm"
+        end,
+        if assigns.is_block do
+          "btn-block"
+        end,
+        if assigns.is_invisible do
+          "btn-invisible"
+        end,
+        if is_close_button do
+          "close-button"
+        end
+      ])
+
+    aria_attributes =
+      Attributes.get_aria_attributes(is_selected: is_selected, is_disabled: is_disabled)
+
+    ~H"""
+    <button class={class} type={type} {@extra} {aria_attributes}>
+      <%= render_slot(@inner_block) %>
+    </button>
+    """
+  end
 
   # ------------------------------------------------------------------------------------
   # pagination
@@ -41,21 +144,14 @@ defmodule PrimerLive.Components do
   """
 
   def pagination(assigns) do
-    option_names = Schema.get_keys(Options.Pagination)
-
-    with {:ok, options} <- Options.Pagination.parse(assigns) do
-      assigns =
-        assigns
-        |> assign(options |> Map.from_struct())
-        |> assign(:extra, assigns_to_attributes(assigns, option_names))
-
+    with {:ok, assigns} <- Schema.validate_options(assigns, Options.Pagination, "pagination") do
+      # Don't render pagination if page count is 0 or 1
       case assigns.page_count < 2 do
         true -> render_empty(assigns)
         false -> render_pagination(assigns)
       end
     else
-      {:error, changeset} ->
-        Schema.show_errors(changeset, "pagination")
+      message -> message
     end
   end
 
@@ -82,32 +178,32 @@ defmodule PrimerLive.Components do
 
     classes = %{
       pagination_container:
-        Classes.join_classnames([
+        Attributes.join_classnames([
           "paginate-container",
           class,
           input_classes.pagination_container
         ]),
       pagination:
-        Classes.join_classnames([
+        Attributes.join_classnames([
           "pagination",
           input_classes.pagination
         ]),
       previous_page:
-        Classes.join_classnames([
+        Attributes.join_classnames([
           "previous_page",
           input_classes.previous_page
         ]),
       next_page:
-        Classes.join_classnames([
+        Attributes.join_classnames([
           "next_page",
           input_classes.next_page
         ]),
       page:
-        Classes.join_classnames([
+        Attributes.join_classnames([
           input_classes.page
         ]),
       gap:
-        Classes.join_classnames([
+        Attributes.join_classnames([
           "gap",
           input_classes.gap
         ])
@@ -224,6 +320,8 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Renders an icon from the set of GitHub icons.
 
+  Pass the icon name with the size: icon "arrow-left" with size "16" becomes "arrow-left-16".
+
   ### Example
 
   ```
@@ -242,31 +340,34 @@ defmodule PrimerLive.Components do
 
   """
   def octicon(assigns) do
-    option_names = Schema.get_keys(Options.Octicon)
-
-    with {:ok, options} <- Options.Octicon.parse(assigns) do
-      class =
-        Classes.join_classnames([
-          "octicon",
-          assigns[:class]
-        ])
-
-      assigns =
-        assigns
-        |> assign(options |> Map.from_struct())
-        |> assign(:class, class)
-        |> assign(:extra, assigns_to_attributes(assigns, option_names))
-
+    with {:ok, assigns} <- Schema.validate_options(assigns, Options.Octicon, "octicon") do
       icon_fn = PrimerLive.Octicons.name_to_function() |> Map.get(assigns.name)
 
       case is_function(icon_fn) do
-        true -> icon_fn.(assigns)
+        true -> render_octicon(icon_fn, assigns)
         false -> render_no_icon_error_message(assigns)
       end
     else
-      {:error, changeset} ->
-        Schema.show_errors(changeset, "octicon")
+      message -> message
     end
+  end
+
+  defp render_octicon(icon_fn, assigns) do
+    %{
+      class: class
+    } = assigns
+
+    assigns =
+      assigns
+      |> assign(
+        :class,
+        Attributes.join_classnames([
+          "octicon",
+          class
+        ])
+      )
+
+    icon_fn.(assigns)
   end
 
   defp render_no_icon_error_message(assigns) do

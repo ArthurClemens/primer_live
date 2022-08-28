@@ -11,13 +11,18 @@ defmodule PrimerLive.Helpers.TestHelpers do
       ...>   </div>
       ...>             ")
       "<div><span>Content</span></div>"
+
+      iex> PrimerLive.Helpers.TestHelpers.format_html("
+      ...>   <button class=\"btn\" type=\"submit\"> Button </button>")
+      "<button class=\"btn\" type=\"submit\">Button</button>"
   """
   def format_html(html) do
     html
     |> Phoenix.LiveView.HTMLFormatter.format([])
     |> String.replace(~r/\n/, " ")
     |> String.replace(~r/\s+/, " ")
-    |> String.replace(~r/\"\s>/, "\">")
+    |> String.replace(~r/\"\s*>\s*/, "\">")
+    |> String.replace(~r/\s*</, "<")
     |> String.replace(~r/>\s</, "><")
     |> String.trim()
   end

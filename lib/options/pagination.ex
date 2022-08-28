@@ -1,4 +1,4 @@
-defmodule PrimerLive.Options.Pagination.Classes do
+defmodule PrimerLive.Options.Pagination.Attributes do
   use Options
 
   @moduledoc """
@@ -94,7 +94,7 @@ end
 defmodule PrimerLive.Options.Pagination do
   use Options
 
-  alias PrimerLive.Options.Pagination.{Classes, Labels, LinkOptions}
+  alias PrimerLive.Options.Pagination.{Attributes, Labels, LinkOptions}
 
   @moduledoc """
   Options for component `PrimerLive.Components.pagination/1`.
@@ -107,7 +107,7 @@ defmodule PrimerLive.Options.Pagination do
   | `sibling_count` | `integer` | `1..5` | `2` | How many page links to show on each side of the current page. |
   | `is_numbered` | `boolean` |  | `true` | Showing page numbers. |
   | `class` | `string` |  | - | Additional classname for the main component. For more control, use `classes`. |
-  | `classes` | `map` |  | - | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Pagination.Classes`. |
+  | `classes` | `map` |  | - | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Pagination.Attributes`. |
   | `labels` | `map` |  | - | Map of textual labels. See `PrimerLive.Options.Pagination.Labels`. |
   | `link_options` | `map` |  | - | Map of link options. See `PrimerLive.Options.Pagination.LinkOptions`. |
 
@@ -124,7 +124,7 @@ defmodule PrimerLive.Options.Pagination do
     field(:is_numbered, :boolean, default: true)
     field(:class, :string)
     # Embedded options
-    embeds_one(:classes, Classes)
+    embeds_one(:classes, Attributes)
     embeds_one(:labels, Labels)
     embeds_one(:link_options, LinkOptions)
   end

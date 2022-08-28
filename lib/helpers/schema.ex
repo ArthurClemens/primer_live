@@ -1,7 +1,29 @@
 defmodule PrimerLive.Helpers.Schema do
   import Phoenix.LiveView.Helpers
+  use Phoenix.Component
 
   @moduledoc false
+
+  @doc """
+  Validates component options passed in the assigns struct and builds a new assigns with the valid options, plus
+  `extra` attributes.
+  In case of errors: returns a rendered error message for feedback on the page.
+  """
+  def validate_options(assigns, options_module, component_name) do
+    option_names = get_keys(options_module)
+
+    with {:ok, options} <- options_module.parse(assigns) do
+      assigns =
+        assigns
+        |> assign(options |> Map.from_struct())
+        |> assign(:extra, assigns_to_attributes(assigns, option_names))
+
+      {:ok, assigns}
+    else
+      {:error, changeset} ->
+        show_errors(changeset, component_name)
+    end
+  end
 
   @doc ~S"""
   Fetches the schema keys minus the private fields `__struct__` and `__meta__`.
