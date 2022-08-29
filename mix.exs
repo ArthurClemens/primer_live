@@ -40,6 +40,12 @@ defmodule PrimerLive.MixProject do
       groups_for_modules: [
         "Component options": ~r/PrimerLive.Options/
       ],
+      groups_for_functions: [
+        Alerts: &(&1[:section] == :alerts),
+        Buttons: &(&1[:section] == :buttons),
+        Icons: &(&1[:section] == :icons),
+        Pagination: &(&1[:section] == :pagination)
+      ],
       nest_modules_by_prefix: [
         PrimerLive.Options
       ],

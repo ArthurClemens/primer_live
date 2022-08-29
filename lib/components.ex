@@ -9,6 +9,8 @@ defmodule PrimerLive.Components do
   # alert
   # ------------------------------------------------------------------------------------
 
+  @doc section: :alerts
+
   @doc ~S"""
   Creates an alert message.
 
@@ -72,6 +74,8 @@ defmodule PrimerLive.Components do
   # alert_messages
   # ------------------------------------------------------------------------------------
 
+  @doc section: :alerts
+
   @doc ~S"""
   Wrapper around an `alert/1` messages to create spacing when showing multiple alerts.
 
@@ -98,8 +102,8 @@ defmodule PrimerLive.Components do
 
   - [Primer/CSS Buttons](https://primer.style/css/components/alerts)
 
-
   """
+
   def alert_messages(assigns) do
     with {:ok, assigns} <-
            Schema.validate_options(assigns, Options.AlertMessages, "alert_messages") do
@@ -126,6 +130,8 @@ defmodule PrimerLive.Components do
   # ------------------------------------------------------------------------------------
   # button
   # ------------------------------------------------------------------------------------
+
+  @doc section: :buttons
 
   @doc ~S"""
   Creates a button.
@@ -207,6 +213,8 @@ defmodule PrimerLive.Components do
   # button_group
   # ------------------------------------------------------------------------------------
 
+  @doc section: :buttons
+
   @doc ~S"""
   Creates a group of buttons.
 
@@ -232,6 +240,7 @@ defmodule PrimerLive.Components do
   - [Primer/CSS Button groups](https://primer.style/css/components/buttons#button-groups)
 
   """
+
   def button_group(assigns) do
     with {:ok, assigns} <- Schema.validate_options(assigns, Options.ButtonGroup, "button_group") do
       render_button_group(assigns)
@@ -257,6 +266,8 @@ defmodule PrimerLive.Components do
   # ------------------------------------------------------------------------------------
   # button_group_item
   # ------------------------------------------------------------------------------------
+
+  @doc section: :buttons
 
   @doc ~S"""
   Wrapper for a button inside a `button_group/1`.
@@ -292,6 +303,8 @@ defmodule PrimerLive.Components do
   # ------------------------------------------------------------------------------------
   # pagination
   # ------------------------------------------------------------------------------------
+
+  @doc section: :pagination
 
   @doc ~S"""
   Creates a control to navigate search results.
@@ -495,6 +508,8 @@ defmodule PrimerLive.Components do
   # ------------------------------------------------------------------------------------
   # octicon
   # ------------------------------------------------------------------------------------
+
+  @doc section: :icons
 
   @doc ~S"""
   Renders an icon from the set of GitHub icons.
