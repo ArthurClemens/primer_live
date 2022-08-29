@@ -6,6 +6,124 @@ defmodule PrimerLive.Components do
   alias PrimerLive.Options
 
   # ------------------------------------------------------------------------------------
+  # alert
+  # ------------------------------------------------------------------------------------
+
+  @doc ~S"""
+  Creates an alert message.
+
+  To render multiple alerts, wrap each with `alert_messages/1`.
+
+  ### Examples
+
+  ```
+  <.alert is_success>
+    You're done!
+  </.alert>
+  ```
+
+  ```
+  <.alert is_success>
+    <p>You're done!</p>
+    <p>You may close this message</p>
+  </.alert>
+  ```
+
+  ### Features
+
+  - Boolean options for setting alert styles: `is_error`, `is_success` and so on
+
+  ### Options
+
+  - `PrimerLive.Options.Alert`
+  - Additional HTML attributes to be passed to the alert element
+
+  ### Reference
+
+  - [Primer/CSS Buttons](https://primer.style/css/components/alerts)
+
+  """
+  def alert(assigns) do
+    with {:ok, assigns} <- Schema.validate_options(assigns, Options.Alert, "alert") do
+      render_alert(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_alert(assigns) do
+    class =
+      Attributes.join_classnames([
+        "flash",
+        assigns.class,
+        assigns.is_error and "flash-error",
+        assigns.is_success and "flash-success",
+        assigns.is_warning and "flash-warn"
+      ])
+
+    ~H"""
+    <div class={class} {@extra}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # alert_messages
+  # ------------------------------------------------------------------------------------
+
+  @doc ~S"""
+  Wrapper around an `alert/1` messages to create spacing when showing multiple alerts.
+
+  ### Example
+
+  ```
+  <.alert_messages>
+    <.alert is_success>
+      <p>You're done!</p>
+    </.alert>
+  </.alert_messages>
+  <.alert_messages>
+    <.alert>
+      <p>You may close this message</p>
+    </.alert>
+  </.alert_messages>
+  ```
+  ### Options
+
+  - `PrimerLive.Options.AlertMessages`
+  - Additional HTML attributes to be passed to the alert messages element
+
+  ### Reference
+
+  - [Primer/CSS Buttons](https://primer.style/css/components/alerts)
+
+
+  """
+  def alert_messages(assigns) do
+    with {:ok, assigns} <-
+           Schema.validate_options(assigns, Options.AlertMessages, "alert_messages") do
+      render_alert_messages(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_alert_messages(assigns) do
+    class =
+      Attributes.join_classnames([
+        "flash-messages",
+        assigns.class
+      ])
+
+    ~H"""
+    <div class={class} {@extra}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
   # button
   # ------------------------------------------------------------------------------------
 
@@ -25,6 +143,11 @@ defmodule PrimerLive.Components do
     <span class="dropdown-caret"></span>
   </.button>
   ```
+
+  ### Features
+
+  - Boolean options for setting button styles: `is_link`, `is_primary` and so on
+  - Handles class logic, for example with `is_icon_only` and `is_close_button`
 
   ### Options
 
@@ -102,7 +225,7 @@ defmodule PrimerLive.Components do
   ### Options
 
   - `PrimerLive.Options.ButtonGroup`
-  - Additional HTML attributes to be passed to the button element
+  - Additional HTML attributes to be passed to the button group element
 
   ### Reference
 
