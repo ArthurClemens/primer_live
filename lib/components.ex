@@ -46,63 +46,35 @@ defmodule PrimerLive.Components do
   end
 
   defp render_button(assigns) do
-    %{
-      type: type,
-      is_selected: is_selected,
-      is_disabled: is_disabled,
-      is_link: is_link,
-      is_icon_only: is_icon_only,
-      is_close_button: is_close_button,
-      class: class
-    } = assigns
-
     class =
       Attributes.join_classnames([
-        if !is_link and !is_icon_only and !is_close_button do
-          "btn"
-        end,
-        class,
-        if is_link do
-          "btn-link"
-        end,
-        if is_icon_only do
-          "btn-octicon"
-        end,
-        if assigns.is_danger do
-          if is_icon_only do
+        !assigns.is_link and !assigns.is_icon_only and !assigns.is_close_button and "btn",
+        assigns.class,
+        assigns.is_link and "btn-link",
+        assigns.is_icon_only and "btn-octicon",
+        assigns.is_danger and
+          if assigns.is_icon_only do
             "btn-octicon-danger"
           else
             "btn-danger"
-          end
-        end,
-        if assigns.is_large do
-          "btn-large"
-        end,
-        if assigns.is_primary do
-          "btn-primary"
-        end,
-        if assigns.is_outline do
-          "btn-outline"
-        end,
-        if assigns.is_small do
-          "btn-sm"
-        end,
-        if assigns.is_block do
-          "btn-block"
-        end,
-        if assigns.is_invisible do
-          "btn-invisible"
-        end,
-        if is_close_button do
-          "close-button"
-        end
+          end,
+        assigns.is_large and "btn-large",
+        assigns.is_primary and "btn-primary",
+        assigns.is_outline and "btn-outline",
+        assigns.is_small and "btn-sm",
+        assigns.is_block and "btn-block",
+        assigns.is_invisible and "btn-invisible",
+        assigns.is_close_button and "close-button"
       ])
 
     aria_attributes =
-      Attributes.get_aria_attributes(is_selected: is_selected, is_disabled: is_disabled)
+      Attributes.get_aria_attributes(
+        is_selected: assigns.is_selected,
+        is_disabled: assigns.is_disabled
+      )
 
     ~H"""
-    <button class={class} type={type} {@extra} {aria_attributes}>
+    <button class={class} type={@type} {@extra} {aria_attributes}>
       <%= render_slot(@inner_block) %>
     </button>
     """
@@ -146,22 +118,14 @@ defmodule PrimerLive.Components do
   end
 
   defp render_button_group(assigns) do
-    %{
-      class: class
-    } = assigns
-
-    assigns =
-      assigns
-      |> assign(
-        :class,
-        Attributes.join_classnames([
-          "BtnGroup",
-          class
-        ])
-      )
+    class =
+      Attributes.join_classnames([
+        "BtnGroup",
+        assigns.class
+      ])
 
     ~H"""
-    <div class={@class} {@extra}>
+    <div class={class} {@extra}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -189,17 +153,13 @@ defmodule PrimerLive.Components do
   end
 
   defp render_button_group_item(assigns) do
-    %{
-      class: class
-    } = assigns
-
     assigns =
       assigns
       |> assign(
         :class,
         Attributes.join_classnames([
           "BtnGroup-item",
-          class
+          assigns.class
         ])
       )
 
@@ -264,9 +224,7 @@ defmodule PrimerLive.Components do
       current_page: current_page,
       page_count: page_count,
       boundary_count: boundary_count,
-      sibling_count: sibling_count,
-      class: class,
-      classes: input_classes
+      sibling_count: sibling_count
     } = assigns
 
     has_previous_page = current_page > 1
@@ -278,32 +236,32 @@ defmodule PrimerLive.Components do
       pagination_container:
         Attributes.join_classnames([
           "paginate-container",
-          class,
-          input_classes.pagination_container
+          assigns.class,
+          assigns.classes.pagination_container
         ]),
       pagination:
         Attributes.join_classnames([
           "pagination",
-          input_classes.pagination
+          assigns.classes.pagination
         ]),
       previous_page:
         Attributes.join_classnames([
           "previous_page",
-          input_classes.previous_page
+          assigns.classes.previous_page
         ]),
       next_page:
         Attributes.join_classnames([
           "next_page",
-          input_classes.next_page
+          assigns.classes.next_page
         ]),
       page:
         Attributes.join_classnames([
-          input_classes.page
+          assigns.classes.page
         ]),
       gap:
         Attributes.join_classnames([
           "gap",
-          input_classes.gap
+          assigns.classes.gap
         ])
     }
 

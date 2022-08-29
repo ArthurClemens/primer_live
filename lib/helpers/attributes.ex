@@ -16,16 +16,24 @@ defmodule PrimerLive.Helpers.Attributes do
       iex> PrimerLive.Helpers.Attributes.join_classnames([""])
       nil
 
-      iex> PrimerLive.Helpers.Attributes.join_classnames(["foo   ", nil, "  bar  "])
+      iex> PrimerLive.Helpers.Attributes.join_classnames(["foo   ", nil, "  bar  ", false])
       "foo bar"
 
       iex> PrimerLive.Helpers.Attributes.join_classnames(["foo", nil, "  foo  "])
+      "foo"
+
+      iex> is_foo = true
+      iex> is_bar = false
+      iex> PrimerLive.Helpers.Attributes.join_classnames([
+      ...>   is_foo and "foo",
+      ...>   is_bar and "bar"
+      ...> ])
       "foo"
   """
   def join_classnames(input_classnames) do
     result =
       input_classnames
-      |> Enum.reject(&is_nil(&1))
+      |> Enum.reject(&(&1 == false || is_nil(&1)))
       |> Enum.map(&String.trim(&1))
       |> Enum.uniq()
       |> Enum.join(" ")
