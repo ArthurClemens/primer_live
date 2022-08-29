@@ -5,11 +5,12 @@ defmodule PrimerLive.Options.Alert do
   Options for component `PrimerLive.Components.alert/1`.
 
   | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block*` | `element` |  | - | Alert content. |
+  | `inner_block*` | `slot` |  | - | Alert content. |
   | `class`   | `string` | - | - | Additional classname. |
   | `is_error`   | `boolean` | - | false | Sets the color to "error". |
   | `is_success`   | `boolean` | - | false | Sets the color to "success". |
   | `is_warning`   | `boolean` | - | false | Sets the color to "warning". |
+  | `is_full`   | `boolean` | - | false | Renders the alert full width, with border and border radius removed. |
 
   """
   typed_embedded_schema do
@@ -17,6 +18,7 @@ defmodule PrimerLive.Options.Alert do
     # Optional options
     field(:class, :string)
     field(:is_error, :boolean, default: false)
+    field(:is_full, :boolean, default: false)
     field(:is_success, :boolean, default: false)
     field(:is_warning, :boolean, default: false)
   end
@@ -28,6 +30,7 @@ defmodule PrimerLive.Options.Alert do
       :class,
       :inner_block,
       :is_error,
+      :is_full,
       :is_success,
       :is_warning
     ])
@@ -42,7 +45,7 @@ defmodule PrimerLive.Options.AlertMessages do
   Options for component `PrimerLive.Components.alert_messages/1`.
 
   | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block*` | `element` |  | - | Alert messages content. |
+  | `inner_block*` | `slot` |  | - | Alert messages content. |
   | `class`   | `string` | - | - | Additional classname. |
 
   """
