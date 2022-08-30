@@ -19,7 +19,7 @@ defmodule PrimerLive.Components.ButtonGroupItemTest do
              |> format_html()
   end
 
-  test "Called without options: should render the button group item" do
+  test "Called without options: should render the button group element" do
     assigns = []
 
     assert rendered_to_string(~H"""

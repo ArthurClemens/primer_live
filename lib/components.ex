@@ -14,15 +14,27 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Creates an alert message.
 
-  To render multiple alerts, wrap each with `alert_messages/1`.
+  ```
+  <.alert>
+    Flash message goes here.
+  </.alert>
+  ```
 
-  ### Examples
+  ## Features
+
+  - Boolean options for setting alert styles: `is_error`, `is_success` and so on
+
+  ## Examples
+
+  Success color:
 
   ```
   <.alert is_success>
     You're done!
   </.alert>
   ```
+
+  Multiline message:
 
   ```
   <.alert is_success>
@@ -31,18 +43,16 @@ defmodule PrimerLive.Components do
   </.alert>
   ```
 
-  ### Features
+  To render a vertical stack of alerts, wrap each with `alert_messages/1`.
 
-  - Boolean options for setting alert styles: `is_error`, `is_success` and so on
-
-  ### Options
+  ## All options
 
   - `PrimerLive.Options.Alert`
-  - Additional HTML attributes to be passed to the alert element
+  - Additional HTML attributes are passed to the alert element
 
-  ### Reference
+  ## Reference
 
-  - [Primer/CSS Buttons](https://primer.style/css/components/alerts)
+  - [Primer/CSS Alerts](https://primer.style/css/components/alerts)
 
   """
   def alert(assigns) do
@@ -55,12 +65,13 @@ defmodule PrimerLive.Components do
 
   defp render_alert(assigns) do
     class =
-      Attributes.join_classnames([
+      Attributes.classnames([
         "flash",
         assigns.class,
         assigns.is_error and "flash-error",
         assigns.is_success and "flash-success",
-        assigns.is_warning and "flash-warn"
+        assigns.is_warning and "flash-warn",
+        assigns.is_full and "flash-full"
       ])
 
     ~H"""
@@ -77,30 +88,30 @@ defmodule PrimerLive.Components do
   @doc section: :alerts
 
   @doc ~S"""
-  Wrapper around an `alert/1` messages to create spacing when showing multiple alerts.
-
-  ### Example
+  Wrapper to render a vertical stack of `alert/1` messages with spacing in between.
 
   ```
   <.alert_messages>
     <.alert is_success>
-      <p>You're done!</p>
+      Message 1
     </.alert>
   </.alert_messages>
+
   <.alert_messages>
     <.alert>
-      <p>You may close this message</p>
+      Message 2
     </.alert>
   </.alert_messages>
   ```
-  ### Options
+
+  ## Options
 
   - `PrimerLive.Options.AlertMessages`
-  - Additional HTML attributes to be passed to the alert messages element
+  - Additional HTML attributes are passed to the alert messages element
 
-  ### Reference
+  ## Reference
 
-  - [Primer/CSS Buttons](https://primer.style/css/components/alerts)
+  - [Primer/CSS Alerts](https://primer.style/css/components/alerts)
 
   """
 
@@ -115,9 +126,282 @@ defmodule PrimerLive.Components do
 
   defp render_alert_messages(assigns) do
     class =
-      Attributes.join_classnames([
+      Attributes.classnames([
         "flash-messages",
         assigns.class
+      ])
+
+    ~H"""
+    <div class={class} {@extra}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # box
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :layout
+
+  @doc ~S"""
+  Creates a content container.
+
+  ```
+  <.box>
+    My content
+  </.box>
+  ```
+
+  Boxes are often composed with `box_row/1` elements:
+
+  ```
+  <.box>
+    <.box_row>Row 1</.box_row>
+    <.box_row>Row 2</.box_row>
+    <.box_row>Row 3</.box_row>
+  </.box>
+  ```
+
+  ## Examples
+
+  With title, body and footer sections:
+
+  ```
+  <.box>
+    <:title>
+      My title
+    </:title>
+    <:body>
+      My body
+    </:body>
+    <:footer>
+      My footer
+    </:footer>
+  </.box>
+  ```
+
+  With a full-width alert. Alerts are always placed between header and body, regardless the order in the component call:
+
+  ```
+  <.box>
+    <:header>
+      Header
+    </:header>
+    <:body>
+      Rest
+    </:body>
+     <:alert>
+      <.alert is_success is_full>
+        <.octicon name="check-16" is_small /> Done!
+      </.alert>
+    </:alert>
+  </.box>
+  ```
+
+  To render search results:
+
+  ```
+  <.box>
+    <%= for result <- @results do %>
+      <.box_row>
+        {result.id}
+      </.box_row>
+    <% end %>
+  </.box>
+  ```
+
+  Form elements and buttons in a box:
+
+  ```
+  <.box classes={
+    %{
+      header: "d-flex flex-items-center"
+    }
+  }>
+    <:header>
+      <h3 class="Box-title overflow-hidden flex-auto">
+        Box title
+      </h3>
+      <.button is_primary is_smmall>
+        Button
+      </.button>
+    </:header>
+    <:body>
+      Rest
+    </:body>
+  </.box>
+  ```
+
+  ## All options
+
+  - `PrimerLive.Options.Box`
+  - Additional HTML attributes are passed to the box element
+
+  ## Reference
+
+  - [Primer/CSS Box](https://primer.style/css/components/box)
+
+  """
+
+  def box(assigns) do
+    with {:ok, assigns} <- Schema.validate_options(assigns, Options.Box, "box") do
+      render_box(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_box(assigns) do
+    classes = %{
+      box:
+        Attributes.classnames([
+          "Box",
+          assigns.class,
+          assigns.classes.box,
+          assigns.is_blue and "Box--blue",
+          assigns.is_border_dashed and "border-dashed",
+          assigns.is_condensed and "Box--condensed",
+          assigns.is_danger and "Box--danger",
+          assigns.is_spacious and "Box--spacious"
+        ]),
+      header:
+        Attributes.classnames([
+          "Box-header",
+          assigns.classes.header,
+          assigns.is_blue_header and "Box-header--blue"
+        ]),
+      body:
+        Attributes.classnames([
+          "Box-body",
+          assigns.classes.body
+        ]),
+      footer:
+        Attributes.classnames([
+          "Box-footer",
+          assigns.classes.footer
+        ]),
+      title:
+        Attributes.classnames([
+          "Box-title",
+          assigns.classes.title
+        ])
+    }
+
+    ~H"""
+    <div class={classes.box} {@extra}>
+      <%= if @header || @title do %>
+        <div class={classes.header}>
+          <%= if @title do %>
+            <h3 class={classes.title}>
+              <%= render_slot(@title) %>
+            </h3>
+          <% else %>
+            <%= render_slot(@header) %>
+          <% end %>
+        </div>
+      <% end %>
+      <%= if @alert do %>
+        <%= render_slot(@alert) %>
+      <% end %>
+      <%= if @body do %>
+        <div class={classes.body}>
+          <%= render_slot(@body) %>
+        </div>
+      <% end %>
+      <%= if @inner_block do %>
+        <%= render_slot(@inner_block) %>
+      <% end %>
+      <%= if @footer do %>
+        <div class={classes.footer}>
+          <%= render_slot(@footer) %>
+        </div>
+      <% end %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # box_row
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :layout
+
+  @doc ~S"""
+  A row element for `box/1` that renders content with borders while preserving padding.
+
+  ```
+  <.box>
+    <.box_row>
+      1
+    </.box_row>
+    <.box_row>
+      2
+    </.box_row>
+    <.box_row>
+      3
+    </.box_row>
+  </.box>
+  ```
+
+  ## Examples
+
+  Blue row theme:
+
+  ```
+  <.box_row is_blue>
+    Content
+  </.box_row>
+  ```
+
+  Blue row theme on hover:
+
+  ```
+  <.box_row is_hover_blue>
+    Content
+  </.box_row>
+  ```
+
+  To highlight that the row contains unread items:
+
+  ```
+  <.box_row is_unread>
+    Content
+  </.box_row>
+  ```
+
+  ## All options
+
+  - `PrimerLive.Options.BoxRow`
+  - Additional HTML attributes are passed to the box row element
+
+  ## Reference
+
+  - [Primer/CSS Box](https://primer.style/css/components/box)
+
+  """
+  def box_row(assigns) do
+    with {:ok, assigns} <- Schema.validate_options(assigns, Options.BoxRow, "box_row") do
+      render_box_row(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_box_row(assigns) do
+    class =
+      Attributes.classnames([
+        "Box-row",
+        assigns.class,
+        assigns.is_blue and "Box-row--blue",
+        assigns.is_focus_blue and "Box-row--focus-blue",
+        assigns.is_focus_gray and "Box-row--focus-gray",
+        assigns.is_gray and "Box-row--gray",
+        assigns.is_hover_blue and "Box-row--hover-blue",
+        assigns.is_hover_gray and "Box-row--hover-gray",
+        assigns.is_navigation_focus and "navigation-focus",
+        assigns.is_yellow and "Box-row--yellow",
+        assigns.is_unread and "Box-row--unread"
       ])
 
     ~H"""
@@ -136,12 +420,37 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Creates a button.
 
-  ### Examples
+  ```
+  <.button>Click me</.button>
+  ```
+
+  ## Features
+
+  - Boolean options for setting button styles: `is_link`, `is_primary` and so on
+  - Handles class logic, for example with `is_icon_only` and `is_close_button`
+
+
+  ## Examples
+
+  Primary:
 
   ```
   <.button is_primary>Sign in</.button>
   ```
 
+  Small:
+
+  ```
+  <.button is_small>Edit</.button>
+  ```
+
+  Selected:
+
+  ```
+  <.button is_selected>Unread</.button>
+  ```
+
+  With icon:
   ```
   <.button is_primary>
     <.octicon name="download-16" />
@@ -150,17 +459,28 @@ defmodule PrimerLive.Components do
   </.button>
   ```
 
-  ### Features
+  Icon-only:
+  ```
+  <.button is_icon_only aria-label="Desktop">
+    <.octicon name="device-desktop-16" />
+  </.button>
+  ```
 
-  - Boolean options for setting button styles: `is_link`, `is_primary` and so on
-  - Handles class logic, for example with `is_icon_only` and `is_close_button`
+  Use `button_group/1` to create a group of buttons
+  ```
+  <.button_group>
+    <.button_group_item>Button 1</.button_group_item>
+    <.button_group_item>Button 2</.button_group_item>
+    <.button_group_item>Button 3</.button_group_item>
+  </.button_group>
+  ```
 
-  ### Options
+  ## All options
 
   - `PrimerLive.Options.Button`
-  - Additional HTML attributes to be passed to the button element
+  - Additional HTML attributes are passed to the button element
 
-  ### Reference
+  ## Reference
 
   - [Primer/CSS Buttons](https://primer.style/css/components/buttons)
 
@@ -176,7 +496,7 @@ defmodule PrimerLive.Components do
 
   defp render_button(assigns) do
     class =
-      Attributes.join_classnames([
+      Attributes.classnames([
         !assigns.is_link and !assigns.is_icon_only and !assigns.is_close_button and "btn",
         assigns.class,
         assigns.is_link and "btn-link",
@@ -220,8 +540,6 @@ defmodule PrimerLive.Components do
 
   Use the button wrapper component `button_group_item/1` to automatically apply the correct classes to the buttons.
 
-  ### Example
-
   ```
   <.button_group>
     <.button_group_item>Button 1</.button_group_item>
@@ -230,12 +548,12 @@ defmodule PrimerLive.Components do
   </.button_group>
   ```
 
-  ### Options
+  ## Options
 
   - `PrimerLive.Options.ButtonGroup`
-  - Additional HTML attributes to be passed to the button group element
+  - Additional HTML attributes are passed to the button group element
 
-  ### Reference
+  ## Reference
 
   - [Primer/CSS Button groups](https://primer.style/css/components/buttons#button-groups)
 
@@ -251,7 +569,7 @@ defmodule PrimerLive.Components do
 
   defp render_button_group(assigns) do
     class =
-      Attributes.join_classnames([
+      Attributes.classnames([
         "BtnGroup",
         assigns.class
       ])
@@ -272,9 +590,13 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Wrapper for a button inside a `button_group/1`.
 
-  ### Options
+  ## Options
 
   - Equal to `PrimerLive.Options.Button`
+
+  ## Reference
+
+  - [Primer/CSS Button groups](https://primer.style/css/components/buttons#button-groups)
 
   """
   def button_group_item(assigns) do
@@ -291,7 +613,7 @@ defmodule PrimerLive.Components do
       assigns
       |> assign(
         :class,
-        Attributes.join_classnames([
+        Attributes.classnames([
           "BtnGroup-item",
           assigns.class
         ])
@@ -309,8 +631,6 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Creates a control to navigate search results.
 
-  ### Example
-
   ```
   <.pagination
     page_count={@page_count}
@@ -319,17 +639,52 @@ defmodule PrimerLive.Components do
   />
   ```
 
-  ### Features
+  ## Features
 
   - Configure the page number ranges for siblings and both ends
   - Optionally disable page number display (minimal UI)
   - Custom labels
   - Custom classnames for all elements
 
-  ### Options
+  ## Examples
+
+  Simplified
+
+  ```
+  <.pagination
+    ...
+    is_numbered="false"
+  />
+  ```
+
+  The number of sibling and boundary page numbers to show:
+
+  ```
+  <.pagination
+    ...
+    sibling_count="1"
+    boundary_count="1"
+  />
+  ```
+
+  Custom labels:
+
+  ```
+  <.pagination
+    ...
+    labels={
+      %{
+        next_page: "Nächste Seite",
+        previous_page: "Vorherige Seite"
+      }
+    }
+  />
+  ```
+
+  ## All options
 
   - `PrimerLive.Options.Pagination`
-  - Additional HTML attributes to be passed to the outer HTML element
+  - Additional HTML attributes are passed to the outer HTML element
 
   ### Reference
 
@@ -370,39 +725,39 @@ defmodule PrimerLive.Components do
 
     classes = %{
       pagination_container:
-        Attributes.join_classnames([
+        Attributes.classnames([
           "paginate-container",
           assigns.class,
           assigns.classes.pagination_container
         ]),
       pagination:
-        Attributes.join_classnames([
+        Attributes.classnames([
           "pagination",
           assigns.classes.pagination
         ]),
       previous_page:
-        Attributes.join_classnames([
+        Attributes.classnames([
           "previous_page",
           assigns.classes.previous_page
         ]),
       next_page:
-        Attributes.join_classnames([
+        Attributes.classnames([
           "next_page",
           assigns.classes.next_page
         ]),
       page:
-        Attributes.join_classnames([
+        Attributes.classnames([
           assigns.classes.page
         ]),
       gap:
-        Attributes.join_classnames([
+        Attributes.classnames([
           "gap",
           assigns.classes.gap
         ])
     }
 
     pagination_elements =
-      get_pagination_elements(
+      get_pagination_numbers(
         page_count,
         current_page,
         boundary_count,
@@ -462,7 +817,8 @@ defmodule PrimerLive.Components do
     """
   end
 
-  defp get_pagination_elements(
+  # Get the list of page number elements
+  defp get_pagination_numbers(
          page_count,
          current_page,
          boundary_count,
@@ -512,20 +868,38 @@ defmodule PrimerLive.Components do
   @doc section: :icons
 
   @doc ~S"""
-  Renders an icon from the set of GitHub icons.
+  Renders an icon from the set of GitHub icons, 512 including all size variations. See `PrimerLive.Octicons` for the complete list.
 
-  Pass the icon name with the size: icon "arrow-left" with size "16" becomes "arrow-left-16".
-
-  ### Example
+  Pass the icon name with the size: icon "comment" with size "16" becomes "comment-16":
 
   ```
-  <.octicon name="arrow-left-24" />
+  <.octicon name="comment-16" />
   ```
 
-  ### Options
+  ## Examples
+
+  Icon "alert-fill" with size 12:
+
+  ```
+  <.octicon name="alert-fill-12" />
+  ```
+
+  Icon "pencil" with size 24:
+
+  ```
+  <.octicon name="pencil-24" />
+  ```
+
+  Custom class:
+
+  ```
+  <.octicon name="pencil-24" class="app-icon" />
+  ```
+
+  ## Options
 
   - `PrimerLive.Options.Octicon`
-  - Additional HTML attributes to be passed to the SVG element
+  - Additional HTML attributes are passed to the SVG element
 
   ### Reference
 
@@ -555,7 +929,7 @@ defmodule PrimerLive.Components do
       assigns
       |> assign(
         :class,
-        Attributes.join_classnames([
+        Attributes.classnames([
           "octicon",
           class
         ])

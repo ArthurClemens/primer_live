@@ -10,27 +10,27 @@ defmodule PrimerLive.Helpers.Attributes do
 
   ## Examples
 
-      iex> PrimerLive.Helpers.Attributes.join_classnames([])
+      iex> PrimerLive.Helpers.Attributes.classnames([])
       nil
 
-      iex> PrimerLive.Helpers.Attributes.join_classnames([""])
+      iex> PrimerLive.Helpers.Attributes.classnames([""])
       nil
 
-      iex> PrimerLive.Helpers.Attributes.join_classnames(["foo   ", nil, "  bar  ", false])
+      iex> PrimerLive.Helpers.Attributes.classnames(["foo   ", nil, "  bar  ", false])
       "foo bar"
 
-      iex> PrimerLive.Helpers.Attributes.join_classnames(["foo", nil, "  foo  "])
+      iex> PrimerLive.Helpers.Attributes.classnames(["foo", nil, "  foo  "])
       "foo"
 
       iex> is_foo = true
       iex> is_bar = false
-      iex> PrimerLive.Helpers.Attributes.join_classnames([
+      iex> PrimerLive.Helpers.Attributes.classnames([
       ...>   is_foo and "foo",
       ...>   is_bar and "bar"
       ...> ])
       "foo"
   """
-  def join_classnames(input_classnames) do
+  def classnames(input_classnames) do
     result =
       input_classnames
       |> Enum.reject(&(&1 == false || is_nil(&1)))

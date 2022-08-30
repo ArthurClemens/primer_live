@@ -19,7 +19,7 @@ defmodule PrimerLive.Components.AlertTest do
              |> format_html()
   end
 
-  test "Called without options: should render the alert item" do
+  test "Called without options: should render the alert element" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -67,6 +67,19 @@ defmodule PrimerLive.Components.AlertTest do
            |> format_html() ==
              """
              <div class="flash flash-warn">Message</div>
+             """
+             |> format_html()
+  end
+
+  test "Option: is_full" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.alert is_full>Message</.alert>
+           """)
+           |> format_html() ==
+             """
+             <div class="flash flash-full">Message</div>
              """
              |> format_html()
   end

@@ -19,7 +19,7 @@ defmodule PrimerLive.Components.AlertMessagesTest do
              |> format_html()
   end
 
-  test "Called without options: should render the alert_messages item" do
+  test "Called without options: should render the alert_messages element" do
     assigns = []
 
     assert rendered_to_string(~H"""
