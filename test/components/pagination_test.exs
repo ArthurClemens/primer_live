@@ -6,6 +6,90 @@ defmodule PrimerLive.Components.PaginationTest do
   import Phoenix.LiveView.Helpers
   import Phoenix.LiveViewTest
 
+  test "get_pagination_numbers: zeroes" do
+    page_count = 0
+    current_page = 0
+    boundary_count = 0
+    sibling_count = 0
+    actual = get_pagination_numbers(page_count, current_page, boundary_count, sibling_count)
+    expected = [1]
+    assert actual == expected
+  end
+
+  test "get_pagination_numbers: ones" do
+    page_count = 1
+    current_page = 1
+    boundary_count = 1
+    sibling_count = 1
+    actual = get_pagination_numbers(page_count, current_page, boundary_count, sibling_count)
+    expected = [1]
+    assert actual == expected
+  end
+
+  test "get_pagination_numbers: page_count 3, boundary_count 1 and sibling_count 1" do
+    page_count = 3
+    boundary_count = 1
+    sibling_count = 1
+
+    actual =
+      1..page_count
+      |> Enum.map(&get_pagination_numbers(page_count, &1, boundary_count, sibling_count))
+
+    expected = [[1, 2, 3], [1, 2, 3], [1, 2, 3]]
+
+    assert actual == expected
+  end
+
+  test "get_pagination_numbers: page_count 10, boundary_count 1 and sibling_count 2" do
+    page_count = 10
+    boundary_count = 1
+    sibling_count = 2
+
+    actual =
+      1..page_count
+      |> Enum.map(&get_pagination_numbers(page_count, &1, boundary_count, sibling_count))
+
+    expected = [
+      [1, 0, 10],
+      [1, 2, 3, 4, 5, 0, 10],
+      [1, 2, 3, 4, 5, 6, 0, 10],
+      [1, 0, 3, 4, 5, 6, 7, 0, 10],
+      [1, 0, 4, 5, 6, 7, 8, 0, 10],
+      [1, 0, 5, 6, 7, 8, 9, 10],
+      [1, 0, 6, 7, 8, 9, 10],
+      [1, 0, 7, 8, 9, 10],
+      [1, 0, 8, 9, 10],
+      [1, 0, 9, 10]
+    ]
+
+    assert actual == expected
+  end
+
+  test "get_pagination_numbers: page_count 10, boundary_count 2 and sibling_count 2" do
+    page_count = 10
+    boundary_count = 2
+    sibling_count = 2
+
+    actual =
+      1..page_count
+      |> Enum.map(&get_pagination_numbers(page_count, &1, boundary_count, sibling_count))
+
+    expected = [
+      [1, 2, 0, 9, 10],
+      [1, 2, 3, 4, 5, 0, 9, 10],
+      [1, 2, 3, 4, 5, 6, 0, 9, 10],
+      [1, 2, 3, 4, 5, 6, 7, 0, 9, 10],
+      [1, 2, 0, 4, 5, 6, 7, 8, 9, 10],
+      [1, 2, 0, 5, 6, 7, 8, 9, 10],
+      [1, 2, 0, 6, 7, 8, 9, 10],
+      [1, 2, 0, 7, 8, 9, 10],
+      [1, 2, 0, 8, 9, 10],
+      [1, 2, 0, 9, 10]
+    ]
+
+    assert actual == expected
+  end
+
   test "Called without options: should render an error message" do
     assigns = []
 
