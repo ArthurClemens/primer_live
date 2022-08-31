@@ -41,11 +41,12 @@ defmodule PrimerLive.MixProject do
         "Component options": ~r/PrimerLive.Options/
       ],
       groups_for_functions: [
-        Alerts: &(&1[:section] == :alerts),
+        Layout: &(&1[:section] == :layout),
         Buttons: &(&1[:section] == :buttons),
+        Menus: &(&1[:section] == :menus),
+        Alerts: &(&1[:section] == :alerts),
         Icons: &(&1[:section] == :icons),
-        Pagination: &(&1[:section] == :pagination),
-        Layout: &(&1[:section] == :layout)
+        Pagination: &(&1[:section] == :pagination)
       ],
       nest_modules_by_prefix: [
         PrimerLive.Options

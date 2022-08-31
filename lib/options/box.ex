@@ -110,6 +110,7 @@ defmodule PrimerLive.Options.Box do
   | `is_spacious`   | `boolean` | - | false | Increases padding and increases the title font size. |
   """
   typed_embedded_schema do
+    # Slots
     field(:inner_block, :any, virtual: true)
     # Optional options
     field(:alert, :any, virtual: true)

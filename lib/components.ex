@@ -623,6 +623,325 @@ defmodule PrimerLive.Components do
   end
 
   # ------------------------------------------------------------------------------------
+  # dropdown
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :menus
+
+  @doc ~S"""
+  Dropdown menu.
+
+  Dropdowns are small context menus that can be used for navigation and actions. They are a sinple alternative to select menus.
+
+  Menu content is composed with `dropdown_menu/1` which in itself is composed with `dropdown_item/1`.
+
+  ```
+  <.dropdown>
+    <:label>
+      Menu
+    </:label>
+    <.dropdown_menu>
+      <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
+      <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
+    </.dropdown_menu>
+  </.dropdown>
+  ```
+
+  ## Examples
+
+  Position of the menu relative to the dropdown button. Possible values are: "se", "ne", "e", "sw", "s", "w".
+
+  ```
+  <.dropdown>
+    <:label>
+      Menu
+    </:label>
+    <.dropdown_menu position="e">
+      Menu content
+    </.dropdown_menu>
+  </.dropdown>
+  ```
+
+  Custom button class (overriding the default class "btn"):
+
+  ```
+  <.dropdown
+    classes={
+      %{
+        button: "color-fg-muted p-2 d-inline"
+      }
+    }
+  >
+    <:label>
+      Menu
+    </:label>
+    <.dropdown_menu>
+      Menu content
+    </.dropdown_menu>
+  </.dropdown>
+  ```
+
+  Menu item divider:
+
+  ```
+  <.dropdown>
+    <:label>
+      Menu
+    </:label>
+    <.dropdown_menu>
+      <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
+      <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
+      <.dropdown_item is_divider />
+      <.dropdown_item href="#url">Dropdown item 3</.dropdown_item>
+    </.dropdown_menu>
+  </.dropdown>
+  ```
+
+  With a header:
+
+  ```
+  <.dropdown>
+    <:label>
+      Menu
+    </:label>
+    <.dropdown_menu>
+      <:header>
+        Header
+      </:header>
+      <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
+      <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
+    </.dropdown_menu>
+  </.dropdown>
+  ```
+
+  With an icon instead of a button text:
+
+  ```
+  <.dropdown>
+    <:label>
+      <.octicon name="alert-16" />
+    </:label>
+    ...
+  </.dropdown>
+  ```
+
+  Pass attribute `open` to show the menu initially open:
+
+  ```
+  <.dropdown open>
+    <:label>
+      Menu
+    </:label>
+    <.dropdown_menu>
+      Menu content
+    </.dropdown_menu>
+  </.dropdown>
+  ```
+
+  Open the menu from the outside:
+
+  ```
+  <.button phx-click={Phoenix.LiveView.JS.set_attribute({"open", "true"}, to: "#my-dropdown")}>
+    Open menu
+  </.button>
+
+  <.dropdown
+    id="my-dropdown"
+    ...
+  </.dropdown>
+  ```
+
+  ## All Options
+
+  - `PrimerLive.Options.Dropdown`
+  - Additional HTML attributes are passed to the dropdown element
+
+  ## Reference
+
+  - [Primer/CSS Dropdown](https://primer.style/css/components/dropdown)
+
+  """
+  def dropdown(assigns) do
+    with {:ok, assigns} <-
+           Schema.validate_options(assigns, Options.Dropdown, "dropdown") do
+      render_dropdown(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_dropdown(assigns) do
+    classes = %{
+      dropdown:
+        Attributes.classnames([
+          "dropdown",
+          "details-reset",
+          "details-overlay",
+          "d-inline-block",
+          assigns.class,
+          assigns.classes.dropdown
+        ]),
+      button:
+        Attributes.classnames([
+          if assigns.classes.button do
+            assigns.classes.button
+          else
+            "btn"
+          end
+        ]),
+      caret:
+        Attributes.classnames([
+          "dropdown-caret",
+          assigns.classes.caret
+        ])
+    }
+
+    ~H"""
+    <details class={classes.dropdown} {@extra}>
+      <summary class={classes.button} aria-haspopup="true">
+        <%= render_slot(@label) %>
+        <div class={classes.caret}></div>
+      </summary>
+      <%= if @inner_block do %>
+        <%= render_slot(@inner_block) %>
+      <% end %>
+    </details>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # dropdown_menu
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :menus
+
+  @doc ~S"""
+  Menu content inside a `dropdown/1`.
+
+  A menu is composed with `dropdown_item/1` and optionally a `:header` slot.
+
+  ```
+  <.dropdown>
+    ...
+    <.dropdown_menu>
+      <:header>
+        Header
+      </:header>
+      <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
+      <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
+    </.dropdown_menu>
+  </.dropdown>
+  ```
+
+  ## Options
+
+  - `PrimerLive.Options.Dropdown.Menu`
+  - Additional HTML attributes are passed to the menu HTML element
+
+  ## Reference
+
+  - [Primer/CSS Dropdown](https://primer.style/css/components/dropdown)
+
+  """
+
+  def dropdown_menu(assigns) do
+    with {:ok, assigns} <-
+           Schema.validate_options(assigns, Options.Dropdown.Menu, "dropdown_menu") do
+      render_dropdown_menu(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_dropdown_menu(assigns) do
+    classes = %{
+      menu:
+        Attributes.classnames([
+          "dropdown-menu",
+          "dropdown-menu-" <> assigns.position,
+          assigns.classes.menu,
+          assigns.class
+        ]),
+      header:
+        Attributes.classnames([
+          "dropdown-header",
+          assigns.classes.header
+        ])
+    }
+
+    ~H"""
+    <ul class={classes.menu} {@extra}>
+      <%= if @header do %>
+        <div class={classes.header}>
+          <%= render_slot(@header) %>
+        </div>
+      <% end %>
+      <%= if @inner_block do %>
+        <%= render_slot(@inner_block) %>
+      <% end %>
+    </ul>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # dropdown_item
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :menus
+
+  @doc ~S"""
+  Menu item inside a `dropdown_menu/1`.
+
+  ```
+   <.dropdown>
+    ...
+    <.dropdown_menu>
+      <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
+      <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
+    </.dropdown_menu>
+  </.dropdown>
+  ```
+
+  ## Options
+
+  - `PrimerLive.Options.Dropdown.Menu.Item`
+
+  ## Reference
+
+  - [Primer/CSS Dropdown](https://primer.style/css/components/dropdown)
+
+  """
+
+  def dropdown_item(assigns) do
+    with {:ok, assigns} <-
+           Schema.validate_options(assigns, Options.Dropdown.Menu.Item, "dropdown_item") do
+      render_dropdown_item(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_dropdown_item(assigns) do
+    class =
+      Attributes.classnames([
+        if assigns.is_divider do
+          "dropdown-divider"
+        else
+          "dropdown-item"
+        end,
+        assigns.class
+      ])
+
+    ~H"""
+    <li class={class} {@extra}>
+      <%= if @inner_block do %>
+        <%= render_slot(@inner_block) %>
+      <% end %>
+    </li>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
   # pagination
   # ------------------------------------------------------------------------------------
 
@@ -818,27 +1137,59 @@ defmodule PrimerLive.Components do
   end
 
   # Get the list of page number elements
-  defp get_pagination_numbers(
-         page_count,
-         current_page,
-         boundary_count,
-         sibling_count
-       ) do
+  @doc false
+
+  def get_pagination_numbers(
+        page_count,
+        current_page,
+        boundary_count,
+        sibling_count
+      )
+      when page_count == 0,
+      do:
+        get_pagination_numbers(
+          1,
+          current_page,
+          boundary_count,
+          sibling_count
+        )
+
+  def get_pagination_numbers(
+        page_count,
+        current_page,
+        boundary_count,
+        sibling_count
+      ) do
     list = 1..page_count
 
-    # Create list slices for each part, e.g. [1,2] and [5,6,7,8,9] and [99,100]
+    # Insert a '0' divider when the page sequence is not sequential
+    # But omit this when the total number of pages equals the boundary_count counts plus the gap item
+
+    may_insert_gaps = page_count !== 0 && page_count > 2 * boundary_count + 1
+
+    case may_insert_gaps do
+      true -> insert_gaps(current_page, boundary_count, sibling_count, list)
+      false -> list |> Enum.map(& &1)
+    end
+  end
+
+  defp insert_gaps(current_page, boundary_count, sibling_count, list) do
     section_start = Enum.take(list, boundary_count)
     section_end = Enum.take(list, -boundary_count)
+
+    section_middle_start = current_page - sibling_count
+    section_middle_end = current_page + sibling_count
 
     section_middle =
       Enum.slice(
         list,
-        (current_page - sibling_count)..(current_page + sibling_count)
+        section_middle_start..section_middle_end
       )
 
     # Join the parts, make sure the numbers a unique, and loop over the result to insert a '0' whenever
     # 2 adjacent number differ by more than 1
     # The result should be something like [1,2,0,5,6,7,8,9,0,99,100]
+
     (section_start ++ section_middle ++ section_end)
     |> MapSet.new()
     |> MapSet.to_list()
