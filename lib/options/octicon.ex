@@ -4,10 +4,10 @@ defmodule PrimerLive.Options.Octicon do
   @moduledoc """
   Options for component `PrimerLive.Components.octicon/1`.
 
-  | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `name`   | `string` | required | - | Icon name, e.g. "arrow-left-24". See [available icons](https://primer.style/octicons/). |
-  | `class`   | `string` | - | - | Additional classname. |
-
+  | **Name** | **Type** | **Validation** | **Default** | **Description**                                                                         |
+  | -------- | -------- | -------------- | ----------- | --------------------------------------------------------------------------------------- |
+  | `name`   | `string` | required       | -           | Icon name, e.g. "arrow-left-24". See [available icons](https://primer.style/octicons/). |
+  | `class`  | `string` | -              | -           | Additional classname.                                                                   |
   """
 
   typed_embedded_schema do

@@ -4,13 +4,14 @@ defmodule PrimerLive.Options.Pagination.Classes do
   @moduledoc """
   Options for `classes` in `PrimerLive.Options.Pagination`.
 
-  | **Classname** | **Description** |
+  | **Classname**          | **Description**                           |
+  | ---------------------- | ----------------------------------------- |
   | `pagination_container` | `nav` element that contains `navigation`. |
-  | `pagination` | The main control. |
-  | `previous_page` | Previous page link (enabled or disabled). |
-  | `next_page` | Next page link (enabled or disabled). |
-  | `page` | Page number link (not the seleced page). |
-  | `gap` | Gap text. |
+  | `pagination`           | The main control.                         |
+  | `previous_page`        | Previous page link (enabled or disabled). |
+  | `next_page`            | Next page link (enabled or disabled).     |
+  | `page`                 | Page number link (not the seleced page).  |
+  | `gap`                  | Gap text.                                 |
   """
 
   typed_embedded_schema do
@@ -33,14 +34,15 @@ defmodule PrimerLive.Options.Pagination.Labels do
   @moduledoc """
   Options for `labels` in `PrimerLive.Options.Pagination`.
 
-  | **Label** | **Default** |
-  | `aria_label_container` | Navigation |
-  | `aria_label_next_page` | Next page |
-  | `aria_label_page` | Page {page_number} |
-  | `aria_label_previous_page` | Previous page |
-  | `gap` | … |
-  | `next_page` | Next |
-  | `previous_page` | Previous |
+  | **Label**                  | **Default**        |
+  | -------------------------- | ------------------ |
+  | `aria_label_container`     | Navigation         |
+  | `aria_label_next_page`     | Next page          |
+  | `aria_label_page`          | Page {page_number} |
+  | `aria_label_previous_page` | Previous page      |
+  | `gap`                      | …                  |
+  | `next_page`                | Next               |
+  | `previous_page`            | Previous           |
   """
 
   use Options
@@ -74,8 +76,9 @@ defmodule PrimerLive.Options.Pagination.LinkOptions do
   @moduledoc """
   Options for `link_options` in `PrimerLive.Options.Pagination`.
 
-  | **Name**    | **Type**  | **Validation** | **Default**  | **Description** |
-  | `replace`   | `boolean` | - | false | Result page count. |
+  | **Name**  | **Type**  | **Validation** | **Default** | **Description**    |
+  | --------- | --------- | -------------- | ----------- | ------------------ |
+  | `replace` | `boolean` | -              | false       | Result page count. |
   """
 
   use Options
@@ -99,18 +102,18 @@ defmodule PrimerLive.Options.Pagination do
   @moduledoc """
   Options for component `PrimerLive.Components.pagination/1`.
 
-  | **Name**          | **Type** | **Validation** | **Default**  | **Description** |
-  | `page_count`   | `integer` | `>= 0` | - | Result page count. |
-  | `current_page` | `integer` | `>= 1` | - | Current page. |
-  | `link_path`    | `(page_number) -> path` | `>= 1` | - | Function that returns a path for the given page number. The link builder uses `live_redirect`. Extra options can be passed with `link_options`. |
-  | `boundary_count` | `integer` | `1..3` | `2` | Number of page links at both ends. |
-  | `sibling_count` | `integer` | `1..5` | `2` | How many page links to show on each side of the current page. |
-  | `is_numbered` | `boolean` |  | `true` | Showing page numbers. |
-  | `class` | `string` |  | - | Additional classname for the main component. For more control, use `classes`. |
-  | `classes` | `map` |  | - | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Pagination.Classes`. |
-  | `labels` | `map` |  | - | Map of textual labels. See `PrimerLive.Options.Pagination.Labels`. |
-  | `link_options` | `map` |  | - | Map of link options. See `PrimerLive.Options.Pagination.LinkOptions`. |
-
+  | **Name**         | **Type**                | **Validation** | **Default** | **Description**                                                                                                                                 |
+  | ---------------- | ----------------------- | -------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `page_count`     | `integer`               | `>= 0`         | -           | Result page count.                                                                                                                              |
+  | `current_page`   | `integer`               | `>= 1`         | -           | Current page.                                                                                                                                   |
+  | `link_path`      | `(page_number) -> path` | `>= 1`         | -           | Function that returns a path for the given page number. The link builder uses `live_redirect`. Extra options can be passed with `link_options`. |
+  | `boundary_count` | `integer`               | `1..3`         | `2`         | Number of page links at both ends.                                                                                                              |
+  | `sibling_count`  | `integer`               | `1..5`         | `2`         | How many page links to show on each side of the current page.                                                                                   |
+  | `is_numbered`    | `boolean`               |                | `true`      | Showing page numbers.                                                                                                                           |
+  | `class`          | `string`                |                | -           | Additional classname for the main component. For more control, use `classes`.                                                                   |
+  | `classes`        | `map`                   |                | -           | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Pagination.Classes`.                  |
+  | `labels`         | `map`                   |                | -           | Map of textual labels. See `PrimerLive.Options.Pagination.Labels`.                                                                              |
+  | `link_options`   | `map`                   |                | -           | Map of link options. See `PrimerLive.Options.Pagination.LinkOptions`.                                                                           |
   """
 
   typed_embedded_schema do

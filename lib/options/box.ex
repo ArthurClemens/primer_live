@@ -4,19 +4,19 @@ defmodule PrimerLive.Options.BoxRow do
   @moduledoc """
   Options for the box row element (passed in the box' `:inner_block` slot) in `PrimerLive.Options.Box`.
 
-  | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block` | `slot` | required | - | Row content. |
-  | `class`   | `string` | - | - | Additional classname. |
-  | `is_blue` | `boolean` | - | false | Blue row theme. |
-  | `is_yellow` | `boolean` | - | false | Yellow row theme. |
-  | `is_gray` | `boolean` | - | false | Gray row theme. |
-  | `is_focus_blue` | `boolean` | - | false | Changes to blue row theme on focus. |
-  | `is_focus_gray` | `boolean` | - | false | Changes to gray row theme on focus. |
-  | `is_hover_blue` | `boolean` | - | false | Changes to blue row theme on hover. |
-  | `is_hover_gray` | `boolean` | - | false | Changes to gray row theme on hover. |
-  | `is_navigation_focus` | `boolean` | - | false | Combine with a theme color to highlight the row when using keyboard commands. |
-  | `is_unread` | `boolean` | - | false | Apply a blue vertical line highlight for indicating a row contains unread items. |
-
+  | **Name**              | **Type**  | **Validation** | **Default** | **Description**                                                                  |
+  | --------------------- | --------- | -------------- | ----------- | -------------------------------------------------------------------------------- |
+  | `inner_block`         | `slot`    | required       | -           | Row content.                                                                     |
+  | `class`               | `string`  | -              | -           | Additional classname.                                                            |
+  | `is_blue`             | `boolean` | -              | false       | Blue row theme.                                                                  |
+  | `is_yellow`           | `boolean` | -              | false       | Yellow row theme.                                                                |
+  | `is_gray`             | `boolean` | -              | false       | Gray row theme.                                                                  |
+  | `is_focus_blue`       | `boolean` | -              | false       | Changes to blue row theme on focus.                                              |
+  | `is_focus_gray`       | `boolean` | -              | false       | Changes to gray row theme on focus.                                              |
+  | `is_hover_blue`       | `boolean` | -              | false       | Changes to blue row theme on hover.                                              |
+  | `is_hover_gray`       | `boolean` | -              | false       | Changes to gray row theme on hover.                                              |
+  | `is_navigation_focus` | `boolean` | -              | false       | Combine with a theme color to highlight the row when using keyboard commands.    |
+  | `is_unread`           | `boolean` | -              | false       | Apply a blue vertical line highlight for indicating a row contains unread items. |
   """
 
   typed_embedded_schema do
@@ -62,12 +62,13 @@ defmodule PrimerLive.Options.Box.Classes do
   @moduledoc """
   Options for `classes` in `PrimerLive.Options.Box`.
 
-  | **Classname** | **Description** |
-  | `box` | The box element class. |
-  | `header` | Header class. |
-  | `body` | Body class. |
-  | `footer` | Footer class. |
-  | `title` | Title class. |
+  | **Classname** | **Description**        |
+  | ------------- | ---------------------- |
+  | `box`         | The box element class. |
+  | `header`      | Header class.          |
+  | `body`        | Body class.            |
+  | `footer`      | Footer class.          |
+  | `title`       | Title class.           |
   """
 
   typed_embedded_schema do
@@ -93,21 +94,22 @@ defmodule PrimerLive.Options.Box do
   @moduledoc """
   Options for component `PrimerLive.Components.box/1`.
 
-  | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block` | `slot` | required | - | Box content, for example `PrimerLive.Options.BoxRow`. |
-  | `class`   | `string` | - | - | Additional classname. |
-  | `classes` | `map` | - | - | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Box.Classes`. |
-  | `header`   | `slot` | - | - | Header element. |
-  | `body`   | `slot` | - | - | Body element. |
-  | `footer`   | `slot` | - | - | Footer element. |
-  | `title`   | `slot` | - | - | Title element. |
-  | `alert`   | `slot` | - | - | Alert element. This will be placed between the header and the body (if any). |
-  | `is_blue`   | `boolean` | - | false | Creates a blue box theme. |
-  | `is_blue_header`   | `boolean` | - | false | Changes the header border and background to blue. |
-  | `is_danger`   | `boolean` | - | false | Creates a danger color box theme. |
-  | `is_border_dashed`   | `boolean` | - | false | Applies a dashed border to the box. |
-  | `is_condensed`   | `boolean` | - | false | Condenses line-height and reduces the padding on the Y axis. |
-  | `is_spacious`   | `boolean` | - | false | Increases padding and increases the title font size. |
+  | **Name**           | **Type**  | **Validation** | **Default** | **Description**                                                                                                         |
+  | ------------------ | --------- | -------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------- |
+  | `inner_block`      | `slot`    | required       | -           | Box content, for example `PrimerLive.Options.BoxRow`.                                                                   |
+  | `class`            | `string`  | -              | -           | Additional classname.                                                                                                   |
+  | `classes`          | `map`     | -              | -           | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Box.Classes`. |
+  | `header`           | `slot`    | -              | -           | Header element.                                                                                                         |
+  | `body`             | `slot`    | -              | -           | Body element.                                                                                                           |
+  | `footer`           | `slot`    | -              | -           | Footer element.                                                                                                         |
+  | `title`            | `slot`    | -              | -           | Title element.                                                                                                          |
+  | `alert`            | `slot`    | -              | -           | Alert element. This will be placed between the header and the body (if any).                                            |
+  | `is_blue`          | `boolean` | -              | false       | Creates a blue box theme.                                                                                               |
+  | `is_blue_header`   | `boolean` | -              | false       | Changes the header border and background to blue.                                                                       |
+  | `is_danger`        | `boolean` | -              | false       | Creates a danger color box theme.                                                                                       |
+  | `is_border_dashed` | `boolean` | -              | false       | Applies a dashed border to the box.                                                                                     |
+  | `is_condensed`     | `boolean` | -              | false       | Condenses line-height and reduces the padding on the Y axis.                                                            |
+  | `is_spacious`      | `boolean` | -              | false       | Increases padding and increases the title font size.                                                                    |
   """
   typed_embedded_schema do
     # Slots

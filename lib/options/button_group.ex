@@ -4,9 +4,10 @@ defmodule PrimerLive.Options.ButtonGroup do
   @moduledoc """
   Options for component `PrimerLive.Components.button_group/1`.
 
-  | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block` | `slot` | required | - | Button group content. |
-  | `class`   | `string` | - | - | Additional classname. |
+  | **Name**      | **Type** | **Validation** | **Default** | **Description**       |
+  | ------------- | -------- | -------------- | ----------- | --------------------- |
+  | `inner_block` | `slot`   | required       | -           | Button group content. |
+  | `class`       | `string` | -              | -           | Additional classname. |
 
   """
   typed_embedded_schema do
@@ -32,10 +33,10 @@ defmodule PrimerLive.Options.ButtonGroupItem do
   @moduledoc """
   Options for component `PrimerLive.Components.button_group_item/1`.
 
-  | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block` | `slot` | required | - | Button group item content. |
-  | `class`   | `string` | - | - | Additional classname. |
-
+  | **Name**      | **Type** | **Validation** | **Default** | **Description**            |
+  | ------------- | -------- | -------------- | ----------- | -------------------------- |
+  | `inner_block` | `slot`   | required       | -           | Button group item content. |
+  | `class`       | `string` | -              | -           | Additional classname.      |
   """
   typed_embedded_schema do
     field(:inner_block, :any, virtual: true)
