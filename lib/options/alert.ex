@@ -5,7 +5,7 @@ defmodule PrimerLive.Options.Alert do
   Options for component `PrimerLive.Components.alert/1`.
 
   | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block*` | `slot` |  | - | Alert content. |
+  | `inner_block` | `slot` | required | - | Alert content. |
   | `class`   | `string` | - | - | Additional classname. |
   | `is_error`   | `boolean` | - | false | Sets the color to "error". |
   | `is_success`   | `boolean` | - | false | Sets the color to "success". |
@@ -45,7 +45,7 @@ defmodule PrimerLive.Options.AlertMessages do
   Options for component `PrimerLive.Components.alert_messages/1`.
 
   | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block*` | `slot` |  | - | Alert messages content. |
+  | `inner_block` | `slot` | required | - | Alert messages content. |
   | `class`   | `string` | - | - | Additional classname. |
 
   """

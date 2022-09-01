@@ -75,7 +75,7 @@ defmodule PrimerLive.Options.Pagination.LinkOptions do
   Options for `link_options` in `PrimerLive.Options.Pagination`.
 
   | **Name**    | **Type**  | **Validation** | **Default**  | **Description** |
-  | `replace`   | `boolean` |  | false | Result page count. |
+  | `replace`   | `boolean` | - | false | Result page count. |
   """
 
   use Options
@@ -100,9 +100,9 @@ defmodule PrimerLive.Options.Pagination do
   Options for component `PrimerLive.Components.pagination/1`.
 
   | **Name**          | **Type** | **Validation** | **Default**  | **Description** |
-  | `page_count*`   | `integer` | `>= 0` | - | Result page count. |
-  | `current_page*` | `integer` | `>= 1` | - | Current page. |
-  | `link_path*`    | `(page_number) -> path` | `>= 1` | - | Function that returns a path for the given page number. The link builder uses `live_redirect`. Extra options can be passed with `link_options`. |
+  | `page_count`   | `integer` | `>= 0` | - | Result page count. |
+  | `current_page` | `integer` | `>= 1` | - | Current page. |
+  | `link_path`    | `(page_number) -> path` | `>= 1` | - | Function that returns a path for the given page number. The link builder uses `live_redirect`. Extra options can be passed with `link_options`. |
   | `boundary_count` | `integer` | `1..3` | `2` | Number of page links at both ends. |
   | `sibling_count` | `integer` | `1..5` | `2` | How many page links to show on each side of the current page. |
   | `is_numbered` | `boolean` |  | `true` | Showing page numbers. |

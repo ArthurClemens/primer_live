@@ -5,7 +5,7 @@ defmodule PrimerLive.Options.Octicon do
   Options for component `PrimerLive.Components.octicon/1`.
 
   | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `name*`   | `string` | - | - | Icon name, e.g. "arrow-left-24". See [available icons](https://primer.style/octicons/). |
+  | `name`   | `string` | required | - | Icon name, e.g. "arrow-left-24". See [available icons](https://primer.style/octicons/). |
   | `class`   | `string` | - | - | Additional classname. |
 
   """

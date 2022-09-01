@@ -5,7 +5,7 @@ defmodule PrimerLive.Options.Dropdown.Menu.Item do
   Options for component `PrimerLive.Components.dropdown_menu/1`.
 
   | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block` | `slot` |  | - | Dropdown menu item content. Leave out when using `is_divider`. |
+  | `inner_block` | `slot` | required unless `is_divider` | - | Dropdown menu item content. Leave out when using `is_divider`. |
   | `class`   | `string` | - | - | Additional classname. |
   | `is_divider`   | `boolean` | - | false | Creates a divider. |
   """
@@ -39,64 +39,6 @@ defmodule PrimerLive.Options.Dropdown.Menu.Item do
   end
 end
 
-defmodule PrimerLive.Options.Dropdown.Menu.Classes do
-  use Options
-
-  @moduledoc """
-  Options for `classes` in `PrimerLive.Options.Dropdown`.
-
-  | **Classname** | **Description** |
-  | `menu` | The menu class. |
-  | `header` | Header class. |
-  """
-
-  typed_embedded_schema do
-    field(:menu, :string)
-    field(:header, :string)
-  end
-
-  @impl Options
-  def changeset(struct, attrs \\ %{}) do
-    struct
-    |> cast(attrs, [:menu, :header])
-  end
-end
-
-defmodule PrimerLive.Options.Dropdown.Menu do
-  use Options
-
-  @moduledoc """
-  Options for `menu` in `PrimerLive.Options.Dropdown`.
-
-  | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block` | `slot` |  | - | Dropdown menu content. |
-  | `header` | `slot` |  | - | Menu header content. |
-  | `class`   | `string` | - | - | Additional classname. |
-  | `classes`   | `string` | - | - | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Dropdown.Menu.Classes`. |
-  | `position`   | `string` | - | "se" | Position of the menu relative to the dropdown button. Possible values: "se", "ne", "e", "sw", "s", "w". |
-  """
-
-  typed_embedded_schema do
-    # Optional options
-    field(:inner_block, :any, virtual: true)
-    field(:header, :any, virtual: true)
-    # Other options
-    field(:class, :string)
-    field(:position, :string, default: "se")
-    # Embedded options
-    embeds_one(:classes, PrimerLive.Options.Dropdown.Menu.Classes)
-  end
-
-  @impl Options
-  def changeset(struct, attrs \\ %{}) do
-    struct
-    |> cast(attrs, [:inner_block, :class, :position, :header])
-    |> cast_embed_with_defaults(attrs, :classes, %{})
-    |> validate_required(:inner_block)
-    |> validate_inclusion(:position, ["se", "ne", "e", "sw", "s", "w"])
-  end
-end
-
 defmodule PrimerLive.Options.Dropdown.Classes do
   use Options
 
@@ -104,21 +46,25 @@ defmodule PrimerLive.Options.Dropdown.Classes do
   Options for `classes` in `PrimerLive.Options.Dropdown`.
 
   | **Classname** | **Description** |
-  | `dropdown` | The dropdown element class. |
   | `button` | Button class. Any value will override the default class "btn". |
   | `caret` | Dropdown caret class. |
+  | `dropdown` | The dropdown element class. |
+  | `menu` | The menu element class. |
+  | `header` | The menu header element class. |
   """
 
   typed_embedded_schema do
-    field(:dropdown, :string)
     field(:button, :string)
     field(:caret, :string)
+    field(:dropdown, :string)
+    field(:header, :string)
+    field(:menu, :string)
   end
 
   @impl Options
   def changeset(struct, attrs \\ %{}) do
     struct
-    |> cast(attrs, [:dropdown, :button, :menu, :caret])
+    |> cast(attrs, [:button, :caret, :dropdown, :header, :menu])
   end
 end
 
@@ -131,18 +77,22 @@ defmodule PrimerLive.Options.Dropdown do
   Options for component `PrimerLive.Components.dropdown/1`.
 
   | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `label*` | `slot` |  | - | Dropdown button label. May contain text or an icon. |
-  | `inner_block` | `slot` |  | - | Dropdown menu content. |
+  | `menu` | `slot` | required | - | Dropdown menu content. |
+  | `label` | `slot` | required | - | Dropdown button label. May contain text or an icon. |
+  | `header` | `slot` | - | - | Menu header. |
   | `class`   | `string` | - | - | Additional classname. |
-  | `classes` | `map` |  | - | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Dropdown.Classes`. |
+  | `classes` | `map` | - | - | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Dropdown.Classes`. |
+  | `position`   | `string` | - | "se" | Position of the menu relative to the dropdown button. Possible values: "se", "ne", "e", "sw", "s", "w". |
 
   """
   typed_embedded_schema do
     # Slots
-    field(:inner_block, :any, virtual: true)
     field(:label, :any, virtual: true)
+    field(:header, :any, virtual: true)
+    field(:menu, :any, virtual: true)
     # Optional options
     field(:class, :string)
+    field(:position, :string, default: "se")
     # Embedded options
     embeds_one(:classes, Classes)
   end
@@ -151,11 +101,14 @@ defmodule PrimerLive.Options.Dropdown do
   def changeset(struct, attrs \\ %{}) do
     struct
     |> cast(attrs, [
-      :inner_block,
+      :menu,
+      :header,
       :class,
-      :label
+      :label,
+      :position
     ])
     |> cast_embed_with_defaults(attrs, :classes, %{})
-    |> validate_required([:label, :inner_block])
+    |> validate_required([:menu, :label])
+    |> validate_inclusion(:position, ["se", "ne", "e", "sw", "s", "w"])
   end
 end

@@ -631,19 +631,19 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Dropdown menu.
 
-  Dropdowns are small context menus that can be used for navigation and actions. They are a sinple alternative to select menus.
+  Dropdowns are small context menus that can be used for navigation and actions. They are a simple alternative to select menus.
 
-  Menu content is composed with `dropdown_menu/1` which in itself is composed with `dropdown_item/1`.
+  Menu content is composed with slots `:label`, `:menu` and `:header`. The menu slot is composed with `dropdown_item/1`.
 
   ```
   <.dropdown>
     <:label>
       Menu
     </:label>
-    <.dropdown_menu>
+    <:menu>
       <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
       <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
-    </.dropdown_menu>
+    </:menu>
   </.dropdown>
   ```
 
@@ -652,13 +652,8 @@ defmodule PrimerLive.Components do
   Position of the menu relative to the dropdown button. Possible values are: "se", "ne", "e", "sw", "s", "w".
 
   ```
-  <.dropdown>
-    <:label>
-      Menu
-    </:label>
-    <.dropdown_menu position="e">
-      Menu content
-    </.dropdown_menu>
+  <.dropdown position="e">
+    ...
   </.dropdown>
   ```
 
@@ -672,12 +667,7 @@ defmodule PrimerLive.Components do
       }
     }
   >
-    <:label>
-      Menu
-    </:label>
-    <.dropdown_menu>
-      Menu content
-    </.dropdown_menu>
+    ...
   </.dropdown>
   ```
 
@@ -688,29 +678,29 @@ defmodule PrimerLive.Components do
     <:label>
       Menu
     </:label>
-    <.dropdown_menu>
+    <:menu>
       <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
       <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
       <.dropdown_item is_divider />
       <.dropdown_item href="#url">Dropdown item 3</.dropdown_item>
-    </.dropdown_menu>
+    </:menu>
   </.dropdown>
   ```
 
-  With a header:
+  With a header (will be placed inside the menu):
 
   ```
   <.dropdown>
     <:label>
       Menu
     </:label>
-    <.dropdown_menu>
-      <:header>
-        Header
-      </:header>
+    <:header>
+      Header
+    </:header>
+    <:menu>
       <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
       <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
-    </.dropdown_menu>
+    </:menu>
   </.dropdown>
   ```
 
@@ -729,12 +719,7 @@ defmodule PrimerLive.Components do
 
   ```
   <.dropdown open>
-    <:label>
-      Menu
-    </:label>
-    <.dropdown_menu>
-      Menu content
-    </.dropdown_menu>
+    ...
   </.dropdown>
   ```
 
@@ -793,74 +778,12 @@ defmodule PrimerLive.Components do
         Attributes.classnames([
           "dropdown-caret",
           assigns.classes.caret
-        ])
-    }
-
-    ~H"""
-    <details class={classes.dropdown} {@extra}>
-      <summary class={classes.button} aria-haspopup="true">
-        <%= render_slot(@label) %>
-        <div class={classes.caret}></div>
-      </summary>
-      <%= if @inner_block do %>
-        <%= render_slot(@inner_block) %>
-      <% end %>
-    </details>
-    """
-  end
-
-  # ------------------------------------------------------------------------------------
-  # dropdown_menu
-  # ------------------------------------------------------------------------------------
-
-  @doc section: :menus
-
-  @doc ~S"""
-  Menu content inside a `dropdown/1`.
-
-  A menu is composed with `dropdown_item/1` and optionally a `:header` slot.
-
-  ```
-  <.dropdown>
-    ...
-    <.dropdown_menu>
-      <:header>
-        Header
-      </:header>
-      <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
-      <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
-    </.dropdown_menu>
-  </.dropdown>
-  ```
-
-  ## Options
-
-  - `PrimerLive.Options.Dropdown.Menu`
-  - Additional HTML attributes are passed to the menu HTML element
-
-  ## Reference
-
-  - [Primer/CSS Dropdown](https://primer.style/css/components/dropdown)
-
-  """
-
-  def dropdown_menu(assigns) do
-    with {:ok, assigns} <-
-           Schema.validate_options(assigns, Options.Dropdown.Menu, "dropdown_menu") do
-      render_dropdown_menu(assigns)
-    else
-      message -> message
-    end
-  end
-
-  defp render_dropdown_menu(assigns) do
-    classes = %{
+        ]),
       menu:
         Attributes.classnames([
           "dropdown-menu",
           "dropdown-menu-" <> assigns.position,
-          assigns.classes.menu,
-          assigns.class
+          assigns.classes.menu
         ]),
       header:
         Attributes.classnames([
@@ -870,16 +793,26 @@ defmodule PrimerLive.Components do
     }
 
     ~H"""
-    <ul class={classes.menu} {@extra}>
+    <details class={classes.dropdown} {@extra}>
+      <summary class={classes.button} aria-haspopup="true">
+        <%= render_slot(@label) %>
+        <div class={classes.caret}></div>
+      </summary>
       <%= if @header do %>
-        <div class={classes.header}>
-          <%= render_slot(@header) %>
+        <div class={classes.menu}>
+          <div class={classes.header}>
+            <%= render_slot(@header) %>
+          </div>
+          <ul>
+            <%= render_slot(@menu) %>
+          </ul>
         </div>
+      <% else %>
+        <ul class={classes.menu}>
+          <%= render_slot(@menu) %>
+        </ul>
       <% end %>
-      <%= if @inner_block do %>
-        <%= render_slot(@inner_block) %>
-      <% end %>
-    </ul>
+    </details>
     """
   end
 
@@ -895,10 +828,10 @@ defmodule PrimerLive.Components do
   ```
    <.dropdown>
     ...
-    <.dropdown_menu>
+    <:menu>
       <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
       <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
-    </.dropdown_menu>
+    </:menu>
   </.dropdown>
   ```
 

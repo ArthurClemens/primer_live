@@ -5,7 +5,7 @@ defmodule PrimerLive.Options.ButtonGroup do
   Options for component `PrimerLive.Components.button_group/1`.
 
   | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block*` | `slot` |  | - | Button group content. |
+  | `inner_block` | `slot` | required | - | Button group content. |
   | `class`   | `string` | - | - | Additional classname. |
 
   """
@@ -33,7 +33,7 @@ defmodule PrimerLive.Options.ButtonGroupItem do
   Options for component `PrimerLive.Components.button_group_item/1`.
 
   | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block*` | `slot` |  | - | Button group item content. |
+  | `inner_block` | `slot` | required | - | Button group item content. |
   | `class`   | `string` | - | - | Additional classname. |
 
   """

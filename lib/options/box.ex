@@ -5,17 +5,17 @@ defmodule PrimerLive.Options.BoxRow do
   Options for the box row element (passed in the box' `:inner_block` slot) in `PrimerLive.Options.Box`.
 
   | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block*` | `slot` |  | - | Row content. |
+  | `inner_block` | `slot` | required | - | Row content. |
   | `class`   | `string` | - | - | Additional classname. |
-  | `is_blue` | `boolean` |  | false | Blue row theme. |
-  | `is_yellow` | `boolean` |  | false | Yellow row theme. |
-  | `is_gray` | `boolean` |  | false | Gray row theme. |
-  | `is_focus_blue` | `boolean` |  | false | Changes to blue row theme on focus. |
-  | `is_focus_gray` | `boolean` |  | false | Changes to gray row theme on focus. |
-  | `is_hover_blue` | `boolean` |  | false | Changes to blue row theme on hover. |
-  | `is_hover_gray` | `boolean` |  | false | Changes to gray row theme on hover. |
-  | `is_navigation_focus` | `boolean` |  | false | Combine with a theme color to highlight the row when using keyboard commands. |
-  | `is_unread` | `boolean` |  | false | Apply a blue vertical line highlight for indicating a row contains unread items. |
+  | `is_blue` | `boolean` | - | false | Blue row theme. |
+  | `is_yellow` | `boolean` | - | false | Yellow row theme. |
+  | `is_gray` | `boolean` | - | false | Gray row theme. |
+  | `is_focus_blue` | `boolean` | - | false | Changes to blue row theme on focus. |
+  | `is_focus_gray` | `boolean` | - | false | Changes to gray row theme on focus. |
+  | `is_hover_blue` | `boolean` | - | false | Changes to blue row theme on hover. |
+  | `is_hover_gray` | `boolean` | - | false | Changes to gray row theme on hover. |
+  | `is_navigation_focus` | `boolean` | - | false | Combine with a theme color to highlight the row when using keyboard commands. |
+  | `is_unread` | `boolean` | - | false | Apply a blue vertical line highlight for indicating a row contains unread items. |
 
   """
 
@@ -94,9 +94,9 @@ defmodule PrimerLive.Options.Box do
   Options for component `PrimerLive.Components.box/1`.
 
   | **Name** | **Type** | **Validation** | **Default**  | **Description** |
-  | `inner_block*` | `slot` |  | - | Box content, for example `PrimerLive.Options.BoxRow`. |
+  | `inner_block` | `slot` | required | - | Box content, for example `PrimerLive.Options.BoxRow`. |
   | `class`   | `string` | - | - | Additional classname. |
-  | `classes` | `map` |  | - | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Box.Classes`. |
+  | `classes` | `map` | - | - | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Box.Classes`. |
   | `header`   | `slot` | - | - | Header element. |
   | `body`   | `slot` | - | - | Body element. |
   | `footer`   | `slot` | - | - | Footer element. |
