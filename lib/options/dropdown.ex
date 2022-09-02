@@ -73,7 +73,7 @@ end
 defmodule PrimerLive.Options.Dropdown do
   use Options
 
-  alias PrimerLive.Options.Dropdown.{Classes}
+  alias PrimerLive.Options.Dropdown.Classes
 
   @moduledoc """
   Options for component `PrimerLive.Components.dropdown/1`.

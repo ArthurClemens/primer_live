@@ -2,7 +2,7 @@ defmodule PrimerLive.Components do
   use Phoenix.Component
   use Phoenix.HTML
 
-  alias PrimerLive.Helpers.{Schema, Attributes}
+  alias PrimerLive.Helpers.{Schema, Attributes, FormHelpers}
   alias PrimerLive.Options
 
   # ------------------------------------------------------------------------------------
@@ -134,6 +134,172 @@ defmodule PrimerLive.Components do
     ~H"""
     <div class={class} {@extra}>
       <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # text_input
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :form
+
+  @doc ~S"""
+  Creates a text input field.
+
+  Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped inside a "form group".
+
+  ```
+  <.text_input name="first_name" />
+  ```
+
+  ## Examples
+
+  Insert the input within a form group using `form_group`. The input label in the form group header is generated automatically if no header text is added.
+
+  ```
+  <.text_input form={:user} field={:first_name} form_group />
+  ```
+
+  Insert the input within a form group with a customized heading:
+
+  ```
+  <.text_input form={:user} field={:first_name} form_group={%{header: "Some header"}} />
+  ```
+
+  Using the input with form data:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.text_input form={f} field={:first_name} form_group />
+    <.text_input form={f} field={:last_name} form_group />
+  </.form>
+  ```
+
+  Using the input without form data:
+
+  ```
+  <.text_input form={:user} field={:first_name} />
+  ```
+
+  ## All options
+
+  - `PrimerLive.Options.TextInput`
+  - Additional HTML attributes are passed to the input element
+
+  ## Reference
+
+  - [Primer/CSS Forms](https://primer.style/css/components/forms)
+
+  """
+
+  def text_input(assigns) do
+    with {:ok, assigns} <- Schema.validate_options(assigns, Options.TextInput, "text_input") do
+      render_text_input(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_text_input(assigns) do
+    class =
+      Attributes.classnames([
+        "form-control",
+        assigns.class,
+        assigns.is_contrast and "input-contrast",
+        assigns.is_hide_webkit_autofill and "input-hide-webkit-autofill",
+        assigns.is_large and "input-lg",
+        assigns.is_small and "input-sm",
+        assigns.is_full_width and "input-block"
+      ])
+
+    input_attrs = assigns.extra ++ [class: class]
+    is_form_group = !!assigns.form_group
+
+    case is_form_group do
+      true ->
+        form_group_opts = assigns.form_group |> Map.from_struct()
+
+        ~H"""
+        <.form_group {form_group_opts}>
+          <%= text_input(assigns.form, assigns.field, input_attrs) %>
+        </.form_group>
+        """
+
+      false ->
+        ~H"""
+        <%= text_input(assigns.form, assigns.field, input_attrs) %>
+        """
+    end
+  end
+
+  # ------------------------------------------------------------------------------------
+  # form_group
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :form
+
+  @doc ~S"""
+  Creates a form group wrapper around an input field.
+
+  Used internally: see `PrimerLive.Components.text_input/1`.
+
+  """
+
+  def form_group(assigns) do
+    with {:ok, assigns} <- Schema.validate_options(assigns, Options.FormGroup, "form_group") do
+      render_form_group(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_form_group(assigns) do
+    %{form: form, field: field} = assigns
+
+    field_error =
+      case is_atom(form) do
+        true -> nil
+        false -> FormHelpers.first_field_error(form, field)
+      end
+
+    classes = %{
+      form_group:
+        Attributes.classnames([
+          "form-group",
+          assigns.class,
+          assigns.classes.form_group,
+          not is_nil(field_error) and "errored"
+        ]),
+      header:
+        Attributes.classnames([
+          "form-group-header",
+          assigns.classes.header
+        ]),
+      body:
+        Attributes.classnames([
+          "form-group-body",
+          assigns.classes.body
+        ])
+    }
+
+    ~H"""
+    <div class={classes.form_group} {@extra}>
+      <div class={classes.header}>
+        <%= if assigns.header do %>
+          <%= label(form, field, assigns.header) %>
+        <% else %>
+          <%= label(form, field) %>
+        <% end %>
+      </div>
+      <div class={classes.body}>
+        <%= if @inner_block do %>
+          <%= render_slot(@inner_block) %>
+        <% end %>
+      </div>
+      <%= if field_error do %>
+        <%= FormHelpers.error_tag(form, field) %>
+      <% end %>
     </div>
     """
   end

@@ -42,6 +42,7 @@ defmodule PrimerLive.MixProject do
       ],
       groups_for_functions: [
         Layout: &(&1[:section] == :layout),
+        Forms: &(&1[:section] == :form),
         Buttons: &(&1[:section] == :buttons),
         Menus: &(&1[:section] == :menus),
         Alerts: &(&1[:section] == :alerts),

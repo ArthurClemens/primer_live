@@ -89,7 +89,7 @@ end
 defmodule PrimerLive.Options.Box do
   use Options
 
-  alias PrimerLive.Options.Box.{Classes}
+  alias PrimerLive.Options.Box.Classes
 
   @moduledoc """
   Options for component `PrimerLive.Components.box/1`.
