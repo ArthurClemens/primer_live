@@ -301,9 +301,37 @@ defmodule PrimerLive.Components.FormTestInputTest do
   test "Option: form_group - classes" do
     assigns = []
 
+    form = %Phoenix.HTML.Form{
+      action: "#",
+      data: %{
+        __meta__: nil,
+        id: nil,
+        first_name: nil
+      },
+      errors: [
+        first_name: {"can't be blank", [first_name: :required]}
+      ],
+      hidden: [id: "ad3f5c7e-6fdb-40a7-bdb1-6906f8b72985"],
+      id: "user",
+      impl: Phoenix.HTML.FormData.Ecto.Changeset,
+      index: nil,
+      name: "user",
+      options: [method: "put", "phx-change": "validate", "phx-submit": "save"],
+      params: %{"first_name" => ""},
+      source: %Ecto.Changeset{
+        action: :update,
+        changes: %{},
+        errors: [
+          first_name: {"can't be blank", [validation: :required]}
+        ],
+        data: nil,
+        valid?: false
+      }
+    }
+
     assert rendered_to_string(~H"""
            <.text_input
-             form={:f}
+             form={form}
              field={:first_name}
              form_group={
                %{
@@ -311,18 +339,25 @@ defmodule PrimerLive.Components.FormTestInputTest do
                  classes: %{
                    form_group: "form_group-x",
                    header: "header-x",
-                   body: "body-x"
+                   body: "body-x",
+                   note: "note-x"
                  }
                }
+             }
+             get_validation_message={
+               fn _ ->
+                 "Please enter your first name"
+               end
              }
            />
            """)
            |> format_html() ==
              """
-             <div class="form-group form_group-x">
-             <div class="form-group-header header-x"><label for="f_first_name">First name</label></div>
-             <div class="form-group-body body-x"><input class="form-control" id="f_first_name" name="f[first_name]" type="text" />
-             </div>
+             <div class="form-group form_group-x errored">
+             <div class="form-group-header header-x"><label for="user_first_name">First name</label></div>
+             <div class="form-group-body body-x"><input aria-describedby="first_name-validation" class="form-control"
+             id="user_first_name" name="user[first_name]" type="text" value="" /></div>
+             <p class="note note-x error" id="first_name-validation">Please enter your first name</p>
              </div>
              """
              |> format_html()
@@ -352,7 +387,7 @@ defmodule PrimerLive.Components.FormTestInputTest do
              |> format_html()
   end
 
-  test "Validation error" do
+  test "Validation: default error" do
     form = %Phoenix.HTML.Form{
       action: "#",
       data: %{
@@ -393,6 +428,114 @@ defmodule PrimerLive.Components.FormTestInputTest do
              <div class="form-group-body"><input aria-describedby="first_name-validation" class="form-control" id="user_first_name"
              name="user[first_name]" type="text" value="" /></div>
              <p class="note error" id="first_name-validation">can&#39;t be blank</p>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Validation: custom error message" do
+    form = %Phoenix.HTML.Form{
+      action: "#",
+      data: %{
+        __meta__: nil,
+        id: nil,
+        first_name: nil
+      },
+      errors: [
+        first_name: {"can't be blank", [first_name: :required]}
+      ],
+      hidden: [id: "ad3f5c7e-6fdb-40a7-bdb1-6906f8b72985"],
+      id: "user",
+      impl: Phoenix.HTML.FormData.Ecto.Changeset,
+      index: nil,
+      name: "user",
+      options: [method: "put", "phx-change": "validate", "phx-submit": "save"],
+      params: %{"first_name" => ""},
+      source: %Ecto.Changeset{
+        action: :update,
+        changes: %{},
+        errors: [
+          first_name: {"can't be blank", [validation: :required]}
+        ],
+        data: nil,
+        valid?: false
+      }
+    }
+
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.text_input
+             form={form}
+             field={:first_name}
+             form_group
+             get_validation_message={
+               fn changeset ->
+                 if !changeset.valid?, do: "Please enter your first name"
+               end
+             }
+           />
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group errored">
+             <div class="form-group-header"><label for="user_first_name">First name</label></div>
+             <div class="form-group-body"><input aria-describedby="first_name-validation" class="form-control" id="user_first_name"
+             name="user[first_name]" type="text" value="" /></div>
+             <p class="note error" id="first_name-validation">Please enter your first name</p>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Validation: custom success message" do
+    form = %Phoenix.HTML.Form{
+      action: "#",
+      data: %{
+        __meta__: nil,
+        id: "33a79caa-2c79-443b-9e2f-03292ec4ebc4",
+        inserted_at: ~U[2022-08-18 21:45:05.000000Z],
+        updated_at: ~U[2022-09-03 16:01:04.000000Z],
+        first_name: "anna"
+      },
+      errors: [],
+      hidden: [id: "ad3f5c7e-6fdb-40a7-bdb1-6906f8b72985"],
+      id: "user",
+      impl: Phoenix.HTML.FormData.Ecto.Changeset,
+      index: nil,
+      name: "user",
+      options: [method: "put", "phx-change": "validate", "phx-submit": "save"],
+      params: %{"first_name" => "anna"},
+      source: %Ecto.Changeset{
+        action: :update,
+        changes: %{first_name: "annette"},
+        errors: [],
+        data: nil,
+        valid?: true
+      }
+    }
+
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.text_input
+             form={form}
+             field={:first_name}
+             form_group
+             get_validation_message={
+               fn changeset ->
+                 if changeset.valid?, do: "Is available"
+               end
+             }
+           />
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group">
+             <div class="form-group-header"><label for="user_first_name">First name</label></div>
+             <div class="form-group-body"><input aria-describedby="first_name-validation" class="form-control" id="user_first_name"
+             name="user[first_name]" type="text" value="anna" /></div>
+             <p class="note success" id="first_name-validation">Is available</p>
              </div>
              """
              |> format_html()

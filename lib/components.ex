@@ -188,6 +188,26 @@ defmodule PrimerLive.Components do
   </.form>
   ```
 
+  With a form changeset, write a custom error message:
+
+  ```
+  <.text_input form={f} field={:first_name} form_group get_validation_message={
+    fn changeset ->
+      if !changeset.valid?, do: "Please enter your first name"
+    end
+  }/>
+  ```
+
+  With a form changeset, write a custom success message:
+
+  ```
+  <.text_input form={f} field={:first_name} form_group get_validation_message={
+    fn changeset ->
+      if changeset.valid?, do: "Complete"
+    end
+  }/>
+  ```
+
   ## All options
 
   - `PrimerLive.Options.TextInput`
@@ -210,10 +230,16 @@ defmodule PrimerLive.Components do
   defp render_text_input(assigns) do
     %{form: form, field: field} = assigns
 
-    error_message = FormHelpers.error_message(form, field)
-    is_error = !is_nil(error_message)
+    validation_status =
+      FormHelpers.get_validation_status_and_message(form, field, assigns.get_validation_message)
 
-    error_id = if is_error, do: "#{field}-validation", else: nil
+    {_is_error, has_message} =
+      case validation_status do
+        {:ok, msg} -> {false, !is_nil(msg)}
+        {:error, msg} -> {true, !is_nil(msg)}
+      end
+
+    validation_message_id = if has_message, do: "#{field}-validation", else: nil
     is_form_group = !!assigns.form_group
     input_type = Options.TextInput.input_type(assigns.type)
 
@@ -233,7 +259,7 @@ defmodule PrimerLive.Components do
         [class: class],
         # If aria_label is not set, use the value of placeholder (if any):
         is_nil(assigns.extra[:aria_label]) and [aria_label: assigns.extra[:placeholder]],
-        not is_nil(error_id) and [aria_describedby: error_id]
+        not is_nil(validation_message_id) and [aria_describedby: validation_message_id]
       ])
 
     case is_form_group do
@@ -241,7 +267,7 @@ defmodule PrimerLive.Components do
         form_group_opts = assigns.form_group |> Map.from_struct()
 
         ~H"""
-        <.form_group {form_group_opts} error_message={error_message}>
+        <.form_group {form_group_opts} validation_status={validation_status}>
           <%= apply(Phoenix.HTML.Form, input_type, [assigns.form, assigns.field, input_opts]) %>
         </.form_group>
         """
@@ -275,7 +301,13 @@ defmodule PrimerLive.Components do
   end
 
   defp render_form_group(assigns) do
-    %{form: form, field: field} = assigns
+    %{form: form, field: field, validation_status: validation_status} = assigns
+
+    {is_error, message} =
+      case validation_status do
+        {:ok, msg} -> {false, msg}
+        {:error, msg} -> {true, msg}
+      end
 
     classes = %{
       form_group:
@@ -283,7 +315,7 @@ defmodule PrimerLive.Components do
           "form-group",
           assigns.class,
           assigns.classes.form_group,
-          not is_nil(assigns.error_message) and "errored"
+          is_error and "errored"
         ]),
       header:
         Attributes.classnames([
@@ -294,6 +326,16 @@ defmodule PrimerLive.Components do
         Attributes.classnames([
           "form-group-body",
           assigns.classes.body
+        ]),
+      note:
+        Attributes.classnames([
+          "note",
+          assigns.classes.note,
+          if is_error do
+            "error"
+          else
+            "success"
+          end
         ])
     }
 
@@ -311,9 +353,9 @@ defmodule PrimerLive.Components do
           <%= render_slot(@inner_block) %>
         <% end %>
       </div>
-      <%= if @error_message do %>
-        <p class="note error" id={"#{field}-validation"}>
-          <%= @error_message %>
+      <%= if not is_nil(message) do %>
+        <p class={classes.note} id={"#{field}-validation"}>
+          <%= message %>
         </p>
       <% end %>
     </div>

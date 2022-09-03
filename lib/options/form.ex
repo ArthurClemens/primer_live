@@ -9,18 +9,20 @@ defmodule PrimerLive.Options.FormGroup.Classes do
   | `form_group`  | The form group element class. |
   | `header`      | The header element class.     |
   | `body`        | The body element class.       |
+  | `note`        | The note element class.       |
   """
 
   typed_embedded_schema do
     field(:form_group, :string)
     field(:header, :string)
     field(:body, :string)
+    field(:note, :string)
   end
 
   @impl Options
   def changeset(struct, attrs \\ %{}) do
     struct
-    |> cast(attrs, [:box, :header, :body, :footer, :title])
+    |> cast(attrs, [:form_group, :header, :body, :note])
   end
 end
 
@@ -32,20 +34,22 @@ defmodule PrimerLive.Options.FormGroup do
   @moduledoc """
   Options for `form_group` in `PrimerLive.Options.TextInput`.
 
-  | **Name**  | **Type** | **Validation** | **Default** | **Description**                                                                                                                    |
-  | --------- | -------- | -------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-  | `class`   | `string` | -              | -           | Additional classname.                                                                                                              |
-  | `classes` | `map`    | -              | -           | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.FormGroup.Classes`. |
-  | `header`  | `slot`   | -              | -           | Header text.                                                                                                                       |
+  | **Name**   | **Type** | **Validation** | **Default** | **Description**                                                                                                                                           |
+  | ---------- | -------- | -------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `class`    | `string` | -              | -           | Additional classname.                                                                                                                                     |
+  | `classes`  | `map`    | -              | -           | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.FormGroup.Classes`.                             |
+  | `header`   | `slot`   | -              | -           | Header text.                                                                                                                                              |
+
+  ## Internal
 
   Internal options that are passed from input component to `form_group`.
 
-  | **Name**          | **Type**                      | **Validation** | **Default** | **Description**                                                                                  |
-  | ----------------- | ----------------------------- | -------------- | ----------- | ------------------------------------------------------------------------------------------------ |
-  | `inner_block`     | `slot`                        | required       | -           | Form group content, usually a form input.                                                        |
-  | `field`           | `atom` or `string`            | required       | -           | Field name.                                                                                      |
-  | `form`            | `Phoenix.HTML.Form` or `atom` | required       | -           | Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom. |
-  | `error_message`   | `string`                      | -              | -           | Error message text, derived from the first of the form changeset errors, if any.                 |
+  | **Name**            | **Type**                        | **Validation** | **Default** | **Description**                                                                                                                                                                                                                                                        |
+  | ------------------- | ------------------------------- | -------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `inner_block`       | `slot`                          | required       | -           | Form group content, usually a form input.                                                                                                                                                                                                                              |
+  | `field`             | `atom` or `string`              | required       | -           | Field name.                                                                                                                                                                                                                                                            |
+  | `form`              | `Phoenix.HTML.Form` or `atom`   | required       | -           | Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.                                                                                                                                                                       |
+  | `validation_status` | `{:error, msg}` or `{:ok, msg}` | -              | -           | Only when a form changeset is available. The status is derived from the value of `changeset.valid?`. The message text is received from `PrimerLive.Options.TextInput` option `get_validation_message`, otherwise from the first of the form changeset errors (if any). |
   """
 
   typed_embedded_schema do
@@ -57,7 +61,7 @@ defmodule PrimerLive.Options.FormGroup do
     field(:form, :any, virtual: true)
     # Optional options
     field(:class, :string)
-    field(:error_message, :string)
+    field(:validation_status, :any, virtual: true)
     # Embedded options
     embeds_one(:classes, Classes)
   end
@@ -67,7 +71,7 @@ defmodule PrimerLive.Options.FormGroup do
     struct
     |> cast(attrs, [
       :class,
-      :error_message,
+      :validation_status,
       :field,
       :form,
       :header,
@@ -75,6 +79,19 @@ defmodule PrimerLive.Options.FormGroup do
     ])
     |> cast_embed_with_defaults(attrs, :classes, %{})
     |> validate_required([:inner_block, :field, :form])
+    |> validate_validation_status(attrs)
+  end
+
+  defp validate_validation_status(changeset, %{:validation_status => value} = _attrs) do
+    case value do
+      {:ok, _} -> changeset
+      {:error, _} -> changeset
+      _ -> add_error(changeset, :validation_status, "invalid value")
+    end
+  end
+
+  defp validate_validation_status(changeset, _) do
+    changeset
   end
 end
 
@@ -84,34 +101,45 @@ defmodule PrimerLive.Options.TextInput do
   alias PrimerLive.Options.FormGroup
 
   @input_types %{
-    "url" => :url_input,
+    "color" => :color_input,
+    "date" => :date_input,
+    "datetime-local" => :datetime_local_input,
     "email" => :email_input,
-    "search" => :search_input,
+    "file" => :file_input,
+    "hidden" => :hidden_input,
+    "number" => :number_input,
     "password" => :password_input,
-    "text" => :text_input
+    "range" => :range_input,
+    "search" => :search_input,
+    "telephone" => :telephone_input,
+    "text" => :text_input,
+    "time" => :time_input,
+    "url" => :url_input
   }
 
   @moduledoc """
   Options for component `PrimerLive.Components.text_input/1`.
 
-  | **Name**                  | **Type**                      | **Validation**                                 | **Default** | **Description**                                                                                                                                                                   |
-  | ------------------------- | ----------------------------- | ---------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-  | `field`                   | `atom` or `string`            | required for `form_group`                      | -           | Field name.                                                                                                                                                                       |
-  | `form`                    | `Phoenix.HTML.Form` or `atom` | required for `form_group`                      | -           | Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.                                                                                  |
-  | `form_group`              | `boolean` or `map`            | -                                              | -           | Options for `PrimerLive.Options.FormGroup`. Passing these options, or just passing `true`, will create a "form group" element that wraps the label, the input and any help texts. |
-  | `class`                   | `string`                      | -                                              | -           | Additional classname.                                                                                                                                                             |
-  | `is_contrast`             | `boolean`                     | -                                              | false       | Changes the background color to light gray.                                                                                                                                       |
-  | `is_full_width`           | `boolean`                     | -                                              | false       | Full width input.                                                                                                                                                                 |
-  | `is_hide_webkit_autofill` | `boolean`                     | -                                              | false       | Hide WebKit's contact info autofill icon.                                                                                                                                         |
-  | `is_large`                | `boolean`                     | -                                              | false       | Larger input.                                                                                                                                                                     |
-  | `is_small`                | `boolean`                     | -                                              | false       | Smaller input.                                                                                                                                                                    |
-  | `type`                    | `string`                      | "email", "password", "search", "text" or "url" | "text"      | Text input type.                                                                                                                                                                  |
+  | **Name**                  | **Type**                      | **Validation**                                                                                                                                        | **Default** | **Description**                                                                                                                                                                   |
+  | ------------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `field`                   | `atom` or `string`            | required for `form_group`                                                                                                                             | -           | Field name.                                                                                                                                                                       |
+  | `form`                    | `Phoenix.HTML.Form` or `atom` | required for `form_group`                                                                                                                             | -           | Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.                                                                                  |
+  | `form_group`              | `boolean` or `map`            | -                                                                                                                                                     | -           | Options for `PrimerLive.Options.FormGroup`. Passing these options, or just passing `true`, will create a "form group" element that wraps the label, the input and any help texts. |
+  | `class`                   | `string`                      | -                                                                                                                                                     | -           | Additional classname.                                                                                                                                                             |
+  | `is_contrast`             | `boolean`                     | -                                                                                                                                                     | false       | Changes the background color to light gray.                                                                                                                                       |
+  | `is_full_width`           | `boolean`                     | -                                                                                                                                                     | false       | Full width input.                                                                                                                                                                 |
+  | `is_hide_webkit_autofill` | `boolean`                     | -                                                                                                                                                     | false       | Hide WebKit's contact info autofill icon.                                                                                                                                         |
+  | `is_large`                | `boolean`                     | -                                                                                                                                                     | false       | Larger input.                                                                                                                                                                     |
+  | `is_small`                | `boolean`                     | -                                                                                                                                                     | false       | Smaller input.                                                                                                                                                                    |
+  | `type`                    | `string`                      | "color", "date", "datetime-local", "email", "file", "hidden", "number", "password", "range", "search", "telephone", "text", "time", "url" | "text"      | Text input type.                                                                                                                                                                  |
+  | `get_validation_message`  | `fun changeset -> string`     | -                                                                                                                                                     | -           | Function to write a custom error message. The function receives for form's changeset data (type `Ecto.Changeset`) and returns a string for error message.                         |
   """
 
   typed_embedded_schema do
     field(:class, :string)
     field(:field, :any, virtual: true)
     field(:form, :any, virtual: true)
+    field(:get_validation_message, :any, virtual: true)
     field(:is_contrast, :boolean, default: false)
     field(:is_full_width, :boolean, default: false)
     field(:is_hide_webkit_autofill, :boolean, default: false)
@@ -137,6 +165,7 @@ defmodule PrimerLive.Options.TextInput do
       :class,
       :field,
       :form,
+      :get_validation_message,
       :is_contrast,
       :is_full_width,
       :is_hide_webkit_autofill,
