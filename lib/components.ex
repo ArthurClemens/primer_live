@@ -155,7 +155,13 @@ defmodule PrimerLive.Components do
 
   ## Examples
 
-  Insert the input within a form group using `form_group`. The input label in the form group header is generated automatically if no header text is added.
+  Set the input type:
+
+  ```
+  <.text_input type="password" />
+  ```
+
+  Insert the input within a form group using `form_group`. The input label in the form group header is generated automatically if no header text is added:
 
   ```
   <.text_input form={:user} field={:first_name} form_group />
@@ -174,12 +180,6 @@ defmodule PrimerLive.Components do
     <.text_input form={f} field={:first_name} form_group />
     <.text_input form={f} field={:last_name} form_group />
   </.form>
-  ```
-
-  Using the input without form data:
-
-  ```
-  <.text_input form={:user} field={:first_name} />
   ```
 
   ## All options
@@ -213,8 +213,10 @@ defmodule PrimerLive.Components do
         assigns.is_full_width and "input-block"
       ])
 
-    input_attrs = assigns.extra ++ [class: class]
+    input_opts = assigns.extra ++ [class: class]
     is_form_group = !!assigns.form_group
+
+    input_type = Options.TextInput.input_type(assigns.type)
 
     case is_form_group do
       true ->
@@ -222,13 +224,13 @@ defmodule PrimerLive.Components do
 
         ~H"""
         <.form_group {form_group_opts}>
-          <%= text_input(assigns.form, assigns.field, input_attrs) %>
+          <%= apply(Phoenix.HTML.Form, input_type, [assigns.form, assigns.field, input_opts]) %>
         </.form_group>
         """
 
       false ->
         ~H"""
-        <%= text_input(assigns.form, assigns.field, input_attrs) %>
+        <%= apply(Phoenix.HTML.Form, input_type, [assigns.form, assigns.field, input_opts]) %>
         """
     end
   end
@@ -799,7 +801,7 @@ defmodule PrimerLive.Components do
 
   Dropdowns are small context menus that can be used for navigation and actions. They are a simple alternative to select menus.
 
-  Menu content is composed with slots `:label`, `:menu` and `:header`. The menu slot is composed with `dropdown_item/1`.
+  Menu content is composed with slots `label`, `menu` and `header`. The menu slot is composed with `dropdown_item/1`.
 
   ```
   <.dropdown>
@@ -989,7 +991,7 @@ defmodule PrimerLive.Components do
   @doc section: :menus
 
   @doc ~S"""
-  Menu item inside a `dropdown_menu/1`.
+  Menu item inside the `menu` slot of a `dropdown/1`.
 
   ```
    <.dropdown>
@@ -1003,7 +1005,7 @@ defmodule PrimerLive.Components do
 
   ## Options
 
-  - `PrimerLive.Options.Dropdown.Menu.Item`
+  - `PrimerLive.Options.DropdownItem`
 
   ## Reference
 
@@ -1013,7 +1015,7 @@ defmodule PrimerLive.Components do
 
   def dropdown_item(assigns) do
     with {:ok, assigns} <-
-           Schema.validate_options(assigns, Options.Dropdown.Menu.Item, "dropdown_item") do
+           Schema.validate_options(assigns, Options.DropdownItem, "dropdown_item") do
       render_dropdown_item(assigns)
     else
       message -> message

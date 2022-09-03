@@ -71,6 +71,84 @@ defmodule PrimerLive.Components.FormTestInputTest do
              |> format_html()
   end
 
+  test "Option: type (invalid)" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.text_input type={:x} />
+           """)
+           |> format_html() ==
+             """
+             <div class="flash flash-error"><p>text_input component received invalid options:</p><p>type: is invalid</p></div>
+             """
+             |> format_html()
+  end
+
+  test "Option: type (text)" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.text_input type="text" />
+           """)
+           |> format_html() ==
+             """
+             <input class="form-control" id="_" name="[]" type="text" />
+             """
+             |> format_html()
+  end
+
+  test "Option: type (password)" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.text_input type="password" />
+           """)
+           |> format_html() ==
+             """
+             <input class="form-control" id="_" name="[]" type="password" />
+             """
+             |> format_html()
+  end
+
+  test "Option: type (email)" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.text_input type="email" />
+           """)
+           |> format_html() ==
+             """
+             <input class="form-control" id="_" name="[]" type="email" />
+             """
+             |> format_html()
+  end
+
+  test "Option: type (search)" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.text_input type="search" />
+           """)
+           |> format_html() ==
+             """
+             <input class="form-control" id="_" name="[]" type="search" />
+             """
+             |> format_html()
+  end
+
+  test "Option: type (url)" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.text_input type="url" />
+           """)
+           |> format_html() ==
+             """
+             <input class="form-control" id="_" name="[]" type="url" />
+             """
+             |> format_html()
+  end
+
   test "Option: is_contrast" do
     assigns = []
 

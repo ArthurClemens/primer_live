@@ -80,20 +80,29 @@ defmodule PrimerLive.Options.TextInput do
 
   alias PrimerLive.Options.FormGroup
 
+  @input_types %{
+    "url" => :url_input,
+    "email" => :email_input,
+    "search" => :search_input,
+    "password" => :password_input,
+    "text" => :text_input
+  }
+
   @moduledoc """
   Options for component `PrimerLive.Components.text_input/1`.
 
-  | **Name**                  | **Type**                      | **Validation**            | **Default** | **Description**                                                                                                                                               |
-  | ------------------------- | ----------------------------- | ------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-  | `field`                   | `atom` or `string`            | required for `form_group` | -           | Field name.                                                                                                                                                   |
-  | `form`                    | `Phoenix.HTML.Form` or `atom` | required for `form_group` | -           | Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.                                                              |
-  | `form_group`              | `boolean` or `map`            | -                         | -           | Options for `PrimerLive.Options.FormGroup`. Passing these options, or just passing `true`, will create a "form group" element that wraps the label, the input and any help texts. |
-  | `class`                   | `string`                      | -                         | -           | Additional classname.                                                                                                                                         |
-  | `is_contrast`             | `boolean`                     | -                         | false       | Changes the background color to light gray.                                                                                                                   |
-  | `is_full_width`           | `boolean`                     | -                         | false       | Full width input.                                                                                                                                             |
-  | `is_hide_webkit_autofill` | `boolean`                     | -                         | false       | Hide WebKit's contact info autofill icon.                                                                                                                     |
-  | `is_large`                | `boolean`                     | -                         | false       | Larger input.                                                                                                                                                 |
-  | `is_small`                | `boolean`                     | -                         | false       | Smaller input.                                                                                                                                                |                                                                                                                                              |
+  | **Name**                  | **Type**                      | **Validation**                                 | **Default** | **Description**                                                                                                                                                                   |
+  | ------------------------- | ----------------------------- | ---------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `field`                   | `atom` or `string`            | required for `form_group`                      | -           | Field name.                                                                                                                                                                       |
+  | `form`                    | `Phoenix.HTML.Form` or `atom` | required for `form_group`                      | -           | Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.                                                                                  |
+  | `form_group`              | `boolean` or `map`            | -                                              | -           | Options for `PrimerLive.Options.FormGroup`. Passing these options, or just passing `true`, will create a "form group" element that wraps the label, the input and any help texts. |
+  | `class`                   | `string`                      | -                                              | -           | Additional classname.                                                                                                                                                             |
+  | `is_contrast`             | `boolean`                     | -                                              | false       | Changes the background color to light gray.                                                                                                                                       |
+  | `is_full_width`           | `boolean`                     | -                                              | false       | Full width input.                                                                                                                                                                 |
+  | `is_hide_webkit_autofill` | `boolean`                     | -                                              | false       | Hide WebKit's contact info autofill icon.                                                                                                                                         |
+  | `is_large`                | `boolean`                     | -                                              | false       | Larger input.                                                                                                                                                                     |
+  | `is_small`                | `boolean`                     | -                                              | false       | Smaller input.                                                                                                                                                                    |
+  | `type`                    | `string`                      | "email", "password", "search", "text" or "url" | "text"      | Text input type.                                                                                                                                                                  |
   """
 
   typed_embedded_schema do
@@ -105,11 +114,20 @@ defmodule PrimerLive.Options.TextInput do
     field(:is_hide_webkit_autofill, :boolean, default: false)
     field(:is_large, :boolean, default: false)
     field(:is_small, :boolean, default: false)
+    field(:type, :string, default: "text")
     # Embedded options
     embeds_one(:form_group, FormGroup)
   end
 
   @impl Options
+  @spec changeset(
+          {map, map}
+          | %{
+              :__struct__ => atom | %{:__changeset__ => map, optional(any) => any},
+              optional(atom) => any
+            },
+          %{optional(:__struct__) => none, optional(atom | binary) => any}
+        ) :: Ecto.Changeset.t()
   def changeset(struct, attrs \\ %{}) do
     struct
     |> cast(attrs, [
@@ -120,9 +138,11 @@ defmodule PrimerLive.Options.TextInput do
       :is_full_width,
       :is_hide_webkit_autofill,
       :is_large,
-      :is_small
+      :is_small,
+      :type
     ])
     |> cast_form_group(attrs)
+    |> validate_inclusion(:type, Map.keys(@input_types))
     |> validate_form(attrs)
   end
 
@@ -162,5 +182,16 @@ defmodule PrimerLive.Options.TextInput do
         true -> false
       end
     end)
+  end
+
+  @doc false
+  # Get the input type atom from a name, e.g. "search" returns :search_input
+  def input_type(type_name) do
+    input_type = Map.get(@input_types, type_name)
+
+    case is_nil(input_type) do
+      true -> :text_input
+      false -> input_type
+    end
   end
 end

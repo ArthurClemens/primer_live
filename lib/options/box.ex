@@ -2,7 +2,7 @@ defmodule PrimerLive.Options.BoxRow do
   use Options
 
   @moduledoc """
-  Options for the box row element (passed in the box' `:inner_block` slot) in `PrimerLive.Options.Box`.
+  Options for the box row element (passed in the box' `inner_block` slot) in `PrimerLive.Options.Box`.
 
   | **Name**              | **Type**  | **Validation** | **Default** | **Description**                                                                  |
   | --------------------- | --------- | -------------- | ----------- | -------------------------------------------------------------------------------- |

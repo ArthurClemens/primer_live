@@ -1,12 +1,12 @@
-defmodule PrimerLive.Options.Dropdown.Menu.Item do
+defmodule PrimerLive.Options.DropdownItem do
   use Options
 
   @moduledoc """
-  Options for component `PrimerLive.Components.dropdown_menu/1`.
+  Options for component `PrimerLive.Components.dropdown_item/1`.
 
   | **Name**      | **Type**  | **Validation**               | **Default** | **Description**                                                |
   | ------------- | --------- | ---------------------------- | ----------- | -------------------------------------------------------------- |
-  | `inner_block` | `slot`    | required unless `is_divider` | -           | Dropdown menu item content. Leave out when using `is_divider`. |
+  | `inner_block` | `slot`    | required unless `is_divider` | -           | Dropdown menu item content. Ignored when using `is_divider`.   |
   | `class`       | `string`  | -                            | -           | Additional classname.                                          |
   | `is_divider`  | `boolean` | -                            | false       | Creates a divider.                                             |
   """
