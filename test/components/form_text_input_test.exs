@@ -351,4 +351,50 @@ defmodule PrimerLive.Components.FormTestInputTest do
              """
              |> format_html()
   end
+
+  test "Validation error" do
+    form = %Phoenix.HTML.Form{
+      action: "#",
+      data: %{
+        __meta__: nil,
+        id: nil,
+        first_name: nil
+      },
+      errors: [
+        first_name: {"can't be blank", [first_name: :required]}
+      ],
+      hidden: [id: "ad3f5c7e-6fdb-40a7-bdb1-6906f8b72985"],
+      id: "user",
+      impl: Phoenix.HTML.FormData.Ecto.Changeset,
+      index: nil,
+      name: "user",
+      options: [method: "put", "phx-change": "validate", "phx-submit": "save"],
+      params: %{"first_name" => ""},
+      source: %Ecto.Changeset{
+        action: :update,
+        changes: %{},
+        errors: [
+          first_name: {"can't be blank", [validation: :required]}
+        ],
+        data: nil,
+        valid?: false
+      }
+    }
+
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.text_input form={form} field={:first_name} form_group />
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group errored">
+             <div class="form-group-header"><label for="user_first_name">First name</label></div>
+             <div class="form-group-body"><input aria-describedby="first_name-validation" class="form-control" id="user_first_name"
+             name="user[first_name]" type="text" value="" /></div>
+             <p class="note error" id="first_name-validation">can&#39;t be blank</p>
+             </div>
+             """
+             |> format_html()
+  end
 end

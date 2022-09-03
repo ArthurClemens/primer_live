@@ -214,6 +214,8 @@ defmodule PrimerLive.Components do
     is_error = !is_nil(error_message)
 
     error_id = if is_error, do: "#{field}-validation", else: nil
+    is_form_group = !!assigns.form_group
+    input_type = Options.TextInput.input_type(assigns.type)
 
     class =
       Attributes.classnames([
@@ -233,9 +235,6 @@ defmodule PrimerLive.Components do
         is_nil(assigns.extra[:aria_label]) and [aria_label: assigns.extra[:placeholder]],
         not is_nil(error_id) and [aria_describedby: error_id]
       ])
-
-    is_form_group = !!assigns.form_group
-    input_type = Options.TextInput.input_type(assigns.type)
 
     case is_form_group do
       true ->
