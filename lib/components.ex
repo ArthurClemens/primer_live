@@ -161,6 +161,12 @@ defmodule PrimerLive.Components do
   <.text_input type="password" />
   ```
 
+  Set the placeholder. By default, the value of the placeholder attribute is used to fill in the aria-label attribute:
+
+  ```
+  <.text_input placeholder="Enter your first name" />
+  ```
+
   Insert the input within a form group using `form_group`. The input label in the form group header is generated automatically if no header text is added:
 
   ```
@@ -213,9 +219,14 @@ defmodule PrimerLive.Components do
         assigns.is_full_width and "input-block"
       ])
 
-    input_opts = assigns.extra ++ [class: class]
-    is_form_group = !!assigns.form_group
+    input_opts =
+      Attributes.append_attributes(assigns.extra, [
+        [class: class],
+        # If aria_label is not set, use the value of placeholder (if any):
+        is_nil(assigns.extra[:aria_label]) and [aria_label: assigns.extra[:placeholder]]
+      ])
 
+    is_form_group = !!assigns.form_group
     input_type = Options.TextInput.input_type(assigns.type)
 
     case is_form_group do

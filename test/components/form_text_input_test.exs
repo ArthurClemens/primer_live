@@ -240,6 +240,32 @@ defmodule PrimerLive.Components.FormTestInputTest do
              |> format_html()
   end
 
+  test "Extra attributes: placeholder (and implicit aria-label)" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.text_input name="first_name" placeholder="Enter your first name" />
+           """)
+           |> format_html() ==
+             """
+             <input aria-label="Enter your first name" class="form-control" id="_" name="first_name" placeholder="Enter your first name" type="text" />
+             """
+             |> format_html()
+  end
+
+  test "Extra attributes: explicit aria_label" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.text_input name="first_name" aria_label="Enter your first name" />
+           """)
+           |> format_html() ==
+             """
+             <input aria-label="Enter your first name" class="form-control" id="_" name="first_name" type="text" />
+             """
+             |> format_html()
+  end
+
   test "Option: form_group - no header (generates a form group element with label)" do
     assigns = []
 

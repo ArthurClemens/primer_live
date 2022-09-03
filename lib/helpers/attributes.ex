@@ -3,7 +3,7 @@ defmodule PrimerLive.Helpers.Attributes do
 
   @doc ~S"""
   Concatenates a list of classnames to a single string.
-  - Ignores any nil list values
+  - Ignores any nil or false entries
   - Removes duplicate entries
   - Trims whitespaces
   Returns nil if the resulting output is an empty string.
@@ -43,6 +43,46 @@ defmodule PrimerLive.Helpers.Attributes do
     else
       result
     end
+  end
+
+  @doc ~S"""
+  Concatenates 2 keyword lists of attributes.
+  - Ignores any nil or false entries
+  - Removes duplicate entries
+
+  ## Examples
+
+      iex> PrimerLive.Helpers.Attributes.append_attributes([], [[]])
+      []
+
+      iex> PrimerLive.Helpers.Attributes.append_attributes([dir: "rtl"], [[]])
+      [dir: "rtl"]
+
+      iex> PrimerLive.Helpers.Attributes.append_attributes([dir: "rtl"], [[placeholder: "hello"]])
+      [dir: "rtl", placeholder: "hello"]
+
+      iex> PrimerLive.Helpers.Attributes.append_attributes([dir: "rtl"], [false, [placeholder: "hello"], [placeholder: "hello"], nil])
+      [dir: "rtl", placeholder: "hello"]
+
+      iex> is_foo = true
+      iex> is_bar = false
+      iex> extra = [class: "x"]
+      iex> PrimerLive.Helpers.Attributes.append_attributes(extra, [
+      ...>   is_foo and [foo: "foo"],
+      ...>   is_bar and [bar: "bar"]
+      ...> ])
+      [class: "x", foo: "foo"]
+  """
+  def append_attributes(attributes, input_attributes) do
+    new_attributes =
+      input_attributes
+      |> Enum.reject(&(&1 == false || is_nil(&1)))
+      |> Enum.uniq()
+
+    new_attributes
+    |> Enum.reduce(attributes, fn kw, acc ->
+      acc ++ kw
+    end)
   end
 
   @aria_attributes_map %{
