@@ -40,11 +40,12 @@ defmodule PrimerLive.Options.FormGroup do
 
   Internal options that are passed from input component to `form_group`.
 
-  | **Name**      | **Type**                      | **Validation** | **Default** | **Description**                                                                                  |
-  | ------------- | ----------------------------- | -------------- | ----------- | ------------------------------------------------------------------------------------------------ |
-  | `inner_block` | `slot`                        | required       | -           | Form group content, usually a form input.                                                        |
-  | `field`       | `atom` or `string`            | required       | -           | Field name.                                                                                      |
-  | `form`        | `Phoenix.HTML.Form` or `atom` | required       | -           | Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom. |
+  | **Name**          | **Type**                      | **Validation** | **Default** | **Description**                                                                                  |
+  | ----------------- | ----------------------------- | -------------- | ----------- | ------------------------------------------------------------------------------------------------ |
+  | `inner_block`     | `slot`                        | required       | -           | Form group content, usually a form input.                                                        |
+  | `field`           | `atom` or `string`            | required       | -           | Field name.                                                                                      |
+  | `form`            | `Phoenix.HTML.Form` or `atom` | required       | -           | Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom. |
+  | `error_message`   | `string`                      | -              | -           | Error message text, derived from the first of the form changeset errors, if any.                 |
   """
 
   typed_embedded_schema do
@@ -56,6 +57,7 @@ defmodule PrimerLive.Options.FormGroup do
     field(:form, :any, virtual: true)
     # Optional options
     field(:class, :string)
+    field(:error_message, :string)
     # Embedded options
     embeds_one(:classes, Classes)
   end
@@ -65,6 +67,7 @@ defmodule PrimerLive.Options.FormGroup do
     struct
     |> cast(attrs, [
       :class,
+      :error_message,
       :field,
       :form,
       :header,
@@ -189,9 +192,6 @@ defmodule PrimerLive.Options.TextInput do
   def input_type(type_name) do
     input_type = Map.get(@input_types, type_name)
 
-    case is_nil(input_type) do
-      true -> :text_input
-      false -> input_type
-    end
+    if is_nil(input_type), do: :text_input, else: input_type
   end
 end

@@ -208,6 +208,13 @@ defmodule PrimerLive.Components do
   end
 
   defp render_text_input(assigns) do
+    %{form: form, field: field} = assigns
+
+    error_message = FormHelpers.error_message(form, field)
+    is_error = !is_nil(error_message)
+
+    error_id = if is_error, do: "#{field}-validation", else: nil
+
     class =
       Attributes.classnames([
         "form-control",
@@ -223,7 +230,8 @@ defmodule PrimerLive.Components do
       Attributes.append_attributes(assigns.extra, [
         [class: class],
         # If aria_label is not set, use the value of placeholder (if any):
-        is_nil(assigns.extra[:aria_label]) and [aria_label: assigns.extra[:placeholder]]
+        is_nil(assigns.extra[:aria_label]) and [aria_label: assigns.extra[:placeholder]],
+        not is_nil(error_id) and [aria_describedby: error_id]
       ])
 
     is_form_group = !!assigns.form_group
@@ -234,7 +242,7 @@ defmodule PrimerLive.Components do
         form_group_opts = assigns.form_group |> Map.from_struct()
 
         ~H"""
-        <.form_group {form_group_opts}>
+        <.form_group {form_group_opts} error_message={error_message}>
           <%= apply(Phoenix.HTML.Form, input_type, [assigns.form, assigns.field, input_opts]) %>
         </.form_group>
         """
@@ -270,19 +278,13 @@ defmodule PrimerLive.Components do
   defp render_form_group(assigns) do
     %{form: form, field: field} = assigns
 
-    field_error =
-      case is_atom(form) do
-        true -> nil
-        false -> FormHelpers.first_field_error(form, field)
-      end
-
     classes = %{
       form_group:
         Attributes.classnames([
           "form-group",
           assigns.class,
           assigns.classes.form_group,
-          not is_nil(field_error) and "errored"
+          not is_nil(assigns.error_message) and "errored"
         ]),
       header:
         Attributes.classnames([
@@ -310,8 +312,10 @@ defmodule PrimerLive.Components do
           <%= render_slot(@inner_block) %>
         <% end %>
       </div>
-      <%= if field_error do %>
-        <%= FormHelpers.error_tag(form, field) %>
+      <%= if @error_message do %>
+        <p class="note error" id={"#{field}-validation"}>
+          <%= @error_message %>
+        </p>
       <% end %>
     </div>
     """

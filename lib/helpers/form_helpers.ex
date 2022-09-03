@@ -3,26 +3,30 @@ defmodule PrimerLive.Helpers.FormHelpers do
 
   @moduledoc false
 
-  def first_field_error(form, field) do
-    case form.errors
-         |> Enum.filter(fn {k, _v} -> k == field end) do
-      [error] -> error
+  @doc """
+  Returns the first field error.
+  Returns nil if no errors are found, or if the form does not contain an `error` attribute.
+  """
+  def error_message(form, field) do
+    try do
+      error_data(form, field)
+      |> Enum.map(fn {msg, _rest} -> msg end)
+      |> hd
+    rescue
       _ -> nil
     end
   end
 
-  use Phoenix.HTML
-
   @doc """
-  Generates a tag for inlined form input errors.
+  Returns field error data.
+  Returns nil if no errors are found, or if the form does not contain an `error` attribute.
   """
-  def error_tag(form, field) do
-    Enum.map(Keyword.get_values(form.errors, field), fn error ->
-      content_tag(:div, error,
-        class: "form-message error",
-        phx_feedback_for: input_name(form, field),
-        id: "#{input_name(form, field)}-validation"
-      )
-    end)
+  def error_data(form, field) do
+    try do
+      form.errors
+      |> Keyword.get_values(field)
+    rescue
+      _ -> nil
+    end
   end
 end
