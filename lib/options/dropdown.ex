@@ -48,7 +48,7 @@ defmodule PrimerLive.Options.Dropdown.Classes do
 
   | **Classname** | **Description**                                                  |
   | ------------- | ---------------------------------------------------------------- |
-  | `button`      | Button element. Any value will override the default class "btn". |
+  | `toggle`      | Toggle element. Any value will override the default class "btn". |
   | `caret`       | Dropdown caret element.                                          |
   | `dropdown`    | Dropdown element.                                                |
   | `menu`        | Menu element.                                                    |
@@ -56,7 +56,7 @@ defmodule PrimerLive.Options.Dropdown.Classes do
   """
 
   typed_embedded_schema do
-    field(:button, :string)
+    field(:toggle, :string)
     field(:caret, :string)
     field(:dropdown, :string)
     field(:header, :string)
@@ -66,7 +66,7 @@ defmodule PrimerLive.Options.Dropdown.Classes do
   @impl Options
   def changeset(struct, attrs \\ %{}) do
     struct
-    |> cast(attrs, [:button, :caret, :dropdown, :header, :menu])
+    |> cast(attrs, [:toggle, :caret, :dropdown, :header, :menu])
   end
 end
 
@@ -81,11 +81,11 @@ defmodule PrimerLive.Options.Dropdown do
   | **Name**   | **Type** | **Validation** | **Default** | **Description**                                                                                                              |
   | ---------- | -------- | -------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------- |
   | `menu`     | `slot`   | required       | -           | Dropdown menu content.                                                                                                       |
-  | `label`    | `slot`   | required       | -           | Dropdown button label. May contain text or an icon.                                                                          |
+  | `label`    | `slot`   | required       | -           | Toggle label. May contain text or an icon.                                                                                   |
   | `header`   | `slot`   | -              | -           | Menu header.                                                                                                                 |
   | `class`    | `string` | -              | -           | Additional classname.                                                                                                        |
   | `classes`  | `map`    | -              | -           | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Dropdown.Classes`. |
-  | `position` | `string` | -              | "se"        | Position of the menu relative to the dropdown button. Possible values: "se", "ne", "e", "sw", "s", "w".                      |
+  | `position` | `string` | -              | "se"        | Position of the menu relative to the dropdown toggle. Possible values: "se", "ne", "e", "sw", "s", "w".                      |
   """
   typed_embedded_schema do
     # Slots

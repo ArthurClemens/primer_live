@@ -1090,7 +1090,7 @@ defmodule PrimerLive.Components do
 
   ## Examples
 
-  Position of the menu relative to the dropdown button. Possible values are: "se", "ne", "e", "sw", "s", "w".
+  Position of the menu relative to the dropdown toggle. Possible values are: "se", "ne", "e", "sw", "s", "w".
 
   ```
   <.dropdown position="e">
@@ -1098,13 +1098,13 @@ defmodule PrimerLive.Components do
   </.dropdown>
   ```
 
-  Custom button class (overriding the default class "btn"):
+  Custom toggle class (overriding the default class "btn"):
 
   ```
   <.dropdown
     classes={
       %{
-        button: "color-fg-muted p-2 d-inline"
+        toggle: "color-fg-muted p-2 d-inline"
       }
     }
   >
@@ -1145,7 +1145,7 @@ defmodule PrimerLive.Components do
   </.dropdown>
   ```
 
-  With an icon instead of a button text:
+  With an icon instead of a toggle text:
 
   ```
   <.dropdown>
@@ -1207,10 +1207,10 @@ defmodule PrimerLive.Components do
           assigns.class,
           assigns.classes.dropdown
         ]),
-      button:
+      toggle:
         Attributes.classnames([
-          if assigns.classes.button do
-            assigns.classes.button
+          if assigns.classes.toggle do
+            assigns.classes.toggle
           else
             "btn"
           end
@@ -1235,7 +1235,7 @@ defmodule PrimerLive.Components do
 
     ~H"""
     <details class={classes.dropdown} {@extra}>
-      <summary class={classes.button} aria-haspopup="true">
+      <summary class={classes.toggle} aria-haspopup="true">
         <%= render_slot(@label) %>
         <div class={classes.caret}></div>
       </summary>
