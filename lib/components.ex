@@ -233,7 +233,7 @@ defmodule PrimerLive.Components do
     validation_status =
       FormHelpers.get_validation_status_and_message(form, field, assigns.get_validation_message)
 
-    {_is_error, has_message} =
+    {_, has_message} =
       case validation_status do
         {:ok, msg} -> {false, !is_nil(msg)}
         {:error, msg} -> {true, !is_nil(msg)}

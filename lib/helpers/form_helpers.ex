@@ -48,7 +48,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
 
             case field_errors do
               [field_error | _rest] -> {:error, field_error}
-              _ -> {:error, nil}
+              _ -> {:ok, nil}
             end
 
           false ->
