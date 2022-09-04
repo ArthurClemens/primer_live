@@ -2,7 +2,42 @@ defmodule PrimerLive.Helpers.Schema do
   import Phoenix.LiveView.Helpers
   use Phoenix.Component
 
+  import Ecto.Changeset
+
   @moduledoc false
+
+  @doc """
+  Validates a changeset by checking an attribute value.
+  For example:
+
+      def validate_is_atom_or_nil(changeset, attrs) do
+        changeset
+        |> PrimerLive.SchemaValidation.validate_cond(
+          attrs,
+          :my_attr,
+          fn value ->
+            cond do
+              is_nil(value) -> true
+              is_atom(value) -> true
+              true -> false
+            end
+          end,
+          "must be an atom or nil"
+        )
+      end
+
+  """
+  def validate_cond(changeset, attrs, key, condition_fn, invalid_message) do
+    value = attrs[key]
+
+    case condition_fn.(value) do
+      true -> changeset
+      false -> add_error(changeset, key, invalid_message)
+    end
+  end
+
+  def is_phoenix_form(%Phoenix.HTML.Form{}), do: true
+  def is_phoenix_form(_), do: false
 
   @doc """
   Validates component options passed in the assigns struct and builds a new assigns with the valid options, plus

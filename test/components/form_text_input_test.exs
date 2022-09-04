@@ -1,4 +1,4 @@
-defmodule PrimerLive.Components.FormTestInputTest do
+defmodule PrimerLive.Components.FormTextInputTest do
   use ExUnit.Case
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers

@@ -24,18 +24,6 @@ defmodule Options do
         changeset |> put_embed(key, Map.merge(defaults, values))
       end
 
-      defp validate_type(changeset, attrs, key, filter) do
-        value = attrs[key]
-
-        case filter.(value) do
-          true -> changeset
-          false -> add_error(changeset, key, "Invalid type")
-        end
-      end
-
-      defp is_phoenix_form(%Phoenix.HTML.Form{}), do: true
-      defp is_phoenix_form(_), do: false
-
       @doc false
       def parse(attrs) do
         struct(__MODULE__)

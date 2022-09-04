@@ -71,11 +71,11 @@ defmodule PrimerLive.Options.FormGroup do
     struct
     |> cast(attrs, [
       :class,
-      :validation_status,
       :field,
       :form,
       :header,
-      :inner_block
+      :inner_block,
+      :validation_status
     ])
     |> cast_embed_with_defaults(attrs, :classes, %{})
     |> validate_required([:inner_block, :field, :form])
@@ -92,6 +92,58 @@ defmodule PrimerLive.Options.FormGroup do
 
   defp validate_validation_status(changeset, _) do
     changeset
+  end
+end
+
+defmodule PrimerLive.Options.Form do
+  import Ecto.Changeset
+
+  @moduledoc false
+
+  alias PrimerLive.Helpers
+  alias PrimerLive.Options.FormGroup
+
+  # Conditionally embeds a value for form_group.
+  def cast_form_group(changeset, attrs) do
+    value = attrs[:form_group]
+
+    defaults = %FormGroup{
+      form: attrs[:form],
+      field: attrs[:field]
+    }
+
+    cond do
+      value == true ->
+        # Initially true: embed a default map with `form` and `field`
+        changeset
+        |> put_embed(:form_group, defaults)
+
+      is_map(value) ->
+        # A map: merge it with the default values containing `form` and `field`
+        changeset
+        |> put_embed(:form_group, Map.merge(defaults, value))
+
+      true ->
+        # Otherwise, pass the changeset unmodified
+        changeset
+    end
+  end
+
+  def validate_is_form(changeset, attrs) do
+    changeset
+    |> Helpers.Schema.validate_cond(
+      attrs,
+      :form,
+      fn value ->
+        cond do
+          is_nil(value) -> true
+          is_atom(value) -> true
+          Helpers.Schema.is_phoenix_form(value) -> true
+          true -> false
+        end
+      end,
+      "Invalid type"
+    )
   end
 end
 
@@ -129,9 +181,9 @@ defmodule PrimerLive.Options.TextInput do
   | `is_contrast`             | `boolean`                     | -                                                                                                                                                     | false       | Changes the background color to light gray.                                                                                                                                       |
   | `is_full_width`           | `boolean`                     | -                                                                                                                                                     | false       | Full width input.                                                                                                                                                                 |
   | `is_hide_webkit_autofill` | `boolean`                     | -                                                                                                                                                     | false       | Hide WebKit's contact info autofill icon.                                                                                                                                         |
-  | `is_large`                | `boolean`                     | -                                                                                                                                                     | false       | Larger input.                                                                                                                                                                     |
-  | `is_small`                | `boolean`                     | -                                                                                                                                                     | false       | Smaller input.                                                                                                                                                                    |
-  | `type`                    | `string`                      | "color", "date", "datetime-local", "email", "file", "hidden", "number", "password", "range", "search", "telephone", "text", "time", "url" | "text"      | Text input type.                                                                                                                                                                  |
+  | `is_large`                | `boolean`                     | -                                                                                                                                                     | false       | Larger text size.                                                                                                                                                                 |
+  | `is_small`                | `boolean`                     | -                                                                                                                                                     | false       | Smaller input with smaller text size.                                                                                                                                             |
+  | `type`                    | `string`                      | "color", "date", "datetime-local", "email", "file", "hidden", "number", "password", "range", "search", "telephone", "text", "time", "url"             | "text"      | Text input type.                                                                                                                                                                  |
   | `get_validation_message`  | `fun changeset -> string`     | -                                                                                                                                                     | -           | Function to write a custom error message. The function receives for form's changeset data (type `Ecto.Changeset`) and returns a string for error message.                         |
   """
 
@@ -151,14 +203,6 @@ defmodule PrimerLive.Options.TextInput do
   end
 
   @impl Options
-  @spec changeset(
-          {map, map}
-          | %{
-              :__struct__ => atom | %{:__changeset__ => map, optional(any) => any},
-              optional(atom) => any
-            },
-          %{optional(:__struct__) => none, optional(atom | binary) => any}
-        ) :: Ecto.Changeset.t()
   def changeset(struct, attrs \\ %{}) do
     struct
     |> cast(attrs, [
@@ -173,47 +217,9 @@ defmodule PrimerLive.Options.TextInput do
       :is_small,
       :type
     ])
-    |> cast_form_group(attrs)
+    |> PrimerLive.Options.Form.cast_form_group(attrs)
     |> validate_inclusion(:type, Map.keys(@input_types))
-    |> validate_form(attrs)
-  end
-
-  # Conditionally embeds a value for form_group.
-  defp cast_form_group(changeset, attrs) do
-    value = attrs[:form_group]
-
-    defaults = %FormGroup{
-      form: attrs[:form],
-      field: attrs[:field]
-    }
-
-    cond do
-      value == true ->
-        # Initially true: embed a default map with `form` and `field`
-        changeset
-        |> put_embed(:form_group, defaults)
-
-      is_map(value) ->
-        # A map: merge it with the default values containing `form` and `field`
-        changeset
-        |> put_embed(:form_group, Map.merge(defaults, value))
-
-      true ->
-        # Otherwise, pass the changeset unmodified
-        changeset
-    end
-  end
-
-  defp validate_form(changeset, attrs) do
-    changeset
-    |> validate_type(attrs, :form, fn value ->
-      cond do
-        is_nil(value) -> true
-        is_atom(value) -> true
-        is_phoenix_form(value) -> true
-        true -> false
-      end
-    end)
+    |> PrimerLive.Options.Form.validate_is_form(attrs)
   end
 
   @doc false
