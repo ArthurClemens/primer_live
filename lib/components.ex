@@ -243,6 +243,7 @@ defmodule PrimerLive.Components do
         assigns.is_hide_webkit_autofill and "input-hide-webkit-autofill",
         assigns.is_large and "input-lg",
         assigns.is_small and "input-sm",
+        assigns.is_short and "short",
         assigns.is_full_width and "input-block"
       ])
 
@@ -255,8 +256,9 @@ defmodule PrimerLive.Components do
       ])
 
     input = apply(Phoenix.HTML.Form, input_type, [form, field, input_opts])
+    is_form_group = !!assigns.form_group
 
-    case !!assigns.form_group do
+    case is_form_group do
       true ->
         form_group_opts = assigns.form_group |> Map.from_struct()
 
@@ -270,6 +272,42 @@ defmodule PrimerLive.Components do
         ~H"""
         <%= input %>
         """
+    end
+  end
+
+  # ------------------------------------------------------------------------------------
+  # textarea
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :form
+
+  @doc ~S"""
+  Creates a textarea.
+
+  ```
+  <.textarea name="first_name" />
+  ```
+
+  ## Options
+
+  Options for textarea are the same as options for text input.
+
+  - `PrimerLive.Options.TextInput`
+  - Additional HTML attributes are passed to the textarea element
+
+  ## Reference
+
+  - [Primer/CSS Forms](https://primer.style/css/components/forms)
+
+  """
+
+  def textarea(assigns) do
+    assigns = assigns |> assign(type: "textarea")
+
+    with {:ok, assigns} <- Schema.validate_options(assigns, Options.TextInput, "textarea") do
+      render_text_input(assigns)
+    else
+      message -> message
     end
   end
 

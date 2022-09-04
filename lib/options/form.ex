@@ -124,7 +124,12 @@ defmodule PrimerLive.Options.Form do
   alias PrimerLive.Helpers
   alias PrimerLive.Options.FormGroup
 
-  # Conditionally embeds a value for form_group.
+  @doc """
+  Conditionally embeds a value for form_group.
+  - If form_group is a boolean: embed a default map with `form` and `field`
+  - if form_group is a map: merge it with the default values containing `form` and `field`
+  - Otherwise return the changeset unmodified
+  """
   def cast_form_group(changeset, attrs) do
     value = attrs[:form_group]
 
@@ -135,21 +140,25 @@ defmodule PrimerLive.Options.Form do
 
     cond do
       value == true ->
-        # Initially true: embed a default map with `form` and `field`
         changeset
         |> put_embed(:form_group, defaults)
 
       is_map(value) ->
-        # A map: merge it with the default values containing `form` and `field`
         changeset
         |> put_embed(:form_group, Map.merge(defaults, value))
 
       true ->
-        # Otherwise, pass the changeset unmodified
         changeset
     end
   end
 
+  @doc """
+  Validates attribute `form`.
+  Allowed values:
+  - nil
+  - atom
+  - Phoenix.HTML.Form
+  """
   def validate_is_form(changeset, attrs) do
     changeset
     |> Helpers.Schema.validate_cond(
@@ -163,7 +172,29 @@ defmodule PrimerLive.Options.Form do
           true -> false
         end
       end,
-      "Invalid type"
+      "invalid type"
+    )
+  end
+
+  @doc """
+  Option is_short may only be used with form_group.
+  Allowed values:
+  - nil
+  - boolean: only when form_group exists in attrs
+  """
+  def validate_is_short(changeset, attrs) do
+    changeset
+    |> Helpers.Schema.validate_cond(
+      attrs,
+      :is_short,
+      fn value ->
+        cond do
+          is_nil(value) -> true
+          is_boolean(value) -> !!attrs[:form_group]
+          true -> false
+        end
+      end,
+      "must be used with form_group"
     )
   end
 end
@@ -173,6 +204,7 @@ defmodule PrimerLive.Options.TextInput do
 
   alias PrimerLive.Options.FormGroup
 
+  # Map of input name to atom value that can be used by Phoenix.HTML.Form to render the appropriate input element.
   @input_types %{
     "color" => :color_input,
     "date" => :date_input,
@@ -186,12 +218,13 @@ defmodule PrimerLive.Options.TextInput do
     "search" => :search_input,
     "telephone" => :telephone_input,
     "text" => :text_input,
+    "textarea" => :textarea,
     "time" => :time_input,
     "url" => :url_input
   }
 
   @moduledoc """
-  Options for component `PrimerLive.Components.text_input/1`.
+  Options for component `PrimerLive.Components.text_input/1` and `PrimerLive.Components.textarea/1`.
 
   | **Name**                  | **Type**                      | **Validation**                                                                                                                                        | **Default** | **Description**                                                                                                                                                                   |
   | ------------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -204,6 +237,7 @@ defmodule PrimerLive.Options.TextInput do
   | `is_hide_webkit_autofill` | `boolean`                     | -                                                                                                                                                     | false       | Hide WebKit's contact info autofill icon.                                                                                                                                         |
   | `is_large`                | `boolean`                     | -                                                                                                                                                     | false       | Larger text size.                                                                                                                                                                 |
   | `is_small`                | `boolean`                     | -                                                                                                                                                     | false       | Smaller input with smaller text size.                                                                                                                                             |
+  | `is_short`                | `boolean`                     | -                                                                                                                                                     | false       | Within a form group. Creates an input with a reduced width.                                                                                                                       |
   | `type`                    | `string`                      | "color", "date", "datetime-local", "email", "file", "hidden", "number", "password", "range", "search", "telephone", "text", "time", "url"             | "text"      | Text input type.                                                                                                                                                                  |
   | `get_validation_message`  | `fun changeset -> string`     | -                                                                                                                                                     | -           | Function to write a custom error message. The function receives for form's changeset data (type `Ecto.Changeset`) and returns a string for error message.                         |
   """
@@ -218,6 +252,7 @@ defmodule PrimerLive.Options.TextInput do
     field(:is_hide_webkit_autofill, :boolean, default: false)
     field(:is_large, :boolean, default: false)
     field(:is_small, :boolean, default: false)
+    field(:is_short, :boolean, default: false)
     field(:type, :string, default: "text")
     # Embedded options
     embeds_one(:form_group, FormGroup)
@@ -236,11 +271,13 @@ defmodule PrimerLive.Options.TextInput do
       :is_hide_webkit_autofill,
       :is_large,
       :is_small,
+      :is_short,
       :type
     ])
     |> PrimerLive.Options.Form.cast_form_group(attrs)
     |> validate_inclusion(:type, Map.keys(@input_types))
     |> PrimerLive.Options.Form.validate_is_form(attrs)
+    |> PrimerLive.Options.Form.validate_is_short(attrs)
   end
 
   @doc false

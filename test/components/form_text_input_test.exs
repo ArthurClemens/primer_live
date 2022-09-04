@@ -40,7 +40,7 @@ defmodule PrimerLive.Components.FormTextInputTest do
            """)
            |> format_html() ==
              """
-             <div class="flash flash-error"><p>text_input component received invalid options:</p><p>form: Invalid type</p></div>
+             <div class="flash flash-error"><p>text_input component received invalid options:</p><p>form: invalid type</p></div>
              """
              |> format_html()
   end
@@ -210,6 +210,36 @@ defmodule PrimerLive.Components.FormTextInputTest do
            |> format_html() ==
              """
              <input class="form-control input-sm" id="_" name="[]" type="text" />
+             """
+             |> format_html()
+  end
+
+  test "Option: is_short without form_group: should render an error message" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.text_input is_short />
+           """)
+           |> format_html() ==
+             """
+             <div class="flash flash-error"><p>text_input component received invalid options:</p><p>is_short: must be used with form_group</p></div>
+             """
+             |> format_html()
+  end
+
+  test "Option: is_short with form_group" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.text_input form={:f} field={:first_name} is_short form_group />
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group">
+             <div class="form-group-header"><label for="f_first_name">First name</label></div>
+             <div class="form-group-body"><input class="form-control short" id="f_first_name" name="f[first_name]" type="text" />
+             </div>
+             </div>
              """
              |> format_html()
   end
