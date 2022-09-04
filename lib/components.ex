@@ -540,36 +540,28 @@ defmodule PrimerLive.Components do
         ])
     }
 
-    IO.inspect(assigns)
-
     ~H"""
     <div class={classes.layout}>
       <%= if @main do %>
-        <%= for main <- @main do %>
-          <div class={classes.main}>
-            <%= if @is_main_centered_md || @is_main_centered_lg || @is_main_centered_xl do %>
-              <div class={classes.main_center_wrapper}>
-                <%= render_slot(main) %>
-              </div>
-            <% else %>
-              <%= render_slot(main) %>
-            <% end %>
-          </div>
-        <% end %>
+        <div class={classes.main}>
+          <%= if @is_main_centered_md || @is_main_centered_lg || @is_main_centered_xl do %>
+            <div class={classes.main_center_wrapper}>
+              <%= render_slot(@main) %>
+            </div>
+          <% else %>
+            <%= render_slot(@main) %>
+          <% end %>
+        </div>
       <% end %>
       <%= if @divider do %>
-        <%= for divider <- @divider do %>
-          <div class={classes.divider}>
-            <%= render_slot(divider) %>
-          </div>
-        <% end %>
+        <div class={classes.divider}>
+          <%= render_slot(@divider) %>
+        </div>
       <% end %>
       <%= if @sidebar do %>
-        <%= for sidebar <- @sidebar do %>
-          <div class={classes.sidebar}>
-            <%= render_slot(sidebar) %>
-          </div>
-        <% end %>
+        <div class={classes.sidebar}>
+          <%= render_slot(@sidebar) %>
+        </div>
       <% end %>
     </div>
     """
