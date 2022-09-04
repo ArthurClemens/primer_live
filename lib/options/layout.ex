@@ -8,7 +8,7 @@ defmodule PrimerLive.Options.Layout.Classes do
   | --------------------- | --------------------------------------- |
   | `layout`              | The layout container element.           |
   | `main`                | The main element.                       |
-  | `item name="divider"`             | The divider element.                    |
+  | `divider`             | The divider element.                    |
   | `sidebar`             | The sidebar element.                    |
   | `main_center_wrapper` | The wrapper to created a centered main. |
   """
