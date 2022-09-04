@@ -391,6 +391,191 @@ defmodule PrimerLive.Components do
   end
 
   # ------------------------------------------------------------------------------------
+  # layout
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :layout
+
+  @doc ~S"""
+  Creates a responsive-friendly page layouts with 2 columns.
+
+  ```
+  <.layout>
+    <:main>
+      Main content
+    </:main>
+    <:sidebar>
+      Sidebar content
+    </:sidebar>
+  </.layout>
+  ```
+
+  ## Examples
+
+  With a divider. Creates a line between the main and sidebar elements - horizontal when the elements are stacked and vertical when they are shown side by side:
+
+  ```
+  <.layout is_divided>
+    <:main>
+      Main content
+    </:main>
+    <:divider></:divider>
+    <:sidebar>
+      Sidebar content
+    </:sidebar>
+  </.layout>
+  ```
+
+  Sidebar at the right:
+
+  ```
+  <.layout is_sidebar_position_end>
+    <:main>
+      Main content
+    </:main>
+    <:sidebar>
+      Sidebar content
+    </:sidebar>
+  </.layout>
+  ```
+
+  Nested layouts:
+
+  ```
+  <.layout>
+    <:main>
+      <.layout is_sidebar_position_end is_narrow_sidebar>
+        <:main>
+          Main content
+        </:main>
+        <:sidebar>
+          Metadata sidebar
+        </:sidebar>
+      </.layout>
+    </:main>
+    <:sidebar>
+      Default sidebar
+    </:sidebar>
+  </.layout>
+  <.layout>
+    <:main>
+      <.layout is_sidebar_position_end is_flow_row_until_lg is_narrow_sidebar>
+        <:main>
+          Main content
+        </:main>
+        <:sidebar>
+          Metadata sidebar
+        </:sidebar>
+      </.layout>
+    </:main>
+    <:sidebar>
+      Default sidebar
+    </:sidebar>
+  </.layout>
+  ```
+
+  ## All options
+
+  - `PrimerLive.Options.Layout`
+  - Additional HTML attributes are passed to the layout container element
+
+  ## Reference
+
+  - [Primer/CSS Layout](https://primer.style/css/components/layout)
+
+  """
+
+  def layout(assigns) do
+    with {:ok, assigns} <- Schema.validate_options(assigns, Options.Layout, "layout") do
+      render_layout(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_layout(assigns) do
+    classes = %{
+      layout:
+        Attributes.classnames([
+          "Layout",
+          assigns.class,
+          assigns.classes.layout,
+          assigns.is_divided and "Layout--divided",
+          assigns.is_narrow_sidebar and "Layout--sidebar-narrow",
+          assigns.is_wide_sidebar and "Layout--sidebar-wide",
+          assigns.is_gutter_none and "Layout--gutter-none",
+          assigns.is_gutter_condensed and "Layout--gutter-condensed",
+          assigns.is_gutter_spacious and "Layout--gutter-spacious",
+          assigns.is_sidebar_position_start and "Layout--sidebarPosition-start",
+          assigns.is_sidebar_position_end and "Layout--sidebarPosition-end",
+          assigns.is_sidebar_position_flow_row_start and "Layout--sidebarPosition-flowRow-start",
+          assigns.is_sidebar_position_flow_row_end and "Layout--sidebarPosition-flowRow-end",
+          assigns.is_sidebar_position_flow_row_none and "Layout--sidebarPosition-flowRow-none",
+          assigns.is_flow_row_until_md and "Layout--flowRow-until-md",
+          assigns.is_flow_row_until_lg and "Layout--flowRow-until-lg"
+        ]),
+      main:
+        Attributes.classnames([
+          "Layout-main",
+          assigns.classes.main
+        ]),
+      sidebar:
+        Attributes.classnames([
+          "Layout-sidebar",
+          assigns.classes.sidebar
+        ]),
+      divider:
+        Attributes.classnames([
+          "Layout-divider",
+          assigns.classes.divider,
+          assigns.is_divider_flow_row_shallow and "Layout-divider--flowRow-shallow",
+          assigns.is_divider_flow_row_hidden and "Layout-divider--flowRow-hidden"
+        ]),
+      main_center_wrapper:
+        Attributes.classnames([
+          assigns.classes.main_center_wrapper,
+          assigns.is_main_centered_md and "Layout-main-centered-md",
+          assigns.is_main_centered_lg and "Layout-main-centered-lg",
+          assigns.is_main_centered_xl and "Layout-main-centered-xl"
+        ])
+    }
+
+    IO.inspect(assigns)
+
+    ~H"""
+    <div class={classes.layout}>
+      <%= if @main do %>
+        <%= for main <- @main do %>
+          <div class={classes.main}>
+            <%= if @is_main_centered_md || @is_main_centered_lg || @is_main_centered_xl do %>
+              <div class={classes.main_center_wrapper}>
+                <%= render_slot(main) %>
+              </div>
+            <% else %>
+              <%= render_slot(main) %>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+      <%= if @divider do %>
+        <%= for divider <- @divider do %>
+          <div class={classes.divider}>
+            <%= render_slot(divider) %>
+          </div>
+        <% end %>
+      <% end %>
+      <%= if @sidebar do %>
+        <%= for sidebar <- @sidebar do %>
+          <div class={classes.sidebar}>
+            <%= render_slot(sidebar) %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
   # box
   # ------------------------------------------------------------------------------------
 
