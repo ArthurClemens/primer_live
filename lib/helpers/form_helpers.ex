@@ -28,7 +28,40 @@ defmodule PrimerLive.Helpers.FormHelpers do
     end
   end
 
-  def get_validation_status_and_message(form, field, get_validation_message_fn) do
+  @doc """
+  Returns all error for a given field from a changeset.
+  """
+  def field_errors(changeset, field) do
+    changeset.errors
+    |> Enum.filter(fn {error_field, _content} -> error_field == field end)
+    |> Enum.map(fn {_error_field, {content, _details}} -> content end)
+  end
+
+  @doc """
+  Returns a map of validation data to facilitate display logic in component rendering functions.
+  """
+  def validation_data(form, field, get_validation_message_fn) do
+    status = validation_status(form, field, get_validation_message_fn)
+
+    {is_error, message, has_message} =
+      case status do
+        {:ok, msg} -> {false, msg, !is_nil(msg)}
+        {:error, msg} -> {true, msg, !is_nil(msg)}
+      end
+
+    validation_message_id = if has_message, do: "#{field}-validation", else: nil
+
+    %PrimerLive.Options.ValidationData{
+      is_error: is_error,
+      message: message,
+      has_message: has_message,
+      validation_message_id: validation_message_id
+    }
+  end
+
+  # Returns an error tuple {:ok, message} or {:error, message}, or nil if no form changeset exists.
+  # The message is either taken from input attribute `get_validation_message` or from the changeset error message.
+  defp validation_status(form, field, get_validation_message_fn) do
     changeset = form_changeset(form)
 
     case is_nil(changeset) do
@@ -58,14 +91,5 @@ defmodule PrimerLive.Helpers.FormHelpers do
             end
         end
     end
-  end
-
-  @doc """
-  Returns all error for a given field from a changeset.
-  """
-  def field_errors(changeset, field) do
-    changeset.errors
-    |> Enum.filter(fn {error_field, _content} -> error_field == field end)
-    |> Enum.map(fn {_error_field, {content, _details}} -> content end)
   end
 end

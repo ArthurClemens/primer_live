@@ -230,17 +230,9 @@ defmodule PrimerLive.Components do
   defp render_text_input(assigns) do
     %{form: form, field: field} = assigns
 
-    validation_status =
-      FormHelpers.get_validation_status_and_message(form, field, assigns.get_validation_message)
+    validation_data = FormHelpers.validation_data(form, field, assigns.get_validation_message)
+    %{validation_message_id: validation_message_id} = validation_data
 
-    {_, has_message} =
-      case validation_status do
-        {:ok, msg} -> {false, !is_nil(msg)}
-        {:error, msg} -> {true, !is_nil(msg)}
-      end
-
-    validation_message_id = if has_message, do: "#{field}-validation", else: nil
-    is_form_group = !!assigns.form_group
     input_type = Options.TextInput.input_type(assigns.type)
 
     class =
@@ -262,19 +254,21 @@ defmodule PrimerLive.Components do
         not is_nil(validation_message_id) and [aria_describedby: validation_message_id]
       ])
 
-    case is_form_group do
+    input = apply(Phoenix.HTML.Form, input_type, [form, field, input_opts])
+
+    case !!assigns.form_group do
       true ->
         form_group_opts = assigns.form_group |> Map.from_struct()
 
         ~H"""
-        <.form_group {form_group_opts} validation_status={validation_status}>
-          <%= apply(Phoenix.HTML.Form, input_type, [assigns.form, assigns.field, input_opts]) %>
+        <.form_group {form_group_opts} validation_data={validation_data}>
+          <%= input %>
         </.form_group>
         """
 
       false ->
         ~H"""
-        <%= apply(Phoenix.HTML.Form, input_type, [assigns.form, assigns.field, input_opts]) %>
+        <%= input %>
         """
     end
   end
@@ -289,7 +283,6 @@ defmodule PrimerLive.Components do
   Creates a form group wrapper around an input field.
 
   Used internally: see `PrimerLive.Components.text_input/1`.
-
   """
 
   def form_group(assigns) do
@@ -301,13 +294,10 @@ defmodule PrimerLive.Components do
   end
 
   defp render_form_group(assigns) do
-    %{form: form, field: field, validation_status: validation_status} = assigns
+    %{form: form, field: field, validation_data: validation_data} = assigns
 
-    {is_error, message} =
-      case validation_status do
-        {:ok, msg} -> {false, msg}
-        {:error, msg} -> {true, msg}
-      end
+    %{is_error: is_error, message: message, validation_message_id: validation_message_id} =
+      validation_data
 
     classes = %{
       form_group:
@@ -354,7 +344,7 @@ defmodule PrimerLive.Components do
         <% end %>
       </div>
       <%= if not is_nil(message) do %>
-        <p class={classes.note} id={"#{field}-validation"}>
+        <p class={classes.note} id={validation_message_id}>
           <%= message %>
         </p>
       <% end %>

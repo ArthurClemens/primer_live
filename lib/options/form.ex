@@ -26,10 +26,34 @@ defmodule PrimerLive.Options.FormGroup.Classes do
   end
 end
 
+defmodule PrimerLive.Options.ValidationData do
+  use Options
+
+  typed_embedded_schema do
+    field(:is_error, :boolean, enforce: true)
+    field(:has_message, :boolean, enforce: true)
+    field(:message, :string, enforce: true)
+    field(:validation_message_id, :string, enforce: true)
+  end
+
+  @impl Options
+  def changeset(struct, attrs \\ %{}) do
+    struct
+    |> cast(attrs, [
+      :is_error,
+      :has_message,
+      :message,
+      :validation_message_id
+    ])
+    |> validate_required([:is_error, :has_message, :message, :validation_message_id])
+  end
+end
+
 defmodule PrimerLive.Options.FormGroup do
   use Options
 
-  alias PrimerLive.Options.FormGroup.{Classes}
+  alias PrimerLive.Options.FormGroup.Classes
+  alias PrimerLive.Options.ValidationData
 
   @moduledoc """
   Options for `form_group` in `PrimerLive.Options.TextInput`.
@@ -44,12 +68,12 @@ defmodule PrimerLive.Options.FormGroup do
 
   Internal options that are passed from input component to `form_group`.
 
-  | **Name**            | **Type**                        | **Validation** | **Default** | **Description**                                                                                                                                                                                                                                                        |
-  | ------------------- | ------------------------------- | -------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-  | `inner_block`       | `slot`                          | required       | -           | Form group content, usually a form input.                                                                                                                                                                                                                              |
-  | `field`             | `atom` or `string`              | required       | -           | Field name.                                                                                                                                                                                                                                                            |
-  | `form`              | `Phoenix.HTML.Form` or `atom`   | required       | -           | Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.                                                                                                                                                                       |
-  | `validation_status` | `{:error, msg}` or `{:ok, msg}` | -              | -           | Only when a form changeset is available. The status is derived from the value of `changeset.valid?`. The message text is received from `PrimerLive.Options.TextInput` option `get_validation_message`, otherwise from the first of the form changeset errors (if any). |
+  | **Name**            | **Type**                            | **Validation** | **Default** | **Description**                                                                                                                                                                                                                                                        |
+  | ------------------- | ----------------------------------- | -------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `inner_block`       | `slot`                              | required       | -           | Form group content, usually a form input.                                                                                                                                                                                                                              |
+  | `field`             | `atom` or `string`                  | required       | -           | Field name.                                                                                                                                                                                                                                                            |
+  | `form`              | `Phoenix.HTML.Form` or `atom`       | required       | -           | Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.                                                                                                                                                                       |
+  | `validation_data`   | `PrimerLive.Options.ValidationData` | -              | -           | Only when a form changeset is available. The status is derived from the value of `changeset.valid?`. The message text is received from `PrimerLive.Options.TextInput` option `get_validation_message`, otherwise from the first of the form changeset errors (if any). |
   """
 
   typed_embedded_schema do
@@ -61,9 +85,9 @@ defmodule PrimerLive.Options.FormGroup do
     field(:form, :any, virtual: true)
     # Optional options
     field(:class, :string)
-    field(:validation_status, :any, virtual: true)
     # Embedded options
     embeds_one(:classes, Classes)
+    embeds_one(:validation_data, ValidationData)
   end
 
   @impl Options
@@ -74,20 +98,17 @@ defmodule PrimerLive.Options.FormGroup do
       :field,
       :form,
       :header,
-      :inner_block,
-      :validation_status
+      :inner_block
     ])
     |> cast_embed_with_defaults(attrs, :classes, %{})
+    |> cast_embed_with_defaults(attrs, :validation_data, %{
+      is_error: false,
+      has_message: false,
+      message: nil,
+      validation_message_id: nil
+    })
     |> validate_required([:inner_block, :field, :form])
     |> validate_validation_status(attrs)
-  end
-
-  defp validate_validation_status(changeset, %{:validation_status => value} = _attrs) do
-    case value do
-      {:ok, _} -> changeset
-      {:error, _} -> changeset
-      _ -> add_error(changeset, :validation_status, "invalid value")
-    end
   end
 
   defp validate_validation_status(changeset, _) do
