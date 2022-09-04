@@ -14,7 +14,8 @@ defmodule PrimerLive.Options.Alert do
   | `is_full`     | `boolean` | -              | false       | Renders the alert full width, with border and border radius removed. |
   """
   typed_embedded_schema do
-    field(:inner_block, :any, virtual: true)
+    # Slots
+    field(:inner_block, :any, virtual: true, enforce: true, null: false)
     # Optional options
     field(:class, :string)
     field(:is_error, :boolean, default: false)
@@ -51,7 +52,8 @@ defmodule PrimerLive.Options.AlertMessages do
 
   """
   typed_embedded_schema do
-    field(:inner_block, :any, virtual: true)
+    # Slots
+    field(:inner_block, :any, virtual: true, enforce: true, null: false)
     # Optional options
     field(:class, :string)
   end

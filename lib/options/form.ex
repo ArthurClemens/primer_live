@@ -78,11 +78,11 @@ defmodule PrimerLive.Options.FormGroup do
 
   typed_embedded_schema do
     # Slots
-    field(:inner_block, :any, virtual: true)
-    field(:header, :any, virtual: true)
+    field(:inner_block, :any, virtual: true, enforce: true, null: false)
+    field(:header, :any, virtual: true, enforce: true, null: false)
     # Required options
-    field(:field, :any, virtual: true)
-    field(:form, :any, virtual: true)
+    field(:field, :any, virtual: true, enforce: true, null: false)
+    field(:form, :any, virtual: true, enforce: true, null: false)
     # Optional options
     field(:class, :string)
     # Embedded options
@@ -135,7 +135,9 @@ defmodule PrimerLive.Options.Form do
 
     defaults = %FormGroup{
       form: attrs[:form],
-      field: attrs[:field]
+      field: attrs[:field],
+      header: nil,
+      inner_block: nil
     }
 
     cond do

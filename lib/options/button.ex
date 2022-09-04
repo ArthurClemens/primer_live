@@ -23,7 +23,8 @@ defmodule PrimerLive.Options.Button do
   | `is_small`        | `boolean` | -                    | false       | Creates a small button. Equivalent to adding "btn-sm" class.                                                                               |
   """
   typed_embedded_schema do
-    field(:inner_block, :any, virtual: true)
+    # Slots
+    field(:inner_block, :any, virtual: true, enforce: true, null: false)
     # Optional options
     field(:class, :string)
     field(:is_block, :boolean, default: false)

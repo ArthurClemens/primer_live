@@ -11,7 +11,8 @@ defmodule PrimerLive.Options.ButtonGroup do
 
   """
   typed_embedded_schema do
-    field(:inner_block, :any, virtual: true)
+    # Slots
+    field(:inner_block, :any, virtual: true, enforce: true, null: false)
     # Optional options
     field(:class, :string)
   end
@@ -39,7 +40,8 @@ defmodule PrimerLive.Options.ButtonGroupItem do
   | `class`       | `string` | -              | -           | Additional classname.      |
   """
   typed_embedded_schema do
-    field(:inner_block, :any, virtual: true)
+    # Slots
+    field(:inner_block, :any, virtual: true, enforce: true, null: false)
     # Optional options
     field(:class, :string)
   end
