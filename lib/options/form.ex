@@ -4,12 +4,12 @@ defmodule PrimerLive.Options.FormGroup.Classes do
   @moduledoc """
   Options for `classes` in `PrimerLive.Options.FormGroup`.
 
-  | **Classname** | **Description**               |
-  | ------------- | ----------------------------- |
-  | `form_group`  | The form group element class. |
-  | `header`      | The header element class.     |
-  | `body`        | The body element class.       |
-  | `note`        | The note element class.       |
+  | **Classname** | **Description**     |
+  | ------------- | ------------------- |
+  | `form_group`  | Form group element. |
+  | `header`      | Geader element.     |
+  | `body`        | Body element.       |
+  | `note`        | Note element.       |
   """
 
   typed_embedded_schema do

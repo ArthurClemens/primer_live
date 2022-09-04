@@ -7,11 +7,11 @@ defmodule PrimerLive.Options.Pagination.Classes do
   | **Classname**          | **Description**                           |
   | ---------------------- | ----------------------------------------- |
   | `pagination_container` | `nav` element that contains `navigation`. |
-  | `pagination`           | The main control.                         |
+  | `pagination`           | Main element.                             |
   | `previous_page`        | Previous page link (enabled or disabled). |
   | `next_page`            | Next page link (enabled or disabled).     |
   | `page`                 | Page number link (not the seleced page).  |
-  | `gap`                  | Gap text.                                 |
+  | `gap`                  | Gap element.                              |
   """
 
   typed_embedded_schema do

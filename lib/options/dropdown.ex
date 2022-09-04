@@ -46,13 +46,13 @@ defmodule PrimerLive.Options.Dropdown.Classes do
   @moduledoc """
   Options for `classes` in `PrimerLive.Options.Dropdown`.
 
-  | **Classname** | **Description**                                                |
-  | ------------- | -------------------------------------------------------------- |
-  | `button`      | Button class. Any value will override the default class "btn". |
-  | `caret`       | Dropdown caret class.                                          |
-  | `dropdown`    | The dropdown element class.                                    |
-  | `menu`        | The menu element class.                                        |
-  | `header`      | The menu header element class.                                 |
+  | **Classname** | **Description**                                                  |
+  | ------------- | ---------------------------------------------------------------- |
+  | `button`      | Button element. Any value will override the default class "btn". |
+  | `caret`       | Dropdown caret element.                                          |
+  | `dropdown`    | Dropdown element.                                                |
+  | `menu`        | Menu element.                                                    |
+  | `header`      | Menu header element.                                             |
   """
 
   typed_embedded_schema do

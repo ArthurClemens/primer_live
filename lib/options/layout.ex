@@ -4,13 +4,13 @@ defmodule PrimerLive.Options.Layout.Classes do
   @moduledoc """
   Options for `classes` in `PrimerLive.Options.Layout`.
 
-  | **Classname**         | **Description**                         |
-  | --------------------- | --------------------------------------- |
-  | `layout`              | The layout container element.           |
-  | `main`                | The main element.                       |
-  | `divider`             | The divider element.                    |
-  | `sidebar`             | The sidebar element.                    |
-  | `main_center_wrapper` | The wrapper to created a centered main. |
+  | **Classname**         | **Description**                             |
+  | --------------------- | ------------------------------------------- |
+  | `layout`              | Layout container element.                   |
+  | `main`                | Main element.                               |
+  | `divider`             | Divider element.                            |
+  | `sidebar`             | Sidebar element.                            |
+  | `main_center_wrapper` | Wrapper element to created a centered main. |
   """
 
   typed_embedded_schema do

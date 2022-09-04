@@ -64,13 +64,13 @@ defmodule PrimerLive.Options.Box.Classes do
   @moduledoc """
   Options for `classes` in `PrimerLive.Options.Box`.
 
-  | **Classname** | **Description**        |
-  | ------------- | ---------------------- |
-  | `box`         | The box element class. |
-  | `header`      | Header class.          |
-  | `body`        | Body class.            |
-  | `footer`      | Footer class.          |
-  | `title`       | Title class.           |
+  | **Classname** | **Description**          |
+  | ------------- | ------------------------ |
+  | `box`         | Box element.             |
+  | `header`      | Header element.          |
+  | `body`        | Body element.            |
+  | `footer`      | Footer element.          |
+  | `title`       | Title element.           |
   """
 
   typed_embedded_schema do
