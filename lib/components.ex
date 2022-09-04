@@ -401,14 +401,22 @@ defmodule PrimerLive.Components do
 
   ```
   <.layout>
-    <:main>
+    <:item name="main">
       Main content
-    </:main>
-    <:sidebar>
+    </:item>
+    <:item name="sidebar">
       Sidebar content
-    </:sidebar>
+    </:item>
   </.layout>
   ```
+
+  The layout slots contain the general name "item" so that they can be processed sequentially. This will preserve the original order of the slots.
+
+  From the Primer site:
+
+  > Keyboard navigation follows the markup order. Decide carefully how the focus order should be be by deciding whether Layout-main or Layout-sidebar comes first in code. The code order won’t affect the visual position.
+
+
 
   ## Examples
 
@@ -416,13 +424,13 @@ defmodule PrimerLive.Components do
 
   ```
   <.layout is_divided>
-    <:main>
+    <:item name="main">
       Main content
-    </:main>
-    <:divider></:divider>
-    <:sidebar>
+    </:item>
+    <:item name="divider"></:item>
+    <:item name="sidebar">
       Sidebar content
-    </:sidebar>
+    </:item>
   </.layout>
   ```
 
@@ -430,12 +438,12 @@ defmodule PrimerLive.Components do
 
   ```
   <.layout is_sidebar_position_end>
-    <:main>
+    <:item name="main">
       Main content
-    </:main>
-    <:sidebar>
+    </:item>
+    <:item name="sidebar">
       Sidebar content
-    </:sidebar>
+    </:item>
   </.layout>
   ```
 
@@ -443,34 +451,34 @@ defmodule PrimerLive.Components do
 
   ```
   <.layout>
-    <:main>
+    <:item name="main">
       <.layout is_sidebar_position_end is_narrow_sidebar>
-        <:main>
+        <:item name="main">
           Main content
-        </:main>
-        <:sidebar>
+        </:item>
+        <:item name="sidebar">
           Metadata sidebar
-        </:sidebar>
+        </:item>
       </.layout>
-    </:main>
-    <:sidebar>
+    </:item>
+    <:item name="sidebar">
       Default sidebar
-    </:sidebar>
+    </:item>
   </.layout>
   <.layout>
-    <:main>
+    <:item name="main">
       <.layout is_sidebar_position_end is_flow_row_until_lg is_narrow_sidebar>
-        <:main>
+        <:item name="main">
           Main content
-        </:main>
-        <:sidebar>
+        </:item>
+        <:item name="sidebar">
           Metadata sidebar
-        </:sidebar>
+        </:item>
       </.layout>
-    </:main>
-    <:sidebar>
+    </:item>
+    <:item name="sidebar">
       Default sidebar
-    </:sidebar>
+    </:item>
   </.layout>
   ```
 
@@ -542,26 +550,30 @@ defmodule PrimerLive.Components do
 
     ~H"""
     <div class={classes.layout}>
-      <%= if @main do %>
-        <div class={classes.main}>
-          <%= if @is_main_centered_md || @is_main_centered_lg || @is_main_centered_xl do %>
-            <div class={classes.main_center_wrapper}>
-              <%= render_slot(@main) %>
+      <%= if @item do %>
+        <%= for item <- @item do %>
+          <%= if item.name == "main" do %>
+            <div class={classes.main}>
+              <%= if @is_main_centered_md || @is_main_centered_lg || @is_main_centered_xl do %>
+                <div class={classes.main_center_wrapper}>
+                  <%= render_slot(item) %>
+                </div>
+              <% else %>
+                <%= render_slot(item) %>
+              <% end %>
             </div>
-          <% else %>
-            <%= render_slot(@main) %>
           <% end %>
-        </div>
-      <% end %>
-      <%= if @divider do %>
-        <div class={classes.divider}>
-          <%= render_slot(@divider) %>
-        </div>
-      <% end %>
-      <%= if @sidebar do %>
-        <div class={classes.sidebar}>
-          <%= render_slot(@sidebar) %>
-        </div>
+          <%= if item.name == "sidebar" do %>
+            <div class={classes.sidebar}>
+              <%= render_slot(item) %>
+            </div>
+          <% end %>
+          <%= if item.name == "divider" do %>
+            <div class={classes.divider}>
+              <%= render_slot(item) %>
+            </div>
+          <% end %>
+        <% end %>
       <% end %>
     </div>
     """

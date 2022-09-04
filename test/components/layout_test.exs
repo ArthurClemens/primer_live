@@ -9,13 +9,13 @@ defmodule PrimerLive.Components.LayoutTest do
   defp test_layout_attr(assigns) do
     ~H"""
     <.layout {assigns}>
-      <:main>
+      <:item name="main">
         Main content
-      </:main>
-      <:divider></:divider>
-      <:sidebar>
+      </:item>
+      <:item name="divider"></:item>
+      <:item name="sidebar">
         Sidebar content
-      </:sidebar>
+      </:item>
     </.layout>
     """
   end
@@ -38,12 +38,12 @@ defmodule PrimerLive.Components.LayoutTest do
 
     assert rendered_to_string(~H"""
            <.layout>
-             <:main>
+             <:item name="main">
                Main content
-             </:main>
-             <:sidebar>
+             </:item>
+             <:item name="sidebar">
                Sidebar content
-             </:sidebar>
+             </:item>
            </.layout>
            """)
            |> format_html() ==
@@ -51,6 +51,31 @@ defmodule PrimerLive.Components.LayoutTest do
              <div class="Layout">
              <div class="Layout-main">Main content</div>
              <div class="Layout-sidebar">Sidebar content</div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Called with slots in specific order: should maintain order" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.layout>
+             <:item name="sidebar">
+               Sidebar content
+             </:item>
+             <:item name="divider"></:item>
+             <:item name="main">
+               Main content
+             </:item>
+           </.layout>
+           """)
+           |> format_html() ==
+             """
+             <div class="Layout">
+             <div class="Layout-sidebar">Sidebar content</div>
+             <div class="Layout-divider"></div>
+             <div class="Layout-main">Main content</div>
              </div>
              """
              |> format_html()
@@ -363,6 +388,53 @@ defmodule PrimerLive.Components.LayoutTest do
              <div class="Layout-main">Main content</div>
              <div class="Layout-divider"></div>
              <div class="Layout-sidebar">Sidebar content</div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Option: class" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.test_layout_attr class="x" />
+           """)
+           |> format_html() ==
+             """
+             <div class="Layout x">
+             <div class="Layout-main">Main content</div>
+             <div class="Layout-divider"></div>
+             <div class="Layout-sidebar">Sidebar content</div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Option: classes" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.test_layout_attr
+             is_main_centered_md
+             classes={
+               %{
+                 layout: "layout-x",
+                 main: "main-x",
+                 divider: "divider-x",
+                 sidebar: "sidebar-x",
+                 main_center_wrapper: "main_center_wrapper-x"
+               }
+             }
+           />
+           """)
+           |> format_html() ==
+             """
+             <div class="Layout layout-x">
+             <div class="Layout-main main-x">
+             <div class="main_center_wrapper-x Layout-main-centered-md">Main content</div>
+             </div>
+             <div class="Layout-divider divider-x"></div>
+             <div class="Layout-sidebar sidebar-x">Sidebar content</div>
              </div>
              """
              |> format_html()
