@@ -1306,8 +1306,15 @@ defmodule PrimerLive.Components do
         assigns.class
       ])
 
+    item_opts =
+      Attributes.append_attributes(assigns.extra, [
+        [class: class],
+        # If divider: add role="separator"
+        assigns.is_divider and [role: "separator"]
+      ])
+
     ~H"""
-    <li class={class} {@extra}>
+    <li class={class} {item_opts}>
       <%= if @inner_block do %>
         <%= render_slot(@inner_block) %>
       <% end %>
