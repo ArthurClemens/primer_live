@@ -1314,7 +1314,7 @@ defmodule PrimerLive.Components do
       ])
 
     ~H"""
-    <li class={class} {item_opts}>
+    <li {item_opts}>
       <%= if @inner_block do %>
         <%= render_slot(@inner_block) %>
       <% end %>

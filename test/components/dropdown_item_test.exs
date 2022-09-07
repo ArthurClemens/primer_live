@@ -40,12 +40,12 @@ defmodule PrimerLive.Components.DropdownItemTest do
            """)
            |> format_html() ==
              """
-             <li class="dropdown-divider"></li>
+             <li class="dropdown-divider" role="separator"></li>
              """
              |> format_html()
   end
 
-  test "Option: is_divider with content" do
+  test "Option: is_divider with content (ignored)" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -53,7 +53,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
            """)
            |> format_html() ==
              """
-             <li class="dropdown-divider"></li>
+             <li class="dropdown-divider" role="separator"></li>
              """
              |> format_html()
   end
@@ -79,7 +79,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
            """)
            |> format_html() ==
              """
-             <li class="dropdown-item" href="#">Item</li>
+             <li href="#" class="dropdown-item">Item</li>
              """
              |> format_html()
   end

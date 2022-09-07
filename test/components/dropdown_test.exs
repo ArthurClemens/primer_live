@@ -272,10 +272,10 @@ defmodule PrimerLive.Components.DropdownTest do
              <div class="dropdown-menu dropdown-menu-se">
              <div class="dropdown-header">Header</div>
              <ul>
-             <li class="dropdown-item" href="#url">Dropdown item 1</li>
-             <li class="dropdown-item" href="#url">Dropdown item 2</li>
-             <li class="dropdown-divider"></li>
-             <li class="dropdown-item" href="#url">Dropdown item 3</li>
+             <li href="#url" class="dropdown-item">Dropdown item 1</li>
+             <li href="#url" class="dropdown-item">Dropdown item 2</li>
+             <li class="dropdown-divider" role="separator"></li>
+             <li href="#url" class="dropdown-item">Dropdown item 3</li>
              </ul>
              </div>
              </details>
