@@ -6,11 +6,11 @@ defmodule PrimerLive.Options.BoxItem do
   typed_embedded_schema do
     # Slots
     field(:inner_block, :any, virtual: true, enforce: true, null: false)
-    field(:header, :boolean, default: false)
     field(:body, :boolean, default: false)
     field(:footer, :boolean, default: false)
-    field(:title, :boolean, default: false)
+    field(:header, :boolean, default: false)
     field(:row, :boolean, default: false)
+    field(:title, :boolean, default: false)
     # Optional options
     field(:class, :string)
     field(:is_blue, :boolean, default: false)

@@ -401,97 +401,125 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Creates a responsive-friendly page layouts with 2 columns.
 
+  [Examples](#layout/1-examples) • [Options](#layout/1-options) • [Reference](#layout/1-reference)
+
+  The position of the sidebar is set by CSS (and can be changed with attribute `is_sidebar_position_end`).
+  In this example the sidebar is the last element, but (by default) will be placed at the start:
+
   ```
   <.layout>
-    <:item name="main">
+    <.layout_item main>
       Main content
-    </:item>
-    <:item name="sidebar">
+    </.layout_item>
+    <.layout_item sidebar>
       Sidebar content
-    </:item>
+    </.layout_item>
   </.layout>
   ```
 
-  The layout slots contain the general name "item" so that they can be processed sequentially. This will preserve the original order of the slots.
-
-  From the Primer site:
+  From the Primer documentation:
 
   > Keyboard navigation follows the markup order. Decide carefully how the focus order should be be by deciding whether Layout-main or Layout-sidebar comes first in code. The code order won’t affect the visual position.
 
 
-
   ## Examples
 
-  With a divider. Creates a line between the main and sidebar elements - horizontal when the elements are stacked and vertical when they are shown side by side:
+  _layout examples_
 
-  ```
-  <.layout is_divided>
-    <:item name="main">
-      Main content
-    </:item>
-    <:item name="divider"></:item>
-    <:item name="sidebar">
-      Sidebar content
-    </:item>
-  </.layout>
-  ```
-
-  Sidebar at the right:
+  Place the sidebar at the right:
 
   ```
   <.layout is_sidebar_position_end>
-    <:item name="main">
+    <.layout_item main>
       Main content
-    </:item>
-    <:item name="sidebar">
+    </.layout_item>
+    <.layout_item sidebar>
       Sidebar content
-    </:item>
+    </.layout_item>
   </.layout>
   ```
 
-  Nested layouts:
+  With a divider. Use `is_divided` in conjunction with the `layout_item` element with attribute `divider` to show a divider between the main content and the sidebar.
+
+  ```
+  <.layout is_divided>
+    <.layout_item main>
+      Main content
+    </.layout_item>
+    <.layout_item divider />
+    <.layout_item sidebar>
+      Sidebar content
+    </.layout_item>
+  </.layout>
+  ```
+
+  Nested layout, example 1:
 
   ```
   <.layout>
-    <:item name="main">
+    <.layout_item main>
       <.layout is_sidebar_position_end is_narrow_sidebar>
-        <:item name="main">
+        <.layout_item main>
           Main content
-        </:item>
-        <:item name="sidebar">
+        </.layout_item>
+        <.layout_item sidebar>
           Metadata sidebar
-        </:item>
+        </.layout_item>
       </.layout>
-    </:item>
-    <:item name="sidebar">
+    </.layout_item>
+    <.layout_item sidebar>
       Default sidebar
-    </:item>
-  </.layout>
-  <.layout>
-    <:item name="main">
-      <.layout is_sidebar_position_end is_flow_row_until_lg is_narrow_sidebar>
-        <:item name="main">
-          Main content
-        </:item>
-        <:item name="sidebar">
-          Metadata sidebar
-        </:item>
-      </.layout>
-    </:item>
-    <:item name="sidebar">
-      Default sidebar
-    </:item>
+    </.layout_item>
   </.layout>
   ```
 
-  ## All options
+  Nested layout, example 2:
 
-  - `PrimerLive.Options.Layout`
-  - Additional HTML attributes are passed to the layout container element
+  ```
+  <.layout>
+    <.layout_item main>
+      <.layout is_sidebar_position_end is_flow_row_until_lg is_narrow_sidebar>
+        <.layout_item main>
+          Main content
+        </.layout_item>
+        <.layout_item sidebar>
+          Metadata sidebar
+        </.layout_item>
+      </.layout>
+    </.layout_item>
+    <.layout_item sidebar>
+      Default sidebar
+    </.layout_item>
+  </.layout>
+  ```
+
+  ## Options
+
+  _layout options_
+
+  | **Name**                             | **Type**  | **Validation** | **Default** | **Description**                                                                                                                                                                                  |
+  | ------------------------------------ | --------- | -------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+  | `inner_block`                        | `slot`    | required       | -           | Content.                                                                                                                                                                                         |
+  | `class`                              | `string`  | -              | -           | Additional classname.                                                                                                                                                                            |
+  | `is_divided`                         | `boolean` | -              | false       | Use `is_divided` in conjunction with the `layout_item` element with attribute `divider` to show a divider between the main content and the sidebar. Creates a 1px line between main and sidebar. |
+  | `is_narrow_sidebar`                  | `boolean` | -              | false       | Smaller sidebar size. Widths: md: 240px, lg: 256px.                                                                                                                                              |
+  | `is_wide_sidebar`                    | `boolean` | -              | false       | Wider sidebar size. Widths: md: 296px, lg: 320px, xl: 344px.                                                                                                                                     |
+  | `is_gutter_none`                     | `boolean` | -              | false       | Changes the gutter size to 0px.                                                                                                                                                                  |
+  | `is_gutter_condensed`                | `boolean` | -              | false       | Changes the gutter size to 16px.                                                                                                                                                                 |
+  | `is_gutter_spacious`                 | `boolean` | -              | false       | Changes the gutter sizes to: md: 16px, lg: 32px, xl: 40px.                                                                                                                                       |
+  | `is_sidebar_position_start`          | `boolean` | -              | false       | Places the sidebar at the start (commonly at the left) (default).                                                                                                                                |
+  | `is_sidebar_position_end`            | `boolean` | -              | false       | Places the sidebar at the end (commonly at the right).                                                                                                                                           |
+  | `is_sidebar_position_flow_row_start` | `boolean` | -              | false       | When stacked, render the sidebar first (default).                                                                                                                                                |
+  | `is_sidebar_position_flow_row_end`   | `boolean` | -              | false       | When stacked, render the sidebar last.                                                                                                                                                           |
+  | `is_sidebar_position_flow_row_none`  | `boolean` | -              | false       | When stacked, hide the sidebar.                                                                                                                                                                  |
+  | `is_flow_row_until_md`               | `boolean` | -              | false       | Stacks when container is md.                                                                                                                                                                     |
+  | `is_flow_row_until_lg`               | `boolean` | -              | false       | Stacks when container is lg.                                                                                                                                                                     |
+
+  Additional HTML attributes are passed to the layout container element.
 
   ## Reference
 
-  - [Primer/CSS Layout](https://primer.style/css/components/layout)
+  [Primer/CSS Layout](https://primer.style/css/components/layout)
 
   """
 
@@ -504,77 +532,172 @@ defmodule PrimerLive.Components do
   end
 
   defp render_layout(assigns) do
+    class =
+      Attributes.classnames([
+        "Layout",
+        assigns.class,
+        assigns.is_divided and "Layout--divided",
+        assigns.is_narrow_sidebar and "Layout--sidebar-narrow",
+        assigns.is_wide_sidebar and "Layout--sidebar-wide",
+        assigns.is_gutter_none and "Layout--gutter-none",
+        assigns.is_gutter_condensed and "Layout--gutter-condensed",
+        assigns.is_gutter_spacious and "Layout--gutter-spacious",
+        assigns.is_sidebar_position_start and "Layout--sidebarPosition-start",
+        assigns.is_sidebar_position_end and "Layout--sidebarPosition-end",
+        assigns.is_sidebar_position_flow_row_start and "Layout--sidebarPosition-flowRow-start",
+        assigns.is_sidebar_position_flow_row_end and "Layout--sidebarPosition-flowRow-end",
+        assigns.is_sidebar_position_flow_row_none and "Layout--sidebarPosition-flowRow-none",
+        assigns.is_flow_row_until_md and "Layout--flowRow-until-md",
+        assigns.is_flow_row_until_lg and "Layout--flowRow-until-lg"
+      ])
+
+    ~H"""
+    <div class={class} {@extra}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # layout_item
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :layout
+
+  @doc ~S"""
+  Content element for `layout/1`.
+
+  [Examples](#layout_item/1-examples) • [Options](#layout_item/1-options) • [Reference](#layout_item/1-reference)
+
+  Main, divider and sidebar containers:
+
+  ```
+  <.layout_item main> Main content </.layout_item>
+  <.layout_item divider />
+  <.layout_item sidebar> Sidebar content </.layout_item>
+  ```
+
+  See `layout/1` for examples of nested layouts.
+
+  ## Examples
+
+  _layout_item examples_
+
+  The modifiers `is_centered_xx` create a wrapper around `main` to center its content up to a maximum width.
+  Use with `.container-xx` classes to restrict the size of the content:
+
+  ```
+  <.layout>
+    <.layout_item main is_centered_md>
+      <div class="container-md">
+        Centered md
+      </div>
+    </.layout_item>
+    <.layout_item sidebar>
+      Default sidebar
+    </.layout_item>
+  </.layout>
+  ```
+
+  Show or hide the divider:
+
+  - `.layout is_divided` without any `layout_item` modifier creates a 1px border between main and sidebar
+  - `.layout is_divided` with `is_flow_row_hidden` hides the divider
+  - `.layout is_divided` with `is_flow_row_shallow` shows a filled 8px divider
+
+  ```
+  <.layout is_divided>
+    <.layout_item divider is_flow_row_shallow />
+  </.layout>
+  ```
+
+  ## Options
+
+  _layout_item options_
+
+  | **Name**              | **Type**  | **Validation** | **Default** | **Description**                                                                                                                                                                                                                                 |
+  | --------------------- | --------- | -------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `inner_block`         | `slot`    | -              | -           | Content. Optional when using attribute `divider`.                                                                                                                                                                                               |
+  | `class`               | `string`  | -              | -           | Additional classname.                                                                                                                                                                                                                           |
+  | `main`                | `boolean` | -              | false       | Creates a main element. Default gutter sizes: md: 16px, lg: 24px (change with `is_gutter_none`, `is_gutter_condensed` and `is_gutter_spacious`). Stacks when container is `sm` (change with `is_flow_row_until_md` and `is_flow_row_until_lg`). |
+  | `sidebar`             | `boolean` | -              | false       | Creates a sidebar element. Widths: md: 256px, lg: 296px (change with `is_narrow_sidebar` and `is_wide_sidebar`).                                                                                                                                |
+  | `divider`             | `boolean` | -              | false       | Creates a divider element. The divider will only be shown with option `is_divided`. Creates a line between the main and sidebar elements - horizontal when the elements are stacked and vertical when they are shown side by side.              |
+  | `is_centered_lg`      | `boolean` | -              | false       | With attribute `main`. Creates a wrapper around `main` to keep its content centered up to max width "lg".                                                                                                                                       |
+  | `is_centered_md`      | `boolean` | -              | false       | With attribute `main`. Creates a wrapper around `main` to keep its content centered up to max width "md".                                                                                                                                       |
+  | `is_centered_xl`      | `boolean` | -              | false       | With attribute `main`. Creates a wrapper around `main` to keep its content centered up to max width "xl".                                                                                                                                       |
+  | `is_flow_row_hidden`  | `boolean` | -              | false       | With attribute `divider` and small screen (up to 544px). Hides the horizontal divider.                                                                                                                                                          |
+  | `is_flow_row_shallow` | `boolean` | -              | false       | With attribute `divider` and small screen (up to 544px). Creates a filled 8px horizontal divider.                                                                                                                                               |
+
+  Additional HTML attributes are passed to the layout_item element.
+
+  ## Reference
+
+  [Primer/CSS Layout](https://primer.style/css/components/layout)
+
+  """
+
+  def layout_item(assigns) do
+    with {:ok, assigns} <-
+           SchemaHelpers.validate_options(assigns, Options.LayoutItem, "layout_item") do
+      render_layout_item(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_layout_item(assigns) do
     classes = %{
-      layout:
-        Attributes.classnames([
-          "Layout",
-          assigns.class,
-          assigns.classes.layout,
-          assigns.is_divided and "Layout--divided",
-          assigns.is_narrow_sidebar and "Layout--sidebar-narrow",
-          assigns.is_wide_sidebar and "Layout--sidebar-wide",
-          assigns.is_gutter_none and "Layout--gutter-none",
-          assigns.is_gutter_condensed and "Layout--gutter-condensed",
-          assigns.is_gutter_spacious and "Layout--gutter-spacious",
-          assigns.is_sidebar_position_start and "Layout--sidebarPosition-start",
-          assigns.is_sidebar_position_end and "Layout--sidebarPosition-end",
-          assigns.is_sidebar_position_flow_row_start and "Layout--sidebarPosition-flowRow-start",
-          assigns.is_sidebar_position_flow_row_end and "Layout--sidebarPosition-flowRow-end",
-          assigns.is_sidebar_position_flow_row_none and "Layout--sidebarPosition-flowRow-none",
-          assigns.is_flow_row_until_md and "Layout--flowRow-until-md",
-          assigns.is_flow_row_until_lg and "Layout--flowRow-until-lg"
-        ]),
       main:
         Attributes.classnames([
-          "Layout-main",
-          assigns.classes.main
+          "Layout-main"
+        ]),
+      main_center_wrapper:
+        Attributes.classnames([
+          assigns.is_centered_md and "Layout-main-centered-md",
+          assigns.is_centered_lg and "Layout-main-centered-lg",
+          assigns.is_centered_xl and "Layout-main-centered-xl"
         ]),
       sidebar:
         Attributes.classnames([
-          "Layout-sidebar",
-          assigns.classes.sidebar
+          "Layout-sidebar"
         ]),
       divider:
         Attributes.classnames([
           "Layout-divider",
-          assigns.classes.divider,
-          assigns.is_divider_flow_row_shallow and "Layout-divider--flowRow-shallow",
-          assigns.is_divider_flow_row_hidden and "Layout-divider--flowRow-hidden"
-        ]),
-      main_center_wrapper:
-        Attributes.classnames([
-          assigns.classes.main_center_wrapper,
-          assigns.is_main_centered_md and "Layout-main-centered-md",
-          assigns.is_main_centered_lg and "Layout-main-centered-lg",
-          assigns.is_main_centered_xl and "Layout-main-centered-xl"
+          assigns.is_flow_row_shallow and "Layout-divider--flowRow-shallow",
+          assigns.is_flow_row_hidden and "Layout-divider--flowRow-hidden"
         ])
     }
 
+    class =
+      Attributes.classnames([
+        cond do
+          assigns.main -> classes.main
+          assigns.sidebar -> classes.sidebar
+          assigns.divider -> classes.divider
+          true -> nil
+        end,
+        assigns.class
+      ])
+
+    item_opts =
+      Attributes.append_attributes(assigns.extra, [
+        class !== "" && [class: class]
+      ])
+
     ~H"""
-    <div class={classes.layout}>
-      <%= if @item do %>
-        <%= for item <- @item do %>
-          <%= if item.name == "main" do %>
-            <div class={classes.main}>
-              <%= if @is_main_centered_md || @is_main_centered_lg || @is_main_centered_xl do %>
-                <div class={classes.main_center_wrapper}>
-                  <%= render_slot(item) %>
-                </div>
-              <% else %>
-                <%= render_slot(item) %>
-              <% end %>
-            </div>
-          <% end %>
-          <%= if item.name == "sidebar" do %>
-            <div class={classes.sidebar}>
-              <%= render_slot(item) %>
-            </div>
-          <% end %>
-          <%= if item.name == "divider" do %>
-            <div class={classes.divider}>
-              <%= render_slot(item) %>
-            </div>
-          <% end %>
+    <div {item_opts}>
+      <%= if @main do %>
+        <%= if @is_centered_md || @is_centered_lg || @is_centered_xl do %>
+          <div class={classes.main_center_wrapper}>
+            <%= render_slot(@inner_block) %>
+          </div>
+        <% else %>
+          <%= render_slot(@inner_block) %>
+        <% end %>
+      <% else %>
+        <%= if @inner_block do %>
+          <%= render_slot(@inner_block) %>
         <% end %>
       <% end %>
     </div>
@@ -807,7 +930,7 @@ defmodule PrimerLive.Components do
   | --------------------- | --------- | -------------- | ----------- | -------------------------------------------------------------------------------- |
   | `inner_block`         | `slot`    | required       | -           | Content.                                                                         |
   | `header`              | `boolean` | -              | false       | Creates a header element.                                                        |
-  | `title`               | `boolean` | -              | false       | Creates a title within a headder element.                                        |
+  | `title`               | `boolean` | -              | false       | Creates a title element to be placed within a headder element.                   |
   | `row`                 | `boolean` | -              | false       | Creates a row element.                                                           |
   | `body`                | `boolean` | -              | false       | Creates a body element.                                                          |
   | `footer`              | `boolean` | -              | false       | Creates a footer element.                                                        |
@@ -885,13 +1008,20 @@ defmodule PrimerLive.Components do
         assigns.class
       ])
 
+    item_opts =
+      Attributes.append_attributes(assigns.extra, [
+        class !== "" && [class: class]
+      ])
+
+    title_opts = class !== "" && [class: class]
+
     ~H"""
     <%= if @title do %>
-      <h3 class={class}>
+      <h3 {title_opts}>
         <%= render_slot(@inner_block) %>
       </h3>
     <% else %>
-      <div class={class} {@extra}>
+      <div {item_opts}>
         <%= render_slot(@inner_block) %>
       </div>
     <% end %>

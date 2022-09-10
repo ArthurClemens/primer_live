@@ -12,7 +12,7 @@ defmodule PrimerLive.Helpers.SchemaHelpers do
 
       def validate_is_atom_or_nil(changeset, attrs) do
         changeset
-        |> PrimerLive.SchemaValidation.validate_cond(
+        |> SchemaHelpers.validate_cond(
           attrs,
           :my_attr,
           fn value ->
@@ -33,6 +33,38 @@ defmodule PrimerLive.Helpers.SchemaHelpers do
     case condition_fn.(value) do
       true -> changeset
       false -> add_error(changeset, key, invalid_message)
+    end
+  end
+
+  @doc """
+  Validates a changeset by verifying that both keys exist and have values of 'true'.
+  If the first key is not present, the changeset is returned unchanged.
+
+  ```
+  changeset |> validate_require_true_values(attrs, :is_centered_md, :main)
+  ```
+  """
+  def validate_require_true_values(changeset, attrs, key1, key2) do
+    case is_nil(attrs[key1]) do
+      true -> changeset
+      false -> _validate_require_true_values(changeset, attrs, key1, key2)
+    end
+  end
+
+  defp _validate_require_true_values(changeset, attrs, key1, key2) do
+    key1_value = attrs[key1]
+    key2_value = attrs[key2]
+
+    case key1_value && !is_nil(key2_value) and key2_value do
+      true ->
+        changeset
+
+      false ->
+        add_error(
+          changeset,
+          key1,
+          "must be used with \"#{key2}\""
+        )
     end
   end
 

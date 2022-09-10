@@ -1,80 +1,79 @@
-defmodule PrimerLive.Options.Layout.Classes do
+defmodule PrimerLive.Options.LayoutItem do
   use Options
 
-  @moduledoc """
-  Options for `classes` in `PrimerLive.Options.Layout`.
+  import Ecto.Changeset
 
-  | **Classname**         | **Description**                             |
-  | --------------------- | ------------------------------------------- |
-  | `layout`              | Layout container element.                   |
-  | `main`                | Main element.                               |
-  | `divider`             | Divider element.                            |
-  | `sidebar`             | Sidebar element.                            |
-  | `main_center_wrapper` | Wrapper element to created a centered main. |
-  """
+  alias PrimerLive.Helpers.SchemaHelpers
+
+  @moduledoc false
 
   typed_embedded_schema do
-    field(:layout, :string)
-    field(:main, :string)
-    field(:divider, :string)
-    field(:sidebar, :string)
-    field(:main_center_wrapper, :string)
+    # Slots
+    field(:inner_block, :any, virtual: true)
+    field(:divider, :boolean, default: false)
+    field(:main, :boolean, default: false)
+    field(:sidebar, :boolean, default: false)
+    # Optional options
+    field(:class, :string)
+    field(:is_centered_lg, :boolean, default: false)
+    field(:is_centered_md, :boolean, default: false)
+    field(:is_centered_xl, :boolean, default: false)
+    field(:is_flow_row_hidden, :boolean, default: false)
+    field(:is_flow_row_shallow, :boolean, default: false)
   end
 
   @impl Options
   def changeset(struct, attrs \\ %{}) do
     struct
-    |> cast(attrs, [:layout, :main, :divider, :sidebar, :main_center_wrapper])
+    |> cast(attrs, [
+      :class,
+      :divider,
+      :inner_block,
+      :is_centered_lg,
+      :is_centered_md,
+      :is_centered_xl,
+      :is_flow_row_hidden,
+      :is_flow_row_shallow,
+      :main,
+      :sidebar
+    ])
+    |> validate_require_inner_block_unless_divider(attrs)
+    |> SchemaHelpers.validate_require_true_values(attrs, :is_centered_lg, :main)
+    |> SchemaHelpers.validate_require_true_values(attrs, :is_centered_md, :main)
+    |> SchemaHelpers.validate_require_true_values(attrs, :is_centered_xl, :main)
+    |> SchemaHelpers.validate_require_true_values(attrs, :is_flow_row_hidden, :divider)
+    |> SchemaHelpers.validate_require_true_values(attrs, :is_flow_row_shallow, :divider)
+  end
+
+  defp validate_require_inner_block_unless_divider(changeset, attrs) do
+    changeset
+    |> SchemaHelpers.validate_cond(
+      attrs,
+      :inner_block,
+      fn value ->
+        cond do
+          is_nil(value) -> !is_nil(attrs[:divider])
+          true -> true
+        end
+      end,
+      "must not be empty"
+    )
   end
 end
 
 defmodule PrimerLive.Options.Layout do
   use Options
 
-  alias PrimerLive.Options.Layout.Classes
+  @moduledoc false
 
-  @moduledoc """
-  Options for component `PrimerLive.Components.layout/1`.
-
-  | **Name**                             | **Type**  | **Validation** | **Default** | **Description**                                                                                                                                                                                                                       |
-  | ------------------------------------ | --------- | -------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-  | `item name="main"`                   | `slot`    | -              | -           | Main element. Default gutter sizes: md: 16px, lg: 24px (change with `is_gutter_none`, `is_gutter_condensed` and `is_gutter_spacious`). Stacks when container is `sm` (change with `is_flow_row_until_md` and `is_flow_row_until_lg`). |
-  | `item name="divider"`                | `slot`    | -              | -           | Divider element. The divider will only be shown with option `is_divided`. Creates a line between the main and sidebar elements - horizontal when the elements are stacked and vertical when they are shown side by side.              |
-  | `item name="sidebar"`                | `slot`    | -              | -           | Sidebar element. Widths: md: 256px, lg: 296px (change with `is_narrow_sidebar` and `is_wide_sidebar`).                                                                                                                                |
-  | `class`                              | `string`  | -              | -           | Additional classname for the main component. For more control, use `classes`.                                                                                                                                                         |
-  | `classes`                            | `map`     | -              | -           | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Layout.Classes`.                                                                                                            |
-  | `is_divided`                         | `boolean` | -              | false       | Use `is_divided` in conjunction with the `item name="divider"` slot to show a divider between the main content and the sidebar. Creates a 1px line between main and sidebar.                                                          |
-  | `is_narrow_sidebar`                  | `boolean` | -              | false       | Smaller sidebar size. Widths: md: 240px, lg: 256px.                                                                                                                                                                                   |
-  | `is_wide_sidebar`                    | `boolean` | -              | false       | Wider sidebar size. Widths: md: 296px, lg: 320px, xl: 344px.                                                                                                                                                                          |
-  | `is_divider_flow_row_shallow`        | `boolean` | -              | false       | With slot `item name="divider"` and small screen (up to 544px). Creates a filled 8px horizontal divider.                                                                                                                              |
-  | `is_divider_flow_row_hidden`         | `boolean` | -              | false       | With slot `item name="divider"` and small screen (up to 544px). Hides the horizontal divider.                                                                                                                                         |
-  | `is_main_centered_md`                | `boolean` | -              | false       | Creates a wrapper around `main` to keep its content centered up to max width "md".                                                                                                                                                    |
-  | `is_main_centered_lg`                | `boolean` | -              | false       | Creates a wrapper around `main` to keep its content centered up to max width "lg".                                                                                                                                                    |
-  | `is_main_centered_xl`                | `boolean` | -              | false       | Creates a wrapper around `main` to keep its content centered up to max width "xl".                                                                                                                                                    |
-  | `is_gutter_none`                     | `boolean` | -              | false       | Changes the gutter size to 0px.                                                                                                                                                                                                       |
-  | `is_gutter_condensed`                | `boolean` | -              | false       | Changes the gutter size to 16px.                                                                                                                                                                                                      |
-  | `is_gutter_spacious`                 | `boolean` | -              | false       | Changes the gutter sizes to: md: 16px, lg: 32px, xl: 40px.                                                                                                                                                                            |
-  | `is_sidebar_position_start`          | `boolean` | -              | false       | Places the sidebar at the start (commonly at the left) (default).                                                                                                                                                                     |
-  | `is_sidebar_position_end`            | `boolean` | -              | false       | Places the sidebar at the end (commonly at the right).                                                                                                                                                                                |
-  | `is_sidebar_position_flow_row_start` | `boolean` | -              | false       | When stacked, render the sidebar first (default).                                                                                                                                                                                     |
-  | `is_sidebar_position_flow_row_end`   | `boolean` | -              | false       | When stacked, render the sidebar last.                                                                                                                                                                                                |
-  | `is_sidebar_position_flow_row_none`  | `boolean` | -              | false       | When stacked, hide the sidebar.                                                                                                                                                                                                       |
-  | `is_flow_row_until_md`               | `boolean` | -              | false       | Stacks when container is md.                                                                                                                                                                                                          |
-  | `is_flow_row_until_lg`               | `boolean` | -              | false       | Stacks when container is lg.                                                                                                                                                                                                          |
-  """
   typed_embedded_schema do
     # Slots
-    field(:item, :any, virtual: true)
+    field(:inner_block, :any, virtual: true, enforce: true, null: false)
     # Optional options
     field(:class, :string)
     field(:is_divided, :boolean, default: false)
     field(:is_narrow_sidebar, :boolean, default: false)
     field(:is_wide_sidebar, :boolean, default: false)
-    field(:is_divider_flow_row_shallow, :boolean, default: false)
-    field(:is_divider_flow_row_hidden, :boolean, default: false)
-    field(:is_main_centered_lg, :boolean, default: false)
-    field(:is_main_centered_md, :boolean, default: false)
-    field(:is_main_centered_xl, :boolean, default: false)
     field(:is_gutter_none, :boolean, default: false)
     field(:is_gutter_condensed, :boolean, default: false)
     field(:is_gutter_spacious, :boolean, default: false)
@@ -85,8 +84,6 @@ defmodule PrimerLive.Options.Layout do
     field(:is_sidebar_position_flow_row_none, :boolean, default: false)
     field(:is_flow_row_until_md, :boolean, default: false)
     field(:is_flow_row_until_lg, :boolean, default: false)
-    # Embedded options
-    embeds_one(:classes, Classes)
   end
 
   @impl Options
@@ -94,26 +91,21 @@ defmodule PrimerLive.Options.Layout do
     struct
     |> cast(attrs, [
       :class,
+      :inner_block,
       :is_divided,
-      :is_divider_flow_row_hidden,
-      :is_divider_flow_row_shallow,
       :is_flow_row_until_lg,
       :is_flow_row_until_md,
       :is_gutter_condensed,
       :is_gutter_none,
       :is_gutter_spacious,
-      :is_main_centered_lg,
-      :is_main_centered_md,
-      :is_main_centered_xl,
       :is_narrow_sidebar,
       :is_sidebar_position_end,
       :is_sidebar_position_flow_row_end,
       :is_sidebar_position_flow_row_none,
       :is_sidebar_position_flow_row_start,
       :is_sidebar_position_start,
-      :is_wide_sidebar,
-      :item
+      :is_wide_sidebar
     ])
-    |> cast_embed_with_defaults(attrs, :classes, %{})
+    |> validate_required(:inner_block)
   end
 end

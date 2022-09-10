@@ -128,7 +128,7 @@ defmodule PrimerLive.Options.Form do
   Conditionally embeds a value for form_group.
   - If form_group is a boolean: embed a default map with `form` and `field`
   - if form_group is a map: merge it with the default values containing `form` and `field`
-  - Otherwise return the changeset unmodified
+  - Otherwise return the changeset unchanged
   """
   def cast_form_group(changeset, attrs) do
     value = attrs[:form_group]
