@@ -10,11 +10,11 @@ defmodule PrimerLive.Components.BoxRowTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_row />
+           <.box_slot row />
            """)
            |> format_html() ==
              """
-             <div class="flash flash-error"><p>box_row component received invalid options:</p><p>inner_block: can&#39;t be blank</p></div>
+             <div class="flash flash-error"><p>box_slot component received invalid options:</p><p>inner_block: can&#39;t be blank</p></div>
              """
              |> format_html()
   end
@@ -23,9 +23,9 @@ defmodule PrimerLive.Components.BoxRowTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_row>
+           <.box_slot row>
              Content
-           </.box_row>
+           </.box_slot>
            """)
            |> format_html() ==
              """
@@ -38,7 +38,7 @@ defmodule PrimerLive.Components.BoxRowTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_row is_blue>Content</.box_row>
+           <.box_slot row is_blue>Content</.box_slot>
            """)
            |> format_html() ==
              """
@@ -51,7 +51,7 @@ defmodule PrimerLive.Components.BoxRowTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_row is_yellow>Content</.box_row>
+           <.box_slot row is_yellow>Content</.box_slot>
            """)
            |> format_html() ==
              """
@@ -64,7 +64,7 @@ defmodule PrimerLive.Components.BoxRowTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_row is_gray>Content</.box_row>
+           <.box_slot row is_gray>Content</.box_slot>
            """)
            |> format_html() ==
              """
@@ -77,7 +77,7 @@ defmodule PrimerLive.Components.BoxRowTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_row is_focus_blue>Content</.box_row>
+           <.box_slot row is_focus_blue>Content</.box_slot>
            """)
            |> format_html() ==
              """
@@ -90,7 +90,7 @@ defmodule PrimerLive.Components.BoxRowTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_row is_focus_gray>Content</.box_row>
+           <.box_slot row is_focus_gray>Content</.box_slot>
            """)
            |> format_html() ==
              """
@@ -103,7 +103,7 @@ defmodule PrimerLive.Components.BoxRowTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_row is_hover_blue>Content</.box_row>
+           <.box_slot row is_hover_blue>Content</.box_slot>
            """)
            |> format_html() ==
              """
@@ -116,7 +116,7 @@ defmodule PrimerLive.Components.BoxRowTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_row is_hover_gray>Content</.box_row>
+           <.box_slot row is_hover_gray>Content</.box_slot>
            """)
            |> format_html() ==
              """
@@ -129,7 +129,7 @@ defmodule PrimerLive.Components.BoxRowTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_row is_navigation_focus>Content</.box_row>
+           <.box_slot row is_navigation_focus>Content</.box_slot>
            """)
            |> format_html() ==
              """
@@ -142,7 +142,7 @@ defmodule PrimerLive.Components.BoxRowTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_row is_unread>Content</.box_row>
+           <.box_slot row is_unread>Content</.box_slot>
            """)
            |> format_html() ==
              """
@@ -155,7 +155,7 @@ defmodule PrimerLive.Components.BoxRowTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_row class="x">Content</.box_row>
+           <.box_slot row class="x">Content</.box_slot>
            """)
            |> format_html() ==
              """
@@ -168,7 +168,7 @@ defmodule PrimerLive.Components.BoxRowTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_row dir="rtl">Content</.box_row>
+           <.box_slot row dir="rtl">Content</.box_slot>
            """)
            |> format_html() ==
              """

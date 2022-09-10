@@ -163,14 +163,14 @@ defmodule PrimerLive.Options.Form do
   """
   def validate_is_form(changeset, attrs) do
     changeset
-    |> Helpers.Schema.validate_cond(
+    |> Helpers.SchemaHelpers.validate_cond(
       attrs,
       :form,
       fn value ->
         cond do
           is_nil(value) -> true
           is_atom(value) -> true
-          Helpers.Schema.is_phoenix_form(value) -> true
+          Helpers.SchemaHelpers.is_phoenix_form(value) -> true
           true -> false
         end
       end,
@@ -186,7 +186,7 @@ defmodule PrimerLive.Options.Form do
   """
   def validate_is_short(changeset, attrs) do
     changeset
-    |> Helpers.Schema.validate_cond(
+    |> Helpers.SchemaHelpers.validate_cond(
       attrs,
       :is_short,
       fn value ->

@@ -39,9 +39,9 @@ defmodule PrimerLive.Components.BoxTest do
 
     assert rendered_to_string(~H"""
            <.box>
-             <.box_row>Row 1</.box_row>
-             <.box_row>Row 2</.box_row>
-             <.box_row>Row 3</.box_row>
+             <.box_slot row>Row 1</.box_slot>
+             <.box_slot row>Row 2</.box_slot>
+             <.box_slot row>Row 3</.box_slot>
            </.box>
            """)
            |> format_html() ==
@@ -55,20 +55,20 @@ defmodule PrimerLive.Components.BoxTest do
              |> format_html()
   end
 
-  test "Slot: header, body, footer - should be placed in this order" do
+  test "box_slot header, body, footer - should be placed in this order" do
     assigns = []
 
     assert rendered_to_string(~H"""
            <.box>
-             <:footer>
-               Footer
-             </:footer>
-             <:header>
+             <.box_slot header>
                Header
-             </:header>
-             <:body>
+             </.box_slot>
+             <.box_slot body>
                Body
-             </:body>
+             </.box_slot>
+             <.box_slot footer>
+               Footer
+             </.box_slot>
            </.box>
            """)
            |> format_html() ==
@@ -82,17 +82,15 @@ defmodule PrimerLive.Components.BoxTest do
              |> format_html()
   end
 
-  test "Slot: body and alert - the alert should be placed above the body" do
+  test "box_slot body with alert" do
     assigns = []
 
     assert rendered_to_string(~H"""
            <.box>
-             <:body>
+             <.alert>Alert message</.alert>
+             <.box_slot body>
                Body
-             </:body>
-             <:alert>
-               <.alert>Alert message</.alert>
-             </:alert>
+             </.box_slot>
            </.box>
            """)
            |> format_html() ==
@@ -102,14 +100,16 @@ defmodule PrimerLive.Components.BoxTest do
              |> format_html()
   end
 
-  test "Slot: title" do
+  test "box_slot title" do
     assigns = []
 
     assert rendered_to_string(~H"""
            <.box>
-             <:title>
-               <h4>My title</h4>
-             </:title>
+             <.box_slot header>
+               <.box_slot title>
+                 Title
+               </.box_slot>
+             </.box_slot>
              Content
            </.box>
            """)
@@ -117,9 +117,7 @@ defmodule PrimerLive.Components.BoxTest do
              """
              <div class="Box">
              <div class="Box-header">
-             <h3 class="Box-title">
-             <h4>My title</h4>
-             </h3>
+             <h3 class="Box-title">Title</h3>
              </div> Content
              </div>
              """
@@ -135,21 +133,6 @@ defmodule PrimerLive.Components.BoxTest do
            |> format_html() ==
              """
              <div class="Box Box--blue">Content</div>
-             """
-             |> format_html()
-  end
-
-  test "Option: is_blue_header" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.box is_blue_header>
-             <:header>Header</:header>
-           </.box>
-           """)
-           |> format_html() ==
-             """
-             <div class="Box"><div class="Box-header Box-header--blue">Header</div></div>
              """
              |> format_html()
   end
@@ -215,48 +198,6 @@ defmodule PrimerLive.Components.BoxTest do
            |> format_html() ==
              """
              <div class="Box x">Content</div>
-             """
-             |> format_html()
-  end
-
-  test "Option: classes" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.box classes={
-             %{
-               box: "my-box",
-               header: "my-header",
-               body: "my-body",
-               footer: "my-footer",
-               title: "my-title"
-             }
-           }>
-             <:footer>
-               Footer
-             </:footer>
-             <:header>
-               Header
-             </:header>
-             <:body>
-               Body
-             </:body>
-             <:title>
-               <h4>My title</h4>
-             </:title>
-           </.box>
-           """)
-           |> format_html() ==
-             """
-             <div class="Box my-box">
-             <div class="Box-header my-header">
-             <h3 class="Box-title my-title">
-             <h4>My title</h4>
-             </h3>
-             </div>
-             <div class="Box-body my-body">Body</div>
-             <div class="Box-footer my-footer">Footer</div>
-             </div>
              """
              |> format_html()
   end

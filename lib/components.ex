@@ -2,7 +2,7 @@ defmodule PrimerLive.Components do
   use Phoenix.Component
   use Phoenix.HTML
 
-  alias PrimerLive.Helpers.{Schema, Attributes, FormHelpers}
+  alias PrimerLive.Helpers.{SchemaHelpers, Attributes, FormHelpers}
   alias PrimerLive.Options
 
   # ------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ defmodule PrimerLive.Components do
 
   """
   def alert(assigns) do
-    with {:ok, assigns} <- Schema.validate_options(assigns, Options.Alert, "alert") do
+    with {:ok, assigns} <- SchemaHelpers.validate_options(assigns, Options.Alert, "alert") do
       render_alert(assigns)
     else
       message -> message
@@ -117,7 +117,7 @@ defmodule PrimerLive.Components do
 
   def alert_messages(assigns) do
     with {:ok, assigns} <-
-           Schema.validate_options(assigns, Options.AlertMessages, "alert_messages") do
+           SchemaHelpers.validate_options(assigns, Options.AlertMessages, "alert_messages") do
       render_alert_messages(assigns)
     else
       message -> message
@@ -220,7 +220,8 @@ defmodule PrimerLive.Components do
   """
 
   def text_input(assigns) do
-    with {:ok, assigns} <- Schema.validate_options(assigns, Options.TextInput, "text_input") do
+    with {:ok, assigns} <-
+           SchemaHelpers.validate_options(assigns, Options.TextInput, "text_input") do
       render_text_input(assigns)
     else
       message -> message
@@ -304,7 +305,7 @@ defmodule PrimerLive.Components do
   def textarea(assigns) do
     assigns = assigns |> assign(type: "textarea")
 
-    with {:ok, assigns} <- Schema.validate_options(assigns, Options.TextInput, "textarea") do
+    with {:ok, assigns} <- SchemaHelpers.validate_options(assigns, Options.TextInput, "textarea") do
       render_text_input(assigns)
     else
       message -> message
@@ -324,7 +325,8 @@ defmodule PrimerLive.Components do
   """
 
   def form_group(assigns) do
-    with {:ok, assigns} <- Schema.validate_options(assigns, Options.FormGroup, "form_group") do
+    with {:ok, assigns} <-
+           SchemaHelpers.validate_options(assigns, Options.FormGroup, "form_group") do
       render_form_group(assigns)
     else
       message -> message
@@ -494,7 +496,7 @@ defmodule PrimerLive.Components do
   """
 
   def layout(assigns) do
-    with {:ok, assigns} <- Schema.validate_options(assigns, Options.Layout, "layout") do
+    with {:ok, assigns} <- SchemaHelpers.validate_options(assigns, Options.Layout, "layout") do
       render_layout(assigns)
     else
       message -> message
@@ -588,96 +590,69 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Creates a content container.
 
+  [Examples](#box/1-examples) • [Options](#box/1-options) • [Reference](#box/1-reference)
+
+  A `box` is a container with rounded corners, a white background, and a light gray border.
+  By default, there are no other styles, such as padding; however, these can be introduced
+  with utility classes as needed. `box_slot/1` elements allow for the creation of alternative
+  styles and layouts.
+
   ```
   <.box>
-    My content
-  </.box>
-  ```
-
-  Boxes are often composed with `box_row/1` elements:
-
-  ```
-  <.box>
-    <.box_row>Row 1</.box_row>
-    <.box_row>Row 2</.box_row>
-    <.box_row>Row 3</.box_row>
+    Content
   </.box>
   ```
 
   ## Examples
 
-  With title, body and footer sections:
+  Reduce padding:
 
   ```
-  <.box>
-    <:title>
-      My title
-    </:title>
-    <:body>
-      My body
-    </:body>
-    <:footer>
-      My footer
-    </:footer>
+  <.box is_condensed>
+    <.box_slot row>Row content</.box_slot>
+    <.box_slot row>Row content</.box_slot>
   </.box>
   ```
 
-  With a full-width alert. Alerts are always placed between header and body, regardless the order in the component call:
+  Increase padding. Optionally increase the font size (in this example using the `f4` utiliti class):
 
   ```
-  <.box>
-    <:header>
-      Header
-    </:header>
-    <:body>
-      Rest
-    </:body>
-     <:alert>
-      <.alert is_success is_full>
-        <.octicon name="check-16" is_small /> Done!
-      </.alert>
-    </:alert>
+  <.box is_spacious class="f4">
+    <.box_slot row>Row content</.box_slot>
+    <.box_slot row>Row content</.box_slot>
   </.box>
   ```
 
-  To render search results:
+  Apply a blue box theme:
 
   ```
-  <.box>
-    <%= for result <- @results do %>
-      <.box_row>
-        {result.id}
-      </.box_row>
-    <% end %>
+  <.box is_blue>
+    Content
   </.box>
   ```
 
-  Form elements and buttons in a box:
+  Apply a danger theme.
 
   ```
-  <.box classes={
-    %{
-      header: "d-flex flex-items-center"
-    }
-  }>
-    <:header>
-      <h3 class="Box-title overflow-hidden flex-auto">
-        Box title
-      </h3>
-      <.button is_primary is_smmall>
-        Button
-      </.button>
-    </:header>
-    <:body>
-      Rest
-    </:body>
+  <.box is_danger>
+    Content
   </.box>
   ```
 
-  ## All options
+  ## Options
 
-  - `PrimerLive.Options.Box`
-  - Additional HTML attributes are passed to the box element
+  | **Name**           | **Type**  | **Validation** | **Default** | **Description**                                               |
+  | ------------------ | --------- | -------------- | ----------- | ------------------------------------------------------------- |
+  | `inner_block`      | `slot`    | required       | -           | Box content, for example `box_slot/1`.                        |
+  | `class`            | `string`  | -              | -           | Additional classname.                                         |
+  | `is_blue`          | `boolean` | -              | false       | Creates a blue box theme.                                     |
+  | `is_blue_header`   | `boolean` | -              | false       | Changes the header border and background to blue.             |
+  | `is_danger`        | `boolean` | -              | false       | Creates a danger color box theme.                             |
+  | `is_border_dashed` | `boolean` | -              | false       | Applies a dashed border to the box.                           |
+  | `is_condensed`     | `boolean` | -              | false       | Condenses line-height and reduces the padding on the Y axis.  |
+  | `is_spacious`      | `boolean` | -              | false       | Increases padding and increases the title font size.          |
+
+  Additional HTML attributes are passed to the box element.
 
   ## Reference
 
@@ -686,7 +661,7 @@ defmodule PrimerLive.Components do
   """
 
   def box(assigns) do
-    with {:ok, assigns} <- Schema.validate_options(assigns, Options.Box, "box") do
+    with {:ok, assigns} <- SchemaHelpers.validate_options(assigns, Options.Box, "box") do
       render_box(assigns)
     else
       message -> message
@@ -694,161 +669,224 @@ defmodule PrimerLive.Components do
   end
 
   defp render_box(assigns) do
-    classes = %{
-      box:
-        Attributes.classnames([
-          "Box",
-          assigns.class,
-          assigns.classes.box,
-          assigns.is_blue and "Box--blue",
-          assigns.is_border_dashed and "border-dashed",
-          assigns.is_condensed and "Box--condensed",
-          assigns.is_danger and "Box--danger",
-          assigns.is_spacious and "Box--spacious"
-        ]),
-      header:
-        Attributes.classnames([
-          "Box-header",
-          assigns.classes.header,
-          assigns.is_blue_header and "Box-header--blue"
-        ]),
-      body:
-        Attributes.classnames([
-          "Box-body",
-          assigns.classes.body
-        ]),
-      footer:
-        Attributes.classnames([
-          "Box-footer",
-          assigns.classes.footer
-        ]),
-      title:
-        Attributes.classnames([
-          "Box-title",
-          assigns.classes.title
-        ])
-    }
-
-    ~H"""
-    <div class={classes.box} {@extra}>
-      <%= if @header || @title do %>
-        <div class={classes.header}>
-          <%= if @title do %>
-            <h3 class={classes.title}>
-              <%= render_slot(@title) %>
-            </h3>
-          <% else %>
-            <%= render_slot(@header) %>
-          <% end %>
-        </div>
-      <% end %>
-      <%= if @alert do %>
-        <%= render_slot(@alert) %>
-      <% end %>
-      <%= if @body do %>
-        <div class={classes.body}>
-          <%= render_slot(@body) %>
-        </div>
-      <% end %>
-      <%= if @inner_block do %>
-        <%= render_slot(@inner_block) %>
-      <% end %>
-      <%= if @footer do %>
-        <div class={classes.footer}>
-          <%= render_slot(@footer) %>
-        </div>
-      <% end %>
-    </div>
-    """
-  end
-
-  # ------------------------------------------------------------------------------------
-  # box_row
-  # ------------------------------------------------------------------------------------
-
-  @doc section: :layout
-
-  @doc ~S"""
-  A row element for `box/1` that renders content with borders while preserving padding.
-
-  ```
-  <.box>
-    <.box_row>
-      1
-    </.box_row>
-    <.box_row>
-      2
-    </.box_row>
-    <.box_row>
-      3
-    </.box_row>
-  </.box>
-  ```
-
-  ## Examples
-
-  Blue row theme:
-
-  ```
-  <.box_row is_blue>
-    Content
-  </.box_row>
-  ```
-
-  Blue row theme on hover:
-
-  ```
-  <.box_row is_hover_blue>
-    Content
-  </.box_row>
-  ```
-
-  To highlight that the row contains unread items:
-
-  ```
-  <.box_row is_unread>
-    Content
-  </.box_row>
-  ```
-
-  ## All options
-
-  - `PrimerLive.Options.BoxRow`
-  - Additional HTML attributes are passed to the box row element
-
-  ## Reference
-
-  - [Primer/CSS Box](https://primer.style/css/components/box)
-
-  """
-  def box_row(assigns) do
-    with {:ok, assigns} <- Schema.validate_options(assigns, Options.BoxRow, "box_row") do
-      render_box_row(assigns)
-    else
-      message -> message
-    end
-  end
-
-  defp render_box_row(assigns) do
     class =
       Attributes.classnames([
-        "Box-row",
+        "Box",
         assigns.class,
-        assigns.is_blue and "Box-row--blue",
-        assigns.is_focus_blue and "Box-row--focus-blue",
-        assigns.is_focus_gray and "Box-row--focus-gray",
-        assigns.is_gray and "Box-row--gray",
-        assigns.is_hover_blue and "Box-row--hover-blue",
-        assigns.is_hover_gray and "Box-row--hover-gray",
-        assigns.is_navigation_focus and "navigation-focus",
-        assigns.is_yellow and "Box-row--yellow",
-        assigns.is_unread and "Box-row--unread"
+        assigns.is_blue and "Box--blue",
+        assigns.is_border_dashed and "border-dashed",
+        assigns.is_condensed and "Box--condensed",
+        assigns.is_danger and "Box--danger",
+        assigns.is_spacious and "Box--spacious"
       ])
 
     ~H"""
     <div class={class} {@extra}>
       <%= render_slot(@inner_block) %>
     </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # box_slot
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :layout
+
+  @doc ~S"""
+  Content element for `box/1`.
+
+  [Examples](#box_slot/1-examples) • [Options](#box_slot/1-options) • [Reference](#box_slot/1-reference)
+
+  Use `box_slot` to create different `box` elements - header, footer, rows, body, title:
+
+  ```
+  <.box>
+    <.box_slot header>Header</.box_slot>
+    <.box_slot row>Row 1</.box_slot>
+    <.box_slot row>Row 2</.box_slot>
+    <.box_slot row>Row 3</.box_slot>
+    <.box_slot footer>Footer</.box_slot>
+  </.box>
+  ```
+
+  ## Examples
+
+  Create a blue header:
+
+  ```
+  <.box>
+    <.box_slot header is_blue>Blue header</.box_slot>
+  </.box>
+  ```
+
+  Create a title within a header:
+
+  ```
+  <.box>
+    <.box_slot header>
+      <.box_slot title>
+        Title
+      </.box_slot>
+    </.box_slot>
+  </.box>
+  ```
+
+  Render search results:
+
+  ```
+  <.box>
+    <%= for result <- @results do %>
+      <.box_slot row>
+        {result.id}
+      </.box_slot>
+    <% end %>
+  </.box>
+  ```
+
+  Insert a conditional alert:
+
+  ```
+  <.box>
+    <.box_slot header>Header</.box_slot>
+    <%= if is_success != false do %>
+      <.alert is_success is_full>
+        <.octicon name="check-16" is_small /> Done!
+      </.alert>
+    <% end %>
+     <.box_slot body>Body</.box_slot>
+     <.box_slot footer>Footer</.box_slot>
+  </.box>
+  ```
+
+  Blue row theme on hover:
+
+  ```
+  <.box_slot row is_hover_blue>
+    Content
+  </.box_slot>
+  ```
+
+  To highlight that the row contains unread items:
+
+  ```
+  <.box_slot row is_unread>
+    New content
+  </.box_slot>
+  ```
+
+  A header with a button:
+
+  ```
+  <.box>
+    <.box_slot header class="d-flex flex-items-center">
+      <.box_slot title class="flex-auto">
+        Title
+      </.box_slot>
+      <.button is_primary is_smmall>
+        Button
+      </.button>
+    </.box_slot>
+    <.box_slot body>
+      Rest
+    </.box_slot>
+  </.box>
+  ```
+
+  ## Options
+
+  | **Name**              | **Type**  | **Validation** | **Default** | **Description**                                                                  |
+  | --------------------- | --------- | -------------- | ----------- | -------------------------------------------------------------------------------- |
+  | `inner_block`         | `slot`    | required       | -           | Content.                                                                         |
+  | `header`              | `boolean` | -              | false       | Creates a header element.                                                        |
+  | `title`               | `boolean` | -              | false       | Creates a title within a headder element.                                        |
+  | `row`                 | `boolean` | -              | false       | Creates a row element.                                                           |
+  | `body`                | `boolean` | -              | false       | Creates a body element.                                                          |
+  | `footer`              | `boolean` | -              | false       | Creates a footer element.                                                        |
+  | `class`               | `string`  | -              | -           | Additional classname.                                                            |
+  | `is_blue`             | `boolean` | -              | false       | Blue row theme.                                                                  |
+  | `is_focus_blue`       | `boolean` | -              | false       | Changes to blue row theme on focus.                                              |
+  | `is_focus_gray`       | `boolean` | -              | false       | Changes to gray row theme on focus.                                              |
+  | `is_gray`             | `boolean` | -              | false       | Gray row theme.                                                                  |
+  | `is_hover_blue`       | `boolean` | -              | false       | Changes to blue row theme on hover.                                              |
+  | `is_hover_gray`       | `boolean` | -              | false       | Changes to gray row theme on hover.                                              |
+  | `is_navigation_focus` | `boolean` | -              | false       | Combine with a theme color to highlight the row when using keyboard commands.    |
+  | `is_unread`           | `boolean` | -              | false       | Apply a blue vertical line highlight for indicating a row contains unread items. |
+  | `is_yellow`           | `boolean` | -              | false       | Yellow row theme.                                                                |
+
+  Additional HTML attributes are passed to the box_slot element.
+
+  ## Reference
+
+  - [Primer/CSS Box](https://primer.style/css/components/box)
+
+  """
+
+  def box_slot(assigns) do
+    with {:ok, assigns} <- SchemaHelpers.validate_options(assigns, Options.BoxSlot, "box_slot") do
+      render_box_slot(assigns)
+    else
+      message -> message
+    end
+  end
+
+  defp render_box_slot(assigns) do
+    classes = %{
+      header:
+        Attributes.classnames([
+          "Box-header",
+          assigns.is_blue and "Box-header--blue"
+        ]),
+      body:
+        Attributes.classnames([
+          "Box-body"
+        ]),
+      footer:
+        Attributes.classnames([
+          "Box-footer"
+        ]),
+      title:
+        Attributes.classnames([
+          "Box-title"
+        ]),
+      row:
+        Attributes.classnames([
+          "Box-row",
+          assigns.is_blue and "Box-row--blue",
+          assigns.is_focus_blue and "Box-row--focus-blue",
+          assigns.is_focus_gray and "Box-row--focus-gray",
+          assigns.is_gray and "Box-row--gray",
+          assigns.is_hover_blue and "Box-row--hover-blue",
+          assigns.is_hover_gray and "Box-row--hover-gray",
+          assigns.is_navigation_focus and "navigation-focus",
+          assigns.is_yellow and "Box-row--yellow",
+          assigns.is_unread and "Box-row--unread"
+        ])
+    }
+
+    class =
+      Attributes.classnames([
+        cond do
+          assigns.header -> classes.header
+          assigns.body -> classes.body
+          assigns.footer -> classes.footer
+          assigns.row -> classes.row
+          assigns.title -> classes.title
+          true -> nil
+        end,
+        assigns.class
+      ])
+
+    ~H"""
+    <%= if @title do %>
+      <h3 class={class}>
+        <%= render_slot(@inner_block) %>
+      </h3>
+    <% else %>
+      <div class={class} {@extra}>
+        <%= render_slot(@inner_block) %>
+      </div>
+    <% end %>
     """
   end
 
@@ -928,7 +966,7 @@ defmodule PrimerLive.Components do
   """
 
   def button(assigns) do
-    with {:ok, assigns} <- Schema.validate_options(assigns, Options.Button, "button") do
+    with {:ok, assigns} <- SchemaHelpers.validate_options(assigns, Options.Button, "button") do
       render_button(assigns)
     else
       message -> message
@@ -1001,7 +1039,8 @@ defmodule PrimerLive.Components do
   """
 
   def button_group(assigns) do
-    with {:ok, assigns} <- Schema.validate_options(assigns, Options.ButtonGroup, "button_group") do
+    with {:ok, assigns} <-
+           SchemaHelpers.validate_options(assigns, Options.ButtonGroup, "button_group") do
       render_button_group(assigns)
     else
       message -> message
@@ -1042,7 +1081,7 @@ defmodule PrimerLive.Components do
   """
   def button_group_item(assigns) do
     with {:ok, assigns} <-
-           Schema.validate_options(assigns, Options.ButtonGroupItem, "button_group_item") do
+           SchemaHelpers.validate_options(assigns, Options.ButtonGroupItem, "button_group_item") do
       render_button_group_item(assigns)
     else
       message -> message
@@ -1189,7 +1228,7 @@ defmodule PrimerLive.Components do
   """
   def dropdown(assigns) do
     with {:ok, assigns} <-
-           Schema.validate_options(assigns, Options.Dropdown, "dropdown") do
+           SchemaHelpers.validate_options(assigns, Options.Dropdown, "dropdown") do
       render_dropdown(assigns)
     else
       message -> message
@@ -1288,7 +1327,7 @@ defmodule PrimerLive.Components do
 
   def dropdown_item(assigns) do
     with {:ok, assigns} <-
-           Schema.validate_options(assigns, Options.DropdownItem, "dropdown_item") do
+           SchemaHelpers.validate_options(assigns, Options.DropdownItem, "dropdown_item") do
       render_dropdown_item(assigns)
     else
       message -> message
@@ -1393,7 +1432,8 @@ defmodule PrimerLive.Components do
   """
 
   def pagination(assigns) do
-    with {:ok, assigns} <- Schema.validate_options(assigns, Options.Pagination, "pagination") do
+    with {:ok, assigns} <-
+           SchemaHelpers.validate_options(assigns, Options.Pagination, "pagination") do
       # Don't render pagination if page count is 0 or 1
       case assigns.page_count < 2 do
         true -> render_empty(assigns)
@@ -1640,7 +1680,7 @@ defmodule PrimerLive.Components do
 
   """
   def octicon(assigns) do
-    with {:ok, assigns} <- Schema.validate_options(assigns, Options.Octicon, "octicon") do
+    with {:ok, assigns} <- SchemaHelpers.validate_options(assigns, Options.Octicon, "octicon") do
       icon_fn = PrimerLive.Octicons.name_to_function() |> Map.get(assigns.name)
 
       case is_function(icon_fn) do
@@ -1672,9 +1712,9 @@ defmodule PrimerLive.Components do
 
   defp render_no_icon_error_message(assigns) do
     ~H"""
-    <Schema.error_message component_name="octicon">
+    <SchemaHelpers.error_message component_name="octicon">
       <p>name <%= @name %> does not exist</p>
-    </Schema.error_message>
+    </SchemaHelpers.error_message>
     """
   end
 end
