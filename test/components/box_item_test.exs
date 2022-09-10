@@ -10,7 +10,7 @@ defmodule PrimerLive.Components.BoxItemTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_item row />
+           <.box_item />
            """)
            |> format_html() ==
              """
@@ -23,13 +23,78 @@ defmodule PrimerLive.Components.BoxItemTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box_item row>
+           <.box_item>
              Content
            </.box_item>
            """)
            |> format_html() ==
              """
+             <div>Content</div>
+             """
+             |> format_html()
+  end
+
+  test "Option: header" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.box_item header>Content</.box_item>
+           """)
+           |> format_html() ==
+             """
+             <div class="Box-header">Content</div>
+             """
+             |> format_html()
+  end
+
+  test "Option: title" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.box_item title>Content</.box_item>
+           """)
+           |> format_html() ==
+             """
+             <h3 class="Box-title">Content</h3>
+             """
+             |> format_html()
+  end
+
+  test "Option: body" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.box_item body>Content</.box_item>
+           """)
+           |> format_html() ==
+             """
+             <div class="Box-body">Content</div>
+             """
+             |> format_html()
+  end
+
+  test "Option: row" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.box_item row>Content</.box_item>
+           """)
+           |> format_html() ==
+             """
              <div class="Box-row">Content</div>
+             """
+             |> format_html()
+  end
+
+  test "Option: footer" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.box_item footer>Content</.box_item>
+           """)
+           |> format_html() ==
+             """
+             <div class="Box-footer">Content</div>
              """
              |> format_html()
   end
@@ -172,7 +237,7 @@ defmodule PrimerLive.Components.BoxItemTest do
            """)
            |> format_html() ==
              """
-             <div class="Box-row" dir="rtl">Content</div>
+             <div dir="rtl" class="Box-row">Content</div>
              """
              |> format_html()
   end
