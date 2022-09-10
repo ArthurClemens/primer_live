@@ -39,9 +39,9 @@ defmodule PrimerLive.Components.BoxTest do
 
     assert rendered_to_string(~H"""
            <.box>
-             <.box_slot row>Row 1</.box_slot>
-             <.box_slot row>Row 2</.box_slot>
-             <.box_slot row>Row 3</.box_slot>
+             <.box_item row>Row 1</.box_item>
+             <.box_item row>Row 2</.box_item>
+             <.box_item row>Row 3</.box_item>
            </.box>
            """)
            |> format_html() ==
@@ -55,20 +55,20 @@ defmodule PrimerLive.Components.BoxTest do
              |> format_html()
   end
 
-  test "box_slot header, body, footer - should be placed in this order" do
+  test "box_item header, body, footer - should be placed in this order" do
     assigns = []
 
     assert rendered_to_string(~H"""
            <.box>
-             <.box_slot header>
+             <.box_item header>
                Header
-             </.box_slot>
-             <.box_slot body>
+             </.box_item>
+             <.box_item body>
                Body
-             </.box_slot>
-             <.box_slot footer>
+             </.box_item>
+             <.box_item footer>
                Footer
-             </.box_slot>
+             </.box_item>
            </.box>
            """)
            |> format_html() ==
@@ -82,15 +82,15 @@ defmodule PrimerLive.Components.BoxTest do
              |> format_html()
   end
 
-  test "box_slot body with alert" do
+  test "box_item body with alert" do
     assigns = []
 
     assert rendered_to_string(~H"""
            <.box>
              <.alert>Alert message</.alert>
-             <.box_slot body>
+             <.box_item body>
                Body
-             </.box_slot>
+             </.box_item>
            </.box>
            """)
            |> format_html() ==
@@ -100,16 +100,16 @@ defmodule PrimerLive.Components.BoxTest do
              |> format_html()
   end
 
-  test "box_slot title" do
+  test "box_item title" do
     assigns = []
 
     assert rendered_to_string(~H"""
            <.box>
-             <.box_slot header>
-               <.box_slot title>
+             <.box_item header>
+               <.box_item title>
                  Title
-               </.box_slot>
-             </.box_slot>
+               </.box_item>
+             </.box_item>
              Content
            </.box>
            """)

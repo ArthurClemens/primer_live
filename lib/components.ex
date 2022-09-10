@@ -594,7 +594,7 @@ defmodule PrimerLive.Components do
 
   A `box` is a container with rounded corners, a white background, and a light gray border.
   By default, there are no other styles, such as padding; however, these can be introduced
-  with utility classes as needed. `box_slot/1` elements allow for the creation of alternative
+  with utility classes as needed. `box_item/1` elements allow for the creation of alternative
   styles and layouts.
 
   ```
@@ -605,12 +605,14 @@ defmodule PrimerLive.Components do
 
   ## Examples
 
+  _box examples_
+
   Reduce padding:
 
   ```
   <.box is_condensed>
-    <.box_slot row>Row content</.box_slot>
-    <.box_slot row>Row content</.box_slot>
+    <.box_item row>Row content</.box_item>
+    <.box_item row>Row content</.box_item>
   </.box>
   ```
 
@@ -618,8 +620,8 @@ defmodule PrimerLive.Components do
 
   ```
   <.box is_spacious class="f4">
-    <.box_slot row>Row content</.box_slot>
-    <.box_slot row>Row content</.box_slot>
+    <.box_item row>Row content</.box_item>
+    <.box_item row>Row content</.box_item>
   </.box>
   ```
 
@@ -641,9 +643,11 @@ defmodule PrimerLive.Components do
 
   ## Options
 
+  _box examples_
+
   | **Name**           | **Type**  | **Validation** | **Default** | **Description**                                               |
   | ------------------ | --------- | -------------- | ----------- | ------------------------------------------------------------- |
-  | `inner_block`      | `slot`    | required       | -           | Box content, for example `box_slot/1`.                        |
+  | `inner_block`      | `slot`    | required       | -           | Box content, for example `box_item/1`.                        |
   | `class`            | `string`  | -              | -           | Additional classname.                                         |
   | `is_blue`          | `boolean` | -              | false       | Creates a blue box theme.                                     |
   | `is_blue_header`   | `boolean` | -              | false       | Changes the header border and background to blue.             |
@@ -656,7 +660,7 @@ defmodule PrimerLive.Components do
 
   ## Reference
 
-  - [Primer/CSS Box](https://primer.style/css/components/box)
+  [Primer/CSS Box](https://primer.style/css/components/box)
 
   """
 
@@ -688,7 +692,7 @@ defmodule PrimerLive.Components do
   end
 
   # ------------------------------------------------------------------------------------
-  # box_slot
+  # box_item
   # ------------------------------------------------------------------------------------
 
   @doc section: :layout
@@ -696,27 +700,29 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Content element for `box/1`.
 
-  [Examples](#box_slot/1-examples) • [Options](#box_slot/1-options) • [Reference](#box_slot/1-reference)
+  [Examples](#box_item/1-examples) • [Options](#box_item/1-options) • [Reference](#box_item/1-reference)
 
-  Use `box_slot` to create different `box` elements - header, footer, rows, body, title:
+  Use `box_item` to create different `box` elements - header, footer, rows, body, title:
 
   ```
   <.box>
-    <.box_slot header>Header</.box_slot>
-    <.box_slot row>Row 1</.box_slot>
-    <.box_slot row>Row 2</.box_slot>
-    <.box_slot row>Row 3</.box_slot>
-    <.box_slot footer>Footer</.box_slot>
+    <.box_item header>Header</.box_item>
+    <.box_item row>Row 1</.box_item>
+    <.box_item row>Row 2</.box_item>
+    <.box_item row>Row 3</.box_item>
+    <.box_item footer>Footer</.box_item>
   </.box>
   ```
 
   ## Examples
 
+  _box_item examples_
+
   Create a blue header:
 
   ```
   <.box>
-    <.box_slot header is_blue>Blue header</.box_slot>
+    <.box_item header is_blue>Blue header</.box_item>
   </.box>
   ```
 
@@ -724,11 +730,11 @@ defmodule PrimerLive.Components do
 
   ```
   <.box>
-    <.box_slot header>
-      <.box_slot title>
+    <.box_item header>
+      <.box_item title>
         Title
-      </.box_slot>
-    </.box_slot>
+      </.box_item>
+    </.box_item>
   </.box>
   ```
 
@@ -737,9 +743,9 @@ defmodule PrimerLive.Components do
   ```
   <.box>
     <%= for result <- @results do %>
-      <.box_slot row>
+      <.box_item row>
         {result.id}
-      </.box_slot>
+      </.box_item>
     <% end %>
   </.box>
   ```
@@ -748,52 +754,54 @@ defmodule PrimerLive.Components do
 
   ```
   <.box>
-    <.box_slot header>Header</.box_slot>
+    <.box_item header>Header</.box_item>
     <%= if is_success != false do %>
       <.alert is_success is_full>
         <.octicon name="check-16" is_small /> Done!
       </.alert>
     <% end %>
-     <.box_slot body>Body</.box_slot>
-     <.box_slot footer>Footer</.box_slot>
+     <.box_item body>Body</.box_item>
+     <.box_item footer>Footer</.box_item>
   </.box>
   ```
 
   Blue row theme on hover:
 
   ```
-  <.box_slot row is_hover_blue>
+  <.box_item row is_hover_blue>
     Content
-  </.box_slot>
+  </.box_item>
   ```
 
   To highlight that the row contains unread items:
 
   ```
-  <.box_slot row is_unread>
+  <.box_item row is_unread>
     New content
-  </.box_slot>
+  </.box_item>
   ```
 
   A header with a button:
 
   ```
   <.box>
-    <.box_slot header class="d-flex flex-items-center">
-      <.box_slot title class="flex-auto">
+    <.box_item header class="d-flex flex-items-center">
+      <.box_item title class="flex-auto">
         Title
-      </.box_slot>
+      </.box_item>
       <.button is_primary is_smmall>
         Button
       </.button>
-    </.box_slot>
-    <.box_slot body>
+    </.box_item>
+    <.box_item body>
       Rest
-    </.box_slot>
+    </.box_item>
   </.box>
   ```
 
   ## Options
+
+  _box_item options_
 
   | **Name**              | **Type**  | **Validation** | **Default** | **Description**                                                                  |
   | --------------------- | --------- | -------------- | ----------- | -------------------------------------------------------------------------------- |
@@ -814,23 +822,23 @@ defmodule PrimerLive.Components do
   | `is_unread`           | `boolean` | -              | false       | Apply a blue vertical line highlight for indicating a row contains unread items. |
   | `is_yellow`           | `boolean` | -              | false       | Yellow row theme.                                                                |
 
-  Additional HTML attributes are passed to the box_slot element.
+  Additional HTML attributes are passed to the box_item element.
 
   ## Reference
 
-  - [Primer/CSS Box](https://primer.style/css/components/box)
+  [Primer/CSS Box](https://primer.style/css/components/box)
 
   """
 
-  def box_slot(assigns) do
-    with {:ok, assigns} <- SchemaHelpers.validate_options(assigns, Options.BoxSlot, "box_slot") do
-      render_box_slot(assigns)
+  def box_item(assigns) do
+    with {:ok, assigns} <- SchemaHelpers.validate_options(assigns, Options.BoxItem, "box_item") do
+      render_box_item(assigns)
     else
       message -> message
     end
   end
 
-  defp render_box_slot(assigns) do
+  defp render_box_item(assigns) do
     classes = %{
       header:
         Attributes.classnames([

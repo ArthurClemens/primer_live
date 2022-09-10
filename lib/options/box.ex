@@ -1,4 +1,4 @@
-defmodule PrimerLive.Options.BoxSlot do
+defmodule PrimerLive.Options.BoxItem do
   use Options
 
   @moduledoc false
@@ -6,7 +6,6 @@ defmodule PrimerLive.Options.BoxSlot do
   typed_embedded_schema do
     # Slots
     field(:inner_block, :any, virtual: true, enforce: true, null: false)
-    field(:name, :string)
     field(:header, :boolean, default: false)
     field(:body, :boolean, default: false)
     field(:footer, :boolean, default: false)
