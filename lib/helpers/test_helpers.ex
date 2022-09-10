@@ -19,11 +19,9 @@ defmodule PrimerLive.Helpers.TestHelpers do
   def format_html(html) do
     html
     |> Phoenix.LiveView.HTMLFormatter.format([])
-    |> String.replace(~r/\n/, " ")
-    |> String.replace(~r/\s+/, " ")
-    |> String.replace(~r/\"\s*>\s*/, "\">")
-    |> String.replace(~r/\s*</, "<")
-    |> String.replace(~r/>\s</, "><")
+    |> String.replace(~r/\s*\n\s*/, " ")
+    |> String.replace(~r/\s*\<\s*/, "<")
+    |> String.replace(~r/\s*\>\s*/, ">")
     |> String.trim()
   end
 end
