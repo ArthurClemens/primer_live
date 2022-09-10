@@ -1,15 +1,7 @@
 defmodule PrimerLive.Options.DropdownItem do
   use Options
 
-  @moduledoc """
-  Options for component `PrimerLive.Components.dropdown_item/1`.
-
-  | **Name**      | **Type**  | **Validation**               | **Default** | **Description**                                                |
-  | ------------- | --------- | ---------------------------- | ----------- | -------------------------------------------------------------- |
-  | `inner_block` | `slot`    | required unless `is_divider` | -           | Dropdown menu item content. Ignored when using `is_divider`.   |
-  | `class`       | `string`  | -                            | -           | Additional classname.                                          |
-  | `is_divider`  | `boolean` | -                            | false       | Creates a divider.                                             |
-  """
+  @moduledoc false
 
   typed_embedded_schema do
     # Slots
@@ -22,7 +14,8 @@ defmodule PrimerLive.Options.DropdownItem do
   @impl Options
   def changeset(struct, attrs \\ %{}) do
     struct
-    |> cast_either_inner_block_or_divider(attrs, [:inner_block, :class, :is_divider])
+    |> cast(attrs, [:class])
+    |> cast_either_inner_block_or_divider(attrs, [:inner_block, :is_divider])
   end
 
   defp cast_either_inner_block_or_divider(changeset, attrs, keys) do
@@ -43,17 +36,7 @@ end
 defmodule PrimerLive.Options.Dropdown.Classes do
   use Options
 
-  @moduledoc """
-  Options for `classes` in `PrimerLive.Options.Dropdown`.
-
-  | **Classname** | **Description**                                                  |
-  | ------------- | ---------------------------------------------------------------- |
-  | `toggle`      | Toggle element. Any value will override the default class "btn". |
-  | `caret`       | Dropdown caret element.                                          |
-  | `dropdown`    | Dropdown element.                                                |
-  | `menu`        | Menu element.                                                    |
-  | `header`      | Menu header element.                                             |
-  """
+  @moduledoc false
 
   typed_embedded_schema do
     field(:toggle, :string)
@@ -75,18 +58,8 @@ defmodule PrimerLive.Options.Dropdown do
 
   alias PrimerLive.Options.Dropdown.Classes
 
-  @moduledoc """
-  Options for component `PrimerLive.Components.dropdown/1`.
+  @moduledoc false
 
-  | **Name**   | **Type** | **Validation** | **Default** | **Description**                                                                                                              |
-  | ---------- | -------- | -------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------- |
-  | `menu`     | `slot`   | required       | -           | Dropdown menu content.                                                                                                       |
-  | `label`    | `slot`   | required       | -           | Toggle label. May contain text or an icon.                                                                                   |
-  | `header`   | `slot`   | -              | -           | Menu header.                                                                                                                 |
-  | `class`    | `string` | -              | -           | Additional classname.                                                                                                        |
-  | `classes`  | `map`    | -              | -           | Map of classnames. Any provided value will be appended to the default classnames. See `PrimerLive.Options.Dropdown.Classes`. |
-  | `position` | `string` | -              | "se"        | Position of the menu relative to the dropdown toggle. Possible values: "se", "ne", "e", "sw", "s", "w".                      |
-  """
   typed_embedded_schema do
     # Slots
     field(:label, :any, virtual: true)

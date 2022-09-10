@@ -14,7 +14,7 @@ defmodule PrimerLive.Components.LayoutItemTest do
            """)
            |> format_html() ==
              """
-             <div class="flash flash-error"><p>layout_item component received invalid options:</p><p>inner_block: must not be empty</p></div>
+             <div class="flash flash-error"><p>layout_item component received invalid options:</p><p>inner_block: can&#39;t be empty</p></div>
              """
              |> format_html()
   end
@@ -53,7 +53,7 @@ defmodule PrimerLive.Components.LayoutItemTest do
            """)
            |> format_html() ==
              """
-             <div class="flash flash-error"><p>layout_item component received invalid options:</p><p>inner_block: must not be empty</p></div>
+             <div class="flash flash-error"><p>layout_item component received invalid options:</p><p>inner_block: can&#39;t be empty</p></div>
              """
              |> format_html()
   end

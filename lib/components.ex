@@ -14,17 +14,17 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Creates an alert message.
 
+  [Examples](#alert/1-examples) • [Options](#alert/1-options) • [Reference](#alert/1-reference)
+
   ```
   <.alert>
     Flash message goes here.
   </.alert>
   ```
 
-  ## Features
-
-  - Boolean options for setting alert styles: `is_error`, `is_success` and so on
-
   ## Examples
+
+  _alert examples_
 
   Success color:
 
@@ -45,14 +45,24 @@ defmodule PrimerLive.Components do
 
   To render a vertical stack of alerts, wrap each with `alert_messages/1`.
 
-  ## All options
+  ## Options
 
-  - `PrimerLive.Options.Alert`
-  - Additional HTML attributes are passed to the alert element
+  _alert options_
+
+  | **Name**      | **Type**  | **Validation** | **Default** | **Description**                                                      |
+  | ------------- | --------- | -------------- | ----------- | -------------------------------------------------------------------- |
+  | `inner_block` | `slot`    | required       | -           | Alert content.                                                       |
+  | `class`       | `string`  | -              | -           | Additional classname.                                                |
+  | `is_error`    | `boolean` | -              | false       | Sets the color to "error".                                           |
+  | `is_success`  | `boolean` | -              | false       | Sets the color to "success".                                         |
+  | `is_warning`  | `boolean` | -              | false       | Sets the color to "warning".                                         |
+  | `is_full`     | `boolean` | -              | false       | Renders the alert full width, with border and border radius removed. |
+
+  Additional HTML attributes are passed to the alert element.
 
   ## Reference
 
-  - [Primer/CSS Alerts](https://primer.style/css/components/alerts)
+  [Primer/CSS Alerts](https://primer.style/css/components/alerts)
 
   """
   def alert(assigns) do
@@ -90,6 +100,8 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Wrapper to render a vertical stack of `alert/1` messages with spacing in between.
 
+  [Options](#alert_messages/1-options) • [Reference](#alert_messages/1-reference)
+
   ```
   <.alert_messages>
     <.alert is_success>
@@ -106,12 +118,18 @@ defmodule PrimerLive.Components do
 
   ## Options
 
-  - `PrimerLive.Options.AlertMessages`
-  - Additional HTML attributes are passed to the alert messages element
+  _alert_messages options_
+
+  | **Name**      | **Type** | **Validation** | **Default** | **Description**         |
+  | ------------- | -------- | -------------- | ----------- | ----------------------- |
+  | `inner_block` | `slot`   | required       | -           | Alert messages content. |
+  | `class`       | `string` | -              | -           | Additional classname.   |
+
+  Additional HTML attributes are passed to the alert messages element.
 
   ## Reference
 
-  - [Primer/CSS Alerts](https://primer.style/css/components/alerts)
+  [Primer/CSS Alerts](https://primer.style/css/components/alerts)
 
   """
 
@@ -149,11 +167,15 @@ defmodule PrimerLive.Components do
 
   Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped inside a "form group".
 
+  [Examples](#text_input/1-examples) • [Options](#text_input/1-options) • [Reference](#text_input/1-reference)
+
   ```
   <.text_input name="first_name" />
   ```
 
   ## Examples
+
+  _text_input examples_
 
   Set the input type:
 
@@ -167,7 +189,7 @@ defmodule PrimerLive.Components do
   <.text_input placeholder="Enter your first name" />
   ```
 
-  Insert the input within a form group using `form_group`. The input label in the form group header is generated automatically if no header text is added:
+  Insert the input within a form group using `form_group/1`. If no header text is added, the input label in the form group header is generated automatically:
 
   ```
   <.text_input form={:user} field={:first_name} form_group />
@@ -208,14 +230,30 @@ defmodule PrimerLive.Components do
   }/>
   ```
 
-  ## All options
+  ## Options
 
-  - `PrimerLive.Options.TextInput`
-  - Additional HTML attributes are passed to the input element
+  _text_input options_
+
+  | **Name**                  | **Type**                      | **Validation**                                                                                                                            | **Default** | **Description**                                                                                                                                                   |
+  | ------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `field`                   | `atom` or `string`            | required for `form_group`                                                                                                                 | -           | Field name.                                                                                                                                                       |
+  | `form`                    | `Phoenix.HTML.Form` or `atom` | required for `form_group`                                                                                                                 | -           | Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.                                                                  |
+  | `form_group`              | `boolean` or `map`            | -                                                                                                                                         | -           | Options for `form_group/1`. Passing these options, or just passing `true`, will create a "form group" element that wraps the label, the input and any help texts. |
+  | `class`                   | `string`                      | -                                                                                                                                         | -           | Additional classname.                                                                                                                                             |
+  | `is_contrast`             | `boolean`                     | -                                                                                                                                         | false       | Changes the background color to light gray.                                                                                                                       |
+  | `is_full_width`           | `boolean`                     | -                                                                                                                                         | false       | Full width input.                                                                                                                                                 |
+  | `is_hide_webkit_autofill` | `boolean`                     | -                                                                                                                                         | false       | Hide WebKit's contact info autofill icon.                                                                                                                         |
+  | `is_large`                | `boolean`                     | -                                                                                                                                         | false       | Larger text size.                                                                                                                                                 |
+  | `is_small`                | `boolean`                     | -                                                                                                                                         | false       | Smaller input with smaller text size.                                                                                                                             |
+  | `is_short`                | `boolean`                     | -                                                                                                                                         | false       | Within a form group. Creates an input with a reduced width.                                                                                                       |
+  | `type`                    | `string`                      | "color", "date", "datetime-local", "email", "file", "hidden", "number", "password", "range", "search", "telephone", "text", "time", "url" | "text"      | Text input type.                                                                                                                                                  |
+  | `get_validation_message`  | `fun changeset -> string`     | -                                                                                                                                         | -           | Function to write a custom error message. The function receives for form's changeset data (type `Ecto.Changeset`) and returns a string for error message.         |
+
+  Additional HTML attributes are passed to the input element.
 
   ## Reference
 
-  - [Primer/CSS Forms](https://primer.style/css/components/forms)
+  [Primer/CSS Forms](https://primer.style/css/components/forms)
 
   """
 
@@ -291,14 +329,13 @@ defmodule PrimerLive.Components do
 
   ## Options
 
-  Options for textarea are the same as options for text input.
+  Options for textarea are the same as options for `text_input/1`.
 
-  - `PrimerLive.Options.TextInput`
-  - Additional HTML attributes are passed to the textarea element
+  Additional HTML attributes are passed to the textarea element.
 
   ## Reference
 
-  - [Primer/CSS Forms](https://primer.style/css/components/forms)
+  [Primer/CSS Forms](https://primer.style/css/components/forms)
 
   """
 
@@ -321,7 +358,8 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Creates a form group wrapper around an input field.
 
-  Used internally: see `PrimerLive.Components.text_input/1`.
+  Used internally: see `text_input/1`.
+
   """
 
   def form_group(assigns) do
@@ -1037,37 +1075,35 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Creates a button.
 
+  [Examples](#button/1-examples) • [Options](#button/1-options) • [Reference](#button/1-reference)
+
   ```
   <.button>Click me</.button>
   ```
 
-  ## Features
-
-  - Boolean options for setting button styles: `is_link`, `is_primary` and so on
-  - Handles class logic, for example with `is_icon_only` and `is_close_button`
-
-
   ## Examples
 
-  Primary:
+  _button examples_
+
+  Primary button:
 
   ```
   <.button is_primary>Sign in</.button>
   ```
 
-  Small:
+  Small  button:
 
   ```
   <.button is_small>Edit</.button>
   ```
 
-  Selected:
+  Selected  button:
 
   ```
   <.button is_selected>Unread</.button>
   ```
 
-  With icon:
+  Button with icon:
   ```
   <.button is_primary>
     <.octicon name="download-16" />
@@ -1076,7 +1112,7 @@ defmodule PrimerLive.Components do
   </.button>
   ```
 
-  Icon-only:
+  Icon-only  button:
   ```
   <.button is_icon_only aria-label="Desktop">
     <.octicon name="device-desktop-16" />
@@ -1092,14 +1128,33 @@ defmodule PrimerLive.Components do
   </.button_group>
   ```
 
-  ## All options
+  ## Options
 
-  - `PrimerLive.Options.Button`
-  - Additional HTML attributes are passed to the button element
+  _button options_
+
+  | **Name**          | **Type**  | **Validation**       | **Default** | **Description**                                                                                                                            |
+  | ----------------- | --------- | -------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+  | `inner_block`     | `slot`    | required             | -           | Button content.                                                                                                                            |
+  | `type`            | `string`  | "button" or "submit" | "button"    | Button type.                                                                                                                               |
+  | `class`           | `string`  | -                    | -           | Additional classname.                                                                                                                      |
+  | `is_block`        | `boolean` | -                    | false       | Creates a full-width button. Equivalent to adding "btn-block" class.                                                                       |
+  | `is_close_button` | `boolean` | -                    | false       | Use when enclosing icon "x-16". This setting removes the default padding. Equivalent to using class "close-button" instead of "btn".       |
+  | `is_danger`       | `boolean` | -                    | false       | Creates a red button. Equivalent to adding "btn-danger" class.                                                                             |
+  | `is_disabled`     | `boolean` | -                    | false       | Adds attribute `aria-disabled="true"`.                                                                                                     |
+  | `is_icon_only`    | `boolean` | -                    | false       | Creates an icon button without a label. Add `is_danger` to create a danger icon. Equivalent to using class "btn-octicon" instead of "btn". |
+  | `is_invisible`    | `boolean` | -                    | false       | Create a button that looks like a link, maintaining the paddings of a regular button. Equivalent to adding "btn-invisible" class.          |
+  | `is_large`        | `boolean` | -                    | false       | Creates a large button. Equivalent to adding "btn-large" class.                                                                            |
+  | `is_link`         | `boolean` | -                    | false       | Create a button that looks like a link. Equivalent to adding "btn-link" class (and removing "btn" class).                                  |
+  | `is_outline`      | `boolean` | -                    | false       | Creates a large button. Equivalent to adding "btn-outline" class.                                                                          |
+  | `is_primary`      | `boolean` | -                    | false       | Creates a primary colored button. Equivalent to adding "btn-primary" class.                                                                |
+  | `is_selected`     | `boolean` | -                    | false       | Adds attribute `aria-selected="true"`.                                                                                                     |
+  | `is_small`        | `boolean` | -                    | false       | Creates a small button. Equivalent to adding "btn-sm" class.                                                                               |
+
+  Additional HTML attributes are passed to the button element.
 
   ## Reference
 
-  - [Primer/CSS Buttons](https://primer.style/css/components/buttons)
+  [Primer/CSS Buttons](https://primer.style/css/components/buttons)
 
   """
 
@@ -1167,12 +1222,16 @@ defmodule PrimerLive.Components do
 
   ## Options
 
-  - `PrimerLive.Options.ButtonGroup`
-  - Additional HTML attributes are passed to the button group element
+  | **Name**      | **Type** | **Validation** | **Default** | **Description**       |
+  | ------------- | -------- | -------------- | ----------- | --------------------- |
+  | `inner_block` | `slot`   | required       | -           | Button group content. |
+  | `class`       | `string` | -              | -           | Additional classname. |
+
+  Additional HTML attributes are passed to the button group element.
 
   ## Reference
 
-  - [Primer/CSS Button groups](https://primer.style/css/components/buttons#button-groups)
+  [Primer/CSS Button groups](https://primer.style/css/components/buttons#button-groups)
 
   """
 
@@ -1210,16 +1269,16 @@ defmodule PrimerLive.Components do
 
   ## Options
 
-  - Equal to `PrimerLive.Options.Button`
+  Equal to `button/1` options.
 
   ## Reference
 
-  - [Primer/CSS Button groups](https://primer.style/css/components/buttons#button-groups)
+  [Primer/CSS Button groups](https://primer.style/css/components/buttons#button-groups)
 
   """
   def button_group_item(assigns) do
     with {:ok, assigns} <-
-           SchemaHelpers.validate_options(assigns, Options.ButtonGroupItem, "button_group_item") do
+           SchemaHelpers.validate_options(assigns, Options.Button, "button_group_item") do
       render_button_group_item(assigns)
     else
       message -> message
@@ -1249,6 +1308,8 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Dropdown menu.
 
+  [Examples](#dropdown/1-examples) • [Options](#dropdown/1-options) • [Reference](#dropdown/1-reference)
+
   Dropdowns are small context menus that can be used for navigation and actions. They are a simple alternative to select menus.
 
   Menu content is composed with slots `label`, `menu` and `header`. The menu slot is composed with `dropdown_item/1`.
@@ -1266,6 +1327,8 @@ defmodule PrimerLive.Components do
   ```
 
   ## Examples
+
+  _dropdown examples_
 
   Position of the menu relative to the dropdown toggle. Possible values are: "se", "ne", "e", "sw", "s", "w".
 
@@ -1354,14 +1417,37 @@ defmodule PrimerLive.Components do
   </.dropdown>
   ```
 
-  ## All Options
+  ## Options
 
-  - `PrimerLive.Options.Dropdown`
-  - Additional HTML attributes are passed to the dropdown element
+  _dropdown options_
+
+  | **Name**   | **Type** | **Validation** | **Default** | **Description**                                                                                                                   |
+  | ---------- | -------- | -------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------- |
+  | `menu`     | `slot`   | required       | -           | Dropdown menu content.                                                                                                            |
+  | `label`    | `slot`   | required       | -           | Toggle label. May contain text or an icon.                                                                                        |
+  | `header`   | `slot`   | -              | -           | Menu header.                                                                                                                      |
+  | `class`    | `string` | -              | -           | Additional classname.                                                                                                             |
+  | `classes`  | `map`    | -              | -           | Map of classnames. Any provided value will be appended to the default classnames. See [Class options](#dropdown/1-class-options). |
+  | `position` | `string` | -              | "se"        | Position of the menu relative to the dropdown toggle. Possible values: "se", "ne", "e", "sw", "s", "w".                           |
+
+  Additional HTML attributes are passed to the dropdown element.
+
+
+  ### Class options
+
+  Options for `classes` in `dropdown/1`
+
+  | **Classname** | **Description**                                                  |
+  | ------------- | ---------------------------------------------------------------- |
+  | `toggle`      | Toggle element. Any value will override the default class "btn". |
+  | `caret`       | Dropdown caret element.                                          |
+  | `dropdown`    | Dropdown element.                                                |
+  | `menu`        | Menu element.                                                    |
+  | `header`      | Menu header element.                                             |
 
   ## Reference
 
-  - [Primer/CSS Dropdown](https://primer.style/css/components/dropdown)
+  [Primer/CSS Dropdown](https://primer.style/css/components/dropdown)
 
   """
   def dropdown(assigns) do
@@ -1455,11 +1541,16 @@ defmodule PrimerLive.Components do
 
   ## Options
 
-  - `PrimerLive.Options.DropdownItem`
+  | **Name**      | **Type**  | **Validation**               | **Default** | **Description**                                                |
+  | ------------- | --------- | ---------------------------- | ----------- | -------------------------------------------------------------- |
+  | `inner_block` | `slot`    | required unless `is_divider` | -           | Dropdown menu item content. Ignored when using `is_divider`.   |
+  | `class`       | `string`  | -                            | -           | Additional classname.                                          |
+  | `is_divider`  | `boolean` | -                            | false       | Creates a divider.                                             |
+
 
   ## Reference
 
-  - [Primer/CSS Dropdown](https://primer.style/css/components/dropdown)
+  [Primer/CSS Dropdown](https://primer.style/css/components/dropdown)
 
   """
 
@@ -1508,6 +1599,8 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Creates a control to navigate search results.
 
+  [Examples](#pagination/1-examples) • [Options](#pagination/1-options) • [Reference](#pagination/1-reference)
+
   ```
   <.pagination
     page_count={@page_count}
@@ -1525,7 +1618,9 @@ defmodule PrimerLive.Components do
 
   ## Examples
 
-  Simplified
+  _pagination examples_
+
+  Simplified paginations, showing Next / Previous buttons:
 
   ```
   <.pagination
@@ -1534,7 +1629,7 @@ defmodule PrimerLive.Components do
   />
   ```
 
-  The number of sibling and boundary page numbers to show:
+  Configure the number of sibling and boundary page numbers to show:
 
   ```
   <.pagination
@@ -1544,7 +1639,7 @@ defmodule PrimerLive.Components do
   />
   ```
 
-  Custom labels:
+  Provide custom labels:
 
   ```
   <.pagination
@@ -1558,14 +1653,65 @@ defmodule PrimerLive.Components do
   />
   ```
 
-  ## All options
+  ## Options
 
-  - `PrimerLive.Options.Pagination`
-  - Additional HTML attributes are passed to the outer HTML element
+  _pagination options_
+
+  | **Name**         | **Type**                | **Validation** | **Default** | **Description**                                                                                                                                 |
+  | ---------------- | ----------------------- | -------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `page_count`     | `integer`               | `>= 0`         | -           | Result page count.                                                                                                                              |
+  | `current_page`   | `integer`               | `>= 1`         | -           | Current page.                                                                                                                                   |
+  | `link_path`      | `(page_number) -> path` | `>= 1`         | -           | Function that returns a path for the given page number. The link builder uses `live_redirect`. Extra options can be passed with `link_options`. |
+  | `boundary_count` | `integer`               | `1..3`         | `2`         | Number of page links at both ends.                                                                                                              |
+  | `sibling_count`  | `integer`               | `1..5`         | `2`         | How many page links to show on each side of the current page.                                                                                   |
+  | `is_numbered`    | `boolean`               |                | `true`      | Showing page numbers.                                                                                                                           |
+  | `class`          | `string`                |                | -           | Additional classname for the main component. For more control, use `classes`.                                                                   |
+  | `classes`        | `map`                   |                | -           | Map of classnames. Any provided value will be appended to the default classnames. See [Class options](#pagination/1-class-options).                                    |
+  | `labels`         | `map`                   |                | -           | Map of textual labels. See [Label options](#pagination/1-label-options).                                                                                               |
+  | `link_options`   | `map`                   |                | -           | Map of link options. See [Link options](#pagination/1-link-options).                                                                                                  |
+
+  Additional HTML attributes are passed to the outer HTML element.
+
+  ### Class options
+
+  Options for `classes` in `pagination/1`
+
+  | **Classname**          | **Description**                           |
+  | ---------------------- | ----------------------------------------- |
+  | `pagination_container` | `nav` element that contains `navigation`. |
+  | `pagination`           | Main element.                             |
+  | `previous_page`        | Previous page link (enabled or disabled). |
+  | `next_page`            | Next page link (enabled or disabled).     |
+  | `page`                 | Page number link (not the seleced page).  |
+  | `gap`                  | Gap element.                              |
+
+  ### Label options
+
+  Options for `labels` in `pagination/1`
+
+  | **Label**                  | **Default**        |
+  | -------------------------- | ------------------ |
+  | `aria_label_container`     | Navigation         |
+  | `aria_label_next_page`     | Next page          |
+  | `aria_label_page`          | Page {page_number} |
+  | `aria_label_previous_page` | Previous page      |
+  | `gap`                      | …                  |
+  | `next_page`                | Next               |
+  | `previous_page`            | Previous           |
+
+
+  ### Link options
+
+  Options for `link_options` in `pagination/1`
+
+  | **Name**  | **Type**  | **Validation** | **Default** | **Description**    |
+  | --------- | --------- | -------------- | ----------- | ------------------ |
+  | `replace` | `boolean` | -              | false       | Result page count. |
+
 
   ### Reference
 
-  - [Primer/CSS Pagination](https://primer.style/css/components/pagination)
+  [Primer/CSS Pagination](https://primer.style/css/components/pagination)
 
   """
 
@@ -1778,9 +1924,11 @@ defmodule PrimerLive.Components do
   @doc section: :icons
 
   @doc ~S"""
-  Renders an icon from the set of GitHub icons, 512 including all size variations. See `PrimerLive.Octicons` for the complete list.
+  Renders an icon from the set of GitHub icons, 512 including all size variations.
 
-  Pass the icon name with the size: icon "comment" with size "16" becomes "comment-16":
+  See `PrimerLive.Octicons` for the complete list.
+
+  [Examples](#octicon/1-examples) • [Options](#octicon/1-options) • [Reference](#octicon/1-reference)
 
   ```
   <.octicon name="comment-16" />
@@ -1788,7 +1936,7 @@ defmodule PrimerLive.Components do
 
   ## Examples
 
-  Icon "alert-fill" with size 12:
+  Pass the icon name with the size: icon "alert-fill" with size "12" becomes "alert-fill-12":
 
   ```
   <.octicon name="alert-fill-12" />
@@ -1808,12 +1956,16 @@ defmodule PrimerLive.Components do
 
   ## Options
 
-  - `PrimerLive.Options.Octicon`
-  - Additional HTML attributes are passed to the SVG element
+  | **Name** | **Type** | **Validation** | **Default** | **Description**                                                                         |
+  | -------- | -------- | -------------- | ----------- | --------------------------------------------------------------------------------------- |
+  | `name`   | `string` | required       | -           | Icon name, e.g. "arrow-left-24". See [available icons](https://primer.style/octicons/). |
+  | `class`  | `string` | -              | -           | Additional classname.                                                                   |
+
+  Additional HTML attributes are passed to the SVG element.
 
   ### Reference
 
-  - [List of icons](https://primer.style/octicons/)
+  - [List of Primer icons](https://primer.style/octicons/)
   - [Primer/Octicons Usage](https://primer.style/octicons/guidelines/usage)
 
   """

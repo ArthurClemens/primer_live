@@ -56,7 +56,7 @@ defmodule PrimerLive.Options.LayoutItem do
           true -> true
         end
       end,
-      "must not be empty"
+      "can't be empty"
     )
   end
 end

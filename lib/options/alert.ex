@@ -1,18 +1,8 @@
 defmodule PrimerLive.Options.Alert do
   use Options
 
-  @moduledoc """
-  Options for component `PrimerLive.Components.alert/1`.
+  @moduledoc false
 
-  | **Name**      | **Type**  | **Validation** | **Default** | **Description**                                                      |
-  | ------------- | --------- | -------------- | ----------- | -------------------------------------------------------------------- |
-  | `inner_block` | `slot`    | required       | -           | Alert content.                                                       |
-  | `class`       | `string`  | -              | -           | Additional classname.                                                |
-  | `is_error`    | `boolean` | -              | false       | Sets the color to "error".                                           |
-  | `is_success`  | `boolean` | -              | false       | Sets the color to "success".                                         |
-  | `is_warning`  | `boolean` | -              | false       | Sets the color to "warning".                                         |
-  | `is_full`     | `boolean` | -              | false       | Renders the alert full width, with border and border radius removed. |
-  """
   typed_embedded_schema do
     # Slots
     field(:inner_block, :any, virtual: true, enforce: true, null: false)
@@ -42,15 +32,8 @@ end
 defmodule PrimerLive.Options.AlertMessages do
   use Options
 
-  @moduledoc """
-  Options for component `PrimerLive.Components.alert_messages/1`.
+  @moduledoc false
 
-  | **Name**      | **Type** | **Validation** | **Default** | **Description**         |
-  | ------------- | -------- | -------------- | ----------- | ----------------------- |
-  | `inner_block` | `slot`   | required       | -           | Alert messages content. |
-  | `class`       | `string` | -              | -           | Additional classname.   |
-
-  """
   typed_embedded_schema do
     # Slots
     field(:inner_block, :any, virtual: true, enforce: true, null: false)
