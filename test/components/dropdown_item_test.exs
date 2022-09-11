@@ -68,7 +68,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.dropdown_item toggle caret={&render_caret/1}>Content</.dropdown_item>
+           <.dropdown_item toggle render_caret={&render_caret/1}>Content</.dropdown_item>
            """)
            |> format_html() ==
              """
@@ -81,11 +81,11 @@ defmodule PrimerLive.Components.DropdownItemTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.dropdown_item menu caret={&render_caret/1}>Content</.dropdown_item>
+           <.dropdown_item menu render_caret={&render_caret/1}>Content</.dropdown_item>
            """)
            |> format_html() ==
              """
-             <div class="flash flash-error"><p>dropdown_item component received invalid options:</p><p>caret: must be used with &quot;toggle&quot;</p></div>
+             <div class="flash flash-error"><p>dropdown_item component received invalid options:</p><p>render_caret: must be used with &quot;toggle&quot;</p></div>
              """
              |> format_html()
   end

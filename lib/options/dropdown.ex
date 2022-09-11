@@ -16,17 +16,26 @@ defmodule PrimerLive.Options.DropdownItem do
     field(:class, :string)
     field(:position, :string, default: "se")
     field(:header_label, :string)
-    field(:caret, :any, virtual: true)
+    field(:render_caret, :any, virtual: true)
   end
 
   @impl Options
   def changeset(struct, attrs \\ %{}) do
     struct
-    |> cast(attrs, [:class, :toggle, :option, :divider, :menu, :position, :header_label, :caret])
+    |> cast(attrs, [
+      :class,
+      :toggle,
+      :option,
+      :divider,
+      :menu,
+      :position,
+      :header_label,
+      :render_caret
+    ])
     |> cast_either_inner_block_or_divider(attrs, [:inner_block, :divider])
     |> SchemaHelpers.validate_require_true_values(attrs, :position, :menu)
     |> SchemaHelpers.validate_require_true_values(attrs, :header_label, :menu)
-    |> SchemaHelpers.validate_require_true_values(attrs, :caret, :toggle)
+    |> SchemaHelpers.validate_require_true_values(attrs, :render_caret, :toggle)
     |> validate_either(attrs, [:toggle, :menu, :option, :divider])
     |> validate_inclusion(:position, ["se", "ne", "e", "sw", "s", "w"])
   end

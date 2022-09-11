@@ -1517,7 +1517,7 @@ defmodule PrimerLive.Components do
   Pass a custom caret:
 
   ```
-  <.dropdown_item toggle caret={&render_caret/1}>
+  <.dropdown_item toggle render_caret={&render_caret/1}>
     Menu
   </.dropdown_item>
 
@@ -1534,16 +1534,16 @@ defmodule PrimerLive.Components do
 
   _dropdown_item options_
 
-  | **Name**      | **Type**   | **Validation**            | **Default** | **Description**                                                                                         |
-  | ------------- | ---------- | ------------------------- | ----------- | ------------------------------------------------------------------------------------------------------- |
-  | `inner_block` | `slot`     | required unless `divider` | -           | Dropdown menu item content. Ignored when using `is_divider`.                                            |
-  | `toggle`      | `boolean`  | -                         | false       | Creates a toggle element (default with button appearance) using the inner_block as label.               |
-  | `menu`        | `boolean`  | -                         | false       | Creates a menu element                                                                                  |
-  | `option`      | `boolean`  | -                         | false       | Createa an option element.                                                                              |
-  | `divider`     | `boolean`  | -                         | false       | Creates a divider element.                                                                              |
-  | `position`    | `string`   | -                         | "se"        | Position of the menu relative to the dropdown toggle. Possible values: "se", "ne", "e", "sw", "s", "w". |
-  | `caret`       | `function` | -                         | "se"        | Template render function that returns a custom template for the caret.                                  |
-  | `class`       | `string`   | -                         | -           | Additional classname.                                                                                   |
+  | **Name**       | **Type**   | **Validation**            | **Default** | **Description**                                                                                         |
+  | -------------- | ---------- | ------------------------- | ----------- | ------------------------------------------------------------------------------------------------------- |
+  | `inner_block`  | `slot`     | required unless `divider` | -           | Dropdown menu item content. Ignored when using `is_divider`.                                            |
+  | `toggle`       | `boolean`  | -                         | false       | Creates a toggle element (default with button appearance) using the inner_block as label.               |
+  | `menu`         | `boolean`  | -                         | false       | Creates a menu element                                                                                  |
+  | `option`       | `boolean`  | -                         | false       | Createa an option element.                                                                              |
+  | `divider`      | `boolean`  | -                         | false       | Creates a divider element.                                                                              |
+  | `position`     | `string`   | -                         | "se"        | Position of the menu relative to the dropdown toggle. Possible values: "se", "ne", "e", "sw", "s", "w". |
+  | `render_caret` | `function` | -                         | -           | Template render function that returns a custom template for the caret.                                  |
+  | `class`        | `string`   | -                         | -           | Additional classname.                                                                                   |
 
 
   ## Reference
@@ -1608,8 +1608,8 @@ defmodule PrimerLive.Components do
     <%= if @toggle do %>
       <summary {item_opts}>
         <%= render_slot(@inner_block) %>
-        <%= if @caret do %>
-          <%= @caret.(assigns) %>
+        <%= if @render_caret do %>
+          <%= @render_caret.(assigns) %>
         <% else %>
           <div class={classes.caret}></div>
         <% end %>
