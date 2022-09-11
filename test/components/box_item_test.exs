@@ -99,6 +99,32 @@ defmodule PrimerLive.Components.BoxItemTest do
              |> format_html()
   end
 
+  test "Option: is_link" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.box_item row is_link href="/home">Go to Home</.box_item>
+           """)
+           |> format_html() ==
+             """
+             <div class="Box-row"><a href="/home" class="Box-row-link">Go to Home</a></div>
+             """
+             |> format_html()
+  end
+
+  test "Option: header with is_link (should show an error)" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.box_item header is_link>Go to Home</.box_item>
+           """)
+           |> format_html() ==
+             """
+             <div class="flash flash-error"><p>box_item component received invalid options:</p><p>is_link: must be used with &quot;row&quot;</p></div>
+             """
+             |> format_html()
+  end
+
   test "Option: is_blue" do
     assigns = []
 

@@ -1,6 +1,8 @@
 defmodule PrimerLive.Options.BoxItem do
   use Options
 
+  alias PrimerLive.Helpers.SchemaHelpers
+
   @moduledoc false
 
   typed_embedded_schema do
@@ -19,6 +21,7 @@ defmodule PrimerLive.Options.BoxItem do
     field(:is_gray, :boolean, default: false)
     field(:is_hover_blue, :boolean, default: false)
     field(:is_hover_gray, :boolean, default: false)
+    field(:is_link, :boolean, default: false)
     field(:is_navigation_focus, :boolean, default: false)
     field(:is_unread, :boolean, default: false)
     field(:is_yellow, :boolean, default: false)
@@ -40,6 +43,7 @@ defmodule PrimerLive.Options.BoxItem do
       :is_gray,
       :is_hover_blue,
       :is_hover_gray,
+      :is_link,
       :is_navigation_focus,
       :is_unread,
       :is_yellow,
@@ -47,6 +51,7 @@ defmodule PrimerLive.Options.BoxItem do
       :title
     ])
     |> validate_required([:inner_block])
+    |> SchemaHelpers.validate_require_true_values(attrs, :is_link, :row)
   end
 end
 

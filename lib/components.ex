@@ -693,20 +693,14 @@ defmodule PrimerLive.Components do
 
   defp render_layout_item(assigns) do
     classes = %{
-      main:
-        Attributes.classnames([
-          "Layout-main"
-        ]),
+      main: "Layout-main",
       main_center_wrapper:
         Attributes.classnames([
           assigns.is_centered_md and "Layout-main-centered-md",
           assigns.is_centered_lg and "Layout-main-centered-lg",
           assigns.is_centered_xl and "Layout-main-centered-xl"
         ]),
-      sidebar:
-        Attributes.classnames([
-          "Layout-sidebar"
-        ]),
+      sidebar: "Layout-sidebar",
       divider:
         Attributes.classnames([
           "Layout-divider",
@@ -968,28 +962,37 @@ defmodule PrimerLive.Components do
   </.box>
   ```
 
+  Row link - when you want a link to appear dark gray and blue on hover on desktop, and remain a blue link on mobile. This is useful to indicate links on mobile without having hover styles.
+
+  ```
+  <.box_item row is_link href="/home">
+    Go to Home
+  </.box_item>
+  ```
+
   ## Options
 
   _box_item options_
 
-  | **Name**              | **Type**  | **Validation** | **Default** | **Description**                                                                  |
-  | --------------------- | --------- | -------------- | ----------- | -------------------------------------------------------------------------------- |
-  | `inner_block`         | `slot`    | required       | -           | Content.                                                                         |
-  | `header`              | `boolean` | -              | false       | Creates a header element.                                                        |
-  | `title`               | `boolean` | -              | false       | Creates a title element to be placed within a headder element.                   |
-  | `row`                 | `boolean` | -              | false       | Creates a row element.                                                           |
-  | `body`                | `boolean` | -              | false       | Creates a body element.                                                          |
-  | `footer`              | `boolean` | -              | false       | Creates a footer element.                                                        |
-  | `class`               | `string`  | -              | -           | Additional classname.                                                            |
-  | `is_blue`             | `boolean` | -              | false       | Blue row theme.                                                                  |
-  | `is_focus_blue`       | `boolean` | -              | false       | Changes to blue row theme on focus.                                              |
-  | `is_focus_gray`       | `boolean` | -              | false       | Changes to gray row theme on focus.                                              |
-  | `is_gray`             | `boolean` | -              | false       | Gray row theme.                                                                  |
-  | `is_hover_blue`       | `boolean` | -              | false       | Changes to blue row theme on hover.                                              |
-  | `is_hover_gray`       | `boolean` | -              | false       | Changes to gray row theme on hover.                                              |
-  | `is_navigation_focus` | `boolean` | -              | false       | Combine with a theme color to highlight the row when using keyboard commands.    |
-  | `is_unread`           | `boolean` | -              | false       | Apply a blue vertical line highlight for indicating a row contains unread items. |
-  | `is_yellow`           | `boolean` | -              | false       | Yellow row theme.                                                                |
+  | **Name**              | **Type**  | **Validation** | **Default** | **Description**                                                                                          |
+  | --------------------- | --------- | -------------- | ----------- | -------------------------------------------------------------------------------------------------------- |
+  | `inner_block`         | `slot`    | required       | -           | Content.                                                                                                 |
+  | `header`              | `boolean` | -              | false       | Creates a header element.                                                                                |
+  | `title`               | `boolean` | -              | false       | Creates a title element to be placed within a headder element.                                           |
+  | `row`                 | `boolean` | -              | false       | Creates a row element.                                                                                   |
+  | `body`                | `boolean` | -              | false       | Creates a body element.                                                                                  |
+  | `footer`              | `boolean` | -              | false       | Creates a footer element.                                                                                |
+  | `class`               | `string`  | -              | -           | Additional classname.                                                                                    |
+  | `is_blue`             | `boolean` | -              | false       | Blue row theme.                                                                                          |
+  | `is_focus_blue`       | `boolean` | -              | false       | Changes to blue row theme on focus.                                                                      |
+  | `is_focus_gray`       | `boolean` | -              | false       | Changes to gray row theme on focus.                                                                      |
+  | `is_gray`             | `boolean` | -              | false       | Gray row theme.                                                                                          |
+  | `is_hover_blue`       | `boolean` | -              | false       | Changes to blue row theme on hover.                                                                      |
+  | `is_hover_gray`       | `boolean` | -              | false       | Changes to gray row theme on hover.                                                                      |
+  | `is_navigation_focus` | `boolean` | -              | false       | Combine with a theme color to highlight the row when using keyboard commands.                            |
+  | `is_unread`           | `boolean` | -              | false       | Apply a blue vertical line highlight for indicating a row contains unread items.                         |
+  | `is_yellow`           | `boolean` | -              | false       | Yellow row theme.                                                                                        |
+  | `is_link`             | `boolean` | -              | false       | With attribute `row`. Use with link attributes such as "href" to creates a link with a "row link" class. |
 
   Additional HTML attributes are passed to the box_item element.
 
@@ -1014,18 +1017,9 @@ defmodule PrimerLive.Components do
           "Box-header",
           assigns.is_blue and "Box-header--blue"
         ]),
-      body:
-        Attributes.classnames([
-          "Box-body"
-        ]),
-      footer:
-        Attributes.classnames([
-          "Box-footer"
-        ]),
-      title:
-        Attributes.classnames([
-          "Box-title"
-        ]),
+      body: "Box-body",
+      footer: "Box-footer",
+      title: "Box-title",
       row:
         Attributes.classnames([
           "Box-row",
@@ -1038,7 +1032,8 @@ defmodule PrimerLive.Components do
           assigns.is_navigation_focus and "navigation-focus",
           assigns.is_yellow and "Box-row--yellow",
           assigns.is_unread and "Box-row--unread"
-        ])
+        ]),
+      link: "Box-row-link"
     }
 
     class =
@@ -1061,15 +1056,32 @@ defmodule PrimerLive.Components do
 
     title_opts = class !== "" && [class: class]
 
+    link_row_opts =
+      Attributes.append_attributes(assigns.extra, [
+        [
+          class:
+            Attributes.classnames([
+              classes.link,
+              assigns.class
+            ])
+        ]
+      ])
+
     ~H"""
     <%= if @title do %>
       <h3 {title_opts}>
         <%= render_slot(@inner_block) %>
       </h3>
     <% else %>
-      <div {item_opts}>
-        <%= render_slot(@inner_block) %>
-      </div>
+      <%= if @row and @is_link do %>
+        <div class={classes.row}>
+          <a {link_row_opts}><%= render_slot(@inner_block) %></a>
+        </div>
+      <% else %>
+        <div {item_opts}>
+          <%= render_slot(@inner_block) %>
+        </div>
+      <% end %>
     <% end %>
     """
   end
@@ -1560,27 +1572,15 @@ defmodule PrimerLive.Components do
             "btn"
           end
         ]),
-      caret:
-        Attributes.classnames([
-          "dropdown-caret"
-        ]),
+      caret: "dropdown-caret",
       menu:
         Attributes.classnames([
           "dropdown-menu",
           "dropdown-menu-" <> assigns.position
         ]),
-      option:
-        Attributes.classnames([
-          "dropdown-item"
-        ]),
-      divider:
-        Attributes.classnames([
-          "dropdown-divider"
-        ]),
-      header:
-        Attributes.classnames([
-          "dropdown-header"
-        ])
+      option: "dropdown-item",
+      divider: "dropdown-divider",
+      header: "dropdown-header"
     }
 
     class =
