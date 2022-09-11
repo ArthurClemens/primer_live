@@ -437,9 +437,21 @@ defmodule PrimerLive.Components do
   @doc section: :layout
 
   @doc ~S"""
-  Creates a responsive-friendly page layouts with 2 columns.
+  Creates a responsive-friendly page layout with 2 columns.
 
   [Examples](#layout/1-examples) • [Options](#layout/1-options) • [Reference](#layout/1-reference)
+
+  A layout is composed with `layout_item/1` elements.
+
+  ```
+  <.layout>
+    layout_item elements
+  </.layout>
+  ```
+
+  ## Examples
+
+  _layout examples_
 
   The position of the sidebar is set by CSS (and can be changed with attribute `is_sidebar_position_end`).
   In this example the sidebar is the last element, but (by default) will be placed at the start:
@@ -460,10 +472,6 @@ defmodule PrimerLive.Components do
   > Keyboard navigation follows the markup order. Decide carefully how the focus order should be be by deciding whether Layout-main or Layout-sidebar comes first in code. The code order won’t affect the visual position.
 
 
-  ## Examples
-
-  _layout examples_
-
   Place the sidebar at the right:
 
   ```
@@ -477,7 +485,7 @@ defmodule PrimerLive.Components do
   </.layout>
   ```
 
-  With a divider. Use `is_divided` in conjunction with the `layout_item` element with attribute `divider` to show a divider between the main content and the sidebar.
+  With a divider. Use `is_divided` in conjunction with the `layout_item/1` element with attribute `divider` to show a divider between the main content and the sidebar.
 
   ```
   <.layout is_divided>
@@ -539,7 +547,7 @@ defmodule PrimerLive.Components do
   | ------------------------------------ | --------- | -------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
   | `inner_block`                        | `slot`    | required       | -           | Content.                                                                                                                                                                                         |
   | `class`                              | `string`  | -              | -           | Additional classname.                                                                                                                                                                            |
-  | `is_divided`                         | `boolean` | -              | false       | Use `is_divided` in conjunction with the `layout_item` element with attribute `divider` to show a divider between the main content and the sidebar. Creates a 1px line between main and sidebar. |
+  | `is_divided`                         | `boolean` | -              | false       | Use `is_divided` in conjunction with the `layout_item/1` element with attribute `divider` to show a divider between the main content and the sidebar. Creates a 1px line between main and sidebar. |
   | `is_narrow_sidebar`                  | `boolean` | -              | false       | Smaller sidebar size. Widths: md: 240px, lg: 256px.                                                                                                                                              |
   | `is_wide_sidebar`                    | `boolean` | -              | false       | Wider sidebar size. Widths: md: 296px, lg: 320px, xl: 344px.                                                                                                                                     |
   | `is_gutter_none`                     | `boolean` | -              | false       | Changes the gutter size to 0px.                                                                                                                                                                  |
@@ -603,7 +611,7 @@ defmodule PrimerLive.Components do
   @doc section: :layout
 
   @doc ~S"""
-  Content element for `layout/1`.
+  Variable content element for `layout/1`.
 
   [Examples](#layout_item/1-examples) • [Options](#layout_item/1-options) • [Reference](#layout_item/1-reference)
 
@@ -758,9 +766,11 @@ defmodule PrimerLive.Components do
   with utility classes as needed. `box_item/1` elements allow for the creation of alternative
   styles and layouts.
 
+  A box is composed with with `box_item/1` elements.
+
   ```
   <.box>
-    Content
+    box_item elements
   </.box>
   ```
 
@@ -859,20 +869,18 @@ defmodule PrimerLive.Components do
   @doc section: :layout
 
   @doc ~S"""
-  Content element for `box/1`.
+  Variable content element for `box/1`.
 
   [Examples](#box_item/1-examples) • [Options](#box_item/1-options) • [Reference](#box_item/1-reference)
 
-  Use `box_item` to create different `box` elements - header, footer, rows, body, title:
+  Box elements are created with boolean options:
 
   ```
-  <.box>
-    <.box_item header>Header</.box_item>
-    <.box_item row>Row 1</.box_item>
-    <.box_item row>Row 2</.box_item>
-    <.box_item row>Row 3</.box_item>
-    <.box_item footer>Footer</.box_item>
-  </.box>
+  <.box_item header> ... </.box_item>
+  <.box_item title> ... </.box_item>
+  <.box_item row> ... </.box_item>
+  <.box_item body> ... </.box_item>
+  <.box_item footer> ... </.box_item>
   ```
 
   ## Examples
@@ -1210,6 +1218,16 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Creates a group of buttons.
 
+  A button_group is composed with `button_group_item/1` elements
+
+  ```
+  <.button_group>
+    button_group_item elements
+  </.button_group>
+  ```
+
+  ## Examples
+
   Use the button wrapper component `button_group_item/1` to automatically apply the correct classes to the buttons.
 
   ```
@@ -1312,89 +1330,33 @@ defmodule PrimerLive.Components do
 
   Dropdowns are small context menus that can be used for navigation and actions. They are a simple alternative to select menus.
 
-  Menu content is composed with slots `label`, `menu` and `header`. The menu slot is composed with `dropdown_item/1`.
+  A dropdown is composed with with `dropdown_item/1` elements.
 
   ```
   <.dropdown>
-    <:label>
-      Menu
-    </:label>
-    <:menu>
-      <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
-      <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
-    </:menu>
+    dropdown_item elements
   </.dropdown>
   ```
+
+  Full dropdown menu:
+
+  ```
+  <.dropdown>
+    <.dropdown_item toggle>Menu</.dropdown_item>
+    <.dropdown_item menu header_label="Header" position="e">
+      <.dropdown_item option href="#url">Dropdown item 1</.dropdown_item>
+      <.dropdown_item option href="#url">Dropdown item 2</.dropdown_item>
+      <.dropdown_item divider />
+      <.dropdown_item option href="#url">Dropdown item 3</.dropdown_item>
+    </.dropdown_item>
+  </.dropdown>
+  ```
+
+  See `dropdown_item/1` for more examples for dropdown elements.
 
   ## Examples
 
   _dropdown examples_
-
-  Position of the menu relative to the dropdown toggle. Possible values are: "se", "ne", "e", "sw", "s", "w".
-
-  ```
-  <.dropdown position="e">
-    ...
-  </.dropdown>
-  ```
-
-  Custom toggle class (overriding the default class "btn"):
-
-  ```
-  <.dropdown
-    classes={
-      %{
-        toggle: "color-fg-muted p-2 d-inline"
-      }
-    }
-  >
-    ...
-  </.dropdown>
-  ```
-
-  Menu item divider:
-
-  ```
-  <.dropdown>
-    <:label>
-      Menu
-    </:label>
-    <:menu>
-      <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
-      <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
-      <.dropdown_item is_divider />
-      <.dropdown_item href="#url">Dropdown item 3</.dropdown_item>
-    </:menu>
-  </.dropdown>
-  ```
-
-  With a header (will be placed inside the menu):
-
-  ```
-  <.dropdown>
-    <:label>
-      Menu
-    </:label>
-    <:header>
-      Header
-    </:header>
-    <:menu>
-      <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
-      <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
-    </:menu>
-  </.dropdown>
-  ```
-
-  With an icon instead of a toggle text:
-
-  ```
-  <.dropdown>
-    <:label>
-      <.octicon name="alert-16" />
-    </:label>
-    ...
-  </.dropdown>
-  ```
 
   Pass attribute `open` to show the menu initially open:
 
@@ -1411,8 +1373,7 @@ defmodule PrimerLive.Components do
     Open menu
   </.button>
 
-  <.dropdown
-    id="my-dropdown"
+  <.dropdown id="my-dropdown"
     ...
   </.dropdown>
   ```
@@ -1421,29 +1382,13 @@ defmodule PrimerLive.Components do
 
   _dropdown options_
 
-  | **Name**   | **Type** | **Validation** | **Default** | **Description**                                                                                                                   |
-  | ---------- | -------- | -------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------- |
-  | `menu`     | `slot`   | required       | -           | Dropdown menu content.                                                                                                            |
-  | `label`    | `slot`   | required       | -           | Toggle label. May contain text or an icon.                                                                                        |
-  | `header`   | `slot`   | -              | -           | Menu header.                                                                                                                      |
-  | `class`    | `string` | -              | -           | Additional classname.                                                                                                             |
-  | `classes`  | `map`    | -              | -           | Map of classnames. Any provided value will be appended to the default classnames. See [Class options](#dropdown/1-class-options). |
-  | `position` | `string` | -              | "se"        | Position of the menu relative to the dropdown toggle. Possible values: "se", "ne", "e", "sw", "s", "w".                           |
+  | **Name**      | **Type** | **Validation** | **Default** | **Description**                                    |
+  | ------------- | -------- | -------------- | ----------- | -------------------------------------------------- |
+  | `inner_block` | `slot`   | required       | -           | Dropdown content with `dropdown_item/1` elements . |
+  | `class`       | `string` | -              | -           | Additional classname.                              |
 
   Additional HTML attributes are passed to the dropdown element.
 
-
-  ### Class options
-
-  Options for `classes` in `dropdown/1`
-
-  | **Classname** | **Description**                                                  |
-  | ------------- | ---------------------------------------------------------------- |
-  | `toggle`      | Toggle element. Any value will override the default class "btn". |
-  | `caret`       | Dropdown caret element.                                          |
-  | `dropdown`    | Dropdown element.                                                |
-  | `menu`        | Menu element.                                                    |
-  | `header`      | Menu header element.                                             |
 
   ## Reference
 
@@ -1460,62 +1405,23 @@ defmodule PrimerLive.Components do
   end
 
   defp render_dropdown(assigns) do
-    classes = %{
-      dropdown:
-        Attributes.classnames([
-          "dropdown",
-          "details-reset",
-          "details-overlay",
-          "d-inline-block",
-          assigns.class,
-          assigns.classes.dropdown
-        ]),
-      toggle:
-        Attributes.classnames([
-          if assigns.classes.toggle do
-            assigns.classes.toggle
-          else
-            "btn"
-          end
-        ]),
-      caret:
-        Attributes.classnames([
-          "dropdown-caret",
-          assigns.classes.caret
-        ]),
-      menu:
-        Attributes.classnames([
-          "dropdown-menu",
-          "dropdown-menu-" <> assigns.position,
-          assigns.classes.menu
-        ]),
-      header:
-        Attributes.classnames([
-          "dropdown-header",
-          assigns.classes.header
-        ])
-    }
+    class =
+      Attributes.classnames([
+        "dropdown",
+        "details-reset",
+        "details-overlay",
+        "d-inline-block",
+        assigns.class
+      ])
+
+    item_opts =
+      Attributes.append_attributes(assigns.extra, [
+        [class: class]
+      ])
 
     ~H"""
-    <details class={classes.dropdown} {@extra}>
-      <summary class={classes.toggle} aria-haspopup="true">
-        <%= render_slot(@label) %>
-        <div class={classes.caret}></div>
-      </summary>
-      <%= if @header do %>
-        <div class={classes.menu}>
-          <div class={classes.header}>
-            <%= render_slot(@header) %>
-          </div>
-          <ul>
-            <%= render_slot(@menu) %>
-          </ul>
-        </div>
-      <% else %>
-        <ul class={classes.menu}>
-          <%= render_slot(@menu) %>
-        </ul>
-      <% end %>
+    <details {item_opts}>
+      <%= render_slot(@inner_block, classes: "x") %>
     </details>
     """
   end
@@ -1526,33 +1432,113 @@ defmodule PrimerLive.Components do
 
   @doc section: :menus
 
-  @doc ~S"""
-  Menu item inside the `menu` slot of a `dropdown/1`.
+  @doc ~S'''
+  Variable content element for `dropdown/1`.
+
+  [Examples](#dropdown_item/1-examples) • [Options](#dropdown_item/1-options) • [Reference](#dropdown_item/1-reference)
+
+  Dropdown elements are created with boolean options:
 
   ```
-   <.dropdown>
+  <.dropdown_item toggle> ... </.dropdown_item>
+  <.dropdown_item menu> ... </.dropdown_item>
+  <.dropdown_item option> ... </.dropdown_item>
+  <.dropdown_item divider> ... </.dropdown_item>
+  ```
+
+  ## Examples
+
+  _dropdown_item examples_
+
+
+
+  Place `option` elements inside `menu`:
+
+  ```
+  <.dropdown_item menu>
+    <.dropdown_item option href="#url">Dropdown item 1</.dropdown_item>
+    <.dropdown_item option href="#url">Dropdown item 2</.dropdown_item>
+  </.dropdown_item>
+  ```
+
+  Create a divider:
+
+  ```
+  <.dropdown_item option href="#url">Dropdown item 1</.dropdown_item>
+  <.dropdown_item option href="#url">Dropdown item 2</.dropdown_item>
+  <.dropdown_item divider />
+  <.dropdown_item option href="#url">Dropdown item 3</.dropdown_item>
+  ```
+
+  Custom toggle class (overriding the default class "btn"):
+
+  ```
+  <.dropdown_item toggle class="color-fg-muted p-2 d-inline">
+    Menu
+  </.dropdown_item>
+  ```
+
+  Using an icon instead of a toggle label:
+
+  ```
+  <.dropdown_item toggle>
+    <.octicon name="alert-16" />
+  </.dropdown_item>
+  ```
+
+  Add a menu header (will be placed above the menu options):
+
+  ```
+  <.dropdown_item menu header_label="Header">
+   ...
+  </.dropdown_item>
+  ```
+
+  Position of the menu relative to the dropdown toggle. Possible values are: "se", "ne", "e", "sw", "s", "w".
+
+  ```
+  <.dropdown_item menu position="e">
     ...
-    <:menu>
-      <.dropdown_item href="#url">Dropdown item 1</.dropdown_item>
-      <.dropdown_item href="#url">Dropdown item 2</.dropdown_item>
-    </:menu>
-  </.dropdown>
+  </.dropdown_item>
+  ```
+
+  Pass a custom caret:
+
+  ```
+  <.dropdown_item toggle caret={&render_caret/1}>
+    Menu
+  </.dropdown_item>
+
+  ...
+
+  defp render_caret(assigns) do
+    ~H"""
+    <div class="my-dropdown-caret"></div>
+    """
+  end
   ```
 
   ## Options
 
-  | **Name**      | **Type**  | **Validation**               | **Default** | **Description**                                                |
-  | ------------- | --------- | ---------------------------- | ----------- | -------------------------------------------------------------- |
-  | `inner_block` | `slot`    | required unless `is_divider` | -           | Dropdown menu item content. Ignored when using `is_divider`.   |
-  | `class`       | `string`  | -                            | -           | Additional classname.                                          |
-  | `is_divider`  | `boolean` | -                            | false       | Creates a divider.                                             |
+  _dropdown_item options_
+
+  | **Name**      | **Type**   | **Validation**            | **Default** | **Description**                                                                                         |
+  | ------------- | ---------- | ------------------------- | ----------- | ------------------------------------------------------------------------------------------------------- |
+  | `inner_block` | `slot`     | required unless `divider` | -           | Dropdown menu item content. Ignored when using `is_divider`.                                            |
+  | `toggle`      | `boolean`  | -                         | false       | Creates a toggle element (default with button appearance) using the inner_block as label.               |
+  | `menu`        | `boolean`  | -                         | false       | Creates a menu element                                                                                  |
+  | `option`      | `boolean`  | -                         | false       | Createa an option element.                                                                              |
+  | `divider`     | `boolean`  | -                         | false       | Creates a divider element.                                                                              |
+  | `position`    | `string`   | -                         | "se"        | Position of the menu relative to the dropdown toggle. Possible values: "se", "ne", "e", "sw", "s", "w". |
+  | `caret`       | `function` | -                         | "se"        | Template render function that returns a custom template for the caret.                                  |
+  | `class`       | `string`   | -                         | -           | Additional classname.                                                                                   |
 
 
   ## Reference
 
   [Primer/CSS Dropdown](https://primer.style/css/components/dropdown)
 
-  """
+  '''
 
   def dropdown_item(assigns) do
     with {:ok, assigns} <-
@@ -1564,12 +1550,49 @@ defmodule PrimerLive.Components do
   end
 
   defp render_dropdown_item(assigns) do
+    classes = %{
+      toggle:
+        Attributes.classnames([
+          # If a custom class is set, remove the default btn class
+          if assigns.class do
+            assigns.class
+          else
+            "btn"
+          end
+        ]),
+      caret:
+        Attributes.classnames([
+          "dropdown-caret"
+        ]),
+      menu:
+        Attributes.classnames([
+          "dropdown-menu",
+          "dropdown-menu-" <> assigns.position
+        ]),
+      option:
+        Attributes.classnames([
+          "dropdown-item"
+        ]),
+      divider:
+        Attributes.classnames([
+          "dropdown-divider"
+        ]),
+      header:
+        Attributes.classnames([
+          "dropdown-header"
+        ])
+    }
+
     class =
       Attributes.classnames([
-        if assigns.is_divider do
-          "dropdown-divider"
-        else
-          "dropdown-item"
+        cond do
+          assigns.toggle -> classes.toggle
+          assigns.menu -> classes.menu
+          assigns.divider -> classes.divider
+          assigns.option -> classes.option
+          assigns.header_label -> classes.menu
+          # ^ header class is used inside the menu div
+          true -> nil
         end,
         assigns.class
       ])
@@ -1577,16 +1600,45 @@ defmodule PrimerLive.Components do
     item_opts =
       Attributes.append_attributes(assigns.extra, [
         [class: class],
-        # If divider: add role="separator"
-        assigns.is_divider and [role: "separator"]
+        assigns.toggle and [aria_haspopup: "true"],
+        assigns.divider and [role: "separator"]
       ])
 
     ~H"""
-    <li {item_opts}>
-      <%= if @inner_block do %>
+    <%= if @toggle do %>
+      <summary {item_opts}>
         <%= render_slot(@inner_block) %>
+        <%= if @caret do %>
+          <%= @caret.(assigns) %>
+        <% else %>
+          <div class={classes.caret}></div>
+        <% end %>
+      </summary>
+    <% end %>
+    <%= if @header_label do %>
+      <div {item_opts}>
+        <div class={classes.header}>
+          <%= @header_label %>
+        </div>
+        <ul>
+          <%= render_slot(@inner_block) %>
+        </ul>
+      </div>
+    <% else %>
+      <%= if @menu do %>
+        <ul {item_opts}>
+          <%= render_slot(@inner_block) %>
+        </ul>
       <% end %>
-    </li>
+    <% end %>
+    <%= if @option do %>
+      <li {item_opts}>
+        <%= render_slot(@inner_block) %>
+      </li>
+    <% end %>
+    <%= if @divider do %>
+      <li {item_opts} />
+    <% end %>
     """
   end
 
