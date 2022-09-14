@@ -198,7 +198,7 @@ defmodule PrimerLive.Components do
   Insert the input within a form group with a customized heading:
 
   ```
-  <.text_input form={:user} field={:first_name} form_group={%{header: "Some header"}} />
+  <.text_input form={:user} field={:first_name} form_group={%{header: "Enter your first name"}} />
   ```
 
   Using the input with form data:
@@ -374,8 +374,12 @@ defmodule PrimerLive.Components do
   defp render_form_group(assigns) do
     %{form: form, field: field, validation_data: validation_data} = assigns
 
-    %{is_error: is_error, message: message, validation_message_id: validation_message_id} =
-      validation_data
+    %{
+      is_error: is_error,
+      message: message,
+      has_message: has_message,
+      validation_message_id: validation_message_id
+    } = validation_data
 
     classes = %{
       form_group:
@@ -383,7 +387,13 @@ defmodule PrimerLive.Components do
           "form-group",
           assigns.class,
           assigns.classes.form_group,
-          is_error and "errored"
+          if has_message do
+            if is_error do
+              "errored"
+            else
+              "successed"
+            end
+          end
         ]),
       header:
         Attributes.classnames([
@@ -810,16 +820,15 @@ defmodule PrimerLive.Components do
 
   _box examples_
 
-  | **Name**           | **Type**  | **Validation** | **Default** | **Description**                                               |
-  | ------------------ | --------- | -------------- | ----------- | ------------------------------------------------------------- |
-  | `inner_block`      | `slot`    | required       | -           | Box content, for example `box_item/1`.                        |
-  | `class`            | `string`  | -              | -           | Additional classname.                                         |
-  | `is_blue`          | `boolean` | -              | false       | Creates a blue box theme.                                     |
-  | `is_blue_header`   | `boolean` | -              | false       | Changes the header border and background to blue.             |
-  | `is_danger`        | `boolean` | -              | false       | Creates a danger color box theme.                             |
-  | `is_border_dashed` | `boolean` | -              | false       | Applies a dashed border to the box.                           |
-  | `is_condensed`     | `boolean` | -              | false       | Condenses line-height and reduces the padding on the Y axis.  |
-  | `is_spacious`      | `boolean` | -              | false       | Increases padding and increases the title font size.          |
+  | **Name**           | **Type**  | **Validation** | **Default** | **Description**                                                           |
+  | ------------------ | --------- | -------------- | ----------- | ------------------------------------------------------------------------- |
+  | `inner_block`      | `slot`    | required       | -           | Box content, for example `box_item/1`.                                    |
+  | `class`            | `string`  | -              | -           | Additional classname.                                                     |
+  | `is_blue`          | `boolean` | -              | false       | Creates a blue box theme.                                                 |
+  | `is_danger`        | `boolean` | -              | false       | Creates a danger color box theme. Only works with either `row` or `body`. |
+  | `is_border_dashed` | `boolean` | -              | false       | Applies a dashed border to the box.                                       |
+  | `is_condensed`     | `boolean` | -              | false       | Condenses line-height and reduces the padding on the Y axis.              |
+  | `is_spacious`      | `boolean` | -              | false       | Increases padding and increases the title font size.                      |
 
   Additional HTML attributes are passed to the box element.
 
@@ -889,18 +898,6 @@ defmodule PrimerLive.Components do
   </.box>
   ```
 
-  Create a title within a header:
-
-  ```
-  <.box>
-    <.box_item header>
-      <.box_item title>
-        Title
-      </.box_item>
-    </.box_item>
-  </.box>
-  ```
-
   Render search results:
 
   ```
@@ -944,7 +941,27 @@ defmodule PrimerLive.Components do
   </.box_item>
   ```
 
-  A header with a button:
+  Row link - when you want a link to appear dark gray and blue on hover on desktop, and remain a blue link on mobile. This is useful to indicate links on mobile without having hover styles.
+
+  ```
+  <.box_item row is_link href="/home">
+    Go to Home
+  </.box_item>
+  ```
+
+  Box title:
+
+  ```
+  <.box>
+    <.box_item header>
+      <.box_item title>
+        Title
+      </.box_item>
+    </.box_item>
+  </.box>
+  ```
+
+  Box title with a button:
 
   ```
   <.box>
@@ -960,14 +977,6 @@ defmodule PrimerLive.Components do
       Rest
     </.box_item>
   </.box>
-  ```
-
-  Row link - when you want a link to appear dark gray and blue on hover on desktop, and remain a blue link on mobile. This is useful to indicate links on mobile without having hover styles.
-
-  ```
-  <.box_item row is_link href="/home">
-    Go to Home
-  </.box_item>
   ```
 
   ## Options

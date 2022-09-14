@@ -31,6 +31,8 @@ end
 defmodule PrimerLive.Options.ValidationData do
   use Options
 
+  @moduledoc false
+
   typed_embedded_schema do
     field(:is_error, :boolean, enforce: true)
     field(:has_message, :boolean, enforce: true)

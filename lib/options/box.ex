@@ -37,7 +37,6 @@ defmodule PrimerLive.Options.BoxItem do
       :header,
       :inner_block,
       :is_blue,
-      :is_blue,
       :is_focus_blue,
       :is_focus_gray,
       :is_gray,
