@@ -38,11 +38,11 @@ defmodule PrimerLive.Options.LayoutItem do
       :sidebar
     ])
     |> validate_require_inner_block_unless_divider(attrs)
-    |> SchemaHelpers.validate_require_true_values(attrs, :is_centered_lg, :main)
-    |> SchemaHelpers.validate_require_true_values(attrs, :is_centered_md, :main)
-    |> SchemaHelpers.validate_require_true_values(attrs, :is_centered_xl, :main)
-    |> SchemaHelpers.validate_require_true_values(attrs, :is_flow_row_hidden, :divider)
-    |> SchemaHelpers.validate_require_true_values(attrs, :is_flow_row_shallow, :divider)
+    |> SchemaHelpers.validate_copresence(attrs, :is_centered_lg, :main)
+    |> SchemaHelpers.validate_copresence(attrs, :is_centered_md, :main)
+    |> SchemaHelpers.validate_copresence(attrs, :is_centered_xl, :main)
+    |> SchemaHelpers.validate_copresence(attrs, :is_flow_row_hidden, :divider)
+    |> SchemaHelpers.validate_copresence(attrs, :is_flow_row_shallow, :divider)
   end
 
   defp validate_require_inner_block_unless_divider(changeset, attrs) do

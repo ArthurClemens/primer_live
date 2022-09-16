@@ -37,25 +37,26 @@ defmodule PrimerLive.Helpers.SchemaHelpers do
   end
 
   @doc """
-  Validates a changeset by verifying that both keys exist and have values of 'true'.
-  If the first key is not present, the changeset is returned unchanged.
+  Validates a changeset by verifying that key 1 coexists with key 2.
+  If key 1 is not present, the changeset is returned unchanged.
 
   ```
-  changeset |> validate_require_true_values(attrs, :is_centered_md, :main)
+  changeset |> validate_copresence(attrs, :is_centered_md, :main)
   ```
   """
-  def validate_require_true_values(changeset, attrs, key1, key2) do
+
+  def validate_copresence(changeset, attrs, key1, key2) do
     case is_nil(attrs[key1]) do
       true -> changeset
-      false -> _validate_require_true_values(changeset, attrs, key1, key2)
+      false -> _validate_presence(changeset, attrs, key1, key2)
     end
   end
 
-  defp _validate_require_true_values(changeset, attrs, key1, key2) do
+  defp _validate_presence(changeset, attrs, key1, key2) do
     key1_value = attrs[key1]
     key2_value = attrs[key2]
 
-    case key1_value && !is_nil(key2_value) and key2_value do
+    case key1_value && !is_nil(key2_value) do
       true ->
         changeset
 
@@ -65,6 +66,53 @@ defmodule PrimerLive.Helpers.SchemaHelpers do
           key1,
           "must be used with \"#{key2}\""
         )
+    end
+  end
+
+  def cast_either(changeset, attrs, key1, key2) do
+    case not is_nil(attrs[key2]) do
+      true ->
+        changeset
+        |> cast(attrs, [key2])
+        |> validate_required(key2)
+
+      false ->
+        changeset
+        |> cast(attrs, [key1])
+        |> validate_required(key1)
+    end
+  end
+
+  @doc """
+  Validates a changeset by verifying that at least one of the keys is present.
+
+  ```
+  changeset |> validate_one_of_present(attrs, [:toggle, :menu, :option, :divider])
+  ```
+  """
+
+  def validate_one_of_present(changeset, attrs, keys) do
+    attr_keys = Map.keys(attrs)
+
+    in_list_count =
+      keys
+      |> Enum.reduce(0, fn key, acc ->
+        case Enum.member?(attr_keys, key) do
+          true -> acc + 1
+          false -> acc
+        end
+      end)
+
+    case in_list_count == 0 do
+      true ->
+        add_error(
+          changeset,
+          :dropdown_item,
+          "must contain one attribute from these options: #{keys |> Enum.join(", ")}"
+        )
+
+      false ->
+        changeset
     end
   end
 

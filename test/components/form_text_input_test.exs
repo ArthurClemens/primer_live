@@ -561,7 +561,7 @@ defmodule PrimerLive.Components.FormTextInputTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group">
+             <div class="form-group successed">
              <div class="form-group-header"><label for="user_first_name">First name</label></div>
              <div class="form-group-body"><input aria-describedby="first_name-validation" class="form-control" id="user_first_name"
              name="user[first_name]" type="text" value="anna" /></div>

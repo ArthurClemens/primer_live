@@ -1364,7 +1364,7 @@ defmodule PrimerLive.Components do
   ```
   <.dropdown>
     <.dropdown_item toggle>Menu</.dropdown_item>
-    <.dropdown_item menu header_label="Header" position="e">
+    <.dropdown_item menu header_title="Header" position="e">
       <.dropdown_item option href="#url">Dropdown item 1</.dropdown_item>
       <.dropdown_item option href="#url">Dropdown item 2</.dropdown_item>
       <.dropdown_item divider />
@@ -1442,7 +1442,7 @@ defmodule PrimerLive.Components do
 
     ~H"""
     <details {item_opts}>
-      <%= render_slot(@inner_block, classes: "x") %>
+      <%= render_slot(@inner_block) %>
     </details>
     """
   end
@@ -1510,7 +1510,7 @@ defmodule PrimerLive.Components do
   Add a menu header (will be placed above the menu options):
 
   ```
-  <.dropdown_item menu header_label="Header">
+  <.dropdown_item menu header_title="Header">
    ...
   </.dropdown_item>
   ```
@@ -1550,6 +1550,7 @@ defmodule PrimerLive.Components do
   | `menu`         | `boolean`  | -                         | false       | Creates a menu element                                                                                  |
   | `option`       | `boolean`  | -                         | false       | Createa an option element.                                                                              |
   | `divider`      | `boolean`  | -                         | false       | Creates a divider element.                                                                              |
+  | `header_title` | `string`   | -                         | -           | With `menu`. Creates a menu header with specified title.                                                |
   | `position`     | `string`   | -                         | "se"        | Position of the menu relative to the dropdown toggle. Possible values: "se", "ne", "e", "sw", "s", "w". |
   | `render_caret` | `function` | -                         | -           | Template render function that returns a custom template for the caret.                                  |
   | `class`        | `string`   | -                         | -           | Additional classname.                                                                                   |
@@ -1599,7 +1600,7 @@ defmodule PrimerLive.Components do
           assigns.menu -> classes.menu
           assigns.divider -> classes.divider
           assigns.option -> classes.option
-          assigns.header_label -> classes.menu
+          assigns.header_title -> classes.menu
           # ^ header class is used inside the menu div
           true -> nil
         end,
@@ -1624,10 +1625,10 @@ defmodule PrimerLive.Components do
         <% end %>
       </summary>
     <% end %>
-    <%= if @header_label do %>
+    <%= if @header_title do %>
       <div {item_opts}>
         <div class={classes.header}>
-          <%= @header_label %>
+          <%= @header_title %>
         </div>
         <ul>
           <%= render_slot(@inner_block) %>

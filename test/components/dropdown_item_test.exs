@@ -90,24 +90,24 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: toggle with header_label - should show an error" do
+  test "Option: toggle with header_title - should show an error" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.dropdown_item toggle header_label="Header">Content</.dropdown_item>
+           <.dropdown_item toggle header_title="Header">Content</.dropdown_item>
            """)
            |> format_html() ==
              """
-             <div class="flash flash-error"><p>dropdown_item component received invalid options:</p><p>header_label: must be used with &quot;menu&quot;</p></div>
+             <div class="flash flash-error"><p>dropdown_item component received invalid options:</p><p>header_title: must be used with &quot;menu&quot;</p></div>
              """
              |> format_html()
   end
 
-  test "Option: menu with header_label" do
+  test "Option: menu with header_title" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.dropdown_item menu header_label="Header">Content</.dropdown_item>
+           <.dropdown_item menu header_title="Header">Content</.dropdown_item>
            """)
            |> format_html() ==
              """

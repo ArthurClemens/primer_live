@@ -50,7 +50,7 @@ defmodule PrimerLive.Options.BoxItem do
       :title
     ])
     |> validate_required([:inner_block])
-    |> SchemaHelpers.validate_require_true_values(attrs, :is_link, :row)
+    |> SchemaHelpers.validate_copresence(attrs, :is_link, :row)
   end
 end
 

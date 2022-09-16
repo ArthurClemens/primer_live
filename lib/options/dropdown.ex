@@ -15,7 +15,7 @@ defmodule PrimerLive.Options.DropdownItem do
     # Other options
     field(:class, :string)
     field(:position, :string, default: "se")
-    field(:header_label, :string)
+    field(:header_title, :string)
     field(:render_caret, :any, virtual: true)
   end
 
@@ -26,57 +26,17 @@ defmodule PrimerLive.Options.DropdownItem do
       :class,
       :toggle,
       :option,
-      :divider,
       :menu,
       :position,
-      :header_label,
+      :header_title,
       :render_caret
     ])
-    |> cast_either_inner_block_or_divider(attrs, [:inner_block, :divider])
-    |> SchemaHelpers.validate_require_true_values(attrs, :position, :menu)
-    |> SchemaHelpers.validate_require_true_values(attrs, :header_label, :menu)
-    |> SchemaHelpers.validate_require_true_values(attrs, :render_caret, :toggle)
-    |> validate_either(attrs, [:toggle, :menu, :option, :divider])
+    |> SchemaHelpers.cast_either(attrs, :inner_block, :divider)
+    |> SchemaHelpers.validate_copresence(attrs, :position, :menu)
+    |> SchemaHelpers.validate_copresence(attrs, :header_title, :menu)
+    |> SchemaHelpers.validate_copresence(attrs, :render_caret, :toggle)
+    |> SchemaHelpers.validate_one_of_present(attrs, [:toggle, :menu, :option, :divider])
     |> validate_inclusion(:position, ["se", "ne", "e", "sw", "s", "w"])
-  end
-
-  defp cast_either_inner_block_or_divider(changeset, attrs, keys) do
-    case not is_nil(attrs[:divider]) do
-      true ->
-        # With is_divider: remove inner_block (no content possible)
-        changeset |> cast(attrs, keys |> List.delete(:inner_block))
-
-      false ->
-        # Without divider: inner_block is required
-        changeset
-        |> cast(attrs, keys)
-        |> validate_required(:inner_block)
-    end
-  end
-
-  defp validate_either(changeset, attrs, keys) do
-    attr_keys = Map.keys(attrs)
-
-    in_list_count =
-      keys
-      |> Enum.reduce(0, fn key, acc ->
-        case Enum.member?(attr_keys, key) do
-          true -> acc + 1
-          false -> acc
-        end
-      end)
-
-    case in_list_count == 0 do
-      true ->
-        add_error(
-          changeset,
-          :dropdown_item,
-          "must contain one attribute from these options: #{keys |> Enum.join(", ")}"
-        )
-
-      false ->
-        changeset
-    end
   end
 end
 
