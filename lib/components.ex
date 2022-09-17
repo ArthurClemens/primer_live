@@ -1855,13 +1855,15 @@ defmodule PrimerLive.Components do
       <div class={classes.pagination}>
         <%= if show_prev_next do %>
           <%= if has_previous_page do %>
-            <%= live_redirect(@labels.previous_page,
-              to: @link_path.(current_page - 1),
-              class: classes.previous_page,
-              rel: "previous",
-              aria_label: @labels.aria_label_previous_page,
-              replace: @link_options.replace
-            ) %>
+            <.link
+              navigate={@link_path.(current_page - 1)}
+              class={classes.previous_page}
+              rel="previous"
+              aria_label={@labels.aria_label_previous_page}
+              replace={@link_options.replace}
+            >
+              <%= @labels.previous_page %>
+            </.link>
           <% else %>
             <span class={classes.previous_page} aria-disabled="true" phx-no-format><%= @labels.previous_page %></span>
           <% end %>
@@ -1874,26 +1876,31 @@ defmodule PrimerLive.Components do
               <%= if item == 0 do %>
                 <span class={classes.gap} phx-no-format><%= @labels.gap %></span>
               <% else %>
-                <%= live_redirect(item,
-                  to: @link_path.(item),
-                  class: classes.page,
-                  aria_label:
-                    @labels.aria_label_page |> String.replace("{page_number}", to_string(item)),
-                  replace: @link_options.replace
-                ) %>
+                <.link
+                  navigate={@link_path.(item)}
+                  class={classes.page}
+                  aria_label={
+                    @labels.aria_label_page |> String.replace("{page_number}", to_string(item))
+                  }
+                  replace={@link_options.replace}
+                >
+                  <%= item %>
+                </.link>
               <% end %>
             <% end %>
           <% end %>
         <% end %>
         <%= if show_prev_next do %>
           <%= if has_next_page do %>
-            <%= live_redirect(@labels.next_page,
-              to: @link_path.(current_page + 1),
-              class: classes.next_page,
-              rel: "next",
-              aria_label: @labels.aria_label_next_page,
-              replace: @link_options.replace
-            ) %>
+            <.link
+              navigate={@link_path.(current_page + 1)}
+              class={classes.next_page}
+              rel="next"
+              aria_label={@labels.aria_label_next_page}
+              replace={@link_options.replace}
+            >
+              <%= @labels.next_page %>
+            </.link>
           <% else %>
             <span class={classes.next_page} aria-disabled="true" phx-no-format><%= @labels.next_page %></span>
           <% end %>

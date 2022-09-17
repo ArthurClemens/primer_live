@@ -3,7 +3,7 @@ defmodule PrimerLive.Components.LayoutTest do
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers
 
-  import Phoenix.LiveView.Helpers
+  import Phoenix.Component
   import Phoenix.LiveViewTest
 
   defp test_layout_attr(assigns) do

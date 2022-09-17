@@ -3,7 +3,7 @@ defmodule PrimerLive.Components.FormTextInputTest do
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers
 
-  import Phoenix.LiveView.Helpers
+  import Phoenix.Component
   import Phoenix.LiveViewTest
 
   test "Called without options or inner_block: should render the component" do

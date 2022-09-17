@@ -3,7 +3,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers
 
-  import Phoenix.LiveView.Helpers
+  import Phoenix.Component
   import Phoenix.LiveViewTest
 
   defp render_caret(assigns) do

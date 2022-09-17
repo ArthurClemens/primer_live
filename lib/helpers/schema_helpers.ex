@@ -1,5 +1,5 @@
 defmodule PrimerLive.Helpers.SchemaHelpers do
-  import Phoenix.LiveView.Helpers
+  import Phoenix.Component
   use Phoenix.Component
 
   import Ecto.Changeset

@@ -3,7 +3,7 @@ defmodule PrimerLive.Components.LayoutItemTest do
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers
 
-  import Phoenix.LiveView.Helpers
+  import Phoenix.Component
   import Phoenix.LiveViewTest
 
   test "Called without conttent slot: should render the layout item element" do
