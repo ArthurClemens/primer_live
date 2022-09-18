@@ -44,8 +44,6 @@ defmodule PrimerLive.TestComponents do
 
   [INSERT LVATTRDOCS]
 
-  Additional HTML attributes are passed to the outer element.
-
   ## Reference
 
   [Primer/CSS Alerts](https://primer.style/css/components/alerts/)
@@ -66,7 +64,11 @@ defmodule PrimerLive.TestComponents do
     doc: "Renders the test_alert full width, with border and border radius removed."
   )
 
-  attr :rest, :global
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
 
   slot(:inner_block, required: true, doc: "Alert content.")
 
@@ -113,8 +115,6 @@ defmodule PrimerLive.TestComponents do
 
   [INSERT LVATTRDOCS]
 
-  Additional HTML attributes are passed to the outer element.
-
   ## Reference
 
   [Primer/CSS Alerts](https://primer.style/css/components/alerts/)
@@ -126,7 +126,13 @@ defmodule PrimerLive.TestComponents do
   """
 
   attr(:class, :string, doc: "Additional classname.")
-  attr :rest, :global
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
   slot(:inner_block, required: true, doc: "Alert messages content.")
 
   def test_alert_messages(assigns) do
@@ -263,8 +269,6 @@ defmodule PrimerLive.TestComponents do
 
   [INSERT LVATTRDOCS]
 
-  Additional HTML attributes are passed to the outer element.
-
   ## Reference
 
   [Primer/CSS Layout](https://primer.style/css/components/layout/)
@@ -354,7 +358,11 @@ defmodule PrimerLive.TestComponents do
     doc: "On a small screen (up to 544px). Creates a filled 8px horizontal divider."
   )
 
-  attr :rest, :global
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
 
   slot :main,
     doc:
@@ -609,8 +617,6 @@ defmodule PrimerLive.TestComponents do
 
   [INSERT LVATTRDOCS]
 
-  Additional HTML attributes are passed to the outer element.
-
   ## Reference
 
   [Primer/CSS Box](https://primer.style/css/components/box/)
@@ -648,7 +654,11 @@ defmodule PrimerLive.TestComponents do
     doc: "Increases padding and increases the title font size."
   )
 
-  attr :rest, :global
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
 
   slot :header,
     doc: "Creates a header row element." do
@@ -681,7 +691,11 @@ defmodule PrimerLive.TestComponents do
 
     attr :is_link, :boolean, doc: "Use with link attributes such as \"href\" to generate a link."
 
-    attr :rest, :global
+    attr(:rest, :global,
+      doc: """
+      Additional HTML attributes added to the row element.
+      """
+    )
   end
 
   slot :body,
@@ -919,8 +933,6 @@ defmodule PrimerLive.TestComponents do
 
   [INSERT LVATTRDOCS]
 
-  Additional HTML attributes are passed to the button element.
-
   ## Reference
 
   [Primer/CSS Buttons](https://primer.style/css/components/buttons/)
@@ -956,7 +968,12 @@ defmodule PrimerLive.TestComponents do
   attr :is_selected, :boolean, default: false, doc: "Creates a selected button."
   attr :is_small, :boolean, default: false, doc: "Creates a small button."
   attr :is_submit, :boolean, default: false, doc: "Creates a button with type=\"submit\"."
-  attr :rest, :global
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the button element.
+    """
+  )
 
   slot(:inner_block, required: true, doc: "Button content.")
 
@@ -1031,10 +1048,7 @@ defmodule PrimerLive.TestComponents do
   </.test_button_group>
   ```
 
-
   [INSERT LVATTRDOCS]
-
-  Additional HTML attributes are passed to the button group element.
 
   ## Reference
 
@@ -1047,7 +1061,12 @@ defmodule PrimerLive.TestComponents do
   """
 
   attr :class, :string, doc: "Additional classname."
-  attr :rest, :global
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
 
   slot(:button,
     required: true,
@@ -1146,7 +1165,7 @@ defmodule PrimerLive.TestComponents do
 
   ### Reference
 
-  [Primer/CSS Pagination](https://primer.style/css/components/pagination)
+  [Primer/CSS Pagination](https://primer.style/css/components/pagination/)
 
   ## Status
 
@@ -1204,7 +1223,11 @@ defmodule PrimerLive.TestComponents do
 
   attr :link_options, :map, default: @default_pagination_link_options, doc: "Link options."
 
-  attr :rest, :global
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
 
   def test_pagination(assigns) do
     assigns =
