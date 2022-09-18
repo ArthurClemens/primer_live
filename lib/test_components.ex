@@ -66,23 +66,11 @@ defmodule PrimerLive.TestComponents do
     doc: "Renders the test_alert full width, with border and border radius removed."
   )
 
+  attr :rest, :global
+
   slot(:inner_block, required: true, doc: "Alert content.")
 
   def test_alert(assigns) do
-    assigns =
-      assigns
-      |> assign(
-        :extra,
-        # Attributes
-        assigns_to_attributes(assigns, [
-          :class,
-          :is_error,
-          :is_full,
-          :is_success,
-          :is_warning
-        ])
-      )
-
     class =
       Attributes.classnames([
         "flash",
@@ -94,7 +82,7 @@ defmodule PrimerLive.TestComponents do
       ])
 
     ~H"""
-    <div class={class} {@extra}>
+    <div class={class} {@rest}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -138,24 +126,10 @@ defmodule PrimerLive.TestComponents do
   """
 
   attr(:class, :string, doc: "Additional classname.")
-
+  attr :rest, :global
   slot(:inner_block, required: true, doc: "Alert messages content.")
 
   def test_alert_messages(assigns) do
-    assigns =
-      assigns
-      |> assign(
-        :extra,
-        assigns_to_attributes(assigns, [
-          # Attributes
-          :class,
-          :is_error,
-          :is_full,
-          :is_success,
-          :is_warning
-        ])
-      )
-
     class =
       Attributes.classnames([
         "flash-messages",
@@ -163,7 +137,7 @@ defmodule PrimerLive.TestComponents do
       ])
 
     ~H"""
-    <div class={class} {@extra}>
+    <div class={class} {@rest}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -380,6 +354,8 @@ defmodule PrimerLive.TestComponents do
     doc: "On a small screen (up to 544px). Creates a filled 8px horizontal divider."
   )
 
+  attr :rest, :global
+
   slot :main,
     doc:
       "Creates a main element. Default gutter sizes: md: 16px, lg: 24px (change with `is_gutter_none`, `is_gutter_condensed` and `is_gutter_spacious`). Stacks when container is `sm` (change with `is_flow_row_until_md` and `is_flow_row_until_lg`)." do
@@ -401,38 +377,6 @@ defmodule PrimerLive.TestComponents do
   end
 
   def test_layout(assigns) do
-    assigns =
-      assigns
-      |> assign(
-        :extra,
-        assigns_to_attributes(assigns, [
-          # Attributes
-          :class,
-          :is_centered_lg,
-          :is_centered_md,
-          :is_centered_xl,
-          :is_divided,
-          :is_flow_row_hidden,
-          :is_flow_row_shallow,
-          :is_flow_row_until_lg,
-          :is_flow_row_until_md,
-          :is_gutter_condensed,
-          :is_gutter_none,
-          :is_gutter_spacious,
-          :is_narrow_sidebar,
-          :is_sidebar_position_end,
-          :is_sidebar_position_flow_row_end,
-          :is_sidebar_position_flow_row_none,
-          :is_sidebar_position_flow_row_start,
-          :is_sidebar_position_start,
-          :is_wide_sidebar,
-          # Slots
-          :divider,
-          :main,
-          :sidebar
-        ])
-      )
-
     classes = %{
       layout:
         Attributes.classnames([
@@ -504,7 +448,7 @@ defmodule PrimerLive.TestComponents do
       end
 
     ~H"""
-    <div class={classes.layout} {@extra}>
+    <div class={classes.layout} {@rest}>
       <%= for {key, slot} <- slots do %>
         <%= if key == :main && slot !== [] do %>
           <%= if @is_centered_md || @is_centered_lg || @is_centered_xl do %>
@@ -634,9 +578,9 @@ defmodule PrimerLive.TestComponents do
   ```
   <.test_box>
     <:header class="d-flex flex-items-center">
-      <.button is_primary is_smmall>
+      <.test_button is_primary is_smmall>
         Button
-      </.button>
+      </.test_button>
     </:header>
     <:header_title class="flex-auto">
       Title
@@ -652,9 +596,9 @@ defmodule PrimerLive.TestComponents do
   ```
   <.test_box>
     <:header class="d-flex flex-justify-between flex-items-start">
-      <.button is_close_button aria-label="Close" class="flex-shrink-0 pl-4">
+      <.test_button is_close_button aria-label="Close" class="flex-shrink-0 pl-4">
         <.octicon name="x-16" />
-      </.button>
+      </.test_button>
     </:header>
     <:header_title>
       A very long title that wraps onto multiple lines without overlapping or wrapping underneath the icon to it's right
@@ -673,7 +617,7 @@ defmodule PrimerLive.TestComponents do
 
   ## Status
 
-  Feature complete
+  Feature complete.
 
   """
 
@@ -703,6 +647,8 @@ defmodule PrimerLive.TestComponents do
     default: false,
     doc: "Increases padding and increases the title font size."
   )
+
+  attr :rest, :global
 
   slot :header,
     doc: "Creates a header row element." do
@@ -734,6 +680,8 @@ defmodule PrimerLive.TestComponents do
       doc: "Apply a blue vertical line highlight for indicating a row contains unread items."
 
     attr :is_link, :boolean, doc: "Use with link attributes such as \"href\" to generate a link."
+
+    attr :rest, :global
   end
 
   slot :body,
@@ -749,24 +697,6 @@ defmodule PrimerLive.TestComponents do
   def test_box(assigns) do
     assigns =
       assigns
-      |> assign(
-        :extra,
-        assigns_to_attributes(assigns, [
-          # Attributes
-          :class,
-          :is_blue,
-          :is_border_dashed,
-          :is_condensed,
-          :is_danger,
-          :is_spacious,
-          # Slots
-          :body,
-          :footer,
-          :header,
-          :header_title,
-          :row
-        ])
-      )
       |> assign(
         :header_slots,
         Enum.zip(Attributes.pad_lists(assigns.header, assigns.header_title, []))
@@ -906,7 +836,7 @@ defmodule PrimerLive.TestComponents do
     end
 
     ~H"""
-    <div class={classes.box} {@extra}>
+    <div class={classes.box} {@rest}>
       <%= if @header_slots && @header_slots !== [] do %>
         <%= render_header.(@header_slots) %>
       <% end %>
@@ -919,6 +849,234 @@ defmodule PrimerLive.TestComponents do
       <% end %>
       <%= if @footer && @footer !== [] do %>
         <%= render_footer.(@footer) %>
+      <% end %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # button
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :buttons
+
+  @doc ~S"""
+  Creates a button.
+
+  [Examples](#test_button/1-examples) • [Attributes](#test_button/1-attributes) • [Reference](#test_button/1-reference)
+
+  ```
+  <.test_button>Click me</.test_button>
+  ```
+
+  ## Examples
+
+  _button examples_
+
+  Primary button:
+
+  ```
+  <.test_button is_primary>Sign in</.test_button>
+  ```
+
+  Small  button:
+
+  ```
+  <.test_button is_small>Edit</.test_button>
+  ```
+
+  Selected  button:
+
+  ```
+  <.test_button is_selected>Unread</.test_button>
+  ```
+
+  Button with icon:
+  ```
+  <.test_button is_primary>
+    <.octicon name="download-16" />
+    <span>Clone</span>
+    <span class="dropdown-caret"></span>
+  </.test_button>
+  ```
+
+  Icon-only  button:
+  ```
+  <.test_button is_icon_only aria-label="Desktop">
+    <.octicon name="device-desktop-16" />
+  </.test_button>
+  ```
+
+  Use `test_button_group/1` to create a group of buttons:
+
+  ```
+  <.test_button_group>
+    <.button_group_item>Button 1</.button_group_item>
+    <.button_group_item>Button 2</.button_group_item>
+    <.button_group_item>Button 3</.button_group_item>
+  </.test_button_group>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  Additional HTML attributes are passed to the button element.
+
+  ## Reference
+
+  [Primer/CSS Buttons](https://primer.style/css/components/buttons/)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr :class, :string, doc: "Additional classname."
+  attr :is_full_width, :boolean, default: false, doc: "Creates a full-width button."
+
+  attr :is_close_button, :boolean,
+    default: false,
+    doc: "Use when enclosing icon \"x-16\". This setting removes the default padding."
+
+  attr :is_danger, :boolean, default: false, doc: "Creates a red button."
+  attr :is_disabled, :boolean, default: false, doc: "Creates a disabled button."
+
+  attr :is_icon_only, :boolean,
+    default: false,
+    doc: "Creates an icon button without a label. Add `is_danger` to create a danger icon."
+
+  attr :is_invisible, :boolean,
+    default: false,
+    doc: "Create a button that looks like a link, maintaining the paddings of a regular button."
+
+  attr :is_large, :boolean, default: false, doc: "Creates a large button."
+  attr :is_link, :boolean, default: false, doc: "Create a button that looks like a link."
+  attr :is_outline, :boolean, default: false, doc: "Creates an outline button."
+  attr :is_primary, :boolean, default: false, doc: "Creates a primary colored button."
+  attr :is_selected, :boolean, default: false, doc: "Creates a selected button."
+  attr :is_small, :boolean, default: false, doc: "Creates a small button."
+  attr :is_submit, :boolean, default: false, doc: "Creates a button with type=\"submit\"."
+  attr :rest, :global
+
+  slot(:inner_block, required: true, doc: "Button content.")
+
+  def test_button(assigns) do
+    assigns =
+      assigns
+      |> assign(:type, if(assigns.is_submit, do: "submit", else: "button"))
+
+    class =
+      Attributes.classnames([
+        !assigns.is_link and !assigns.is_icon_only and !assigns.is_close_button and "btn",
+        assigns[:class],
+        assigns.is_link and "btn-link",
+        assigns.is_icon_only and "btn-octicon",
+        assigns.is_danger and
+          if assigns.is_icon_only do
+            "btn-octicon-danger"
+          else
+            "btn-danger"
+          end,
+        assigns.is_large and "btn-large",
+        assigns.is_primary and "btn-primary",
+        assigns.is_outline and "btn-outline",
+        assigns.is_small and "btn-sm",
+        assigns.is_full_width and "btn-block",
+        assigns.is_invisible and "btn-invisible",
+        assigns.is_close_button and "close-button"
+      ])
+
+    aria_attributes =
+      Attributes.get_aria_attributes(
+        is_selected: assigns.is_selected,
+        is_disabled: assigns.is_disabled
+      )
+
+    ~H"""
+    <button class={class} type={@type} {@rest} {aria_attributes}>
+      <%= render_slot(@inner_block) %>
+    </button>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # test_button_group
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :buttons
+
+  @doc ~S"""
+  Creates a group of buttons.
+
+  [Examples](#test_button_group/1-examples) • [Attributes](#test_button_group/1-attributes) • [Reference](#test_button_group/1-reference)
+
+
+  ```
+  <.test_button_group>
+    <:button>Button 1</:button>
+    <:button>Button 2</:button>
+    <:button>Button 3</:button>
+  </.test_button_group>
+  ```
+
+  ## Examples
+
+  Use button slots while passing button attributes to create the button row:
+
+  ```
+  <.test_button_group>
+    <:button>Button 1</:button>
+    <:button is_selected>Button 2</:button>
+    <:button is_danger>Button 3</:button>
+    <:button class="my-button">Button 4</:button>
+  </.test_button_group>
+  ```
+
+
+  [INSERT LVATTRDOCS]
+
+  Additional HTML attributes are passed to the button group element.
+
+  ## Reference
+
+  [Primer/CSS Button groups](https://primer.style/css/components/buttons#button-groups)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr :class, :string, doc: "Additional classname."
+  attr :rest, :global
+
+  slot(:button,
+    required: true,
+    doc:
+      "Button. Use `test_button/1` attributes to configure the button appearance and behaviour."
+  )
+
+  def test_button_group(assigns) do
+    classes = %{
+      button_group:
+        Attributes.classnames([
+          "BtnGroup",
+          assigns[:class]
+        ]),
+      button: fn slot ->
+        Attributes.classnames([
+          "BtnGroup-item",
+          slot[:class]
+        ])
+      end
+    }
+
+    ~H"""
+    <div class={classes.button_group} {@rest}>
+      <%= for slot <- @button do %>
+        <.test_button {slot} class={classes.button.(slot)}>
+          <%= render_slot(slot) %>
+        </.test_button>
       <% end %>
     </div>
     """

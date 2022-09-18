@@ -1,4 +1,4 @@
-defmodule PrimerLive.Components.ButtonTest do
+defmodule PrimerLive.TestComponents.ButtonTest do
   use ExUnit.Case
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers
@@ -6,24 +6,11 @@ defmodule PrimerLive.Components.ButtonTest do
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
-  test "Called without options or inner_block: should render an error message" do
+  test "Without attributes" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.button />
-           """)
-           |> format_html() ==
-             """
-             <div class="flash flash-error"><p>button component received invalid options:</p><p>inner_block: can&#39;t be blank</p></div>
-             """
-             |> format_html()
-  end
-
-  test "Called without options: should render the button" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.button>Button</.button>
+           <.test_button>Button</.test_button>
            """)
            |> format_html() ==
              """
@@ -32,171 +19,39 @@ defmodule PrimerLive.Components.ButtonTest do
              |> format_html()
   end
 
-  test "Option: type (invalid)" do
+  test "Modifiers" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.button type="x">Button</.button>
-           """)
-           |> format_html() ==
-             """
-             <div class="flash flash-error"><p>button component received invalid options:</p><p>type: is invalid</p></div>
-             """
-             |> format_html()
-  end
-
-  test "Option: type (valid)" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.button type="submit">Submit</.button>
-           """)
-           |> format_html() ==
-             """
-             <button class="btn" type="submit">Submit</button>
-             """
-             |> format_html()
-  end
-
-  test "Option: class" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.button class="x">Button</.button>
-           """)
-           |> format_html() ==
-             """
-             <button class="btn x" type="button">Button</button>
-             """
-             |> format_html()
-  end
-
-  test "Option: is_block" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.button is_block>Button</.button>
+           <.test_button is_full_width>Button</.test_button>
+           <.test_button is_close_button>Button</.test_button>
+           <.test_button is_danger>Button</.test_button>
+           <.test_button is_disabled>Button</.test_button>
+           <.test_button is_icon_only>Button</.test_button>
+           <.test_button is_invisible>Button</.test_button>
+           <.test_button is_large>Button</.test_button>
+           <.test_button is_link>Button</.test_button>
+           <.test_button is_outline>Button</.test_button>
+           <.test_button is_primary>Button</.test_button>
+           <.test_button is_selected>Button</.test_button>
+           <.test_button is_small>Button</.test_button>
+           <.test_button is_submit>Button</.test_button>
            """)
            |> format_html() ==
              """
              <button class="btn btn-block" type="button">Button</button>
-             """
-             |> format_html()
-  end
-
-  test "Option: is_danger" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.button is_danger>Button</.button>
-           """)
-           |> format_html() ==
-             """
+             <button class="close-button" type="button">Button</button>
              <button class="btn btn-danger" type="button">Button</button>
-             """
-             |> format_html()
-  end
-
-  test "Option: is_disabled" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.button is_disabled>Button</.button>
-           """)
-           |> format_html() ==
-             """
              <button class="btn" type="button" aria-disabled="true">Button</button>
-             """
-             |> format_html()
-  end
-
-  test "Option: is_disabled and is_selected" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.button is_disabled is_selected>Button</.button>
-           """)
-           |> format_html() ==
-             """
-             <button class="btn" type="button" aria-selected="true" aria-disabled="true">Button</button>
-             """
-             |> format_html()
-  end
-
-  test "Option: is_large" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.button is_large>Button</.button>
-           """)
-           |> format_html() ==
-             """
-             <button class="btn btn-large" type="button">Button</button>
-             """
-             |> format_html()
-  end
-
-  test "Option: is_outline" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.button is_outline>Button</.button>
-           """)
-           |> format_html() ==
-             """
-             <button class="btn btn-outline" type="button">Button</button>
-             """
-             |> format_html()
-  end
-
-  test "Option: is_primary" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.button is_primary>Button</.button>
-           """)
-           |> format_html() ==
-             """
-             <button class="btn btn-primary" type="button">Button</button>
-             """
-             |> format_html()
-  end
-
-  test "Option: is_small" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.button is_small>Button</.button>
-           """)
-           |> format_html() ==
-             """
-             <button class="btn btn-sm" type="button">Button</button>
-             """
-             |> format_html()
-  end
-
-  test "Option: is_link" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.button is_link>Button</.button>
-           """)
-           |> format_html() ==
-             """
-             <button class="btn-link" type="button">Button</button>
-             """
-             |> format_html()
-  end
-
-  test "Option: is_invisible" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.button is_invisible>Button</.button>
-           """)
-           |> format_html() ==
-             """
+             <button class="btn-octicon" type="button">Button</button>
              <button class="btn btn-invisible" type="button">Button</button>
+             <button class="btn btn-large" type="button">Button</button>
+             <button class="btn-link" type="button">Button</button>
+             <button class="btn btn-outline" type="button">Button</button>
+             <button class="btn btn-primary" type="button">Button</button>
+             <button class="btn" type="button" aria-selected="true">Button</button>
+             <button class="btn btn-sm" type="button">Button</button>
+             <button class="btn" type="submit">Button</button>
              """
              |> format_html()
   end
@@ -205,7 +60,7 @@ defmodule PrimerLive.Components.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.button><.octicon name="search-16" /></.button>
+           <.test_button><.octicon name="search-16" /></.test_button>
            """)
            |> format_html() ==
              """
@@ -218,11 +73,11 @@ defmodule PrimerLive.Components.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.button>
+           <.test_button>
              <.octicon name="download-16" />
              <span>Clone</span>
              <span class="dropdown-caret"></span>
-           </.button>
+           </.test_button>
            """)
            |> format_html() ==
              """
@@ -235,9 +90,9 @@ defmodule PrimerLive.Components.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.button is_icon_only aria-label="Desktop">
+           <.test_button is_icon_only aria-label="Desktop">
              <.octicon name="device-desktop-16" />
-           </.button>
+           </.test_button>
            """)
            |> format_html() ==
              """
@@ -250,9 +105,9 @@ defmodule PrimerLive.Components.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.button is_icon_only is_danger aria-label="Desktop">
+           <.test_button is_icon_only is_danger aria-label="Desktop">
              <.octicon name="device-desktop-16" />
-           </.button>
+           </.test_button>
            """)
            |> format_html() ==
              """
@@ -265,9 +120,9 @@ defmodule PrimerLive.Components.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.button is_close_button aria-label="Close">
+           <.test_button is_close_button aria-label="Close">
              <.octicon name="x-16" />
-           </.button>
+           </.test_button>
            """)
            |> format_html() ==
              """
@@ -280,7 +135,7 @@ defmodule PrimerLive.Components.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.button dir="rtl">Button</.button>
+           <.test_button dir="rtl">Button</.test_button>
            """)
            |> format_html() ==
              """

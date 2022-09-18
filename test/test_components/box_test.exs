@@ -108,7 +108,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
 
     assert rendered_to_string(~H"""
            <.test_box>
-             <.alert :if={@show_alert}>Alert message</.alert>
+             <.test_alert :if={@show_alert}>Alert message</.test_alert>
              <:body>
                Body
              </:body>
@@ -173,9 +173,9 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assert rendered_to_string(~H"""
            <.test_box>
              <:header class="d-flex flex-justify-between flex-items-start">
-               <.button is_close_button aria-label="Close" class="flex-shrink-0 pl-4">
+               <.test_button is_close_button aria-label="Close" class="flex-shrink-0 pl-4">
                  <.octicon name="x-16" />
-               </.button>
+               </.test_button>
              </:header>
              <:header_title>
                A very long title that wraps onto multiple lines without overlapping or wrapping underneath the icon to it's right
