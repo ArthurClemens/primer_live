@@ -14,7 +14,7 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Creates an alert message.
 
-  [Examples](#alert/1-examples) • [Options](#alert/1-options) • [Reference](#alert/1-reference)
+  [Examples](#alert/1-examples) • [Attributes](#alert/1-attributes) • [Reference](#alert/1-reference)
 
   ```
   <.alert>
@@ -45,7 +45,7 @@ defmodule PrimerLive.Components do
 
   To render a vertical stack of alerts, wrap each with `alert_messages/1`.
 
-  ## Options
+  ## Attributes
 
   _alert options_
 
@@ -100,7 +100,7 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Wrapper to render a vertical stack of `alert/1` messages with spacing in between.
 
-  [Options](#alert_messages/1-options) • [Reference](#alert_messages/1-reference)
+  [Attributes](#alert_messages/1-attributes) • [Reference](#alert_messages/1-reference)
 
   ```
   <.alert_messages>
@@ -116,7 +116,7 @@ defmodule PrimerLive.Components do
   </.alert_messages>
   ```
 
-  ## Options
+  ## Attributes
 
   _alert_messages options_
 
@@ -167,7 +167,7 @@ defmodule PrimerLive.Components do
 
   Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped inside a "form group".
 
-  [Examples](#text_input/1-examples) • [Options](#text_input/1-options) • [Reference](#text_input/1-reference)
+  [Examples](#text_input/1-examples) • [Attributes](#text_input/1-attributes) • [Reference](#text_input/1-reference)
 
   ```
   <.text_input name="first_name" />
@@ -230,7 +230,7 @@ defmodule PrimerLive.Components do
   }/>
   ```
 
-  ## Options
+  ## Attributes
 
   _text_input options_
 
@@ -327,7 +327,7 @@ defmodule PrimerLive.Components do
   <.textarea name="first_name" />
   ```
 
-  ## Options
+  ## Attributes
 
   Options for textarea are the same as options for `text_input/1`.
 
@@ -441,661 +441,6 @@ defmodule PrimerLive.Components do
   end
 
   # ------------------------------------------------------------------------------------
-  # layout
-  # ------------------------------------------------------------------------------------
-
-  @doc section: :layout
-
-  @doc ~S"""
-  Creates a responsive-friendly page layout with 2 columns.
-
-  [Examples](#layout/1-examples) • [Options](#layout/1-options) • [Reference](#layout/1-reference)
-
-  A layout is composed with `layout_item/1` elements.
-
-  ```
-  <.layout>
-    layout_item elements
-  </.layout>
-  ```
-
-  ## Examples
-
-  _layout examples_
-
-  The position of the sidebar is set by CSS (and can be changed with attribute `is_sidebar_position_end`).
-  In this example the sidebar is the last element, but (by default) will be placed at the start:
-
-  ```
-  <.layout>
-    <.layout_item main>
-      Main content
-    </.layout_item>
-    <.layout_item sidebar>
-      Sidebar content
-    </.layout_item>
-  </.layout>
-  ```
-
-  From the Primer documentation:
-
-  > Keyboard navigation follows the markup order. Decide carefully how the focus order should be be by deciding whether Layout-main or Layout-sidebar comes first in code. The code order won’t affect the visual position.
-
-
-  Place the sidebar at the right:
-
-  ```
-  <.layout is_sidebar_position_end>
-    <.layout_item main>
-      Main content
-    </.layout_item>
-    <.layout_item sidebar>
-      Sidebar content
-    </.layout_item>
-  </.layout>
-  ```
-
-  With a divider. Use `is_divided` in conjunction with the `layout_item/1` element with attribute `divider` to show a divider between the main content and the sidebar.
-
-  ```
-  <.layout is_divided>
-    <.layout_item main>
-      Main content
-    </.layout_item>
-    <.layout_item divider />
-    <.layout_item sidebar>
-      Sidebar content
-    </.layout_item>
-  </.layout>
-  ```
-
-  Nested layout, example 1:
-
-  ```
-  <.layout>
-    <.layout_item main>
-      <.layout is_sidebar_position_end is_narrow_sidebar>
-        <.layout_item main>
-          Main content
-        </.layout_item>
-        <.layout_item sidebar>
-          Metadata sidebar
-        </.layout_item>
-      </.layout>
-    </.layout_item>
-    <.layout_item sidebar>
-      Default sidebar
-    </.layout_item>
-  </.layout>
-  ```
-
-  Nested layout, example 2:
-
-  ```
-  <.layout>
-    <.layout_item main>
-      <.layout is_sidebar_position_end is_flow_row_until_lg is_narrow_sidebar>
-        <.layout_item main>
-          Main content
-        </.layout_item>
-        <.layout_item sidebar>
-          Metadata sidebar
-        </.layout_item>
-      </.layout>
-    </.layout_item>
-    <.layout_item sidebar>
-      Default sidebar
-    </.layout_item>
-  </.layout>
-  ```
-
-  ## Options
-
-  _layout options_
-
-  | **Name**                             | **Type**  | **Validation** | **Default** | **Description**                                                                                                                                                                                  |
-  | ------------------------------------ | --------- | -------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-  | `inner_block`                        | `slot`    | required       | -           | Content.                                                                                                                                                                                         |
-  | `class`                              | `string`  | -              | -           | Additional classname.                                                                                                                                                                            |
-  | `is_divided`                         | `boolean` | -              | false       | Use `is_divided` in conjunction with the `layout_item/1` element with attribute `divider` to show a divider between the main content and the sidebar. Creates a 1px line between main and sidebar. |
-  | `is_narrow_sidebar`                  | `boolean` | -              | false       | Smaller sidebar size. Widths: md: 240px, lg: 256px.                                                                                                                                              |
-  | `is_wide_sidebar`                    | `boolean` | -              | false       | Wider sidebar size. Widths: md: 296px, lg: 320px, xl: 344px.                                                                                                                                     |
-  | `is_gutter_none`                     | `boolean` | -              | false       | Changes the gutter size to 0px.                                                                                                                                                                  |
-  | `is_gutter_condensed`                | `boolean` | -              | false       | Changes the gutter size to 16px.                                                                                                                                                                 |
-  | `is_gutter_spacious`                 | `boolean` | -              | false       | Changes the gutter sizes to: md: 16px, lg: 32px, xl: 40px.                                                                                                                                       |
-  | `is_sidebar_position_start`          | `boolean` | -              | false       | Places the sidebar at the start (commonly at the left) (default).                                                                                                                                |
-  | `is_sidebar_position_end`            | `boolean` | -              | false       | Places the sidebar at the end (commonly at the right).                                                                                                                                           |
-  | `is_sidebar_position_flow_row_start` | `boolean` | -              | false       | When stacked, render the sidebar first (default).                                                                                                                                                |
-  | `is_sidebar_position_flow_row_end`   | `boolean` | -              | false       | When stacked, render the sidebar last.                                                                                                                                                           |
-  | `is_sidebar_position_flow_row_none`  | `boolean` | -              | false       | When stacked, hide the sidebar.                                                                                                                                                                  |
-  | `is_flow_row_until_md`               | `boolean` | -              | false       | Stacks when container is md.                                                                                                                                                                     |
-  | `is_flow_row_until_lg`               | `boolean` | -              | false       | Stacks when container is lg.                                                                                                                                                                     |
-
-  Additional HTML attributes are passed to the layout container element.
-
-  ## Reference
-
-  [Primer/CSS Layout](https://primer.style/css/components/layout)
-
-  """
-
-  def layout(assigns) do
-    with {:ok, assigns} <- SchemaHelpers.validate_options(assigns, Options.Layout, "layout") do
-      render_layout(assigns)
-    else
-      message -> message
-    end
-  end
-
-  defp render_layout(assigns) do
-    class =
-      Attributes.classnames([
-        "Layout",
-        assigns.class,
-        assigns.is_divided and "Layout--divided",
-        assigns.is_narrow_sidebar and "Layout--sidebar-narrow",
-        assigns.is_wide_sidebar and "Layout--sidebar-wide",
-        assigns.is_gutter_none and "Layout--gutter-none",
-        assigns.is_gutter_condensed and "Layout--gutter-condensed",
-        assigns.is_gutter_spacious and "Layout--gutter-spacious",
-        assigns.is_sidebar_position_start and "Layout--sidebarPosition-start",
-        assigns.is_sidebar_position_end and "Layout--sidebarPosition-end",
-        assigns.is_sidebar_position_flow_row_start and "Layout--sidebarPosition-flowRow-start",
-        assigns.is_sidebar_position_flow_row_end and "Layout--sidebarPosition-flowRow-end",
-        assigns.is_sidebar_position_flow_row_none and "Layout--sidebarPosition-flowRow-none",
-        assigns.is_flow_row_until_md and "Layout--flowRow-until-md",
-        assigns.is_flow_row_until_lg and "Layout--flowRow-until-lg"
-      ])
-
-    ~H"""
-    <div class={class} {@extra}>
-      <%= render_slot(@inner_block) %>
-    </div>
-    """
-  end
-
-  # ------------------------------------------------------------------------------------
-  # layout_item
-  # ------------------------------------------------------------------------------------
-
-  @doc section: :layout
-
-  @doc ~S"""
-  Variable content element for `layout/1`.
-
-  [Examples](#layout_item/1-examples) • [Options](#layout_item/1-options) • [Reference](#layout_item/1-reference)
-
-  Main, divider and sidebar containers:
-
-  ```
-  <.layout_item main> Main content </.layout_item>
-  <.layout_item divider />
-  <.layout_item sidebar> Sidebar content </.layout_item>
-  ```
-
-  See `layout/1` for examples of nested layouts.
-
-  ## Examples
-
-  _layout_item examples_
-
-  The modifiers `is_centered_xx` create a wrapper around `main` to center its content up to a maximum width.
-  Use with `.container-xx` classes to restrict the size of the content:
-
-  ```
-  <.layout>
-    <.layout_item main is_centered_md>
-      <div class="container-md">
-        Centered md
-      </div>
-    </.layout_item>
-    <.layout_item sidebar>
-      Default sidebar
-    </.layout_item>
-  </.layout>
-  ```
-
-  Show or hide the divider:
-
-  - `.layout is_divided` without any `layout_item` modifier creates a 1px border between main and sidebar
-  - `.layout is_divided` with `is_flow_row_hidden` hides the divider
-  - `.layout is_divided` with `is_flow_row_shallow` shows a filled 8px divider
-
-  ```
-  <.layout is_divided>
-    <.layout_item divider is_flow_row_shallow />
-  </.layout>
-  ```
-
-  ## Options
-
-  _layout_item options_
-
-  | **Name**              | **Type**  | **Validation** | **Default** | **Description**                                                                                                                                                                                                                                 |
-  | --------------------- | --------- | -------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-  | `inner_block`         | `slot`    | -              | -           | Content. Optional when using attribute `divider`.                                                                                                                                                                                               |
-  | `class`               | `string`  | -              | -           | Additional classname.                                                                                                                                                                                                                           |
-  | `main`                | `boolean` | -              | false       | Creates a main element. Default gutter sizes: md: 16px, lg: 24px (change with `is_gutter_none`, `is_gutter_condensed` and `is_gutter_spacious`). Stacks when container is `sm` (change with `is_flow_row_until_md` and `is_flow_row_until_lg`). |
-  | `sidebar`             | `boolean` | -              | false       | Creates a sidebar element. Widths: md: 256px, lg: 296px (change with `is_narrow_sidebar` and `is_wide_sidebar`).                                                                                                                                |
-  | `divider`             | `boolean` | -              | false       | Creates a divider element. The divider will only be shown with option `is_divided`. Creates a line between the main and sidebar elements - horizontal when the elements are stacked and vertical when they are shown side by side.              |
-  | `is_centered_lg`      | `boolean` | -              | false       | With attribute `main`. Creates a wrapper around `main` to keep its content centered up to max width "lg".                                                                                                                                       |
-  | `is_centered_md`      | `boolean` | -              | false       | With attribute `main`. Creates a wrapper around `main` to keep its content centered up to max width "md".                                                                                                                                       |
-  | `is_centered_xl`      | `boolean` | -              | false       | With attribute `main`. Creates a wrapper around `main` to keep its content centered up to max width "xl".                                                                                                                                       |
-  | `is_flow_row_hidden`  | `boolean` | -              | false       | With attribute `divider` and small screen (up to 544px). Hides the horizontal divider.                                                                                                                                                          |
-  | `is_flow_row_shallow` | `boolean` | -              | false       | With attribute `divider` and small screen (up to 544px). Creates a filled 8px horizontal divider.                                                                                                                                               |
-
-  Additional HTML attributes are passed to the layout_item element.
-
-  ## Reference
-
-  [Primer/CSS Layout](https://primer.style/css/components/layout)
-
-  """
-
-  def layout_item(assigns) do
-    with {:ok, assigns} <-
-           SchemaHelpers.validate_options(assigns, Options.LayoutItem, "layout_item") do
-      render_layout_item(assigns)
-    else
-      message -> message
-    end
-  end
-
-  defp render_layout_item(assigns) do
-    classes = %{
-      main: "Layout-main",
-      main_center_wrapper:
-        Attributes.classnames([
-          assigns.is_centered_md and "Layout-main-centered-md",
-          assigns.is_centered_lg and "Layout-main-centered-lg",
-          assigns.is_centered_xl and "Layout-main-centered-xl"
-        ]),
-      sidebar: "Layout-sidebar",
-      divider:
-        Attributes.classnames([
-          "Layout-divider",
-          assigns.is_flow_row_shallow and "Layout-divider--flowRow-shallow",
-          assigns.is_flow_row_hidden and "Layout-divider--flowRow-hidden"
-        ])
-    }
-
-    class =
-      Attributes.classnames([
-        cond do
-          assigns.main -> classes.main
-          assigns.sidebar -> classes.sidebar
-          assigns.divider -> classes.divider
-          true -> nil
-        end,
-        assigns.class
-      ])
-
-    item_opts =
-      Attributes.append_attributes(assigns.extra, [
-        class !== "" && [class: class]
-      ])
-
-    ~H"""
-    <div {item_opts}>
-      <%= if @main do %>
-        <%= if @is_centered_md || @is_centered_lg || @is_centered_xl do %>
-          <div class={classes.main_center_wrapper}>
-            <%= render_slot(@inner_block) %>
-          </div>
-        <% else %>
-          <%= render_slot(@inner_block) %>
-        <% end %>
-      <% else %>
-        <%= if @inner_block do %>
-          <%= render_slot(@inner_block) %>
-        <% end %>
-      <% end %>
-    </div>
-    """
-  end
-
-  # ------------------------------------------------------------------------------------
-  # box
-  # ------------------------------------------------------------------------------------
-
-  @doc section: :layout
-
-  @doc ~S"""
-  Creates a content container.
-
-  [Examples](#box/1-examples) • [Options](#box/1-options) • [Reference](#box/1-reference)
-
-  A `box` is a container with rounded corners, a white background, and a light gray border.
-  By default, there are no other styles, such as padding; however, these can be introduced
-  with utility classes as needed. `box_item/1` elements allow for the creation of alternative
-  styles and layouts.
-
-  A box is composed with with `box_item/1` elements.
-
-  ```
-  <.box>
-    box_item elements
-  </.box>
-  ```
-
-  ## Examples
-
-  _box examples_
-
-  Reduce padding:
-
-  ```
-  <.box is_condensed>
-    <.box_item row>Row content</.box_item>
-    <.box_item row>Row content</.box_item>
-  </.box>
-  ```
-
-  Increase padding. Optionally increase the font size (in this example using the `f4` utiliti class):
-
-  ```
-  <.box is_spacious class="f4">
-    <.box_item row>Row content</.box_item>
-    <.box_item row>Row content</.box_item>
-  </.box>
-  ```
-
-  Apply a blue box theme:
-
-  ```
-  <.box is_blue>
-    Content
-  </.box>
-  ```
-
-  Apply a danger theme.
-
-  ```
-  <.box is_danger>
-    Content
-  </.box>
-  ```
-
-  ## Options
-
-  _box examples_
-
-  | **Name**           | **Type**  | **Validation** | **Default** | **Description**                                                           |
-  | ------------------ | --------- | -------------- | ----------- | ------------------------------------------------------------------------- |
-  | `inner_block`      | `slot`    | required       | -           | Box content, for example `box_item/1`.                                    |
-  | `class`            | `string`  | -              | -           | Additional classname.                                                     |
-  | `is_blue`          | `boolean` | -              | false       | Creates a blue box theme.                                                 |
-  | `is_danger`        | `boolean` | -              | false       | Creates a danger color box theme. Only works with either `row` or `body`. |
-  | `is_border_dashed` | `boolean` | -              | false       | Applies a dashed border to the box.                                       |
-  | `is_condensed`     | `boolean` | -              | false       | Condenses line-height and reduces the padding on the Y axis.              |
-  | `is_spacious`      | `boolean` | -              | false       | Increases padding and increases the title font size.                      |
-
-  Additional HTML attributes are passed to the box element.
-
-  ## Reference
-
-  [Primer/CSS Box](https://primer.style/css/components/box)
-
-  """
-
-  def box(assigns) do
-    with {:ok, assigns} <- SchemaHelpers.validate_options(assigns, Options.Box, "box") do
-      render_box(assigns)
-    else
-      message -> message
-    end
-  end
-
-  defp render_box(assigns) do
-    class =
-      Attributes.classnames([
-        "Box",
-        assigns.class,
-        assigns.is_blue and "Box--blue",
-        assigns.is_border_dashed and "border-dashed",
-        assigns.is_condensed and "Box--condensed",
-        assigns.is_danger and "Box--danger",
-        assigns.is_spacious and "Box--spacious"
-      ])
-
-    ~H"""
-    <div class={class} {@extra}>
-      <%= render_slot(@inner_block) %>
-    </div>
-    """
-  end
-
-  # ------------------------------------------------------------------------------------
-  # box_item
-  # ------------------------------------------------------------------------------------
-
-  @doc section: :layout
-
-  @doc ~S"""
-  Variable content element for `box/1`.
-
-  [Examples](#box_item/1-examples) • [Options](#box_item/1-options) • [Reference](#box_item/1-reference)
-
-  Box elements are created with boolean options:
-
-  ```
-  <.box_item header> ... </.box_item>
-  <.box_item title> ... </.box_item>
-  <.box_item row> ... </.box_item>
-  <.box_item body> ... </.box_item>
-  <.box_item footer> ... </.box_item>
-  ```
-
-  ## Examples
-
-  _box_item examples_
-
-  Create a blue header:
-
-  ```
-  <.box>
-    <.box_item header is_blue>Blue header</.box_item>
-  </.box>
-  ```
-
-  Render search results:
-
-  ```
-  <.box>
-    <%= for result <- @results do %>
-      <.box_item row>
-        {result.id}
-      </.box_item>
-    <% end %>
-  </.box>
-  ```
-
-  Insert a conditional alert:
-
-  ```
-  <.box>
-    <.box_item header>Header</.box_item>
-    <%= if is_success != false do %>
-      <.alert is_success is_full>
-        <.octicon name="check-16" is_small /> Done!
-      </.alert>
-    <% end %>
-     <.box_item body>Body</.box_item>
-     <.box_item footer>Footer</.box_item>
-  </.box>
-  ```
-
-  Blue row theme on hover:
-
-  ```
-  <.box_item row is_hover_blue>
-    Content
-  </.box_item>
-  ```
-
-  To highlight that the row contains unread items:
-
-  ```
-  <.box_item row is_unread>
-    New content
-  </.box_item>
-  ```
-
-  Row link - when you want a link to appear dark gray and blue on hover on desktop, and remain a blue link on mobile. This is useful to indicate links on mobile without having hover styles.
-
-  ```
-  <.box_item row is_link href="/home">
-    Go to Home
-  </.box_item>
-  ```
-
-  Box title:
-
-  ```
-  <.box>
-    <.box_item header>
-      <.box_item title>
-        Title
-      </.box_item>
-    </.box_item>
-  </.box>
-  ```
-
-  Box title with a button:
-
-  ```
-  <.box>
-    <.box_item header class="d-flex flex-items-center">
-      <.box_item title class="flex-auto">
-        Title
-      </.box_item>
-      <.button is_primary is_smmall>
-        Button
-      </.button>
-    </.box_item>
-    <.box_item body>
-      Rest
-    </.box_item>
-  </.box>
-  ```
-
-  ## Options
-
-  _box_item options_
-
-  | **Name**              | **Type**  | **Validation** | **Default** | **Description**                                                                                          |
-  | --------------------- | --------- | -------------- | ----------- | -------------------------------------------------------------------------------------------------------- |
-  | `inner_block`         | `slot`    | required       | -           | Content.                                                                                                 |
-  | `header`              | `boolean` | -              | false       | Creates a header element.                                                                                |
-  | `title`               | `boolean` | -              | false       | Creates a title element to be placed within a headder element.                                           |
-  | `row`                 | `boolean` | -              | false       | Creates a row element.                                                                                   |
-  | `body`                | `boolean` | -              | false       | Creates a body element.                                                                                  |
-  | `footer`              | `boolean` | -              | false       | Creates a footer element.                                                                                |
-  | `class`               | `string`  | -              | -           | Additional classname.                                                                                    |
-  | `is_blue`             | `boolean` | -              | false       | Blue row theme.                                                                                          |
-  | `is_focus_blue`       | `boolean` | -              | false       | Changes to blue row theme on focus.                                                                      |
-  | `is_focus_gray`       | `boolean` | -              | false       | Changes to gray row theme on focus.                                                                      |
-  | `is_gray`             | `boolean` | -              | false       | Gray row theme.                                                                                          |
-  | `is_hover_blue`       | `boolean` | -              | false       | Changes to blue row theme on hover.                                                                      |
-  | `is_hover_gray`       | `boolean` | -              | false       | Changes to gray row theme on hover.                                                                      |
-  | `is_navigation_focus` | `boolean` | -              | false       | Combine with a theme color to highlight the row when using keyboard commands.                            |
-  | `is_unread`           | `boolean` | -              | false       | Apply a blue vertical line highlight for indicating a row contains unread items.                         |
-  | `is_yellow`           | `boolean` | -              | false       | Yellow row theme.                                                                                        |
-  | `is_link`             | `boolean` | -              | false       | With attribute `row`. Use with link attributes such as "href" to creates a link with a "row link" class. |
-
-  Additional HTML attributes are passed to the box_item element.
-
-  ## Reference
-
-  [Primer/CSS Box](https://primer.style/css/components/box)
-
-  """
-
-  def box_item(assigns) do
-    with {:ok, assigns} <- SchemaHelpers.validate_options(assigns, Options.BoxItem, "box_item") do
-      render_box_item(assigns)
-    else
-      message -> message
-    end
-  end
-
-  defp render_box_item(assigns) do
-    classes = %{
-      header:
-        Attributes.classnames([
-          "Box-header",
-          assigns.is_blue and "Box-header--blue"
-        ]),
-      body: "Box-body",
-      footer: "Box-footer",
-      title: "Box-title",
-      row:
-        Attributes.classnames([
-          "Box-row",
-          assigns.is_blue and "Box-row--blue",
-          assigns.is_focus_blue and "Box-row--focus-blue",
-          assigns.is_focus_gray and "Box-row--focus-gray",
-          assigns.is_gray and "Box-row--gray",
-          assigns.is_hover_blue and "Box-row--hover-blue",
-          assigns.is_hover_gray and "Box-row--hover-gray",
-          assigns.is_navigation_focus and "navigation-focus",
-          assigns.is_yellow and "Box-row--yellow",
-          assigns.is_unread and "Box-row--unread"
-        ]),
-      link: "Box-row-link"
-    }
-
-    class =
-      Attributes.classnames([
-        cond do
-          assigns.header -> classes.header
-          assigns.body -> classes.body
-          assigns.footer -> classes.footer
-          assigns.row -> classes.row
-          assigns.title -> classes.title
-          true -> nil
-        end,
-        assigns.class
-      ])
-
-    item_opts =
-      Attributes.append_attributes(assigns.extra, [
-        class !== "" && [class: class]
-      ])
-
-    title_opts = class !== "" && [class: class]
-
-    link_row_opts =
-      Attributes.append_attributes(assigns.extra, [
-        [
-          class:
-            Attributes.classnames([
-              classes.link,
-              assigns.class
-            ])
-        ]
-      ])
-
-    ~H"""
-    <%= if @title do %>
-      <h3 {title_opts}>
-        <%= render_slot(@inner_block) %>
-      </h3>
-    <% else %>
-      <%= if @row and @is_link do %>
-        <div class={classes.row}>
-          <a {link_row_opts}><%= render_slot(@inner_block) %></a>
-        </div>
-      <% else %>
-        <div {item_opts}>
-          <%= render_slot(@inner_block) %>
-        </div>
-      <% end %>
-    <% end %>
-    """
-  end
-
-  # ------------------------------------------------------------------------------------
   # button
   # ------------------------------------------------------------------------------------
 
@@ -1104,7 +449,7 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Creates a button.
 
-  [Examples](#button/1-examples) • [Options](#button/1-options) • [Reference](#button/1-reference)
+  [Examples](#button/1-examples) • [Attributes](#button/1-attributes) • [Reference](#button/1-reference)
 
   ```
   <.button>Click me</.button>
@@ -1157,7 +502,7 @@ defmodule PrimerLive.Components do
   </.button_group>
   ```
 
-  ## Options
+  ## Attributes
 
   _button options_
 
@@ -1259,7 +604,7 @@ defmodule PrimerLive.Components do
   </.button_group>
   ```
 
-  ## Options
+  ## Attributes
 
   | **Name**      | **Type** | **Validation** | **Default** | **Description**       |
   | ------------- | -------- | -------------- | ----------- | --------------------- |
@@ -1306,7 +651,7 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Wrapper for a button inside a `button_group/1`.
 
-  ## Options
+  ## Attributes
 
   Equal to `button/1` options.
 
@@ -1347,7 +692,7 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Dropdown menu.
 
-  [Examples](#dropdown/1-examples) • [Options](#dropdown/1-options) • [Reference](#dropdown/1-reference)
+  [Examples](#dropdown/1-examples) • [Attributes](#dropdown/1-attributes) • [Reference](#dropdown/1-reference)
 
   Dropdowns are small context menus that can be used for navigation and actions. They are a simple alternative to select menus.
 
@@ -1399,7 +744,7 @@ defmodule PrimerLive.Components do
   </.dropdown>
   ```
 
-  ## Options
+  ## Attributes
 
   _dropdown options_
 
@@ -1456,7 +801,7 @@ defmodule PrimerLive.Components do
   @doc ~S'''
   Variable content element for `dropdown/1`.
 
-  [Examples](#dropdown_item/1-examples) • [Options](#dropdown_item/1-options) • [Reference](#dropdown_item/1-reference)
+  [Examples](#dropdown_item/1-examples) • [Attributes](#dropdown_item/1-attributes) • [Reference](#dropdown_item/1-reference)
 
   Dropdown elements are created with boolean options:
 
@@ -1539,7 +884,7 @@ defmodule PrimerLive.Components do
   end
   ```
 
-  ## Options
+  ## Attributes
 
   _dropdown_item options_
 
@@ -1661,7 +1006,7 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Creates a control to navigate search results.
 
-  [Examples](#pagination/1-examples) • [Options](#pagination/1-options) • [Reference](#pagination/1-reference)
+  [Examples](#pagination/1-examples) • [Attributes](#pagination/1-attributes) • [Reference](#pagination/1-reference)
 
   ```
   <.pagination
@@ -1715,7 +1060,7 @@ defmodule PrimerLive.Components do
   />
   ```
 
-  ## Options
+  ## Attributes
 
   _pagination options_
 
@@ -1997,7 +1342,7 @@ defmodule PrimerLive.Components do
 
   See `PrimerLive.Octicons` for the complete list.
 
-  [Examples](#octicon/1-examples) • [Options](#octicon/1-options) • [Reference](#octicon/1-reference)
+  [Examples](#octicon/1-examples) • [Attributes](#octicon/1-attributes) • [Reference](#octicon/1-reference)
 
   ```
   <.octicon name="comment-16" />
@@ -2023,7 +1368,7 @@ defmodule PrimerLive.Components do
   <.octicon name="pencil-24" class="app-icon" />
   ```
 
-  ## Options
+  ## Attributes
 
   | **Name** | **Type** | **Validation** | **Default** | **Description**                                                                         |
   | -------- | -------- | -------------- | ----------- | --------------------------------------------------------------------------------------- |

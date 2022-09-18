@@ -52,6 +52,7 @@ defmodule PrimerLive do
   defmacro __using__(_) do
     quote do
       import PrimerLive.Components
+      import PrimerLive.TestComponents
       import PrimerLive.Octicons
     end
   end

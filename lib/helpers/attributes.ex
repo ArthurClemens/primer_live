@@ -33,7 +33,7 @@ defmodule PrimerLive.Helpers.Attributes do
   def classnames(input_classnames) do
     result =
       input_classnames
-      |> Enum.reject(&(&1 == false || is_nil(&1)))
+      |> Enum.reject(&(is_nil(&1) || &1 == false || &1 == ""))
       |> Enum.map(&String.trim(&1))
       |> Enum.uniq()
       |> Enum.join(" ")
@@ -108,5 +108,105 @@ defmodule PrimerLive.Helpers.Attributes do
     input_attribute_values
     |> Enum.filter(fn {_k, v} -> !!v end)
     |> Enum.reduce([], fn {k, _v}, acc -> acc ++ Map.get(@aria_attributes_map, k) end)
+  end
+
+  @doc ~S"""
+  Converts user input to an integer, with optionally a default value
+
+  ## Examples
+
+      iex> PrimerLive.Helpers.Attributes.as_integer("1")
+      1
+
+      iex> PrimerLive.Helpers.Attributes.as_integer(2)
+      2
+
+      iex> PrimerLive.Helpers.Attributes.as_integer(2.0)
+      2
+
+      iex> PrimerLive.Helpers.Attributes.as_integer("x")
+      nil
+
+      iex> PrimerLive.Helpers.Attributes.as_integer("x", 42)
+      42
+  """
+  def as_integer(input, default_value \\ nil) do
+    cond do
+      is_integer(input) ->
+        input
+
+      is_binary(input) ->
+        try do
+          String.to_integer(input)
+        rescue
+          ArgumentError -> default_value
+        end
+
+      is_float(input) ->
+        trunc(input)
+
+      is_number(input) ->
+        case Integer.parse(input) do
+          :error ->
+            default_value
+
+          {value, _rest} ->
+            value
+        end
+
+      true ->
+        default_value
+    end
+  end
+
+  @doc """
+  Takes 2 lists and padds the shortest list with placeholder values.
+
+  ## Examples
+
+      iex> PrimerLive.Helpers.Attributes.pad_lists([], [])
+      [[], []]
+
+      iex> PrimerLive.Helpers.Attributes.pad_lists([1, 2, 3], [])
+      [[1, 2, 3], [:placeholder, :placeholder, :placeholder]]
+
+      iex> PrimerLive.Helpers.Attributes.pad_lists([], [1, 2, 3])
+      [[:placeholder, :placeholder, :placeholder], [1, 2, 3]]
+
+      iex> PrimerLive.Helpers.Attributes.pad_lists([1], [1, 2])
+      [[1, :placeholder], [1, 2]]
+
+      iex> PrimerLive.Helpers.Attributes.pad_lists([], [1, 2, 3], 0)
+      [[0, 0, 0], [1, 2, 3]]
+
+      iex> header_slot = []
+      iex> header_title_slot = [%{
+      ...>   __slot__: :header_title,
+      ...>   inner_block: "Title content"
+      ...> }]
+      iex> Enum.zip(PrimerLive.Helpers.Attributes.pad_lists(header_slot, header_title_slot, []))
+      [{[], %{__slot__: :header_title, inner_block: "Title content"}}]
+
+  """
+  def pad_lists(list1, list2, padding \\ :placeholder) do
+    case Enum.count(list1) > Enum.count(list2) do
+      true ->
+        [
+          list1,
+          pad_list(list1, list2, padding)
+        ]
+
+      false ->
+        [
+          pad_list(list2, list1, padding),
+          list2
+        ]
+    end
+  end
+
+  defp pad_list(longest, shortest, padding) do
+    longest
+    |> Enum.with_index()
+    |> Enum.map(fn {_, idx} -> Enum.at(shortest, idx) || padding end)
   end
 end
