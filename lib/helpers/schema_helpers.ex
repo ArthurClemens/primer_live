@@ -142,11 +142,6 @@ defmodule PrimerLive.Helpers.SchemaHelpers do
 
   @doc ~S"""
   Fetches the schema keys minus the private fields `__struct__` and `__meta__`.
-
-  ## Examples
-
-      iex> PrimerLive.Helpers.SchemaHelpers.get_keys(PrimerLive.Options.Pagination)
-      [:boundary_count, :class, :classes, :current_page, :is_numbered, :labels, :link_options, :link_path, :page_count, :sibling_count]
   """
   def get_keys(module) do
     module.__struct__()
@@ -156,13 +151,6 @@ defmodule PrimerLive.Helpers.SchemaHelpers do
 
   @doc ~S"""
   Renders a locally defined LiveView component `invalid_schema_message` to show changeset errors in a readable format.
-
-  ## Examples
-
-      iex> import Phoenix.LiveViewTest, only: [rendered_to_string: 1]
-      iex> import PrimerLive.Helpers.TestHelpers, only: [format_html: 1]
-      iex> %PrimerLive.Options.Pagination{page_count: 1, current_page: 1, link_path: nil} |> PrimerLive.Options.Pagination.changeset() |> PrimerLive.Helpers.SchemaHelpers.show_errors("Pagination") |> rendered_to_string() |> format_html()
-      "<div class=\"flash flash-error\"><p>Pagination component received invalid options:</p><p>link_path: can&#39;t be blank</p></div>"
   """
   def show_errors(changeset, component_name) do
     invalid_schema_message(%{

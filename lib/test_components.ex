@@ -1010,7 +1010,6 @@ defmodule PrimerLive.TestComponents do
 
   [Examples](#test_button_group/1-examples) • [Attributes](#test_button_group/1-attributes) • [Reference](#test_button_group/1-reference)
 
-
   ```
   <.test_button_group>
     <:button>Button 1</:button>
@@ -1080,5 +1079,346 @@ defmodule PrimerLive.TestComponents do
       <% end %>
     </div>
     """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # pagination
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :pagination
+
+  @doc ~S"""
+  Creates a control to navigate search results.
+
+  [Examples](#test_pagination/1-examples) • [Attributes](#test_pagination/1-attributes) • [Reference](#test_pagination/1-reference)
+
+  ```
+  <.test_pagination
+    page_count={@page_count}
+    current_page={@current_page}
+    link_path={fn page_num -> "/page/#{page_num}" end}
+  />
+  ```
+
+  ## Features
+
+  - Configure the page number ranges for siblings and both ends
+  - Optionally disable page number display (minimal UI)
+  - Custom labels
+  - Custom classnames for all elements
+
+  ## Examples
+
+  Simplified paginations, showing Next / Previous buttons:
+
+  ```
+  <.test_pagination
+    ...
+    is_numbered="false"
+  />
+  ```
+
+  Configure the number of sibling and boundary page numbers to show:
+
+  ```
+  <.test_pagination
+    ...
+    sibling_count="1"
+    boundary_count="1"
+  />
+  ```
+
+  Provide custom labels:
+
+  ```
+  <.test_pagination
+    ...
+    labels={
+      %{
+        next_page: "Nächste Seite",
+        previous_page: "Vorherige Seite"
+      }
+    }
+  />
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ### Reference
+
+  [Primer/CSS Pagination](https://primer.style/css/components/pagination)
+
+  ## Status
+
+  - CSS: feature complete.
+  - React behaviour not yet implemented: "The algorithm tries to minimize the amount the component shrinks and grows as the user changes pages; for this reason, if any of the pages in the margin (controlled via marginPageCount) intersect with pages in the center (controlled by surroundingPageCount), the center section will be shifted away from the margin."
+
+  """
+
+  attr :page_count, :integer, required: true, doc: "Result page count."
+  attr :current_page, :integer, required: true, doc: "Current page number."
+
+  attr :link_path, :any,
+    required: true,
+    doc:
+      "Function that returns a path for the given page number. The link builder uses `live_redirect`. Extra options can be passed with `link_options`. Function signature: `(page_number) -> path`"
+
+  attr :boundary_count, :integer, default: 2, doc: "Number of page links at both ends."
+
+  attr :sibling_count, :integer,
+    default: 2,
+    doc: "Number of page links at each side of the current page number element."
+
+  attr :is_numbered, :boolean, default: true, doc: "Showing page numbers."
+  attr :class, :string, doc: "Additional classname."
+
+  attr :classes, :map,
+    default: %{
+      gap: "",
+      pagination_container: "",
+      pagination: "",
+      previous_page: "",
+      next_page: "",
+      page: ""
+    },
+    doc:
+      "Additional classnames for pagination elements. Any provided value will be appended to the default classname."
+
+  @default_pagination_labels %{
+    aria_label_container: "Navigation",
+    aria_label_next_page: "Next page",
+    aria_label_page: "Page {page_number}",
+    aria_label_previous_page: "Previous page",
+    gap: "…",
+    next_page: "Next",
+    previous_page: "Previous"
+  }
+
+  attr :labels, :map,
+    default: @default_pagination_labels,
+    doc: "Textual labels. Any provided value will override the default text."
+
+  @default_pagination_link_options %{
+    replace: false
+  }
+
+  attr :link_options, :map, default: @default_pagination_link_options, doc: "Link options."
+
+  attr :rest, :global
+
+  def test_pagination(assigns) do
+    assigns =
+      assigns
+      |> assign(:page_count, Attributes.as_integer(assigns.page_count) |> max(0))
+      |> assign(
+        :current_page,
+        Attributes.as_integer(assigns.current_page) |> max(1)
+      )
+      |> assign(
+        :boundary_count,
+        Attributes.as_integer(assigns.boundary_count) |> Attributes.minmax(1, 3)
+      )
+      |> assign(
+        :sibling_count,
+        Attributes.as_integer(assigns.sibling_count) |> Attributes.minmax(1, 5)
+      )
+      |> assign(
+        :is_numbered,
+        Attributes.as_boolean(assigns.is_numbered)
+      )
+      |> assign(
+        :labels,
+        Map.merge(@default_pagination_labels, assigns.labels)
+      )
+
+    %{
+      page_count: page_count,
+      current_page: current_page,
+      boundary_count: boundary_count,
+      sibling_count: sibling_count
+    } = assigns
+
+    has_previous_page = current_page > 1
+    has_next_page = current_page < page_count
+    show_numbers = assigns.is_numbered && page_count > 1
+    show_prev_next = page_count > 1
+
+    classes = %{
+      pagination_container:
+        Attributes.classnames([
+          "paginate-container",
+          assigns[:class],
+          assigns[:classes][:pagination_container]
+        ]),
+      pagination:
+        Attributes.classnames([
+          "pagination",
+          assigns[:classes][:pagination]
+        ]),
+      previous_page:
+        Attributes.classnames([
+          "previous_page",
+          assigns[:classes][:previous_page]
+        ]),
+      next_page:
+        Attributes.classnames([
+          "next_page",
+          assigns[:classes][:next_page]
+        ]),
+      page:
+        Attributes.classnames([
+          assigns[:classes][:page]
+        ]),
+      gap:
+        Attributes.classnames([
+          "gap",
+          assigns[:classes][:gap]
+        ])
+    }
+
+    pagination_elements =
+      test_get_pagination_numbers(
+        page_count,
+        current_page,
+        boundary_count,
+        sibling_count
+      )
+
+    ~H"""
+    <%= if assigns.page_count > 1 do %>
+      <nav class={classes.pagination_container} {@rest} aria-label={@labels.aria_label_container}>
+        <div class={classes.pagination}>
+          <%= if show_prev_next do %>
+            <%= if has_previous_page do %>
+              <.link
+                navigate={@link_path.(current_page - 1)}
+                class={classes.previous_page}
+                rel="previous"
+                aria-label={@labels.aria_label_previous_page}
+                replace={@link_options.replace}
+              >
+                <%= @labels.previous_page %>
+              </.link>
+            <% else %>
+              <span class={classes.previous_page} aria-disabled="true" phx-no-format><%= @labels.previous_page %></span>
+            <% end %>
+          <% end %>
+          <%= if show_numbers do %>
+            <%= for item <- pagination_elements do %>
+              <%= if item === current_page do %>
+                <em aria-current="page"><%= current_page %></em>
+              <% else %>
+                <%= if item == 0 do %>
+                  <span class={classes.gap} phx-no-format><%= @labels.gap %></span>
+                <% else %>
+                  <.link
+                    navigate={@link_path.(item)}
+                    class={classes.page}
+                    aria-label={
+                      @labels.aria_label_page |> String.replace("{page_number}", to_string(item))
+                    }
+                    replace={@link_options.replace}
+                  >
+                    <%= item %>
+                  </.link>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%= if show_prev_next do %>
+            <%= if has_next_page do %>
+              <.link
+                navigate={@link_path.(current_page + 1)}
+                class={classes.next_page}
+                rel="next"
+                aria-label={@labels.aria_label_next_page}
+                replace={@link_options.replace}
+              >
+                <%= @labels.next_page %>
+              </.link>
+            <% else %>
+              <span class={classes.next_page} aria-disabled="true" phx-no-format><%= @labels.next_page %></span>
+            <% end %>
+          <% end %>
+        </div>
+      </nav>
+    <% end %>
+    """
+  end
+
+  # Get the list of page number elements
+  @doc false
+
+  def test_get_pagination_numbers(
+        page_count,
+        current_page,
+        boundary_count,
+        sibling_count
+      )
+      when page_count == 0,
+      do:
+        test_get_pagination_numbers(
+          1,
+          current_page,
+          boundary_count,
+          sibling_count
+        )
+
+  def test_get_pagination_numbers(
+        page_count,
+        current_page,
+        boundary_count,
+        sibling_count
+      ) do
+    list = 1..page_count
+
+    # Insert a '0' divider when the page sequence is not sequential
+    # But omit this when the total number of pages equals the boundary_count counts plus the gap item
+
+    may_insert_gaps = page_count !== 0 && page_count > 2 * boundary_count + 1
+
+    case may_insert_gaps do
+      true -> insert_gaps(current_page, boundary_count, sibling_count, list)
+      false -> list |> Enum.map(& &1)
+    end
+  end
+
+  defp insert_gaps(current_page, boundary_count, sibling_count, list) do
+    section_start = Enum.take(list, boundary_count)
+    section_end = Enum.take(list, -boundary_count)
+
+    section_middle_start = current_page - sibling_count
+    section_middle_end = current_page + sibling_count
+
+    section_middle =
+      Enum.slice(
+        list,
+        section_middle_start..section_middle_end
+      )
+
+    # Join the parts, make sure the numbers a unique, and loop over the result to insert a '0' whenever
+    # 2 adjacent number differ by more than 1
+    # The result should be something like [1,2,0,5,6,7,8,9,0,99,100]
+
+    (section_start ++ section_middle ++ section_end)
+    |> MapSet.new()
+    |> MapSet.to_list()
+    |> Enum.reduce([], fn num, acc ->
+      # Insert a '0' divider when the page sequence is not sequential
+      previous_num =
+        case Enum.count(acc) == 0 do
+          true -> num
+          false -> hd(acc)
+        end
+
+      acc =
+        case num - previous_num > 1 do
+          true -> [0 | acc]
+          false -> acc
+        end
+
+      [num | acc]
+    end)
+    |> Enum.reverse()
   end
 end

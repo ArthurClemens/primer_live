@@ -145,13 +145,65 @@ defmodule PrimerLive.Helpers.Attributes do
       is_float(input) ->
         trunc(input)
 
-      is_number(input) ->
-        case Integer.parse(input) do
-          :error ->
-            default_value
+      true ->
+        default_value
+    end
+  end
 
-          {value, _rest} ->
-            value
+  @doc ~S"""
+  Converts user input to a boolean, with optionally a default value
+
+  ## Examples
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean(true)
+      true
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean("true")
+      true
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean("1")
+      true
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean(1)
+      true
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean(1.0)
+      true
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean(false)
+      false
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean("false")
+      false
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean("0")
+      false
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean(0)
+      false
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean(0.0)
+      false
+
+  """
+  def as_boolean(input, default_value \\ false) do
+    cond do
+      is_boolean(input) ->
+        input
+
+      is_binary(input) ->
+        cond do
+          input === "true" -> true
+          input === "1" -> true
+          input === "false" -> false
+          input === "0" -> false
+          true -> !!input
+        end
+
+      is_number(input) ->
+        cond do
+          input > 0 -> true
+          true -> false
         end
 
       true ->
@@ -208,5 +260,27 @@ defmodule PrimerLive.Helpers.Attributes do
     longest
     |> Enum.with_index()
     |> Enum.map(fn {_, idx} -> Enum.at(shortest, idx) || padding end)
+  end
+
+  @doc """
+  Forces a value to be within a min and max value.any()
+
+  ## Examples
+
+      iex> PrimerLive.Helpers.Attributes.minmax(-1, 0, 2)
+      0
+
+      iex> PrimerLive.Helpers.Attributes.minmax(3, 0, 2)
+      2
+
+      iex> PrimerLive.Helpers.Attributes.minmax(0, 0, 0)
+      0
+
+      iex> PrimerLive.Helpers.Attributes.minmax(1, 0, 0)
+      0
+
+  """
+  def minmax(value, min, max) do
+    max(min, min(value, max))
   end
 end

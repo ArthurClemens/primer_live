@@ -1,4 +1,4 @@
-defmodule PrimerLive.Components.PaginationTest do
+defmodule PrimerLive.TestComponents.PaginationTest do
   use ExUnit.Case
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers
@@ -6,48 +6,48 @@ defmodule PrimerLive.Components.PaginationTest do
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
-  test "get_pagination_numbers: zeroes" do
+  test "test_get_pagination_numbers: zeroes" do
     page_count = 0
     current_page = 0
     boundary_count = 0
     sibling_count = 0
-    actual = get_pagination_numbers(page_count, current_page, boundary_count, sibling_count)
+    actual = test_get_pagination_numbers(page_count, current_page, boundary_count, sibling_count)
     expected = [1]
     assert actual == expected
   end
 
-  test "get_pagination_numbers: ones" do
+  test "test_get_pagination_numbers: ones" do
     page_count = 1
     current_page = 1
     boundary_count = 1
     sibling_count = 1
-    actual = get_pagination_numbers(page_count, current_page, boundary_count, sibling_count)
+    actual = test_get_pagination_numbers(page_count, current_page, boundary_count, sibling_count)
     expected = [1]
     assert actual == expected
   end
 
-  test "get_pagination_numbers: page_count 3, boundary_count 1 and sibling_count 1" do
+  test "test_get_pagination_numbers: page_count 3, boundary_count 1 and sibling_count 1" do
     page_count = 3
     boundary_count = 1
     sibling_count = 1
 
     actual =
       1..page_count
-      |> Enum.map(&get_pagination_numbers(page_count, &1, boundary_count, sibling_count))
+      |> Enum.map(&test_get_pagination_numbers(page_count, &1, boundary_count, sibling_count))
 
     expected = [[1, 2, 3], [1, 2, 3], [1, 2, 3]]
 
     assert actual == expected
   end
 
-  test "get_pagination_numbers: page_count 10, boundary_count 1 and sibling_count 2" do
+  test "test_get_pagination_numbers: page_count 10, boundary_count 1 and sibling_count 2" do
     page_count = 10
     boundary_count = 1
     sibling_count = 2
 
     actual =
       1..page_count
-      |> Enum.map(&get_pagination_numbers(page_count, &1, boundary_count, sibling_count))
+      |> Enum.map(&test_get_pagination_numbers(page_count, &1, boundary_count, sibling_count))
 
     expected = [
       [1, 0, 10],
@@ -65,14 +65,14 @@ defmodule PrimerLive.Components.PaginationTest do
     assert actual == expected
   end
 
-  test "get_pagination_numbers: page_count 10, boundary_count 2 and sibling_count 2" do
+  test "test_get_pagination_numbers: page_count 10, boundary_count 2 and sibling_count 2" do
     page_count = 10
     boundary_count = 2
     sibling_count = 2
 
     actual =
       1..page_count
-      |> Enum.map(&get_pagination_numbers(page_count, &1, boundary_count, sibling_count))
+      |> Enum.map(&test_get_pagination_numbers(page_count, &1, boundary_count, sibling_count))
 
     expected = [
       [1, 2, 0, 9, 10],
@@ -90,24 +90,11 @@ defmodule PrimerLive.Components.PaginationTest do
     assert actual == expected
   end
 
-  test "Called without options: should render an error message" do
+  test "With page_count 1: should render nothing" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.pagination />
-           """)
-           |> format_html() ==
-             """
-             <div class="flash flash-error"><p>pagination component received invalid options:</p><p>current_page: can&#39;t be blank</p><p>link_path: can&#39;t be blank</p><p>page_count: can&#39;t be blank</p></div>
-             """
-             |> format_html()
-  end
-
-  test "With page_count 1: should not render the control" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.pagination page_count={1} current_page={1} link_path={&"/page/#{&1}"} />
+           <.test_pagination page_count={1} current_page={1} link_path={&"/page/#{&1}"} />
            """)
            |> format_html() ==
              """
@@ -115,11 +102,11 @@ defmodule PrimerLive.Components.PaginationTest do
              |> format_html()
   end
 
-  test "With page_count 2: should render the control" do
+  test "With page_count 2: should render the component" do
     assigns = %{page_count: 2, current_page: 1}
 
     assert rendered_to_string(~H"""
-           <.pagination
+           <.test_pagination
              page_count={@page_count}
              current_page={@current_page}
              link_path={fn page_num -> "/page/#{page_num}" end}
@@ -141,7 +128,7 @@ defmodule PrimerLive.Components.PaginationTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.pagination page_count={99} current_page={9} link_path={&"/page/#{&1}"} />
+           <.test_pagination page_count={99} current_page={9} link_path={&"/page/#{&1}"} />
            """)
            |> format_html() ==
              """
@@ -163,11 +150,11 @@ defmodule PrimerLive.Components.PaginationTest do
              |> format_html()
   end
 
-  test "Option: boundary_count" do
+  test "Attribute: boundary_count" do
     assigns = %{page_count: 10, current_page: 5}
 
     assert rendered_to_string(~H"""
-           <.pagination
+           <.test_pagination
              page_count={@page_count}
              current_page={@current_page}
              link_path={fn page_num -> "/page/#{page_num}" end}
@@ -192,11 +179,11 @@ defmodule PrimerLive.Components.PaginationTest do
              |> format_html()
   end
 
-  test "Option: sibling_count" do
+  test "Attribute: sibling_count" do
     assigns = %{page_count: 10, current_page: 5}
 
     assert rendered_to_string(~H"""
-           <.pagination
+           <.test_pagination
              page_count={@page_count}
              current_page={@current_page}
              link_path={fn page_num -> "/page/#{page_num}" end}
@@ -221,11 +208,11 @@ defmodule PrimerLive.Components.PaginationTest do
              |> format_html()
   end
 
-  test "Option: is_numbered false" do
+  test "Attribute: is_numbered false" do
     assigns = %{page_count: 10, current_page: 5}
 
     assert rendered_to_string(~H"""
-           <.pagination
+           <.test_pagination
              page_count={@page_count}
              current_page={@current_page}
              link_path={fn page_num -> "/page/#{page_num}" end}
@@ -244,11 +231,11 @@ defmodule PrimerLive.Components.PaginationTest do
              |> format_html()
   end
 
-  test "Option: class" do
+  test "Attribute: class" do
     assigns = %{page_count: 2, current_page: 1}
 
     assert rendered_to_string(~H"""
-           <.pagination
+           <.test_pagination
              page_count={@page_count}
              current_page={@current_page}
              link_path={fn page_num -> "/page/#{page_num}" end}
@@ -267,11 +254,11 @@ defmodule PrimerLive.Components.PaginationTest do
              |> format_html()
   end
 
-  test "Option: classes" do
+  test "Attribute: classes" do
     assigns = %{page_count: 10, current_page: 5}
 
     assert rendered_to_string(~H"""
-           <.pagination
+           <.test_pagination
              page_count={@page_count}
              current_page={@current_page}
              link_path={fn page_num -> "/page/#{page_num}" end}
@@ -307,11 +294,11 @@ defmodule PrimerLive.Components.PaginationTest do
              |> format_html()
   end
 
-  test "Option: labels" do
+  test "Attribute: labels" do
     assigns = %{page_count: 10, current_page: 5}
 
     assert rendered_to_string(~H"""
-           <.pagination
+           <.test_pagination
              page_count={@page_count}
              current_page={@current_page}
              link_path={fn page_num -> "/page/#{page_num}" end}
@@ -347,11 +334,11 @@ defmodule PrimerLive.Components.PaginationTest do
              |> format_html()
   end
 
-  test "Option: link_options" do
+  test "Attribute: link_options" do
     assigns = %{page_count: 2, current_page: 1}
 
     assert rendered_to_string(~H"""
-           <.pagination
+           <.test_pagination
              page_count={@page_count}
              current_page={@current_page}
              link_path={fn page_num -> "/page/#{page_num}" end}
@@ -378,7 +365,7 @@ defmodule PrimerLive.Components.PaginationTest do
     assigns = %{page_count: 2, current_page: 1}
 
     assert rendered_to_string(~H"""
-           <.pagination
+           <.test_pagination
              page_count={@page_count}
              current_page={@current_page}
              link_path={fn page_num -> "/page/#{page_num}" end}
