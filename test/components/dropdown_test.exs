@@ -67,7 +67,7 @@ defmodule PrimerLive.Components.DropdownTest do
 
     assert rendered_to_string(~H"""
            <.dropdown id="my-dropdown">
-             <.dropdown_item toggle><.octicon name="alert-16" /></.dropdown_item>
+             <.dropdown_item toggle><.test_octicon name="alert-16" /></.dropdown_item>
              <.dropdown_item menu header_title="Header">
                <.dropdown_item option href="#url">Dropdown item 1</.dropdown_item>
                <.dropdown_item option href="#url">Dropdown item 2</.dropdown_item>

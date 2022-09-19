@@ -1,4 +1,4 @@
-defmodule PrimerLive.Components.OcticonTest do
+defmodule PrimerLive.TestComponents.OcticonTest do
   use ExUnit.Case
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers
@@ -6,24 +6,11 @@ defmodule PrimerLive.Components.OcticonTest do
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
-  test "Called without options: should render an error message" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.octicon />
-           """)
-           |> format_html() ==
-             """
-             <div class="flash flash-error"><p>octicon component received invalid options:</p><p>name: can&#39;t be blank</p></div>
-             """
-             |> format_html()
-  end
-
   test "With a correct name: should render the icon" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.octicon name="alert-16" />
+           <.test_octicon name="alert-16" />
            """)
            |> format_html() ==
              """
@@ -40,20 +27,20 @@ defmodule PrimerLive.Components.OcticonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.octicon name="x" />
+           <.test_octicon name="x" />
            """)
            |> format_html() ==
              """
-             <div class="flash flash-error"><p>octicon component received invalid options:</p><p>name x does not exist</p></div>
+             Icon with name x does not exist.
              """
              |> format_html()
   end
 
-  test "Option: class" do
+  test "Attribute: class" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.octicon name="alert-16" class="x" />
+           <.test_octicon name="alert-16" class="x" />
            """)
            |> format_html() ==
              """
@@ -70,7 +57,7 @@ defmodule PrimerLive.Components.OcticonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.octicon name="alert-16" dir="rtl" />
+           <.test_octicon name="alert-16" dir="rtl" />
            """)
            |> format_html() ==
              """

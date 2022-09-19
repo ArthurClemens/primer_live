@@ -27,7 +27,7 @@ defmodule PrimerLive.Helpers.Octicons do
           &%{
             svg:
               File.read!("#{@priv_path}/icons/#{&1}")
-              |> String.replace(~r/\<svg/, "<svg class={@class} {@extra}"),
+              |> String.replace(~r/\<svg/, "<svg class={@class} {@rest}"),
             name: &1 |> String.replace(".svg", ""),
             function_name: &1 |> String.replace(".svg", "") |> String.replace("-", "_")
           }

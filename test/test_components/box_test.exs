@@ -174,7 +174,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
            <.test_box>
              <:header class="d-flex flex-justify-between flex-items-start">
                <.test_button is_close_button aria-label="Close" class="flex-shrink-0 pl-4">
-                 <.octicon name="x-16" />
+                 <.test_octicon name="x-16" />
                </.test_button>
              </:header>
              <:header_title>

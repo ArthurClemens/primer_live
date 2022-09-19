@@ -1444,4 +1444,95 @@ defmodule PrimerLive.TestComponents do
     end)
     |> Enum.reverse()
   end
+
+  # ------------------------------------------------------------------------------------
+  # octicon
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :icons
+
+  @doc ~S"""
+  Renders an icon from the set of GitHub icons, 512 including all size variations.
+
+  See `PrimerLive.Octicons` for the complete list.
+
+  [Examples](#test_octicon/1-examples) • [Attributes](#test_octicon/1-attributes) • [Reference](#test_octicon/1-reference)
+
+  ```
+  <.test_octicon name="comment-16" />
+  ```
+
+  ## Examples
+
+  Pass the icon name with the size: icon "alert-fill" with size "12" becomes "alert-fill-12":
+
+  ```
+  <.test_octicon name="alert-fill-12" />
+  ```
+
+  Icon "pencil" with size 24:
+
+  ```
+  <.test_octicon name="pencil-24" />
+  ```
+
+  Custom class:
+
+  ```
+  <.test_octicon name="pencil-24" class="app-icon" />
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ### Reference
+
+  - [List of Primer icons](https://primer.style/octicons/)
+  - [Primer/Octicons Usage](https://primer.style/octicons/guidelines/usage)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr :name, :string,
+    required: true,
+    doc:
+      "Icon name, e.g. \"arrow-left-24\". See [available icons](https://primer.style/octicons/)."
+
+  attr :class, :string, doc: "Additional classname."
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the icon svg element.
+    """
+  )
+
+  def test_octicon(assigns) do
+    icon_fn = PrimerLive.Octicons.name_to_function() |> Map.get(assigns.name)
+
+    case is_function(icon_fn) do
+      true ->
+        render_octicon(icon_fn, assigns)
+
+      false ->
+        ~H"""
+        Icon with name <%= @name %> does not exist.
+        """
+    end
+  end
+
+  defp render_octicon(icon_fn, assigns) do
+    assigns =
+      assigns
+      |> assign(
+        :class,
+        Attributes.classnames([
+          "octicon",
+          assigns[:class]
+        ])
+      )
+
+    icon_fn.(assigns)
+  end
 end

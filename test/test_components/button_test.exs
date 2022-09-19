@@ -60,7 +60,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_button><.octicon name="search-16" /></.test_button>
+           <.test_button><.test_octicon name="search-16" /></.test_button>
            """)
            |> format_html() ==
              """
@@ -74,7 +74,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
 
     assert rendered_to_string(~H"""
            <.test_button>
-             <.octicon name="download-16" />
+             <.test_octicon name="download-16" />
              <span>Clone</span>
              <span class="dropdown-caret"></span>
            </.test_button>
@@ -91,7 +91,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
 
     assert rendered_to_string(~H"""
            <.test_button is_icon_only aria-label="Desktop">
-             <.octicon name="device-desktop-16" />
+             <.test_octicon name="device-desktop-16" />
            </.test_button>
            """)
            |> format_html() ==
@@ -106,7 +106,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
 
     assert rendered_to_string(~H"""
            <.test_button is_icon_only is_danger aria-label="Desktop">
-             <.octicon name="device-desktop-16" />
+             <.test_octicon name="device-desktop-16" />
            </.test_button>
            """)
            |> format_html() ==
@@ -121,7 +121,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
 
     assert rendered_to_string(~H"""
            <.test_button is_close_button aria-label="Close">
-             <.octicon name="x-16" />
+             <.test_octicon name="x-16" />
            </.test_button>
            """)
            |> format_html() ==
