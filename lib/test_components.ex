@@ -203,10 +203,13 @@ defmodule PrimerLive.TestComponents do
   # If form_group is true, change it to default struct
   defp set_form_group_defaults(assigns) do
     form_group = assigns[:form_group]
+    header = assigns[:header]
+    is_header = header !== []
 
     default_value = %{
       form: assigns[:form],
       field: assigns[:field],
+      header: if(is_header, do: header, else: nil),
       header_title: nil,
       inner_block: nil
     }
@@ -216,7 +219,7 @@ defmodule PrimerLive.TestComponents do
         assigns
         |> assign(:form_group, Map.merge(default_value, form_group))
 
-      is_boolean(form_group) && !!form_group ->
+      is_header || (is_boolean(form_group) && !!form_group) ->
         assigns
         |> assign(:form_group, default_value)
 
@@ -262,7 +265,7 @@ defmodule PrimerLive.TestComponents do
 
     ~H"""
     <%= if wrap_in_form_groun do %>
-      <.test_form_group {form_group} header={header} validation_data={validation_data}>
+      <.test_form_group {form_group} validation_data={validation_data}>
         <%= input %>
       </.test_form_group>
     <% else %>
