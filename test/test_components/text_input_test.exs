@@ -32,6 +32,30 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
+  test "Header slot" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.test_text_input form={:user} field={:first_name}>
+             <:header>
+               <h2>First name</h2>
+             </:header>
+           </.test_text_input>
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group">
+             <div class="form-group-header">
+             <h2>First name</h2>
+             </div>
+             <div class="form-group-body">
+             <input class="form-control" id="user_first_name" name="user[first_name]" type="text" />
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Attribute: form and field (atoms)" do
     assigns = []
 

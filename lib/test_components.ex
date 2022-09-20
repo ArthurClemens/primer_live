@@ -49,6 +49,16 @@ defmodule PrimerLive.TestComponents do
   } />
   ```
 
+  Further customise the heading with a `:header` slot (this will also create a form group):
+
+  ```
+  <.test_text_input form={:user} field={:first_name}>
+    <:header>
+      <h2>First name</h2>
+    </:header>
+  </.test_text_input>
+  ```
+
   Using the input with form data:
 
   ```
@@ -141,6 +151,11 @@ defmodule PrimerLive.TestComponents do
     """
   )
 
+  slot(:header,
+    doc:
+      "Custom header slot for when you require more HTML than just a text title. If present, a `test_form_group/1` will be created to wrap the header and input."
+  )
+
   def test_text_input(assigns) do
     with true <- validate_is_form(assigns),
          true <- validate_is_short_with_form_group(assigns),
@@ -214,6 +229,8 @@ defmodule PrimerLive.TestComponents do
     form = assigns[:form]
     field = assigns[:field]
     type = assigns[:type]
+    form_group = assigns[:form_group] || []
+    header = assigns[:header]
 
     validation_data = FormHelpers.validation_data(form, field, assigns[:get_validation_message])
     %{validation_message_id: validation_message_id} = validation_data
@@ -241,10 +258,11 @@ defmodule PrimerLive.TestComponents do
       ])
 
     input = apply(Phoenix.HTML.Form, input_type, [form, field, input_opts])
+    wrap_in_form_groun = (!!form_group && form_group !== []) || (!!header && header !== [])
 
     ~H"""
-    <%= if @form_group do %>
-      <.test_form_group {@form_group} validation_data={validation_data}>
+    <%= if wrap_in_form_groun do %>
+      <.test_form_group {form_group} header={header} validation_data={validation_data}>
         <%= input %>
       </.test_form_group>
     <% else %>
@@ -337,6 +355,8 @@ defmodule PrimerLive.TestComponents do
     """
   )
 
+  attr(:header, :any, doc: "Custom header slot (passed as attribute from an input component).")
+
   slot(:inner_block, doc: "Body content.")
 
   def test_form_group(assigns) do
@@ -390,10 +410,14 @@ defmodule PrimerLive.TestComponents do
     ~H"""
     <div class={classes.form_group} {@rest}>
       <div class={classes.header}>
-        <%= if assigns.header_title do %>
-          <%= label(form, field, assigns.header_title) %>
+        <%= if @header && @header !== [] do %>
+          <%= render_slot(@header) %>
         <% else %>
-          <%= label(form, field) %>
+          <%= if @header_title do %>
+            <%= label(form, field, @header_title) %>
+          <% else %>
+            <%= label(form, field) %>
+          <% end %>
         <% end %>
       </div>
       <div class={classes.body}>
@@ -1714,7 +1738,7 @@ defmodule PrimerLive.TestComponents do
       )
 
     ~H"""
-    <%= if assigns.page_count > 1 do %>
+    <%= if @page_count > 1 do %>
       <nav class={classes.pagination_container} {@rest} aria-label={@labels.aria_label_container}>
         <div class={classes.pagination}>
           <%= if show_prev_next do %>
