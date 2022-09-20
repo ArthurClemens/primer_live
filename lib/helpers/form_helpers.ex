@@ -51,7 +51,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
 
     validation_message_id = if has_message, do: "#{field}-validation", else: nil
 
-    %PrimerLive.Options.ValidationData{
+    %{
       is_error: is_error,
       message: message,
       has_message: has_message,
