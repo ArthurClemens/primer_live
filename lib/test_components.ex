@@ -97,8 +97,14 @@ defmodule PrimerLive.TestComponents do
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
   attr :form_group, :any,
-    doc:
-      "Options for `test_form_group/1`. Passing these options, or just passing `true`, will create a `test_form_group/1` element that wraps the label, the input and any help texts."
+    default: false,
+    doc: """
+    Options for `test_form_group/1`.
+
+    Passing these options, or just passing `true`, will create a `test_form_group/1` element that wraps the label, the input and any help texts.
+
+    Example: `form_group={%{header_title: "First name", class: "my-group"}}`
+    """
 
   attr(:class, :string, doc: "Additional classname.")
   attr(:type, :string, doc: "Text input type.")
@@ -208,7 +214,6 @@ defmodule PrimerLive.TestComponents do
     form = assigns[:form]
     field = assigns[:field]
     type = assigns[:type]
-    form_group = assigns[:form_group]
 
     validation_data = FormHelpers.validation_data(form, field, assigns[:get_validation_message])
     %{validation_message_id: validation_message_id} = validation_data
@@ -237,19 +242,15 @@ defmodule PrimerLive.TestComponents do
 
     input = apply(Phoenix.HTML.Form, input_type, [form, field, input_opts])
 
-    case !!form_group do
-      true ->
-        ~H"""
-        <.test_form_group {form_group} validation_data={validation_data}>
-          <%= input %>
-        </.test_form_group>
-        """
-
-      false ->
-        ~H"""
+    ~H"""
+    <%= if @form_group do %>
+      <.test_form_group {@form_group} validation_data={validation_data}>
         <%= input %>
-        """
-    end
+      </.test_form_group>
+    <% else %>
+      <%= input %>
+    <% end %>
+    """
   end
 
   # ------------------------------------------------------------------------------------
