@@ -1,4 +1,4 @@
-defmodule PrimerLive.Components.FormTestareaTest do
+defmodule PrimerLive.TestComponents.TextareaTest do
   use ExUnit.Case
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers
@@ -10,7 +10,7 @@ defmodule PrimerLive.Components.FormTestareaTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.textarea />
+           <.test_textarea />
            """)
            |> format_html() ==
              """
@@ -19,11 +19,11 @@ defmodule PrimerLive.Components.FormTestareaTest do
              |> format_html()
   end
 
-  test "Option: is_large" do
+  test "Attribute: is_large" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.textarea is_large />
+           <.test_textarea is_large />
            """)
            |> format_html() ==
              """
@@ -32,11 +32,11 @@ defmodule PrimerLive.Components.FormTestareaTest do
              |> format_html()
   end
 
-  test "Option: is_small" do
+  test "Attribute: is_small" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.textarea is_small />
+           <.test_textarea is_small />
            """)
            |> format_html() ==
              """
@@ -45,24 +45,24 @@ defmodule PrimerLive.Components.FormTestareaTest do
              |> format_html()
   end
 
-  test "Option: is_short without form_group: should render an error message" do
+  test "Attribute: is_short without form_group: should render an error message" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.textarea is_short />
+           <.test_textarea is_short />
            """)
            |> format_html() ==
              """
-             <div class="flash flash-error"><p>textarea component received invalid options:</p><p>is_short: must be used with form_group</p></div>
+             attr is_short: must be used with form_group
              """
              |> format_html()
   end
 
-  test "Option: is_short with form_group" do
+  test "Attribute: is_short with form_group" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.textarea form={:f} field={:first_name} is_short form_group />
+           <.test_textarea form={:f} field={:first_name} is_short form_group />
            """)
            |> format_html() ==
              """
@@ -74,11 +74,11 @@ defmodule PrimerLive.Components.FormTestareaTest do
              |> format_html()
   end
 
-  test "Option: class" do
+  test "Attribute: class" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.textarea class="x" />
+           <.test_textarea class="x" />
            """)
            |> format_html() ==
              """

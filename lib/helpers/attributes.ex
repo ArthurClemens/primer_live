@@ -1,6 +1,8 @@
 defmodule PrimerLive.Helpers.Attributes do
   @moduledoc false
 
+  alias PrimerLive.Helpers.SchemaHelpers
+
   @doc ~S"""
   Concatenates a list of classnames to a single string.
   - Ignores any nil or false entries
@@ -72,7 +74,21 @@ defmodule PrimerLive.Helpers.Attributes do
       ...>   is_bar and [bar: "bar"]
       ...> ])
       [class: "x", foo: "foo"]
+
+      iex> is_foo = true
+      iex> is_bar = false
+      iex> extra = %{class: "x"}
+      iex> PrimerLive.Helpers.Attributes.append_attributes(extra, [
+      ...>   is_foo and [foo: "foo"],
+      ...>   is_bar and [bar: "bar"]
+      ...> ])
+      [class: "x", foo: "foo"]
   """
+  def append_attributes(attributes, input_attributes) when is_map(attributes) do
+    attr_list = Keyword.new(attributes)
+    append_attributes(attr_list, input_attributes)
+  end
+
   def append_attributes(attributes, input_attributes) do
     new_attributes =
       input_attributes
@@ -130,25 +146,19 @@ defmodule PrimerLive.Helpers.Attributes do
       iex> PrimerLive.Helpers.Attributes.as_integer("x", 42)
       42
   """
-  def as_integer(input, default_value \\ nil) do
-    cond do
-      is_integer(input) ->
-        input
+  def as_integer(input, default_value \\ nil)
+  def as_integer(input, _default_value) when is_integer(input), do: input
+  def as_integer(input, _default_value) when is_float(input), do: trunc(input)
 
-      is_binary(input) ->
-        try do
-          String.to_integer(input)
-        rescue
-          ArgumentError -> default_value
-        end
-
-      is_float(input) ->
-        trunc(input)
-
-      true ->
-        default_value
+  def as_integer(input, default_value) when is_binary(input) do
+    try do
+      String.to_integer(input)
+    rescue
+      ArgumentError -> default_value
     end
   end
+
+  def as_integer(_input, default_value), do: default_value
 
   @doc ~S"""
   Converts user input to a boolean, with optionally a default value
@@ -185,31 +195,45 @@ defmodule PrimerLive.Helpers.Attributes do
       iex> PrimerLive.Helpers.Attributes.as_boolean(0.0)
       false
 
+      iex> PrimerLive.Helpers.Attributes.as_boolean("x")
+      false
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean("100")
+      true
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean("100.0")
+      true
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean("0.1")
+      false
+
+      iex> PrimerLive.Helpers.Attributes.as_boolean(%{})
+      false
+
   """
-  def as_boolean(input, default_value \\ false) do
-    cond do
-      is_boolean(input) ->
-        input
+  def as_boolean(input, default_value \\ false)
+  def as_boolean(input, _default_value) when is_boolean(input), do: input
 
-      is_binary(input) ->
-        cond do
-          input === "true" -> true
-          input === "1" -> true
-          input === "false" -> false
-          input === "0" -> false
-          true -> !!input
-        end
+  def as_boolean(input, _default_value) when is_binary(input) and input === "true", do: true
+  def as_boolean(input, _default_value) when is_binary(input) and input === "1", do: true
+  def as_boolean(input, _default_value) when is_binary(input) and input === "false", do: false
+  def as_boolean(input, _default_value) when is_binary(input) and input === "0", do: false
 
-      is_number(input) ->
-        cond do
-          input > 0 -> true
-          true -> false
-        end
-
-      true ->
-        default_value
+  def as_boolean(input, default_value) when is_binary(input) do
+    case Integer.parse(input) do
+      {int, _rest} -> as_boolean(int, default_value)
+      _ -> default_value
     end
   end
+
+  def as_boolean(input, _default_value) when is_number(input) do
+    cond do
+      input > 0 -> true
+      true -> false
+    end
+  end
+
+  def as_boolean(_input, default_value), do: default_value
 
   @doc """
   Takes 2 lists and padds the shortest list with placeholder values.

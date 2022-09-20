@@ -32,7 +32,7 @@ defmodule PrimerLive.Components.DropdownTest do
              |> format_html()
   end
 
-  test "Option: class" do
+  test "Attribute: class" do
     assigns = []
 
     assert rendered_to_string(~H"""

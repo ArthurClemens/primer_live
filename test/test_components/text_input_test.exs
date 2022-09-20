@@ -1,4 +1,4 @@
-defmodule PrimerLive.Components.FormTextInputTest do
+defmodule PrimerLive.TestComponents.TextInputTest do
   use ExUnit.Case
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers
@@ -10,7 +10,7 @@ defmodule PrimerLive.Components.FormTextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input />
+           <.test_text_input />
            """)
            |> format_html() ==
              """
@@ -19,11 +19,24 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: form and field (atoms)" do
+  test "Called with invalid form value" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input form={:user} field={:first_name} />
+           <.test_text_input form="x" />
+           """)
+           |> format_html() ==
+             """
+             attr form: invalid value
+             """
+             |> format_html()
+  end
+
+  test "Attribute: form and field (atoms)" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.test_text_input form={:user} field={:first_name} />
            """)
            |> format_html() ==
              """
@@ -32,24 +45,11 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: form as string" do
+  test "Attribute: field as string" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input form="user" field={:first_name} />
-           """)
-           |> format_html() ==
-             """
-             <div class="flash flash-error"><p>text_input component received invalid options:</p><p>form: invalid type</p></div>
-             """
-             |> format_html()
-  end
-
-  test "Option: field as string" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.text_input form={:user} field="first_name" />
+           <.test_text_input form={:user} field="first_name" />
            """)
            |> format_html() ==
              """
@@ -58,11 +58,11 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: name only" do
+  test "Attribute: name only" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input name="first_name" />
+           <.test_text_input name="first_name" />
            """)
            |> format_html() ==
              """
@@ -71,89 +71,54 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: type (invalid)" do
+  test "Attribute: types" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input type={:x} />
-           """)
-           |> format_html() ==
-             """
-             <div class="flash flash-error"><p>text_input component received invalid options:</p><p>type: is invalid</p></div>
-             """
-             |> format_html()
-  end
-
-  test "Option: type (text)" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.text_input type="text" />
+           <.test_text_input type={:x} />
+           <.test_text_input type="color" />
+           <.test_text_input type="date" />
+           <.test_text_input type="datetime-local" />
+           <.test_text_input type="email" />
+           <.test_text_input type="file" />
+           <.test_text_input type="hidden" />
+           <.test_text_input type="number" />
+           <.test_text_input type="password" />
+           <.test_text_input type="range" />
+           <.test_text_input type="search" />
+           <.test_text_input type="telephone" />
+           <.test_text_input type="text" />
+           <.test_text_input type="textarea" />
+           <.test_text_input type="time" />
+           <.test_text_input type="url" />
            """)
            |> format_html() ==
              """
              <input class="form-control" id="_" name="[]" type="text" />
-             """
-             |> format_html()
-  end
-
-  test "Option: type (password)" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.text_input type="password" />
-           """)
-           |> format_html() ==
-             """
-             <input class="form-control" id="_" name="[]" type="password" />
-             """
-             |> format_html()
-  end
-
-  test "Option: type (email)" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.text_input type="email" />
-           """)
-           |> format_html() ==
-             """
+             <input class="form-control" id="_" name="[]" type="color" />
+             <input class="form-control" id="_" name="[]" type="date" />
+             <input class="form-control" id="_" name="[]" type="datetime-local" />
              <input class="form-control" id="_" name="[]" type="email" />
-             """
-             |> format_html()
-  end
-
-  test "Option: type (search)" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.text_input type="search" />
-           """)
-           |> format_html() ==
-             """
+             <input class="form-control" id="_" name="[]" type="file" />
+             <input class="form-control" id="_" name="[]" type="hidden" />
+             <input class="form-control" id="_" name="[]" type="number" />
+             <input class="form-control" id="_" name="[]" type="password" />
+             <input class="form-control" id="_" name="[]" type="range" />
              <input class="form-control" id="_" name="[]" type="search" />
-             """
-             |> format_html()
-  end
-
-  test "Option: type (url)" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.text_input type="url" />
-           """)
-           |> format_html() ==
-             """
+             <input class="form-control" id="_" name="[]" type="tel" />
+             <input class="form-control" id="_" name="[]" type="text" />
+             <textarea class="form-control" id="_" name="[]"></textarea>
+             <input class="form-control" id="_" name="[]" type="time" />
              <input class="form-control" id="_" name="[]" type="url" />
              """
              |> format_html()
   end
 
-  test "Option: is_contrast" do
+  test "Attribute: is_contrast" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input is_contrast />
+           <.test_text_input is_contrast />
            """)
            |> format_html() ==
              """
@@ -162,11 +127,11 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: is_full_width" do
+  test "Attribute: is_full_width" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input is_full_width />
+           <.test_text_input is_full_width />
            """)
            |> format_html() ==
              """
@@ -175,11 +140,11 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: is_hide_webkit_autofill" do
+  test "Attribute: is_hide_webkit_autofill" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input is_hide_webkit_autofill />
+           <.test_text_input is_hide_webkit_autofill />
            """)
            |> format_html() ==
              """
@@ -188,11 +153,11 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: is_large" do
+  test "Attribute: is_large" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input is_large />
+           <.test_text_input is_large />
            """)
            |> format_html() ==
              """
@@ -201,11 +166,11 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: is_small" do
+  test "Attribute: is_small" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input is_small />
+           <.test_text_input is_small />
            """)
            |> format_html() ==
              """
@@ -214,24 +179,24 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: is_short without form_group: should render an error message" do
+  test "Attribute: is_short without form_group: should render an error message" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input is_short />
+           <.test_text_input is_short />
            """)
            |> format_html() ==
              """
-             <div class="flash flash-error"><p>text_input component received invalid options:</p><p>is_short: must be used with form_group</p></div>
+             attr is_short: must be used with form_group
              """
              |> format_html()
   end
 
-  test "Option: is_short with form_group" do
+  test "Attribute: is_short with form_group" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input form={:f} field={:first_name} is_short form_group />
+           <.test_text_input form={:f} field={:first_name} is_short form_group />
            """)
            |> format_html() ==
              """
@@ -244,11 +209,11 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: class" do
+  test "Attribute: class" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input class="x" />
+           <.test_text_input class="x" />
            """)
            |> format_html() ==
              """
@@ -261,7 +226,7 @@ defmodule PrimerLive.Components.FormTextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input name="first_name" />
+           <.test_text_input name="first_name" />
            """)
            |> format_html() ==
              """
@@ -274,7 +239,7 @@ defmodule PrimerLive.Components.FormTextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input name="first_name" placeholder="Enter your first name" />
+           <.test_text_input name="first_name" placeholder="Enter your first name" />
            """)
            |> format_html() ==
              """
@@ -287,7 +252,7 @@ defmodule PrimerLive.Components.FormTextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input name="first_name" aria_label="Enter your first name" />
+           <.test_text_input name="first_name" aria_label="Enter your first name" />
            """)
            |> format_html() ==
              """
@@ -296,11 +261,11 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: form_group - no header (generates a form group element with label)" do
+  test "Attribute: form_group - no header (generates a form group element with label)" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input form={:f} field={:first_name} form_group />
+           <.test_text_input form={:f} field={:first_name} form_group />
            """)
            |> format_html() ==
              """
@@ -312,11 +277,15 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: form_group - pass header and class" do
+  test "Attribute: form_group - pass header and class" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input form={:f} field={:first_name} form_group={%{header: "First name", class: "x"}} />
+           <.test_text_input
+             form={:f}
+             field={:first_name}
+             form_group={%{header_title: "First name", class: "x"}}
+           />
            """)
            |> format_html() ==
              """
@@ -328,7 +297,7 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: form_group - classes" do
+  test "Attribute: form_group - classes" do
     assigns = []
 
     form = %Phoenix.HTML.Form{
@@ -360,12 +329,12 @@ defmodule PrimerLive.Components.FormTextInputTest do
     }
 
     assert rendered_to_string(~H"""
-           <.text_input
+           <.test_text_input
              form={form}
              field={:first_name}
              form_group={
                %{
-                 header: "First name",
+                 header_title: "First name",
                  classes: %{
                    form_group: "form_group-x",
                    header: "header-x",
@@ -393,11 +362,11 @@ defmodule PrimerLive.Components.FormTextInputTest do
              |> format_html()
   end
 
-  test "Option: form_group - extra" do
+  test "Attribute: form_group - extra" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input
+           <.test_text_input
              form={:f}
              field={:first_name}
              form_group={
@@ -449,7 +418,7 @@ defmodule PrimerLive.Components.FormTextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input form={form} field={:first_name} form_group />
+           <.test_text_input form={form} field={:first_name} form_group />
            """)
            |> format_html() ==
              """
@@ -495,7 +464,7 @@ defmodule PrimerLive.Components.FormTextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input
+           <.test_text_input
              form={form}
              field={:first_name}
              form_group
@@ -548,7 +517,7 @@ defmodule PrimerLive.Components.FormTextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.text_input
+           <.test_text_input
              form={form}
              field={:first_name}
              form_group

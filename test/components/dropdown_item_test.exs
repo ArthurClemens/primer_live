@@ -38,7 +38,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: menu" do
+  test "Attribute: menu" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -51,7 +51,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: toggle" do
+  test "Attribute: toggle" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -64,7 +64,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: toggle with custom caret" do
+  test "Attribute: toggle with custom caret" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -77,7 +77,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: menu with custom caret (should shown an error)" do
+  test "Attribute: menu with custom caret (should shown an error)" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -90,7 +90,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: toggle with header_title - should show an error" do
+  test "Attribute: toggle with header_title - should show an error" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -103,7 +103,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: menu with header_title" do
+  test "Attribute: menu with header_title" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -119,7 +119,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: menu with position" do
+  test "Attribute: menu with position" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -142,7 +142,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: menu with position (invalid)" do
+  test "Attribute: menu with position (invalid)" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -155,7 +155,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: option" do
+  test "Attribute: option" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -168,7 +168,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: divider" do
+  test "Attribute: divider" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -181,7 +181,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: is_divider with content (ignored)" do
+  test "Attribute: is_divider with content (ignored)" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -194,7 +194,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: class (option)" do
+  test "Attribute: class (option)" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -207,7 +207,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: class (toggle)" do
+  test "Attribute: class (toggle)" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -220,7 +220,7 @@ defmodule PrimerLive.Components.DropdownItemTest do
              |> format_html()
   end
 
-  test "Option: class (menu)" do
+  test "Attribute: class (menu)" do
     assigns = []
 
     assert rendered_to_string(~H"""

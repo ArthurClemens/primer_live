@@ -92,4 +92,44 @@ defmodule PrimerLive.Helpers.FormHelpers do
         end
     end
   end
+
+  # Map of input name to atom value that can be used by Phoenix.HTML.Form to render the appropriate input element.
+  @input_types %{
+    "color" => :color_input,
+    "date" => :date_input,
+    "datetime-local" => :datetime_local_input,
+    "email" => :email_input,
+    "file" => :file_input,
+    "hidden" => :hidden_input,
+    "number" => :number_input,
+    "password" => :password_input,
+    "range" => :range_input,
+    "search" => :search_input,
+    "telephone" => :telephone_input,
+    "text" => :text_input,
+    "textarea" => :textarea,
+    "time" => :time_input,
+    "url" => :url_input
+  }
+
+  @doc """
+  Get the input type atom from a name, e.g. "search" returns :search_input
+
+  ## Examples
+
+      iex> PrimerLive.Helpers.FormHelpers.input_type_as_atom("x")
+      :text_input
+
+      iex> PrimerLive.Helpers.FormHelpers.input_type_as_atom("text")
+      :text_input
+
+      iex> PrimerLive.Helpers.FormHelpers.input_type_as_atom("color")
+      :color_input
+
+  """
+  def input_type_as_atom(type_name) do
+    input_type = Map.get(@input_types, type_name)
+
+    if is_nil(input_type), do: :text_input, else: input_type
+  end
 end

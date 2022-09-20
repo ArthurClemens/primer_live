@@ -2,16 +2,421 @@ defmodule PrimerLive.TestComponents do
   use Phoenix.Component
   use Phoenix.HTML
 
-  alias PrimerLive.Helpers.{Attributes}
+  alias PrimerLive.Helpers.{Attributes, FormHelpers, SchemaHelpers}
 
   # ------------------------------------------------------------------------------------
-  # test_alert
+  # text_input
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :form
+
+  @doc ~S"""
+  Creates a text input field.
+
+  Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped inside a "form group".
+
+  [Examples](#test_text_input/1-examples) • [Attributes](#test_text_input/1-attributes) • [Reference](#test_text_input/1-reference)
+
+  ```
+  <.test_text_input name="first_name" />
+  ```
+
+  ## Examples
+
+  Set the input type:
+
+  ```
+  <.test_text_input type="password" />
+  ```
+
+  Set the placeholder. By default, the value of the placeholder attribute is used to fill in the aria-label attribute:
+
+  ```
+  <.test_text_input placeholder="Enter your first name" />
+  ```
+
+  Insert the input within a form group using `test_form_group/1`. If no header text is added, the input label in the form group header is generated automatically:
+
+  ```
+  <.test_text_input form={:user} field={:first_name} form_group />
+  ```
+
+  Insert the input within a form group with a customized heading:
+
+  ```
+  <.test_text_input form={:user} field={:first_name} form_group={
+    %{header: "Enter your first name"}
+  } />
+  ```
+
+  Using the input with form data:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.test_text_input form={f} field={:first_name} form_group />
+    <.test_text_input form={f} field={:last_name} form_group />
+  </.form>
+  ```
+
+  With a form changeset, write a custom error message:
+
+  ```
+  <.test_text_input form={f} field={:first_name} form_group get_validation_message={
+    fn changeset ->
+      if !changeset.valid?, do: "Please enter your first name"
+    end
+  }/>
+  ```
+
+  With a form changeset, write a custom success message:
+
+  ```
+  <.test_text_input form={f} field={:first_name} form_group get_validation_message={
+    fn changeset ->
+      if changeset.valid?, do: "Complete"
+    end
+  }/>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Forms](https://primer.style/css/components/forms)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr :field, :any, doc: "Field name (atom or string)."
+
+  attr :form, :any,
+    doc:
+      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+
+  attr :form_group, :any,
+    doc:
+      "Options for `test_form_group/1`. Passing these options, or just passing `true`, will create a `test_form_group/1` element that wraps the label, the input and any help texts."
+
+  attr(:class, :string, doc: "Additional classname.")
+  attr(:type, :string, doc: "Text input type.")
+
+  attr(:get_validation_message, :any,
+    doc: """
+    Function to write a custom error message.
+
+    The function receives for form's changeset data (type `Ecto.Changeset`) and returns a string for error message.
+
+    Function signature: `fun changeset -> string`.
+    """
+  )
+
+  attr(:is_contrast, :boolean, default: false, doc: "Changes the background color to light gray.")
+  attr(:is_full_width, :boolean, default: false, doc: "Full width input.")
+
+  attr(:is_hide_webkit_autofill, :boolean,
+    default: false,
+    doc: "Hide WebKit's contact info autofill icon."
+  )
+
+  attr(:is_large, :boolean, default: false, doc: "Larger text size.")
+  attr(:is_small, :boolean, default: false, doc: "Smaller input with smaller text size.")
+
+  attr(:is_short, :boolean,
+    default: false,
+    doc: "Within a `test_form_group/1`. Creates an input with a reduced width."
+  )
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the input (or if applicable, the form group) element.
+    """
+  )
+
+  def test_text_input(assigns) do
+    with true <- validate_is_form(assigns),
+         true <- validate_is_short_with_form_group(assigns),
+         assigns <- set_form_group_defaults(assigns) do
+      render_test_text_input(assigns)
+    else
+      {:error, reason} ->
+        ~H"""
+        <%= reason %>
+        """
+    end
+  end
+
+  # Validates attribute `form`.
+  # Allowed values:
+  # - nil
+  # - atom
+  # - Phoenix.HTML.Form
+  defp validate_is_form(assigns) do
+    value = assigns[:form]
+
+    cond do
+      is_nil(value) -> true
+      is_atom(value) -> true
+      SchemaHelpers.is_phoenix_form(value) -> true
+      true -> {:error, "attr form: invalid value"}
+    end
+  end
+
+  # Validates that attribute `is_short` coexists with `form_group`.
+  # Allowed values:
+  # - nil
+  # - any truthy value if form_group is also present
+  defp validate_is_short_with_form_group(assigns) do
+    is_short = assigns[:is_short]
+    form_group = assigns[:form_group]
+
+    cond do
+      !is_short -> true
+      !!is_short && !!form_group -> true
+      true -> {:error, "attr is_short: must be used with form_group"}
+    end
+  end
+
+  # If form_group is true, change it to default struct
+  defp set_form_group_defaults(assigns) do
+    form_group = assigns[:form_group]
+
+    default_value = %{
+      form: assigns[:form],
+      field: assigns[:field],
+      header_title: nil,
+      inner_block: nil
+    }
+
+    cond do
+      is_map(form_group) ->
+        assigns
+        |> assign(:form_group, Map.merge(default_value, form_group))
+
+      is_boolean(form_group) && !!form_group ->
+        assigns
+        |> assign(:form_group, default_value)
+
+      true ->
+        assigns
+    end
+  end
+
+  defp render_test_text_input(assigns) do
+    form = assigns[:form]
+    field = assigns[:field]
+    type = assigns[:type]
+    form_group = assigns[:form_group]
+
+    validation_data = FormHelpers.validation_data(form, field, assigns[:get_validation_message])
+    %{validation_message_id: validation_message_id} = validation_data
+
+    input_type = FormHelpers.input_type_as_atom(type)
+
+    class =
+      Attributes.classnames([
+        "form-control",
+        assigns[:class],
+        assigns.is_contrast and "input-contrast",
+        assigns.is_hide_webkit_autofill and "input-hide-webkit-autofill",
+        assigns.is_large and "input-lg",
+        assigns.is_small and "input-sm",
+        assigns.is_short and "short",
+        assigns.is_full_width and "input-block"
+      ])
+
+    input_opts =
+      Attributes.append_attributes(assigns.rest, [
+        [class: class],
+        # If aria_label is not set, use the value of placeholder (if any):
+        is_nil(assigns.rest[:aria_label]) and [aria_label: assigns.rest[:placeholder]],
+        not is_nil(validation_message_id) and [aria_describedby: validation_message_id]
+      ])
+
+    input = apply(Phoenix.HTML.Form, input_type, [form, field, input_opts])
+
+    case !!form_group do
+      true ->
+        ~H"""
+        <.test_form_group {form_group} validation_data={validation_data}>
+          <%= input %>
+        </.test_form_group>
+        """
+
+      false ->
+        ~H"""
+        <%= input %>
+        """
+    end
+  end
+
+  # ------------------------------------------------------------------------------------
+  # textarea
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :form
+
+  @doc ~S"""
+  Creates a textarea.
+
+  ```
+  <.test_textarea name="comments" />
+  ```
+
+  ## Attributes
+
+  Options for textarea are the same as options for `test_text_input/1`.
+
+  Additional HTML attributes are passed to the textarea element.
+
+  ## Reference
+
+  [Primer/CSS Forms](https://primer.style/css/components/forms)
+
+  """
+
+  def test_textarea(assigns) do
+    assigns = assigns |> assign(type: "textarea")
+    test_text_input(assigns)
+  end
+
+  # ------------------------------------------------------------------------------------
+  # form_group
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :form
+
+  @doc ~S"""
+  Creates a form group wrapper around an input field.
+
+  Used internally: see `test_text_input/1`.
+
+  """
+
+  attr(:class, :string, doc: "Additional classname.")
+
+  attr :classes, :map,
+    default: %{
+      form_group: "",
+      header: "",
+      body: "",
+      note: ""
+    },
+    doc: """
+    Additional classnames for form group elements.
+
+    Any provided value will be appended to the default classname.
+    """
+
+  attr :field, :any, doc: "Field name (atom or string)."
+  attr :header_title, :string, doc: "Header title."
+
+  attr :validation_data, :map,
+    default: %{
+      is_error: false,
+      has_message: false,
+      message: nil,
+      validation_message_id: nil
+    },
+    doc: """
+    Only when a form changeset is available.
+
+    The status is derived from the value of `changeset.valid?`. The message text is received from `PrimerLive.Options.TextInput` option `get_validation_message`, otherwise from the first of the form changeset errors (if any).
+    """
+
+  attr :form, :any,
+    doc:
+      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot(:inner_block, doc: "Body content.")
+
+  def test_form_group(assigns) do
+    form = assigns[:form]
+    field = assigns[:field]
+    validation_data = assigns[:validation_data]
+
+    %{
+      is_error: is_error,
+      message: message,
+      has_message: has_message,
+      validation_message_id: validation_message_id
+    } = validation_data
+
+    classes = %{
+      form_group:
+        Attributes.classnames([
+          "form-group",
+          assigns[:class],
+          assigns[:classes][:form_group],
+          if has_message do
+            if is_error do
+              "errored"
+            else
+              "successed"
+            end
+          end
+        ]),
+      header:
+        Attributes.classnames([
+          "form-group-header",
+          assigns[:classes][:header]
+        ]),
+      body:
+        Attributes.classnames([
+          "form-group-body",
+          assigns[:classes][:body]
+        ]),
+      note:
+        Attributes.classnames([
+          "note",
+          assigns[:classes][:note],
+          if is_error do
+            "error"
+          else
+            "success"
+          end
+        ])
+    }
+
+    ~H"""
+    <div class={classes.form_group} {@rest}>
+      <div class={classes.header}>
+        <%= if assigns.header_title do %>
+          <%= label(form, field, assigns.header_title) %>
+        <% else %>
+          <%= label(form, field) %>
+        <% end %>
+      </div>
+      <div class={classes.body}>
+        <%= if @inner_block do %>
+          <%= render_slot(@inner_block) %>
+        <% end %>
+      </div>
+      <%= if not is_nil(message) do %>
+        <p class={classes.note} id={validation_message_id}>
+          <%= message %>
+        </p>
+      <% end %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # alert
   # ------------------------------------------------------------------------------------
 
   @doc section: :alerts
 
   @doc ~S"""
-  Creates an test_alert message.
+  Creates an alert message.
 
   [Examples](#test_alert/1-examples) • [Attributes](#test_alert/1-attributes) • [Reference](#test_alert/1-reference)
 
@@ -40,7 +445,7 @@ defmodule PrimerLive.TestComponents do
   </.test_alert>
   ```
 
-  To add an extra bottom margin alerts, wrap alerts in `test_alert_messages/1`.
+  To add an extra bottom margin to a stack of alerts, wrap the alerts in `test_alert_messages/1`.
 
   [INSERT LVATTRDOCS]
 
