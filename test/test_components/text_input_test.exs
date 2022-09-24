@@ -55,24 +55,99 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Header slot" do
+  test "Attribute: is_group" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.test_text_input form={:user} field={:first_name} is_group />
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group">
+             <div class="form-group-header">
+             <label for="user_first_name">First name</label>
+             </div>
+             <div class="form-group-body">
+             <input class="form-control" id="user_first_name" name="user[first_name]" type="text" />
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Group slot with label_text, without inner_block" do
     assigns = []
 
     assert rendered_to_string(~H"""
            <.test_text_input form={:user} field={:first_name}>
-             <:header>
-               <h2>First name</h2>
-             </:header>
+             <:group label_text="First name"></:group>
            </.test_text_input>
            """)
            |> format_html() ==
              """
              <div class="form-group">
              <div class="form-group-header">
-             <h2>First name</h2>
+             <label for="user_first_name">First name</label>
              </div>
              <div class="form-group-body">
              <input class="form-control" id="user_first_name" name="user[first_name]" type="text" />
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Group slot with label_text and inner_block" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.test_text_input form={:user} field={:first_name}>
+             <:group :let={field} label_text="First name">
+               <h2><%= field.label %></h2>
+             </:group>
+           </.test_text_input>
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group">
+             <div class="form-group-header">
+             <h2>
+             <label for="user_first_name">First name</label>
+             </h2>
+             </div>
+             <div class="form-group-body"><input class="form-control" id="user_first_name" name="user[first_name]" type="text" />
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Group slot with field_state" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.test_text_input form={:user} field={:first_name}>
+             <:group :let={field} label_text="First name">
+               <h2>
+                 <%= if !field.field_state.valid? do %>
+                   <div>Please correct your input</div>
+                 <% end %>
+
+                 <%= field.label %>
+               </h2>
+             </:group>
+           </.test_text_input>
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group">
+             <div class="form-group-header">
+             <h2>
+             <div>Please correct your input</div>
+             <label for="user_first_name">First name</label>
+             </h2>
+             </div>
+             <div class="form-group-body"><input class="form-control" id="user_first_name" name="user[first_name]" type="text" />
              </div>
              </div>
              """
@@ -161,72 +236,28 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Attribute: is_contrast" do
+  test "Attributes: is_contrast, is_full_width, is_hide_webkit_autofill, is_large, is_small" do
     assigns = []
 
     assert rendered_to_string(~H"""
            <.test_text_input is_contrast />
-           """)
-           |> format_html() ==
-             """
-             <input class="form-control input-contrast" id="_" name="[]" type="text" />
-             """
-             |> format_html()
-  end
-
-  test "Attribute: is_full_width" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
            <.test_text_input is_full_width />
-           """)
-           |> format_html() ==
-             """
-             <input class="form-control input-block" id="_" name="[]" type="text" />
-             """
-             |> format_html()
-  end
-
-  test "Attribute: is_hide_webkit_autofill" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
            <.test_text_input is_hide_webkit_autofill />
-           """)
-           |> format_html() ==
-             """
-             <input class="form-control input-hide-webkit-autofill" id="_" name="[]" type="text" />
-             """
-             |> format_html()
-  end
-
-  test "Attribute: is_large" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
            <.test_text_input is_large />
-           """)
-           |> format_html() ==
-             """
-             <input class="form-control input-lg" id="_" name="[]" type="text" />
-             """
-             |> format_html()
-  end
-
-  test "Attribute: is_small" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
            <.test_text_input is_small />
            """)
            |> format_html() ==
              """
+             <input class="form-control input-contrast" id="_" name="[]" type="text" />
+             <input class="form-control input-block" id="_" name="[]" type="text" />
+             <input class="form-control input-hide-webkit-autofill" id="_" name="[]" type="text" />
+             <input class="form-control input-lg" id="_" name="[]" type="text" />
              <input class="form-control input-sm" id="_" name="[]" type="text" />
              """
              |> format_html()
   end
 
-  test "Attribute: is_short without form_group: should render an error message" do
+  test "Attribute: is_short without group: should render an error message" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -234,7 +265,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             attr is_short: must be used with form_group
+             attr is_short: must be used in combination with a group slot
              """
              |> format_html()
   end
@@ -243,7 +274,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={:f} field={:first_name} is_short form_group />
+           <.test_text_input form={:f} field={:first_name} is_short>
+             <:group></:group>
+           </.test_text_input>
            """)
            |> format_html() ==
              """
@@ -308,31 +341,13 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Attribute: form_group - no header (generates a form group element with label)" do
+  test "Attribute: form group - pass header and class" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={:f} field={:first_name} form_group />
-           """)
-           |> format_html() ==
-             """
-             <div class="form-group">
-             <div class="form-group-header"><label for="f_first_name">First name</label></div>
-             <div class="form-group-body"><input class="form-control" id="f_first_name" name="f[first_name]" type="text" /></div>
-             </div>
-             """
-             |> format_html()
-  end
-
-  test "Attribute: form_group - pass header and class" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.test_text_input
-             form={:f}
-             field={:first_name}
-             form_group={%{header_title: "First name", class: "x"}}
-           />
+           <.test_text_input form={:f} field={:first_name}>
+             <:group label_text="First name" class="x"></:group>
+           </.test_text_input>
            """)
            |> format_html() ==
              """
@@ -349,32 +364,27 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     form = @form
 
     assert rendered_to_string(~H"""
-           <.test_text_input
-             form={form}
-             field={:first_name}
-             form_group={
+           <.test_text_input form={form} field={:first_name}>
+             <:group classes={
                %{
-                 header_title: "First name",
-                 classes: %{
-                   form_group: "form_group-x",
-                   header: "header-x",
-                   body: "body-x",
-                   note: "note-x"
-                 },
-                 validation_message: fn _ ->
-                   "Please enter your first name"
-                 end
+                 form_group: "form_group-x",
+                 header: "header-x",
+                 body: "body-x",
+                 note: "note-x"
                }
-             }
-           />
+             }>
+             </:group>
+           </.test_text_input>
            """)
            |> format_html() ==
              """
              <div class="form-group form_group-x errored">
-             <div class="form-group-header header-x"><label for="user_first_name">First name</label></div>
+             <div class="form-group-header header-x">
+             <label for="user_first_name">First name</label>
+             </div>
              <div class="form-group-body body-x"><input aria-describedby="first_name-validation" class="form-control"
              id="user_first_name" name="user[first_name]" type="text" value="" /></div>
-             <p class="note note-x error" id="first_name-validation">Please enter your first name</p>
+             <p class="note note-x error" id="first_name-validation">can&#39;t be blank</p>
              </div>
              """
              |> format_html()
@@ -384,15 +394,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input
-             form={:f}
-             field={:first_name}
-             form_group={
-               %{
-                 dir: "rtl"
-               }
-             }
-           />
+           <.test_text_input form={:f} field={:first_name} dir="rtl">
+             <:group></:group>
+           </.test_text_input>
            """)
            |> format_html() ==
              """
@@ -409,7 +413,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     form = @form
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={form} field={:first_name} form_group />
+           <.test_text_input form={form} field={:first_name} is_group />
            """)
            |> format_html() ==
              """
@@ -428,17 +432,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     form = @form
 
     assert rendered_to_string(~H"""
-           <.test_text_input
-             form={form}
-             field={:first_name}
-             form_group={
-               %{
-                 validation_message: fn field_state ->
-                   if !field_state.valid?, do: "Please enter your first name"
-                 end
-               }
-             }
-           />
+           <.test_text_input form={form} field={:first_name}>
+             <:group validation_message={
+               fn field_state ->
+                 if !field_state.valid?, do: "Please enter your first name"
+               end
+             }>
+             </:group>
+           </.test_text_input>
            """)
            |> format_html() ==
              """
@@ -459,17 +460,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input
-             form={update_form}
-             field={:first_name}
-             form_group={
-               %{
-                 validation_message: fn field_state ->
-                   if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
-                 end
-               }
-             }
-           />
+           <.test_text_input form={update_form} field={:first_name}>
+             <:group validation_message={
+               fn field_state ->
+                 if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
+               end
+             }>
+             </:group>
+           </.test_text_input>
            """)
            |> format_html() ==
              """
@@ -490,17 +488,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input
-             form={validate_form}
-             field={:first_name}
-             form_group={
-               %{
-                 validation_message: fn field_state ->
-                   if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
-                 end
-               }
-             }
-           />
+           <.test_text_input form={validate_form} field={:first_name}>
+             <:group validation_message={
+               fn field_state ->
+                 if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
+               end
+             }>
+             </:group>
+           </.test_text_input>
            """)
            |> format_html() ==
              """

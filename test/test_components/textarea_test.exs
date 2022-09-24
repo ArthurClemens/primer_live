@@ -53,7 +53,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             attr is_short: must be used with form_group
+             attr is_short: must be used in combination with a group slot
              """
              |> format_html()
   end
@@ -62,7 +62,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_textarea form={:f} field={:first_name} is_short form_group />
+           <.test_textarea form={:f} field={:first_name} is_short is_group />
            """)
            |> format_html() ==
              """

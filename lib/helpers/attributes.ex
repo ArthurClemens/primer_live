@@ -307,4 +307,17 @@ defmodule PrimerLive.Helpers.Attributes do
   def minmax(value, min, max) do
     max(min, min(value, max))
   end
+
+  def has_inner_block(rendered), do: !is_empty_slot(rendered)
+  defp is_empty_slot(rendered), do: is_empty_slot_content(rendered.static)
+  defp is_empty_slot_content(static) when is_nil(static), do: true
+  defp is_empty_slot_content(static) when static == [""], do: true
+
+  defp is_empty_slot_content(static) do
+    cond do
+      Enum.count(static) === 0 -> true
+      hd(static) |> String.trim() == "" -> true
+      true -> false
+    end
+  end
 end
