@@ -54,7 +54,7 @@ defmodule PrimerLive.TestComponents do
 
   ```
   <.test_text_input form={:user} field={:first_name}>
-    <:group label_text="First name"></:group>
+    <:group label_text="Some label"></:group>
   </.test_text_input>
   ```
 
@@ -62,7 +62,7 @@ defmodule PrimerLive.TestComponents do
 
   ```
   <.test_text_input form={:user} field={:first_name}>
-    <:group label_text="First name" :let={field}>
+    <:group label_text="Some label" :let={field}>
       <h2><%= field.label %></h2>
     </:group>
   </.test_text_input>
@@ -71,14 +71,14 @@ defmodule PrimerLive.TestComponents do
   This generates:
 
   ```
-  <h2><label for="user_first_name">First name</label></h2>
+  <h2><label for="user_first_name">Some label</label></h2>
   ```
 
   Field data passed to `:let` also contains the `field_state`:
 
   ```
   <.test_text_input form={:user} field={:first_name}>
-    <:group :let={field} label_text="First name">
+    <:group :let={field} label_text="Some label">
       <h2>
         <%= if !field.field_state.valid? do %>
           <div>Please correct your input</div>
@@ -183,18 +183,18 @@ defmodule PrimerLive.TestComponents do
 
       Without an `inner_block`, the generated label will be used:
       ```
-      <:group label_text="First name"></:group>
+      <:group label_text="Some label"></:group>
       ```
 
       This generates:
       ```
-      <label for="user_first_name">First name</label>
+      <label for="user_first_name">Some label</label>
       ```
 
       With an `inner_block`, `field` data can be retrieved from attribute `:let`:
       ```
       <:group
-        label_text="First name"
+        label_text="Some label"
         :let={field}
       >
         <h2><%= field.label %></h2>
@@ -203,12 +203,12 @@ defmodule PrimerLive.TestComponents do
 
       This generates:
       ```
-      <h2><label for="user_first_name">First name</label></h2>
+      <h2><label for="user_first_name">Some label</label></h2>
       ```
 
       To conditionally change the header dependent on field state, use `field_state`, `PrimerLive.FieldState` struct:
       ```
-      <:group :let={field} label_text="First name">
+      <:group :let={field} label_text="Some label">
         <h2>
           <%= if !field.field_state.valid? do %>
             <div>Please correct your input</div>
@@ -356,30 +356,30 @@ defmodule PrimerLive.TestComponents do
 
     input = apply(Phoenix.HTML.Form, input_type, [form, field, input_opts])
 
+    common_group_opts =
+      Attributes.append_attributes([], [
+        [
+          form: form,
+          field: field,
+          input: input,
+          field_state: field_state,
+          label_text: group[:label_text],
+          rest: assigns[:rest]
+        ]
+      ])
+
     ~H"""
     <%= if has_group do %>
       <%= if has_group_slot do %>
         <%= for group <- @group do %>
           <.render_form_group
+            {common_group_opts}
             group={group}
-            form={form}
-            field={field}
-            input={input}
-            field_state={field_state}
-            rest={@rest}
-            has_inner_block={render_slot(group) |> Attributes.has_inner_block()}
+            has_slot_content={render_slot(group) |> Attributes.has_slot_content()}
           />
         <% end %>
       <% else %>
-        <.render_form_group
-          group={%{}}
-          form={form}
-          field={field}
-          input={input}
-          field_state={field_state}
-          rest={@rest}
-          has_inner_block={false}
-        />
+        <.render_form_group {common_group_opts} group={%{}} has_slot_content={false} />
       <% end %>
     <% else %>
       <%= input %>
@@ -390,6 +390,7 @@ defmodule PrimerLive.TestComponents do
   defp render_form_group(assigns) do
     field_state = assigns[:field_state]
     group = assigns[:group]
+    label_text = assigns[:label_text]
 
     %{
       valid?: valid?,
@@ -433,7 +434,14 @@ defmodule PrimerLive.TestComponents do
         ])
     }
 
-    header_label = label(assigns.form, assigns.field)
+    # If label_text is supplied, wrap it inside a label
+    # else use the default generated label
+    header_label =
+      if label_text do
+        label(assigns.form, assigns.field, label_text)
+      else
+        label(assigns.form, assigns.field)
+      end
 
     # Data accessible by :let
     field = %{
@@ -444,7 +452,7 @@ defmodule PrimerLive.TestComponents do
     ~H"""
     <div class={classes.group} {@rest}>
       <div class={classes.header}>
-        <%= if @has_inner_block do %>
+        <%= if @has_slot_content do %>
           <%= render_slot(@group, field) %>
         <% else %>
           <%= header_label %>

@@ -1,8 +1,6 @@
 defmodule PrimerLive.Helpers.Attributes do
   @moduledoc false
 
-  alias PrimerLive.Helpers.SchemaHelpers
-
   @doc ~S"""
   Concatenates a list of classnames to a single string.
   - Ignores any nil or false entries
@@ -308,7 +306,26 @@ defmodule PrimerLive.Helpers.Attributes do
     max(min, min(value, max))
   end
 
-  def has_inner_block(rendered), do: !is_empty_slot(rendered)
+  @doc ~S"""
+  Checks if the rendered slot has any content.
+
+      iex> PrimerLive.Helpers.Attributes.has_slot_content(%Phoenix.LiveView.Rendered{
+      ...>   static: [""]
+      ...> })
+      false
+
+      iex> PrimerLive.Helpers.Attributes.has_slot_content(%Phoenix.LiveView.Rendered{
+      ...>   static: [" \n  \n "]
+      ...> })
+      false
+
+      iex> PrimerLive.Helpers.Attributes.has_slot_content(%Phoenix.LiveView.Rendered{
+      ...>   static: [" \n Content \n "]
+      ...> })
+      true
+  )
+  """
+  def has_slot_content(rendered), do: !is_empty_slot(rendered)
   defp is_empty_slot(rendered), do: is_empty_slot_content(rendered.static)
   defp is_empty_slot_content(static) when is_nil(static), do: true
   defp is_empty_slot_content(static) when static == [""], do: true

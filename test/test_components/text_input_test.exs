@@ -80,14 +80,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
 
     assert rendered_to_string(~H"""
            <.test_text_input form={:user} field={:first_name}>
-             <:group label_text="First name"></:group>
+             <:group label_text="Some label"></:group>
            </.test_text_input>
            """)
            |> format_html() ==
              """
              <div class="form-group">
              <div class="form-group-header">
-             <label for="user_first_name">First name</label>
+             <label for="user_first_name">Some label</label>
              </div>
              <div class="form-group-body">
              <input class="form-control" id="user_first_name" name="user[first_name]" type="text" />
