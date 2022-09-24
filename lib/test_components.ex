@@ -5,230 +5,6 @@ defmodule PrimerLive.TestComponents do
   alias PrimerLive.Helpers.{Attributes, FormHelpers, SchemaHelpers}
 
   # ------------------------------------------------------------------------------------
-  # form_group
-  # ------------------------------------------------------------------------------------
-
-  @doc section: :form
-
-  @doc ~S"""
-  Creates a form group wrapper around an input field.
-
-  Used internally: see `test_text_input/1`.
-  """
-
-  attr(:class, :string, doc: "Additional classname.")
-
-  attr :classes, :map,
-    default: %{
-      form_group: "",
-      header: "",
-      body: "",
-      note: ""
-    },
-    doc: """
-    Additional classnames for form group elements.
-
-    Any provided value will be appended to the default classname.
-    """
-
-  attr :field, :any, doc: "Field name (atom or string)."
-  attr :header_title, :string, doc: "Header title."
-
-  attr(:validation_message, :any,
-    doc: """
-    Function to write a custom validation message (in case of error or success).
-
-    The function receives a `PrimerLive.FieldState` struct and returns a validation message.
-
-    A validation message is shown:
-    - If form is a `Phoenix.HTML.Form`, containing a `changeset`
-    - And either:
-      - `changeset.action` is `:validate`
-      - `validation_message` returns a string
-
-    Function signature: `fun field_state -> string | nil`.
-
-    Example error message:
-
-    ```
-    fn field_state ->
-      if !field_state.valid?, do: "Please enter your first name"
-    end
-    ```
-
-    Example success message, only shown when `changeset.action` is `:validate`:
-
-    ```
-    fn field_state ->
-      if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
-    end
-    ```
-    """
-  )
-
-  attr :form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
-
-  attr(:header, :any, doc: "Custom header slot (passed as attribute from an input component).")
-
-  slot(:inner_block, doc: "Body content.")
-
-  def test_form_group(assigns) do
-    form = assigns[:form]
-    field = assigns[:field]
-
-    %{
-      valid?: valid?,
-      message: message,
-      message_id: message_id
-    } = FormHelpers.field_state(form, field, assigns[:validation_message])
-
-    classes = %{
-      form_group:
-        Attributes.classnames([
-          "form-group",
-          assigns[:class],
-          assigns[:classes][:form_group],
-          if !is_nil(message) do
-            if valid? do
-              "successed"
-            else
-              "errored"
-            end
-          end
-        ]),
-      header:
-        Attributes.classnames([
-          "form-group-header",
-          assigns[:classes][:header]
-        ]),
-      body:
-        Attributes.classnames([
-          "form-group-body",
-          assigns[:classes][:body]
-        ]),
-      note:
-        Attributes.classnames([
-          "note",
-          assigns[:classes][:note],
-          if valid? do
-            "success"
-          else
-            "error"
-          end
-        ])
-    }
-
-    ~H"""
-    <div class={classes.form_group} {@rest}>
-      <div class={classes.header}>
-        <%= if @header && @header !== [] do %>
-          <%= render_slot(@header) %>
-        <% else %>
-          <%= if @header_title do %>
-            <%= label(form, field, @header_title) %>
-          <% else %>
-            <%= label(form, field) %>
-          <% end %>
-        <% end %>
-      </div>
-      <div class={classes.body}>
-        <%= if @inner_block do %>
-          <%= render_slot(@inner_block) %>
-        <% end %>
-      </div>
-      <%= if not is_nil(message) do %>
-        <p class={classes.note} id={message_id}>
-          <%= message %>
-        </p>
-      <% end %>
-    </div>
-    """
-  end
-
-  defp render_form_group(assigns) do
-    field_state = assigns[:field_state]
-    group = assigns[:group]
-
-    %{
-      valid?: valid?,
-      message: message,
-      message_id: message_id
-    } = field_state
-
-    classes = %{
-      form_group:
-        Attributes.classnames([
-          "form-group",
-          group[:class],
-          group[:classes][:form_group],
-          if !is_nil(message) do
-            if valid? do
-              "successed"
-            else
-              "errored"
-            end
-          end
-        ]),
-      header:
-        Attributes.classnames([
-          "form-group-header",
-          group[:classes][:header]
-        ]),
-      body:
-        Attributes.classnames([
-          "form-group-body",
-          group[:classes][:body]
-        ]),
-      note:
-        Attributes.classnames([
-          "note",
-          group[:classes][:note],
-          if valid? do
-            "success"
-          else
-            "error"
-          end
-        ])
-    }
-
-    header_label = label(assigns.form, assigns.field)
-
-    # Data accessible by :let
-    field = %{
-      label: header_label,
-      field_state: field_state
-    }
-
-    ~H"""
-    <div class={classes.form_group} {@rest}>
-      <div class={classes.header}>
-        <%= if @has_inner_block do %>
-          <%= render_slot(@group, field) %>
-        <% else %>
-          <%= header_label %>
-        <% end %>
-      </div>
-      <div class={classes.body}>
-        <%= @input %>
-      </div>
-      <%= if not is_nil(message) do %>
-        <p class={classes.note} id={message_id}>
-          <%= message %>
-        </p>
-      <% end %>
-    </div>
-    """
-  end
-
-  # ------------------------------------------------------------------------------------
   # text_input
   # ------------------------------------------------------------------------------------
 
@@ -263,8 +39,8 @@ defmodule PrimerLive.TestComponents do
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.test_text_input form={f} field={:first_name} form_group />
-    <.test_text_input form={f} field={:last_name} form_group />
+    <.test_text_input form={f} field={:first_name} is_group />
+    <.test_text_input form={f} field={:last_name} is_group />
   </.form>
   ```
 
@@ -455,7 +231,7 @@ defmodule PrimerLive.TestComponents do
       Default map:
       ```
       %{
-        form_group: "",
+        group: "",
         header: "",
         body: "",
         note: ""
@@ -499,8 +275,7 @@ defmodule PrimerLive.TestComponents do
 
   def test_text_input(assigns) do
     with true <- validate_is_form(assigns),
-         true <- validate_is_short_with_form_group(assigns),
-         assigns <- set_form_group_defaults(assigns) do
+         true <- validate_is_short_with_form_group(assigns) do
       render_test_text_input(assigns)
     else
       {:error, reason} ->
@@ -543,42 +318,14 @@ defmodule PrimerLive.TestComponents do
     end
   end
 
-  # If form_group is true, change it to default struct
-  defp set_form_group_defaults(assigns) do
-    form_group = assigns[:form_group]
-    header = assigns[:header]
-    is_header = header !== []
-
-    default_value = %{
-      form: assigns[:form],
-      field: assigns[:field],
-      header: if(is_header, do: header, else: nil),
-      header_title: nil,
-      inner_block: nil
-    }
-
-    cond do
-      is_map(form_group) ->
-        assigns
-        |> assign(:form_group, Map.merge(default_value, form_group))
-
-      is_header || (is_boolean(form_group) && !!form_group) ->
-        assigns
-        |> assign(:form_group, default_value)
-
-      true ->
-        assigns
-    end
-  end
-
   defp render_test_text_input(assigns) do
     form = assigns[:form]
     field = assigns[:field]
     type = assigns[:type]
 
-    # Get field_state from form_group attr so that we can get the message_id, required for aria_describedby
-    form_group = if assigns[:group] && assigns[:group] !== [], do: hd(assigns[:group]), else: []
-    field_state = FormHelpers.field_state(form, field, form_group[:validation_message])
+    # Get field_state from the group slot attributes so that we can get the message_id, required for aria_describedby
+    group = if assigns[:group] && assigns[:group] !== [], do: hd(assigns[:group]), else: []
+    field_state = FormHelpers.field_state(form, field, group[:validation_message])
     %{message_id: message_id} = field_state
 
     input_type = FormHelpers.input_type_as_atom(type)
@@ -637,6 +384,81 @@ defmodule PrimerLive.TestComponents do
     <% else %>
       <%= input %>
     <% end %>
+    """
+  end
+
+  defp render_form_group(assigns) do
+    field_state = assigns[:field_state]
+    group = assigns[:group]
+
+    %{
+      valid?: valid?,
+      message: message,
+      message_id: message_id
+    } = field_state
+
+    classes = %{
+      group:
+        Attributes.classnames([
+          "form-group",
+          group[:class],
+          group[:classes][:group],
+          if !is_nil(message) do
+            if valid? do
+              "successed"
+            else
+              "errored"
+            end
+          end
+        ]),
+      header:
+        Attributes.classnames([
+          "form-group-header",
+          group[:classes][:header]
+        ]),
+      body:
+        Attributes.classnames([
+          "form-group-body",
+          group[:classes][:body]
+        ]),
+      note:
+        Attributes.classnames([
+          "note",
+          group[:classes][:note],
+          if valid? do
+            "success"
+          else
+            "error"
+          end
+        ])
+    }
+
+    header_label = label(assigns.form, assigns.field)
+
+    # Data accessible by :let
+    field = %{
+      label: header_label,
+      field_state: field_state
+    }
+
+    ~H"""
+    <div class={classes.group} {@rest}>
+      <div class={classes.header}>
+        <%= if @has_inner_block do %>
+          <%= render_slot(@group, field) %>
+        <% else %>
+          <%= header_label %>
+        <% end %>
+      </div>
+      <div class={classes.body}>
+        <%= @input %>
+      </div>
+      <%= if not is_nil(message) do %>
+        <p class={classes.note} id={message_id}>
+          <%= message %>
+        </p>
+      <% end %>
+    </div>
     """
   end
 

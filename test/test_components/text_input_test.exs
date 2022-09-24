@@ -270,7 +270,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Attribute: is_short with form_group" do
+  test "Attribute: is_short with group slot" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -341,7 +341,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Attribute: form group - pass header and class" do
+  test "Group slot with attributes label_text and class" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -359,7 +359,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Attribute: form_group - classes" do
+  test "Group slot with attribute classes" do
     assigns = []
     form = @form
 
@@ -367,7 +367,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            <.test_text_input form={form} field={:first_name}>
              <:group classes={
                %{
-                 form_group: "form_group-x",
+                 group: "group-x",
                  header: "header-x",
                  body: "body-x",
                  note: "note-x"
@@ -378,7 +378,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group form_group-x errored">
+             <div class="form-group group-x errored">
              <div class="form-group-header header-x">
              <label for="user_first_name">First name</label>
              </div>
@@ -390,7 +390,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Attribute: form_group - extra" do
+  test "Group slot with extra attribute" do
     assigns = []
 
     assert rendered_to_string(~H"""

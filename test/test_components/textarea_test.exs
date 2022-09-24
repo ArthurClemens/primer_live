@@ -45,7 +45,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              |> format_html()
   end
 
-  test "Attribute: is_short without form_group: should render an error message" do
+  test "Attribute: is_short without form group: should render an error message" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -58,7 +58,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              |> format_html()
   end
 
-  test "Attribute: is_short with form_group" do
+  test "Attribute: is_short with form group" do
     assigns = []
 
     assert rendered_to_string(~H"""
