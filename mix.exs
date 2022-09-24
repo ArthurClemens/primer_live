@@ -23,7 +23,7 @@ defmodule PrimerLive.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix_live_view, git: "https://github.com/phoenixframework/phoenix_live_view"},
+      {:phoenix_live_view, "~> 0.18"},
       {:phoenix_html, "~> 3.0"},
       {:typed_ecto_schema, "~> 0.4.1"},
       {:ecto_sql, "~> 3.6"},

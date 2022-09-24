@@ -5,6 +5,155 @@ defmodule PrimerLive.TestComponents do
   alias PrimerLive.Helpers.{Attributes, FormHelpers, SchemaHelpers}
 
   # ------------------------------------------------------------------------------------
+  # form_group
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :form
+
+  @doc ~S"""
+  Creates a form group wrapper around an input field.
+
+  Used internally: see `test_text_input/1`.
+  """
+
+  attr(:class, :string, doc: "Additional classname.")
+
+  attr :classes, :map,
+    default: %{
+      form_group: "",
+      header: "",
+      body: "",
+      note: ""
+    },
+    doc: """
+    Additional classnames for form group elements.
+
+    Any provided value will be appended to the default classname.
+    """
+
+  attr :field, :any, doc: "Field name (atom or string)."
+  attr :header_title, :string, doc: "Header title."
+
+  attr(:validation_message, :any,
+    doc: """
+    Function to write a custom validation message (in case of error or success).
+
+    The function receives a `PrimerLive.FieldState` struct and returns a validation message.
+
+    A validation message is shown:
+    - If form is a `Phoenix.HTML.Form`, containing a `changeset`
+    - And either:
+      - `changeset.action` is `:validate`
+      - `validation_message` returns a string
+
+    Function signature: `fun field_state -> string | nil`.
+
+    Example error message:
+
+    ```
+    fn field_state ->
+      if !field_state.valid?, do: "Please enter your first name"
+    end
+    ```
+
+    Example success message, only shown when `changeset.action` is `:validate`:
+
+    ```
+    fn field_state ->
+      if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
+    end
+    ```
+    """
+  )
+
+  attr :form, :any,
+    doc:
+      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  attr(:header, :any, doc: "Custom header slot (passed as attribute from an input component).")
+
+  slot(:inner_block, doc: "Body content.")
+
+  def test_form_group(assigns) do
+    form = assigns[:form]
+    field = assigns[:field]
+
+    %{
+      valid?: valid?,
+      message: message,
+      message_id: message_id
+    } = FormHelpers.field_state(form, field, assigns[:validation_message])
+
+    classes = %{
+      form_group:
+        Attributes.classnames([
+          "form-group",
+          assigns[:class],
+          assigns[:classes][:form_group],
+          if !is_nil(message) do
+            if valid? do
+              "successed"
+            else
+              "errored"
+            end
+          end
+        ]),
+      header:
+        Attributes.classnames([
+          "form-group-header",
+          assigns[:classes][:header]
+        ]),
+      body:
+        Attributes.classnames([
+          "form-group-body",
+          assigns[:classes][:body]
+        ]),
+      note:
+        Attributes.classnames([
+          "note",
+          assigns[:classes][:note],
+          if valid? do
+            "success"
+          else
+            "error"
+          end
+        ])
+    }
+
+    ~H"""
+    <div class={classes.form_group} {@rest}>
+      <div class={classes.header}>
+        <%= if @header && @header !== [] do %>
+          <%= render_slot(@header) %>
+        <% else %>
+          <%= if @header_title do %>
+            <%= label(form, field, @header_title) %>
+          <% else %>
+            <%= label(form, field) %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class={classes.body}>
+        <%= if @inner_block do %>
+          <%= render_slot(@inner_block) %>
+        <% end %>
+      </div>
+      <%= if not is_nil(message) do %>
+        <p class={classes.note} id={message_id}>
+          <%= message %>
+        </p>
+      <% end %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
   # text_input
   # ------------------------------------------------------------------------------------
 
@@ -13,7 +162,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Creates a text input field.
 
-  Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped inside a "form group".
+  Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group".
 
   [Examples](#test_text_input/1-examples) • [Attributes](#test_text_input/1-attributes) • [Reference](#test_text_input/1-reference)
 
@@ -35,20 +184,6 @@ defmodule PrimerLive.TestComponents do
   <.test_text_input placeholder="Enter your first name" />
   ```
 
-  Insert the input within a form group using `test_form_group/1`. If no header text is added, the input label in the form group header is generated automatically:
-
-  ```
-  <.test_text_input form={:user} field={:first_name} form_group />
-  ```
-
-  Insert the input within a form group with a customized heading:
-
-  ```
-  <.test_text_input form={:user} field={:first_name} form_group={
-    %{header: "Enter your first name"}
-  } />
-  ```
-
   Further customise the heading with a `:header` slot (this will also create a form group):
 
   ```
@@ -57,6 +192,20 @@ defmodule PrimerLive.TestComponents do
       <h2>First name</h2>
     </:header>
   </.test_text_input>
+  ```
+
+  Insert the input within a form group using `test_form_group/1`. If no header text is added, the input label in the form group header is generated automatically:
+
+  ```
+  <.test_text_input form={:user} field={:first_name} form_group />
+  ```
+
+  Insert the input within a form group with a customized header title:
+
+  ```
+  <.test_text_input form={:user} field={:first_name} form_group={
+    %{header_title: "Enter your first name"}
+  } />
   ```
 
   Using the input with form data:
@@ -71,21 +220,21 @@ defmodule PrimerLive.TestComponents do
   With a form changeset, write a custom error message:
 
   ```
-  <.test_text_input form={f} field={:first_name} form_group get_validation_message={
+  <.test_text_input form={f} field={:first_name} form_group=%{validation_message:
     fn changeset ->
       if !changeset.valid?, do: "Please enter your first name"
     end
-  }/>
+  }} />
   ```
 
   With a form changeset, write a custom success message:
 
   ```
-  <.test_text_input form={f} field={:first_name} form_group get_validation_message={
+  <.test_text_input form={f} field={:first_name} form_group={%{validation_message:
     fn changeset ->
       if changeset.valid?, do: "Complete"
     end
-  }/>
+  }} />
   ```
 
   [INSERT LVATTRDOCS]
@@ -113,22 +262,29 @@ defmodule PrimerLive.TestComponents do
 
     Passing these options, or just passing `true`, will create a `test_form_group/1` element that wraps the label, the input and any help texts.
 
-    Example: `form_group={%{header_title: "First name", class: "my-group"}}`
+    Examples:
+
+    Wrap the input inside a form group:
+    ```
+    form_group
+    ```
+
+    Set form group attributes:
+    ```
+    form_group={
+      %{
+        header_title: "First name",
+        class: "my-group",
+        validation_message: fn field_state ->
+          if !field_state.valid?, do: "Please enter your first name"
+        end
+      }
+    }
+    ```
     """
 
   attr(:class, :string, doc: "Additional classname.")
   attr(:type, :string, doc: "Text input type.")
-
-  attr(:get_validation_message, :any,
-    doc: """
-    Function to write a custom error message.
-
-    The function receives for form's changeset data (type `Ecto.Changeset`) and returns a string for error message.
-
-    Function signature: `fun changeset -> string`.
-    """
-  )
-
   attr(:is_contrast, :boolean, default: false, doc: "Changes the background color to light gray.")
   attr(:is_full_width, :boolean, default: false, doc: "Full width input.")
 
@@ -235,8 +391,9 @@ defmodule PrimerLive.TestComponents do
     form_group = assigns[:form_group] || []
     header = assigns[:header]
 
-    validation_data = FormHelpers.validation_data(form, field, assigns[:get_validation_message])
-    %{validation_message_id: validation_message_id} = validation_data
+    # Get field_state from form_group attr so that we can get the message_id, required for aria_describedby
+    %{message_id: message_id} =
+      FormHelpers.field_state(form, field, form_group[:validation_message])
 
     input_type = FormHelpers.input_type_as_atom(type)
 
@@ -257,7 +414,7 @@ defmodule PrimerLive.TestComponents do
         [class: class],
         # If aria_label is not set, use the value of placeholder (if any):
         is_nil(assigns.rest[:aria_label]) and [aria_label: assigns.rest[:placeholder]],
-        not is_nil(validation_message_id) and [aria_describedby: validation_message_id]
+        not is_nil(message_id) and [aria_describedby: message_id]
       ])
 
     input = apply(Phoenix.HTML.Form, input_type, [form, field, input_opts])
@@ -265,7 +422,7 @@ defmodule PrimerLive.TestComponents do
 
     ~H"""
     <%= if wrap_in_form_groun do %>
-      <.test_form_group {form_group} validation_data={validation_data}>
+      <.test_form_group {form_group}>
         <%= input %>
       </.test_form_group>
     <% else %>
@@ -302,139 +459,6 @@ defmodule PrimerLive.TestComponents do
   def test_textarea(assigns) do
     assigns = assigns |> assign(type: "textarea")
     test_text_input(assigns)
-  end
-
-  # ------------------------------------------------------------------------------------
-  # form_group
-  # ------------------------------------------------------------------------------------
-
-  @doc section: :form
-
-  @doc ~S"""
-  Creates a form group wrapper around an input field.
-
-  Used internally: see `test_text_input/1`.
-
-  """
-
-  attr(:class, :string, doc: "Additional classname.")
-
-  attr :classes, :map,
-    default: %{
-      form_group: "",
-      header: "",
-      body: "",
-      note: ""
-    },
-    doc: """
-    Additional classnames for form group elements.
-
-    Any provided value will be appended to the default classname.
-    """
-
-  attr :field, :any, doc: "Field name (atom or string)."
-  attr :header_title, :string, doc: "Header title."
-
-  attr :validation_data, :map,
-    default: %{
-      is_error: false,
-      has_message: false,
-      message: nil,
-      validation_message_id: nil
-    },
-    doc: """
-    Only when a form changeset is available.
-
-    The status is derived from the value of `changeset.valid?`. The message text is received from `PrimerLive.Options.TextInput` option `get_validation_message`, otherwise from the first of the form changeset errors (if any).
-    """
-
-  attr :form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
-
-  attr(:header, :any, doc: "Custom header slot (passed as attribute from an input component).")
-
-  slot(:inner_block, doc: "Body content.")
-
-  def test_form_group(assigns) do
-    form = assigns[:form]
-    field = assigns[:field]
-    validation_data = assigns[:validation_data]
-
-    %{
-      is_error: is_error,
-      message: message,
-      has_message: has_message,
-      validation_message_id: validation_message_id
-    } = validation_data
-
-    classes = %{
-      form_group:
-        Attributes.classnames([
-          "form-group",
-          assigns[:class],
-          assigns[:classes][:form_group],
-          if has_message do
-            if is_error do
-              "errored"
-            else
-              "successed"
-            end
-          end
-        ]),
-      header:
-        Attributes.classnames([
-          "form-group-header",
-          assigns[:classes][:header]
-        ]),
-      body:
-        Attributes.classnames([
-          "form-group-body",
-          assigns[:classes][:body]
-        ]),
-      note:
-        Attributes.classnames([
-          "note",
-          assigns[:classes][:note],
-          if is_error do
-            "error"
-          else
-            "success"
-          end
-        ])
-    }
-
-    ~H"""
-    <div class={classes.form_group} {@rest}>
-      <div class={classes.header}>
-        <%= if @header && @header !== [] do %>
-          <%= render_slot(@header) %>
-        <% else %>
-          <%= if @header_title do %>
-            <%= label(form, field, @header_title) %>
-          <% else %>
-            <%= label(form, field) %>
-          <% end %>
-        <% end %>
-      </div>
-      <div class={classes.body}>
-        <%= if @inner_block do %>
-          <%= render_slot(@inner_block) %>
-        <% end %>
-      </div>
-      <%= if not is_nil(message) do %>
-        <p class={classes.note} id={validation_message_id}>
-          <%= message %>
-        </p>
-      <% end %>
-    </div>
-    """
   end
 
   # ------------------------------------------------------------------------------------

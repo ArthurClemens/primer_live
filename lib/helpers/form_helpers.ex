@@ -2,19 +2,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
   use Phoenix.HTML
 
   @moduledoc false
-
-  @doc """
-  Returns field error data.
-  Returns nil if no errors are found, or if the form does not contain an `error` attribute.
-  """
-  def error_data(form, field) do
-    try do
-      form.errors
-      |> Keyword.get_values(field)
-    rescue
-      _ -> nil
-    end
-  end
+  # Helper functions for components that interact with forms and changesets.
 
   @doc """
   Returns the form changeset (from form.source).
@@ -30,66 +18,142 @@ defmodule PrimerLive.Helpers.FormHelpers do
 
   @doc """
   Returns all error for a given field from a changeset.
+
+      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
+      ...>   %{
+      ...>     action: :update,
+      ...>     changes: %{},
+      ...>     errors: [],
+      ...>     data: nil,
+      ...>     valid?: true
+      ...>   }, :first_name)
+      []
+
+      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
+      ...>   %{
+      ...>     action: :update,
+      ...>     changes: %{},
+      ...>     errors: [
+      ...>       first_name: {"can't be blank", [validation: :required]},
+      ...>       work_experience: {"invalid value", [validation: :required]}
+      ...>     ],
+      ...>     data: nil,
+      ...>     valid?: true
+      ...>   }, :first_name)
+      ["can't be blank"]
+
+      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
+      ...>   %{
+      ...>     action: :update,
+      ...>     changes: %{},
+      ...>     errors: [
+      ...>       first_name: {"can't be blank", [validation: :required]},
+      ...>       work_experience: {"invalid value", [validation: :required]}
+      ...>     ],
+      ...>     data: nil,
+      ...>     valid?: true
+      ...>   }, :work_experience)
+      ["invalid value"]
   """
-  def field_errors(changeset, field) do
+  def get_field_errors(changeset, field) do
     changeset.errors
     |> Enum.filter(fn {error_field, _content} -> error_field == field end)
     |> Enum.map(fn {_error_field, {content, _details}} -> content end)
   end
 
   @doc """
-  Returns a map of validation data to facilitate display logic in component rendering functions.
+  Returns a `PrimerLive.FieldState` struct to facilitate display logic in component rendering functions.
+
+      iex> PrimerLive.Helpers.FormHelpers.field_state(:f, :first_name, nil)
+      %PrimerLive.FieldState{valid?: false, changeset: nil, message: nil, message_id: nil, field_errors: []}
+
+      # If validation_message_fn returns a string it will be added to FieldState, regardless of the changeset action value:
+      iex> PrimerLive.Helpers.FormHelpers.field_state(
+      ...>   %Phoenix.HTML.Form{
+      ...>     source: %{
+      ...>       action: :update,
+      ...>       changes: %{first_name: "annette"},
+      ...>       errors: [],
+      ...>       data: nil,
+      ...>       valid?: true
+      ...>     },
+      ...>   },
+      ...>   :first_name, fn _field_state -> "always" end)
+      %PrimerLive.FieldState{valid?: true, changeset: %{action: :update, changes: %{first_name: "annette"}, data: nil, errors: [], valid?: true}, message: "always", message_id: "first_name-validation", field_errors: []}
+
+      # If changeset action is :validate and no validation_message_fn is provided, the default field error is added to FieldState:
+      iex> PrimerLive.Helpers.FormHelpers.field_state(
+      ...>   %Phoenix.HTML.Form{
+      ...>     source: %{
+      ...>       action: :validate,
+      ...>       changes: %{},
+      ...>       errors: [first_name: {"can't be blank", [validation: :required]}],
+      ...>       data: nil,
+      ...>       valid?: true
+      ...>     },
+      ...>   },
+      ...>   :first_name, nil)
+      %PrimerLive.FieldState{valid?: false, changeset: %{action: :validate, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", message_id: "first_name-validation", field_errors: ["can't be blank"]}
+
+      # If changeset action is :update and no validation_message_fn is provided, no message is added to FieldState:
+      iex> PrimerLive.Helpers.FormHelpers.field_state(
+      ...>   %Phoenix.HTML.Form{
+      ...>     source: %{
+      ...>       action: :update,
+      ...>       changes: %{},
+      ...>       errors: [first_name: {"can't be blank", [validation: :required]}],
+      ...>       data: nil,
+      ...>       valid?: true
+      ...>     },
+      ...>   },
+      ...>   :first_name, nil)
+      %PrimerLive.FieldState{valid?: false, changeset: %{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: nil, message_id: nil, field_errors: ["can't be blank"]}
   """
-  def validation_data(form, field, get_validation_message_fn) do
-    status = validation_status(form, field, get_validation_message_fn)
+  def field_state(form, field, validation_message_fn) do
+    field_state = get_field_state(form, field, validation_message_fn)
 
-    {is_error, message, has_message} =
-      case status do
-        {:ok, msg} -> {false, msg, !is_nil(msg)}
-        {:error, msg} -> {true, msg, !is_nil(msg)}
-      end
-
-    validation_message_id = if has_message, do: "#{field}-validation", else: nil
-
-    %{
-      is_error: is_error,
-      message: message,
-      has_message: has_message,
-      validation_message_id: validation_message_id
-    }
+    case is_nil(field_state.message) do
+      true -> field_state
+      false -> %{field_state | message_id: "#{field}-validation"}
+    end
   end
 
-  # Returns an error tuple {:ok, message} or {:error, message}, or nil if no form changeset exists.
-  # The message is either taken from input attribute `get_validation_message` or from the changeset error message.
-  defp validation_status(form, field, get_validation_message_fn) do
+  defp get_field_state(form, field, validation_message_fn) do
     changeset = form_changeset(form)
+    field_state = %PrimerLive.FieldState{}
 
     case is_nil(changeset) do
       true ->
-        {:ok, nil}
+        field_state
 
       false ->
-        custom_validation_message =
-          case is_nil(get_validation_message_fn) do
-            true -> nil
-            false -> get_validation_message_fn.(changeset)
+        field_errors = get_field_errors(changeset, field)
+        valid? = Enum.count(field_errors) == 0
+
+        field_state = %{
+          field_state
+          | valid?: valid?,
+            field_errors: field_errors,
+            changeset: changeset
+        }
+
+        message =
+          case is_nil(validation_message_fn) do
+            true ->
+              case changeset.action === :validate do
+                true ->
+                  [field_error | _rest] = field_errors
+                  field_error
+
+                false ->
+                  nil
+              end
+
+            false ->
+              validation_message_fn.(field_state)
           end
 
-        case is_nil(custom_validation_message) do
-          true ->
-            field_errors = field_errors(changeset, field)
-
-            case field_errors do
-              [field_error | _rest] -> {:error, field_error}
-              _ -> {:ok, nil}
-            end
-
-          false ->
-            case changeset.valid? do
-              true -> {:ok, custom_validation_message}
-              false -> {:error, custom_validation_message}
-            end
-        end
+        %{field_state | message: message}
     end
   end
 
