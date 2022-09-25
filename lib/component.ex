@@ -1,4 +1,4 @@
-defmodule PrimerLive.TestComponents do
+defmodule PrimerLive.Component do
   use Phoenix.Component
   use Phoenix.HTML
 

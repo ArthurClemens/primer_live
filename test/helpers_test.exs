@@ -5,5 +5,5 @@ defmodule PrimerLiveHelpersTest do
   doctest PrimerLive.Helpers.FormHelpers
   doctest PrimerLive.Helpers.SchemaHelpers
   doctest PrimerLive.Helpers.TestHelpers
-  doctest PrimerLive.Components
+  doctest PrimerLive.Component
 end

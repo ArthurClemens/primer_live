@@ -45,14 +45,13 @@ defmodule PrimerLive do
 
   ## List of components
 
-  `PrimerLive.Components`
+  `PrimerLive.Component`
 
   '''
 
   defmacro __using__(_) do
     quote do
-      import PrimerLive.Components
-      import PrimerLive.TestComponents
+      import PrimerLive.Component
       import PrimerLive.Octicons
     end
   end
