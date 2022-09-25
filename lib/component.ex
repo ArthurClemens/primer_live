@@ -15,10 +15,10 @@ defmodule PrimerLive.Component do
 
   Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group" to add a field label and validation.
 
-  [Examples](#test_text_input/1-examples) • [Attributes](#test_text_input/1-attributes) • [Reference](#test_text_input/1-reference)
+  [Examples](#text_input/1-examples) • [Attributes](#text_input/1-attributes) • [Reference](#text_input/1-reference)
 
   ```
-  <.test_text_input name="first_name" />
+  <.text_input name="first_name" />
   ```
 
   ## Examples
@@ -26,46 +26,46 @@ defmodule PrimerLive.Component do
   Set the input type:
 
   ```
-  <.test_text_input type="password" />
+  <.text_input type="password" />
   ```
 
   Set the placeholder. By default, the value of the placeholder attribute is used to fill in the aria-label attribute:
 
   ```
-  <.test_text_input placeholder="Enter your first name" />
+  <.text_input placeholder="Enter your first name" />
   ```
 
   Using the input with form data:
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.test_text_input form={f} field={:first_name} is_group />
-    <.test_text_input form={f} field={:last_name} is_group />
+    <.text_input form={f} field={:first_name} is_group />
+    <.text_input form={f} field={:last_name} is_group />
   </.form>
   ```
 
-  Insert the input within a form group using `is_group`. This will insert the input inside a form group with a default generated label and field validation. To configure the form group, use the [`group` slot](#test_text_input/1-slots) instead.
+  Insert the input within a form group using `is_group`. This will insert the input inside a form group with a default generated label and field validation. To configure the form group, use the [`group` slot](#text_input/1-slots) instead.
 
   ```
-  <.test_text_input form={:user} field={:first_name} is_group />
+  <.text_input form={:user} field={:first_name} is_group />
   ```
 
   Use a custom label by providing `label`:
 
   ```
-  <.test_text_input form={:user} field={:first_name}>
+  <.text_input form={:user} field={:first_name}>
     <:group label="Some label" />
-  </.test_text_input>
+  </.text_input>
   ```
 
   Add markup to the label with attribute `:let` to get the label tag:
 
   ```
-  <.test_text_input form={:user} field={:first_name}>
+  <.text_input form={:user} field={:first_name}>
     <:group label="Some label" :let={field}>
       <h2><%= field.label %></h2>
     </:group>
-  </.test_text_input>
+  </.text_input>
   ```
 
   This generates:
@@ -77,7 +77,7 @@ defmodule PrimerLive.Component do
   Field data passed to `:let` also contains the `field_state`:
 
   ```
-  <.test_text_input form={:user} field={:first_name}>
+  <.text_input form={:user} field={:first_name}>
     <:group :let={field} label="Some label">
       <h2>
         <%= if !field.field_state.valid? do %>
@@ -87,33 +87,33 @@ defmodule PrimerLive.Component do
         <%= field.label %>
       </h2>
     </:group>
-  </.test_text_input>
+  </.text_input>
   ```
 
   With a form changeset, write a custom error message:
 
   ```
-  <.test_text_input form={f} field={:first_name}>
+  <.text_input form={f} field={:first_name}>
     <:group validation_message={
       fn field_state ->
         if !field_state.valid?, do: "Please enter your first name"
       end
     }>
     </:group>
-  </.test_text_input>
+  </.text_input>
   ```
 
   With a form changeset, write a custom success message:
 
   ```
-  <.test_text_input form={f} field={:first_name}>
+  <.text_input form={f} field={:first_name}>
     <:group validation_message={
       fn field_state ->
         if changeset.valid?, do: "Complete"
       end
     }>
     </:group>
-  </.test_text_input>
+  </.text_input>
   ```
 
   [INSERT LVATTRDOCS]
@@ -157,7 +157,7 @@ defmodule PrimerLive.Component do
     doc: """
     Inserts the input inside a form group and creates a default field label.
 
-    To configure the form group and label, see [slot `group`](#test_text_input/1-slots).
+    To configure the form group and label, see [slot `group`](#text_input/1-slots).
     """
   )
 
@@ -273,10 +273,10 @@ defmodule PrimerLive.Component do
     )
   end
 
-  def test_text_input(assigns) do
+  def text_input(assigns) do
     with true <- validate_is_form(assigns),
          true <- validate_is_short_with_form_group(assigns) do
-      render_test_text_input(assigns)
+      render_text_input(assigns)
     else
       {:error, reason} ->
         ~H"""
@@ -285,7 +285,7 @@ defmodule PrimerLive.Component do
     end
   end
 
-  defp render_test_text_input(assigns) do
+  defp render_text_input(assigns) do
     assigns =
       assigns
       |> assign(
@@ -458,12 +458,12 @@ defmodule PrimerLive.Component do
   Creates a textarea.
 
   ```
-  <.test_textarea name="comments" />
+  <.textarea name="comments" />
   ```
 
   ## AttributeHelpers
 
-  Options for textarea are the same as options for `test_text_input/1`.
+  Options for textarea are the same as options for `text_input/1`.
 
   Additional HTML attributes are passed to the textarea element.
 
@@ -473,9 +473,9 @@ defmodule PrimerLive.Component do
 
   """
 
-  def test_textarea(assigns) do
+  def textarea(assigns) do
     assigns = assigns |> assign(:type, "textarea")
-    test_text_input(assigns)
+    text_input(assigns)
   end
 
   # ------------------------------------------------------------------------------------
@@ -487,12 +487,12 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates an alert message.
 
-  [Examples](#test_alert/1-examples) • [Attributes](#test_alert/1-attributes) • [Reference](#test_alert/1-reference)
+  [Examples](#alert/1-examples) • [Attributes](#alert/1-attributes) • [Reference](#alert/1-reference)
 
   ```
-  <.test_alert>
+  <.alert>
     Flash message goes here.
-  </.test_alert>
+  </.alert>
   ```
 
   ## Examples
@@ -500,21 +500,21 @@ defmodule PrimerLive.Component do
   Success color:
 
   ```
-  <.test_alert is_success>
+  <.alert is_success>
     You're done!
-  </.test_alert>
+  </.alert>
   ```
 
   Multiline message:
 
   ```
-  <.test_alert is_success>
+  <.alert is_success>
     <p>You're done!</p>
     <p>You may close this message</p>
-  </.test_alert>
+  </.alert>
   ```
 
-  To add an extra bottom margin to a stack of alerts, wrap the alerts in `test_alert_messages/1`.
+  To add an extra bottom margin to a stack of alerts, wrap the alerts in `alert_messages/1`.
 
   [INSERT LVATTRDOCS]
 
@@ -535,7 +535,7 @@ defmodule PrimerLive.Component do
 
   attr(:is_full, :boolean,
     default: false,
-    doc: "Renders the test_alert full width, with border and border radius removed."
+    doc: "Renders the alert full width, with border and border radius removed."
   )
 
   attr(:rest, :global,
@@ -546,7 +546,7 @@ defmodule PrimerLive.Component do
 
   slot(:inner_block, required: true, doc: "Alert content.")
 
-  def test_alert(assigns) do
+  def alert(assigns) do
     class =
       AttributeHelpers.classnames([
         "flash",
@@ -565,25 +565,25 @@ defmodule PrimerLive.Component do
   end
 
   # ------------------------------------------------------------------------------------
-  # test_alert_messages
+  # alert_messages
   # ------------------------------------------------------------------------------------
 
   @doc section: :alerts
 
   @doc ~S"""
-  Wrapper to render a vertical stack of `test_alert/1` messages with spacing in between.
+  Wrapper to render a vertical stack of `alert/1` messages with spacing in between.
 
-  [Attributes](#test_alert_messages/1-attributes) • [Reference](#test_alert_messages/1-reference)
+  [Attributes](#alert_messages/1-attributes) • [Reference](#alert_messages/1-reference)
 
   ```
-  <.test_alert_messages>
-    <.test_alert is_success>
+  <.alert_messages>
+    <.alert is_success>
       Message 1
-    </.test_alert>
-    <.test_alert class="mt-4">
+    </.alert>
+    <.alert class="mt-4">
       Message 2
-    </.test_alert>
-  </.test_alert_messages>
+    </.alert>
+  </.alert_messages>
   Rest of content
   ```
 
@@ -609,7 +609,7 @@ defmodule PrimerLive.Component do
 
   slot(:inner_block, required: true, doc: "Alert messages content.")
 
-  def test_alert_messages(assigns) do
+  def alert_messages(assigns) do
     class =
       AttributeHelpers.classnames([
         "flash-messages",
@@ -632,17 +632,17 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a responsive-friendly page layout with 2 columns.
 
-  [Examples](#test_layout/1-examples) • [Attributes](#test_layout/1-attributes) • [Reference](#test_layout/1-reference)
+  [Examples](#layout/1-examples) • [Attributes](#layout/1-attributes) • [Reference](#layout/1-reference)
 
   ```
-  <.test_layout>
+  <.layout>
     <:main>
       Main content
     </:main>
     <:sidebar>
       Sidebar content
     </:sidebar>
-  </.test_layout>
+  </.layout>
   ```
 
   ## Examples
@@ -652,14 +652,14 @@ defmodule PrimerLive.Component do
   To place the sidebar at the right:
 
   ```
-  <.test_layout is_sidebar_position_end>
+  <.layout is_sidebar_position_end>
     <:main>
       Main content
     </:main>
     <:sidebar>
       Sidebar content
     </:sidebar>
-  </.test_layout>
+  </.layout>
   ```
 
   When using a divider, use attribute `is_divided` to make the divider element visible.
@@ -672,7 +672,7 @@ defmodule PrimerLive.Component do
 
 
   ```
-  <.test_layout is_divided>
+  <.layout is_divided>
     <:main>
       Main content
     </:main>
@@ -680,14 +680,14 @@ defmodule PrimerLive.Component do
     <:sidebar>
       Sidebar content
     </:sidebar>
-  </.test_layout>
+  </.layout>
   ```
 
   The modifiers `is_centered_xx` create a wrapper around `main` to center its content up to a maximum width.
   Use with `.container-xx` classes to restrict the size of the content:
 
   ```
-  <.test_layout is_centered_md>
+  <.layout is_centered_md>
     <:main>
       <div class="container-md">
         Centered md
@@ -696,7 +696,7 @@ defmodule PrimerLive.Component do
     <:sidebar>
       Sidebar content
     </:sidebar>
-  </.test_layout>
+  </.layout>
   ```
 
   Layouts can be nested.
@@ -704,41 +704,41 @@ defmodule PrimerLive.Component do
   Nested layout, example 1:
 
   ```
-  <.test_layout>
+  <.layout>
     <:main>
-      <.test_layout is_sidebar_position_end is_narrow_sidebar>
+      <.layout is_sidebar_position_end is_narrow_sidebar>
         <:main>
           Main content
         </:main>
         <:sidebar>
           Metadata sidebar
         </:sidebar>
-      </.test_layout>
+      </.layout>
     </:main>
     <:sidebar>
       Default sidebar
     </:sidebar>
-  </.test_layout>
+  </.layout>
   ```
 
   Nested layout, example 2:
 
   ```
-  <.test_layout>
+  <.layout>
     <:main>
-      <.test_layout is_sidebar_position_end is_flow_row_until_lg is_narrow_sidebar>
+      <.layout is_sidebar_position_end is_flow_row_until_lg is_narrow_sidebar>
         <:main>
           Main content
         </:main>
         <:sidebar>
           Metadata sidebar
         </:sidebar>
-      </.test_layout>
+      </.layout>
     </:main>
     <:sidebar>
       Default sidebar
     </:sidebar>
-  </.test_layout>
+  </.layout>
   ```
 
   [INSERT LVATTRDOCS]
@@ -858,7 +858,7 @@ defmodule PrimerLive.Component do
     attr :order, :integer, doc: "See `main` slot. Default value: 1."
   end
 
-  def test_layout(assigns) do
+  def layout(assigns) do
     classes = %{
       layout:
         AttributeHelpers.classnames([
@@ -969,27 +969,27 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a content container.
 
-  [Examples](#test_box/1-examples) • [Attributes](#test_box/1-attributes) • [Reference](#test_box/1-reference)
+  [Examples](#box/1-examples) • [Attributes](#box/1-attributes) • [Reference](#box/1-reference)
 
   A `box` is a container with rounded corners, a white background, and a light gray border.
   By default, there are no other styles, such as padding; however, these can be introduced
   with utility classes as needed.
 
   ```
-  <.test_box>
+  <.box>
     Content
-  </.test_box>
+  </.box>
   ```
 
   Slots allow for the creation of alternative styles and layouts.
 
   ```
-  <.test_box>
+  <.box>
     <:header>Header</:header>
     <:body>Body</:body>
     <:row>Row</:row>
     <:footer>Footer</:footer>
-  </.test_box>
+  </.box>
   ```
 
   ## Examples
@@ -997,22 +997,22 @@ defmodule PrimerLive.Component do
   Row themes:
 
   ```
-  <.test_box>
+  <.box>
     <:row is_gray>Row</:row>
     <:row is_hover_gray>Row</:row>
     <:row is_yellow>Row</:row>
     <:row is_hover_blue>Row</:row>
     <:row is_blue>Row</:row>
-  </.test_box>
+  </.box>
   ```
 
   Box theme - "danger box":
 
   ```
-  <.test_box is_danger>
+  <.box is_danger>
     <:row>Row</:row>
     <:row>Row</:row>
-  </.test_box>
+  </.box>
   ```
 
   Header theme - blue header:
@@ -1026,43 +1026,43 @@ defmodule PrimerLive.Component do
   Render a row for each search result:
 
   ```
-  <.test_box>
+  <.box>
     <:row :for={result <- @results}>
       <%= result %>
     </:row>
-  </.test_box>
+  </.box>
   ```
 
   Conditionally show an alert:
 
   ```
-   <.test_box>
+   <.box>
     <.alert :if={@show_alert}>Alert message</.alert>
     <:body>
       Body
     </:body>
-  </.test_box>
+  </.box>
   ```
 
   Header title. Slot `header` can be omitted:
 
   ```
-  <.test_box>
+  <.box>
     <:header_title>
       Title
     </:header_title>
     Content
-  </.test_box>
+  </.box>
   ```
 
   Header with a button, using both `header` and `header_title` slots. The title will be inserted as first header element:
 
   ```
-  <.test_box>
+  <.box>
     <:header class="d-flex flex-items-center">
-      <.test_button is_primary is_smmall>
+      <.button is_primary is_smmall>
         Button
-      </.test_button>
+      </.button>
     </:header>
     <:header_title class="flex-auto">
       Title
@@ -1070,23 +1070,23 @@ defmodule PrimerLive.Component do
     <:body>
       Rest
     </:body>
-  </.test_box>
+  </.box>
   ```
 
   Header with icon button:
 
   ```
-  <.test_box>
+  <.box>
     <:header class="d-flex flex-justify-between flex-items-start">
-      <.test_button is_close_button aria-label="Close" class="flex-shrink-0 pl-4">
+      <.button is_close_button aria-label="Close" class="flex-shrink-0 pl-4">
         <.octicon name="x-16" />
-      </.test_button>
+      </.button>
     </:header>
     <:header_title>
       A very long title that wraps onto multiple lines without overlapping or wrapping underneath the icon to it's right
     </:header_title>
     <:body>Content</:body>
-  </.test_box>
+  </.box>
   ```
 
   [INSERT LVATTRDOCS]
@@ -1182,7 +1182,7 @@ defmodule PrimerLive.Component do
     attr :class, :string, doc: "Additional classname."
   end
 
-  def test_box(assigns) do
+  def box(assigns) do
     # Create a zip data structure from header and header_title slots, making sure the lists have equal counts
     assigns =
       assigns
@@ -1352,12 +1352,12 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a dropdown menu.
 
-  [Examples](#test_dropdown/1-examples) • [Attributes](#test_dropdown/1-attributes) • [Reference](#test_dropdown/1-reference)
+  [Examples](#dropdown/1-examples) • [Attributes](#dropdown/1-attributes) • [Reference](#dropdown/1-reference)
 
   Menu items are rendered as link elements, and any attribute passed to the `item` slot is passed to the `<a>` tag.
 
   ```
-  <.test_dropdown>
+  <.dropdown>
     <:toggle>Menu</:toggle>
     <:item href="#url">
       Item 1
@@ -1365,7 +1365,7 @@ defmodule PrimerLive.Component do
     <:item href="#url">
       Item 2
     </:item>
-  </.test_dropdown>
+  </.dropdown>
   ```
 
   ## Examples
@@ -1373,7 +1373,7 @@ defmodule PrimerLive.Component do
   Add a menu title by passing `title` to the `menu` slot:
 
   ```
-  <.test_dropdown>
+  <.dropdown>
     <:toggle>Menu</:toggle>
     <:menu title="Menu title" />
     <:item href="#url">
@@ -1382,7 +1382,7 @@ defmodule PrimerLive.Component do
     <:item href="#url">
       Item 2
     </:item>
-  </.test_dropdown>
+  </.dropdown>
   ```
 
   Change the position of the menu relative to the dropdown toggle:
@@ -1394,7 +1394,7 @@ defmodule PrimerLive.Component do
   Create dividers with `item` slot attribute `is_divider`:
 
   ```
-  <.test_dropdown>
+  <.dropdown>
     <:toggle>Menu</:toggle>
     <:item href="#url">
       Item 1
@@ -1406,7 +1406,7 @@ defmodule PrimerLive.Component do
     <:item href="#url">
       Item 3
     </:item>
-  </.test_dropdown>
+  </.dropdown>
   ```
 
   [INSERT LVATTRDOCS]
@@ -1503,7 +1503,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  def test_dropdown(assigns) do
+  def dropdown(assigns) do
     # Get the first menu slot, if any
     menu_slot = if assigns[:menu] && assigns[:menu] !== [], do: hd(assigns[:menu]), else: []
 
@@ -1622,10 +1622,10 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a button.
 
-  [Examples](#test_button/1-examples) • [Attributes](#test_button/1-attributes) • [Reference](#test_button/1-reference)
+  [Examples](#button/1-examples) • [Attributes](#button/1-attributes) • [Reference](#button/1-reference)
 
   ```
-  <.test_button>Click me</.test_button>
+  <.button>Click me</.button>
   ```
 
   ## Examples
@@ -1635,45 +1635,45 @@ defmodule PrimerLive.Component do
   Primary button:
 
   ```
-  <.test_button is_primary>Sign in</.test_button>
+  <.button is_primary>Sign in</.button>
   ```
 
   Small  button:
 
   ```
-  <.test_button is_small>Edit</.test_button>
+  <.button is_small>Edit</.button>
   ```
 
   Selected  button:
 
   ```
-  <.test_button is_selected>Unread</.test_button>
+  <.button is_selected>Unread</.button>
   ```
 
   Button with icon:
   ```
-  <.test_button is_primary>
+  <.button is_primary>
     <.octicon name="download-16" />
     <span>Clone</span>
     <span class="dropdown-caret"></span>
-  </.test_button>
+  </.button>
   ```
 
   Icon-only  button:
   ```
-  <.test_button is_icon_only aria-label="Desktop">
+  <.button is_icon_only aria-label="Desktop">
     <.octicon name="device-desktop-16" />
-  </.test_button>
+  </.button>
   ```
 
-  Use `test_button_group/1` to create a group of buttons:
+  Use `button_group/1` to create a group of buttons:
 
   ```
-  <.test_button_group>
+  <.button_group>
     <.button_group_item>Button 1</.button_group_item>
     <.button_group_item>Button 2</.button_group_item>
     <.button_group_item>Button 3</.button_group_item>
-  </.test_button_group>
+  </.button_group>
   ```
 
   [INSERT LVATTRDOCS]
@@ -1722,7 +1722,7 @@ defmodule PrimerLive.Component do
 
   slot(:inner_block, required: true, doc: "Button content.")
 
-  def test_button(assigns) do
+  def button(assigns) do
     assigns =
       assigns
       |> assign(:type, if(assigns.is_submit, do: "submit", else: "button"))
@@ -1762,7 +1762,7 @@ defmodule PrimerLive.Component do
   end
 
   # ------------------------------------------------------------------------------------
-  # test_button_group
+  # button_group
   # ------------------------------------------------------------------------------------
 
   @doc section: :buttons
@@ -1770,14 +1770,14 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a group of buttons.
 
-  [Examples](#test_button_group/1-examples) • [Attributes](#test_button_group/1-attributes) • [Reference](#test_button_group/1-reference)
+  [Examples](#button_group/1-examples) • [Attributes](#button_group/1-attributes) • [Reference](#button_group/1-reference)
 
   ```
-  <.test_button_group>
+  <.button_group>
     <:button>Button 1</:button>
     <:button>Button 2</:button>
     <:button>Button 3</:button>
-  </.test_button_group>
+  </.button_group>
   ```
 
   ## Examples
@@ -1785,12 +1785,12 @@ defmodule PrimerLive.Component do
   Use button slots while passing button attributes to create the button row:
 
   ```
-  <.test_button_group>
+  <.button_group>
     <:button>Button 1</:button>
     <:button is_selected>Button 2</:button>
     <:button is_danger>Button 3</:button>
     <:button class="my-button">Button 4</:button>
-  </.test_button_group>
+  </.button_group>
   ```
 
   [INSERT LVATTRDOCS]
@@ -1815,11 +1815,10 @@ defmodule PrimerLive.Component do
 
   slot(:button,
     required: true,
-    doc:
-      "Button. Use `test_button/1` attributes to configure the button appearance and behaviour."
+    doc: "Button. Use `button/1` attributes to configure the button appearance and behaviour."
   )
 
-  def test_button_group(assigns) do
+  def button_group(assigns) do
     classes = %{
       button_group:
         AttributeHelpers.classnames([
@@ -1837,9 +1836,9 @@ defmodule PrimerLive.Component do
     ~H"""
     <div class={classes.button_group} {@rest}>
       <%= for slot <- @button do %>
-        <.test_button {slot} class={classes.button.(slot)}>
+        <.button {slot} class={classes.button.(slot)}>
           <%= render_slot(slot) %>
-        </.test_button>
+        </.button>
       <% end %>
     </div>
     """
@@ -1854,10 +1853,10 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a control to navigate search results.
 
-  [Examples](#test_pagination/1-examples) • [Attributes](#test_pagination/1-attributes) • [Reference](#test_pagination/1-reference)
+  [Examples](#pagination/1-examples) • [Attributes](#pagination/1-attributes) • [Reference](#pagination/1-reference)
 
   ```
-  <.test_pagination
+  <.pagination
     page_count={@page_count}
     current_page={@current_page}
     link_path={fn page_num -> "/page/#{page_num}" end}
@@ -1876,7 +1875,7 @@ defmodule PrimerLive.Component do
   Simplified paginations, showing Next / Previous buttons:
 
   ```
-  <.test_pagination
+  <.pagination
     ...
     is_numbered="false"
   />
@@ -1885,7 +1884,7 @@ defmodule PrimerLive.Component do
   Configure the number of sibling and boundary page numbers to show:
 
   ```
-  <.test_pagination
+  <.pagination
     ...
     sibling_count="1"
     boundary_count="1"
@@ -1895,7 +1894,7 @@ defmodule PrimerLive.Component do
   Provide custom labels:
 
   ```
-  <.test_pagination
+  <.pagination
     ...
     labels={
       %{
@@ -1974,7 +1973,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  def test_pagination(assigns) do
+  def pagination(assigns) do
     assigns =
       assigns
       |> assign(:page_count, AttributeHelpers.as_integer(assigns.page_count) |> max(0))
@@ -2045,7 +2044,7 @@ defmodule PrimerLive.Component do
     }
 
     pagination_elements =
-      test_get_pagination_numbers(
+      get_pagination_numbers(
         page_count,
         current_page,
         boundary_count,
@@ -2117,7 +2116,7 @@ defmodule PrimerLive.Component do
   # Get the list of page number elements
   @doc false
 
-  def test_get_pagination_numbers(
+  def get_pagination_numbers(
         page_count,
         current_page,
         boundary_count,
@@ -2125,14 +2124,14 @@ defmodule PrimerLive.Component do
       )
       when page_count == 0,
       do:
-        test_get_pagination_numbers(
+        get_pagination_numbers(
           1,
           current_page,
           boundary_count,
           sibling_count
         )
 
-  def test_get_pagination_numbers(
+  def get_pagination_numbers(
         page_count,
         current_page,
         boundary_count,
@@ -2201,10 +2200,10 @@ defmodule PrimerLive.Component do
 
   See `PrimerLive.Octicons` for the complete list.
 
-  [Examples](#test_octicon/1-examples) • [Attributes](#test_octicon/1-attributes) • [Reference](#test_octicon/1-reference)
+  [Examples](#octicon/1-examples) • [Attributes](#octicon/1-attributes) • [Reference](#octicon/1-reference)
 
   ```
-  <.test_octicon name="comment-16" />
+  <.octicon name="comment-16" />
   ```
 
   ## Examples
@@ -2212,19 +2211,19 @@ defmodule PrimerLive.Component do
   Pass the icon name with the size: icon "alert-fill" with size "12" becomes "alert-fill-12":
 
   ```
-  <.test_octicon name="alert-fill-12" />
+  <.octicon name="alert-fill-12" />
   ```
 
   Icon "pencil" with size 24:
 
   ```
-  <.test_octicon name="pencil-24" />
+  <.octicon name="pencil-24" />
   ```
 
   Custom class:
 
   ```
-  <.test_octicon name="pencil-24" class="app-icon" />
+  <.octicon name="pencil-24" class="app-icon" />
   ```
 
   [INSERT LVATTRDOCS]
@@ -2253,7 +2252,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  def test_octicon(assigns) do
+  def octicon(assigns) do
     icon_fn = PrimerLive.Octicons.name_to_function() |> Map.get(assigns.name)
 
     case is_function(icon_fn) do

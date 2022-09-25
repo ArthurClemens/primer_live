@@ -10,7 +10,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_button>Button</.test_button>
+           <.button>Button</.button>
            """)
            |> format_html() ==
              """
@@ -23,19 +23,19 @@ defmodule PrimerLive.TestComponents.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_button is_full_width>Button</.test_button>
-           <.test_button is_close_button>Button</.test_button>
-           <.test_button is_danger>Button</.test_button>
-           <.test_button is_disabled>Button</.test_button>
-           <.test_button is_icon_only>Button</.test_button>
-           <.test_button is_invisible>Button</.test_button>
-           <.test_button is_large>Button</.test_button>
-           <.test_button is_link>Button</.test_button>
-           <.test_button is_outline>Button</.test_button>
-           <.test_button is_primary>Button</.test_button>
-           <.test_button is_selected>Button</.test_button>
-           <.test_button is_small>Button</.test_button>
-           <.test_button is_submit>Button</.test_button>
+           <.button is_full_width>Button</.button>
+           <.button is_close_button>Button</.button>
+           <.button is_danger>Button</.button>
+           <.button is_disabled>Button</.button>
+           <.button is_icon_only>Button</.button>
+           <.button is_invisible>Button</.button>
+           <.button is_large>Button</.button>
+           <.button is_link>Button</.button>
+           <.button is_outline>Button</.button>
+           <.button is_primary>Button</.button>
+           <.button is_selected>Button</.button>
+           <.button is_small>Button</.button>
+           <.button is_submit>Button</.button>
            """)
            |> format_html() ==
              """
@@ -60,7 +60,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_button><.test_octicon name="search-16" /></.test_button>
+           <.button><.octicon name="search-16" /></.button>
            """)
            |> format_html() ==
              """
@@ -73,11 +73,11 @@ defmodule PrimerLive.TestComponents.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_button>
-             <.test_octicon name="download-16" />
+           <.button>
+             <.octicon name="download-16" />
              <span>Clone</span>
              <span class="dropdown-caret"></span>
-           </.test_button>
+           </.button>
            """)
            |> format_html() ==
              """
@@ -90,9 +90,9 @@ defmodule PrimerLive.TestComponents.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_button is_icon_only aria-label="Desktop">
-             <.test_octicon name="device-desktop-16" />
-           </.test_button>
+           <.button is_icon_only aria-label="Desktop">
+             <.octicon name="device-desktop-16" />
+           </.button>
            """)
            |> format_html() ==
              """
@@ -105,9 +105,9 @@ defmodule PrimerLive.TestComponents.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_button is_icon_only is_danger aria-label="Desktop">
-             <.test_octicon name="device-desktop-16" />
-           </.test_button>
+           <.button is_icon_only is_danger aria-label="Desktop">
+             <.octicon name="device-desktop-16" />
+           </.button>
            """)
            |> format_html() ==
              """
@@ -120,9 +120,9 @@ defmodule PrimerLive.TestComponents.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_button is_close_button aria-label="Close">
-             <.test_octicon name="x-16" />
-           </.test_button>
+           <.button is_close_button aria-label="Close">
+             <.octicon name="x-16" />
+           </.button>
            """)
            |> format_html() ==
              """
@@ -135,7 +135,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_button dir="rtl">Button</.test_button>
+           <.button dir="rtl">Button</.button>
            """)
            |> format_html() ==
              """

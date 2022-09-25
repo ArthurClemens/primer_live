@@ -10,7 +10,7 @@ defmodule PrimerLive.TestComponents.OcticonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_octicon name="alert-16" />
+           <.octicon name="alert-16" />
            """)
            |> format_html() ==
              """
@@ -27,7 +27,7 @@ defmodule PrimerLive.TestComponents.OcticonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_octicon name="x" />
+           <.octicon name="x" />
            """)
            |> format_html() ==
              """
@@ -40,7 +40,7 @@ defmodule PrimerLive.TestComponents.OcticonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_octicon name="alert-16" class="x" />
+           <.octicon name="alert-16" class="x" />
            """)
            |> format_html() ==
              """
@@ -57,7 +57,7 @@ defmodule PrimerLive.TestComponents.OcticonTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_octicon name="alert-16" dir="rtl" />
+           <.octicon name="alert-16" dir="rtl" />
            """)
            |> format_html() ==
              """

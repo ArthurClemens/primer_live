@@ -10,12 +10,12 @@ defmodule PrimerLive.TestComponents.ButtonGroupTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_button_group>
+           <.button_group>
              <:button>Button 1</:button>
              <:button is_selected>Button 2</:button>
              <:button is_danger>Button 3</:button>
              <:button class="button-x">Button 4</:button>
-           </.test_button_group>
+           </.button_group>
            """)
            |> format_html() ==
              """
@@ -33,10 +33,10 @@ defmodule PrimerLive.TestComponents.ButtonGroupTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_button_group class="button-group-x">
+           <.button_group class="button-group-x">
              <:button>Button 1</:button>
              <:button>Button 2</:button>
-           </.test_button_group>
+           </.button_group>
            """)
            |> format_html() ==
              """
@@ -52,10 +52,10 @@ defmodule PrimerLive.TestComponents.ButtonGroupTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_button_group dir="rtl">
+           <.button_group dir="rtl">
              <:button>Button 1</:button>
              <:button>Button 2</:button>
-           </.test_button_group>
+           </.button_group>
            """)
            |> format_html() ==
              """

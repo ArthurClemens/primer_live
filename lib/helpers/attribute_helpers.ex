@@ -302,5 +302,4 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   def minmax(value, min, max) do
     max(min, min(value, max))
   end
-
 end

@@ -10,7 +10,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_textarea />
+           <.textarea />
            """)
            |> format_html() ==
              """
@@ -23,7 +23,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_textarea is_large />
+           <.textarea is_large />
            """)
            |> format_html() ==
              """
@@ -36,7 +36,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_textarea is_small />
+           <.textarea is_small />
            """)
            |> format_html() ==
              """
@@ -49,7 +49,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_textarea is_short />
+           <.textarea is_short />
            """)
            |> format_html() ==
              """
@@ -62,7 +62,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_textarea form={:f} field={:first_name} is_short is_group />
+           <.textarea form={:f} field={:first_name} is_short is_group />
            """)
            |> format_html() ==
              """
@@ -78,7 +78,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_textarea class="x" />
+           <.textarea class="x" />
            """)
            |> format_html() ==
              """

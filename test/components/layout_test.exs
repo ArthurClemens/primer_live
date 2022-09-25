@@ -6,9 +6,9 @@ defmodule PrimerLive.TestComponents.LayoutTest do
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
-  defp test_layout_with_slots(assigns) do
+  defp layout_with_slots(assigns) do
     ~H"""
-    <.test_layout {assigns}>
+    <.layout {assigns}>
       <:main>
         Main content
       </:main>
@@ -16,7 +16,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
       <:sidebar>
         Sidebar content
       </:sidebar>
-    </.test_layout>
+    </.layout>
     """
   end
 
@@ -24,7 +24,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_layout></.test_layout>
+           <.layout></.layout>
            """)
            |> format_html() ==
              """
@@ -37,14 +37,14 @@ defmodule PrimerLive.TestComponents.LayoutTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_layout>
+           <.layout>
              <:main>
                Main content
              </:main>
              <:sidebar>
                Sidebar content
              </:sidebar>
-           </.test_layout>
+           </.layout>
            """)
            |> format_html() ==
              """
@@ -61,7 +61,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_layout>
+           <.layout>
              <:sidebar order="1">
                Sidebar content
              </:sidebar>
@@ -69,7 +69,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              <:main order={2}>
                Main content
              </:main>
-           </.test_layout>
+           </.layout>
            """)
            |> format_html() ==
              """
@@ -86,21 +86,21 @@ defmodule PrimerLive.TestComponents.LayoutTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_layout>
+           <.layout>
              <:main>
-               <.test_layout is_sidebar_position_end is_narrow_sidebar>
+               <.layout is_sidebar_position_end is_narrow_sidebar>
                  <:main>
                    Main content
                  </:main>
                  <:sidebar>
                    Metadata sidebar
                  </:sidebar>
-               </.test_layout>
+               </.layout>
              </:main>
              <:sidebar>
                Default sidebar
              </:sidebar>
-           </.test_layout>
+           </.layout>
            """)
            |> format_html() ==
              """
@@ -121,21 +121,21 @@ defmodule PrimerLive.TestComponents.LayoutTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_layout>
+           <.layout>
              <:main>
-               <.test_layout is_sidebar_position_end is_flow_row_until_lg is_narrow_sidebar>
+               <.layout is_sidebar_position_end is_flow_row_until_lg is_narrow_sidebar>
                  <:main>
                    Main content
                  </:main>
                  <:sidebar>
                    Metadata sidebar
                  </:sidebar>
-               </.test_layout>
+               </.layout>
              </:main>
              <:sidebar>
                Default sidebar
              </:sidebar>
-           </.test_layout>
+           </.layout>
            """)
            |> format_html() ==
              """
@@ -156,19 +156,19 @@ defmodule PrimerLive.TestComponents.LayoutTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_layout is_narrow_sidebar></.test_layout>
-           <.test_layout is_wide_sidebar></.test_layout>
-           <.test_layout is_divided></.test_layout>
-           <.test_layout is_gutter_none></.test_layout>
-           <.test_layout is_gutter_condensed></.test_layout>
-           <.test_layout is_gutter_spacious></.test_layout>
-           <.test_layout is_sidebar_position_start></.test_layout>
-           <.test_layout is_sidebar_position_end></.test_layout>
-           <.test_layout is_sidebar_position_flow_row_start></.test_layout>
-           <.test_layout is_sidebar_position_flow_row_end></.test_layout>
-           <.test_layout is_sidebar_position_flow_row_none></.test_layout>
-           <.test_layout is_flow_row_until_md></.test_layout>
-           <.test_layout is_flow_row_until_lg></.test_layout>
+           <.layout is_narrow_sidebar></.layout>
+           <.layout is_wide_sidebar></.layout>
+           <.layout is_divided></.layout>
+           <.layout is_gutter_none></.layout>
+           <.layout is_gutter_condensed></.layout>
+           <.layout is_gutter_spacious></.layout>
+           <.layout is_sidebar_position_start></.layout>
+           <.layout is_sidebar_position_end></.layout>
+           <.layout is_sidebar_position_flow_row_start></.layout>
+           <.layout is_sidebar_position_flow_row_end></.layout>
+           <.layout is_sidebar_position_flow_row_none></.layout>
+           <.layout is_flow_row_until_md></.layout>
+           <.layout is_flow_row_until_lg></.layout>
            """)
            |> format_html() ==
              """
@@ -193,9 +193,9 @@ defmodule PrimerLive.TestComponents.LayoutTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_layout_with_slots is_centered_md />
-           <.test_layout_with_slots is_centered_lg />
-           <.test_layout_with_slots is_centered_xl />
+           <.layout_with_slots is_centered_md />
+           <.layout_with_slots is_centered_lg />
+           <.layout_with_slots is_centered_xl />
            """)
            |> format_html() ==
              """
@@ -210,8 +210,8 @@ defmodule PrimerLive.TestComponents.LayoutTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_layout_with_slots is_divided is_flow_row_shallow />
-           <.test_layout_with_slots is_divided is_flow_row_hidden />
+           <.layout_with_slots is_divided is_flow_row_shallow />
+           <.layout_with_slots is_divided is_flow_row_hidden />
            """)
            |> format_html() ==
              """
@@ -225,7 +225,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_layout class="x"></.test_layout>
+           <.layout class="x"></.layout>
            """)
            |> format_html() ==
              """
@@ -238,7 +238,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_layout dir="rtl"></.test_layout>
+           <.layout dir="rtl"></.layout>
            """)
            |> format_html() ==
              """

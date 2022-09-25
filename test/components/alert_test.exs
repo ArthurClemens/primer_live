@@ -10,7 +10,7 @@ defmodule PrimerLive.TestComponents.AlertTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_alert>Message</.test_alert>
+           <.alert>Message</.alert>
            """)
            |> format_html() ==
              """
@@ -23,10 +23,10 @@ defmodule PrimerLive.TestComponents.AlertTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_alert is_error>Message</.test_alert>
-           <.test_alert is_success>Message</.test_alert>
-           <.test_alert is_warning>Message</.test_alert>
-           <.test_alert is_full>Message</.test_alert>
+           <.alert is_error>Message</.alert>
+           <.alert is_success>Message</.alert>
+           <.alert is_warning>Message</.alert>
+           <.alert is_full>Message</.alert>
            """)
            |> format_html() ==
              """
@@ -42,7 +42,7 @@ defmodule PrimerLive.TestComponents.AlertTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_alert class="x">Message</.test_alert>
+           <.alert class="x">Message</.alert>
            """)
            |> format_html() ==
              """
@@ -55,7 +55,7 @@ defmodule PrimerLive.TestComponents.AlertTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_alert dir="rtl">Message</.test_alert>
+           <.alert dir="rtl">Message</.alert>
            """)
            |> format_html() ==
              """

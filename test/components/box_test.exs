@@ -10,9 +10,9 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_box>
+           <.box>
              Content
-           </.test_box>
+           </.box>
            """)
            |> format_html() ==
              """
@@ -25,11 +25,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_box>
+           <.box>
              <:row>Row 1</:row>
              <:row>Row 2</:row>
              <:row>Row 3</:row>
-           </.test_box>
+           </.box>
            """)
            |> format_html() ==
              """
@@ -46,7 +46,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_box>
+           <.box>
              <:header>
                Header
              </:header>
@@ -57,7 +57,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
              <:footer>
                Footer
              </:footer>
-           </.test_box>
+           </.box>
            """)
            |> format_html() ==
              """
@@ -75,7 +75,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_box class="box-x">
+           <.box class="box-x">
              <:header class="header-x">
                Header
              </:header>
@@ -89,7 +89,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
              <:footer class="footer-x">
                Footer
              </:footer>
-           </.test_box>
+           </.box>
            """)
            |> format_html() ==
              """
@@ -107,12 +107,12 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = %{show_alert: true}
 
     assert rendered_to_string(~H"""
-           <.test_box>
-             <.test_alert :if={@show_alert}>Alert message</.test_alert>
+           <.box>
+             <.alert :if={@show_alert}>Alert message</.alert>
              <:body>
                Body
              </:body>
-           </.test_box>
+           </.box>
            """)
            |> format_html() ==
              """
@@ -125,12 +125,12 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_box>
+           <.box>
              <:header_title>
                Title
              </:header_title>
              Content
-           </.test_box>
+           </.box>
            """)
            |> format_html() ==
              """
@@ -147,13 +147,13 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_box>
+           <.box>
              <:header>Header</:header>
              <:header_title>
                Title
              </:header_title>
              Content
-           </.test_box>
+           </.box>
            """)
            |> format_html() ==
              """
@@ -171,17 +171,17 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_box>
+           <.box>
              <:header class="d-flex flex-justify-between flex-items-start">
-               <.test_button is_close_button aria-label="Close" class="flex-shrink-0 pl-4">
-                 <.test_octicon name="x-16" />
-               </.test_button>
+               <.button is_close_button aria-label="Close" class="flex-shrink-0 pl-4">
+                 <.octicon name="x-16" />
+               </.button>
              </:header>
              <:header_title>
                A very long title that wraps onto multiple lines without overlapping or wrapping underneath the icon to it's right
              </:header_title>
              <:body>Content</:body>
-           </.test_box>
+           </.box>
            """)
            |> format_html() ==
              """
@@ -205,11 +205,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = %{results: ["A", "B", "C"]}
 
     assert rendered_to_string(~H"""
-           <.test_box>
+           <.box>
              <:row :for={result <- @results}>
                <%= result %>
              </:row>
-           </.test_box>
+           </.box>
            """)
            |> format_html() ==
              """
@@ -226,11 +226,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_box is_blue>Content</.test_box>
-           <.test_box is_danger>Content</.test_box>
-           <.test_box is_border_dashed>Content</.test_box>
-           <.test_box is_condensed>Content</.test_box>
-           <.test_box is_spacious>Content</.test_box>
+           <.box is_blue>Content</.box>
+           <.box is_danger>Content</.box>
+           <.box is_border_dashed>Content</.box>
+           <.box is_condensed>Content</.box>
+           <.box is_spacious>Content</.box>
            """)
            |> format_html() ==
              """
@@ -247,7 +247,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_box>
+           <.box>
              <:row is_blue>Content</:row>
              <:row is_gray>Content</:row>
              <:row is_yellow>Content</:row>
@@ -255,7 +255,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
              <:row is_hover_gray>Content</:row>
              <:row is_focus_blue>Content</:row>
              <:row is_focus_gray>Content</:row>
-           </.test_box>
+           </.box>
            """)
            |> format_html() ==
              """
@@ -276,11 +276,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_box>
+           <.box>
              <:row is_link href="/home" class="link-x" is_gray>
                Go to home
              </:row>
-           </.test_box>
+           </.box>
            """)
            |> format_html() ==
              """
@@ -297,7 +297,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_box dir="rtl">Content</.test_box>
+           <.box dir="rtl">Content</.box>
            """)
            |> format_html() ==
              """

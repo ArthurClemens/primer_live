@@ -10,7 +10,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_dropdown>
+           <.dropdown>
              <:toggle>Menu</:toggle>
              <:item href="#url">
                Item 1
@@ -18,7 +18,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              <:item href="#url">
                Item 2
              </:item>
-           </.test_dropdown>
+           </.dropdown>
            """)
            |> format_html() ==
              """
@@ -38,7 +38,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_dropdown>
+           <.dropdown>
              <:toggle class="x">Menu</:toggle>
              <:item href="#url">
                Item 1
@@ -46,7 +46,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              <:item href="#url">
                Item 2
              </:item>
-           </.test_dropdown>
+           </.dropdown>
            """)
            |> format_html() ==
              """
@@ -66,7 +66,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_dropdown>
+           <.dropdown>
              <:toggle>Menu</:toggle>
              <:menu title="Menu title" />
              <:item href="#url">
@@ -75,7 +75,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              <:item href="#url">
                Item 2
              </:item>
-           </.test_dropdown>
+           </.dropdown>
            """)
            |> format_html() ==
              """
@@ -98,7 +98,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_dropdown>
+           <.dropdown>
              <:toggle>Menu</:toggle>
              <:menu position="e" />
              <:item href="#url">
@@ -107,7 +107,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              <:item href="#url">
                Item 2
              </:item>
-           </.test_dropdown>
+           </.dropdown>
            """)
            |> format_html() ==
              """
@@ -127,7 +127,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_dropdown>
+           <.dropdown>
              <:toggle>Menu</:toggle>
              <:item href="#url">
                Item 1
@@ -135,7 +135,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              <:item href="#url">
                Item 2
              </:item>
-           </.test_dropdown>
+           </.dropdown>
            """)
            |> format_html() ==
              """
@@ -155,7 +155,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_dropdown>
+           <.dropdown>
              <:toggle>Menu</:toggle>
              <:item href="#url">
                Item 1
@@ -168,7 +168,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              <:item href="#url">
                Item 3
              </:item>
-           </.test_dropdown>
+           </.dropdown>
            """)
            |> format_html() ==
              """

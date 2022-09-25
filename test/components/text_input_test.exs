@@ -33,7 +33,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input />
+           <.text_input />
            """)
            |> format_html() ==
              """
@@ -46,7 +46,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form="x" />
+           <.text_input form="x" />
            """)
            |> format_html() ==
              """
@@ -59,7 +59,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={:user} field={:first_name} is_group />
+           <.text_input form={:user} field={:first_name} is_group />
            """)
            |> format_html() ==
              """
@@ -79,9 +79,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={:user} field={:first_name}>
+           <.text_input form={:user} field={:first_name}>
              <:group label="Some label"></:group>
-           </.test_text_input>
+           </.text_input>
            """)
            |> format_html() ==
              """
@@ -101,11 +101,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={:user} field={:first_name}>
+           <.text_input form={:user} field={:first_name}>
              <:group :let={field} label="First name">
                <h2><%= field.label %></h2>
              </:group>
-           </.test_text_input>
+           </.text_input>
            """)
            |> format_html() ==
              """
@@ -126,7 +126,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={:user} field={:first_name}>
+           <.text_input form={:user} field={:first_name}>
              <:group :let={field} label="First name">
                <h2>
                  <%= if !field.field_state.valid? do %>
@@ -136,7 +136,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
                  <%= field.label %>
                </h2>
              </:group>
-           </.test_text_input>
+           </.text_input>
            """)
            |> format_html() ==
              """
@@ -158,7 +158,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={:user} field={:first_name} />
+           <.text_input form={:user} field={:first_name} />
            """)
            |> format_html() ==
              """
@@ -171,7 +171,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={:user} field="first_name" />
+           <.text_input form={:user} field="first_name" />
            """)
            |> format_html() ==
              """
@@ -184,7 +184,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input name="first_name" />
+           <.text_input name="first_name" />
            """)
            |> format_html() ==
              """
@@ -197,22 +197,22 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input type={:x} />
-           <.test_text_input type="color" />
-           <.test_text_input type="date" />
-           <.test_text_input type="datetime-local" />
-           <.test_text_input type="email" />
-           <.test_text_input type="file" />
-           <.test_text_input type="hidden" />
-           <.test_text_input type="number" />
-           <.test_text_input type="password" />
-           <.test_text_input type="range" />
-           <.test_text_input type="search" />
-           <.test_text_input type="telephone" />
-           <.test_text_input type="text" />
-           <.test_text_input type="textarea" />
-           <.test_text_input type="time" />
-           <.test_text_input type="url" />
+           <.text_input type={:x} />
+           <.text_input type="color" />
+           <.text_input type="date" />
+           <.text_input type="datetime-local" />
+           <.text_input type="email" />
+           <.text_input type="file" />
+           <.text_input type="hidden" />
+           <.text_input type="number" />
+           <.text_input type="password" />
+           <.text_input type="range" />
+           <.text_input type="search" />
+           <.text_input type="telephone" />
+           <.text_input type="text" />
+           <.text_input type="textarea" />
+           <.text_input type="time" />
+           <.text_input type="url" />
            """)
            |> format_html() ==
              """
@@ -240,11 +240,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input is_contrast />
-           <.test_text_input is_full_width />
-           <.test_text_input is_hide_webkit_autofill />
-           <.test_text_input is_large />
-           <.test_text_input is_small />
+           <.text_input is_contrast />
+           <.text_input is_full_width />
+           <.text_input is_hide_webkit_autofill />
+           <.text_input is_large />
+           <.text_input is_small />
            """)
            |> format_html() ==
              """
@@ -261,7 +261,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input is_short />
+           <.text_input is_short />
            """)
            |> format_html() ==
              """
@@ -274,9 +274,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={:f} field={:first_name} is_short>
+           <.text_input form={:f} field={:first_name} is_short>
              <:group></:group>
-           </.test_text_input>
+           </.text_input>
            """)
            |> format_html() ==
              """
@@ -293,7 +293,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input class="x" />
+           <.text_input class="x" />
            """)
            |> format_html() ==
              """
@@ -306,7 +306,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input name="first_name" />
+           <.text_input name="first_name" />
            """)
            |> format_html() ==
              """
@@ -319,7 +319,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input name="first_name" placeholder="Enter your first name" />
+           <.text_input name="first_name" placeholder="Enter your first name" />
            """)
            |> format_html() ==
              """
@@ -332,7 +332,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input name="first_name" aria_label="Enter your first name" />
+           <.text_input name="first_name" aria_label="Enter your first name" />
            """)
            |> format_html() ==
              """
@@ -345,9 +345,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={:f} field={:first_name}>
+           <.text_input form={:f} field={:first_name}>
              <:group label="First name" class="x"></:group>
-           </.test_text_input>
+           </.text_input>
            """)
            |> format_html() ==
              """
@@ -364,7 +364,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     form = @form
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={form} field={:first_name}>
+           <.text_input form={form} field={:first_name}>
              <:group classes={
                %{
                  group: "group-x",
@@ -374,7 +374,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
                }
              }>
              </:group>
-           </.test_text_input>
+           </.text_input>
            """)
            |> format_html() ==
              """
@@ -394,9 +394,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={:f} field={:first_name} dir="rtl">
+           <.text_input form={:f} field={:first_name} dir="rtl">
              <:group></:group>
-           </.test_text_input>
+           </.text_input>
            """)
            |> format_html() ==
              """
@@ -413,7 +413,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     form = @form
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={form} field={:first_name} is_group />
+           <.text_input form={form} field={:first_name} is_group />
            """)
            |> format_html() ==
              """
@@ -432,14 +432,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     form = @form
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={form} field={:first_name}>
+           <.text_input form={form} field={:first_name}>
              <:group validation_message={
                fn field_state ->
                  if !field_state.valid?, do: "Please enter your first name"
                end
              }>
              </:group>
-           </.test_text_input>
+           </.text_input>
            """)
            |> format_html() ==
              """
@@ -460,14 +460,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={update_form} field={:first_name}>
+           <.text_input form={update_form} field={:first_name}>
              <:group validation_message={
                fn field_state ->
                  if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
                end
              }>
              </:group>
-           </.test_text_input>
+           </.text_input>
            """)
            |> format_html() ==
              """
@@ -488,14 +488,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.test_text_input form={validate_form} field={:first_name}>
+           <.text_input form={validate_form} field={:first_name}>
              <:group validation_message={
                fn field_state ->
                  if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
                end
              }>
              </:group>
-           </.test_text_input>
+           </.text_input>
            """)
            |> format_html() ==
              """
