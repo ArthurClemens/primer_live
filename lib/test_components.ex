@@ -15,7 +15,7 @@ defmodule PrimerLive.TestComponents do
 
   Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group" to add a field label and validation.
 
-  [Examples](#test_text_input/1-examples) • [AttributeHelpers](#test_text_input/1-attributes) • [Reference](#test_text_input/1-reference)
+  [Examples](#test_text_input/1-examples) • [Attributes](#test_text_input/1-attributes) • [Reference](#test_text_input/1-reference)
 
   ```
   <.test_text_input name="first_name" />
@@ -324,7 +324,7 @@ defmodule PrimerLive.TestComponents do
 
     initial_input_attrs = if has_group, do: [], else: rest
 
-    input_opts =
+    input_attributes =
       AttributeHelpers.append_attributes(initial_input_attrs, [
         [class: assigns[:class]],
         # If aria_label is not set, use the value of placeholder (if any):
@@ -332,7 +332,7 @@ defmodule PrimerLive.TestComponents do
         not is_nil(message_id) and [aria_describedby: message_id]
       ])
 
-    input = apply(Phoenix.HTML.Form, input_type, [form, field, input_opts])
+    input = apply(Phoenix.HTML.Form, input_type, [form, field, input_attributes])
 
     case has_group do
       false ->
@@ -392,13 +392,13 @@ defmodule PrimerLive.TestComponents do
           field_state: field_state
         }
 
-        group_opts =
+        group_attributes =
           AttributeHelpers.append_attributes(rest, [
             [class: classes.group]
           ])
 
         ~H"""
-        <div {group_opts}>
+        <div {group_attributes}>
           <div class={classes.header}>
             <%= render_slot(group_slot, field) |> ComponentHelpers.maybe_slot_content() || header_label %>
           </div>
@@ -487,7 +487,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Creates an alert message.
 
-  [Examples](#test_alert/1-examples) • [AttributeHelpers](#test_alert/1-attributes) • [Reference](#test_alert/1-reference)
+  [Examples](#test_alert/1-examples) • [Attributes](#test_alert/1-attributes) • [Reference](#test_alert/1-reference)
 
   ```
   <.test_alert>
@@ -573,7 +573,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Wrapper to render a vertical stack of `test_alert/1` messages with spacing in between.
 
-  [AttributeHelpers](#test_alert_messages/1-attributes) • [Reference](#test_alert_messages/1-reference)
+  [Attributes](#test_alert_messages/1-attributes) • [Reference](#test_alert_messages/1-reference)
 
   ```
   <.test_alert_messages>
@@ -632,7 +632,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Creates a responsive-friendly page layout with 2 columns.
 
-  [Examples](#test_layout/1-examples) • [AttributeHelpers](#test_layout/1-attributes) • [Reference](#test_layout/1-reference)
+  [Examples](#test_layout/1-examples) • [Attributes](#test_layout/1-attributes) • [Reference](#test_layout/1-reference)
 
   ```
   <.test_layout>
@@ -969,7 +969,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Creates a content container.
 
-  [Examples](#test_box/1-examples) • [AttributeHelpers](#test_box/1-attributes) • [Reference](#test_box/1-reference)
+  [Examples](#test_box/1-examples) • [Attributes](#test_box/1-attributes) • [Reference](#test_box/1-reference)
 
   A `box` is a container with rounded corners, a white background, and a light gray border.
   By default, there are no other styles, such as padding; however, these can be introduced
@@ -1183,6 +1183,7 @@ defmodule PrimerLive.TestComponents do
   end
 
   def test_box(assigns) do
+    # Create a zip data structure from header and header_title slots, making sure the lists have equal counts
     assigns =
       assigns
       |> assign(
@@ -1343,6 +1344,276 @@ defmodule PrimerLive.TestComponents do
   end
 
   # ------------------------------------------------------------------------------------
+  # dropdown
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :menus
+
+  @doc ~S"""
+  Creates a dropdown menu.
+
+  [Examples](#test_dropdown/1-examples) • [Attributes](#test_dropdown/1-attributes) • [Reference](#test_dropdown/1-reference)
+
+  Menu items are rendered as link elements, and any attribute passed to the `item` slot is passed to the `<a>` tag.
+
+  ```
+  <.test_dropdown>
+    <:toggle>Menu</:toggle>
+    <:item href="#url">
+      Item 1
+    </:item>
+    <:item href="#url">
+      Item 2
+    </:item>
+  </.test_dropdown>
+  ```
+
+  ## Examples
+
+  Add a menu title by passing `title` to the `menu` slot:
+
+  ```
+  <.test_dropdown>
+    <:toggle>Menu</:toggle>
+    <:menu title="Menu title" />
+    <:item href="#url">
+      Item 1
+    </:item>
+    <:item href="#url">
+      Item 2
+    </:item>
+  </.test_dropdown>
+  ```
+
+  Change the position of the menu relative to the dropdown toggle:
+
+  ```
+  <:menu position="e" />
+  ```
+
+  Create dividers with `item` slot attribute `is_divider`:
+
+  ```
+  <.test_dropdown>
+    <:toggle>Menu</:toggle>
+    <:item href="#url">
+      Item 1
+    </:item>
+    <:item href="#url">
+      Item 2
+    </:item>
+    <:item is_divider />
+    <:item href="#url">
+      Item 3
+    </:item>
+  </.test_dropdown>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Box](https://primer.style/css/components/box/)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr :classes, :map,
+    doc: """
+    Additional classnames for dropdown elements.
+
+    Any provided value will be appended to the default classname, except for `toggle` that will override the default class \"btn\".
+
+    Default map:
+    ```
+    %{
+      dropdown: "",
+      toggle: "",
+      caret: "",
+      menu: "",
+      item: "",
+      divider: "",
+      header: ""
+    }
+    ```
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot(:toggle,
+    required: true,
+    doc: """
+    Creates a toggle element (default with button appearance) using the slot content as label.
+
+    Any custom class will override the default class "btn".
+    """
+  )
+
+  slot :menu,
+    doc: """
+    Creates a menu element.
+    """ do
+    attr(:title, :string,
+      doc: """
+      Creates a menu header with specified title.
+      """
+    )
+
+    attr(:position, :string,
+      doc: """
+      Position of the menu relative to the dropdown toggle.
+
+      Possible values: "se", "ne", "e", "sw", "s", "w".
+
+      Default: "se".
+      """
+    )
+  end
+
+  slot :item,
+    required: true,
+    doc: """
+    Menu item content.
+    """ do
+    attr(:is_divider, :boolean,
+      doc: """
+      Creates a divider element.
+      """
+    )
+
+    attr(:rest, :global,
+      doc: """
+      Additional HTML attributes added to the item element.
+      """
+    )
+  end
+
+  slot(:divider,
+    doc: """
+    Creates a divider element.
+
+    A divider cannot have any slot content.
+    """
+  )
+
+  def test_dropdown(assigns) do
+    # Get the first menu slot, if any
+    menu_slot = if assigns[:menu] && assigns[:menu] !== [], do: hd(assigns[:menu]), else: []
+
+    # Get the toggle menu slot, if any
+    toggle_slot =
+      if assigns[:toggle] && assigns[:toggle] !== [], do: hd(assigns[:toggle]), else: []
+
+    # Collect all attributes inside "rest"
+    item_slots =
+      assigns.item
+      |> Enum.map(
+        &Map.put(
+          &1,
+          :rest,
+          assigns_to_attributes(&1, [
+            :is_divider,
+            :class
+          ])
+        )
+      )
+
+    menu_title = menu_slot[:title]
+    menu_position = menu_slot[:position] || "se"
+
+    classes = %{
+      dropdown:
+        AttributeHelpers.classnames([
+          "dropdown",
+          "details-reset",
+          "details-overlay",
+          "d-inline-block",
+          assigns[:class]
+        ]),
+      toggle:
+        AttributeHelpers.classnames([
+          # If a custom class is set, remove the default btn class
+          assigns[:classes][:toggle] || toggle_slot[:class] || "btn"
+        ]),
+      caret: "dropdown-caret",
+      menu:
+        AttributeHelpers.classnames([
+          "dropdown-menu",
+          "dropdown-menu-" <> menu_position
+        ]),
+      item: "dropdown-item",
+      divider: "dropdown-divider",
+      header: "dropdown-header"
+    }
+
+    toggle_attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: classes.toggle],
+        [aria_haspopup: "true"]
+      ])
+
+    item_attributes = fn item ->
+      AttributeHelpers.append_attributes(item.rest, [
+        [class: AttributeHelpers.classnames([classes.item, item[:class]])]
+      ])
+    end
+
+    divider_attributes = fn divider ->
+      AttributeHelpers.append_attributes(divider.rest, [
+        [class: AttributeHelpers.classnames([classes.divider, divider[:class]])],
+        [role: "separator"]
+      ])
+    end
+
+    render_menu = fn menu_attributes ->
+      ~H"""
+      <ul {menu_attributes}>
+        <%= for item <- item_slots do %>
+          <%= if item[:is_divider] do %>
+            <li {divider_attributes.(item)} />
+          <% else %>
+            <li>
+              <a {item_attributes.(item)}><%= render_slot(item) %></a>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+      """
+    end
+
+    menu_attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: classes.menu]
+      ])
+
+    ~H"""
+    <details class={classes.dropdown} {@rest}>
+      <summary {toggle_attributes}>
+        <%= render_slot(@toggle) %>
+        <div class={classes.caret}></div>
+      </summary>
+      <%= if not is_nil(menu_title) do %>
+        <div {menu_attributes}>
+          <div class={classes.header}>
+            <%= menu_title %>
+          </div>
+          <%= render_menu.([]) %>
+        </div>
+      <% else %>
+        <%= render_menu.(menu_attributes) %>
+      <% end %>
+    </details>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
   # button
   # ------------------------------------------------------------------------------------
 
@@ -1351,7 +1622,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Creates a button.
 
-  [Examples](#test_button/1-examples) • [AttributeHelpers](#test_button/1-attributes) • [Reference](#test_button/1-reference)
+  [Examples](#test_button/1-examples) • [Attributes](#test_button/1-attributes) • [Reference](#test_button/1-reference)
 
   ```
   <.test_button>Click me</.test_button>
@@ -1499,7 +1770,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Creates a group of buttons.
 
-  [Examples](#test_button_group/1-examples) • [AttributeHelpers](#test_button_group/1-attributes) • [Reference](#test_button_group/1-reference)
+  [Examples](#test_button_group/1-examples) • [Attributes](#test_button_group/1-attributes) • [Reference](#test_button_group/1-reference)
 
   ```
   <.test_button_group>
@@ -1583,7 +1854,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Creates a control to navigate search results.
 
-  [Examples](#test_pagination/1-examples) • [AttributeHelpers](#test_pagination/1-attributes) • [Reference](#test_pagination/1-reference)
+  [Examples](#test_pagination/1-examples) • [Attributes](#test_pagination/1-attributes) • [Reference](#test_pagination/1-reference)
 
   ```
   <.test_pagination
@@ -1930,7 +2201,7 @@ defmodule PrimerLive.TestComponents do
 
   See `PrimerLive.Octicons` for the complete list.
 
-  [Examples](#test_octicon/1-examples) • [AttributeHelpers](#test_octicon/1-attributes) • [Reference](#test_octicon/1-reference)
+  [Examples](#test_octicon/1-examples) • [Attributes](#test_octicon/1-attributes) • [Reference](#test_octicon/1-reference)
 
   ```
   <.test_octicon name="comment-16" />
