@@ -8,6 +8,9 @@ defmodule PrimerLive.Octicons do
   ```
   <.octicon name="<%= name %>" />
   ```
+  <!--
+  [INSERT LVATTRDOCS]
+  -->
   """
 
   attr :class, :string, doc: "Additional classname."
