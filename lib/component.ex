@@ -1535,22 +1535,40 @@ defmodule PrimerLive.Component do
           "details-reset",
           "details-overlay",
           "d-inline-block",
-          assigns[:class]
+          assigns[:class],
+          assigns[:classes][:dropdown]
         ]),
       toggle:
         AttributeHelpers.classnames([
           # If a custom class is set, remove the default btn class
           assigns[:classes][:toggle] || toggle_slot[:class] || "btn"
         ]),
-      caret: "dropdown-caret",
+      caret:
+        AttributeHelpers.classnames([
+          "dropdown-caret",
+          assigns[:classes][:caret]
+        ]),
       menu:
         AttributeHelpers.classnames([
           "dropdown-menu",
-          "dropdown-menu-" <> menu_position
+          "dropdown-menu-" <> menu_position,
+          assigns[:classes][:menu]
         ]),
-      item: "dropdown-item",
-      divider: "dropdown-divider",
-      header: "dropdown-header"
+      item:
+        AttributeHelpers.classnames([
+          "dropdown-item",
+          assigns[:classes][:item]
+        ]),
+      divider:
+        AttributeHelpers.classnames([
+          "dropdown-divider",
+          assigns[:classes][:divider]
+        ]),
+      header:
+        AttributeHelpers.classnames([
+          "dropdown-header",
+          assigns[:classes][:header]
+        ])
     }
 
     toggle_attributes =
