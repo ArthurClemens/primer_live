@@ -75,12 +75,12 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Group slot with label_text, without inner_block" do
+  test "Group slot with label, without inner_block" do
     assigns = []
 
     assert rendered_to_string(~H"""
            <.test_text_input form={:user} field={:first_name}>
-             <:group label_text="Some label"></:group>
+             <:group label="Some label"></:group>
            </.test_text_input>
            """)
            |> format_html() ==
@@ -97,12 +97,12 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Group slot with label_text and inner_block" do
+  test "Group slot with label and inner_block" do
     assigns = []
 
     assert rendered_to_string(~H"""
            <.test_text_input form={:user} field={:first_name}>
-             <:group :let={field} label_text="First name">
+             <:group :let={field} label="First name">
                <h2><%= field.label %></h2>
              </:group>
            </.test_text_input>
@@ -127,7 +127,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
 
     assert rendered_to_string(~H"""
            <.test_text_input form={:user} field={:first_name}>
-             <:group :let={field} label_text="First name">
+             <:group :let={field} label="First name">
                <h2>
                  <%= if !field.field_state.valid? do %>
                    <div>Please correct your input</div>
@@ -341,12 +341,12 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Group slot with attributes label_text and class" do
+  test "Group slot with attributes label and class" do
     assigns = []
 
     assert rendered_to_string(~H"""
            <.test_text_input form={:f} field={:first_name}>
-             <:group label_text="First name" class="x"></:group>
+             <:group label="First name" class="x"></:group>
            </.test_text_input>
            """)
            |> format_html() ==

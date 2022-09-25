@@ -50,11 +50,11 @@ defmodule PrimerLive.TestComponents do
   <.test_text_input form={:user} field={:first_name} is_group />
   ```
 
-  Use a custom label by providing `label_text`:
+  Use a custom label by providing `label`:
 
   ```
   <.test_text_input form={:user} field={:first_name}>
-    <:group label_text="Some label" />
+    <:group label="Some label" />
   </.test_text_input>
   ```
 
@@ -62,7 +62,7 @@ defmodule PrimerLive.TestComponents do
 
   ```
   <.test_text_input form={:user} field={:first_name}>
-    <:group label_text="Some label" :let={field}>
+    <:group label="Some label" :let={field}>
       <h2><%= field.label %></h2>
     </:group>
   </.test_text_input>
@@ -78,7 +78,7 @@ defmodule PrimerLive.TestComponents do
 
   ```
   <.test_text_input form={:user} field={:first_name}>
-    <:group :let={field} label_text="Some label">
+    <:group :let={field} label="Some label">
       <h2>
         <%= if !field.field_state.valid? do %>
           <div>Please correct your input</div>
@@ -175,7 +175,7 @@ defmodule PrimerLive.TestComponents do
     - `field.field_state` - `PrimerLive.FieldState` struct.
 
     """ do
-    attr(:label_text, :string,
+    attr(:label, :string,
       doc: """
       Group label. Will be wrapped inside a <label> tag. This label tag is provided by attribute `:let` and can be integrated in other HTML markup.
 
@@ -183,7 +183,7 @@ defmodule PrimerLive.TestComponents do
 
       Without an `inner_block`, the generated label will be used:
       ```
-      <:group label_text="Some label" />
+      <:group label="Some label" />
       ```
 
       This generates:
@@ -194,7 +194,7 @@ defmodule PrimerLive.TestComponents do
       With an `inner_block`, `field` data can be retrieved from attribute `:let`:
       ```
       <:group
-        label_text="Some label"
+        label="Some label"
         :let={field}
       >
         <h2><%= field.label %></h2>
@@ -208,7 +208,7 @@ defmodule PrimerLive.TestComponents do
 
       To conditionally change the header dependent on field state, use `field_state`, `PrimerLive.FieldState` struct:
       ```
-      <:group :let={field} label_text="Some label">
+      <:group :let={field} label="Some label">
         <h2>
           <%= if !field.field_state.valid? do %>
             <div>Please correct your input</div>
@@ -377,11 +377,11 @@ defmodule PrimerLive.TestComponents do
             ])
         }
 
-        # If label_text is supplied, wrap it inside a label
+        # If label is supplied, wrap it inside a label
         # else use the default generated label
         header_label =
-          if group_slot[:label_text] do
-            label(form, field, group_slot[:label_text])
+          if group_slot[:label] do
+            label(form, field, group_slot[:label])
           else
             label(form, field)
           end
