@@ -2,7 +2,7 @@ defmodule PrimerLive.TestComponents do
   use Phoenix.Component
   use Phoenix.HTML
 
-  alias PrimerLive.Helpers.{Attributes, FormHelpers, SchemaHelpers}
+  alias PrimerLive.Helpers.{AttributeHelpers, FormHelpers, SchemaHelpers, ComponentHelpers}
 
   # ------------------------------------------------------------------------------------
   # text_input
@@ -15,7 +15,7 @@ defmodule PrimerLive.TestComponents do
 
   Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group" to add a field label and validation.
 
-  [Examples](#test_text_input/1-examples) • [Attributes](#test_text_input/1-attributes) • [Reference](#test_text_input/1-reference)
+  [Examples](#test_text_input/1-examples) • [AttributeHelpers](#test_text_input/1-attributes) • [Reference](#test_text_input/1-reference)
 
   ```
   <.test_text_input name="first_name" />
@@ -54,7 +54,7 @@ defmodule PrimerLive.TestComponents do
 
   ```
   <.test_text_input form={:user} field={:first_name}>
-    <:group label_text="Some label"></:group>
+    <:group label_text="Some label" />
   </.test_text_input>
   ```
 
@@ -135,7 +135,7 @@ defmodule PrimerLive.TestComponents do
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
   attr(:class, :string, doc: "Additional classname.")
-  attr(:type, :string, doc: "Text input type.")
+  attr(:type, :string, default: "text", doc: "Text input type.")
   attr(:is_contrast, :boolean, default: false, doc: "Changes the background color to light gray.")
   attr(:is_full_width, :boolean, default: false, doc: "Full width input.")
 
@@ -155,9 +155,9 @@ defmodule PrimerLive.TestComponents do
   attr(:is_group, :boolean,
     default: false,
     doc: """
-    Insert the input inside a form group. Shorthand for using `<:group></:group>`.
+    Inserts the input inside a form group and creates a default field label.
 
-    To configure the form group, see [slot `group`](#test_text_input/1-slots).
+    To configure the form group and label, see [slot `group`](#test_text_input/1-slots).
     """
   )
 
@@ -183,7 +183,7 @@ defmodule PrimerLive.TestComponents do
 
       Without an `inner_block`, the generated label will be used:
       ```
-      <:group label_text="Some label"></:group>
+      <:group label_text="Some label" />
       ```
 
       This generates:
@@ -285,6 +285,136 @@ defmodule PrimerLive.TestComponents do
     end
   end
 
+  defp render_test_text_input(assigns) do
+    assigns =
+      assigns
+      |> assign(
+        :class,
+        AttributeHelpers.classnames([
+          "form-control",
+          assigns[:class],
+          assigns.is_contrast and "input-contrast",
+          assigns.is_hide_webkit_autofill and "input-hide-webkit-autofill",
+          assigns.is_large and "input-lg",
+          assigns.is_small and "input-sm",
+          assigns.is_short and "short",
+          assigns.is_full_width and "input-block"
+        ])
+      )
+
+    render_form_group(assigns)
+  end
+
+  defp render_form_group(assigns) do
+    type = assigns.type
+    input_type = FormHelpers.input_type_as_atom(type)
+    form = assigns[:form]
+    field = assigns[:field]
+    rest = assigns.rest
+
+    # Get the first group slot, if any
+    group_slot = if assigns[:group] && assigns[:group] !== [], do: hd(assigns[:group]), else: []
+
+    # Get the field state from the group slot attributes
+    field_state = FormHelpers.field_state(form, field, group_slot[:validation_message])
+    %{message: message, message_id: message_id, valid?: valid?} = field_state
+
+    has_group_slot = group_slot !== []
+    has_group = assigns.is_group || has_group_slot
+
+    initial_input_attrs = if has_group, do: [], else: rest
+
+    input_opts =
+      AttributeHelpers.append_attributes(initial_input_attrs, [
+        [class: assigns[:class]],
+        # If aria_label is not set, use the value of placeholder (if any):
+        is_nil(rest[:aria_label]) and [aria_label: rest[:placeholder]],
+        not is_nil(message_id) and [aria_describedby: message_id]
+      ])
+
+    input = apply(Phoenix.HTML.Form, input_type, [form, field, input_opts])
+
+    case has_group do
+      false ->
+        ~H"""
+        <%= input %>
+        """
+
+      true ->
+        classes = %{
+          group:
+            AttributeHelpers.classnames([
+              "form-group",
+              group_slot[:class],
+              group_slot[:classes][:group],
+              if !is_nil(message) do
+                if valid? do
+                  "successed"
+                else
+                  "errored"
+                end
+              end
+            ]),
+          header:
+            AttributeHelpers.classnames([
+              "form-group-header",
+              group_slot[:classes][:header]
+            ]),
+          body:
+            AttributeHelpers.classnames([
+              "form-group-body",
+              group_slot[:classes][:body]
+            ]),
+          note:
+            AttributeHelpers.classnames([
+              "note",
+              group_slot[:classes][:note],
+              if valid? do
+                "success"
+              else
+                "error"
+              end
+            ])
+        }
+
+        # If label_text is supplied, wrap it inside a label
+        # else use the default generated label
+        header_label =
+          if group_slot[:label_text] do
+            label(form, field, group_slot[:label_text])
+          else
+            label(form, field)
+          end
+
+        # Data accessible by :let
+        field = %{
+          label: header_label,
+          field_state: field_state
+        }
+
+        group_opts =
+          AttributeHelpers.append_attributes(rest, [
+            [class: classes.group]
+          ])
+
+        ~H"""
+        <div {group_opts}>
+          <div class={classes.header}>
+            <%= render_slot(group_slot, field) |> ComponentHelpers.maybe_slot_content() || header_label %>
+          </div>
+          <div class={classes.body}>
+            <%= input %>
+          </div>
+          <%= if not is_nil(message) do %>
+            <p class={classes.note} id={message_id}>
+              <%= message %>
+            </p>
+          <% end %>
+        </div>
+        """
+    end
+  end
+
   # Validates attribute `form`.
   # Allowed values:
   # - nil
@@ -318,158 +448,6 @@ defmodule PrimerLive.TestComponents do
     end
   end
 
-  defp render_test_text_input(assigns) do
-    form = assigns[:form]
-    field = assigns[:field]
-    type = assigns[:type]
-
-    # Get field_state from the group slot attributes so that we can get the message_id, required for aria_describedby
-    group = if assigns[:group] && assigns[:group] !== [], do: hd(assigns[:group]), else: []
-    field_state = FormHelpers.field_state(form, field, group[:validation_message])
-    %{message_id: message_id} = field_state
-
-    input_type = FormHelpers.input_type_as_atom(type)
-
-    class =
-      Attributes.classnames([
-        "form-control",
-        assigns[:class],
-        assigns.is_contrast and "input-contrast",
-        assigns.is_hide_webkit_autofill and "input-hide-webkit-autofill",
-        assigns.is_large and "input-lg",
-        assigns.is_small and "input-sm",
-        assigns.is_short and "short",
-        assigns.is_full_width and "input-block"
-      ])
-
-    has_group_slot = assigns[:group] && assigns[:group] !== []
-    has_group = assigns[:is_group] || has_group_slot
-    initial_input_attrs = if has_group, do: %{}, else: assigns.rest
-
-    input_opts =
-      Attributes.append_attributes(initial_input_attrs, [
-        [class: class],
-        # If aria_label is not set, use the value of placeholder (if any):
-        is_nil(assigns.rest[:aria_label]) and [aria_label: assigns.rest[:placeholder]],
-        not is_nil(message_id) and [aria_describedby: message_id]
-      ])
-
-    input = apply(Phoenix.HTML.Form, input_type, [form, field, input_opts])
-
-    common_group_opts =
-      Attributes.append_attributes([], [
-        [
-          form: form,
-          field: field,
-          input: input,
-          field_state: field_state,
-          label_text: group[:label_text],
-          rest: assigns[:rest]
-        ]
-      ])
-
-    ~H"""
-    <%= if has_group do %>
-      <%= if has_group_slot do %>
-        <%= for group <- @group do %>
-          <.render_form_group
-            {common_group_opts}
-            group={group}
-            has_slot_content={render_slot(group) |> Attributes.has_slot_content()}
-          />
-        <% end %>
-      <% else %>
-        <.render_form_group {common_group_opts} group={%{}} has_slot_content={false} />
-      <% end %>
-    <% else %>
-      <%= input %>
-    <% end %>
-    """
-  end
-
-  defp render_form_group(assigns) do
-    field_state = assigns[:field_state]
-    group = assigns[:group]
-    label_text = assigns[:label_text]
-
-    %{
-      valid?: valid?,
-      message: message,
-      message_id: message_id
-    } = field_state
-
-    classes = %{
-      group:
-        Attributes.classnames([
-          "form-group",
-          group[:class],
-          group[:classes][:group],
-          if !is_nil(message) do
-            if valid? do
-              "successed"
-            else
-              "errored"
-            end
-          end
-        ]),
-      header:
-        Attributes.classnames([
-          "form-group-header",
-          group[:classes][:header]
-        ]),
-      body:
-        Attributes.classnames([
-          "form-group-body",
-          group[:classes][:body]
-        ]),
-      note:
-        Attributes.classnames([
-          "note",
-          group[:classes][:note],
-          if valid? do
-            "success"
-          else
-            "error"
-          end
-        ])
-    }
-
-    # If label_text is supplied, wrap it inside a label
-    # else use the default generated label
-    header_label =
-      if label_text do
-        label(assigns.form, assigns.field, label_text)
-      else
-        label(assigns.form, assigns.field)
-      end
-
-    # Data accessible by :let
-    field = %{
-      label: header_label,
-      field_state: field_state
-    }
-
-    ~H"""
-    <div class={classes.group} {@rest}>
-      <div class={classes.header}>
-        <%= if @has_slot_content do %>
-          <%= render_slot(@group, field) %>
-        <% else %>
-          <%= header_label %>
-        <% end %>
-      </div>
-      <div class={classes.body}>
-        <%= @input %>
-      </div>
-      <%= if not is_nil(message) do %>
-        <p class={classes.note} id={message_id}>
-          <%= message %>
-        </p>
-      <% end %>
-    </div>
-    """
-  end
-
   # ------------------------------------------------------------------------------------
   # textarea
   # ------------------------------------------------------------------------------------
@@ -483,7 +461,7 @@ defmodule PrimerLive.TestComponents do
   <.test_textarea name="comments" />
   ```
 
-  ## Attributes
+  ## AttributeHelpers
 
   Options for textarea are the same as options for `test_text_input/1`.
 
@@ -496,7 +474,7 @@ defmodule PrimerLive.TestComponents do
   """
 
   def test_textarea(assigns) do
-    assigns = assigns |> assign(type: "textarea")
+    assigns = assigns |> assign(:type, "textarea")
     test_text_input(assigns)
   end
 
@@ -509,7 +487,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Creates an alert message.
 
-  [Examples](#test_alert/1-examples) • [Attributes](#test_alert/1-attributes) • [Reference](#test_alert/1-reference)
+  [Examples](#test_alert/1-examples) • [AttributeHelpers](#test_alert/1-attributes) • [Reference](#test_alert/1-reference)
 
   ```
   <.test_alert>
@@ -570,7 +548,7 @@ defmodule PrimerLive.TestComponents do
 
   def test_alert(assigns) do
     class =
-      Attributes.classnames([
+      AttributeHelpers.classnames([
         "flash",
         assigns[:class],
         assigns.is_error and "flash-error",
@@ -595,7 +573,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Wrapper to render a vertical stack of `test_alert/1` messages with spacing in between.
 
-  [Attributes](#test_alert_messages/1-attributes) • [Reference](#test_alert_messages/1-reference)
+  [AttributeHelpers](#test_alert_messages/1-attributes) • [Reference](#test_alert_messages/1-reference)
 
   ```
   <.test_alert_messages>
@@ -633,7 +611,7 @@ defmodule PrimerLive.TestComponents do
 
   def test_alert_messages(assigns) do
     class =
-      Attributes.classnames([
+      AttributeHelpers.classnames([
         "flash-messages",
         assigns[:class]
       ])
@@ -654,7 +632,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Creates a responsive-friendly page layout with 2 columns.
 
-  [Examples](#test_layout/1-examples) • [Attributes](#test_layout/1-attributes) • [Reference](#test_layout/1-reference)
+  [Examples](#test_layout/1-examples) • [AttributeHelpers](#test_layout/1-attributes) • [Reference](#test_layout/1-reference)
 
   ```
   <.test_layout>
@@ -883,7 +861,7 @@ defmodule PrimerLive.TestComponents do
   def test_layout(assigns) do
     classes = %{
       layout:
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "Layout",
           assigns[:class],
           assigns.is_divided and "Layout--divided",
@@ -902,14 +880,14 @@ defmodule PrimerLive.TestComponents do
         ]),
       main: "Layout-main",
       main_center_wrapper:
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           assigns.is_centered_md and "Layout-main-centered-md",
           assigns.is_centered_lg and "Layout-main-centered-lg",
           assigns.is_centered_xl and "Layout-main-centered-xl"
         ]),
       sidebar: "Layout-sidebar",
       divider:
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "Layout-divider",
           assigns.is_flow_row_shallow and "Layout-divider--flowRow-shallow",
           assigns.is_flow_row_hidden and "Layout-divider--flowRow-hidden"
@@ -937,7 +915,7 @@ defmodule PrimerLive.TestComponents do
             slot_list
             |> Enum.at(0)
             |> Map.get(:order)
-            |> Attributes.as_integer(default_slot_order[key])
+            |> AttributeHelpers.as_integer(default_slot_order[key])
 
           order
         end,
@@ -991,7 +969,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Creates a content container.
 
-  [Examples](#test_box/1-examples) • [Attributes](#test_box/1-attributes) • [Reference](#test_box/1-reference)
+  [Examples](#test_box/1-examples) • [AttributeHelpers](#test_box/1-attributes) • [Reference](#test_box/1-reference)
 
   A `box` is a container with rounded corners, a white background, and a light gray border.
   By default, there are no other styles, such as padding; however, these can be introduced
@@ -1209,12 +1187,12 @@ defmodule PrimerLive.TestComponents do
       assigns
       |> assign(
         :header_slots,
-        Enum.zip(Attributes.pad_lists(assigns.header, assigns.header_title, []))
+        Enum.zip(AttributeHelpers.pad_lists(assigns.header, assigns.header_title, []))
       )
 
     classes = %{
       box:
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "Box",
           assigns[:class],
           assigns.is_blue and "Box--blue",
@@ -1224,14 +1202,14 @@ defmodule PrimerLive.TestComponents do
           assigns.is_spacious and "Box--spacious"
         ]),
       header: fn slot ->
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "Box-header",
           slot[:class],
           slot[:is_blue] && "Box-header--blue"
         ])
       end,
       row: fn slot ->
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "Box-row",
           slot[:class],
           slot[:is_blue] && "Box-row--blue",
@@ -1246,19 +1224,19 @@ defmodule PrimerLive.TestComponents do
         ])
       end,
       body: fn slot ->
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "Box-body",
           slot[:class]
         ])
       end,
       footer: fn slot ->
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "Box-footer",
           slot[:class]
         ])
       end,
       header_title: fn slot ->
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "Box-title",
           slot[:class]
         ])
@@ -1268,7 +1246,7 @@ defmodule PrimerLive.TestComponents do
 
     attributes = %{
       link: fn slot ->
-        Attributes.append_attributes(
+        AttributeHelpers.append_attributes(
           assigns_to_attributes(slot, [
             :class,
             :is_blue,
@@ -1285,7 +1263,7 @@ defmodule PrimerLive.TestComponents do
           [
             [
               class:
-                Attributes.classnames([
+                AttributeHelpers.classnames([
                   classes.link
                 ])
             ]
@@ -1373,7 +1351,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Creates a button.
 
-  [Examples](#test_button/1-examples) • [Attributes](#test_button/1-attributes) • [Reference](#test_button/1-reference)
+  [Examples](#test_button/1-examples) • [AttributeHelpers](#test_button/1-attributes) • [Reference](#test_button/1-reference)
 
   ```
   <.test_button>Click me</.test_button>
@@ -1479,7 +1457,7 @@ defmodule PrimerLive.TestComponents do
       |> assign(:type, if(assigns.is_submit, do: "submit", else: "button"))
 
     class =
-      Attributes.classnames([
+      AttributeHelpers.classnames([
         !assigns.is_link and !assigns.is_icon_only and !assigns.is_close_button and "btn",
         assigns[:class],
         assigns.is_link and "btn-link",
@@ -1500,7 +1478,7 @@ defmodule PrimerLive.TestComponents do
       ])
 
     aria_attributes =
-      Attributes.get_aria_attributes(
+      AttributeHelpers.get_aria_attributes(
         is_selected: assigns.is_selected,
         is_disabled: assigns.is_disabled
       )
@@ -1521,7 +1499,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Creates a group of buttons.
 
-  [Examples](#test_button_group/1-examples) • [Attributes](#test_button_group/1-attributes) • [Reference](#test_button_group/1-reference)
+  [Examples](#test_button_group/1-examples) • [AttributeHelpers](#test_button_group/1-attributes) • [Reference](#test_button_group/1-reference)
 
   ```
   <.test_button_group>
@@ -1573,12 +1551,12 @@ defmodule PrimerLive.TestComponents do
   def test_button_group(assigns) do
     classes = %{
       button_group:
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "BtnGroup",
           assigns[:class]
         ]),
       button: fn slot ->
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "BtnGroup-item",
           slot[:class]
         ])
@@ -1605,7 +1583,7 @@ defmodule PrimerLive.TestComponents do
   @doc ~S"""
   Creates a control to navigate search results.
 
-  [Examples](#test_pagination/1-examples) • [Attributes](#test_pagination/1-attributes) • [Reference](#test_pagination/1-reference)
+  [Examples](#test_pagination/1-examples) • [AttributeHelpers](#test_pagination/1-attributes) • [Reference](#test_pagination/1-reference)
 
   ```
   <.test_pagination
@@ -1728,22 +1706,22 @@ defmodule PrimerLive.TestComponents do
   def test_pagination(assigns) do
     assigns =
       assigns
-      |> assign(:page_count, Attributes.as_integer(assigns.page_count) |> max(0))
+      |> assign(:page_count, AttributeHelpers.as_integer(assigns.page_count) |> max(0))
       |> assign(
         :current_page,
-        Attributes.as_integer(assigns.current_page) |> max(1)
+        AttributeHelpers.as_integer(assigns.current_page) |> max(1)
       )
       |> assign(
         :boundary_count,
-        Attributes.as_integer(assigns.boundary_count) |> Attributes.minmax(1, 3)
+        AttributeHelpers.as_integer(assigns.boundary_count) |> AttributeHelpers.minmax(1, 3)
       )
       |> assign(
         :sibling_count,
-        Attributes.as_integer(assigns.sibling_count) |> Attributes.minmax(1, 5)
+        AttributeHelpers.as_integer(assigns.sibling_count) |> AttributeHelpers.minmax(1, 5)
       )
       |> assign(
         :is_numbered,
-        Attributes.as_boolean(assigns.is_numbered)
+        AttributeHelpers.as_boolean(assigns.is_numbered)
       )
       |> assign(
         :labels,
@@ -1764,32 +1742,32 @@ defmodule PrimerLive.TestComponents do
 
     classes = %{
       pagination_container:
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "paginate-container",
           assigns[:class],
           assigns[:classes][:pagination_container]
         ]),
       pagination:
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "pagination",
           assigns[:classes][:pagination]
         ]),
       previous_page:
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "previous_page",
           assigns[:classes][:previous_page]
         ]),
       next_page:
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "next_page",
           assigns[:classes][:next_page]
         ]),
       page:
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           assigns[:classes][:page]
         ]),
       gap:
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "gap",
           assigns[:classes][:gap]
         ])
@@ -1952,7 +1930,7 @@ defmodule PrimerLive.TestComponents do
 
   See `PrimerLive.Octicons` for the complete list.
 
-  [Examples](#test_octicon/1-examples) • [Attributes](#test_octicon/1-attributes) • [Reference](#test_octicon/1-reference)
+  [Examples](#test_octicon/1-examples) • [AttributeHelpers](#test_octicon/1-attributes) • [Reference](#test_octicon/1-reference)
 
   ```
   <.test_octicon name="comment-16" />
@@ -2023,7 +2001,7 @@ defmodule PrimerLive.TestComponents do
       assigns
       |> assign(
         :class,
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "octicon",
           assigns[:class]
         ])

@@ -2,7 +2,7 @@ defmodule PrimerLive.Components do
   use Phoenix.Component
   use Phoenix.HTML
 
-  alias PrimerLive.Helpers.{SchemaHelpers, Attributes}
+  alias PrimerLive.Helpers.{SchemaHelpers, AttributeHelpers}
   alias PrimerLive.Options
 
   # ------------------------------------------------------------------------------------
@@ -14,7 +14,7 @@ defmodule PrimerLive.Components do
   @doc ~S"""
   Dropdown menu.
 
-  [Examples](#dropdown/1-examples) • [Attributes](#dropdown/1-attributes) • [Reference](#dropdown/1-reference)
+  [Examples](#dropdown/1-examples) • [AttributeHelpers](#dropdown/1-attributes) • [Reference](#dropdown/1-reference)
 
   Dropdowns are small context menus that can be used for navigation and actions. They are a simple alternative to select menus.
 
@@ -66,7 +66,7 @@ defmodule PrimerLive.Components do
   </.dropdown>
   ```
 
-  ## Attributes
+  ## AttributeHelpers
 
   _dropdown options_
 
@@ -93,7 +93,7 @@ defmodule PrimerLive.Components do
 
   defp render_dropdown(assigns) do
     class =
-      Attributes.classnames([
+      AttributeHelpers.classnames([
         "dropdown",
         "details-reset",
         "details-overlay",
@@ -102,7 +102,7 @@ defmodule PrimerLive.Components do
       ])
 
     item_opts =
-      Attributes.append_attributes(assigns.extra, [
+      AttributeHelpers.append_attributes(assigns.extra, [
         [class: class]
       ])
 
@@ -122,7 +122,7 @@ defmodule PrimerLive.Components do
   @doc ~S'''
   Variable content element for `dropdown/1`.
 
-  [Examples](#dropdown_item/1-examples) • [Attributes](#dropdown_item/1-attributes) • [Reference](#dropdown_item/1-reference)
+  [Examples](#dropdown_item/1-examples) • [AttributeHelpers](#dropdown_item/1-attributes) • [Reference](#dropdown_item/1-reference)
 
   Dropdown elements are created with boolean options:
 
@@ -205,7 +205,7 @@ defmodule PrimerLive.Components do
   end
   ```
 
-  ## Attributes
+  ## AttributeHelpers
 
   _dropdown_item options_
 
@@ -240,7 +240,7 @@ defmodule PrimerLive.Components do
   defp render_dropdown_item(assigns) do
     classes = %{
       toggle:
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           # If a custom class is set, remove the default btn class
           if assigns.class do
             assigns.class
@@ -250,7 +250,7 @@ defmodule PrimerLive.Components do
         ]),
       caret: "dropdown-caret",
       menu:
-        Attributes.classnames([
+        AttributeHelpers.classnames([
           "dropdown-menu",
           "dropdown-menu-" <> assigns.position
         ]),
@@ -260,7 +260,7 @@ defmodule PrimerLive.Components do
     }
 
     class =
-      Attributes.classnames([
+      AttributeHelpers.classnames([
         cond do
           assigns.toggle -> classes.toggle
           assigns.menu -> classes.menu
@@ -274,7 +274,7 @@ defmodule PrimerLive.Components do
       ])
 
     item_opts =
-      Attributes.append_attributes(assigns.extra, [
+      AttributeHelpers.append_attributes(assigns.extra, [
         [class: class],
         assigns.toggle and [aria_haspopup: "true"],
         assigns.divider and [role: "separator"]

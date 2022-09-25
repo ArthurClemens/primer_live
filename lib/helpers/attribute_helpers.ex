@@ -1,4 +1,4 @@
-defmodule PrimerLive.Helpers.Attributes do
+defmodule PrimerLive.Helpers.AttributeHelpers do
   @moduledoc false
 
   @doc ~S"""
@@ -10,21 +10,21 @@ defmodule PrimerLive.Helpers.Attributes do
 
   ## Examples
 
-      iex> PrimerLive.Helpers.Attributes.classnames([])
+      iex> PrimerLive.Helpers.AttributeHelpers.classnames([])
       nil
 
-      iex> PrimerLive.Helpers.Attributes.classnames([""])
+      iex> PrimerLive.Helpers.AttributeHelpers.classnames([""])
       nil
 
-      iex> PrimerLive.Helpers.Attributes.classnames(["foo   ", nil, "  bar  ", false])
+      iex> PrimerLive.Helpers.AttributeHelpers.classnames(["foo   ", nil, "  bar  ", false])
       "foo bar"
 
-      iex> PrimerLive.Helpers.Attributes.classnames(["foo", nil, "  foo  "])
+      iex> PrimerLive.Helpers.AttributeHelpers.classnames(["foo", nil, "  foo  "])
       "foo"
 
       iex> is_foo = true
       iex> is_bar = false
-      iex> PrimerLive.Helpers.Attributes.classnames([
+      iex> PrimerLive.Helpers.AttributeHelpers.classnames([
       ...>   is_foo and "foo",
       ...>   is_bar and "bar"
       ...> ])
@@ -52,22 +52,22 @@ defmodule PrimerLive.Helpers.Attributes do
 
   ## Examples
 
-      iex> PrimerLive.Helpers.Attributes.append_attributes([], [[]])
+      iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([], [[]])
       []
 
-      iex> PrimerLive.Helpers.Attributes.append_attributes([dir: "rtl"], [[]])
+      iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([dir: "rtl"], [[]])
       [dir: "rtl"]
 
-      iex> PrimerLive.Helpers.Attributes.append_attributes([dir: "rtl"], [[placeholder: "hello"]])
+      iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([dir: "rtl"], [[placeholder: "hello"]])
       [dir: "rtl", placeholder: "hello"]
 
-      iex> PrimerLive.Helpers.Attributes.append_attributes([dir: "rtl"], [false, [placeholder: "hello"], [placeholder: "hello"], nil])
+      iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([dir: "rtl"], [false, [placeholder: "hello"], [placeholder: "hello"], nil])
       [dir: "rtl", placeholder: "hello"]
 
       iex> is_foo = true
       iex> is_bar = false
       iex> extra = [class: "x"]
-      iex> PrimerLive.Helpers.Attributes.append_attributes(extra, [
+      iex> PrimerLive.Helpers.AttributeHelpers.append_attributes(extra, [
       ...>   is_foo and [foo: "foo"],
       ...>   is_bar and [bar: "bar"]
       ...> ])
@@ -76,7 +76,7 @@ defmodule PrimerLive.Helpers.Attributes do
       iex> is_foo = true
       iex> is_bar = false
       iex> extra = %{class: "x"}
-      iex> PrimerLive.Helpers.Attributes.append_attributes(extra, [
+      iex> PrimerLive.Helpers.AttributeHelpers.append_attributes(extra, [
       ...>   is_foo and [foo: "foo"],
       ...>   is_bar and [bar: "bar"]
       ...> ])
@@ -106,13 +106,13 @@ defmodule PrimerLive.Helpers.Attributes do
 
   ## Examples
 
-      iex> PrimerLive.Helpers.Attributes.get_aria_attributes([])
+      iex> PrimerLive.Helpers.AttributeHelpers.get_aria_attributes([])
       []
 
-      iex> PrimerLive.Helpers.Attributes.get_aria_attributes(is_selected: true)
+      iex> PrimerLive.Helpers.AttributeHelpers.get_aria_attributes(is_selected: true)
       ["aria-selected": "true"]
 
-      iex> PrimerLive.Helpers.Attributes.get_aria_attributes(is_selected: true, is_disabled: true)
+      iex> PrimerLive.Helpers.AttributeHelpers.get_aria_attributes(is_selected: true, is_disabled: true)
       ["aria-selected": "true", "aria-disabled": "true"]
   '''
   def get_aria_attributes(input_attribute_values) do
@@ -126,19 +126,19 @@ defmodule PrimerLive.Helpers.Attributes do
 
   ## Examples
 
-      iex> PrimerLive.Helpers.Attributes.as_integer("1")
+      iex> PrimerLive.Helpers.AttributeHelpers.as_integer("1")
       1
 
-      iex> PrimerLive.Helpers.Attributes.as_integer(2)
+      iex> PrimerLive.Helpers.AttributeHelpers.as_integer(2)
       2
 
-      iex> PrimerLive.Helpers.Attributes.as_integer(2.0)
+      iex> PrimerLive.Helpers.AttributeHelpers.as_integer(2.0)
       2
 
-      iex> PrimerLive.Helpers.Attributes.as_integer("x")
+      iex> PrimerLive.Helpers.AttributeHelpers.as_integer("x")
       nil
 
-      iex> PrimerLive.Helpers.Attributes.as_integer("x", 42)
+      iex> PrimerLive.Helpers.AttributeHelpers.as_integer("x", 42)
       42
   """
   def as_integer(input, default_value \\ nil)
@@ -160,49 +160,49 @@ defmodule PrimerLive.Helpers.Attributes do
 
   ## Examples
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean(true)
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean(true)
       true
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean("true")
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean("true")
       true
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean("1")
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean("1")
       true
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean(1)
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean(1)
       true
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean(1.0)
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean(1.0)
       true
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean(false)
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean(false)
       false
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean("false")
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean("false")
       false
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean("0")
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean("0")
       false
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean(0)
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean(0)
       false
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean(0.0)
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean(0.0)
       false
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean("x")
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean("x")
       false
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean("100")
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean("100")
       true
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean("100.0")
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean("100.0")
       true
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean("0.1")
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean("0.1")
       false
 
-      iex> PrimerLive.Helpers.Attributes.as_boolean(%{})
+      iex> PrimerLive.Helpers.AttributeHelpers.as_boolean(%{})
       false
 
   """
@@ -235,19 +235,19 @@ defmodule PrimerLive.Helpers.Attributes do
 
   ## Examples
 
-      iex> PrimerLive.Helpers.Attributes.pad_lists([], [])
+      iex> PrimerLive.Helpers.AttributeHelpers.pad_lists([], [])
       [[], []]
 
-      iex> PrimerLive.Helpers.Attributes.pad_lists([1, 2, 3], [])
+      iex> PrimerLive.Helpers.AttributeHelpers.pad_lists([1, 2, 3], [])
       [[1, 2, 3], [:placeholder, :placeholder, :placeholder]]
 
-      iex> PrimerLive.Helpers.Attributes.pad_lists([], [1, 2, 3])
+      iex> PrimerLive.Helpers.AttributeHelpers.pad_lists([], [1, 2, 3])
       [[:placeholder, :placeholder, :placeholder], [1, 2, 3]]
 
-      iex> PrimerLive.Helpers.Attributes.pad_lists([1], [1, 2])
+      iex> PrimerLive.Helpers.AttributeHelpers.pad_lists([1], [1, 2])
       [[1, :placeholder], [1, 2]]
 
-      iex> PrimerLive.Helpers.Attributes.pad_lists([], [1, 2, 3], 0)
+      iex> PrimerLive.Helpers.AttributeHelpers.pad_lists([], [1, 2, 3], 0)
       [[0, 0, 0], [1, 2, 3]]
 
       iex> header_slot = []
@@ -255,7 +255,7 @@ defmodule PrimerLive.Helpers.Attributes do
       ...>   __slot__: :header_title,
       ...>   inner_block: "Title content"
       ...> }]
-      iex> Enum.zip(PrimerLive.Helpers.Attributes.pad_lists(header_slot, header_title_slot, []))
+      iex> Enum.zip(PrimerLive.Helpers.AttributeHelpers.pad_lists(header_slot, header_title_slot, []))
       [{[], %{__slot__: :header_title, inner_block: "Title content"}}]
 
   """
@@ -286,16 +286,16 @@ defmodule PrimerLive.Helpers.Attributes do
 
   ## Examples
 
-      iex> PrimerLive.Helpers.Attributes.minmax(-1, 0, 2)
+      iex> PrimerLive.Helpers.AttributeHelpers.minmax(-1, 0, 2)
       0
 
-      iex> PrimerLive.Helpers.Attributes.minmax(3, 0, 2)
+      iex> PrimerLive.Helpers.AttributeHelpers.minmax(3, 0, 2)
       2
 
-      iex> PrimerLive.Helpers.Attributes.minmax(0, 0, 0)
+      iex> PrimerLive.Helpers.AttributeHelpers.minmax(0, 0, 0)
       0
 
-      iex> PrimerLive.Helpers.Attributes.minmax(1, 0, 0)
+      iex> PrimerLive.Helpers.AttributeHelpers.minmax(1, 0, 0)
       0
 
   """
@@ -303,35 +303,4 @@ defmodule PrimerLive.Helpers.Attributes do
     max(min, min(value, max))
   end
 
-  @doc ~S"""
-  Checks if the rendered slot has any content.
-
-      iex> PrimerLive.Helpers.Attributes.has_slot_content(%Phoenix.LiveView.Rendered{
-      ...>   static: [""]
-      ...> })
-      false
-
-      iex> PrimerLive.Helpers.Attributes.has_slot_content(%Phoenix.LiveView.Rendered{
-      ...>   static: [" \n  \n "]
-      ...> })
-      false
-
-      iex> PrimerLive.Helpers.Attributes.has_slot_content(%Phoenix.LiveView.Rendered{
-      ...>   static: [" \n Content \n "]
-      ...> })
-      true
-  )
-  """
-  def has_slot_content(rendered), do: !is_empty_slot(rendered)
-  defp is_empty_slot(rendered), do: is_empty_slot_content(rendered.static)
-  defp is_empty_slot_content(static) when is_nil(static), do: true
-  defp is_empty_slot_content(static) when static == [""], do: true
-
-  defp is_empty_slot_content(static) do
-    cond do
-      Enum.count(static) === 0 -> true
-      hd(static) |> String.trim() == "" -> true
-      true -> false
-    end
-  end
 end

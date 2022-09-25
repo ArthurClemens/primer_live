@@ -400,7 +400,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group" dir="rtl">
+             <div dir="rtl" class="form-group">
              <div class="form-group-header"><label for="f_first_name">First name</label></div>
              <div class="form-group-body"><input class="form-control" id="f_first_name" name="f[first_name]" type="text" /></div>
              </div>
