@@ -524,7 +524,8 @@ defmodule PrimerLive.Component do
 
   ## Status
 
-  Feature complete.
+  To do:
+  - Flash (page) banner
 
   """
 
@@ -1352,6 +1353,8 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a dropdown menu.
 
+  Dropdowns are small context menus that can be used for navigation and actions. They are a simple alternative to [select menus](`select_menu/1`).
+
   [Examples](#dropdown/1-examples) • [Attributes](#dropdown/1-attributes) • [Reference](#dropdown/1-reference)
 
   Menu items are rendered as link elements, and any attribute passed to the `item` slot is passed to the `<a>` tag.
@@ -1413,7 +1416,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Box](https://primer.style/css/components/box/)
+  [Primer/CSS Dropdown](https://primer.style/css/components/dropdown/)
 
   ## Status
 
@@ -1508,8 +1511,7 @@ defmodule PrimerLive.Component do
     menu_slot = if assigns[:menu] && assigns[:menu] !== [], do: hd(assigns[:menu]), else: []
 
     # Get the toggle menu slot, if any
-    toggle_slot =
-      if assigns[:toggle] && assigns[:toggle] !== [], do: hd(assigns[:toggle]), else: []
+    toggle_slot = if assigns.toggle && assigns.toggle !== [], do: hd(assigns.toggle), else: []
 
     # Collect all attributes inside "rest"
     item_slots =
@@ -1614,7 +1616,7 @@ defmodule PrimerLive.Component do
     ~H"""
     <details class={classes.dropdown} {@rest}>
       <summary {toggle_attributes}>
-        <%= render_slot(@toggle) %>
+        <%= render_slot(toggle_slot) %>
         <div class={classes.caret}></div>
       </summary>
       <%= if not is_nil(menu_title) do %>
@@ -1627,6 +1629,534 @@ defmodule PrimerLive.Component do
       <% else %>
         <%= render_menu.(menu_attributes) %>
       <% end %>
+    </details>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # select_menu
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :menus
+
+  @doc ~S"""
+  Creates a select menu.
+
+  [Examples](#select_menu/1-examples) • [Attributes](#select_menu/1-attributes) • [Reference](#select_menu/1-reference)
+
+  ```
+  <.select_menu>
+    <:toggle>Menu</:toggle>
+    <:item>Item 1</:item>
+    <:item>Item 2</:item>
+    <:item>Item 3</:item>
+  </.select_menu>
+  ```
+
+  ## Examples
+
+  By default, items are turned into `<button>` elements. Pass a `href` to change it automatically to a `<a>` link:
+
+  ```
+  <.select_menu>
+    <:toggle>Menu</:toggle>
+    <:item>Button</:item>
+    <:item is_divider>More options:</:item>
+    <:item href="#url">Link</:item>
+    <:item is_divider />
+    <:item>Button</:item>
+  </.select_menu>
+  ```
+
+  Add dividers, with or without content:
+
+  ```
+  <.select_menu>
+    <:toggle>Menu</:toggle>
+    <:item>Item 1</:item>
+    <:item is_divider />
+    <:item>Item 2</:item>
+    <:item is_divider>Divider content</:item>
+    <:item>Item 3</:item>
+  </.select_menu>
+  ```
+
+  Selected state. When any item is selected, all other items will line up nicely:
+
+  ```
+  <.select_menu>
+    <:toggle>Menu</:toggle>
+    <:item is_selected>Selected</:item>
+    <:item>Not selected</:item>
+  </.select_menu>
+  ```
+
+  Add a menu title. The title is placed in a header row with a close button. The click target for the button is based on the select_menu `id` attribute (generated automatically if not supplied).
+
+  ```
+  <.select_menu id="this-id-is-optional">
+    <:toggle>Menu</:toggle>
+    <:menu title="Title" />
+    <:item>Item 1</:item>
+    <:item>Item 2</:item>
+    <:item>Item 3</:item>
+  </.select_menu>
+  ```
+
+  Add a footer:
+
+  ```
+  <.select_menu>
+    <:toggle>Menu</:toggle>
+    <:item>Item 1</:item>
+    <:item>Item 2</:item>
+    <:item>Item 3</:item>
+    <:footer>Footer</:footer>
+  </.select_menu>
+  ```
+
+  Pass attribute `open` to show the menu initially open:
+
+  ```
+  <.select_menu open>
+    ...
+  </.select_menu>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Select menu](https://primer.style/css/components/select-menu/)
+
+  ## Status
+
+  To do:
+  - tabs slot
+
+  """
+
+  attr :is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right."
+  attr :is_borderless, :boolean, default: false, doc: "Removes the borders between list items."
+
+  attr :classes, :map,
+    default: %{},
+    doc: """
+    Additional classnames for select menu elements.
+
+    Any provided value will be appended to the default classname, except for `toggle` that will override the default class \"btn\".
+
+    Default map:
+    ```
+    %{
+      blankslate: nil,          # Blankslate content element.
+      divider: nil,             # Divider item element.
+      filter: nil,              # Filter content element
+      footer: nil,              # Footer element.
+      header_close_button: nil, # Close button in the header.
+      header: nil,              # Header element.
+      item: nil,                # Item element.
+      loading: nil,             # Loading content element.
+      menu_container: nil,      # Menu container (called "modal" at PrimerCSS).
+      menu_list: nil,           # Menu list container.
+      menu_title: nil,          # Menu title.
+      menu: nil,                # Menu element
+      message: nil,             # Message element.
+      toggle: nil,              # Toggle element. Any value will override the default class "btn".
+    }
+    ```
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot(:toggle,
+    required: true,
+    doc: """
+    Creates a toggle element (default with button appearance) using the slot content as label.
+
+    Any custom class will override the default class "btn".
+    """
+  )
+
+  slot :menu,
+    doc: """
+    Creates a menu element.
+    """ do
+    attr(:title, :string,
+      doc: """
+      Creates a menu header with specified title.
+      """
+    )
+  end
+
+  slot(:filter,
+    doc: """
+    Filter slot to insert a `text_input/1` that will drive a custom filter function.
+    """
+  )
+
+  slot(:footer,
+    doc: """
+    Footer content.
+    """
+  )
+
+  slot(:message,
+    doc: """
+    Message container. Use utility classes to further style the message.
+
+    Example:
+    ```
+    <:message class="color-bg-danger color-fg-danger">Message</:message>
+    ```
+    """
+  )
+
+  slot(:loading,
+    doc: """
+    Slot to show a loading animation.
+
+    Example:
+    ```
+    <:loading><.octicon name="copilot-48" class="anim-pulse" /></:loading>
+    ```
+    """
+  )
+
+  slot(:blankslate,
+    doc: """
+    Slot to show blankslate content.
+    """
+  )
+
+  slot :item,
+    doc: """
+    Menu item content.
+    """ do
+    attr(:is_selected, :boolean,
+      doc: """
+      Shows the selected state with a checkmark.
+      """
+    )
+
+    attr(:is_disabled, :boolean,
+      doc: """
+      Creates a disabled state.
+      """
+    )
+
+    attr(:is_divider, :boolean,
+      doc: """
+      Creates a divider. The divider may have content, for example a label "More options".
+      """
+    )
+
+    attr(:selected_octicon_name, :boolean,
+      doc: """
+      The icon name for the selected state, for example "check-circle-fill-16".
+
+      Default "check-16".
+      """
+    )
+
+    attr(:href, :string,
+      doc: """
+      The href for a link. If used, the menu item will be created with link tag `<a>`.
+      """
+    )
+
+    attr(:rest, :global,
+      doc: """
+      Additional HTML attributes added to the item element.
+      """
+    )
+  end
+
+  def select_menu(assigns) do
+    assigns_classes =
+      Map.merge(
+        %{
+          blankslate: nil,
+          divider: nil,
+          filter: nil,
+          footer: nil,
+          header_close_button: nil,
+          header: nil,
+          item: nil,
+          loading: nil,
+          menu_container: nil,
+          menu_list: nil,
+          menu_title: nil,
+          menu: nil,
+          message: nil,
+          toggle: nil
+        },
+        assigns.classes
+      )
+
+    # Get the first menu slot, if any
+    menu_slot = if assigns[:menu] && assigns[:menu] !== [], do: hd(assigns[:menu]), else: []
+
+    # Get the toggle menu slot, if any
+    toggle_slot = if assigns.toggle && assigns.toggle !== [], do: hd(assigns.toggle), else: []
+
+    # Collect all attributes inside "rest"
+    item_slots =
+      assigns.item
+      |> Enum.map(
+        &Map.put(
+          &1,
+          :rest,
+          assigns_to_attributes(&1, [
+            :is_divider,
+            :class,
+            :disabled
+          ])
+        )
+      )
+
+    is_any_item_selected = item_slots |> Enum.any?(& &1[:is_selected])
+    menu_title = menu_slot[:title]
+    has_header = !!menu_title
+
+    classes = %{
+      select_menu:
+        AttributeHelpers.classnames([
+          "details-reset",
+          "details-overlay",
+          assigns[:class]
+        ]),
+      toggle:
+        AttributeHelpers.classnames([
+          assigns_classes.toggle || toggle_slot[:class] || "btn"
+        ]),
+      menu:
+        AttributeHelpers.classnames([
+          "SelectMenu",
+          assigns.is_right_aligned and "right-0",
+          not is_nil(assigns[:filter]) and "SelectMenu--hasFilter",
+          assigns_classes.menu
+        ]),
+      menu_container:
+        AttributeHelpers.classnames([
+          "SelectMenu-modal",
+          assigns_classes.menu_container
+        ]),
+      menu_list:
+        AttributeHelpers.classnames([
+          "SelectMenu-list",
+          assigns.is_borderless and "SelectMenu-list--borderless",
+          assigns_classes.menu_list
+        ]),
+      header:
+        AttributeHelpers.classnames([
+          "SelectMenu-header",
+          assigns_classes.header
+        ]),
+      menu_title:
+        AttributeHelpers.classnames([
+          "SelectMenu-title",
+          assigns_classes.menu_title
+        ]),
+      header_close_button:
+        AttributeHelpers.classnames([
+          "SelectMenu-closeButton",
+          assigns_classes.header_close_button
+        ]),
+      filter:
+        AttributeHelpers.classnames([
+          "SelectMenu-filter",
+          assigns_classes.filter
+        ]),
+      item:
+        AttributeHelpers.classnames([
+          "SelectMenu-item",
+          assigns_classes.item
+        ]),
+      divider:
+        AttributeHelpers.classnames([
+          "SelectMenu-divider",
+          assigns_classes.divider
+        ]),
+      footer:
+        AttributeHelpers.classnames([
+          "SelectMenu-footer",
+          assigns_classes.footer
+        ]),
+      message:
+        AttributeHelpers.classnames([
+          "SelectMenu-message",
+          assigns_classes.message
+        ]),
+      loading:
+        AttributeHelpers.classnames([
+          "SelectMenu-loading",
+          assigns_classes.loading
+        ]),
+      blankslate:
+        AttributeHelpers.classnames([
+          "SelectMenu-blankslate",
+          assigns_classes.blankslate
+        ])
+    }
+
+    toggle_attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: classes.toggle],
+        [aria_haspopup: "true"]
+      ])
+
+    item_attributes = fn item ->
+      is_selected = item[:is_selected]
+      is_disabled = item[:is_disabled]
+      is_link = !!item[:href]
+
+      # Don't pass item attributs to the HTML
+      item_rest =
+        assigns_to_attributes(item.rest, [
+          :is_disabled,
+          :is_selected,
+          :is_divider,
+          :selected_octicon_name
+        ])
+
+      AttributeHelpers.append_attributes(item_rest, [
+        [class: AttributeHelpers.classnames([classes.item, item[:class]])],
+        !is_selected && [role: "menuitem"],
+        is_selected && [role: "menuitemcheckbox", aria_checked: "true"],
+        is_link && is_disabled && [aria_disabled: "true"],
+        !is_link && is_disabled && [disabled: "true"]
+      ])
+    end
+
+    divider_attributes = fn item ->
+      AttributeHelpers.append_attributes(item.rest, [
+        [class: AttributeHelpers.classnames([classes.divider, item[:class]])],
+        !!item.inner_block && [role: "separator"]
+      ])
+    end
+
+    # Use an id as close button target
+    menu_id =
+      case has_header do
+        true ->
+          assigns.rest[:id] || AttributeHelpers.random_string()
+
+        false ->
+          nil
+      end
+
+    select_menu_opts =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.select_menu],
+        # Add the menu id when we will show a header with close button
+        not is_nil(menu_id) and [data_menu_id: menu_id]
+      ])
+
+    render_item = fn item ->
+      is_link = !!item[:href]
+      is_divider = !!item[:is_divider]
+      is_divider_content = is_divider && !!item.inner_block
+      is_button = !is_link && !is_divider
+      selected_octicon_name = item[:selected_octicon_name] || "check-16"
+
+      ~H"""
+      <%= if is_divider do %>
+        <%= if is_divider_content do %>
+          <div {divider_attributes.(item)}>
+            <%= render_slot(item) %>
+          </div>
+        <% else %>
+          <hr {divider_attributes.(item)} />
+        <% end %>
+      <% end %>
+      <%= if is_button do %>
+        <button {item_attributes.(item)}>
+          <%= if is_any_item_selected do %>
+            <.octicon name={selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
+          <% end %>
+          <%= render_slot(item) %>
+        </button>
+      <% end %>
+      <%= if is_link do %>
+        <a {item_attributes.(item)}>
+          <%= if is_any_item_selected do %>
+            <.octicon name={selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
+          <% end %>
+          <%= render_slot(item) %>
+        </a>
+      <% end %>
+      """
+    end
+
+    ~H"""
+    <details {select_menu_opts}>
+      <summary {toggle_attributes}>
+        <%= render_slot(toggle_slot) %>
+      </summary>
+      <div class={classes.menu}>
+        <div class={classes.menu_container}>
+          <%= if not is_nil(menu_title) do %>
+            <header class={classes.header}>
+              <h3 class={classes.menu_title}><%= menu_title %></h3>
+              <button
+                class={classes.header_close_button}
+                type="button"
+                phx-click={
+                  Phoenix.LiveView.JS.remove_attribute("open",
+                    to: "[data-menu-id=#{menu_id}]"
+                  )
+                }
+              >
+                <.octicon name="x-16" />
+              </button>
+            </header>
+          <% end %>
+          <%= if @filter && @filter !== [] do %>
+            <div class={classes.filter}>
+              <%= render_slot(@filter) %>
+            </div>
+          <% end %>
+          <%= if @message && @message !== [] do %>
+            <%= for message <- @message do %>
+              <div class={AttributeHelpers.classnames([classes.message, message[:class]])}>
+                <%= render_slot(message) %>
+              </div>
+            <% end %>
+          <% end %>
+          <%= if @loading && @loading !== [] do %>
+            <%= for loading <- @loading do %>
+              <div class={AttributeHelpers.classnames([classes.loading, loading[:class]])}>
+                <%= render_slot(loading) %>
+              </div>
+            <% end %>
+          <% end %>
+          <div class={classes.menu_list}>
+            <%= if @blankslate && @blankslate !== [] do %>
+              <%= for blankslate <- @blankslate do %>
+                <div class={AttributeHelpers.classnames([classes.blankslate, blankslate[:class]])}>
+                  <%= render_slot(blankslate) %>
+                </div>
+              <% end %>
+            <% end %>
+
+            <%= for item <- item_slots do %>
+              <%= render_item.(item) %>
+            <% end %>
+          </div>
+          <%= if @footer && @footer !== [] do %>
+            <%= for footer <- @footer do %>
+              <div class={AttributeHelpers.classnames([classes.footer, footer[:class]])}>
+                <%= render_slot(footer) %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
     </details>
     """
   end
