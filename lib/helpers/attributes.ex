@@ -88,12 +88,9 @@ defmodule PrimerLive.Helpers.Attributes do
   end
 
   def append_attributes(attributes, input_attributes) do
-    new_attributes =
-      input_attributes
-      |> Enum.reject(&(&1 == false || is_nil(&1)))
-      |> Enum.uniq()
-
-    new_attributes
+    input_attributes
+    |> Enum.reject(&(&1 == false || is_nil(&1)))
+    |> Enum.uniq()
     |> Enum.reduce(attributes, fn kw, acc ->
       acc ++ kw
     end)

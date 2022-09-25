@@ -4,62 +4,24 @@ defmodule PrimerLive.Helpers.FormHelpers do
   @moduledoc false
   # Helper functions for components that interact with forms and changesets.
 
-  @doc """
-  Returns the form changeset (from form.source).
-  Returns nil if no changeset is found,
-  """
-  def form_changeset(form) do
-    try do
-      form.source
-    rescue
-      _ -> nil
-    end
-  end
-
-  @doc """
-  Returns all error for a given field from a changeset.
-
-      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
-      ...>   %{
-      ...>     action: :update,
-      ...>     changes: %{},
-      ...>     errors: [],
-      ...>     data: nil,
-      ...>     valid?: true
-      ...>   }, :first_name)
-      []
-
-      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
-      ...>   %{
-      ...>     action: :update,
-      ...>     changes: %{},
-      ...>     errors: [
-      ...>       first_name: {"can't be blank", [validation: :required]},
-      ...>       work_experience: {"invalid value", [validation: :required]}
-      ...>     ],
-      ...>     data: nil,
-      ...>     valid?: true
-      ...>   }, :first_name)
-      ["can't be blank"]
-
-      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
-      ...>   %{
-      ...>     action: :update,
-      ...>     changes: %{},
-      ...>     errors: [
-      ...>       first_name: {"can't be blank", [validation: :required]},
-      ...>       work_experience: {"invalid value", [validation: :required]}
-      ...>     ],
-      ...>     data: nil,
-      ...>     valid?: true
-      ...>   }, :work_experience)
-      ["invalid value"]
-  """
-  def get_field_errors(changeset, field) do
-    changeset.errors
-    |> Enum.filter(fn {error_field, _content} -> error_field == field end)
-    |> Enum.map(fn {_error_field, {content, _details}} -> content end)
-  end
+  # Map of input name to atom value that can be used by Phoenix.HTML.Form to render the appropriate input element.
+  @input_types %{
+    "color" => :color_input,
+    "date" => :date_input,
+    "datetime-local" => :datetime_local_input,
+    "email" => :email_input,
+    "file" => :file_input,
+    "hidden" => :hidden_input,
+    "number" => :number_input,
+    "password" => :password_input,
+    "range" => :range_input,
+    "search" => :search_input,
+    "telephone" => :telephone_input,
+    "text" => :text_input,
+    "textarea" => :textarea,
+    "time" => :time_input,
+    "url" => :url_input
+  }
 
   @doc """
   Returns a `PrimerLive.FieldState` struct to facilitate display logic in component rendering functions.
@@ -121,60 +83,97 @@ defmodule PrimerLive.Helpers.FormHelpers do
   defp get_field_state(form, field, validation_message_fn) do
     changeset = form_changeset(form)
     field_state = %PrimerLive.FieldState{}
+    get_field_state_for_changeset(changeset, field_state, field, validation_message_fn)
+  end
 
-    case is_nil(changeset) do
-      true ->
-        field_state
+  defp get_field_state_for_changeset(changeset, field_state, _field, _validation_message_fn)
+       when is_nil(changeset),
+       do: field_state
 
-      false ->
-        field_errors = get_field_errors(changeset, field)
-        valid? = Enum.count(field_errors) == 0
+  defp get_field_state_for_changeset(changeset, field_state, field, validation_message_fn) do
+    with field_errors <- get_field_errors(changeset, field),
+         valid? <- Enum.count(field_errors) == 0,
+         field_state <- %{
+           field_state
+           | valid?: valid?,
+             field_errors: field_errors,
+             changeset: changeset
+         },
+         message <-
+           (case is_nil(validation_message_fn) do
+              true ->
+                case changeset.action === :validate do
+                  true ->
+                    [field_error | _rest] = field_errors
+                    field_error
 
-        field_state = %{
-          field_state
-          | valid?: valid?,
-            field_errors: field_errors,
-            changeset: changeset
-        }
+                  false ->
+                    nil
+                end
 
-        message =
-          case is_nil(validation_message_fn) do
-            true ->
-              case changeset.action === :validate do
-                true ->
-                  [field_error | _rest] = field_errors
-                  field_error
-
-                false ->
-                  nil
-              end
-
-            false ->
-              validation_message_fn.(field_state)
-          end
-
-        %{field_state | message: message}
+              false ->
+                validation_message_fn.(field_state)
+            end) do
+      %{field_state | message: message}
     end
   end
 
-  # Map of input name to atom value that can be used by Phoenix.HTML.Form to render the appropriate input element.
-  @input_types %{
-    "color" => :color_input,
-    "date" => :date_input,
-    "datetime-local" => :datetime_local_input,
-    "email" => :email_input,
-    "file" => :file_input,
-    "hidden" => :hidden_input,
-    "number" => :number_input,
-    "password" => :password_input,
-    "range" => :range_input,
-    "search" => :search_input,
-    "telephone" => :telephone_input,
-    "text" => :text_input,
-    "textarea" => :textarea,
-    "time" => :time_input,
-    "url" => :url_input
-  }
+  @doc """
+  Returns the form changeset (from form.source).
+  Returns nil if no changeset is found,
+  """
+  def form_changeset(form) do
+    try do
+      form.source
+    rescue
+      _ -> nil
+    end
+  end
+
+  @doc """
+  Returns all error for a given field from a changeset.
+
+      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
+      ...>   %{
+      ...>     action: :update,
+      ...>     changes: %{},
+      ...>     errors: [],
+      ...>     data: nil,
+      ...>     valid?: true
+      ...>   }, :first_name)
+      []
+
+      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
+      ...>   %{
+      ...>     action: :update,
+      ...>     changes: %{},
+      ...>     errors: [
+      ...>       first_name: {"can't be blank", [validation: :required]},
+      ...>       work_experience: {"invalid value", [validation: :required]}
+      ...>     ],
+      ...>     data: nil,
+      ...>     valid?: true
+      ...>   }, :first_name)
+      ["can't be blank"]
+
+      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
+      ...>   %{
+      ...>     action: :update,
+      ...>     changes: %{},
+      ...>     errors: [
+      ...>       first_name: {"can't be blank", [validation: :required]},
+      ...>       work_experience: {"invalid value", [validation: :required]}
+      ...>     ],
+      ...>     data: nil,
+      ...>     valid?: true
+      ...>   }, :work_experience)
+      ["invalid value"]
+  """
+  def get_field_errors(changeset, field) do
+    changeset.errors
+    |> Enum.filter(fn {error_field, _content} -> error_field == field end)
+    |> Enum.map(fn {_error_field, {content, _details}} -> content end)
+  end
 
   @doc """
   Get the input type atom from a name, e.g. "search" returns :search_input
