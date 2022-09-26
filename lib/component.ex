@@ -1362,12 +1362,8 @@ defmodule PrimerLive.Component do
   ```
   <.dropdown>
     <:toggle>Menu</:toggle>
-    <:item href="#url">
-      Item 1
-    </:item>
-    <:item href="#url">
-      Item 2
-    </:item>
+    <:item href="#url">Item 1</:item>
+    <:item href="#url">Item 2</:item>
   </.dropdown>
   ```
 
@@ -1379,12 +1375,8 @@ defmodule PrimerLive.Component do
   <.dropdown>
     <:toggle>Menu</:toggle>
     <:menu title="Menu title" />
-    <:item href="#url">
-      Item 1
-    </:item>
-    <:item href="#url">
-      Item 2
-    </:item>
+    <:item href="#url">Item 1</:item>
+    <:item href="#url">Item 2</:item>
   </.dropdown>
   ```
 
@@ -1399,16 +1391,10 @@ defmodule PrimerLive.Component do
   ```
   <.dropdown>
     <:toggle>Menu</:toggle>
-    <:item href="#url">
-      Item 1
-    </:item>
-    <:item href="#url">
-      Item 2
-    </:item>
+    <:item href="#url">Item 1</:item>
+    <:item href="#url">Item 2</:item>
     <:item is_divider />
-    <:item href="#url">
-      Item 3
-    </:item>
+    <:item href="#url">Item 3</:item>
   </.dropdown>
   ```
 
