@@ -2470,16 +2470,23 @@ defmodule PrimerLive.Component do
   attr :class, :string, doc: "Additional classname."
 
   attr :classes, :map,
-    default: %{
-      gap: "",
-      pagination_container: "",
-      pagination: "",
-      previous_page: "",
-      next_page: "",
-      page: ""
-    },
+    default: %{},
     doc:
-      "Additional classnames for pagination elements. Any provided value will be appended to the default classname."
+      """
+      Additional classnames for pagination elements. Any provided value will be appended to the default classname.
+
+      Default map:
+      ```
+      %{
+        gap: nil,
+        pagination_container: nil,
+        pagination: nil,
+        previous_page: nil,
+        next_page: nil,
+        page: nil
+      }
+      ```
+      """
 
   @default_pagination_labels %{
     aria_label_container: "Navigation",
