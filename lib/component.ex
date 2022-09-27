@@ -1345,6 +1345,197 @@ defmodule PrimerLive.Component do
   end
 
   # ------------------------------------------------------------------------------------
+  # header
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :layout
+
+  @doc ~S"""
+  Creates a navigational header, to be placed at the top of the page.
+
+  ```
+  <.header>
+    <:item>Item 1</:item>
+    <:item>Item 2</:item>
+    <:item>Item 3</:item>
+  </.header>
+  ```
+
+  ## Examples
+
+  Stretch an item with attribute `is_full`:
+
+  ```
+   <:item is_full>Stretched item</:item>
+  ```
+
+  A space can also be generated with an "empty" item:
+
+  ```
+  <:item is_full />
+  ```
+
+  Links can be placed inside items. Use `:let` to get access to the `classes.link` class:
+
+  ```
+  <:item :let={classes}>
+    <.link href="/" class={classes.link}>Regular anchor link</.link>
+  </:item>
+  <:item :let={classes}>
+    <.link navigate={Routes.page_path(@socket, :index)} class={[classes.link, "underline"]}>home</.link>
+  </:item>
+  ```
+
+  Inputs can be placed in the same way, using `:let` to get access to the `classes.input` class:
+
+  ```
+  <:item :let={classes}>
+    <.text_input form={:user} field={:first_name} type="search" class={classes.input} />
+  </:item>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## :let
+
+  Yields a `classes` map:
+
+  ```
+  <:item :let={classes} />
+  ```
+
+  The map contains the merged values of default classnames, plus any value supplied to the `classes` component attribute.
+
+  ```
+  <.header classes={%{ link: "link-x" }}>
+    <:item :let={classes}>
+      <.link href="/" class={["my-link", classes.link]}>Home</.link>
+    </:item>
+  </.header>
+  ```
+
+  Results in:
+
+  ```
+  <div class="Header">
+    <div class="Header-item">
+      <a href="/" class="my-link Header-link link-x">Home</a>
+    </div>
+  </div>
+  ```
+
+  ## Reference
+
+  [Primer/CSS Header](https://primer.style/css/components/header/)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, doc: "Additional classname.")
+
+  attr :classes, :map,
+    default: %{
+      header: nil,
+      item: nil,
+      link: nil
+    },
+    doc: """
+    Additional classnames for dropdown elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      header: "", # The wrapping element
+      item: "",   # Header item element
+      link: "",   # Link inside an item
+      input: "",  # Input element inside an item
+    }
+    ```
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot :item,
+    doc: """
+    Header item.
+    """ do
+    attr :is_full, :string, doc: "Stretches the item to maximum."
+
+    attr(:rest, :global,
+      doc: """
+      Additional HTML attributes added to the item element.
+      """
+    )
+  end
+
+  def header(assigns) do
+    classes = %{
+      header:
+        AttributeHelpers.classnames([
+          "Header",
+          assigns[:class],
+          assigns.classes[:header]
+        ]),
+      item:
+        AttributeHelpers.classnames([
+          "Header-item",
+          assigns.classes[:item]
+        ]),
+      link:
+        AttributeHelpers.classnames([
+          "Header-link",
+          assigns.classes[:link]
+        ]),
+      input:
+        AttributeHelpers.classnames([
+          "Header-input",
+          assigns.classes[:input]
+        ])
+    }
+
+    item_attributes = fn item ->
+      # Don't pass item attributes to the HTML
+      item_rest =
+        assigns_to_attributes(item, [
+          :is_full,
+          :class
+        ])
+
+      AttributeHelpers.append_attributes(item_rest, [
+        [
+          class:
+            AttributeHelpers.classnames([
+              classes.item,
+              item[:is_full] && "Header-item--full",
+              item[:class]
+            ])
+        ]
+      ])
+    end
+
+    ~H"""
+    <div class={classes.header} {@rest}>
+      <%= for item <- @item do %>
+        <div {item_attributes.(item)}>
+          <%= if not is_nil(item.inner_block) do %>
+            <%= render_slot(item, classes) %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
   # dropdown
   # ------------------------------------------------------------------------------------
 
@@ -1411,6 +1602,7 @@ defmodule PrimerLive.Component do
   """
 
   attr :classes, :map,
+    default: %{},
     doc: """
     Additional classnames for dropdown elements.
 
@@ -2001,7 +2193,7 @@ defmodule PrimerLive.Component do
       is_disabled = item[:is_disabled]
       is_link = !!item[:href]
 
-      # Don't pass item attributs to the HTML
+      # Don't pass item attributes to the HTML
       item_rest =
         assigns_to_attributes(item.rest, [
           :is_disabled,
@@ -2471,22 +2663,21 @@ defmodule PrimerLive.Component do
 
   attr :classes, :map,
     default: %{},
-    doc:
-      """
-      Additional classnames for pagination elements. Any provided value will be appended to the default classname.
+    doc: """
+    Additional classnames for pagination elements. Any provided value will be appended to the default classname.
 
-      Default map:
-      ```
-      %{
-        gap: nil,
-        pagination_container: nil,
-        pagination: nil,
-        previous_page: nil,
-        next_page: nil,
-        page: nil
-      }
-      ```
-      """
+    Default map:
+    ```
+    %{
+      gap: nil,
+      pagination_container: nil,
+      pagination: nil,
+      previous_page: nil,
+      next_page: nil,
+      page: nil
+    }
+    ```
+    """
 
   @default_pagination_labels %{
     aria_label_container: "Navigation",
