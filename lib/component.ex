@@ -1443,7 +1443,7 @@ defmodule PrimerLive.Component do
       link: nil
     },
     doc: """
-    Additional classnames for dropdown elements.
+    Additional classnames for header elements.
 
     Any provided value will be appended to the default classname.
 
