@@ -118,6 +118,16 @@ defmodule PrimerLive.Component do
 
   [INSERT LVATTRDOCS]
 
+  ## :let
+
+  ```
+  <:group :let={field} />
+  ```
+
+  Yields a map with fields:
+  - `label` - Generated label from `Phoenix.HTML.Form.label/2`
+  - `field_state` - `PrimerLive.FieldState` struct
+
   ## Reference
 
   [Primer/CSS Forms](https://primer.style/css/components/forms)
@@ -134,7 +144,36 @@ defmodule PrimerLive.Component do
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
-  attr(:class, :string, doc: "Additional classname.")
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      group: nil,
+      header: nil,
+      body: nil,
+      label: nil,
+      input: nil,
+      note: nil
+    },
+    doc: """
+    Additional classnames for form group elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      group: "",  # Form group element
+      header: "", # Header element containing the input label
+      body: "",   # Input wrapper
+      label: "",  # Input label
+      input: "",  # Input element
+      note: ""    # Validation message container
+    }
+    ```
+    """
+  )
+
   attr(:type, :string, default: "text", doc: "Text input type.")
   attr(:is_contrast, :boolean, default: false, doc: "Changes the background color to light gray.")
   attr(:is_full_width, :boolean, default: false, doc: "Full width input.")
@@ -169,15 +208,14 @@ defmodule PrimerLive.Component do
 
   slot :group,
     doc: """
-    Insert the input inside a form group. Provided through `:let`:
+    Insert the input inside a form group.
 
-    - `field.label` - The field label inside `<label>` tags.
-    - `field.field_state` - `PrimerLive.FieldState` struct.
+    Yields: see [:let](#text_input/1-let).
 
     """ do
     attr(:label, :string,
       doc: """
-      Group label. Will be wrapped inside a <label> tag. This label tag is provided by attribute `:let` and can be integrated in other HTML markup.
+      Group label. Will be wrapped inside a `<label>` tag. This label tag is provided by attribute `:let` and can be integrated in other HTML markup.
 
       The examples below assume form `:user` and field `:first_name`.
 
@@ -219,24 +257,6 @@ defmodule PrimerLive.Component do
       </:group>
       ```
 
-      """
-    )
-
-    attr(:classes, :map,
-      doc: """
-      Additional classnames for form group elements.
-
-      Any provided value will be appended to the default classname.
-
-      Default map:
-      ```
-      %{
-        group: "",
-        header: "",
-        body: "",
-        note: ""
-      }
-      ```
       """
     )
 
@@ -292,7 +312,7 @@ defmodule PrimerLive.Component do
         :class,
         AttributeHelpers.classnames([
           "form-control",
-          assigns[:class],
+          assigns.class,
           assigns.is_contrast and "input-contrast",
           assigns.is_hide_webkit_autofill and "input-hide-webkit-autofill",
           assigns.is_large and "input-lg",
@@ -326,7 +346,7 @@ defmodule PrimerLive.Component do
 
     input_attributes =
       AttributeHelpers.append_attributes(initial_input_attrs, [
-        [class: assigns[:class]],
+        [class: [assigns.class, assigns.classes[:input]]],
         # If aria_label is not set, use the value of placeholder (if any):
         is_nil(rest[:aria_label]) and [aria_label: rest[:placeholder]],
         not is_nil(message_id) and [aria_describedby: message_id]
@@ -346,7 +366,7 @@ defmodule PrimerLive.Component do
             AttributeHelpers.classnames([
               "form-group",
               group_slot[:class],
-              group_slot[:classes][:group],
+              assigns.classes[:group],
               if !is_nil(message) do
                 if valid? do
                   "successed"
@@ -358,17 +378,25 @@ defmodule PrimerLive.Component do
           header:
             AttributeHelpers.classnames([
               "form-group-header",
-              group_slot[:classes][:header]
+              assigns.classes[:header]
+            ]),
+          label:
+            AttributeHelpers.classnames([
+              assigns.classes[:label]
+            ]),
+          input:
+            AttributeHelpers.classnames([
+              assigns.classes[:input]
             ]),
           body:
             AttributeHelpers.classnames([
               "form-group-body",
-              group_slot[:classes][:body]
+              assigns.classes[:body]
             ]),
           note:
             AttributeHelpers.classnames([
               "note",
-              group_slot[:classes][:note],
+              assigns.classes[:note],
               if valid? do
                 "success"
               else
@@ -381,9 +409,9 @@ defmodule PrimerLive.Component do
         # else use the default generated label
         header_label =
           if group_slot[:label] do
-            label(form, field, group_slot[:label])
+            label(form, field, group_slot[:label], class: classes.label)
           else
-            label(form, field)
+            label(form, field, class: classes.label)
           end
 
         # Data accessible by :let
@@ -461,11 +489,9 @@ defmodule PrimerLive.Component do
   <.textarea name="comments" />
   ```
 
-  ## AttributeHelpers
+  ## Attributes
 
   Options for textarea are the same as options for `text_input/1`.
-
-  Additional HTML attributes are passed to the textarea element.
 
   ## Reference
 
@@ -1398,13 +1424,11 @@ defmodule PrimerLive.Component do
 
   ## :let
 
-  Yields a `classes` map:
-
   ```
   <:item :let={classes} />
   ```
 
-  The map contains the merged values of default classnames, plus any value supplied to the `classes` component attribute.
+  Yields a `classes` map, containing the merged values of default classnames, plus any value supplied to the `classes` component attribute.
 
   ```
   <.header classes={%{ link: "link-x" }}>
@@ -1601,8 +1625,18 @@ defmodule PrimerLive.Component do
 
   """
 
+  attr :class, :string, default: nil, doc: "Additional classname."
+
   attr :classes, :map,
-    default: %{},
+    default: %{
+      dropdown: nil,
+      toggle: nil,
+      caret: nil,
+      menu: nil,
+      item: nil,
+      divider: nil,
+      header: nil
+    },
     doc: """
     Additional classnames for dropdown elements.
 
@@ -1715,39 +1749,39 @@ defmodule PrimerLive.Component do
           "details-reset",
           "details-overlay",
           "d-inline-block",
-          assigns[:class],
-          assigns[:classes][:dropdown]
+          assigns.class,
+          assigns.classes[:dropdown]
         ]),
       toggle:
         AttributeHelpers.classnames([
           # If a custom class is set, remove the default btn class
-          assigns[:classes][:toggle] || toggle_slot[:class] || "btn"
+          assigns.classes.toggle || toggle_slot[:class] || "btn"
         ]),
       caret:
         AttributeHelpers.classnames([
           "dropdown-caret",
-          assigns[:classes][:caret]
+          assigns.classes[:caret]
         ]),
       menu:
         AttributeHelpers.classnames([
           "dropdown-menu",
           "dropdown-menu-" <> menu_position,
-          assigns[:classes][:menu]
+          assigns.classes[:menu]
         ]),
       item:
         AttributeHelpers.classnames([
           "dropdown-item",
-          assigns[:classes][:item]
+          assigns.classes[:item]
         ]),
       divider:
         AttributeHelpers.classnames([
           "dropdown-divider",
-          assigns[:classes][:divider]
+          assigns.classes[:divider]
         ]),
       header:
         AttributeHelpers.classnames([
           "dropdown-header",
-          assigns[:classes][:header]
+          assigns.classes[:header]
         ])
     }
 
@@ -2355,8 +2389,6 @@ defmodule PrimerLive.Component do
   ```
 
   ## Examples
-
-  _button examples_
 
   Primary button:
 

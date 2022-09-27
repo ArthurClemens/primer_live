@@ -289,19 +289,6 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Attribute: class" do
-    assigns = []
-
-    assert rendered_to_string(~H"""
-           <.text_input class="x" />
-           """)
-           |> format_html() ==
-             """
-             <input class="form-control x" id="_" name="[]" type="text" />
-             """
-             |> format_html()
-  end
-
   test "Extra attributes" do
     assigns = []
 
@@ -354,37 +341,6 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <div class="form-group x">
              <div class="form-group-header"><label for="f_first_name">First name</label></div>
              <div class="form-group-body"><input class="form-control" id="f_first_name" name="f[first_name]" type="text" /></div>
-             </div>
-             """
-             |> format_html()
-  end
-
-  test "Group slot with attribute classes" do
-    assigns = []
-    form = @form
-
-    assert rendered_to_string(~H"""
-           <.text_input form={form} field={:first_name}>
-             <:group classes={
-               %{
-                 group: "group-x",
-                 header: "header-x",
-                 body: "body-x",
-                 note: "note-x"
-               }
-             }>
-             </:group>
-           </.text_input>
-           """)
-           |> format_html() ==
-             """
-             <div class="form-group group-x errored">
-             <div class="form-group-header header-x">
-             <label for="user_first_name">First name</label>
-             </div>
-             <div class="form-group-body body-x"><input aria-describedby="first_name-validation" class="form-control"
-             id="user_first_name" name="user[first_name]" type="text" value="" /></div>
-             <p class="note note-x error" id="first_name-validation">can&#39;t be blank</p>
              </div>
              """
              |> format_html()
@@ -448,6 +404,46 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <div class="form-group-body"><input aria-describedby="first_name-validation" class="form-control" id="user_first_name"
              name="user[first_name]" type="text" value="" /></div>
              <p class="note error" id="first_name-validation">Please enter your first name</p>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: classes" do
+    assigns = []
+    form = @form
+
+    IO.inspect("Attribute: classes")
+
+    assert rendered_to_string(~H"""
+           <.text_input
+             class="my-input"
+             classes={
+               %{
+                 group: "group-x",
+                 header: "header-x",
+                 body: "body-x",
+                 label: "label-x",
+                 input: "input-x",
+                 note: "note-x"
+               }
+             }
+             form={form}
+             field={:first_name}
+           >
+             <:group class="my-group"></:group>
+           </.text_input>
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group my-group group-x errored">
+             <div class="form-group-header header-x">
+             <label class="label-x" for="user_first_name">First name</label>
+             </div>
+             <div class="form-group-body body-x">
+             <input aria-describedby="first_name-validation" class="form-control my-input input-x" id="user_first_name" name="user[first_name]" type="text" value="" />
+             </div>
+             <p class="note note-x error" id="first_name-validation">can&#39;t be blank</p>
              </div>
              """
              |> format_html()
