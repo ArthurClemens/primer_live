@@ -126,9 +126,9 @@ defmodule PrimerLive.TestComponents.HeaderTest do
            """)
            |> format_html() ==
              """
-             <div class="Header my-header header-x">
+             <div class="Header header-x my-header">
              <div class="Header-item item-x my-item">Item</div>
-             <div class="Header-item item-x Header-item--full">Full item</div>
+             <div class="Header-item Header-item--full item-x">Full item</div>
              <div class="Header-item item-x"><a href="/" data-phx-link="redirect" data-phx-link-state="push"
              class="Header-link link-x underline">Home</a></div>
              </div>
@@ -147,7 +147,7 @@ defmodule PrimerLive.TestComponents.HeaderTest do
            |> format_html() ==
              """
              <div class="Header" dir="rtl">
-             <div aria-disabled class="Header-item">Item</div>
+             <div class="Header-item" aria-disabled>Item</div>
              </div>
              """
              |> format_html()

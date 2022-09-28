@@ -184,7 +184,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              <:item href="#url">
                Item 2
              </:item>
-             <:item is_divider />
+             <:item is_divider class="my-divider" />
              <:item href="#url">
                Item 3
              </:item>
@@ -192,13 +192,13 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            """)
            |> format_html() ==
              """
-             <details class="dropdown details-reset details-overlay d-inline-block my-dropdown dropdown-x">
+             <details class="dropdown details-reset details-overlay d-inline-block dropdown-x my-dropdown">
              <summary class="toggle-x" aria-haspopup="true">Menu<div class="dropdown-caret caret-x"></div>
              </summary>
              <ul class="dropdown-menu dropdown-menu-se menu-x">
              <li><a href="#url" class="dropdown-item item-x my-item">Item 1</a></li>
              <li><a href="#url" class="dropdown-item item-x">Item 2</a></li>
-             <li class="dropdown-divider divider-x" role="separator"></li>
+             <li class="dropdown-divider divider-x my-divider" role="separator"></li>
              <li><a href="#url" class="dropdown-item item-x">Item 3</a></li>
              </ul>
              </details>

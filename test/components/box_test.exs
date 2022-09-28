@@ -75,18 +75,31 @@ defmodule PrimerLive.TestComponents.BoxTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box class="box-x">
-             <:header class="header-x">
+           <.box
+             class="box-x"
+             classes={
+               %{
+                 box: "box-x",
+                 header: "header-x",
+                 row: "row-x",
+                 body: "body-x",
+                 footer: "footer-x",
+                 header_title: "header_title-x",
+                 link: "link-x"
+               }
+             }
+           >
+             <:header class="my-header">
                Header
              </:header>
-             <:header_title class="header-title-x">
+             <:header_title class="my-header-title">
                Title
              </:header_title>
-             <:body class="body-x">
+             <:body class="my-body">
                Body
              </:body>
-             <:row class="row-x">Row</:row>
-             <:footer class="footer-x">
+             <:row class="my-row">Row</:row>
+             <:footer class="my-footer">
                Footer
              </:footer>
            </.box>
@@ -94,10 +107,12 @@ defmodule PrimerLive.TestComponents.BoxTest do
            |> format_html() ==
              """
              <div class="Box box-x">
-             <div class="Box-header header-x"><h3 class="Box-title header-title-x">Title</h3>Header</div>
-             <div class="Box-body body-x">Body</div>
-             <div class="Box-row row-x">Row</div>
-             <div class="Box-footer footer-x">Footer</div>
+             <div class="Box-header header-x my-header">
+             <h3 class="Box-title header_title-x my-header-title">Title</h3>Header
+             </div>
+             <div class="Box-body body-x my-body">Body</div>
+             <div class="Box-row row-x my-row">Row</div>
+             <div class="Box-footer footer-x my-footer">Footer</div>
              </div>
              """
              |> format_html()
@@ -188,7 +203,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
              <div class="Box">
              <div class="Box-header d-flex flex-justify-between flex-items-start">
              <h3 class="Box-title">A very long title that wraps onto multiple lines without overlapping or wrapping underneath
-             the icon to it's right</h3><button class="flex-shrink-0 pl-4 close-button" type="button" aria-label="Close"><svg
+             the icon to it's right</h3><button class="close-button flex-shrink-0 pl-4" type="button" aria-label="Close"><svg
              class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
              <path fill-rule="evenodd"
              d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z">
@@ -285,7 +300,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
            |> format_html() ==
              """
              <div class="Box">
-             <div class="Box-row link-x Box-row--gray">
+             <div class="Box-row Box-row--gray link-x">
              <a href="/home" class="Box-row-link">Go to home</a>
              </div>
              </div>

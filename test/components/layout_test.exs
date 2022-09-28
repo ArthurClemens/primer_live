@@ -221,15 +221,33 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              |> format_html()
   end
 
-  test "Class" do
+  test "Attribute: classes" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.layout class="x"></.layout>
+           <.layout_with_slots
+             is_centered_md
+             class="my-layout"
+             classes={
+               %{
+                 layout: "layout-x",
+                 main: "main-x",
+                 main_center_wrapper: "main_center_wrapper-x",
+                 sidebar: "sidebar-x",
+                 divider: "divider-x"
+               }
+             }
+           />
            """)
            |> format_html() ==
              """
-             <div class="Layout x"></div>
+             <div class="Layout layout-x my-layout">
+             <div class="Layout-sidebar sidebar-x">Sidebar content</div>
+             <div class="Layout-divider divider-x"></div>
+             <div class="Layout-main main-x">
+             <div class="Layout-main-centered-md main_center_wrapper-x">Main content</div>
+             </div>
+             </div>
              """
              |> format_html()
   end

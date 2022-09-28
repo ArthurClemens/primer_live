@@ -312,13 +312,13 @@ defmodule PrimerLive.Component do
         :class,
         AttributeHelpers.classnames([
           "form-control",
-          assigns.class,
           assigns.is_contrast and "input-contrast",
           assigns.is_hide_webkit_autofill and "input-hide-webkit-autofill",
           assigns.is_large and "input-lg",
           assigns.is_small and "input-sm",
           assigns.is_short and "short",
-          assigns.is_full_width and "input-block"
+          assigns.is_full_width and "input-block",
+          assigns.class
         ])
       )
 
@@ -365,15 +365,15 @@ defmodule PrimerLive.Component do
           group:
             AttributeHelpers.classnames([
               "form-group",
-              group_slot[:class],
-              assigns.classes[:group],
               if !is_nil(message) do
                 if valid? do
                   "successed"
                 else
                   "errored"
                 end
-              end
+              end,
+              group_slot[:class],
+              assigns.classes[:group]
             ]),
           header:
             AttributeHelpers.classnames([
@@ -396,12 +396,12 @@ defmodule PrimerLive.Component do
           note:
             AttributeHelpers.classnames([
               "note",
-              assigns.classes[:note],
               if valid? do
                 "success"
               else
                 "error"
-              end
+              end,
+              assigns.classes[:note]
             ])
         }
 
@@ -577,11 +577,11 @@ defmodule PrimerLive.Component do
     class =
       AttributeHelpers.classnames([
         "flash",
-        assigns[:class],
         assigns.is_error and "flash-error",
         assigns.is_success and "flash-success",
         assigns.is_warning and "flash-warn",
-        assigns.is_full and "flash-full"
+        assigns.is_full and "flash-full",
+        assigns[:class]
       ])
 
     ~H"""
@@ -782,6 +782,32 @@ defmodule PrimerLive.Component do
 
   attr(:class, :string, doc: "Additional classname.")
 
+  attr(:classes, :map,
+    default: %{
+      layout: nil,
+      main: nil,
+      main_center_wrapper: nil,
+      sidebar: nil,
+      divider: nil
+    },
+    doc: """
+    Additional classnames for layout elements.
+
+      Any provided value will be appended to the default classname.
+
+      Default map:
+      ```
+      %{
+        layout: "",               # Layout wrapper
+        main: "",                 # Main element
+        main_center_wrapper: "",  # Wrapper for displaying content centered
+        sidebar: "",              # Sidebar element
+        divider: "",              # Divider element
+      }
+      ```
+    """
+  )
+
   attr(:is_divided, :boolean,
     default: false,
     doc:
@@ -890,7 +916,6 @@ defmodule PrimerLive.Component do
       layout:
         AttributeHelpers.classnames([
           "Layout",
-          assigns[:class],
           assigns.is_divided and "Layout--divided",
           assigns.is_narrow_sidebar and "Layout--sidebar-narrow",
           assigns.is_wide_sidebar and "Layout--sidebar-wide",
@@ -903,21 +928,33 @@ defmodule PrimerLive.Component do
           assigns.is_sidebar_position_flow_row_end and "Layout--sidebarPosition-flowRow-end",
           assigns.is_sidebar_position_flow_row_none and "Layout--sidebarPosition-flowRow-none",
           assigns.is_flow_row_until_md and "Layout--flowRow-until-md",
-          assigns.is_flow_row_until_lg and "Layout--flowRow-until-lg"
+          assigns.is_flow_row_until_lg and "Layout--flowRow-until-lg",
+          assigns.classes[:layout],
+          assigns[:class]
         ]),
-      main: "Layout-main",
+      main:
+        AttributeHelpers.classnames([
+          "Layout-main",
+          assigns.classes[:main]
+        ]),
       main_center_wrapper:
         AttributeHelpers.classnames([
           assigns.is_centered_md and "Layout-main-centered-md",
           assigns.is_centered_lg and "Layout-main-centered-lg",
-          assigns.is_centered_xl and "Layout-main-centered-xl"
+          assigns.is_centered_xl and "Layout-main-centered-xl",
+          assigns.classes[:main_center_wrapper]
         ]),
-      sidebar: "Layout-sidebar",
+      sidebar:
+        AttributeHelpers.classnames([
+          "Layout-sidebar",
+          assigns.classes[:sidebar]
+        ]),
       divider:
         AttributeHelpers.classnames([
           "Layout-divider",
           assigns.is_flow_row_shallow and "Layout-divider--flowRow-shallow",
-          assigns.is_flow_row_hidden and "Layout-divider--flowRow-hidden"
+          assigns.is_flow_row_hidden and "Layout-divider--flowRow-hidden",
+          assigns.classes[:divider]
         ])
     }
 
@@ -1130,6 +1167,36 @@ defmodule PrimerLive.Component do
 
   attr(:class, :string, doc: "Additional classname.")
 
+  attr(:classes, :map,
+    default: %{
+      box: nil,
+      header: nil,
+      row: nil,
+      body: nil,
+      footer: nil,
+      header_title: nil,
+      link: nil
+    },
+    doc: """
+    Additional classnames for layout elements.
+
+      Any provided value will be appended to the default classname.
+
+      Default map:
+      ```
+      %{
+        box: "",          # Box element
+        header: "",       # Box header row element
+        row: "",          # Box content row element
+        body: "",         # Content element
+        footer: "",       # Footer row element
+        header_title: "", # Title element within a header row
+        link: "",         # Class for links
+      }
+      ```
+    """
+  )
+
   attr(:is_blue, :boolean,
     default: false,
     doc: "Creates a blue box theme."
@@ -1222,24 +1289,25 @@ defmodule PrimerLive.Component do
       box:
         AttributeHelpers.classnames([
           "Box",
-          assigns[:class],
           assigns.is_blue and "Box--blue",
           assigns.is_border_dashed and "border-dashed",
           assigns.is_condensed and "Box--condensed",
           assigns.is_danger and "Box--danger",
-          assigns.is_spacious and "Box--spacious"
+          assigns.is_spacious and "Box--spacious",
+          assigns.classes[:box],
+          assigns[:class]
         ]),
       header: fn slot ->
         AttributeHelpers.classnames([
           "Box-header",
-          slot[:class],
-          slot[:is_blue] && "Box-header--blue"
+          slot[:is_blue] && "Box-header--blue",
+          assigns.classes[:header],
+          slot[:class]
         ])
       end,
       row: fn slot ->
         AttributeHelpers.classnames([
           "Box-row",
-          slot[:class],
           slot[:is_blue] && "Box-row--blue",
           slot[:is_focus_blue] && "Box-row--focus-blue",
           slot[:is_focus_gray] && "Box-row--focus-gray",
@@ -1248,28 +1316,33 @@ defmodule PrimerLive.Component do
           slot[:is_hover_gray] && "Box-row--hover-gray",
           slot[:is_navigation_focus] && "navigation-focus",
           slot[:is_yellow] && "Box-row--yellow",
-          slot[:is_unread] && "Box-row--unread"
+          slot[:is_unread] && "Box-row--unread",
+          assigns.classes[:row],
+          slot[:class]
         ])
       end,
       body: fn slot ->
         AttributeHelpers.classnames([
           "Box-body",
+          assigns.classes[:body],
           slot[:class]
         ])
       end,
       footer: fn slot ->
         AttributeHelpers.classnames([
           "Box-footer",
+          assigns.classes[:footer],
           slot[:class]
         ])
       end,
       header_title: fn slot ->
         AttributeHelpers.classnames([
           "Box-title",
+          assigns.classes[:header_title],
           slot[:class]
         ])
       end,
-      link: "Box-row-link"
+      link: AttributeHelpers.classnames(["Box-row-link", assigns.classes[:link]])
     }
 
     attributes = %{
@@ -1506,14 +1579,10 @@ defmodule PrimerLive.Component do
       header:
         AttributeHelpers.classnames([
           "Header",
-          assigns[:class],
-          assigns.classes[:header]
+          assigns.classes[:header],
+          assigns[:class]
         ]),
-      item:
-        AttributeHelpers.classnames([
-          "Header-item",
-          assigns.classes[:item]
-        ]),
+      # item: # Set in item_attributes/1
       link:
         AttributeHelpers.classnames([
           "Header-link",
@@ -1534,26 +1603,35 @@ defmodule PrimerLive.Component do
           :class
         ])
 
-      AttributeHelpers.append_attributes(item_rest, [
-        [
-          class:
-            AttributeHelpers.classnames([
-              classes.item,
-              item[:is_full] && "Header-item--full",
-              item[:class]
-            ])
-        ]
-      ])
+      item_class =
+        AttributeHelpers.classnames([
+          "Header-item",
+          item[:is_full] && "Header-item--full",
+          assigns.classes[:item],
+          item[:class]
+        ])
+
+      item_classes = Map.put(classes, :item, item_class)
+
+      {item_rest, item_class, item_classes}
+    end
+
+    render_item = fn item ->
+      {item_rest, item_class, item_classes} = item_attributes.(item)
+
+      ~H"""
+      <div class={item_class} {item_rest}>
+        <%= if not is_nil(item.inner_block) do %>
+          <%= render_slot(item, item_classes) %>
+        <% end %>
+      </div>
+      """
     end
 
     ~H"""
     <div class={classes.header} {@rest}>
       <%= for item <- @item do %>
-        <div {item_attributes.(item)}>
-          <%= if not is_nil(item.inner_block) do %>
-            <%= render_slot(item, classes) %>
-          <% end %>
-        </div>
+        <%= render_item.(item) %>
       <% end %>
     </div>
     """
@@ -1645,13 +1723,13 @@ defmodule PrimerLive.Component do
     Default map:
     ```
     %{
-      dropdown: "",
-      toggle: "",
-      caret: "",
-      menu: "",
-      item: "",
-      divider: "",
-      header: ""
+      dropdown: "", # Dropdown wrapper
+      toggle: "",   # Toggle (open) button
+      caret: "",    # Arrow in toggle button
+      menu: "",     # List container
+      item: "",     # List item
+      divider: "",  # List divider item
+      header: ""    # Menu header
     }
     ```
     """
@@ -1749,8 +1827,8 @@ defmodule PrimerLive.Component do
           "details-reset",
           "details-overlay",
           "d-inline-block",
-          assigns.class,
-          assigns.classes[:dropdown]
+          assigns.classes[:dropdown],
+          assigns.class
         ]),
       toggle:
         AttributeHelpers.classnames([
@@ -2488,22 +2566,22 @@ defmodule PrimerLive.Component do
     class =
       AttributeHelpers.classnames([
         !assigns.is_link and !assigns.is_icon_only and !assigns.is_close_button and "btn",
-        assigns[:class],
         assigns.is_link and "btn-link",
         assigns.is_icon_only and "btn-octicon",
         assigns.is_danger and
-          if assigns.is_icon_only do
-            "btn-octicon-danger"
-          else
-            "btn-danger"
-          end,
+        if assigns.is_icon_only do
+          "btn-octicon-danger"
+        else
+          "btn-danger"
+        end,
         assigns.is_large and "btn-large",
         assigns.is_primary and "btn-primary",
         assigns.is_outline and "btn-outline",
         assigns.is_small and "btn-sm",
         assigns.is_full_width and "btn-block",
         assigns.is_invisible and "btn-invisible",
-        assigns.is_close_button and "close-button"
+        assigns.is_close_button and "close-button",
+        assigns[:class],
       ])
 
     aria_attributes =
@@ -2778,8 +2856,8 @@ defmodule PrimerLive.Component do
       pagination_container:
         AttributeHelpers.classnames([
           "paginate-container",
+          assigns[:classes][:pagination_container],
           assigns[:class],
-          assigns[:classes][:pagination_container]
         ]),
       pagination:
         AttributeHelpers.classnames([

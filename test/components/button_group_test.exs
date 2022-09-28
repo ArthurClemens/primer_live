@@ -22,7 +22,7 @@ defmodule PrimerLive.TestComponents.ButtonGroupTest do
              <div class="BtnGroup">
              <button class="btn BtnGroup-item" type="button">Button 1</button>
              <button class="btn BtnGroup-item" type="button" aria-selected="true">Button 2</button>
-             <button class="btn BtnGroup-item btn-danger" type="button">Button 3</button>
+             <button class="btn btn-danger BtnGroup-item" type="button">Button 3</button>
              <button class="btn BtnGroup-item button-x" type="button">Button 4</button>
              </div>
              """

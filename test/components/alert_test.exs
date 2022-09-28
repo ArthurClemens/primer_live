@@ -42,11 +42,11 @@ defmodule PrimerLive.TestComponents.AlertTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.alert class="x">Message</.alert>
+           <.alert class="alert-x" is_error>Message</.alert>
            """)
            |> format_html() ==
              """
-             <div class="flash x">Message</div>
+             <div class="flash flash-error alert-x">Message</div>
              """
              |> format_html()
   end

@@ -413,8 +413,6 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assigns = []
     form = @form
 
-    IO.inspect("Attribute: classes")
-
     assert rendered_to_string(~H"""
            <.text_input
              class="my-input"
@@ -436,14 +434,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group my-group group-x errored">
-             <div class="form-group-header header-x">
-             <label class="label-x" for="user_first_name">First name</label>
-             </div>
-             <div class="form-group-body body-x">
-             <input aria-describedby="first_name-validation" class="form-control my-input input-x" id="user_first_name" name="user[first_name]" type="text" value="" />
-             </div>
-             <p class="note note-x error" id="first_name-validation">can&#39;t be blank</p>
+             <div class="form-group errored my-group group-x">
+             <div class="form-group-header header-x"><label class="label-x" for="user_first_name">First name</label></div>
+             <div class="form-group-body body-x"><input aria-describedby="first_name-validation"
+             class="form-control my-input input-x" id="user_first_name" name="user[first_name]" type="text" value="" /></div>
+             <p class="note error note-x" id="first_name-validation">can&#39;t be blank</p>
              </div>
              """
              |> format_html()
