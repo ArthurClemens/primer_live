@@ -2030,7 +2030,22 @@ defmodule PrimerLive.Component do
   attr :is_borderless, :boolean, default: false, doc: "Removes the borders between list items."
 
   attr :classes, :map,
-    default: %{},
+    default: %{
+      blankslate: nil,
+      divider: nil,
+      filter: nil,
+      footer: nil,
+      header_close_button: nil,
+      header: nil,
+      item: nil,
+      loading: nil,
+      menu_container: nil,
+      menu_list: nil,
+      menu_title: nil,
+      menu: nil,
+      message: nil,
+      toggle: nil
+    },
     doc: """
     Additional classnames for select menu elements.
 
@@ -2039,20 +2054,20 @@ defmodule PrimerLive.Component do
     Default map:
     ```
     %{
-      blankslate: nil,          # Blankslate content element.
-      divider: nil,             # Divider item element.
-      filter: nil,              # Filter content element
-      footer: nil,              # Footer element.
-      header_close_button: nil, # Close button in the header.
-      header: nil,              # Header element.
-      item: nil,                # Item element.
-      loading: nil,             # Loading content element.
-      menu_container: nil,      # Menu container (called "modal" at PrimerCSS).
-      menu_list: nil,           # Menu list container.
-      menu_title: nil,          # Menu title.
-      menu: nil,                # Menu element
-      message: nil,             # Message element.
-      toggle: nil,              # Toggle element. Any value will override the default class "btn".
+      blankslate: "",          # Blankslate content element.
+      divider: "",             # Divider item element.
+      filter: "",              # Filter content element
+      footer: "",              # Footer element.
+      header_close_button: "", # Close button in the header.
+      header: "",              # Header element.
+      item: "",                # Item element.
+      loading: "",             # Loading content element.
+      menu_container: "",      # Menu container (called "modal" at PrimerCSS).
+      menu_list: "",           # Menu list container.
+      menu_title: "",          # Menu title.
+      menu: "",                # Menu element
+      message: "",             # Message element.
+      toggle: "",              # Toggle element. Any value will override the default class "btn".
     }
     ```
     """
@@ -2569,11 +2584,11 @@ defmodule PrimerLive.Component do
         assigns.is_link and "btn-link",
         assigns.is_icon_only and "btn-octicon",
         assigns.is_danger and
-        if assigns.is_icon_only do
-          "btn-octicon-danger"
-        else
-          "btn-danger"
-        end,
+          if assigns.is_icon_only do
+            "btn-octicon-danger"
+          else
+            "btn-danger"
+          end,
         assigns.is_large and "btn-large",
         assigns.is_primary and "btn-primary",
         assigns.is_outline and "btn-outline",
@@ -2581,7 +2596,7 @@ defmodule PrimerLive.Component do
         assigns.is_full_width and "btn-block",
         assigns.is_invisible and "btn-invisible",
         assigns.is_close_button and "close-button",
-        assigns[:class],
+        assigns[:class]
       ])
 
     aria_attributes =
@@ -2772,19 +2787,26 @@ defmodule PrimerLive.Component do
   attr :class, :string, doc: "Additional classname."
 
   attr :classes, :map,
-    default: %{},
-    doc: """
-    Additional classnames for pagination elements. Any provided value will be appended to the default classname.
-
-    Default map:
-    ```
-    %{
+    default: %{
       gap: nil,
       pagination_container: nil,
       pagination: nil,
       previous_page: nil,
       next_page: nil,
       page: nil
+    },
+    doc: """
+    Additional classnames for pagination elements. Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      gap: "",
+      pagination_container: "",
+      pagination: "",
+      previous_page: "",
+      next_page: "",
+      page: ""
     }
     ```
     """
@@ -2857,7 +2879,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "paginate-container",
           assigns[:classes][:pagination_container],
-          assigns[:class],
+          assigns[:class]
         ]),
       pagination:
         AttributeHelpers.classnames([
