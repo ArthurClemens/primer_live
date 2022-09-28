@@ -1153,7 +1153,43 @@ defmodule PrimerLive.Component do
   </.box>
   ```
 
+  Links can be placed inside rows. Use `:let` to get access to the `classes.link` class:
+
+  ```
+  <.box>
+    <:row :let={classes}>
+      <.link href="/" class={classes.link}>Home</.link>
+    </:row>
+  </.box>
+  ```
+
   [INSERT LVATTRDOCS]
+
+  ## :let
+
+  ```
+  <:item :let={classes} />
+  ```
+
+  Yields a `classes` map, containing the merged values of default classnames, plus any value supplied to the `classes` component attribute.
+
+  ```
+  <.box classes={%{ link: "link-x" }}>
+    <:row :let={classes}>
+      <.link href="/" class={["my-link", classes.link]}>Home</.link>
+    </:row>
+  </.box>
+  ```
+
+  Results in:
+
+  ```
+  <div class="Box">
+    <div class="Box-row">
+      <a href="/" class="my-link Box-row-link link-x">Home</a>
+    </div>
+  </div>
+  ```
 
   ## Reference
 
@@ -1257,8 +1293,6 @@ defmodule PrimerLive.Component do
     attr :is_unread, :boolean,
       doc: "Apply a blue vertical line highlight for indicating a row contains unread items."
 
-    attr :is_link, :boolean, doc: "Use with link attributes such as \"href\" to generate a link."
-
     attr(:rest, :global,
       doc: """
       Additional HTML attributes added to the row element.
@@ -1345,34 +1379,6 @@ defmodule PrimerLive.Component do
       link: AttributeHelpers.classnames(["Box-row-link", assigns.classes[:link]])
     }
 
-    attributes = %{
-      link: fn slot ->
-        AttributeHelpers.append_attributes(
-          assigns_to_attributes(slot, [
-            :class,
-            :is_blue,
-            :is_focus_blue,
-            :is_focus_gray,
-            :is_gray,
-            :is_hover_blue,
-            :is_hover_gray,
-            :is_link,
-            :is_navigation_focus,
-            :is_unread,
-            :is_yellow
-          ]),
-          [
-            [
-              class:
-                AttributeHelpers.classnames([
-                  classes.link
-                ])
-            ]
-          ]
-        )
-      end
-    }
-
     render_header = fn data ->
       ~H"""
       <%= for {slot, header_slot} <- data do %>
@@ -1394,11 +1400,7 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= for slot <- slots do %>
         <div class={classes.row.(slot)}>
-          <%= if slot[:is_link] do %>
-            <a {attributes.link.(slot)}><%= render_slot(slot) %></a>
-          <% else %>
-            <%= render_slot(slot) %>
-          <% end %>
+          <%= render_slot(slot, classes) %>
         </div>
       <% end %>
       """

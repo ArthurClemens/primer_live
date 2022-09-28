@@ -287,21 +287,21 @@ defmodule PrimerLive.TestComponents.BoxTest do
              |> format_html()
   end
 
-  test "Row with is_link" do
+  test "Row with link" do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.box>
-             <:row is_link href="/home" class="link-x" is_gray>
-               Go to home
+           <.box classes={%{link: "link-x"}}>
+             <:row :let={classes}>
+               <.link href="/" class={["my-link", classes.link]}>Home</.link>
              </:row>
            </.box>
            """)
            |> format_html() ==
              """
              <div class="Box">
-             <div class="Box-row Box-row--gray link-x">
-             <a href="/home" class="Box-row-link">Go to home</a>
+             <div class="Box-row">
+             <a href="/" class="my-link Box-row-link link-x">Home</a>
              </div>
              </div>
              """
