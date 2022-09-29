@@ -1483,7 +1483,7 @@ defmodule PrimerLive.Component do
     <.link href="/" class={classes.link}>Regular anchor link</.link>
   </:item>
   <:item :let={classes}>
-    <.link navigate={Routes.page_path(@socket, :index)} class={[classes.link, "underline"]}>home</.link>
+    <.link navigate={Routes.page_path(@socket, :index)} class={[classes.link, "underline"]}>Home</.link>
   </:item>
   ```
 
@@ -1652,17 +1652,30 @@ defmodule PrimerLive.Component do
 
   [Examples](#dropdown/1-examples) • [Attributes](#dropdown/1-attributes) • [Reference](#dropdown/1-reference)
 
-  Menu items are rendered as link elements, and any attribute passed to the `item` slot is passed to the `<a>` tag.
-
   ```
   <.dropdown>
     <:toggle>Menu</:toggle>
-    <:item href="#url">Item 1</:item>
-    <:item href="#url">Item 2</:item>
+    <:item :let={classes}>
+      <.link href="/" class={classes.link}>Item 1</.link>
+    </:item>
+    <:item :let={classes}>
+      <.link href="/" class={classes.link}>Item 2</.link>
+    </:item>
   </.dropdown>
   ```
 
   ## Examples
+
+  Links are be placed inside items. Use `:let` to get access to the `classes.link` class:
+
+  ```
+  <:item :let={classes}>
+    <.link href="/" class={classes.link}>Item 1</.link>
+  </:item>
+  <:item :let={classes}>
+    <.link navigate={Routes.page_path(@socket, :index)} class={[classes.link, "underline"]}>Home</.link>
+  </:item>
+  ```
 
   Add a menu title by passing `title` to the `menu` slot:
 
@@ -1670,8 +1683,7 @@ defmodule PrimerLive.Component do
   <.dropdown>
     <:toggle>Menu</:toggle>
     <:menu title="Menu title" />
-    <:item href="#url">Item 1</:item>
-    <:item href="#url">Item 2</:item>
+    ...
   </.dropdown>
   ```
 
@@ -1686,14 +1698,35 @@ defmodule PrimerLive.Component do
   ```
   <.dropdown>
     <:toggle>Menu</:toggle>
-    <:item href="#url">Item 1</:item>
-    <:item href="#url">Item 2</:item>
+    ...
     <:item is_divider />
-    <:item href="#url">Item 3</:item>
+    ...
   </.dropdown>
   ```
 
   [INSERT LVATTRDOCS]
+
+  ## :let
+
+  ```
+  <:item :let={classes} />
+  ```
+
+  Yields a `classes` map, containing the merged values of default classnames, plus any value supplied to the `classes` component attribute.
+
+  ```
+  <:row :let={classes}>
+    <.link href="/" class={["my-link", classes.link]}>Home</.link>
+  </:row>
+  ```
+
+  Results in:
+
+  ```
+  <li>
+    <a href="/" class="my-link dropdown-item">Home</a>
+  </li>
+  ```
 
   ## Reference
 
@@ -1709,13 +1742,14 @@ defmodule PrimerLive.Component do
 
   attr :classes, :map,
     default: %{
-      dropdown: nil,
-      toggle: nil,
       caret: nil,
-      menu: nil,
-      item: nil,
       divider: nil,
-      header: nil
+      dropdown: nil,
+      header: nil,
+      item: nil,
+      link: nil,
+      menu: nil,
+      toggle: nil
     },
     doc: """
     Additional classnames for dropdown elements.
@@ -1725,13 +1759,14 @@ defmodule PrimerLive.Component do
     Default map:
     ```
     %{
-      dropdown: "", # Dropdown wrapper
-      toggle: "",   # Toggle (open) button
       caret: "",    # Arrow in toggle button
-      menu: "",     # List container
-      item: "",     # List item
       divider: "",  # List divider item
-      header: ""    # Menu header
+      dropdown: "", # Dropdown wrapper
+      header: "",    # Menu header
+      item: "",     # List item
+      link: "",     # Link item
+      menu: "",     # List container
+      toggle: ""   # Toggle (open) button
     }
     ```
     """
@@ -1805,20 +1840,6 @@ defmodule PrimerLive.Component do
     # Get the toggle menu slot, if any
     toggle_slot = if assigns.toggle && assigns.toggle !== [], do: hd(assigns.toggle), else: []
 
-    # Collect all attributes inside "rest"
-    item_slots =
-      assigns.item
-      |> Enum.map(
-        &Map.put(
-          &1,
-          :rest,
-          assigns_to_attributes(&1, [
-            :is_divider,
-            :class
-          ])
-        )
-      )
-
     menu_title = menu_slot[:title]
     menu_position = menu_slot[:position] || "se"
 
@@ -1835,7 +1856,7 @@ defmodule PrimerLive.Component do
       toggle:
         AttributeHelpers.classnames([
           # If a custom class is set, remove the default btn class
-          assigns.classes.toggle || toggle_slot[:class] || "btn"
+          assigns.classes[:toggle] || toggle_slot[:class] || "btn"
         ]),
       caret:
         AttributeHelpers.classnames([
@@ -1848,15 +1869,12 @@ defmodule PrimerLive.Component do
           "dropdown-menu-" <> menu_position,
           assigns.classes[:menu]
         ]),
-      item:
+      # item: # Set in item_attributes/2
+      # divider: # Set in item_attributes/2
+      link:
         AttributeHelpers.classnames([
           "dropdown-item",
-          assigns.classes[:item]
-        ]),
-      divider:
-        AttributeHelpers.classnames([
-          "dropdown-divider",
-          assigns.classes[:divider]
+          assigns.classes[:link]
         ]),
       header:
         AttributeHelpers.classnames([
@@ -1867,34 +1885,60 @@ defmodule PrimerLive.Component do
 
     toggle_attributes =
       AttributeHelpers.append_attributes([], [
-        [class: classes.toggle],
+        [class: classes[:toggle]],
         [aria_haspopup: "true"]
       ])
 
-    item_attributes = fn item ->
-      AttributeHelpers.append_attributes(item.rest, [
-        [class: AttributeHelpers.classnames([classes.item, item[:class]])]
-      ])
+    item_attributes = fn item, is_divider ->
+      # Don't pass item attributes to the HTML
+      item_rest =
+        assigns_to_attributes(item, [
+          :is_divider,
+          :class
+        ])
+
+      item_class =
+        AttributeHelpers.classnames([
+          is_divider && "dropdown-divider",
+          if is_divider do
+            assigns.classes[:divider]
+          else
+            assigns.classes[:item]
+          end,
+          item[:class]
+        ])
+
+      item_attributes =
+        AttributeHelpers.append_attributes(item_rest, [
+          [class: item_class],
+          is_divider && [role: "separator"]
+        ])
+
+      item_classes = Map.put(classes, :item, item_class)
+
+      {item_attributes, item_classes}
     end
 
-    divider_attributes = fn divider ->
-      AttributeHelpers.append_attributes(divider.rest, [
-        [class: AttributeHelpers.classnames([classes.divider, divider[:class]])],
-        [role: "separator"]
-      ])
+    render_item = fn item ->
+      is_divider = !!item[:is_divider]
+      {item_attributes, item_classes} = item_attributes.(item, is_divider)
+
+      ~H"""
+      <%= if is_divider do %>
+        <li {item_attributes} />
+      <% else %>
+        <li {item_attributes}>
+          <%= render_slot(item, item_classes) %>
+        </li>
+      <% end %>
+      """
     end
 
     render_menu = fn menu_attributes ->
       ~H"""
       <ul {menu_attributes}>
-        <%= for item <- item_slots do %>
-          <%= if item[:is_divider] do %>
-            <li {divider_attributes.(item)} />
-          <% else %>
-            <li>
-              <a {item_attributes.(item)}><%= render_slot(item) %></a>
-            </li>
-          <% end %>
+        <%= for item <- @item do %>
+          <%= render_item.(item) %>
         <% end %>
       </ul>
       """
@@ -1902,7 +1946,7 @@ defmodule PrimerLive.Component do
 
     menu_attributes =
       AttributeHelpers.append_attributes([], [
-        [class: classes.menu]
+        [class: classes[:menu]]
       ])
 
     ~H"""
