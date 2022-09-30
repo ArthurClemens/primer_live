@@ -13,10 +13,10 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            <.dropdown>
              <:toggle>Menu</:toggle>
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 1</.link>
+               <.link href="#url" class={classes.item}>Item 1</.link>
              </:item>
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 2</.link>
+               <.link href="#url" class={classes.item}>Item 2</.link>
              </:item>
            </.dropdown>
            """)
@@ -42,10 +42,10 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              <:toggle>Menu</:toggle>
              <:menu title="Menu title" />
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 1</.link>
+               <.link href="#url" class={classes.item}>Item 1</.link>
              </:item>
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 2</.link>
+               <.link href="#url" class={classes.item}>Item 2</.link>
              </:item>
            </.dropdown>
            """)
@@ -74,10 +74,10 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              <:toggle>Menu</:toggle>
              <:menu position="e" />
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 1</.link>
+               <.link href="#url" class={classes.item}>Item 1</.link>
              </:item>
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 2</.link>
+               <.link href="#url" class={classes.item}>Item 2</.link>
              </:item>
            </.dropdown>
            """)
@@ -102,10 +102,10 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            <.dropdown>
              <:toggle>Menu</:toggle>
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 1</.link>
+               <.link href="#url" class={classes.item}>Item 1</.link>
              </:item>
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 2</.link>
+               <.link href="#url" class={classes.item}>Item 2</.link>
              </:item>
            </.dropdown>
            """)
@@ -130,15 +130,15 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            <.dropdown>
              <:toggle>Menu</:toggle>
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 1</.link>
+               <.link href="#url" class={classes.item}>Item 1</.link>
              </:item>
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 2</.link>
+               <.link href="#url" class={classes.item}>Item 2</.link>
              </:item>
              <:item is_divider />
              <:item is_divider class="my-divider" />
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 3</.link>
+               <.link href="#url" class={classes.item}>Item 3</.link>
              </:item>
            </.dropdown>
            """)
@@ -178,29 +178,33 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              }
            >
              <:toggle class="my-toggle">Menu</:toggle>
+             <:menu title="Menu title" />
              <:item :let={classes} class="my-item">
-               <.link href="#url" class={classes.link}>Item 1</.link>
+               <.link href="#url" class={classes.item}>Item 1</.link>
              </:item>
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 2</.link>
+               <.link href="#url" class={classes.item}>Item 2</.link>
              </:item>
              <:item is_divider class="my-divider" />
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 3</.link>
+               <.link href="#url" class={classes.item}>Item 3</.link>
              </:item>
            </.dropdown>
            """)
            |> format_html() ==
              """
              <details class="dropdown details-reset details-overlay d-inline-block dropdown-x my-dropdown">
-             <summary class="toggle-x" aria-haspopup="true">Menu<div class="dropdown-caret caret-x"></div>
+             <summary class="toggle-x my-toggle" aria-haspopup="true">Menu<div class="dropdown-caret caret-x"></div>
              </summary>
-             <ul class="dropdown-menu dropdown-menu-se menu-x">
-             <li class="item-x my-item"><a href="#url" class="dropdown-item">Item 1</a></li>
-             <li class="item-x"><a href="#url" class="dropdown-item">Item 2</a></li>
+             <div class="dropdown-menu dropdown-menu-se menu-x">
+             <div class="dropdown-header header-x">Menu title</div>
+             <ul>
+             <li><a href="#url" class="dropdown-item item-x my-item">Item 1</a></li>
+             <li><a href="#url" class="dropdown-item item-x">Item 2</a></li>
              <li class="dropdown-divider divider-x my-divider" role="separator"></li>
-             <li class="item-x"><a href="#url" class="dropdown-item">Item 3</a></li>
+             <li><a href="#url" class="dropdown-item item-x">Item 3</a></li>
              </ul>
+             </div>
              </details>
              """
              |> format_html()
@@ -213,10 +217,10 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            <.dropdown dir="rtl">
              <:toggle>Menu</:toggle>
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 1</.link>
+               <.link href="#url" class={classes.item}>Item 1</.link>
              </:item>
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 2</.link>
+               <.link href="#url" class={classes.item}>Item 2</.link>
              </:item>
            </.dropdown>
            """)
@@ -241,10 +245,10 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            <.dropdown open>
              <:toggle>Menu</:toggle>
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 1</.link>
+               <.link href="#url" class={classes.item}>Item 1</.link>
              </:item>
              <:item :let={classes}>
-               <.link href="#url" class={classes.link}>Item 2</.link>
+               <.link href="#url" class={classes.item}>Item 2</.link>
              </:item>
            </.dropdown>
            """)
