@@ -1652,29 +1652,24 @@ defmodule PrimerLive.Component do
 
   [Examples](#dropdown/1-examples) • [Attributes](#dropdown/1-attributes) • [Reference](#dropdown/1-reference)
 
+  Menu items are rendered as link elements, created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link.
+
   ```
   <.dropdown>
     <:toggle>Menu</:toggle>
-    <:item :let={classes}>
-      <.link href="/" class={classes.item}>Item 1</.link>
-    </:item>
-    <:item :let={classes}>
-      <.link href="/" class={classes.item}>Item 2</.link>
-    </:item>
+    <:item href="#url">Item 1</:item>
+    <:item href="#url">Item 2</:item>
   </.dropdown>
   ```
 
   ## Examples
 
-  Links are be placed inside items. Use `:let` to get access to the `classes.item` class. Here we are using `Phoenix.Component.link/1`:
+  Link navigation options:
 
   ```
-  <:item :let={classes}>
-    <.link href="/" class={classes.item}>Item 1</.link>
-  </:item>
-  <:item :let={classes}>
-    <.link navigate={Routes.page_path(@socket, :index)} class={[classes.item, "underline"]}>Home</.link>
-  </:item>
+  <:item href="#url">Item 1</:item>
+  <:item navigate={Routes.page_path(@socket, :index)} class="underline">Item 2</:item>
+  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
   ```
 
   Add a menu title by passing `title` to the `menu` slot:
@@ -1705,28 +1700,6 @@ defmodule PrimerLive.Component do
   ```
 
   [INSERT LVATTRDOCS]
-
-  ## :let
-
-  ```
-  <:item :let={classes} />
-  ```
-
-  Yields a `classes` map, containing the merged values of default classnames, plus any value supplied to the `classes` component attribute.
-
-  ```
-  <:row :let={classes}>
-    <.link href="/" class={["my-link", classes.item]}>Home</.link>
-  </:row>
-  ```
-
-  Results in:
-
-  ```
-  <li>
-    <a href="/" class="my-link dropdown-item">Home</a>
-  </li>
-  ```
 
   ## Reference
 
@@ -1813,6 +1786,24 @@ defmodule PrimerLive.Component do
     attr(:is_divider, :boolean,
       doc: """
       Creates a divider element.
+      """
+    )
+
+    attr(:href, :any,
+      doc: """
+      Link attribute. If used, the menu item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      """
+    )
+
+    attr(:patch, :string,
+      doc: """
+      Link attribute - same as `href`.
+      """
+    )
+
+    attr(:navigate, :string,
+      doc: """
+      Link attribute - same as `href`.
       """
     )
 
@@ -1919,21 +1910,21 @@ defmodule PrimerLive.Component do
           is_divider && [role: "separator"]
         ])
 
-      item_classes = Map.put(classes, :item, item_class)
-
-      {item_attributes, item_classes}
+      item_attributes
     end
 
     render_item = fn item ->
       is_divider = !!item[:is_divider]
-      {item_attributes, item_classes} = item_attributes.(item, is_divider)
+      item_attributes = item_attributes.(item, is_divider)
 
       ~H"""
       <%= if is_divider do %>
         <li {item_attributes} />
       <% else %>
         <li>
-          <%= render_slot(item, item_classes) %>
+          <.link {item_attributes}>
+            <%= render_slot(item) %>
+          </.link>
         </li>
       <% end %>
       """
@@ -1999,14 +1990,9 @@ defmodule PrimerLive.Component do
   By default, items are turned into `<button>` elements. Pass a link attribute (`href`, `navigate` or `patch`) to change it automatically to a `Phoenix.Component.link/1`:
 
   ```
-  <.select_menu>
-    <:toggle>Menu</:toggle>
-    <:item>Button</:item>
-    <:item is_divider>More options:</:item>
-    <:item href="#url">Link</:item>
-    <:item is_divider />
-    <:item>Button</:item>
-  </.select_menu>
+  <:item href="#url">Item 1</:item>
+  <:item navigate={Routes.page_path(@socket, :index)} class="underline">Item 2</:item>
+  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
   ```
 
   Add dividers, with or without content:
@@ -2372,10 +2358,6 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    is_link? = fn item ->
-      !!item[:href] || !!item[:navigate] || !!item[:patch]
-    end
-
     toggle_attributes =
       AttributeHelpers.append_attributes([], [
         [class: classes.toggle],
@@ -2385,7 +2367,7 @@ defmodule PrimerLive.Component do
     item_attributes = fn item ->
       is_selected = item[:is_selected]
       is_disabled = item[:is_disabled]
-      is_link = is_link?.(item)
+      is_link = AttributeHelpers.is_link?(item)
 
       # Don't pass item attributes to the HTML
       item_rest =
@@ -2430,7 +2412,7 @@ defmodule PrimerLive.Component do
       ])
 
     render_item = fn item ->
-      is_link = is_link?.(item)
+      is_link = AttributeHelpers.is_link?(item)
       is_divider = !!item[:is_divider]
       is_divider_content = is_divider && !!item.inner_block
       is_button = !is_link && !is_divider

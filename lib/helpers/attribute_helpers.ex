@@ -309,6 +309,14 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   Generates a random (printable) string.
   Customised to return lowercase alpha characters.
   Source: https://gist.github.com/ahmadshah/8d978bbc550128cca12dd917a09ddfb7?permalink_comment_id=4178225#gistcomment-4178225
+
+  ## Examples
+
+      iex> PrimerLive.Helpers.AttributeHelpers.random_string() |> is_binary
+      true
+
+      iex> PrimerLive.Helpers.AttributeHelpers.random_string() |> String.length
+      12
   """
   def random_string() do
     for(_ <- 1..@random_string_length, do: rand_uniform(97, 122))
@@ -327,5 +335,26 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     :rand.uniform(m - n + 1)
     # shift X to the right to get Y
     |> Kernel.+(n - 1)
+  end
+
+  @doc """
+  Verifies if a slot should be handled as a link.
+
+  ## Examples
+
+      iex> PrimerLive.Helpers.AttributeHelpers.is_link?(%{href: "#url"})
+      true
+
+      iex> PrimerLive.Helpers.AttributeHelpers.is_link?(%{navigate: "#url"})
+      true
+
+      iex> PrimerLive.Helpers.AttributeHelpers.is_link?(%{patch: "#url"})
+      true
+
+      iex> PrimerLive.Helpers.AttributeHelpers.is_link?(%{url: "#url"})
+      false
+  """
+  def is_link?(item_slot) do
+    !!item_slot[:href] || !!item_slot[:navigate] || !!item_slot[:patch]
   end
 end

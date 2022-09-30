@@ -19,7 +19,13 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
                Divider
              </:item>
              <:item href="#url">
-               Link
+               href ink
+             </:item>
+             <:item navigate="#url">
+               navigate lLink
+             </:item>
+             <:item patch="#url">
+               patch link
              </:item>
              <:item is_divider />
              <:item>
@@ -33,12 +39,14 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div class="SelectMenu SelectMenu--hasFilter">
              <div class="SelectMenu-modal">
-             <div class="SelectMenu-list">
-              <button class="SelectMenu-item" role="menuitem">Button</button>
-              <div class="SelectMenu-divider" role="separator">Divider</div>
-              <a href="#url" class="SelectMenu-item" role="menuitem">Link</a>
-              <hr class="SelectMenu-divider" />
-              <button class="SelectMenu-item" role="menuitem">Button</button>
+             <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Button</button>
+             <div class="SelectMenu-divider" role="separator">Divider</div>
+             <a href="#url" class="SelectMenu-item" role="menuitem">href ink</a>
+             <a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="SelectMenu-item"
+             role="menuitem">navigate lLink</a>
+             <a href="#url" data-phx-link="patch" data-phx-link-state="push" class="SelectMenu-item" role="menuitem">patch
+             link</a>
+             <hr class="SelectMenu-divider" /><button class="SelectMenu-item" role="menuitem">Button</button>
              </div>
              </div>
              </div>
