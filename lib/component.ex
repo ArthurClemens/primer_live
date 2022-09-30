@@ -1996,7 +1996,7 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  By default, items are turned into `<button>` elements. Pass a `href` to change it automatically to a `<a>` link:
+  By default, items are turned into `<button>` elements. Pass a link attribute (`href`, `navigate` or `patch`) to change it automatically to a `Phoenix.Component.link/1`:
 
   ```
   <.select_menu>
@@ -2032,7 +2032,7 @@ defmodule PrimerLive.Component do
   </.select_menu>
   ```
 
-  Add a menu title. The title is placed in a header row with a close button. The click target for the button is based on the select_menu `id` attribute (generated automatically if not supplied).
+  Add a menu title. The title is placed in a header row with a close button. The click target for the button is based on the `id` attribute (generated automatically if not supplied).
 
   ```
   <.select_menu id="this-id-is-optional">
@@ -2219,9 +2219,21 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :string,
+    attr(:href, :any,
       doc: """
-      The href for a link. If used, the menu item will be created with link tag `<a>`.
+      Link attribute. If used, the menu item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      """
+    )
+
+    attr(:patch, :string,
+      doc: """
+      Link attribute - same as `href`.
+      """
+    )
+
+    attr(:navigate, :string,
+      doc: """
+      Link attribute - same as `href`.
       """
     )
 
@@ -2360,6 +2372,10 @@ defmodule PrimerLive.Component do
         ])
     }
 
+    is_link? = fn item ->
+      !!item[:href] || !!item[:navigate] || !!item[:patch]
+    end
+
     toggle_attributes =
       AttributeHelpers.append_attributes([], [
         [class: classes.toggle],
@@ -2369,7 +2385,7 @@ defmodule PrimerLive.Component do
     item_attributes = fn item ->
       is_selected = item[:is_selected]
       is_disabled = item[:is_disabled]
-      is_link = !!item[:href]
+      is_link = is_link?.(item)
 
       # Don't pass item attributes to the HTML
       item_rest =
@@ -2414,7 +2430,7 @@ defmodule PrimerLive.Component do
       ])
 
     render_item = fn item ->
-      is_link = !!item[:href]
+      is_link = is_link?.(item)
       is_divider = !!item[:is_divider]
       is_divider_content = is_divider && !!item.inner_block
       is_button = !is_link && !is_divider
@@ -2439,12 +2455,12 @@ defmodule PrimerLive.Component do
         </button>
       <% end %>
       <%= if is_link do %>
-        <a {item_attributes.(item)}>
+        <.link {item_attributes.(item)}>
           <%= if is_any_item_selected do %>
             <.octicon name={selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
           <% end %>
           <%= render_slot(item) %>
-        </a>
+        </.link>
       <% end %>
       """
     end
