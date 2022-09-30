@@ -3166,20 +3166,6 @@ defmodule PrimerLive.Component do
   )
 
   def octicon(assigns) do
-    icon_fn = PrimerLive.Octicons.name_to_function() |> Map.get(assigns.name)
-
-    case is_function(icon_fn) do
-      true ->
-        render_octicon(icon_fn, assigns)
-
-      false ->
-        ~H"""
-        Icon with name <%= @name %> does not exist.
-        """
-    end
-  end
-
-  defp render_octicon(icon_fn, assigns) do
     assigns =
       assigns
       |> assign(
@@ -3190,6 +3176,14 @@ defmodule PrimerLive.Component do
         ])
       )
 
-    icon_fn.(assigns)
+    icon = PrimerLive.Octicons.octicons(assigns) |> Map.get(assigns[:name])
+
+    ~H"""
+    <%= if icon do %>
+      <%= icon %>
+    <% else %>
+      Icon with name <%= @name %> does not exist.
+    <% end %>
+    """
   end
 end
