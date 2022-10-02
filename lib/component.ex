@@ -8,7 +8,7 @@ defmodule PrimerLive.Component do
   # text_input
   # ------------------------------------------------------------------------------------
 
-  @doc section: :form
+  @doc section: :forms
 
   @doc ~S"""
   Creates a text input field.
@@ -140,7 +140,7 @@ defmodule PrimerLive.Component do
 
   attr :field, :any, doc: "Field name (atom or string)."
 
-  attr :form, :any,
+  attr :forms, :any,
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
@@ -328,7 +328,7 @@ defmodule PrimerLive.Component do
   defp render_form_group(assigns) do
     type = assigns.type
     input_type = FormHelpers.input_type_as_atom(type)
-    form = assigns[:form]
+    form = assigns[:forms]
     field = assigns[:field]
     rest = assigns.rest
 
@@ -449,7 +449,7 @@ defmodule PrimerLive.Component do
   # - atom
   # - Phoenix.HTML.Form
   defp validate_is_form(assigns) do
-    value = assigns[:form]
+    value = assigns[:forms]
 
     cond do
       is_nil(value) -> true
@@ -480,7 +480,7 @@ defmodule PrimerLive.Component do
   # textarea
   # ------------------------------------------------------------------------------------
 
-  @doc section: :form
+  @doc section: :forms
 
   @doc ~S"""
   Creates a textarea.
@@ -1028,7 +1028,7 @@ defmodule PrimerLive.Component do
   # box
   # ------------------------------------------------------------------------------------
 
-  @doc section: :layout
+  @doc section: :box
 
   @doc ~S"""
   Creates a content container.
@@ -1449,7 +1449,7 @@ defmodule PrimerLive.Component do
   # header
   # ------------------------------------------------------------------------------------
 
-  @doc section: :layout
+  @doc section: :header
 
   @doc ~S"""
   Creates a navigational header, to be placed at the top of the page.
@@ -1643,7 +1643,7 @@ defmodule PrimerLive.Component do
   # dropdown
   # ------------------------------------------------------------------------------------
 
-  @doc section: :menus
+  @doc section: :dropdown
 
   @doc ~S"""
   Creates a dropdown menu.
@@ -1969,7 +1969,7 @@ defmodule PrimerLive.Component do
   # select_menu
   # ------------------------------------------------------------------------------------
 
-  @doc section: :menus
+  @doc section: :select_menu
 
   @doc ~S"""
   Creates a select menu.
@@ -2748,7 +2748,7 @@ defmodule PrimerLive.Component do
   # pagination
   # ------------------------------------------------------------------------------------
 
-  @doc section: :navigation
+  @doc section: :pagination
 
   @doc ~S"""
   Creates a control to navigate search results.
@@ -2824,12 +2824,11 @@ defmodule PrimerLive.Component do
 
   attr :link_path, :any,
     required: true,
-    doc:
-      """
-      Function that returns a path for the given page number. The link builder uses `Phoenix.Component.link/1` with attribute `navigate`. Extra options can be passed with `link_options`.
+    doc: """
+    Function that returns a path for the given page number. The link builder uses `Phoenix.Component.link/1` with attribute `navigate`. Extra options can be passed with `link_options`.
 
-      Function signature: `(page_number) -> path`
-      """
+    Function signature: `(page_number) -> path`
+    """
 
   attr :side_count, :integer, default: 1, doc: "Number of page links at both ends."
 

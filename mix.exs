@@ -38,13 +38,33 @@ defmodule PrimerLive.MixProject do
     [
       main: "PrimerLive",
       groups_for_functions: [
-        Layout: &(&1[:section] == :layout),
-        Forms: &(&1[:section] == :form),
-        Buttons: &(&1[:section] == :buttons),
-        Menus: &(&1[:section] == :menus),
         Alerts: &(&1[:section] == :alerts),
+        Avatars: &(&1[:section] == :avatars),
+        Blankslate: &(&1[:section] == :blankslate),
+        "Box overlay": &(&1[:section] == :box_overlay),
+        Box: &(&1[:section] == :box),
+        "Branch name": &(&1[:section] == :branch_name),
+        Breadcrumbs: &(&1[:section] == :breadcrumbs),
+        Buttons: &(&1[:section] == :buttons),
+        Dropdown: &(&1[:section] == :dropdown),
+        Forms: &(&1[:section] == :forms),
+        Header: &(&1[:section] == :header),
         Icons: &(&1[:section] == :icons),
-        Navigation: &(&1[:section] == :navigation)
+        Labels: &(&1[:section] == :labels),
+        Layout: &(&1[:section] == :layout),
+        Links: &(&1[:section] == :links),
+        Loaders: &(&1[:section] == :loaders),
+        Markdown: &(&1[:section] == :markdown),
+        Navigation: &(&1[:section] == :navigation),
+        Pagination: &(&1[:section] == :pagination),
+        Popover: &(&1[:section] == :popover),
+        Progress: &(&1[:section] == :progress),
+        "Select menu": &(&1[:section] == :select_menu),
+        Subhead: &(&1[:section] == :subhead),
+        Timeline: &(&1[:section] == :timeline),
+        Toasts: &(&1[:section] == :toasts),
+        Tooltips: &(&1[:section] == :tooltips),
+        Truncate: &(&1[:section] == :truncate)
       ],
       extras: [
         "LICENSE.md"
