@@ -140,7 +140,7 @@ defmodule PrimerLive.Component do
 
   attr :field, :any, doc: "Field name (atom or string)."
 
-  attr :forms, :any,
+  attr :form, :any,
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
@@ -328,7 +328,7 @@ defmodule PrimerLive.Component do
   defp render_form_group(assigns) do
     type = assigns.type
     input_type = FormHelpers.input_type_as_atom(type)
-    form = assigns[:forms]
+    form = assigns[:form]
     field = assigns[:field]
     rest = assigns.rest
 
@@ -449,7 +449,7 @@ defmodule PrimerLive.Component do
   # - atom
   # - Phoenix.HTML.Form
   defp validate_is_form(assigns) do
-    value = assigns[:forms]
+    value = assigns[:form]
 
     cond do
       is_nil(value) -> true
