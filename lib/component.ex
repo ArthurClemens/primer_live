@@ -491,7 +491,7 @@ defmodule PrimerLive.Component do
 
   ## Attributes
 
-  Options for textarea are the same as options for `text_input/1`.
+  Use `text_input/1` attributes.
 
   ## Reference
 
