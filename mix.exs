@@ -37,9 +37,6 @@ defmodule PrimerLive.MixProject do
   defp docs do
     [
       main: "PrimerLive",
-      groups_for_modules: [
-        "Component options": ~r/PrimerLive.Options/
-      ],
       groups_for_functions: [
         Layout: &(&1[:section] == :layout),
         Forms: &(&1[:section] == :form),
@@ -48,9 +45,6 @@ defmodule PrimerLive.MixProject do
         Alerts: &(&1[:section] == :alerts),
         Icons: &(&1[:section] == :icons),
         Navigation: &(&1[:section] == :navigation)
-      ],
-      nest_modules_by_prefix: [
-        PrimerLive.Options
       ],
       extras: [
         "LICENSE.md"
