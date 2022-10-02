@@ -47,7 +47,7 @@ defmodule PrimerLive.MixProject do
         Menus: &(&1[:section] == :menus),
         Alerts: &(&1[:section] == :alerts),
         Icons: &(&1[:section] == :icons),
-        Pagination: &(&1[:section] == :pagination)
+        Navigation: &(&1[:section] == :navigation)
       ],
       nest_modules_by_prefix: [
         PrimerLive.Options

@@ -2748,7 +2748,7 @@ defmodule PrimerLive.Component do
   # pagination
   # ------------------------------------------------------------------------------------
 
-  @doc section: :pagination
+  @doc section: :navigation
 
   @doc ~S"""
   Creates a control to navigate search results.
@@ -2765,10 +2765,12 @@ defmodule PrimerLive.Component do
 
   ## Features
 
-  - Configure the page number ranges for siblings and both ends
+  - Configure the page number ranges for siblings and sides
   - Optionally disable page number display (minimal UI)
   - Custom labels
   - Custom classnames for all elements
+
+  If pages in the center (controlled by `sibling_count`) collide with pages near the sides (controlled by `side_count`), the center section will be pushed away from the side.
 
   ## Examples
 
@@ -2786,8 +2788,8 @@ defmodule PrimerLive.Component do
   ```
   <.pagination
     ...
-    sibling_count="1"
-    boundary_count="1"
+    sibling_count="1"  # default: 2
+    side_count="2"     # default 1
   />
   ```
 
@@ -2813,8 +2815,7 @@ defmodule PrimerLive.Component do
 
   ## Status
 
-  - CSS: feature complete.
-  - React behaviour not yet implemented: "The algorithm tries to minimize the amount the component shrinks and grows as the user changes pages; for this reason, if any of the pages in the margin (controlled via marginPageCount) intersect with pages in the center (controlled by surroundingPageCount), the center section will be shifted away from the margin."
+  - Feature complete.
 
   """
 
@@ -2824,9 +2825,13 @@ defmodule PrimerLive.Component do
   attr :link_path, :any,
     required: true,
     doc:
-      "Function that returns a path for the given page number. The link builder uses `live_redirect`. Extra options can be passed with `link_options`. Function signature: `(page_number) -> path`"
+      """
+      Function that returns a path for the given page number. The link builder uses `Phoenix.Component.link/1` with attribute `navigate`. Extra options can be passed with `link_options`.
 
-  attr :boundary_count, :integer, default: 2, doc: "Number of page links at both ends."
+      Function signature: `(page_number) -> path`
+      """
+
+  attr :side_count, :integer, default: 1, doc: "Number of page links at both ends."
 
   attr :sibling_count, :integer,
     default: 2,
@@ -2895,8 +2900,8 @@ defmodule PrimerLive.Component do
         AttributeHelpers.as_integer(assigns.current_page) |> max(1)
       )
       |> assign(
-        :boundary_count,
-        AttributeHelpers.as_integer(assigns.boundary_count) |> AttributeHelpers.minmax(1, 3)
+        :side_count,
+        AttributeHelpers.as_integer(assigns.side_count) |> AttributeHelpers.minmax(1, 3)
       )
       |> assign(
         :sibling_count,
@@ -2914,7 +2919,7 @@ defmodule PrimerLive.Component do
     %{
       page_count: page_count,
       current_page: current_page,
-      boundary_count: boundary_count,
+      side_count: side_count,
       sibling_count: sibling_count
     } = assigns
 
@@ -2960,7 +2965,7 @@ defmodule PrimerLive.Component do
       get_pagination_numbers(
         page_count,
         current_page,
-        boundary_count,
+        side_count,
         sibling_count
       )
 
@@ -3032,7 +3037,7 @@ defmodule PrimerLive.Component do
   def get_pagination_numbers(
         page_count,
         current_page,
-        boundary_count,
+        side_count,
         sibling_count
       )
       when page_count == 0,
@@ -3040,47 +3045,58 @@ defmodule PrimerLive.Component do
         get_pagination_numbers(
           1,
           current_page,
-          boundary_count,
+          side_count,
           sibling_count
         )
 
   def get_pagination_numbers(
         page_count,
         current_page,
-        boundary_count,
+        side_count,
         sibling_count
       ) do
     list = 1..page_count
 
     # Insert a '0' divider when the page sequence is not sequential
-    # But omit this when the total number of pages equals the boundary_count counts plus the gap item
+    # But omit this when the total number of pages equals the side_count counts plus the gap item
 
-    may_insert_gaps = page_count !== 0 && page_count > 2 * boundary_count + 1
+    may_insert_gaps = page_count !== 0 && page_count > 2 * side_count + 1
 
     case may_insert_gaps do
-      true -> insert_gaps(current_page, boundary_count, sibling_count, list)
+      true -> insert_gaps(page_count, current_page, side_count, sibling_count, list)
       false -> list |> Enum.map(& &1)
     end
   end
 
-  defp insert_gaps(current_page, boundary_count, sibling_count, list) do
-    section_start = Enum.take(list, boundary_count)
-    section_end = Enum.take(list, -boundary_count)
+  defp insert_gaps(page_count, current_page, side_count, sibling_count, list) do
+    # Prevent overlap of the island with the sides
+    # Define a virtual page number that must lay between the boundaries “side + sibling” on both ends
+    # then calculate the island
+    virtual_page =
+      limit(
+        current_page,
+        side_count + sibling_count + 1,
+        page_count - (side_count + sibling_count)
+      )
 
-    section_middle_start = current_page - sibling_count
-    section_middle_end = current_page + sibling_count
+    # Subtract 1 because we are dealing here with array indices
+    island_start = virtual_page - sibling_count - 1
+    island_end = virtual_page + sibling_count - 1
 
-    section_middle =
+    island_range =
       Enum.slice(
         list,
-        section_middle_start..section_middle_end
+        island_start..island_end
       )
 
     # Join the parts, make sure the numbers a unique, and loop over the result to insert a '0' whenever
     # 2 adjacent number differ by more than 1
     # The result should be something like [1,2,0,5,6,7,8,9,0,99,100]
 
-    (section_start ++ section_middle ++ section_end)
+    side_start_range = Enum.take(list, side_count)
+    side_end_range = Enum.take(list, -side_count)
+
+    (side_start_range ++ island_range ++ side_end_range)
     |> MapSet.new()
     |> MapSet.to_list()
     |> Enum.reduce([], fn num, acc ->
@@ -3100,6 +3116,10 @@ defmodule PrimerLive.Component do
       [num | acc]
     end)
     |> Enum.reverse()
+  end
+
+  defp limit(num, lower_bound, upper_bound) do
+    min(max(num, lower_bound), upper_bound)
   end
 
   # ------------------------------------------------------------------------------------
