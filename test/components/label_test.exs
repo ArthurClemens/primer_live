@@ -147,7 +147,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
              |> format_html()
   end
 
-  test "State label: Attribute: is_small" do
+  test "State label: Attributes" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -191,6 +191,60 @@ defmodule PrimerLive.TestComponents.LabelTest do
            |> format_html() ==
              """
              <span class="State" dir="rtl">Label</span>
+             """
+             |> format_html()
+  end
+
+  test "Counter label: without attributes" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.counter>12</.counter>
+           """)
+           |> format_html() ==
+             """
+             <span class="Counter">12</span>
+             """
+             |> format_html()
+  end
+
+  test "Counter label: Attributes" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.counter is_primary>12</.counter>
+           <.counter is_secondary>12</.counter>
+           """)
+           |> format_html() ==
+             """
+             <span class="Counter Counter--primary">12</span>
+             <span class="Counter Counter--secondary">12</span>
+             """
+             |> format_html()
+  end
+
+  test "Counter label: Attribute: class" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.counter class="color-bg-accent-emphasis color-fg-on-emphasis">12</.counter>
+           """)
+           |> format_html() ==
+             """
+             <span class="Counter color-bg-accent-emphasis color-fg-on-emphasis">12</span>
+             """
+             |> format_html()
+  end
+
+  test "Counter label:Other attributes" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.counter dir="rtl">12</.counter>
+           """)
+           |> format_html() ==
+             """
+             <span class="Counter" dir="rtl">12</span>
              """
              |> format_html()
   end

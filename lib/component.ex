@@ -3557,4 +3557,88 @@ defmodule PrimerLive.Component do
     <span class={class} {@rest}><%= render_slot(@inner_block) %></span>
     """
   end
+
+  # ------------------------------------------------------------------------------------
+  # counter
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :labels
+
+  @doc ~S"""
+  Adds a count to navigational elements and buttons.
+
+  [Examples](#counter/1-examples) • [Options](#counter/1-options) • [Reference](#counter/1-reference)
+
+  ```
+  <.counter>12</.counter>
+  ```
+
+  ## Examples
+
+  Apply primary state:
+
+  ```
+  <.counter is_primary>12</.counter>
+  ```
+
+  With an icon:
+
+  ```
+  <.counter><.octicon name="comment-16" /> 1.5K</.counter>
+  ```
+
+  Add an emoji:
+
+  ```
+  <.counter>👍 2</.counter>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Labels](https://primer.style/css/components/labels)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr :class, :string, doc: "Additional classname."
+
+  attr :is_primary, :boolean,
+    default: false,
+    doc: """
+    Primary color.
+    """
+
+  attr :is_secondary, :boolean,
+    default: false,
+    doc: """
+    Secondary color.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the label.
+    """
+  )
+
+  slot(:inner_block, required: true, doc: "Label content.")
+
+  def counter(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "Counter",
+        assigns.is_primary and "Counter--primary",
+        assigns.is_secondary and "Counter--secondary",
+        assigns[:class]
+      ])
+
+    # Keep this as a single line to preserve whitespace in the rendered HTML
+    ~H"""
+    <span class={class} {@rest}><%= render_slot(@inner_block) %></span>
+    """
+  end
 end
