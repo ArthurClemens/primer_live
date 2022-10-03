@@ -3350,6 +3350,8 @@ defmodule PrimerLive.Component do
     """
   )
 
+  slot(:inner_block, required: true, doc: "Label content.")
+
   def label(assigns) do
     class =
       AttributeHelpers.classnames([
@@ -3433,11 +3435,120 @@ defmodule PrimerLive.Component do
     """
   )
 
+  slot(:inner_block, required: true, doc: "Label content.")
+
   def issue_label(assigns) do
     class =
       AttributeHelpers.classnames([
         "IssueLabel",
         assigns.is_big and "IssueLabel--big",
+        assigns[:class]
+      ])
+
+    # Keep this as a single line to preserve whitespace in the rendered HTML
+    ~H"""
+    <span class={class} {@rest}><%= render_slot(@inner_block) %></span>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # state_label
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :labels
+
+  @doc ~S"""
+  Shows an item's status.
+
+  State labels are larger and styled with bolded text. Attribute settings allows to apply colors.
+
+  [Examples](#state_label/1-examples) • [Options](#state_label/1-options) • [Reference](#state_label/1-reference)
+
+  ```
+  <.state_label>Label</.state_label>
+  ```
+
+  ## Examples
+
+  Set a state (applying a background color):
+
+  ```
+  <.state_label is_open>Label</.state_label>
+  ```
+
+  Smaller label:
+
+  ```
+  <.state_label is_small>Label</.state_label>
+  ```
+
+  With an icon:
+
+  ```
+  <.state_label is_open><.octicon name="git-pull-request-16" />Label</.state_label>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Labels](https://primer.style/css/components/labels)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr :class, :string, doc: "Additional classname."
+
+  attr :is_draft, :boolean,
+    default: false,
+    doc: """
+    Draft state color.
+    """
+
+  attr :is_open, :boolean,
+    default: false,
+    doc: """
+    Open state color.
+    """
+
+  attr :is_merged, :boolean,
+    default: false,
+    doc: """
+    Merged state color.
+    """
+
+  attr :is_closed, :boolean,
+    default: false,
+    doc: """
+    Closed state color.
+    """
+
+  attr :is_small, :boolean,
+    default: false,
+    doc: """
+    Smaller state label.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the label.
+    """
+  )
+
+  slot(:inner_block, required: true, doc: "Label content.")
+
+  def state_label(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "State",
+        assigns.is_draft and "State--draft",
+        assigns.is_open and "State--open",
+        assigns.is_merged and "State--merged",
+        assigns.is_closed and "State--closed",
+        assigns.is_small and "State--small",
         assigns[:class]
       ])
 

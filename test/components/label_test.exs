@@ -6,7 +6,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
-  test "Without attributes" do
+  test "Regular label: lWithout attributes" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -19,7 +19,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
              |> format_html()
   end
 
-  test "Attributes" do
+  test "Regular label: Attributes" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -56,7 +56,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
              |> format_html()
   end
 
-  test "Attribute: class" do
+  test "Regular label: Attribute: class" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -69,7 +69,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
              |> format_html()
   end
 
-  test "Other attributes" do
+  test "Regular label: Other attributes" do
     assigns = []
 
     assert rendered_to_string(~H"""
@@ -99,11 +99,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
     assigns = []
 
     assert rendered_to_string(~H"""
-           <.issue_label is_big class="color-bg-accent-emphasis color-fg-on-emphasis">Label</.issue_label>
+           <.issue_label is_big>Label</.issue_label>
            """)
            |> format_html() ==
              """
-             <span class="IssueLabel IssueLabel--big color-bg-accent-emphasis color-fg-on-emphasis">Label</span>
+             <span class="IssueLabel IssueLabel--big">Label</span>
              """
              |> format_html()
   end
@@ -130,6 +130,67 @@ defmodule PrimerLive.TestComponents.LabelTest do
            |> format_html() ==
              """
              <span class="IssueLabel" dir="rtl">Label</span>
+             """
+             |> format_html()
+  end
+
+  test "State label: without attributes" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.state_label>Label</.state_label>
+           """)
+           |> format_html() ==
+             """
+             <span class="State">Label</span>
+             """
+             |> format_html()
+  end
+
+  test "State label: Attribute: is_small" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.state_label is_small>Label</.state_label>
+           <.state_label is_draft>Label</.state_label>
+           <.state_label is_open>Label</.state_label>
+           <.state_label is_merged>Label</.state_label>
+           <.state_label is_closed>Label</.state_label>
+           """)
+           |> format_html() ==
+             """
+             <span class="State State--small">Label</span>
+             <span class="State State--draft">Label</span>
+             <span class="State State--open">Label</span>
+             <span class="State State--merged">Label</span>
+             <span class="State State--closed">Label</span>
+
+             """
+             |> format_html()
+  end
+
+  test "State label: Attribute: class" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.state_label class="color-bg-accent-emphasis color-fg-on-emphasis">Label</.state_label>
+           """)
+           |> format_html() ==
+             """
+             <span class="State color-bg-accent-emphasis color-fg-on-emphasis">Label</span>
+             """
+             |> format_html()
+  end
+
+  test "State label:Other attributes" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.state_label dir="rtl">Label</.state_label>
+           """)
+           |> format_html() ==
+             """
+             <span class="State" dir="rtl">Label</span>
              """
              |> format_html()
   end
