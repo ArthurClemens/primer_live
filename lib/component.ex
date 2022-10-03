@@ -3205,4 +3205,174 @@ defmodule PrimerLive.Component do
     <% end %>
     """
   end
+
+  # ------------------------------------------------------------------------------------
+  # label
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :labels
+
+  @doc ~S"""
+  Creates a label element.
+
+  Labels add metadata or indicate status of items and navigational elements.
+
+  [Examples](#label/1-examples) • [Options](#label/1-options) • [Reference](#label/1-reference)
+
+  ```
+  <.label>Label</.label>
+  ```
+
+  When using `label` alongside `Phoenix.HTML.Form.label/2`, use a prefix, for example:
+
+  ```
+  use PrimerLive
+  alias PrimerLive.Component, as: P
+  ...
+  <P.label>Label</P.label>
+  ```
+
+  ## Examples
+
+  Create a colored label:
+
+  ```
+  <.label is_success>Label</.label>
+  ```
+
+  Create a larger label:
+
+  ```
+  <.label is_large>Label</.label>
+  ```
+
+  Create an inline label:
+
+  ```
+  <p>Lorem Ipsum is simply <.label is_inline>dummy text</.label> of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Labels](https://primer.style/css/components/labels)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr :class, :string, doc: "Additional classname."
+
+  attr :is_primary, :boolean,
+    default: false,
+    doc: """
+    Creates a label with a stronger border.
+    """
+
+  attr :is_secondary, :boolean,
+    default: false,
+    doc: """
+    Creates a label with a subtler text color.
+    """
+
+  attr :is_accent, :boolean,
+    default: false,
+    doc: """
+    Accent color.
+    """
+
+  attr :is_success, :boolean,
+    default: false,
+    doc: """
+    Success color.
+    """
+
+  attr :is_attention, :boolean,
+    default: false,
+    doc: """
+    Attention color.
+    """
+
+  attr :is_severe, :boolean,
+    default: false,
+    doc: """
+    Severe color.
+    """
+
+  attr :is_danger, :boolean,
+    default: false,
+    doc: """
+    Danger color.
+    """
+
+  attr :is_open, :boolean,
+    default: false,
+    doc: """
+    Open color.
+    """
+
+  attr :is_closed, :boolean,
+    default: false,
+    doc: """
+    Closed color.
+    """
+
+  attr :is_done, :boolean,
+    default: false,
+    doc: """
+    Done color.
+    """
+
+  attr :is_sponsors, :boolean,
+    default: false,
+    doc: """
+    Sponsors color.
+    """
+
+  attr :is_large, :boolean,
+    default: false,
+    doc: """
+    Larger label.
+    """
+
+  attr :is_inline, :boolean,
+    default: false,
+    doc: """
+    For use in running text. Adapts line height and font size to text.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the label.
+    """
+  )
+
+  def label(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "Label",
+        assigns.is_primary and "Label--primary",
+        assigns.is_secondary and "Label--secondary",
+        assigns.is_accent and "Label--accent",
+        assigns.is_success and "Label--success",
+        assigns.is_attention and "Label--attention",
+        assigns.is_severe and "Label--severe",
+        assigns.is_danger and "Label--danger",
+        assigns.is_open and "Label--open",
+        assigns.is_closed and "Label--closed",
+        assigns.is_done and "Label--done",
+        assigns.is_sponsors and "Label--sponsors",
+        assigns.is_large and "Label--large",
+        assigns.is_inline and "Label--inline",
+        assigns[:class]
+      ])
+
+    # Keep this as a single line to preserve whitespace in the rendered HTML
+    ~H"""
+    <span class={class} {@rest}><%= render_slot(@inner_block) %></span>
+    """
+  end
 end
