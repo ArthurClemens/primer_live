@@ -3375,4 +3375,75 @@ defmodule PrimerLive.Component do
     <span class={class} {@rest}><%= render_slot(@inner_block) %></span>
     """
   end
+
+  # ------------------------------------------------------------------------------------
+  # issue_label
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :labels
+
+  @doc ~S"""
+  Issue labels are used for adding labels to issues and pull requests. They also come with emoji support.
+
+  And issue label is basically labels without a border. It expects background and foreground colors.
+
+  [Examples](#issue_label/1-examples) • [Options](#issue_label/1-options) • [Reference](#issue_label/1-reference)
+
+  ```
+  <.issue_label>Label</.issue_label>
+  ```
+
+  ## Examples
+
+  Add colors:
+
+  ```
+  <.issue_label color-bg-accent-emphasis color-fg-on-emphasis>Label</.issue_label>
+  ```
+
+  Larger label:
+
+  ```
+  <.issue_label is_big>Label</.issue_label>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Labels](https://primer.style/css/components/labels)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr :class, :string, doc: "Additional classname."
+
+  attr :is_big, :boolean,
+    default: false,
+    doc: """
+    Larger issue label.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the label.
+    """
+  )
+
+  def issue_label(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "IssueLabel",
+        assigns.is_big and "IssueLabel--big",
+        assigns[:class]
+      ])
+
+    # Keep this as a single line to preserve whitespace in the rendered HTML
+    ~H"""
+    <span class={class} {@rest}><%= render_slot(@inner_block) %></span>
+    """
+  end
 end

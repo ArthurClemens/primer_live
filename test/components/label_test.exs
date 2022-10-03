@@ -81,4 +81,56 @@ defmodule PrimerLive.TestComponents.LabelTest do
              """
              |> format_html()
   end
+
+  test "Issue label: without attributes" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.issue_label>Label</.issue_label>
+           """)
+           |> format_html() ==
+             """
+             <span class="IssueLabel">Label</span>
+             """
+             |> format_html()
+  end
+
+  test "Issue label: Attribute: is_big" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.issue_label is_big class="color-bg-accent-emphasis color-fg-on-emphasis">Label</.issue_label>
+           """)
+           |> format_html() ==
+             """
+             <span class="IssueLabel IssueLabel--big color-bg-accent-emphasis color-fg-on-emphasis">Label</span>
+             """
+             |> format_html()
+  end
+
+  test "Issue label: Attribute: class" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.issue_label class="color-bg-accent-emphasis color-fg-on-emphasis">Label</.issue_label>
+           """)
+           |> format_html() ==
+             """
+             <span class="IssueLabel color-bg-accent-emphasis color-fg-on-emphasis">Label</span>
+             """
+             |> format_html()
+  end
+
+  test "Issue label:Other attributes" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.issue_label dir="rtl">Label</.issue_label>
+           """)
+           |> format_html() ==
+             """
+             <span class="IssueLabel" dir="rtl">Label</span>
+             """
+             |> format_html()
+  end
 end
