@@ -3800,4 +3800,181 @@ defmodule PrimerLive.Component do
     </div>
     """
   end
+
+  # ------------------------------------------------------------------------------------
+  # breadcrumb
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :breadcrumbs
+
+  @doc ~S"""
+  Breadcrumb navigation to navigate a hierarchy of pages.
+
+  [Examples](#breadcrumb/1-examples) • [Options](#breadcrumb/1-options) • [Reference](#breadcrumb/1-reference)
+
+  All items are rendered as links. The last link will show a selected state.
+
+  ```
+  <.breadcrumb>
+    <:item href="/home">Home</:item>
+    <:item href="/account">Account</:item>
+    <:item href="/account/history">History</:item>
+  </.breadcrumb>
+  ```
+
+  ## Examples
+
+  Link navigation options:
+
+  ```
+  <:item href="/home">Home</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>Home</:item>
+  <:item patch={Routes.page_path(@socket, :index, :details)}>Home</:item>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Breadcrumbs](https://primer.style/css/components/breadcrumb)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      breadcrumb: nil,
+      item: nil,
+      selected_item: nil,
+      link: nil
+    },
+    doc: """
+    Additional classnames for breadcrumb elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      breadcrumb: "",    # Breadcrumb container
+      item: "",          # Breadcrumb item (li element)
+      selected_item: "", # Selected breadcrumb item (li element)
+      link: "",          # Link
+    }
+    ```
+    """
+  )
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the xxx.
+    """
+  )
+
+  slot :item,
+    required: true,
+    doc: """
+    Breadcrumb item content.
+    """ do
+    attr(:href, :any,
+      doc: """
+      Link attribute. If used, the link item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      """
+    )
+
+    attr(:patch, :string,
+      doc: """
+      Link attribute - same as `href`.
+      """
+    )
+
+    attr(:navigate, :string,
+      doc: """
+      Link attribute - same as `href`.
+      """
+    )
+
+    attr(:rest, :global,
+      doc: """
+      Additional HTML attributes added to the item element.
+      """
+    )
+  end
+
+  def breadcrumb(assigns) do
+    # Mark the last item for specific rendering
+    assign_items = assigns.item || []
+    count = Enum.count(assign_items)
+    items_data = assign_items |> Enum.with_index(fn elem, idx -> {elem, idx === count - 1} end)
+
+    classes = %{
+      breadcrumb:
+        AttributeHelpers.classnames([
+          "Breadcrumb",
+          assigns.classes[:breadcrumb],
+          assigns[:class]
+        ]),
+      item:
+        AttributeHelpers.classnames([
+          "breadcrumb-item",
+          assigns.classes[:item]
+        ]),
+      selected_item:
+        AttributeHelpers.classnames([
+          "breadcrumb-item-selected",
+          assigns.classes[:selected_item]
+        ]),
+      link: assigns.classes[:link]
+    }
+
+    item_attributes = fn is_last ->
+      AttributeHelpers.append_attributes([], [
+        [
+          class:
+            AttributeHelpers.classnames([
+              classes.item,
+              is_last && classes.selected_item
+            ])
+        ]
+      ])
+    end
+
+    link_attributes = fn link ->
+      link_rest =
+        assigns_to_attributes(link, [
+          :class
+        ])
+
+      AttributeHelpers.append_attributes(link_rest, [
+        [
+          class:
+            AttributeHelpers.classnames([
+              classes.link,
+              link[:class]
+            ])
+        ]
+      ])
+    end
+
+    ~H"""
+    <div class={classes.breadcrumb} {@rest}>
+      <%= if items_data !== [] do %>
+        <ol>
+          <%= for {item, is_last} <- items_data do %>
+            <li {item_attributes.(is_last)}>
+              <.link {link_attributes.(item)}>
+                <%= render_slot(item) %>
+              </.link>
+            </li>
+          <% end %>
+        </ol>
+      <% end %>
+    </div>
+    """
+  end
 end
