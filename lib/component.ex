@@ -2475,14 +2475,14 @@ defmodule PrimerLive.Component do
               <%= render_slot(@filter) %>
             </div>
           <% end %>
-          <%= if @message && @message !== [] do %>
+          <%= if @message do %>
             <%= for message <- @message do %>
               <div class={AttributeHelpers.classnames([classes.message, message[:class]])}>
                 <%= render_slot(message) %>
               </div>
             <% end %>
           <% end %>
-          <%= if @loading && @loading !== [] do %>
+          <%= if @loading do %>
             <%= for loading <- @loading do %>
               <div class={AttributeHelpers.classnames([classes.loading, loading[:class]])}>
                 <%= render_slot(loading) %>
@@ -2490,7 +2490,7 @@ defmodule PrimerLive.Component do
             <% end %>
           <% end %>
           <div class={classes.menu_list}>
-            <%= if @blankslate && @blankslate !== [] do %>
+            <%= if @blankslate do %>
               <%= for blankslate <- @blankslate do %>
                 <div class={AttributeHelpers.classnames([classes.blankslate, blankslate[:class]])}>
                   <%= render_slot(blankslate) %>
@@ -2502,7 +2502,7 @@ defmodule PrimerLive.Component do
               <%= render_item.(item) %>
             <% end %>
           </div>
-          <%= if @footer && @footer !== [] do %>
+          <%= if @footer do %>
             <%= for footer <- @footer do %>
               <div class={AttributeHelpers.classnames([classes.footer, footer[:class]])}>
                 <%= render_slot(footer) %>
@@ -3639,6 +3639,165 @@ defmodule PrimerLive.Component do
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
     <span class={class} {@rest}><%= render_slot(@inner_block) %></span>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # subhead
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :subhead
+
+  @doc ~S"""
+  Configurable and styled h2 heading.
+
+  [Examples](#subhead/1-examples) • [Options](#subhead/1-options) • [Reference](#subhead/1-reference)
+
+  ```
+  </.subhead>Plain subhead</.subhead>
+  ```
+
+  ## Examples
+
+  Add a top margin when separating sections on a settings page:
+
+  ```
+  </.subhead is_spacious>Subhead</.subhead>
+  ```
+
+  Create a danger zone heading:
+
+  ```
+  </.subhead is_danger>Plain subhead</.subhead>
+  ```
+
+  Add a description:
+
+  ```
+  <.subhead>
+    Heading
+    <:description>
+      Description
+    </:description>
+  </.subhead>
+  ```
+
+  Add an action (button or link):
+
+  ```
+  <.subhead>
+    Heading
+    <:actions>
+      <.button is_primary>Action</.button>
+    </:actions>
+  </.subhead>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Subhead](https://primer.style/css/components/subhead)
+
+  ## Status
+
+  In progress.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      subhead: nil,
+      heading: nil,
+      description: nil,
+      actions: nil
+    },
+    doc: """
+    Additional classnames for subhead elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      subhead: "",     # Subhead container
+      heading: "",     # h2 heading
+      description: "", # Description element
+      actions: "",     # Actions section element
+    }
+    ```
+    """
+  )
+
+  attr :is_spacious, :boolean,
+    default: false,
+    doc: """
+    Add a top margin.
+    """
+
+  attr :is_danger, :boolean,
+    default: false,
+    doc: """
+    Makes the text bold and red. This is useful for warning users.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot(:inner_block, required: true, doc: "Heading content.")
+  slot(:description, doc: "Description content.")
+  slot(:actions, doc: "Actions content.")
+
+  def subhead(assigns) do
+    classes = %{
+      subhead:
+        AttributeHelpers.classnames([
+          "Subhead",
+          assigns.is_spacious && "Subhead--spacious",
+          assigns.classes[:subhead],
+          assigns[:class]
+        ]),
+      heading:
+        AttributeHelpers.classnames([
+          "Subhead-heading",
+          assigns.is_danger && "Subhead-heading--danger",
+          assigns.classes[:heading]
+        ]),
+      description:
+        AttributeHelpers.classnames([
+          "Subhead-description",
+          assigns.classes[:description]
+        ]),
+      actions:
+        AttributeHelpers.classnames([
+          "Subhead-actions",
+          assigns.classes[:actions]
+        ])
+    }
+
+    ~H"""
+    <div class={classes.subhead} {@rest}>
+      <h2 class={classes.heading}><%= render_slot(@inner_block) %></h2>
+      <%= if @description do %>
+        <%= for description <- @description do %>
+          <div class={AttributeHelpers.classnames([classes.description, description[:class]])}>
+            <%= render_slot(description) %>
+          </div>
+        <% end %>
+      <% end %>
+      <%= if @actions do %>
+        <%= for action <- @actions do %>
+          <div class={AttributeHelpers.classnames([classes.actions, action[:class]])}>
+            <%= render_slot(action) %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
     """
   end
 end
