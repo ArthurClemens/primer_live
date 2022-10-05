@@ -3977,4 +3977,155 @@ defmodule PrimerLive.Component do
     </div>
     """
   end
+
+  # ------------------------------------------------------------------------------------
+  # as_link
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :links
+
+  @doc ~S"""
+  Creates a consistent link-like appearance of actual links and spans inside links.
+
+  The component name deviates from the PrimerCSS name `Link` to prevent a naming conflict with `Phoenix.Component.link/1`.
+
+  [Examples](#as_link/1-examples) • [Options](#as_link/1-options) • [Reference](#as_link/1-reference)
+
+  ```
+  Some text with a <.as_link>link</.as_link>
+  ```
+
+  ## Examples
+
+  Links are created using `Phoenix.Component.link/1` when navigation attributes are supplied:
+
+  ```
+  <.as_link href="/home">label</.as_link>
+  <.as_link navigate="/home">label</.as_link>
+  <.as_link patch="/home">label</.as_link>
+  ```
+
+  Turn a link blue only on hover:
+
+  ```
+  <.as_link href="/home" is_primary>link</.as_link>
+  ```
+
+  Give it a muted gray color:
+
+  ```
+  <.as_link href="/home" is_secondary>link</.as_link>
+  ```
+
+  Turn a link blue only on hover:
+
+  ```
+  <.as_link href="/home" is_primary>link</.as_link>
+  ```
+
+  Rmove the underline:
+
+  ```
+  <.as_link href="/home" is_no_underline>link</.as_link>
+  ```
+
+  Use `is_on_hover` to make any text color used with links to turn blue on hover.
+  This is useful when you want only part of a link to turn blue on hover.
+  We are using a nested `as_link` for this:
+
+  ```
+  <p>
+    <.as_link href="#url" is_muted is_no_underline>
+      A link with a partial <.as_link is_on_hover>hover link</.as_link>
+    </.as_link>
+  </p>
+  ```
+
+  Combine with color utility classes
+
+  ```
+  <p>
+    <.as_link href="#url" is_primary class="text-bold">
+      <.octicon name="flame-16" width="12" class="color-fg-danger" />
+      Hot <span class="color-fg-muted">potato</span>
+    </.as_link>
+  </p>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Links](https://primer.style/css/components/links)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr :is_primary, :boolean,
+    default: false,
+    doc: """
+    Turns the link color to blue only on hover.
+    """
+
+  attr :is_secondary, :boolean,
+    default: false,
+    doc: """
+    Turns the link color to blue only on hover, using a darker color.
+    """
+
+  attr :is_muted, :boolean,
+    default: false,
+    doc: """
+    Turns the link to muted gray, also on hover.
+    """
+
+  attr :is_no_underline, :boolean,
+    default: false,
+    doc: """
+    Removes the underline on hover.
+    """
+
+  attr :is_on_hover, :boolean,
+    default: false,
+    doc: """
+    Makes any text color used with links to turn blue on hover. This is useful when you want only part of a link to turn blue on hover.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the link or span. Use `Phoenix.Component.link/1` attributes `href`, `navigate` or `patch` to create links.
+    """
+  )
+
+  slot(:inner_block, required: true, doc: "Link content.")
+
+  def as_link(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "Link",
+        assigns.is_primary and "Link--primary",
+        assigns.is_secondary and "Link--secondary",
+        assigns.is_no_underline and "no-underline",
+        assigns.is_muted and "color-fg-muted",
+        assigns.is_on_hover and "Link--onHover",
+        assigns[:class]
+      ])
+
+    is_link = AttributeHelpers.is_link?(assigns.rest)
+
+    ~H"""
+    <%= if is_link do %>
+      <.link class={class} {@rest}>
+        <%= render_slot(@inner_block) %>
+      </.link>
+    <% else %>
+      <span class={class} {@rest}><%= render_slot(@inner_block) %></span>
+    <% end %>
+    """
+  end
 end
