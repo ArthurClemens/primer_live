@@ -4230,4 +4230,115 @@ defmodule PrimerLive.Component do
   defp avatar_size_in_range(size) when size < 1, do: @avatar_default_size
   defp avatar_size_in_range(size) when size > 8, do: @avatar_default_size
   defp avatar_size_in_range(size), do: size
+
+  # ------------------------------------------------------------------------------------
+  # parent_child_avatar
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :avatars
+
+  @doc ~S"""
+  Creates a larger "parent" avatar with a smaller "child" overlaid on top.
+
+  [Attributes](#parent_child_avatar/1-attributes) • [Reference](#parent_child_avatar/1-reference)
+
+  Use slots `parent` and `child` to create the avatars using `avatar/1` attributes:
+
+  ```
+  <.parent_child_avatar>
+    <:parent src="emma.jpg" size="7" />
+    <:child src="kim.jpg" size="2" />
+  </.parent_child_avatar>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Avatars](https://primer.style/css/components/avatars)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot :parent,
+    doc: "Creates a parent avatar." do
+    attr(:size, :integer, doc: "Avatar size - see `avatar/1`.")
+
+    attr(:rest, :global,
+      doc: """
+      Additional HTML attributes added to the parent avatar.
+      """
+    )
+  end
+
+  slot :child,
+    doc: "Creates a child avatar." do
+    attr(:size, :integer, doc: "Avatar size - see `avatar/1`.")
+
+    attr(:rest, :global,
+      doc: """
+      Additional HTML attributes added to the child avatar.
+      """
+    )
+  end
+
+  def parent_child_avatar(assigns) do
+    classes = %{
+      parent_child:
+        AttributeHelpers.classnames([
+          "avatar-parent-child",
+          "d-inline-flex",
+          assigns[:class]
+        ]),
+      child:
+        AttributeHelpers.classnames([
+          "avatar-child"
+        ])
+    }
+
+    render_avatar = fn slot, is_child ->
+      class =
+        AttributeHelpers.classnames([
+          if is_child do
+            classes.child
+          end,
+          slot[:class]
+        ])
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class
+        ])
+
+      ~H"""
+      <.avatar class={class} {rest} />
+      """
+    end
+
+    ~H"""
+    <div class={classes.parent_child} {@rest}>
+      <%= if @parent && @parent !== [] do %>
+        <%= for parent <- @parent do %>
+          <%= render_avatar.(parent, false) %>
+        <% end %>
+      <% end %>
+      <%= if @child && @child !== [] do %>
+        <%= for child <- @child do %>
+          <%= render_avatar.(child, true) %>
+        <% end %>
+      <% end %>
+    </div>
+    """
+  end
 end
