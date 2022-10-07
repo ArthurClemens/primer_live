@@ -2059,7 +2059,7 @@ defmodule PrimerLive.Component do
   ## Status
 
   To do:
-  - tabs slot
+  - Tabs slot
 
   """
 
@@ -2815,7 +2815,7 @@ defmodule PrimerLive.Component do
 
   ## Status
 
-  - Feature complete.
+  Feature complete.
 
   """
 
@@ -3217,7 +3217,7 @@ defmodule PrimerLive.Component do
 
   Labels add metadata or indicate status of items and navigational elements.
 
-  [Examples](#label/1-examples) • [Options](#label/1-options) • [Reference](#label/1-reference)
+  [Examples](#label/1-examples) • [Attributes](#label/1-attributes) • [Reference](#label/1-reference)
 
   ```
   <.label>Label</.label>
@@ -3389,7 +3389,7 @@ defmodule PrimerLive.Component do
 
   And issue label is basically labels without a border. It expects background and foreground colors.
 
-  [Examples](#issue_label/1-examples) • [Options](#issue_label/1-options) • [Reference](#issue_label/1-reference)
+  [Examples](#issue_label/1-examples) • [Attributes](#issue_label/1-attributes) • [Reference](#issue_label/1-reference)
 
   ```
   <.issue_label>Label</.issue_label>
@@ -3462,7 +3462,7 @@ defmodule PrimerLive.Component do
 
   State labels are larger and styled with bolded text. Attribute settings allows to apply colors.
 
-  [Examples](#state_label/1-examples) • [Options](#state_label/1-options) • [Reference](#state_label/1-reference)
+  [Examples](#state_label/1-examples) • [Attributes](#state_label/1-attributes) • [Reference](#state_label/1-reference)
 
   ```
   <.state_label>Label</.state_label>
@@ -3567,7 +3567,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Adds a count to navigational elements and buttons.
 
-  [Examples](#counter/1-examples) • [Options](#counter/1-options) • [Reference](#counter/1-reference)
+  [Examples](#counter/1-examples) • [Attributes](#counter/1-attributes) • [Reference](#counter/1-reference)
 
   ```
   <.counter>12</.counter>
@@ -3651,7 +3651,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Configurable and styled h2 heading.
 
-  [Examples](#subhead/1-examples) • [Options](#subhead/1-options) • [Reference](#subhead/1-reference)
+  [Examples](#subhead/1-examples) • [Attributes](#subhead/1-attributes) • [Reference](#subhead/1-reference)
 
   ```
   </.subhead>Plain subhead</.subhead>
@@ -3701,7 +3701,7 @@ defmodule PrimerLive.Component do
 
   ## Status
 
-  In progress.
+  Feature complete.
 
   """
 
@@ -3810,7 +3810,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Breadcrumb navigation to navigate a hierarchy of pages.
 
-  [Examples](#breadcrumb/1-examples) • [Options](#breadcrumb/1-options) • [Reference](#breadcrumb/1-reference)
+  [Examples](#breadcrumb/1-examples) • [Attributes](#breadcrumb/1-attributes) • [Reference](#breadcrumb/1-reference)
 
   All items are rendered as links. The last link will show a selected state.
 
@@ -3872,7 +3872,7 @@ defmodule PrimerLive.Component do
 
   attr(:rest, :global,
     doc: """
-    Additional HTML attributes added to the xxx.
+    Additional HTML attributes added to the outer element.
     """
   )
 
@@ -3989,7 +3989,7 @@ defmodule PrimerLive.Component do
 
   The component name deviates from the PrimerCSS name `Link` to prevent a naming conflict with `Phoenix.Component.link/1`.
 
-  [Examples](#as_link/1-examples) • [Options](#as_link/1-options) • [Reference](#as_link/1-reference)
+  [Examples](#as_link/1-examples) • [Attributes](#as_link/1-attributes) • [Reference](#as_link/1-reference)
 
   ```
   Some text with a <.as_link>link</.as_link>
@@ -4128,4 +4128,106 @@ defmodule PrimerLive.Component do
     <% end %>
     """
   end
+
+  # ------------------------------------------------------------------------------------
+  # avatar
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :avatars
+
+  @doc ~S"""
+  User profile image.
+
+  A simple wrapper function that returns an `img` element, styled square and rounded. For correct rendering, the input image must be square.
+
+  [Examples](#avatar/1-examples) • [Attributes](#avatar/1-attributes) • [Reference](#avatar/1-reference)
+
+  ```
+  <.avatar src="user.jpg" />
+  ```
+
+  ## Examples
+
+  Set the size (possible values: 1 - 8):
+
+  ```
+  <.avatar size="1" src="user.jpg" />
+  ```
+
+  Or set the size using regular `img` tags:
+
+  ```
+  <.avatar src="user.jpg" width="20" height="20" />
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Avatars](https://primer.style/css/components/avatars)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr :size, :integer,
+    default: 3,
+    doc: """
+    Avatar size. Possible values: 1 - 8.
+
+    Values translate to sizes:
+    - 1: `16px`
+    - 2: `20px`
+    - 3: `24px` (default)
+    - 4: `28px`
+    - 5: `32px`
+    - 6: `40px`
+    - 7: `48px`
+    - 8: `64px`
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the `img` element.
+    """
+  )
+
+  @avatar_default_size 3
+
+  def avatar(assigns) do
+    size =
+      if assigns.rest[:width] || assigns.rest[:height] do
+        nil
+      else
+        avatar_size_in_range(assigns.size)
+      end
+
+    class =
+      AttributeHelpers.classnames([
+        "avatar",
+        size && "avatar-#{size}",
+        assigns[:class]
+      ])
+
+    ~H"""
+    <img class={class} {@rest} />
+    """
+  end
+
+  defp avatar_size_in_range(size) when is_nil(size), do: @avatar_default_size
+
+  defp avatar_size_in_range(size) when is_binary(size) do
+    case Integer.parse(size) do
+      {int, _} -> avatar_size_in_range(int)
+      :error -> @avatar_default_size
+    end
+  end
+
+  defp avatar_size_in_range(size) when size < 1, do: @avatar_default_size
+  defp avatar_size_in_range(size) when size > 8, do: @avatar_default_size
+  defp avatar_size_in_range(size), do: size
 end
