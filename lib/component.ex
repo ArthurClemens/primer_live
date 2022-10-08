@@ -4545,4 +4545,71 @@ defmodule PrimerLive.Component do
     <% end %>
     """
   end
+
+  # ------------------------------------------------------------------------------------
+  # animated_ellipsis
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :loaders
+
+  @doc ~S"""
+  Adds animated ellipsis to indicate progress.
+
+  [Examples](#animated_ellipsis/1-examples) • [Attributes](#animated_ellipsis/1-attributes) • [Reference](#animated_ellipsis/1-reference)
+
+  ```
+  <.animated_ellipsis />
+  ```
+
+  ## Examples
+
+  Inside a header:
+
+  ```
+  <h2>Loading<.animated_ellipsis /></h2>
+  ```
+
+  Inside a label:
+
+  ```
+  <.label>Loading<.animated_ellipsis /></.label>
+  ```
+
+  Inside a button:
+
+  ```
+  <.button is_disabled>Loading<.animated_ellipsis /></.label>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Loaders](https://primer.style/css/components/loaders)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the element.
+    """
+  )
+
+  def animated_ellipsis(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "AnimatedEllipsis",
+        assigns[:class]
+      ])
+
+    ~H"""
+    <span class={class} {@rest} />
+    """
+  end
 end
