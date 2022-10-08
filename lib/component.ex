@@ -4612,4 +4612,353 @@ defmodule PrimerLive.Component do
     <span class={class} {@rest} />
     """
   end
+
+  # ------------------------------------------------------------------------------------
+  # blankslate
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :blankslate
+
+  @doc ~S"""
+  What is it
+
+  [Examples](#blankslate/1-examples) • [Attributes](#blankslate/1-attributes) • [Reference](#blankslate/1-reference)
+
+  ```
+  <.blankslate>
+    <:heading>
+      This is a blank slate
+    </:heading>
+    <p>Use it to provide information when no dynamic content exists.</p>
+  </.blankslate>
+  ```
+
+  Blankslate is created with slots that are applied in this order:
+  1. `octicon` or `img`
+  1. `heading`
+  1. `inner_block`
+  1. `action` (multiple)
+
+  ## Examples
+
+  With an `octicon/1`:
+
+  ```
+  <.blankslate>
+    <:octicon name="rocket-24" />
+    ...
+  </.blankslate>
+  ```
+
+  With an image:
+
+  ```
+  <.blankslate>
+    <:img src="https://ghicons.github.com/assets/images/blue/png/Pull%20request.png" alt="" />
+    ...
+  </.blankslate>
+  ```
+
+  With an action:
+
+  ```
+  <.blankslate>
+    <:action>
+      <.button is_primary>New project</.button>
+    </:action>
+    ...
+  </.blankslate>
+  ```
+
+  Narrow layout:
+
+  ```
+  <.blankslate is_narrow>
+    ...
+  </.blankslate>
+  ```
+
+  Large text:
+
+  ```
+  <.blankslate is_large>
+    ...
+  </.blankslate>
+  ```
+
+  Combined slots, in a `box/1`:
+
+  ```
+  <.box>
+    <.blankslate>
+      <:heading>
+        This is a blank slate
+      </:heading>
+      <:img
+        src="https://ghicons.github.com/assets/images/blue/png/Pull%20request.png"
+        alt=""
+      />
+      <:action>
+        <.button is_primary>New project</.button>
+      </:action>
+      <:action>
+        <.button is_link>Learn more</.button>
+      </:action>
+      <p>Use it to provide information when no dynamic content exists.</p>
+    </.blankslate>
+  </.box>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Blankslate](https://primer.style/css/components/blankslate)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      blankslate: nil,
+      octicon: nil,
+      img: nil,
+      heading: nil,
+      action: nil
+    },
+    doc: """
+    Additional classnames for blankslate elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      blankslate: "", # Blankslate wrapper
+      octicon: ""     # Icon element
+      img: "",        # Image element
+      heading: "",    # Heading element
+      action: "",     # Action element
+    }
+    ```
+    """
+  )
+
+  attr :is_narrow, :boolean,
+    default: false,
+    doc: """
+    Narrows the blankslate container to not occupy the entire available width.
+    """
+
+  attr :is_large, :boolean,
+    default: false,
+    doc: """
+    Increases the size of the text in the blankslate.
+    """
+
+  attr :is_spacious, :boolean,
+    default: false,
+    doc: """
+    Significantly increases the vertical padding.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the blankslate.
+    """
+  )
+
+  slot :heading,
+    doc: "Heading." do
+    attr(:tag, :string,
+      doc: """
+      HTML tag used for the heading.
+
+      Default: "h3".
+      """
+    )
+
+    attr(:rest, :global,
+      doc: """
+      Attributes supplied to the heading.
+      """
+    )
+  end
+
+  slot :octicon,
+    doc: "Adds a top icon with `octicon/1`." do
+    attr(:rest, :global,
+      doc: """
+      Attributes supplied to the `octicon` component.
+      """
+    )
+  end
+
+  slot :img,
+    doc: "Adds a top image with an `img` tag." do
+    attr(:rest, :global,
+      doc: """
+      HTML attributes supplied to the `img` element.
+      """
+    )
+  end
+
+  slot :action,
+    doc: "Adds a wrapper for a button or link." do
+    attr(:rest, :global,
+      doc: """
+      HTML attributes supplied to the action wrapper element.
+      """
+    )
+  end
+
+  slot(:inner_block, required: false, doc: "Regular content.")
+
+  def blankslate(assigns) do
+    classes = %{
+      blankslate:
+        AttributeHelpers.classnames([
+          "blankslate",
+          assigns.is_narrow && "blankslate-narrow",
+          assigns.is_large && "blankslate-large",
+          assigns.is_spacious && "blankslate-spacious",
+          assigns.classes[:blankslate],
+          assigns[:class]
+        ]),
+      heading:
+        AttributeHelpers.classnames([
+          "blankslate-heading",
+          assigns.classes[:heading]
+        ]),
+      octicon:
+        AttributeHelpers.classnames([
+          "blankslate-icon",
+          assigns.classes[:octicon]
+        ]),
+      img:
+        AttributeHelpers.classnames([
+          "blankslate-image",
+          assigns.classes[:img]
+        ]),
+      action:
+        AttributeHelpers.classnames([
+          "blankslate-action",
+          assigns.classes[:action]
+        ])
+    }
+
+    render_octicon = fn slot ->
+      class =
+        AttributeHelpers.classnames([
+          classes.octicon,
+          slot[:class]
+        ])
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class
+        ])
+
+      ~H"""
+      <.octicon class={class} {rest} />
+      """
+    end
+
+    render_img = fn slot ->
+      class =
+        AttributeHelpers.classnames([
+          classes.img,
+          slot[:class]
+        ])
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class
+        ])
+
+      ~H"""
+      <img class={class} {rest} />
+      """
+    end
+
+    render_action = fn slot ->
+      class =
+        AttributeHelpers.classnames([
+          classes.action,
+          slot[:class]
+        ])
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class
+        ])
+
+      ~H"""
+      <div class={class} {rest}>
+        <%= render_slot(slot) %>
+      </div>
+      """
+    end
+
+    render_heading = fn slot ->
+      tag = slot[:tag] || "h3"
+
+      class =
+        AttributeHelpers.classnames([
+          classes.heading,
+          slot[:class]
+        ])
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class,
+          :tag
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class],
+          [name: tag]
+        ])
+
+      ~H"""
+      <.dynamic_tag {attributes}>
+        <%= render_slot(slot) %>
+      </.dynamic_tag>
+      """
+    end
+
+    ~H"""
+    <div class={classes.blankslate} {@rest}>
+      <%= if @octicon && @octicon !== [] do %>
+        <%= for slot <- @octicon do %>
+          <%= render_octicon.(slot) %>
+        <% end %>
+      <% end %>
+      <%= if @img && @img !== [] do %>
+        <%= for slot <- @img do %>
+          <%= render_img.(slot) %>
+        <% end %>
+      <% end %>
+      <%= if @heading && @heading !== [] do %>
+        <%= for slot <- @heading do %>
+          <%= render_heading.(slot) %>
+        <% end %>
+      <% end %>
+      <%= if @inner_block && @inner_block !== [] do %>
+        <%= render_slot(@inner_block) %>
+      <% end %>
+      <%= if @action && @action !== [] do %>
+        <%= for slot <- @action do %>
+          <%= render_action.(slot) %>
+        <% end %>
+      <% end %>
+    </div>
+    """
+  end
 end
