@@ -1797,13 +1797,13 @@ defmodule PrimerLive.Component do
 
     attr(:patch, :string,
       doc: """
-      Link attribute - same as `href`.
+      Link attribute - see `href`.
       """
     )
 
     attr(:navigate, :string,
       doc: """
-      Link attribute - same as `href`.
+      Link attribute - see `href`.
       """
     )
 
@@ -2213,13 +2213,13 @@ defmodule PrimerLive.Component do
 
     attr(:patch, :string,
       doc: """
-      Link attribute - same as `href`.
+      Link attribute - see `href`.
       """
     )
 
     attr(:navigate, :string,
       doc: """
-      Link attribute - same as `href`.
+      Link attribute - see `href`.
       """
     )
 
@@ -3889,13 +3889,13 @@ defmodule PrimerLive.Component do
 
     attr(:patch, :string,
       doc: """
-      Link attribute - same as `href`.
+      Link attribute - see `href`.
       """
     )
 
     attr(:navigate, :string,
       doc: """
-      Link attribute - same as `href`.
+      Link attribute - see `href`.
       """
     )
 
@@ -4240,7 +4240,9 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a larger "parent" avatar with a smaller "child" overlaid on top.
 
-  [Attributes](#parent_child_avatar/1-attributes) • [Reference](#parent_child_avatar/1-reference)
+  [Examples](#circle_badge/1-examples) • [Attributes](#parent_child_avatar/1-attributes) • [Reference](#parent_child_avatar/1-reference)
+
+  ## Examples
 
   Use slots `parent` and `child` to create the avatars using `avatar/1` attributes:
 
@@ -4339,6 +4341,208 @@ defmodule PrimerLive.Component do
         <% end %>
       <% end %>
     </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # circle_badge
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :avatars
+
+  @doc ~S"""
+  What is it
+
+  [Examples](#circle_badge/1-examples) • [Attributes](#circle_badge/1-attributes) • [Reference](#circle_badge/1-reference)
+
+  ```
+  <.circle_badge>
+    <:octicon name="alert-16" />
+  </.circle_badge>
+  ```
+
+  ## Examples
+
+  Use slot `octicon` to create an `octicon/1` icon
+
+  ```
+  <.circle_badge>
+    <:octicon name="alert-16" />
+  </.circle_badge>
+  ```
+
+  Use slot `img` to create an image icon
+
+  ```
+  <.circle_badge>
+    <:img src="https://github.com/travis-ci.png" />
+  </.circle_badge>
+  ```
+
+  Create a large badge (size "medium" or "large"):
+
+  ```
+  <.circle_badge size="medium">
+    <:octicon name="alert-24" />
+  </.circle_badge>
+  ```
+
+  By default, items are turned into `<div>` elements. Pass a link attribute (`href`, `navigate` or `patch`) to change it automatically to a `Phoenix.Component.link/1`:
+
+  ```
+  <.circle_badge href="#url">...</.circle_badge>
+  <.circle_badge navigate={Routes.page_path(@socket, :index)} class="underline">...</.circle_badge>
+  <.circle_badge patch={Routes.page_path(@socket, :index, :details)}>...</.circle_badge>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Avatars](https://primer.style/css/components/avatars)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr :size, :string,
+    default: "small",
+    doc: """
+    Badge size: "small", "medium" or "large".
+
+    Sizes:
+    - small: `56px` (default)
+    - medium: `96px`
+    - large: `128px`
+    """
+
+  attr(:href, :any,
+    doc: """
+    Link attribute. If used, the badge will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+    """
+  )
+
+  attr(:patch, :string,
+    doc: """
+    Link attribute - see `href`.
+    """
+  )
+
+  attr(:navigate, :string,
+    doc: """
+    Link attribute - see `href`.
+    """
+  )
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot :octicon,
+    doc: "Creates a badge icon with `octicon/1`." do
+    attr(:rest, :global,
+      doc: """
+      Attributes supplied to the `octicon` component.
+      """
+    )
+  end
+
+  slot :img,
+    doc: "Creates a badge icon with an `img` tag." do
+    attr(:rest, :global,
+      doc: """
+      HTML attributes supplied to the `img` element.
+      """
+    )
+  end
+
+  def circle_badge(assigns) do
+    classes = %{
+      circle_badge:
+        AttributeHelpers.classnames([
+          "CircleBadge",
+          assigns.size === "small" && "CircleBadge--small",
+          assigns.size === "medium" && "CircleBadge--medium",
+          assigns.size === "large" && "CircleBadge--large",
+          assigns[:class]
+        ]),
+      octicon: "CircleBadge-icon",
+      img: "CircleBadge-icon"
+    }
+
+    render_octicon = fn slot ->
+      class =
+        AttributeHelpers.classnames([
+          classes.octicon,
+          slot[:class]
+        ])
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class
+        ])
+
+      ~H"""
+      <.octicon class={class} {rest} />
+      """
+    end
+
+    render_img = fn slot ->
+      class =
+        AttributeHelpers.classnames([
+          classes.img,
+          slot[:class]
+        ])
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class
+        ])
+
+      ~H"""
+      <img class={class} {rest} />
+      """
+    end
+
+    is_link = AttributeHelpers.is_link?(assigns)
+
+    render_content = fn ->
+      ~H"""
+      <%= if @octicon && @octicon !== [] do %>
+        <%= for octicon <- @octicon do %>
+          <%= render_octicon.(octicon) %>
+        <% end %>
+      <% end %>
+      <%= if @img && @img !== [] do %>
+        <%= for img <- @img do %>
+          <%= render_img.(img) %>
+        <% end %>
+      <% end %>
+      """
+    end
+
+    attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.circle_badge],
+        [href: assigns[:href], navigate: assigns[:navigate], patch: assigns[:patch]]
+      ])
+
+    ~H"""
+    <%= if is_link do %>
+      <.link {attributes}>
+        <%= render_content.() %>
+      </.link>
+    <% else %>
+      <div {attributes}>
+        <%= render_content.() %>
+      </div>
+    <% end %>
     """
   end
 end
