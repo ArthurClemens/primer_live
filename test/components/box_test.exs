@@ -308,6 +308,41 @@ defmodule PrimerLive.TestComponents.BoxTest do
              |> format_html()
   end
 
+  test "Attribute: is_scrollable" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.box is_scrollable style="max-height: 400px">
+             <:header>Header</:header>
+             <p>General info</p>
+             <:body>Body</:body>
+             <:row>Row 1</:row>
+             <:row>Row 2</:row>
+             <:row>Row 3</:row>
+             <:row>Row 4</:row>
+             <:row>Row 5</:row>
+             <:footer>Footer</:footer>
+           </.box>
+           """)
+           |> format_html() ==
+             """
+             <div class="Box d-flex flex-column" style="max-height: 400px">
+             <div class="Box-header">Header</div>
+             <div class="overflow-auto">
+             <p>General info</p>
+             <div class="Box-body">Body</div>
+             <div class="Box-row">Row 1</div>
+             <div class="Box-row">Row 2</div>
+             <div class="Box-row">Row 3</div>
+             <div class="Box-row">Row 4</div>
+             <div class="Box-row">Row 5</div>
+             </div>
+             <div class="Box-footer">Footer</div>
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Extra attributes" do
     assigns = []
 

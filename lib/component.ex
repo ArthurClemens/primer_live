@@ -1163,6 +1163,34 @@ defmodule PrimerLive.Component do
   </.box>
   ```
 
+  Box can be used inside dialogs. To make the box content scrollable within the confined space of the dialog, use `is_scrollable`. This will make all inner content (`inner_block`, `body` and `rows`) scrollable between header and footer.
+
+  To limit the height of the box, either:
+  - Use class "Box--scrollable" to limit the height to `324px`
+  - Add style "max-height"
+
+  ```
+  <.box is_scrollable class="Box--scrollable">
+    <:header>Fixed header</:header>
+    <:body>Scrollable body</:body>
+    <:row>Scrollable row</:row>
+    <:row>Scrollable row</:row>
+    ...
+    <:footer>Fixed footer</:footer>
+  </.box>
+  ```
+
+  ```
+  <.box is_scrollable style="max-height: 80vh">
+    <:header>Fixed header</:header>
+    <:body>Scrollable body</:body>
+    <:row>Scrollable row</:row>
+    <:row>Scrollable row</:row>
+    ...
+    <:footer>Fixed footer</:footer>
+  </.box>
+  ```
+
   [INSERT LVATTRDOCS]
 
   ## Lets
@@ -1258,6 +1286,13 @@ defmodule PrimerLive.Component do
     doc: "Increases padding and increases the title font size."
   )
 
+  attr(:is_scrollable, :boolean,
+    default: false,
+    doc: """
+    Makes inner content (consistent of `inner_block`, `body` and `rows`) scrollable in a box with maximum height.
+    """
+  )
+
   attr(:rest, :global,
     doc: """
     Additional HTML attributes added to the outer element.
@@ -1328,6 +1363,7 @@ defmodule PrimerLive.Component do
           assigns.is_condensed and "Box--condensed",
           assigns.is_danger and "Box--danger",
           assigns.is_spacious and "Box--spacious",
+          assigns.is_scrollable and "d-flex flex-column",
           assigns.classes[:box],
           assigns[:class]
         ]),
@@ -1426,17 +1462,30 @@ defmodule PrimerLive.Component do
       """
     end
 
+    # Render inner_block, body and rows
+    render_inner_content = fn ->
+      ~H"""
+      <%= render_slot(assigns.inner_block) %>
+      <%= if assigns.body && assigns.body !== [] do %>
+        <%= render_body.(assigns.body) %>
+      <% end %>
+      <%= if assigns.row && assigns.row !== [] do %>
+        <%= render_row.(assigns.row) %>
+      <% end %>
+      """
+    end
+
     ~H"""
     <div class={classes.box} {@rest}>
       <%= if @header_slots && @header_slots !== [] do %>
         <%= render_header.(@header_slots) %>
       <% end %>
-      <%= render_slot(@inner_block) %>
-      <%= if @body && @body !== [] do %>
-        <%= render_body.(@body) %>
-      <% end %>
-      <%= if @row && @row !== [] do %>
-        <%= render_row.(@row) %>
+      <%= if @is_scrollable do %>
+        <div class="overflow-auto">
+          <%= render_inner_content.() %>
+        </div>
+      <% else %>
+        <%= render_inner_content.() %>
       <% end %>
       <%= if @footer && @footer !== [] do %>
         <%= render_footer.(@footer) %>
@@ -1876,7 +1925,7 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    toggle_attributes =
+    toggle_attrs =
       AttributeHelpers.append_attributes([], [
         [class: classes[:toggle]],
         [aria_haspopup: "true"]
@@ -1949,7 +1998,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <details class={classes.dropdown} {@rest}>
-      <summary {toggle_attributes}>
+      <summary {toggle_attrs}>
         <%= render_slot(toggle_slot) %>
         <div class={classes.caret}></div>
       </summary>
@@ -2360,7 +2409,7 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    toggle_attributes =
+    toggle_attrs =
       AttributeHelpers.append_attributes([], [
         [class: classes.toggle],
         [aria_haspopup: "true"]
@@ -2406,7 +2455,7 @@ defmodule PrimerLive.Component do
           nil
       end
 
-    select_menu_opts =
+    select_menu_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.select_menu],
         # Add the menu id when we will show a header with close button
@@ -2450,8 +2499,8 @@ defmodule PrimerLive.Component do
     end
 
     ~H"""
-    <details {select_menu_opts}>
-      <summary {toggle_attributes}>
+    <details {select_menu_attrs}>
+      <summary {toggle_attrs}>
         <%= render_slot(toggle_slot) %>
       </summary>
       <div class={classes.menu}>
@@ -5269,4 +5318,6 @@ defmodule PrimerLive.Component do
     </.dynamic_tag>
     """
   end
+
+
 end
