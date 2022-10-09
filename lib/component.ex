@@ -15,7 +15,7 @@ defmodule PrimerLive.Component do
 
   Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group" to add a field label and validation.
 
-  [Examples](#text_input/1-examples) • [Attributes](#text_input/1-attributes) • [Reference](#text_input/1-reference)
+  [Examples](#text_input/1-examples) • [Attributes](#text_input/1-attributes) • [Slots](#text_input/1-slots) • [Lets](#text_input/1-lets) • [Reference](#text_input/1-reference)
 
   ```
   <.text_input name="first_name" />
@@ -118,7 +118,7 @@ defmodule PrimerLive.Component do
 
   [INSERT LVATTRDOCS]
 
-  ## :let
+  ## Lets
 
   ```
   <:group :let={field} />
@@ -210,7 +210,7 @@ defmodule PrimerLive.Component do
     doc: """
     Insert the input inside a form group.
 
-    Yields: see [:let](#text_input/1-let).
+    Yields: see [:let](#text_input/1-lets).
 
     """ do
     attr(:label, :string,
@@ -513,7 +513,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates an alert message.
 
-  [Examples](#alert/1-examples) • [Attributes](#alert/1-attributes) • [Reference](#alert/1-reference)
+  [Examples](#alert/1-examples) • [Attributes](#alert/1-attributes) • [Slots](#alert/1-slots) • [Reference](#alert/1-reference)
 
   ```
   <.alert>
@@ -600,7 +600,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Wrapper to render a vertical stack of `alert/1` messages with spacing in between.
 
-  [Attributes](#alert_messages/1-attributes) • [Reference](#alert_messages/1-reference)
+  [Attributes](#alert_messages/1-attributes) • [Slots](#alert_messages/1-slots) • [Reference](#alert_messages/1-reference)
 
   ```
   <.alert_messages>
@@ -1033,7 +1033,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a content container.
 
-  [Examples](#box/1-examples) • [Attributes](#box/1-attributes) • [Reference](#box/1-reference)
+  [Examples](#box/1-examples) • [Attributes](#box/1-attributes) • [Slots](#box/1-slots) • [Lets](#box/1-lets) • [Reference](#box/1-reference)
 
   A `box` is a container with rounded corners, a white background, and a light gray border.
   By default, there are no other styles, such as padding; however, these can be introduced
@@ -1165,7 +1165,7 @@ defmodule PrimerLive.Component do
 
   [INSERT LVATTRDOCS]
 
-  ## :let
+  ## Lets
 
   ```
   <:item :let={classes} />
@@ -1454,6 +1454,8 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a navigational header, to be placed at the top of the page.
 
+  [Examples](#header/1-examples) • [Attributes](#header/1-attributes) • [Slots](#header/1-slots) • [Lets](#header/1-lets) •  [Reference](#header/1-reference)
+
   ```
   <.header>
     <:item>Item 1</:item>
@@ -1497,7 +1499,7 @@ defmodule PrimerLive.Component do
 
   [INSERT LVATTRDOCS]
 
-  ## :let
+  ## Lets
 
   ```
   <:item :let={classes} />
@@ -1650,7 +1652,7 @@ defmodule PrimerLive.Component do
 
   Dropdowns are small context menus that can be used for navigation and actions. They are a simple alternative to [select menus](`select_menu/1`).
 
-  [Examples](#dropdown/1-examples) • [Attributes](#dropdown/1-attributes) • [Reference](#dropdown/1-reference)
+  [Examples](#dropdown/1-examples) • [Attributes](#dropdown/1-attributes) • [Slots](#dropdown/1-slots) • [Reference](#dropdown/1-reference)
 
   Menu items are rendered as link elements, created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link.
 
@@ -1974,7 +1976,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a select menu.
 
-  [Examples](#select_menu/1-examples) • [Attributes](#select_menu/1-attributes) • [Reference](#select_menu/1-reference)
+  [Examples](#select_menu/1-examples) • [Attributes](#select_menu/1-attributes) • [Slots](#select_menu/1-slots) • [Reference](#select_menu/1-reference)
 
   ```
   <.select_menu>
@@ -2524,7 +2526,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a button.
 
-  [Examples](#button/1-examples) • [Attributes](#button/1-attributes) • [Reference](#button/1-reference)
+  [Examples](#button/1-examples) • [Attributes](#button/1-attributes) • [Slots](#button/1-slots) • Reference](#button/1-reference)
 
   ```
   <.button>Click me</.button>
@@ -3217,7 +3219,7 @@ defmodule PrimerLive.Component do
 
   Labels add metadata or indicate status of items and navigational elements.
 
-  [Examples](#label/1-examples) • [Attributes](#label/1-attributes) • [Reference](#label/1-reference)
+  [Examples](#label/1-examples) • [Attributes](#label/1-attributes) • [Slots](#label/1-slots) • [Reference](#label/1-reference)
 
   ```
   <.label>Label</.label>
@@ -3389,7 +3391,7 @@ defmodule PrimerLive.Component do
 
   And issue label is basically labels without a border. It expects background and foreground colors.
 
-  [Examples](#issue_label/1-examples) • [Attributes](#issue_label/1-attributes) • [Reference](#issue_label/1-reference)
+  [Examples](#issue_label/1-examples) • [Attributes](#issue_label/1-attributes) • [Slots](#issue_label/1-slots) • [Reference](#issue_label/1-reference)
 
   ```
   <.issue_label>Label</.issue_label>
@@ -3462,7 +3464,7 @@ defmodule PrimerLive.Component do
 
   State labels are larger and styled with bolded text. Attribute settings allows to apply colors.
 
-  [Examples](#state_label/1-examples) • [Attributes](#state_label/1-attributes) • [Reference](#state_label/1-reference)
+  [Examples](#state_label/1-examples) • [Attributes](#state_label/1-attributes) • [Slots](#state_label/1-slots) • [Reference](#state_label/1-reference)
 
   ```
   <.state_label>Label</.state_label>
@@ -3567,7 +3569,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Adds a count to navigational elements and buttons.
 
-  [Examples](#counter/1-examples) • [Attributes](#counter/1-attributes) • [Reference](#counter/1-reference)
+  [Examples](#counter/1-examples) • [Attributes](#counter/1-attributes) • [Slots](#counter/1-slots) • [Reference](#counter/1-reference)
 
   ```
   <.counter>12</.counter>
@@ -3651,7 +3653,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Configurable and styled h2 heading.
 
-  [Examples](#subhead/1-examples) • [Attributes](#subhead/1-attributes) • [Reference](#subhead/1-reference)
+  [Examples](#subhead/1-examples) • [Attributes](#subhead/1-attributes) • [Slots](#subhead/1-slots) • [Reference](#subhead/1-reference)
 
   ```
   </.subhead>Plain subhead</.subhead>
@@ -3810,7 +3812,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Breadcrumb navigation to navigate a hierarchy of pages.
 
-  [Examples](#breadcrumb/1-examples) • [Attributes](#breadcrumb/1-attributes) • [Reference](#breadcrumb/1-reference)
+  [Examples](#breadcrumb/1-examples) • [Attributes](#breadcrumb/1-attributes) • [Slots](#breadcrumb/1-slots) • [Reference](#breadcrumb/1-reference)
 
   All items are rendered as links. The last link will show a selected state.
 
@@ -3989,7 +3991,7 @@ defmodule PrimerLive.Component do
 
   The component name deviates from the PrimerCSS name `Link` to prevent a naming conflict with `Phoenix.Component.link/1`.
 
-  [Examples](#as_link/1-examples) • [Attributes](#as_link/1-attributes) • [Reference](#as_link/1-reference)
+  [Examples](#as_link/1-examples) • [Attributes](#as_link/1-attributes) • [Slots](#as_link/1-slots) • [Reference](#as_link/1-reference)
 
   ```
   Some text with a <.as_link>link</.as_link>
@@ -4240,7 +4242,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a larger "parent" avatar with a smaller "child" overlaid on top.
 
-  [Examples](#circle_badge/1-examples) • [Attributes](#parent_child_avatar/1-attributes) • [Reference](#parent_child_avatar/1-reference)
+  [Examples](#parent_child_avatar/1-examples) • [Attributes](#parent_child_avatar/1-attributes) • [Slots](#parent_child_avatar/1-slots) • [Reference](#parent_child_avatar/1-reference)
 
   ## Examples
 
@@ -4622,7 +4624,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   What is it
 
-  [Examples](#blankslate/1-examples) • [Attributes](#blankslate/1-attributes) • [Reference](#blankslate/1-reference)
+  [Examples](#blankslate/1-examples) • [Attributes](#blankslate/1-attributes) • [Slots](#blankslate/1-slots) • [Reference](#blankslate/1-reference)
 
   ```
   <.blankslate>
@@ -4971,7 +4973,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Shortens text with ellipsis.
 
-  [Examples](#truncate/1-examples) • [Attributes](#truncate/1-attributes) • [Reference](#truncate/1-reference)
+  [Examples](#truncate/1-examples) • [Attributes](#truncate/1-attributes) • [Slots](#truncate/1-slots) • [Reference](#truncate/1-reference)
 
   ```
   <.truncate>
