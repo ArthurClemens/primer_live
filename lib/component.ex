@@ -4616,6 +4616,89 @@ defmodule PrimerLive.Component do
   end
 
   # ------------------------------------------------------------------------------------
+  # spinner
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :loaders
+
+  @doc ~S"""
+  SVG spinner animation.
+
+  This spinner is derived from the Toast loading animation.
+
+  [Examples](#spinner/1-examples) • [Attributes](#spinner/1-attributes)
+
+  ```
+  <.spinner />
+  ```
+
+  Alternatively, use `octicon/1` with class "Toast--spinner", using any circular icon:
+
+  ```
+  <.octicon name="skip-16" class="Toast--spinner" />
+  ```
+
+  ## Examples
+
+  Set the size (default: `18`):
+
+  ```
+  <.spinner size="40" />
+  ```
+
+  Set the circle color (default: `#959da5`):
+
+  ```
+  <.spinner color="red" />
+  <.spinner color="#ff0000" />
+  <.spinner color="rgba(250, 50, 150, 0.5)" />
+  ```
+
+  Set the gap color (default: `#ffffff`):
+
+  ```
+  <.spinner gap_color="black" />
+  <.spinner gap_color="#000000" />
+  <.spinner gap_color="rgba(0, 0, 0, 1)" />
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:size, :integer, default: 18, doc: "Spinner size.")
+
+  attr(:color, :string, default: "#959da5", doc: "Spinner color as SVG fill color.")
+
+  attr(:gap_color, :string, default: "#ffffff", doc: "Spinner gap color as SVG fill color.")
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the element.
+    """
+  )
+
+  def spinner(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "Toast--spinner",
+        assigns[:class]
+      ])
+
+    ~H"""
+    <svg class={class} viewBox="0 0 32 32" width={@size} height={@size} {@rest}>
+      <path
+        fill={@color}
+        d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"
+      />
+      <path fill={@gap_color} d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"></path>
+    </svg>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
   # blankslate
   # ------------------------------------------------------------------------------------
 
