@@ -4961,4 +4961,227 @@ defmodule PrimerLive.Component do
     </div>
     """
   end
+
+  # ------------------------------------------------------------------------------------
+  # truncate
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :truncate
+
+  @doc ~S"""
+  Shortens text with ellipsis.
+
+  [Examples](#truncate/1-examples) • [Attributes](#truncate/1-attributes) • [Reference](#truncate/1-reference)
+
+  ```
+  <.truncate>
+    <:item>really-long-text</:item>
+  </.truncate>
+  ```
+
+  ## Examples
+
+  Change the default generated HTML tags (default "span"). Note that the outer element is by default styled as `inline-flex`, regardless of the provided tag.
+
+  ```
+  <.truncate tag="ol">
+    <:item tag="li">really-long-text</:item>
+    <:item tag="li">really-long-text</:item>
+  </.truncate>
+  ```
+
+  By default, items are turned into `span` elements. Pass a link attribute (`href`, `navigate` or `patch`) to change it automatically to a `Phoenix.Component.link/1`:
+
+  ```
+  <:item href="#url">Item 1</:item>
+  <:item navigate={Routes.page_path(@socket, :index)} class="underline">Item 2</:item>
+  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  ```
+
+  Multiple item texts will truncate evenly.
+
+  ```
+  <.truncate>
+    <:item>really-long-text</:item>
+    <:item>really-long-text</:item>
+  </.truncate>
+  ```
+
+  Delay the truncating of specific items:
+
+  ```
+  <.truncate>
+    <:item>really-long-user-nametext</:item>
+    <:item is_primary>really-long-project-name</:item>
+  </.truncate>
+  ```
+
+  Expand the items on `hover` and `focus`:
+
+  ```
+  <.truncate>
+    <:item expandable>really-long-text</:item>
+    <:item expandable>really-long-text</:item>
+  </.truncate>
+  ```
+
+  Limit the maximum width by adding `max-width` style:
+
+  ```
+  <.truncate>
+    <:item is_expandable style="max-width: 300px;">
+      really-long-text
+    </:item>
+  </.truncate>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Truncate](https://primer.style/css/components/truncate)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      truncate: nil,
+      item: nil
+    },
+    doc: """
+    Additional classnames for truncate elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      truncate: "", # Truncate wrapper element
+      item: "",     # Text wrapper element
+    }
+    ```
+    """
+  )
+
+  attr(:tag, :string, default: "span", doc: "HTML tag used for the truncate wrapper.")
+
+  slot :item,
+    required: true,
+    doc: "Wrapper around text to be truncated." do
+    attr(:tag, :string,
+      doc: """
+      HTML tag used for the text wrapper.
+
+      Default: "span".
+      """
+    )
+
+    attr(:href, :any,
+      doc: """
+      Link attribute. If used, the item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      """
+    )
+
+    attr(:patch, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:navigate, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr :is_primary, :boolean,
+      doc: """
+      When using multiple items. Delays the truncating of the item.
+      """
+
+    attr :is_expandable, :boolean,
+      doc: """
+      When using multiple items. Will expand the text on `hover` and `focus`.
+      """
+
+    attr(:rest, :global,
+      doc: """
+      Attributes supplied to the item.
+      """
+    )
+  end
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the truncate element.
+    """
+  )
+
+  def truncate(assigns) do
+    classes = %{
+      truncate:
+        AttributeHelpers.classnames([
+          "Truncate",
+          assigns.classes[:truncate],
+          assigns[:class]
+        ])
+      # item: set in render_item/1
+    }
+
+    render_item = fn slot ->
+      is_link = AttributeHelpers.is_link?(slot)
+      tag = slot[:tag] || "span"
+
+      class =
+        AttributeHelpers.classnames([
+          "Truncate-text",
+          slot[:is_primary] && "Truncate-text--primary",
+          slot[:is_expandable] && "Truncate-text--expandable",
+          assigns.classes[:item],
+          slot[:class]
+        ])
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class,
+          :tag,
+          :is_expandable,
+          :is_primary
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class],
+          [name: tag]
+        ])
+
+      ~H"""
+      <%= if is_link do %>
+        <.link {attributes}>
+          <%= render_slot(slot) %>
+        </.link>
+      <% else %>
+        <.dynamic_tag {attributes}>
+          <%= render_slot(slot) %>
+        </.dynamic_tag>
+      <% end %>
+      """
+    end
+
+    ~H"""
+    <.dynamic_tag name={assigns.tag || "span"} class={classes.truncate} {@rest}>
+      <%= if @item && @item !== [] do %>
+        <%= for slot <- @item do %>
+          <%= render_item.(slot) %>
+        <% end %>
+      <% end %>
+    </.dynamic_tag>
+    """
+  end
 end
