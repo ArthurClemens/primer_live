@@ -5,11 +5,17 @@ defmodule PrimerLive.MixProject do
     [
       app: :primer_live,
       name: "PrimerLive",
+      homepage_url: "https://github.com/ArthurClemens/primer_live",
+      description: """
+      A collection of function components that implements GitHub's Primer Design System.
+      """,
       version: "0.1.0",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
+      package: package(),
+      aliases: aliases(),
       deps: deps(),
-      docs: docs()
+      docs: docs(),
     ]
   end
 
@@ -27,6 +33,7 @@ defmodule PrimerLive.MixProject do
       {:phoenix_html, "~> 3.0"},
       {:typed_ecto_schema, "~> 0.4.1"},
       {:ecto_sql, "~> 3.6"},
+      {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
       {:jason, "~> 1.0"},
       {:ex_doc, "~> 0.28.5", only: :dev},
       {:earmark, "~> 1.4", only: :dev},
@@ -69,6 +76,27 @@ defmodule PrimerLive.MixProject do
       extras: [
         "LICENSE.md"
       ]
+    ]
+  end
+
+  defp package do
+    [
+      maintainers: ["Arthur Clemens"],
+      licenses: ["MIT"],
+      links: %{
+        GitHub: "https://github.com/ArthurClemens/primer_live"
+      },
+      files:
+        ~w(assets/css lib priv/static) ++
+          ~w(LICENSE.md mix.exs README.md)
+    ]
+  end
+
+  defp aliases do
+    [
+      setup: ["deps.get"],
+      "assets.build": ["esbuild css"],
+      "assets.watch": ["esbuild module --watch"]
     ]
   end
 end

@@ -26,3 +26,4 @@ primer_live-*.tar
 /tmp/
 
 /priv/octicon_builder/icons
+priv/static/primer_live.js
