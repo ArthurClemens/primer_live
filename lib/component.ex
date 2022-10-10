@@ -2337,7 +2337,15 @@ defmodule PrimerLive.Component do
         ]),
       toggle:
         AttributeHelpers.classnames([
-          assigns_classes.toggle || toggle_slot[:class] || "btn"
+          # If a custom class is set, remove the default btn class
+          if assigns_classes[:toggle] || toggle_slot[:class] do
+            AttributeHelpers.classnames([
+              assigns_classes[:toggle],
+              toggle_slot[:class]
+            ])
+          else
+            "btn"
+          end
         ]),
       menu:
         AttributeHelpers.classnames([
@@ -2459,7 +2467,7 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.select_menu],
         # Add the menu id when we will show a header with close button
-        not is_nil(menu_id) and [data_menu_id: menu_id]
+        not is_nil(menu_id) and [data_menuid: menu_id]
       ])
 
     render_item = fn item ->
@@ -2513,7 +2521,7 @@ defmodule PrimerLive.Component do
                 type="button"
                 phx-click={
                   Phoenix.LiveView.JS.remove_attribute("open",
-                    to: "[data-menu-id=#{menu_id}]"
+                    to: "[data-menuid=#{menu_id}]"
                   )
                 }
               >
@@ -5319,5 +5327,375 @@ defmodule PrimerLive.Component do
     """
   end
 
+  # ------------------------------------------------------------------------------------
+  # dialog
+  # ------------------------------------------------------------------------------------
 
+  @doc section: :dialog
+
+  @doc ~S"""
+  Dialog, often called Modal.
+
+  [Examples](#dialog/1-examples) • [Attributes](#dialog/1-attributes) • [Slots](#dialog/1-slots) • [Reference](#dialog/1-reference)
+
+  A dialog is created with `box/1` slots.
+
+  ```
+  <.dialog>
+    <:toggle>Open dialog</:toggle>
+    <:body>
+      Message in a dialog
+    </:body>
+  </.dialog>
+  ```
+
+  ## Examples
+
+  Add a backdrop:
+
+  ```
+  <.dialog is_backdrop>
+    <:toggle>Open dialog</:toggle>
+    ...
+  </.dialog>
+  ```
+
+  Create a modal dialog; clicking the backdrop (if used) or outside of the dialog will not close the dialog:
+
+  ```
+  <.dialog is_modal>
+    <:toggle>Open dialog</:toggle>
+    ...
+  </.dialog>
+  ```
+
+  A narrow dialog:
+
+  ```
+  <.dialog is_narrow>
+    <:toggle>Open dialog</:toggle>
+    ...
+  </.dialog>
+  ```
+
+  A wide dialog:
+
+  ```
+  <.dialog is_wide>
+    <:toggle>Open dialog</:toggle>
+    ...
+  </.dialog>
+  ```
+
+  Long content will automatically show a scrollbar. To change the maxium height of the dialog, use a CSS value. Use unit `vh` or `%`.
+
+  ```
+  <.dialog max_height="50vh">
+    ...
+  </.dialog>
+  ```
+
+  Add a header title and a footer.
+
+  `box` slot `header` slot is automatically added when `header_title` is used.
+
+  ```
+  <.dialog>
+    <:toggle>Open dialog</:toggle>
+    <:header_title>Title</:header_title>
+    ...
+    <:footer>Footer</:footer>
+  </.dialog>
+  ```
+
+  A dialog with rows:
+
+  ```
+   <.dialog>
+    <:toggle>Open dialog</:toggle>
+    <:header_title>Title</:header_title>
+    <:row>Row 1</:row>
+    <:row>Row 2</:row>
+    <:row>Row 3</:row>
+    <:row>Row 4</:row>
+    <:footer>Footer</:footer>
+  </.dialog>
+  ```
+
+  Dialog are wrapped inside a `Phoenix.Compoennt.focus_wrap/1` so that navigating with Tab won't leave the dialog.
+
+  ```
+  <.dialog is_backdrop is_modal is_focus_first>
+    <:toggle>Open dialog</:toggle>
+    <:header_title>Title</:header_title>
+    <:body>
+    <.text_input form={:user} field={:first_name} is_group />
+    <.text_input form={:user} field={:last_name} is_group />
+    </:body>
+  </.dialog>
+  ```
+
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Box overlay](https://primer.style/css/components/box-overlay)
+
+  ## Status
+
+  In progress.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      dialog_wrapper: nil,
+      toggle: nil,
+      dialog: nil,
+      box: nil,
+      header: nil,
+      row: nil,
+      body: nil,
+      footer: nil,
+      header_title: nil,
+      link: nil
+    },
+    doc: """
+    Additional classnames for dialog elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      # Dialog classes
+      dialog_wrapper: "",  # The outer element
+      toggle: "",          # Toggle button
+      dialog: "",          # Dialog  element
+      # Box classes - see box component:
+      box: "",
+      header: "",
+      row: "",
+      body: "",
+      footer: "",
+      header_title: "",
+      link: "",
+    }
+    ```
+    """
+  )
+
+  attr :is_backdrop, :boolean,
+    default: false,
+    doc: """
+    Adds a semi-transparent background below the dialog.
+    """
+
+  attr :is_modal, :boolean,
+    default: false,
+    doc: """
+    Creates a modal dialog; clicking the backdrop (if used) or outside of the dialog will not close the dialog.
+    """
+
+  attr :is_narrow, :boolean,
+    default: false,
+    doc: """
+    Creates a smaller dialog, width: `320px` (default: `440px`).
+    """
+
+  attr :is_wide, :boolean,
+    default: false,
+    doc: """
+    Creates a wider dialog, width: `640px` (default: `440px`).
+    """
+
+  attr :max_height, :string,
+    default: "80vh",
+    doc: """
+    Maximum height of dialog as CSS value. Use unit `vh` or `%`.
+    """
+
+  attr :is_focus_first, :boolean,
+    default: false,
+    doc: """
+    Gives focus to the first focusable elememnt.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot(:toggle,
+    required: true,
+    doc: """
+    Creates a toggle element (default with button appearance) using the slot content as label.
+
+    Any custom class will override the default class "btn".
+    """
+  )
+
+  slot(:header_title,
+    doc: """
+    Dialog header title. Uses `box/1` `header_title` slot.
+
+    Note that slot `header` is automatically created to ensure the correct close button.
+    """
+  )
+
+  slot(:body,
+    doc: "Dialog body. Uses `box/1` `body` slot."
+  )
+
+  slot(:row,
+    doc: "Dialog row. Uses `box/1` `row` slot."
+  )
+
+  slot(:footer,
+    doc: "Dialog footer. Uses `box/1` `footer` slot."
+  )
+
+  slot(:inner_block,
+    doc: "Dialog inner_block. Uses `box/1` `inner_block` slot."
+  )
+
+  def dialog(assigns) do
+    # Get the toggle menu slot, if any
+    toggle_slot = if assigns.toggle && assigns.toggle !== [], do: hd(assigns.toggle), else: []
+
+    classes = %{
+      dialog_wrapper:
+        AttributeHelpers.classnames([
+          "details-reset",
+          "details-overlay",
+          assigns.is_backdrop && "details-overlay-dark",
+          assigns[:classes][:dialog_wrapper],
+          assigns[:class]
+        ]),
+      toggle:
+        AttributeHelpers.classnames([
+          # If a custom class is set, remove the default btn class
+          if assigns.classes[:toggle] || toggle_slot[:class] do
+            AttributeHelpers.classnames([
+              assigns.classes[:toggle],
+              toggle_slot[:class]
+            ])
+          else
+            "btn"
+          end
+        ]),
+      dialog:
+        AttributeHelpers.classnames([
+          !(assigns.is_narrow || assigns.is_wide) && "Box--overlay",
+          assigns.is_narrow && "Box-overlay--narrow",
+          assigns.is_wide && "Box-overlay--wide",
+          "anim-fade-in fast",
+          assigns[:classes][:dialog]
+        ])
+    }
+
+    # Use an id as close button target
+    dialog_id = assigns.rest[:id] || AttributeHelpers.random_string()
+
+    details_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.dialog_wrapper],
+        [data_dialogid: dialog_id]
+      ])
+
+    toggle_attrs =
+      AttributeHelpers.append_attributes([], [
+        [class: classes[:toggle]],
+        [aria_haspopup: "dialog"]
+      ])
+
+    max_height_css = dialog_height_css(assigns.max_height)
+    max_width_css = "90vw"
+
+    box_attrs =
+      AttributeHelpers.append_attributes([], [
+        [class: classes.dialog],
+        [classes: assigns.classes |> Map.drop([:dialog_wrapper, :toggle, :dialog])],
+        [is_scrollable: true],
+        [data_elem: "dialog-main"],
+        # box_header set in main H_sigil
+        [header_title: assigns.header_title],
+        [body: assigns.body],
+        [row: assigns.row],
+        [footer: assigns.footer],
+        [inner_block: assigns.inner_block]
+      ])
+
+    # Note about the transform: shift a bit to the top to optically center the dialog
+
+    ~H"""
+    <style>
+      details [data-elem=dialog-main] {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, calc(-50% - 15px));
+        z-index: 999;
+        overflow: auto;
+        /* Defaults */
+        margin: 0 auto;
+        max-height: 80vh;
+        max-width: 90vw;
+      }
+      details[data-dialogid=<%= dialog_id %>] [data-elem=dialog-main] {
+        max-height: <%= max_height_css %>;
+        max-width: <%= max_width_css %>;
+      }
+      <%= if @is_modal do %>
+        details[data-dialogid=<%= dialog_id %>][open] > summary {
+          pointer-events: none;
+        }
+      <% end %>
+    </style>
+    <details {details_attrs}>
+      <summary {toggle_attrs}>
+        <%= render_slot(toggle_slot) %>
+      </summary>
+      <.focus_wrap id={dialog_id}>
+        <.box {box_attrs}>
+          <:header
+            :if={@header_title && @header_title !== []}
+            class="d-flex flex-justify-between flex-items-start"
+          >
+            <.button
+              is_close_button
+              aria-label="Close"
+              class="Box-btn-octicon btn-octicon flex-shrink-0"
+              phx-click={
+                Phoenix.LiveView.JS.remove_attribute("open",
+                  to: "[data-dialogid=#{dialog_id}]"
+                )
+              }
+            >
+              <.octicon name="x-16" />
+            </.button>
+          </:header>
+        </.box>
+      </.focus_wrap>
+    </details>
+    """
+  end
+
+  @dialog_default_max_height {80, "vh"}
+
+  defp dialog_height_css(max_height) do
+    {max_height, max_height_unit} = get_height_and_unit(max_height, @dialog_default_max_height)
+    "#{max_height}#{max_height_unit}"
+  end
+
+  defp get_height_and_unit(size, default) when is_binary(size) do
+    case Integer.parse(size) do
+      {int, unit} -> {int, unit}
+      :error -> default
+    end
+  end
 end

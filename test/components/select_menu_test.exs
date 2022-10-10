@@ -157,13 +157,13 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details id="my-menu-id" class="details-reset details-overlay" data-menu-id="my-menu-id">
+             <details id="my-menu-id" class="details-reset details-overlay" data-menuid="my-menu-id">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div class="SelectMenu SelectMenu--hasFilter">
              <div class="SelectMenu-modal">
              <header class="SelectMenu-header">
              <h3 class="SelectMenu-title">Title</h3><button class="SelectMenu-closeButton" type="button"
-             phx-click="[[&quot;remove_attr&quot;,{&quot;attr&quot;:&quot;open&quot;,&quot;to&quot;:&quot;[data-menu-id=my-menu-id]&quot;}]]"><svg
+             phx-click="[[&quot;remove_attr&quot;,{&quot;attr&quot;:&quot;open&quot;,&quot;to&quot;:&quot;[data-menuid=my-menu-id]&quot;}]]"><svg
              class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
              <path fill-rule="evenodd"
               d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z">
