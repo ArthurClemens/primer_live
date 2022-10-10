@@ -5600,6 +5600,7 @@ defmodule PrimerLive.Component do
 
     # Use an id as close button target
     dialog_id = assigns.rest[:id] || AttributeHelpers.random_string()
+    focus_wrap_id = "focus-wrap-#{dialog_id}"
 
     details_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
@@ -5660,7 +5661,7 @@ defmodule PrimerLive.Component do
       <summary {toggle_attrs}>
         <%= render_slot(toggle_slot) %>
       </summary>
-      <.focus_wrap id={dialog_id}>
+      <.focus_wrap id={focus_wrap_id}>
         <.box {box_attrs}>
           <:header
             :if={@header_title && @header_title !== []}
