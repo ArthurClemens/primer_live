@@ -5425,7 +5425,7 @@ defmodule PrimerLive.Component do
   Dialog are wrapped inside a `Phoenix.Compoennt.focus_wrap/1` so that navigating with Tab won't leave the dialog.
 
   ```
-  <.dialog is_backdrop is_modal is_focus_first>
+  <.dialog is_backdrop is_modal>
     <:toggle>Open dialog</:toggle>
     <:header_title>Title</:header_title>
     <:body>
@@ -5435,6 +5435,29 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
+  Close the dialog by removing the "open" attribute on the dialog container. Supply a explicit `id` and use it for the target.
+
+  ```
+   <.dialog is_backdrop is_modal id="my-cancel-dialog">
+    <:toggle>Open dialog</:toggle>
+    <:header_title>Delete issue?</:header_title>
+    <:body>
+    Are you sure you'd like to delete this issue?
+    </:body>
+    <:footer class="d-flex flex-justify-end">
+      <.button phx-click={
+        Phoenix.LiveView.JS.remove_attribute("open",
+          to: "#my-cancel-dialog"
+        )
+      }>Cancel</.button>
+      <.button is_danger class="ml-2" phx-click={
+        Phoenix.LiveView.JS.remove_attribute("open",
+          to: "#my-cancel-dialog"
+        )
+      }>Delete</.button>
+    </:footer>
+  </.dialog>
+  ```
 
   [INSERT LVATTRDOCS]
 
