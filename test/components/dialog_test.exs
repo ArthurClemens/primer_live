@@ -45,11 +45,11 @@ defmodule PrimerLive.TestComponents.DialogTest do
              </style>
              <details id="my-dialog-id" class="details-reset details-overlay" data-dialogid="my-dialog-id">
              <summary class="btn" aria-haspopup="dialog">Open dialog</summary>
-             <div id="my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="my-dialog-id-start" tabindex="0"
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
                  aria-hidden="true"></span>
                <div class="Box d-flex flex-column Box--overlay anim-fade-in fast" data-elem="dialog-main">
                  <div class="overflow-auto"></div>
-               </div><span id="my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+               </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
              </details>
              """
@@ -73,11 +73,11 @@ defmodule PrimerLive.TestComponents.DialogTest do
              </style>
              <details id="my-dialog-id" class="details-reset details-overlay" data-dialogid="my-dialog-id">
              <summary class="btn" aria-haspopup="dialog">Open dialog</summary>
-             <div id="my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="my-dialog-id-start" tabindex="0"
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
              aria-hidden="true"></span>
              <div class="Box d-flex flex-column Box-overlay--narrow anim-fade-in fast" data-elem="dialog-main">
              <div class="overflow-auto"></div>
-             </div><span id="my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
              </details>
              """
@@ -101,11 +101,11 @@ defmodule PrimerLive.TestComponents.DialogTest do
              </style>
              <details id="my-dialog-id" class="details-reset details-overlay" data-dialogid="my-dialog-id">
              <summary class="btn" aria-haspopup="dialog">Open dialog</summary>
-             <div id="my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="my-dialog-id-start" tabindex="0"
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
              aria-hidden="true"></span>
              <div class="Box d-flex flex-column Box-overlay--wide anim-fade-in fast" data-elem="dialog-main">
              <div class="overflow-auto"></div>
-             </div><span id="my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
              </details>
              """
@@ -129,11 +129,11 @@ defmodule PrimerLive.TestComponents.DialogTest do
              </style>
              <details id="my-dialog-id" class="details-reset details-overlay details-overlay-dark" data-dialogid="my-dialog-id">
              <summary class="btn" aria-haspopup="dialog">Open dialog</summary>
-             <div id="my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="my-dialog-id-start" tabindex="0"
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
                  aria-hidden="true"></span>
                <div class="Box d-flex flex-column Box--overlay anim-fade-in fast" data-elem="dialog-main">
                  <div class="overflow-auto"></div>
-               </div><span id="my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+               </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
              </details>
              """
@@ -160,11 +160,11 @@ defmodule PrimerLive.TestComponents.DialogTest do
              </style>
              <details id="my-dialog-id" class="details-reset details-overlay" data-dialogid="my-dialog-id">
              <summary class="btn" aria-haspopup="dialog">Open dialog</summary>
-             <div id="my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="my-dialog-id-start" tabindex="0"
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
              aria-hidden="true"></span>
              <div class="Box d-flex flex-column Box--overlay anim-fade-in fast" data-elem="dialog-main">
              <div class="overflow-auto"></div>
-             </div><span id="my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
              </details>
              """
@@ -191,11 +191,11 @@ defmodule PrimerLive.TestComponents.DialogTest do
              </style>
              <details id="my-dialog-id" class="details-reset details-overlay" data-dialogid="my-dialog-id">
              <summary class="btn" aria-haspopup="dialog">Open dialog</summary>
-             <div id="my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="my-dialog-id-start" tabindex="0"
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
              aria-hidden="true"></span>
              <div class="Box d-flex flex-column Box--overlay anim-fade-in fast" data-elem="dialog-main">
              <div class="overflow-auto"></div>
-             </div><span id="my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
              </details>
              """
@@ -222,11 +222,11 @@ defmodule PrimerLive.TestComponents.DialogTest do
              </style>
              <details id="my-dialog-id" class="details-reset details-overlay" data-dialogid="my-dialog-id">
              <summary class="btn" aria-haspopup="dialog">Open dialog</summary>
-             <div id="my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="my-dialog-id-start" tabindex="0"
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
              aria-hidden="true"></span>
              <div class="Box d-flex flex-column Box--overlay anim-fade-in fast" data-elem="dialog-main">
              <div class="overflow-auto"></div>
-             </div><span id="my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
              </details>
              """
@@ -255,7 +255,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
              </style>
              <details id="my-dialog-id" class="details-reset details-overlay" data-dialogid="my-dialog-id">
              <summary class="btn" aria-haspopup="dialog">Open dialog</summary>
-             <div id="my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="my-dialog-id-start" tabindex="0"
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
              aria-hidden="true"></span>
              <div class="Box d-flex flex-column Box--overlay anim-fade-in fast" data-elem="dialog-main">
              <div class="Box-header d-flex flex-justify-between flex-items-start">
@@ -274,7 +274,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
              <div class="Box-row">Row 2</div>
              </div>
              <div class="Box-footer">Footer</div>
-             </div><span id="my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
              </details>
              """
@@ -320,7 +320,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
              </style>
              <details id="my-dialog-id" class="details-reset details-overlay dialog-wrapper-x my-dialog" data-dialogid="my-dialog-id">
              <summary class="toggle-x my-toggle" aria-haspopup="dialog">Open dialog</summary>
-             <div id="my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="my-dialog-id-start" tabindex="0"
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
              aria-hidden="true"></span>
              <div class="Box d-flex flex-column box-x Box--overlay anim-fade-in fast dialog-x" data-elem="dialog-main">
              <div class="Box-header header-x d-flex flex-justify-between flex-items-start">
@@ -339,7 +339,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
              <div class="Box-row row-x">Row 2</div>
              </div>
              <div class="Box-footer footer-x my-footer">Footer</div>
-             </div><span id="my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
              </details>
              """
