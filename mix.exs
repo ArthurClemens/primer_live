@@ -15,7 +15,7 @@ defmodule PrimerLive.MixProject do
       package: package(),
       aliases: aliases(),
       deps: deps(),
-      docs: docs(),
+      docs: docs()
     ]
   end
 
@@ -29,11 +29,10 @@ defmodule PrimerLive.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix_live_view, "~> 0.18"},
+      {:phoenix_live_view, "0.18.0"},
       {:phoenix_html, "~> 3.0"},
       {:typed_ecto_schema, "~> 0.4.1"},
       {:ecto_sql, "~> 3.6"},
-      {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
       {:jason, "~> 1.0"},
       {:ex_doc, "~> 0.28.5", only: :dev},
       {:earmark, "~> 1.4", only: :dev},
@@ -94,9 +93,7 @@ defmodule PrimerLive.MixProject do
 
   defp aliases do
     [
-      setup: ["deps.get"],
-      "assets.build": ["esbuild css"],
-      "assets.watch": ["esbuild module --watch"]
+      setup: ["deps.get"]
     ]
   end
 end

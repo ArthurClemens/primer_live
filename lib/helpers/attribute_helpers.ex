@@ -31,12 +31,20 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       "foo"
   """
   def classnames(input_classnames) do
+    concat(input_classnames, " ")
+  end
+
+  def inline_styles(input_styles) do
+    concat(input_styles, "; ")
+  end
+
+  defp concat(list, joiner) do
     result =
-      input_classnames
+      list
       |> Enum.reject(&(is_nil(&1) || &1 == false || &1 == ""))
       |> Enum.map(&String.trim(&1))
       |> Enum.uniq()
-      |> Enum.join(" ")
+      |> Enum.join(joiner)
 
     if result == "" do
       nil

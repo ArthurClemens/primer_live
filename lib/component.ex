@@ -1,6 +1,7 @@
 defmodule PrimerLive.Component do
   use Phoenix.Component
   use Phoenix.HTML
+  alias Phoenix.LiveView.JS
 
   alias PrimerLive.Helpers.{AttributeHelpers, FormHelpers, SchemaHelpers, ComponentHelpers}
 
@@ -1345,6 +1346,8 @@ defmodule PrimerLive.Component do
     attr :class, :string, doc: "Additional classname."
   end
 
+  slot(:inner_block, required: true, doc: "Unstructured content.")
+
   def box(assigns) do
     # Create a zip data structure from header and header_title slots, making sure the lists have equal counts
     assigns =
@@ -2520,7 +2523,7 @@ defmodule PrimerLive.Component do
                 class={classes.header_close_button}
                 type="button"
                 phx-click={
-                  Phoenix.LiveView.JS.remove_attribute("open",
+                  JS.remove_attribute("open",
                     to: "[data-menuid=#{menu_id}]"
                   )
                 }
@@ -5342,20 +5345,32 @@ defmodule PrimerLive.Component do
 
   ```
   <.dialog>
-    <:toggle>Open dialog</:toggle>
+    <:header_title>Title</:header_title>
     <:body>
       Message in a dialog
     </:body>
   </.dialog>
   ```
 
-  ## Examples
-
-  Add a backdrop:
+  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in `primer-js` (see Installation). Function `Prompt.show` requires a selector. When placed inside the dialog component, the selector can be replaced with `this`:
 
   ```
-  <.dialog is_backdrop>
-    <:toggle>Open dialog</:toggle>
+  <.dialog id="my-dialog">
+    <:body>
+      Message in a dialog
+      <.button onclick="Prompt.hide(this)">Close</.button>
+    </:body>
+  </.dialog>
+
+  <.button onclick="Prompt.show('#my-dialog')">Open dialog</.button>
+  ```
+
+  ## Examples
+
+  Add a backdrop. Optionally add `is_light_backdrop` or `is_dark_backdrop`:
+
+  ```
+  <.dialog is_backdrop is_dark_backdrop>
     ...
   </.dialog>
   ```
@@ -5364,7 +5379,22 @@ defmodule PrimerLive.Component do
 
   ```
   <.dialog is_modal>
-    <:toggle>Open dialog</:toggle>
+    ...
+  </.dialog>
+  ```
+
+  Close the button with the Escape key:
+
+  ```
+  <.dialog is_escapable>
+    ...
+  </.dialog>
+  ```
+
+  Create faster fade in and out:
+
+  ```
+  <.dialog is_fast>
     ...
   </.dialog>
   ```
@@ -5373,7 +5403,6 @@ defmodule PrimerLive.Component do
 
   ```
   <.dialog is_narrow>
-    <:toggle>Open dialog</:toggle>
     ...
   </.dialog>
   ```
@@ -5382,7 +5411,6 @@ defmodule PrimerLive.Component do
 
   ```
   <.dialog is_wide>
-    <:toggle>Open dialog</:toggle>
     ...
   </.dialog>
   ```
@@ -5401,7 +5429,6 @@ defmodule PrimerLive.Component do
 
   ```
   <.dialog>
-    <:toggle>Open dialog</:toggle>
     <:header_title>Title</:header_title>
     ...
     <:footer>Footer</:footer>
@@ -5412,7 +5439,6 @@ defmodule PrimerLive.Component do
 
   ```
    <.dialog>
-    <:toggle>Open dialog</:toggle>
     <:header_title>Title</:header_title>
     <:row>Row 1</:row>
     <:row>Row 2</:row>
@@ -5426,36 +5452,11 @@ defmodule PrimerLive.Component do
 
   ```
   <.dialog is_backdrop is_modal>
-    <:toggle>Open dialog</:toggle>
     <:header_title>Title</:header_title>
     <:body>
     <.text_input form={:user} field={:first_name} is_group />
     <.text_input form={:user} field={:last_name} is_group />
     </:body>
-  </.dialog>
-  ```
-
-  Close the dialog by removing the "open" attribute on the dialog container. Supply a explicit `id` and use it for the target.
-
-  ```
-   <.dialog is_backdrop is_modal id="my-cancel-dialog">
-    <:toggle>Open dialog</:toggle>
-    <:header_title>Delete issue?</:header_title>
-    <:body>
-    Are you sure you'd like to delete this issue?
-    </:body>
-    <:footer class="d-flex flex-justify-end">
-      <.button phx-click={
-        Phoenix.LiveView.JS.remove_attribute("open",
-          to: "#my-cancel-dialog"
-        )
-      }>Cancel</.button>
-      <.button is_danger class="ml-2" phx-click={
-        Phoenix.LiveView.JS.remove_attribute("open",
-          to: "#my-cancel-dialog"
-        )
-      }>Delete</.button>
-    </:footer>
   </.dialog>
   ```
 
@@ -5467,7 +5468,7 @@ defmodule PrimerLive.Component do
 
   ## Status
 
-  In progress.
+  Feature complete.
 
   """
 
@@ -5476,7 +5477,6 @@ defmodule PrimerLive.Component do
   attr(:classes, :map,
     default: %{
       dialog_wrapper: nil,
-      toggle: nil,
       dialog: nil,
       box: nil,
       header: nil,
@@ -5496,7 +5496,6 @@ defmodule PrimerLive.Component do
     %{
       # Dialog classes
       dialog_wrapper: "",  # The outer element
-      toggle: "",          # Toggle button
       dialog: "",          # Dialog  element
       # Box classes - see box component:
       box: "",
@@ -5514,13 +5513,37 @@ defmodule PrimerLive.Component do
   attr :is_backdrop, :boolean,
     default: false,
     doc: """
-    Adds a semi-transparent background below the dialog.
+    Creates a medium backdrop background color.
+    """
+
+  attr :is_dark_backdrop, :boolean,
+    default: false,
+    doc: """
+    Creates a darker backdrop background color.
+    """
+
+  attr :is_light_backdrop, :boolean,
+    default: false,
+    doc: """
+    Creates a lighter backdrop background color.
     """
 
   attr :is_modal, :boolean,
     default: false,
     doc: """
     Creates a modal dialog; clicking the backdrop (if used) or outside of the dialog will not close the dialog.
+    """
+
+  attr :is_escapable, :boolean,
+    default: false,
+    doc: """
+    Closes the content when pressing the Escape key.
+    """
+
+  attr :is_fast, :boolean,
+    default: false,
+    doc: """
+    Creates fast fade transitions for backdrop and content.
     """
 
   attr :is_narrow, :boolean,
@@ -5541,6 +5564,12 @@ defmodule PrimerLive.Component do
     Maximum height of dialog as CSS value. Use unit `vh` or `%`.
     """
 
+  attr :max_width, :string,
+    default: "90vw",
+    doc: """
+    Maximum width of dialog as CSS value. Use unit `vh` or `%`.
+    """
+
   attr :is_focus_first, :boolean,
     default: false,
     doc: """
@@ -5553,70 +5582,71 @@ defmodule PrimerLive.Component do
     """
   )
 
-  slot(:toggle,
-    required: true,
-    doc: """
-    Creates a toggle element (default with button appearance) using the slot content as label.
-
-    Any custom class will override the default class "btn".
-    """
-  )
-
-  slot(:header_title,
+  slot :header_title,
     doc: """
     Dialog header title. Uses `box/1` `header_title` slot.
 
     Note that slot `header` is automatically created to ensure the correct close button.
-    """
-  )
+    """ do
+    attr(:rest, :global,
+      doc: """
+      Additional attributes.
+      """
+    )
+  end
 
-  slot(:body,
-    doc: "Dialog body. Uses `box/1` `body` slot."
-  )
+  slot :body,
+    doc: """
+    Dialog body. Uses `box/1` `body` slot.
+    """ do
+    attr(:rest, :global,
+      doc: """
+      Additional attributes.
+      """
+    )
+  end
 
-  slot(:row,
-    doc: "Dialog row. Uses `box/1` `row` slot."
-  )
+  slot :row,
+    doc: """
+    Dialog row. Uses `box/1` `row` slot.
+    """ do
+    attr(:rest, :global,
+      doc: """
+      Additional attributes.
+      """
+    )
+  end
 
-  slot(:footer,
-    doc: "Dialog footer. Uses `box/1` `footer` slot."
-  )
+  slot :footer,
+    doc: """
+    Dialog footer. Uses `box/1` `footer` slot.
+    """ do
+    attr(:rest, :global,
+      doc: """
+      Additional attributes.
+      """
+    )
+  end
 
   slot(:inner_block,
-    doc: "Dialog inner_block. Uses `box/1` `inner_block` slot."
+    doc: "Unstructured dialog content. Uses `box/1` `inner_block` slot."
   )
 
-  def dialog(assigns) do
-    # Get the toggle menu slot, if any
-    toggle_slot = if assigns.toggle && assigns.toggle !== [], do: hd(assigns.toggle), else: []
+  @default_dialog_max_height_css "80vh"
+  @default_dialog_max_width_css "90vw"
 
+  def dialog(assigns) do
     classes = %{
       dialog_wrapper:
         AttributeHelpers.classnames([
-          "details-reset",
-          "details-overlay",
-          assigns.is_backdrop && "details-overlay-dark",
           assigns[:classes][:dialog_wrapper],
           assigns[:class]
         ]),
-      toggle:
-        AttributeHelpers.classnames([
-          # If a custom class is set, remove the default btn class
-          if assigns.classes[:toggle] || toggle_slot[:class] do
-            AttributeHelpers.classnames([
-              assigns.classes[:toggle],
-              toggle_slot[:class]
-            ])
-          else
-            "btn"
-          end
-        ]),
       dialog:
         AttributeHelpers.classnames([
-          !(assigns.is_narrow || assigns.is_wide) && "Box--overlay",
+          "Box--overlay",
           assigns.is_narrow && "Box-overlay--narrow",
           assigns.is_wide && "Box-overlay--wide",
-          "anim-fade-in fast",
           assigns[:classes][:dialog]
         ])
     }
@@ -5625,27 +5655,41 @@ defmodule PrimerLive.Component do
     dialog_id = assigns.rest[:id] || AttributeHelpers.random_string()
     focus_wrap_id = "focus-wrap-#{dialog_id}"
 
-    details_attrs =
-      AttributeHelpers.append_attributes(assigns.rest, [
+    wrapper_attrs =
+      AttributeHelpers.append_attributes(assigns.rest |> Map.drop([:id]), [
         [class: classes.dialog_wrapper],
-        [data_dialogid: dialog_id]
+        [id: dialog_id],
+        [data_prompt: ""],
+        assigns.is_modal && [data_ismodal: ""],
+        assigns.is_escapable && [data_isescapable: ""],
+        assigns.is_fast && [data_isfast: ""]
       ])
 
-    toggle_attrs =
+    close_button_attrs =
       AttributeHelpers.append_attributes([], [
-        [class: classes[:toggle]],
-        [aria_haspopup: "dialog"]
+        [is_close_button: true],
+        [aria_label: "Close"],
+        [class: "Box-btn-octicon btn-octicon flex-shrink-0"],
+        [onclick: "Prompt.hide(this)"]
       ])
 
-    max_height_css = dialog_height_css(assigns.max_height)
-    max_width_css = "90vw"
+    max_height_css = assigns.max_height || @default_dialog_max_height_css
+    max_width_css = assigns.max_width || @default_dialog_max_width_css
 
     box_attrs =
       AttributeHelpers.append_attributes([], [
         [class: classes.dialog],
-        [classes: assigns.classes |> Map.drop([:dialog_wrapper, :toggle, :dialog])],
+        [classes: assigns.classes |> Map.drop([:dialog_wrapper, :dialog])],
         [is_scrollable: true],
-        [data_elem: "dialog-main"],
+        [data_content: ""],
+        [
+          style:
+            AttributeHelpers.inline_styles([
+              max_height_css !== @default_dialog_max_height_css &&
+                "max-height: #{max_height_css}",
+              max_width_css !== @default_dialog_max_width_css && "max-width: #{max_width_css}"
+            ])
+        ],
         # box_header set in main H_sigil
         [header_title: assigns.header_title],
         [body: assigns.body],
@@ -5654,72 +5698,42 @@ defmodule PrimerLive.Component do
         [inner_block: assigns.inner_block]
       ])
 
-    # Note about the transform: shift a bit to the top to optically center the dialog
+    touch_layer_attrs =
+      AttributeHelpers.append_attributes([], [
+        [data_touch: ""]
+      ])
+
+    backdrop_attrs =
+      AttributeHelpers.append_attributes([], [
+        cond do
+          assigns.is_dark_backdrop -> [data_backdrop: "", data_isdark: ""]
+          assigns.is_light_backdrop -> [data_backdrop: "", data_islight: ""]
+          assigns.is_backdrop -> [data_backdrop: ""]
+          true -> []
+        end
+      ])
 
     ~H"""
-    <style>
-      details [data-elem=dialog-main] {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, calc(-50% - 15px));
-        z-index: 999;
-        overflow: auto;
-        /* Defaults */
-        margin: 0 auto;
-        max-height: 80vh;
-        max-width: 90vw;
-      }
-      details[data-dialogid=<%= dialog_id %>] [data-elem=dialog-main] {
-        max-height: <%= max_height_css %>;
-        max-width: <%= max_width_css %>;
-      }
-      <%= if @is_modal do %>
-        details[data-dialogid=<%= dialog_id %>][open] > summary {
-          pointer-events: none;
-        }
-      <% end %>
-    </style>
-    <details {details_attrs}>
-      <summary {toggle_attrs}>
-        <%= render_slot(toggle_slot) %>
-      </summary>
-      <.focus_wrap id={focus_wrap_id}>
-        <.box {box_attrs}>
-          <:header
-            :if={@header_title && @header_title !== []}
-            class="d-flex flex-justify-between flex-items-start"
-          >
-            <.button
-              is_close_button
-              aria-label="Close"
-              class="Box-btn-octicon btn-octicon flex-shrink-0"
-              phx-click={
-                Phoenix.LiveView.JS.remove_attribute("open",
-                  to: "[data-dialogid=#{dialog_id}]"
-                )
-              }
+    <div {wrapper_attrs}>
+      <div {touch_layer_attrs}>
+        <%= if backdrop_attrs !== [] do %>
+          <div {backdrop_attrs} />
+        <% end %>
+        <.focus_wrap id={focus_wrap_id}>
+          <.box {box_attrs}>
+            <:header
+              :if={@header_title && @header_title !== []}
+              class="d-flex flex-justify-between flex-items-start"
             >
-              <.octicon name="x-16" />
-            </.button>
-          </:header>
-        </.box>
-      </.focus_wrap>
-    </details>
+              <.button {close_button_attrs}>
+                <.octicon name="x-16" />
+              </.button>
+            </:header>
+            <%= render_slot(@inner_block) %>
+          </.box>
+        </.focus_wrap>
+      </div>
+    </div>
     """
-  end
-
-  @dialog_default_max_height {80, "vh"}
-
-  defp dialog_height_css(max_height) do
-    {max_height, max_height_unit} = get_height_and_unit(max_height, @dialog_default_max_height)
-    "#{max_height}#{max_height_unit}"
-  end
-
-  defp get_height_and_unit(size, default) when is_binary(size) do
-    case Integer.parse(size) do
-      {int, unit} -> {int, unit}
-      :error -> default
-    end
   end
 end

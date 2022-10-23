@@ -1,21 +1,39 @@
 # PrimerLive
 
-**TODO: Add description**
+PrimerLive is a collection of function components that implements [GitHub's Primer Design System](https://primer.style/). It is intended for usage in Phoenix LiveView pages and conventional (non-LiveView) views.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `primer_live` to your list of dependencies in `mix.exs`:
+  ### Install dependencies
 
-```elixir
-def deps do
-  [
-    {:primer_live, "~> 0.1.0"}
-  ]
-end
-```
+  - Edit `mix.exs` and add dependency `primer_live`
+  - Run `mix.deps get`
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/primer_live>.
+  ### Set up JavaScript / CSS
 
+  Install [primer-live](https://www.npmjs.com/package/primer-live)
+
+  Inside your assets folder, do:
+
+  ```bash
+  npm install primer-live --save
+  ```
+
+  Add to your `app.js`:
+
+  ```js
+  import { Prompt } from "primer-live";
+  import "primer-live/primer-live.css";
+  ```
+
+  In `app.js`, add `Prompt` to the hooks:
+
+  ```js
+  let liveSocket = new LiveSocket("/live", Socket, {
+    params: { _csrf_token: csrfToken },
+    hooks: {
+      Prompt,
+      // existing hooks ...
+    },
+  });
+  ```

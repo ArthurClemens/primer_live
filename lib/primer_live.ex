@@ -2,14 +2,43 @@ defmodule PrimerLive do
   @moduledoc ~S'''
   PrimerLive is a collection of function components that implements [GitHub's Primer Design System](https://primer.style/). It is intended for usage in Phoenix LiveView pages and conventional (non-LiveView) views.
 
-  ## Usage
+  ## Installation
 
-  ### Setup
+  ### Install dependencies
 
   - Edit `mix.exs` and add dependency `primer_live`
   - Run `mix.deps get`
 
-  ### Usage in LiveView pages
+  ### Set up JavaScript / CSS
+
+  Install [primer-live](https://www.npmjs.com/package/primer-live)
+
+  Inside your assets folder, do:
+
+  ```bash
+  npm install primer-live --save
+  ```
+
+  Add to your `app.js`:
+
+  ```js
+  import { Prompt } from "primer-live";
+  import "primer-live/primer-live.css";
+  ```
+
+  In `app.js`, add `Prompt` to the hooks:
+
+  ```js
+  let liveSocket = new LiveSocket("/live", Socket, {
+    params: { _csrf_token: csrfToken },
+    hooks: {
+      Prompt,
+      // existing hooks ...
+    },
+  });
+  ```
+
+  ## Usage in LiveView pages
 
   To use components, `use` module `PrimerLive`:
 
@@ -27,7 +56,7 @@ defmodule PrimerLive do
   end
   ```
 
-  ### Usage in regular views
+  ## Usage in regular views
 
   In view files, for example in `page_view.ex`, `use` module `PrimerLive`:
 
