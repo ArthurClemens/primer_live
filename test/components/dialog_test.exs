@@ -126,6 +126,30 @@ defmodule PrimerLive.TestComponents.DialogTest do
              |> format_html()
   end
 
+  test "Attribute: focus_first" do
+    assigns = []
+
+    assert rendered_to_string(~H"""
+           <.dialog id="my-dialog-id" focus_first="[name=first_name]">
+             Message
+           </.dialog>
+           """)
+           |> format_html() ==
+             """
+             <div id="my-dialog-id" data-prompt="" data-focusfirst="[name=first_name]">
+             <div data-touch="">
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
+             aria-hidden="true"></span>
+             <div class="Box d-flex flex-column Box--overlay" data-content="">
+             <div class="overflow-auto">Message</div>
+             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Attribute: is_backdrop" do
     assigns = []
 

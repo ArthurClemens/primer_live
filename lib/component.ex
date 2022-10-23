@@ -176,6 +176,7 @@ defmodule PrimerLive.Component do
   )
 
   attr(:type, :string, default: "text", doc: "Text input type.")
+  attr(:tabindex, :string, doc: "Tab index.")
   attr(:is_contrast, :boolean, default: false, doc: "Changes the background color to light gray.")
   attr(:is_full_width, :boolean, default: false, doc: "Full width input.")
 
@@ -350,7 +351,8 @@ defmodule PrimerLive.Component do
         [class: [assigns.class, assigns.classes[:input]]],
         # If aria_label is not set, use the value of placeholder (if any):
         is_nil(rest[:aria_label]) and [aria_label: rest[:placeholder]],
-        not is_nil(message_id) and [aria_describedby: message_id]
+        not is_nil(message_id) and [aria_describedby: message_id],
+        assigns["tabindex"] && [tabindex: assigns.tabindex]
       ])
 
     input = apply(Phoenix.HTML.Form, input_type, [form, field, input_attributes])
@@ -5442,6 +5444,14 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
+  Focus the first element after opening the dialog. Pass a selector to match the element.
+
+  ```
+  <.dialog focus_first="[name=first_name]">
+    ...
+  </.dialog>
+  ```
+
   Create faster fade in and out:
 
   ```
@@ -5603,6 +5613,11 @@ defmodule PrimerLive.Component do
     Closes the content when pressing the Escape key.
     """
 
+  attr :focus_first, :string,
+    doc: """
+    Focus the first element after opening the dialog. Pass a selector to match the element.
+    """
+
   attr :is_narrow, :boolean,
     default: false,
     doc: """
@@ -5713,7 +5728,8 @@ defmodule PrimerLive.Component do
         [data_prompt: ""],
         assigns.is_modal && [data_ismodal: ""],
         assigns.is_escapable && [data_isescapable: ""],
-        assigns.is_fast && [data_isfast: ""]
+        assigns.is_fast && [data_isfast: ""],
+        assigns[:focus_first] && [data_focusfirst: assigns[:focus_first]]
       ])
 
     close_button_attrs =
