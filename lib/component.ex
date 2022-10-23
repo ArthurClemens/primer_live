@@ -2163,6 +2163,36 @@ defmodule PrimerLive.Component do
     ```
     """
 
+  attr :is_backdrop, :boolean,
+    default: false,
+    doc: """
+    Creates a light backdrop background color.
+    """
+
+  attr :is_dark_backdrop, :boolean,
+    default: false,
+    doc: """
+    Creates a darker backdrop background color.
+    """
+
+  attr :is_medium_backdrop, :boolean,
+    default: false,
+    doc: """
+    Creates a medium backdrop background color.
+    """
+
+  attr :is_light_backdrop, :boolean,
+    default: false,
+    doc: """
+    Creates a lighter backdrop background color (default).
+    """
+
+  attr :is_fast, :boolean,
+    default: true,
+    doc: """
+    Creates fast fade transitions for backdrop and content.
+    """
+
   attr(:rest, :global,
     doc: """
     Additional HTML attributes added to the outer element.
@@ -2470,7 +2500,32 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.select_menu],
         # Add the menu id when we will show a header with close button
-        not is_nil(menu_id) and [data_menuid: menu_id]
+        not is_nil(menu_id) and [data_menuid: menu_id],
+        [data_prompt: ""],
+        [ontoggle: "Prompt.init(this)"],
+        assigns.is_fast &&
+          (assigns.is_dark_backdrop ||
+             assigns.is_medium_backdrop ||
+             assigns.is_light_backdrop ||
+             assigns.is_backdrop) && [data_isfast: ""]
+      ])
+
+    menu_container_attrs =
+      AttributeHelpers.append_attributes([], [
+        [class: classes.menu_container],
+        [data_content: ""],
+        [aria_role: "menu"]
+      ])
+
+    backdrop_attrs =
+      AttributeHelpers.append_attributes([], [
+        cond do
+          assigns.is_dark_backdrop -> [data_backdrop: "", data_isdark: ""]
+          assigns.is_medium_backdrop -> [data_backdrop: "", data_ismedium: ""]
+          assigns.is_light_backdrop -> [data_backdrop: "", data_islight: ""]
+          assigns.is_backdrop -> [data_backdrop: "", data_islight: ""]
+          true -> []
+        end
       ])
 
     render_item = fn item ->
@@ -2514,20 +2569,16 @@ defmodule PrimerLive.Component do
       <summary {toggle_attrs}>
         <%= render_slot(toggle_slot) %>
       </summary>
+      <%= if backdrop_attrs !== [] do %>
+        <div {backdrop_attrs} />
+      <% end %>
+      <div data-touch=""></div>
       <div class={classes.menu}>
-        <div class={classes.menu_container}>
+        <div {menu_container_attrs}>
           <%= if not is_nil(menu_title) do %>
             <header class={classes.header}>
               <h3 class={classes.menu_title}><%= menu_title %></h3>
-              <button
-                class={classes.header_close_button}
-                type="button"
-                phx-click={
-                  JS.remove_attribute("open",
-                    to: "[data-menuid=#{menu_id}]"
-                  )
-                }
-              >
+              <button class={classes.header_close_button} type="button" onclick="Prompt.hide(this)">
                 <.octicon name="x-16" />
               </button>
             </header>
@@ -5522,10 +5573,22 @@ defmodule PrimerLive.Component do
     Creates a darker backdrop background color.
     """
 
+  attr :is_medium_backdrop, :boolean,
+    default: false,
+    doc: """
+    Creates a medium backdrop background color (default).
+    """
+
   attr :is_light_backdrop, :boolean,
     default: false,
     doc: """
     Creates a lighter backdrop background color.
+    """
+
+  attr :is_fast, :boolean,
+    default: false,
+    doc: """
+    Creates fast fade transitions for backdrop and content.
     """
 
   attr :is_modal, :boolean,
@@ -5538,12 +5601,6 @@ defmodule PrimerLive.Component do
     default: false,
     doc: """
     Closes the content when pressing the Escape key.
-    """
-
-  attr :is_fast, :boolean,
-    default: false,
-    doc: """
-    Creates fast fade transitions for backdrop and content.
     """
 
   attr :is_narrow, :boolean,
@@ -5568,12 +5625,6 @@ defmodule PrimerLive.Component do
     default: "90vw",
     doc: """
     Maximum width of dialog as CSS value. Use unit `vh` or `%`.
-    """
-
-  attr :is_focus_first, :boolean,
-    default: false,
-    doc: """
-    Gives focus to the first focusable elememnt.
     """
 
   attr(:rest, :global,
@@ -5651,7 +5702,7 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    # Use an id as close button target
+    # Assign an id for focus wrap
     dialog_id = assigns.rest[:id] || AttributeHelpers.random_string()
     focus_wrap_id = "focus-wrap-#{dialog_id}"
 
@@ -5707,8 +5758,9 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes([], [
         cond do
           assigns.is_dark_backdrop -> [data_backdrop: "", data_isdark: ""]
+          assigns.is_medium_backdrop -> [data_backdrop: "", data_ismedium: ""]
           assigns.is_light_backdrop -> [data_backdrop: "", data_islight: ""]
-          assigns.is_backdrop -> [data_backdrop: ""]
+          assigns.is_backdrop -> [data_backdrop: "", data_ismedium: ""]
           true -> []
         end
       ])

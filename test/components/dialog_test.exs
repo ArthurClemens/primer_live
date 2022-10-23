@@ -138,7 +138,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
              """
              <div id="my-dialog-id" data-prompt="">
              <div data-touch="">
-             <div data-backdrop=""></div>
+             <div data-backdrop="" data-ismedium=""></div>
              <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
              aria-hidden="true"></span>
              <div class="Box d-flex flex-column Box--overlay" data-content="">

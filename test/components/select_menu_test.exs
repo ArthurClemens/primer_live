@@ -35,17 +35,16 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
+             <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter">
-             <div class="SelectMenu-modal">
+             <div class="SelectMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Button</button>
-             <div class="SelectMenu-divider" role="separator">Divider</div>
-             <a href="#url" class="SelectMenu-item" role="menuitem">href ink</a>
-             <a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="SelectMenu-item"
-             role="menuitem">navigate lLink</a>
-             <a href="#url" data-phx-link="patch" data-phx-link-state="push" class="SelectMenu-item" role="menuitem">patch
-             link</a>
+             <div class="SelectMenu-divider" role="separator">Divider</div><a href="#url" class="SelectMenu-item"
+             role="menuitem">href ink</a><a href="#url" data-phx-link="redirect" data-phx-link-state="push"
+             class="SelectMenu-item" role="menuitem">navigate lLink</a><a href="#url" data-phx-link="patch"
+             data-phx-link-state="push" class="SelectMenu-item" role="menuitem">patch link</a>
              <hr class="SelectMenu-divider" /><button class="SelectMenu-item" role="menuitem">Button</button>
              </div>
              </div>
@@ -71,10 +70,11 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
+             <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter">
-             <div class="SelectMenu-modal">
+             <div class="SelectMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem" disabled="true">Button</button><a
              href="#url" aria-disabled="true" class="SelectMenu-item" role="menuitem">Link</a></div>
              </div>
@@ -107,10 +107,11 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
+             <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter">
-             <div class="SelectMenu-modal">
+             <div class="SelectMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitemcheckbox" aria-checked="true"><svg
              class="octicon SelectMenu-icon SelectMenu-icon--check" xmlns="http://www.w3.org/2000/svg" width="16"
              height="16" viewBox="0 0 16 16">
@@ -157,14 +158,16 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details id="my-menu-id" class="details-reset details-overlay" data-menuid="my-menu-id">
+             <details id="my-menu-id" class="details-reset details-overlay" data-menuid="my-menu-id" data-prompt=""
+             ontoggle="Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
+             <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter">
-             <div class="SelectMenu-modal">
+             <div class="SelectMenu-modal" data-content="" aria-role="menu">
              <header class="SelectMenu-header">
              <h3 class="SelectMenu-title">Title</h3><button class="SelectMenu-closeButton" type="button"
-             phx-click="[[&quot;remove_attr&quot;,{&quot;attr&quot;:&quot;open&quot;,&quot;to&quot;:&quot;[data-menuid=my-menu-id]&quot;}]]"><svg
-             class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+             onclick="Prompt.hide(this)"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             viewBox="0 0 16 16">
              <path fill-rule="evenodd"
               d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z">
              </path>
@@ -196,10 +199,11 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
+             <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter">
-             <div class="SelectMenu-modal">
+             <div class="SelectMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
              class="SelectMenu-item" role="menuitem">Item 2</button></div>
              <div class="SelectMenu-footer">Footer</div>
@@ -231,10 +235,11 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
+             <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter">
-             <div class="SelectMenu-modal">
+             <div class="SelectMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-filter">
              <form><input aria-label="Filter" class="form-control SelectMenu-input" id="_" name="q" placeholder="Filter"
              type="search" /></form>
@@ -259,10 +264,11 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
+             <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter">
-             <div class="SelectMenu-modal">
+             <div class="SelectMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-loading"><svg class="octicon anim-pulse" xmlns="http://www.w3.org/2000/svg" width="48"
              height="48" viewBox="0 0 48 48">
              <path d="M21 29.5a1.5 1.5 0 00-3 0v4a1.5 1.5 0 003 0v-4zm9 0a1.5 1.5 0 00-3 0v4a1.5 1.5 0 003 0v-4z"></path>
@@ -289,10 +295,11 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
+             <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter">
-             <div class="SelectMenu-modal">
+             <div class="SelectMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-list">
              <div class="SelectMenu-blankslate">Blankslate content</div>
              </div>
@@ -319,10 +326,11 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
+             <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter">
-             <div class="SelectMenu-modal">
+             <div class="SelectMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-list SelectMenu-list--borderless"><button class="SelectMenu-item" role="menuitem">Item
              1</button><button class="SelectMenu-item" role="menuitem">Item 2</button></div>
              </div>
@@ -348,10 +356,11 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
+             <div data-touch=""></div>
              <div class="SelectMenu right-0 SelectMenu--hasFilter">
-             <div class="SelectMenu-modal">
+             <div class="SelectMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
              class="SelectMenu-item" role="menuitem">Item 2</button></div>
              </div>
