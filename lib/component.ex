@@ -5447,7 +5447,15 @@ defmodule PrimerLive.Component do
   Focus the first element after opening the dialog. Pass a selector to match the element.
 
   ```
-  <.dialog focus_first="[name=first_name]">
+  <.dialog focus_first="#login_first_name">
+    ...
+  </.dialog>
+  ```
+
+  or
+
+  ```
+  <.dialog focus_first="[name=login\[first_name\]]">
     ...
   </.dialog>
   ```
