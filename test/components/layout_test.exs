@@ -21,7 +21,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
   end
 
   test "Without attributes or slots" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.layout></.layout>
@@ -34,7 +34,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
   end
 
   test "Slots" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.layout>
@@ -58,7 +58,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
 
   test "Specific order or slots: should maintain order" do
     # Test number string, string and integer
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.layout>
@@ -83,7 +83,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
   end
 
   test "Nested layout 1" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.layout>
@@ -118,7 +118,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
   end
 
   test "Nested layout 2" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.layout>
@@ -153,7 +153,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
   end
 
   test "Modifiers" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.layout is_narrow_sidebar></.layout>
@@ -190,7 +190,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
   end
 
   test "Modifiers: is_centered_md, is_centered_lg, is_centered_xl" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.layout_with_slots is_centered_md />
@@ -207,7 +207,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
   end
 
   test "Modifiers: is_flow_row_shallow, is_flow_row_hidden" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.layout_with_slots is_divided is_flow_row_shallow />
@@ -222,7 +222,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
   end
 
   test "Attribute: classes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.layout_with_slots
@@ -253,7 +253,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
   end
 
   test "Extra attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.layout dir="rtl"></.layout>

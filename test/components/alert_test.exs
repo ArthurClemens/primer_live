@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.AlertTest do
   import Phoenix.LiveViewTest
 
   test "Without attributes or slots" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.alert>Message</.alert>
@@ -20,7 +20,7 @@ defmodule PrimerLive.TestComponents.AlertTest do
   end
 
   test "Alert modifiers" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.alert is_error>Message</.alert>
@@ -39,7 +39,7 @@ defmodule PrimerLive.TestComponents.AlertTest do
   end
 
   test "Class" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.alert class="alert-x" is_error>Message</.alert>
@@ -52,7 +52,7 @@ defmodule PrimerLive.TestComponents.AlertTest do
   end
 
   test "Extra attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.alert dir="rtl">Message</.alert>

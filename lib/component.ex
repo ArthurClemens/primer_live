@@ -1,7 +1,6 @@
 defmodule PrimerLive.Component do
   use Phoenix.Component
   use Phoenix.HTML
-  alias Phoenix.LiveView.JS
 
   alias PrimerLive.Helpers.{AttributeHelpers, FormHelpers, SchemaHelpers, ComponentHelpers}
 
@@ -301,8 +300,12 @@ defmodule PrimerLive.Component do
       render_text_input(assigns)
     else
       {:error, reason} ->
+        assigns =
+          assigns
+          |> assign(:reason, reason)
+
         ~H"""
-        <%= reason %>
+        <%= @reason %>
         """
     end
   end
@@ -355,12 +358,14 @@ defmodule PrimerLive.Component do
         assigns["tabindex"] && [tabindex: assigns.tabindex]
       ])
 
-    input = apply(Phoenix.HTML.Form, input_type, [form, field, input_attributes])
+    assigns =
+      assigns
+      |> assign(:input, apply(Phoenix.HTML.Form, input_type, [form, field, input_attributes]))
 
     case has_group do
       false ->
         ~H"""
-        <%= input %>
+        <%= @input %>
         """
 
       true ->
@@ -428,17 +433,27 @@ defmodule PrimerLive.Component do
             [class: classes.group]
           ])
 
+        assigns =
+          assigns
+          |> assign(:classes, classes)
+          |> assign(:group_attributes, group_attributes)
+          |> assign(:field, field)
+          |> assign(:group_slot, group_slot)
+          |> assign(:header_label, header_label)
+          |> assign(:message, message)
+          |> assign(:message_id, message_id)
+
         ~H"""
-        <div {group_attributes}>
-          <div class={classes.header}>
-            <%= render_slot(group_slot, field) |> ComponentHelpers.maybe_slot_content() || header_label %>
+        <div {@group_attributes}>
+          <div class={@classes.header}>
+            <%= render_slot(@group_slot, @field) |> ComponentHelpers.maybe_slot_content() || @header_label %>
           </div>
-          <div class={classes.body}>
-            <%= input %>
+          <div class={@classes.body}>
+            <%= @input %>
           </div>
-          <%= if not is_nil(message) do %>
-            <p class={classes.note} id={message_id}>
-              <%= message %>
+          <%= if not is_nil(@message) do %>
+            <p class={@classes.note} id={@message_id}>
+              <%= @message %>
             </p>
           <% end %>
         </div>
@@ -587,8 +602,12 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    assigns =
+      assigns
+      |> assign(:class, class)
+
     ~H"""
-    <div class={class} {@rest}>
+    <div class={@class} {@rest}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -646,8 +665,12 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    assigns =
+      assigns
+      |> assign(:class, class)
+
     ~H"""
-    <div class={class} {@rest}>
+    <div class={@class} {@rest}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -699,7 +722,6 @@ defmodule PrimerLive.Component do
   - `is_divided` creates a 1px border between main and sidebar
   - `is_divided` with `is_flow_row_hidden` hides the divider
   - `is_divided` with `is_flow_row_shallow` shows a filled 8px divider
-
 
   ```
   <.layout is_divided>
@@ -996,29 +1018,34 @@ defmodule PrimerLive.Component do
         false -> sorted_slots
       end
 
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:slots, slots)
+
     ~H"""
-    <div class={classes.layout} {@rest}>
-      <%= for {key, slot} <- slots do %>
+    <div class={@classes.layout} {@rest}>
+      <%= for {key, slot} <- @slots do %>
         <%= if key == :main && slot !== [] do %>
           <%= if @is_centered_md || @is_centered_lg || @is_centered_xl do %>
-            <div class={classes.main}>
-              <div class={classes.main_center_wrapper}>
+            <div class={@classes.main}>
+              <div class={@classes.main_center_wrapper}>
                 <%= render_slot(slot) %>
               </div>
             </div>
           <% else %>
-            <div class={classes.main}>
+            <div class={@classes.main}>
               <%= render_slot(slot) %>
             </div>
           <% end %>
         <% end %>
         <%= if key == :divider && slot !== [] do %>
-          <div class={classes.divider}>
+          <div class={@classes.divider}>
             <%= render_slot(slot) %>
           </div>
         <% end %>
         <%= if key == :sidebar && slot !== [] do %>
-          <div class={classes.sidebar}>
+          <div class={@classes.sidebar}>
             <%= render_slot(@sidebar) %>
           </div>
         <% end %>
@@ -1351,14 +1378,6 @@ defmodule PrimerLive.Component do
   slot(:inner_block, required: true, doc: "Unstructured content.")
 
   def box(assigns) do
-    # Create a zip data structure from header and header_title slots, making sure the lists have equal counts
-    assigns =
-      assigns
-      |> assign(
-        :header_slots,
-        Enum.zip(AttributeHelpers.pad_lists(assigns.header, assigns.header_title, []))
-      )
-
     classes = %{
       box:
         AttributeHelpers.classnames([
@@ -1420,12 +1439,21 @@ defmodule PrimerLive.Component do
       link: AttributeHelpers.classnames(["Box-row-link", assigns.classes[:link]])
     }
 
-    render_header = fn data ->
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      # Create a zip data structure from header and header_title slots, making sure the lists have equal counts:
+      |> assign(
+        :header_slots,
+        Enum.zip(AttributeHelpers.pad_lists(assigns.header, assigns.header_title, []))
+      )
+
+    render_header = fn ->
       ~H"""
-      <%= for {slot, header_slot} <- data do %>
-        <div class={classes.header.(slot)}>
+      <%= for {slot, header_slot} <- @header_slots do %>
+        <div class={@classes.header.(slot)}>
           <%= if header_slot && header_slot !== [] do %>
-            <h3 class={classes.header_title.(header_slot)}>
+            <h3 class={@classes.header_title.(header_slot)}>
               <%= render_slot(header_slot) %>
             </h3>
           <% end %>
@@ -1437,63 +1465,74 @@ defmodule PrimerLive.Component do
       """
     end
 
-    render_row = fn slots ->
+    render_row = fn ->
       ~H"""
-      <%= for slot <- slots do %>
-        <div class={classes.row.(slot)}>
-          <%= render_slot(slot, classes) %>
+      <%= for slot <- @row do %>
+        <div class={@classes.row.(slot)}>
+          <%= render_slot(slot, @classes) %>
         </div>
       <% end %>
       """
     end
 
-    render_body = fn slots ->
+    render_body = fn ->
       ~H"""
-      <%= for slot <- slots do %>
-        <div class={classes.body.(slot)}>
+      <%= for slot <- @body do %>
+        <div class={@classes.body.(slot)}>
           <%= render_slot(slot) %>
         </div>
       <% end %>
       """
     end
 
-    render_footer = fn slots ->
+    render_footer = fn ->
       ~H"""
-      <%= for slot <- slots do %>
-        <div class={classes.footer.(slot)}>
+      <%= for slot <- @footer do %>
+        <div class={@classes.footer.(slot)}>
           <%= render_slot(slot) %>
         </div>
       <% end %>
       """
     end
+
+    assigns =
+      assigns
+      |> assign(:render_body, render_body)
+      |> assign(:render_row, render_row)
 
     # Render inner_block, body and rows
     render_inner_content = fn ->
       ~H"""
-      <%= render_slot(assigns.inner_block) %>
-      <%= if assigns.body && assigns.body !== [] do %>
-        <%= render_body.(assigns.body) %>
+      <%= render_slot(@inner_block) %>
+      <%= if @body && @body !== [] do %>
+        <%= @render_body.() %>
       <% end %>
-      <%= if assigns.row && assigns.row !== [] do %>
-        <%= render_row.(assigns.row) %>
+      <%= if @row && @row !== [] do %>
+        <%= @render_row.() %>
       <% end %>
       """
     end
 
+    assigns =
+      assigns
+      |> assign(:render_header, render_header)
+      |> assign(:render_inner_content, render_inner_content)
+      |> assign(:render_footer, render_footer)
+
     ~H"""
-    <div class={classes.box} {@rest}>
+    <div class={@classes.box} {@rest}>
       <%= if @header_slots && @header_slots !== [] do %>
-        <%= render_header.(@header_slots) %>
+        <%= @render_header.() %>
       <% end %>
       <%= if @is_scrollable do %>
         <div class="overflow-auto">
-          <%= render_inner_content.() %>
+          <%= @render_inner_content.() %>
         </div>
       <% else %>
-        <%= render_inner_content.() %>
+        <%= @render_inner_content.() %>
       <% end %>
       <%= if @footer && @footer !== [] do %>
-        <%= render_footer.(@footer) %>
+        <%= @render_footer.() %>
       <% end %>
     </div>
     """
@@ -1674,22 +1713,37 @@ defmodule PrimerLive.Component do
       {item_rest, item_class, item_classes}
     end
 
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+
     render_item = fn item ->
       {item_rest, item_class, item_classes} = item_attributes.(item)
 
+      assigns =
+        assigns
+        |> assign(:item_rest, item_rest)
+        |> assign(:item, item)
+        |> assign(:item_classes, item_classes)
+        |> assign(:item_class, item_class)
+
       ~H"""
-      <div class={item_class} {item_rest}>
-        <%= if not is_nil(item.inner_block) do %>
-          <%= render_slot(item, item_classes) %>
+      <div class={@item_class} {@item_rest}>
+        <%= if not is_nil(@item.inner_block) do %>
+          <%= render_slot(@item, @item_classes) %>
         <% end %>
       </div>
       """
     end
 
+    assigns =
+      assigns
+      |> assign(:render_item, render_item)
+
     ~H"""
-    <div class={classes.header} {@rest}>
+    <div class={@classes.header} {@rest}>
       <%= for item <- @item do %>
-        <%= render_item.(item) %>
+        <%= @render_item.(item) %>
       <% end %>
     </div>
     """
@@ -1877,7 +1931,6 @@ defmodule PrimerLive.Component do
     # Get the toggle menu slot, if any
     toggle_slot = if assigns.toggle && assigns.toggle !== [], do: hd(assigns.toggle), else: []
 
-    menu_title = menu_slot[:title]
     menu_position = menu_slot[:position] || "se"
 
     classes = %{
@@ -1969,53 +2022,78 @@ defmodule PrimerLive.Component do
       item_attributes
     end
 
+    menu_attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: classes[:menu]]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:menu_attributes, menu_attributes)
+      |> assign(:toggle_attrs, toggle_attrs)
+      |> assign(:classes, classes)
+      |> assign(:toggle_slot, toggle_slot)
+      |> assign(:menu_title, menu_slot[:title])
+
     render_item = fn item ->
       is_divider = !!item[:is_divider]
-      item_attributes = item_attributes.(item, is_divider)
+
+      assigns =
+        assigns
+        |> assign(:item, item)
+        |> assign(:is_divider, is_divider)
+        |> assign(:item_attributes, item_attributes.(item, is_divider))
 
       ~H"""
-      <%= if is_divider do %>
-        <li {item_attributes} />
+      <%= if @is_divider do %>
+        <li {@item_attributes} />
       <% else %>
         <li>
-          <.link {item_attributes}>
-            <%= render_slot(item) %>
+          <.link {@item_attributes}>
+            <%= render_slot(@item) %>
           </.link>
         </li>
       <% end %>
       """
     end
 
+    assigns =
+      assigns
+      |> assign(:render_item, render_item)
+
     render_menu = fn menu_attributes ->
+      assigns =
+        assigns
+        |> assign(:menu_attributes, menu_attributes)
+
       ~H"""
-      <ul {menu_attributes}>
+      <ul {@menu_attributes}>
         <%= for item <- @item do %>
-          <%= render_item.(item) %>
+          <%= @render_item.(item) %>
         <% end %>
       </ul>
       """
     end
 
-    menu_attributes =
-      AttributeHelpers.append_attributes([], [
-        [class: classes[:menu]]
-      ])
+    assigns =
+      assigns
+      |> assign(:render_menu, render_menu)
 
     ~H"""
-    <details class={classes.dropdown} {@rest}>
-      <summary {toggle_attrs}>
-        <%= render_slot(toggle_slot) %>
-        <div class={classes.caret}></div>
+    <details class={@classes.dropdown} {@rest}>
+      <summary {@toggle_attrs}>
+        <%= render_slot(@toggle_slot) %>
+        <div class={@classes.caret}></div>
       </summary>
-      <%= if not is_nil(menu_title) do %>
-        <div {menu_attributes}>
-          <div class={classes.header}>
-            <%= menu_title %>
+      <%= if not is_nil(@menu_title) do %>
+        <div {@menu_attributes}>
+          <div class={@classes.header}>
+            <%= @menu_title %>
           </div>
-          <%= render_menu.([]) %>
+          <%= @render_menu.([]) %>
         </div>
       <% else %>
-        <%= render_menu.(menu_attributes) %>
+        <%= @render_menu.(@menu_attributes) %>
       <% end %>
     </details>
     """
@@ -2537,89 +2615,113 @@ defmodule PrimerLive.Component do
       is_button = !is_link && !is_divider
       selected_octicon_name = item[:selected_octicon_name] || "check-16"
 
+      assigns =
+        assigns
+        |> assign(:item, item)
+        |> assign(:is_divider, is_divider)
+        |> assign(:is_divider_content, is_divider_content)
+        |> assign(:divider_attributes, divider_attributes)
+        |> assign(:is_button, is_button)
+        |> assign(:item_attributes, item_attributes)
+        |> assign(:selected_octicon_name, selected_octicon_name)
+        |> assign(:is_any_item_selected, is_any_item_selected)
+        |> assign(:is_link, is_link)
+
       ~H"""
-      <%= if is_divider do %>
-        <%= if is_divider_content do %>
-          <div {divider_attributes.(item)}>
-            <%= render_slot(item) %>
+      <%= if @is_divider do %>
+        <%= if @is_divider_content do %>
+          <div {@divider_attributes.(@item)}>
+            <%= render_slot(@item) %>
           </div>
         <% else %>
-          <hr {divider_attributes.(item)} />
+          <hr {@divider_attributes.(@item)} />
         <% end %>
       <% end %>
-      <%= if is_button do %>
-        <button {item_attributes.(item)}>
-          <%= if is_any_item_selected do %>
-            <.octicon name={selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
+      <%= if @is_button do %>
+        <button {@item_attributes.(@item)}>
+          <%= if @is_any_item_selected do %>
+            <.octicon name={@selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
           <% end %>
-          <%= render_slot(item) %>
+          <%= render_slot(@item) %>
         </button>
       <% end %>
-      <%= if is_link do %>
-        <.link {item_attributes.(item)}>
-          <%= if is_any_item_selected do %>
-            <.octicon name={selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
+      <%= if @is_link do %>
+        <.link {@item_attributes.(@item)}>
+          <%= if @is_any_item_selected do %>
+            <.octicon name={@selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
           <% end %>
-          <%= render_slot(item) %>
+          <%= render_slot(@item) %>
         </.link>
       <% end %>
       """
     end
 
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:select_menu_attrs, select_menu_attrs)
+      |> assign(:toggle_attrs, toggle_attrs)
+      |> assign(:toggle_slot, toggle_slot)
+      |> assign(:backdrop_attrs, backdrop_attrs)
+      |> assign(:menu_container_attrs, menu_container_attrs)
+      |> assign(:menu_title, menu_title)
+      |> assign(:item_slots, item_slots)
+      |> assign(:render_item, render_item)
+
     ~H"""
-    <details {select_menu_attrs}>
-      <summary {toggle_attrs}>
-        <%= render_slot(toggle_slot) %>
+    <details {@select_menu_attrs}>
+      <summary {@toggle_attrs}>
+        <%= render_slot(@toggle_slot) %>
       </summary>
-      <%= if backdrop_attrs !== [] do %>
-        <div {backdrop_attrs} />
+      <%= if @backdrop_attrs !== [] do %>
+        <div {@backdrop_attrs} />
       <% end %>
       <div data-touch=""></div>
-      <div class={classes.menu}>
-        <div {menu_container_attrs}>
-          <%= if not is_nil(menu_title) do %>
-            <header class={classes.header}>
-              <h3 class={classes.menu_title}><%= menu_title %></h3>
-              <button class={classes.header_close_button} type="button" onclick="Prompt.hide(this)">
+      <div class={@classes.menu}>
+        <div {@menu_container_attrs}>
+          <%= if not is_nil(@menu_title) do %>
+            <header class={@classes.header}>
+              <h3 class={@classes.menu_title}><%= @menu_title %></h3>
+              <button class={@classes.header_close_button} type="button" onclick="Prompt.hide(this)">
                 <.octicon name="x-16" />
               </button>
             </header>
           <% end %>
           <%= if @filter && @filter !== [] do %>
-            <div class={classes.filter}>
+            <div class={@classes.filter}>
               <%= render_slot(@filter) %>
             </div>
           <% end %>
           <%= if @message do %>
             <%= for message <- @message do %>
-              <div class={AttributeHelpers.classnames([classes.message, message[:class]])}>
+              <div class={AttributeHelpers.classnames([@classes.message, message[:class]])}>
                 <%= render_slot(message) %>
               </div>
             <% end %>
           <% end %>
           <%= if @loading do %>
             <%= for loading <- @loading do %>
-              <div class={AttributeHelpers.classnames([classes.loading, loading[:class]])}>
+              <div class={AttributeHelpers.classnames([@classes.loading, loading[:class]])}>
                 <%= render_slot(loading) %>
               </div>
             <% end %>
           <% end %>
-          <div class={classes.menu_list}>
+          <div class={@classes.menu_list}>
             <%= if @blankslate do %>
               <%= for blankslate <- @blankslate do %>
-                <div class={AttributeHelpers.classnames([classes.blankslate, blankslate[:class]])}>
+                <div class={AttributeHelpers.classnames([@classes.blankslate, blankslate[:class]])}>
                   <%= render_slot(blankslate) %>
                 </div>
               <% end %>
             <% end %>
 
-            <%= for item <- item_slots do %>
-              <%= render_item.(item) %>
+            <%= for item <- @item_slots do %>
+              <%= @render_item.(item) %>
             <% end %>
           </div>
           <%= if @footer do %>
             <%= for footer <- @footer do %>
-              <div class={AttributeHelpers.classnames([classes.footer, footer[:class]])}>
+              <div class={AttributeHelpers.classnames([@classes.footer, footer[:class]])}>
                 <%= render_slot(footer) %>
               </div>
             <% end %>
@@ -2769,8 +2871,13 @@ defmodule PrimerLive.Component do
         is_disabled: assigns.is_disabled
       )
 
+    assigns =
+      assigns
+      |> assign(:class, class)
+      |> assign(:aria_attributes, aria_attributes)
+
     ~H"""
-    <button class={class} type={@type} {@rest} {aria_attributes}>
+    <button class={@class} type={@type} {@rest} {@aria_attributes}>
       <%= render_slot(@inner_block) %>
     </button>
     """
@@ -2848,10 +2955,12 @@ defmodule PrimerLive.Component do
       end
     }
 
+    assigns = assigns |> assign(:classes, classes)
+
     ~H"""
-    <div class={classes.button_group} {@rest}>
+    <div class={@classes.button_group} {@rest}>
       <%= for slot <- @button do %>
-        <.button {slot} class={classes.button.(slot)}>
+        <.button {slot} class={@classes.button.(slot)}>
           <%= render_slot(slot) %>
         </.button>
       <% end %>
@@ -3083,15 +3192,25 @@ defmodule PrimerLive.Component do
         sibling_count
       )
 
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:show_prev_next, show_prev_next)
+      |> assign(:has_previous_page, has_previous_page)
+      |> assign(:has_next_page, has_next_page)
+      |> assign(:show_numbers, show_numbers)
+      |> assign(:pagination_elements, pagination_elements)
+      |> assign(:current_page, current_page)
+
     ~H"""
     <%= if @page_count > 1 do %>
-      <nav class={classes.pagination_container} {@rest} aria-label={@labels.aria_label_container}>
-        <div class={classes.pagination}>
-          <%= if show_prev_next do %>
-            <%= if has_previous_page do %>
+      <nav class={@classes.pagination_container} {@rest} aria-label={@labels.aria_label_container}>
+        <div class={@classes.pagination}>
+          <%= if @show_prev_next do %>
+            <%= if @has_previous_page do %>
               <.link
-                navigate={@link_path.(current_page - 1)}
-                class={classes.previous_page}
+                navigate={@link_path.(@current_page - 1)}
+                class={@classes.previous_page}
                 rel="previous"
                 aria-label={@labels.aria_label_previous_page}
                 replace={@link_options.replace}
@@ -3099,20 +3218,20 @@ defmodule PrimerLive.Component do
                 <%= @labels.previous_page %>
               </.link>
             <% else %>
-              <span class={classes.previous_page} aria-disabled="true" phx-no-format><%= @labels.previous_page %></span>
+              <span class={@classes.previous_page} aria-disabled="true" phx-no-format><%= @labels.previous_page %></span>
             <% end %>
           <% end %>
-          <%= if show_numbers do %>
-            <%= for item <- pagination_elements do %>
-              <%= if item === current_page do %>
-                <em aria-current="page"><%= current_page %></em>
+          <%= if @show_numbers do %>
+            <%= for item <- @pagination_elements do %>
+              <%= if item === @current_page do %>
+                <em aria-current="page"><%= @current_page %></em>
               <% else %>
                 <%= if item == 0 do %>
-                  <span class={classes.gap} phx-no-format><%= @labels.gap %></span>
+                  <span class={@classes.gap} phx-no-format><%= @labels.gap %></span>
                 <% else %>
                   <.link
                     navigate={@link_path.(item)}
-                    class={classes.page}
+                    class={@classes.page}
                     aria-label={
                       @labels.aria_label_page |> String.replace("{page_number}", to_string(item))
                     }
@@ -3124,11 +3243,11 @@ defmodule PrimerLive.Component do
               <% end %>
             <% end %>
           <% end %>
-          <%= if show_prev_next do %>
-            <%= if has_next_page do %>
+          <%= if @show_prev_next do %>
+            <%= if @has_next_page do %>
               <.link
-                navigate={@link_path.(current_page + 1)}
-                class={classes.next_page}
+                navigate={@link_path.(@current_page + 1)}
+                class={@classes.next_page}
                 rel="next"
                 aria-label={@labels.aria_label_next_page}
                 replace={@link_options.replace}
@@ -3136,7 +3255,7 @@ defmodule PrimerLive.Component do
                 <%= @labels.next_page %>
               </.link>
             <% else %>
-              <span class={classes.next_page} aria-disabled="true" phx-no-format><%= @labels.next_page %></span>
+              <span class={@classes.next_page} aria-disabled="true" phx-no-format><%= @labels.next_page %></span>
             <% end %>
           <% end %>
         </div>
@@ -3310,11 +3429,12 @@ defmodule PrimerLive.Component do
         ])
       )
 
-    icon = PrimerLive.Octicons.octicons(assigns) |> Map.get(assigns[:name])
+    assigns =
+      assigns |> assign(:icon, PrimerLive.Octicons.octicons(assigns) |> Map.get(assigns[:name]))
 
     ~H"""
-    <%= if icon do %>
-      <%= icon %>
+    <%= if @icon do %>
+      <%= @icon %>
     <% else %>
       Icon with name <%= @name %> does not exist.
     <% end %>
@@ -3487,9 +3607,11 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    assigns = assigns |> assign(:class, class)
+
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span class={class} {@rest}><%= render_slot(@inner_block) %></span>
+    <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
     """
   end
 
@@ -3560,9 +3682,11 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    assigns = assigns |> assign(:class, class)
+
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span class={class} {@rest}><%= render_slot(@inner_block) %></span>
+    <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
     """
   end
 
@@ -3667,9 +3791,11 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    assigns = assigns |> assign(:class, class)
+
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span class={class} {@rest}><%= render_slot(@inner_block) %></span>
+    <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
     """
   end
 
@@ -3751,9 +3877,11 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    assigns = assigns |> assign(:class, class)
+
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span class={class} {@rest}><%= render_slot(@inner_block) %></span>
+    <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
     """
   end
 
@@ -3895,19 +4023,21 @@ defmodule PrimerLive.Component do
         ])
     }
 
+    assigns = assigns |> assign(:classes, classes)
+
     ~H"""
-    <div class={classes.subhead} {@rest}>
-      <h2 class={classes.heading}><%= render_slot(@inner_block) %></h2>
+    <div class={@classes.subhead} {@rest}>
+      <h2 class={@classes.heading}><%= render_slot(@inner_block) %></h2>
       <%= if @description do %>
         <%= for description <- @description do %>
-          <div class={AttributeHelpers.classnames([classes.description, description[:class]])}>
+          <div class={AttributeHelpers.classnames([@classes.description, description[:class]])}>
             <%= render_slot(description) %>
           </div>
         <% end %>
       <% end %>
       <%= if @actions do %>
         <%= for action <- @actions do %>
-          <div class={AttributeHelpers.classnames([classes.actions, action[:class]])}>
+          <div class={AttributeHelpers.classnames([@classes.actions, action[:class]])}>
             <%= render_slot(action) %>
           </div>
         <% end %>
@@ -4076,13 +4206,20 @@ defmodule PrimerLive.Component do
       ])
     end
 
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:items_data, items_data)
+      |> assign(:item_attributes, item_attributes)
+      |> assign(:link_attributes, link_attributes)
+
     ~H"""
-    <div class={classes.breadcrumb} {@rest}>
-      <%= if items_data !== [] do %>
+    <div class={@classes.breadcrumb} {@rest}>
+      <%= if @items_data !== [] do %>
         <ol>
-          <%= for {item, is_last} <- items_data do %>
-            <li {item_attributes.(is_last)}>
-              <.link {link_attributes.(item)}>
+          <%= for {item, is_last} <- @items_data do %>
+            <li {@item_attributes.(is_last)}>
+              <.link {@link_attributes.(item)}>
                 <%= render_slot(item) %>
               </.link>
             </li>
@@ -4233,13 +4370,18 @@ defmodule PrimerLive.Component do
 
     is_link = AttributeHelpers.is_link?(assigns.rest)
 
+    assigns =
+      assigns
+      |> assign(:is_link, is_link)
+      |> assign(:class, class)
+
     ~H"""
-    <%= if is_link do %>
-      <.link class={class} {@rest}>
+    <%= if @is_link do %>
+      <.link class={@class} {@rest}>
         <%= render_slot(@inner_block) %>
       </.link>
     <% else %>
-      <span class={class} {@rest}><%= render_slot(@inner_block) %></span>
+      <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
     <% end %>
     """
   end
@@ -4328,8 +4470,10 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    assigns = assigns |> assign(:class, class)
+
     ~H"""
-    <img class={class} {@rest} />
+    <img class={@class} {@rest} />
     """
   end
 
@@ -4438,21 +4582,31 @@ defmodule PrimerLive.Component do
           :class
         ])
 
+      assigns =
+        assigns
+        |> assign(:class, class)
+        |> assign(:rest, rest)
+
       ~H"""
-      <.avatar class={class} {rest} />
+      <.avatar class={@class} {@rest} />
       """
     end
 
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:render_avatar, render_avatar)
+
     ~H"""
-    <div class={classes.parent_child} {@rest}>
+    <div class={@classes.parent_child} {@rest}>
       <%= if @parent && @parent !== [] do %>
         <%= for parent <- @parent do %>
-          <%= render_avatar.(parent, false) %>
+          <%= @render_avatar.(parent, false) %>
         <% end %>
       <% end %>
       <%= if @child && @child !== [] do %>
         <%= for child <- @child do %>
-          <%= render_avatar.(child, true) %>
+          <%= @render_avatar.(child, true) %>
         <% end %>
       <% end %>
     </div>
@@ -4603,8 +4757,13 @@ defmodule PrimerLive.Component do
           :class
         ])
 
+      assigns =
+        assigns
+        |> assign(:class, class)
+        |> assign(:rest, rest)
+
       ~H"""
-      <.octicon class={class} {rest} />
+      <.octicon class={@class} {@rest} />
       """
     end
 
@@ -4620,23 +4779,31 @@ defmodule PrimerLive.Component do
           :class
         ])
 
+      assigns =
+        assigns
+        |> assign(:class, class)
+        |> assign(:rest, rest)
+
       ~H"""
-      <img class={class} {rest} />
+      <img class={@class} {@rest} />
       """
     end
 
-    is_link = AttributeHelpers.is_link?(assigns)
+    assigns =
+      assigns
+      |> assign(:render_img, render_img)
+      |> assign(:render_octicon, render_octicon)
 
     render_content = fn ->
       ~H"""
       <%= if @octicon && @octicon !== [] do %>
         <%= for octicon <- @octicon do %>
-          <%= render_octicon.(octicon) %>
+          <%= @render_octicon.(octicon) %>
         <% end %>
       <% end %>
       <%= if @img && @img !== [] do %>
         <%= for img <- @img do %>
-          <%= render_img.(img) %>
+          <%= @render_img.(img) %>
         <% end %>
       <% end %>
       """
@@ -4648,14 +4815,22 @@ defmodule PrimerLive.Component do
         [href: assigns[:href], navigate: assigns[:navigate], patch: assigns[:patch]]
       ])
 
+    is_link = AttributeHelpers.is_link?(assigns)
+
+    assigns =
+      assigns
+      |> assign(:is_link, is_link)
+      |> assign(:attributes, attributes)
+      |> assign(:render_content, render_content)
+
     ~H"""
-    <%= if is_link do %>
-      <.link {attributes}>
-        <%= render_content.() %>
+    <%= if @is_link do %>
+      <.link {@attributes}>
+        <%= @render_content.() %>
       </.link>
     <% else %>
-      <div {attributes}>
-        <%= render_content.() %>
+      <div {@attributes}>
+        <%= @render_content.() %>
       </div>
     <% end %>
     """
@@ -4723,8 +4898,10 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    assigns = assigns |> assign(:class, class)
+
     ~H"""
-    <span class={class} {@rest} />
+    <span class={@class} {@rest} />
     """
   end
 
@@ -4800,8 +4977,10 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    assigns = assigns |> assign(:class, class)
+
     ~H"""
-    <svg class={class} viewBox="0 0 32 32" width={@size} height={@size} {@rest}>
+    <svg class={@class} viewBox="0 0 32 32" width={@size} height={@size} {@rest}>
       <path
         fill={@color}
         d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"
@@ -5062,8 +5241,13 @@ defmodule PrimerLive.Component do
           :class
         ])
 
+      assigns =
+        assigns
+        |> assign(:class, class)
+        |> assign(:rest, rest)
+
       ~H"""
-      <.octicon class={class} {rest} />
+      <.octicon class={@class} {@rest} />
       """
     end
 
@@ -5079,8 +5263,13 @@ defmodule PrimerLive.Component do
           :class
         ])
 
+      assigns =
+        assigns
+        |> assign(:class, class)
+        |> assign(:rest, rest)
+
       ~H"""
-      <img class={class} {rest} />
+      <img class={@class} {@rest} />
       """
     end
 
@@ -5096,9 +5285,15 @@ defmodule PrimerLive.Component do
           :class
         ])
 
+      assigns =
+        assigns
+        |> assign(:class, class)
+        |> assign(:rest, rest)
+        |> assign(:slot, slot)
+
       ~H"""
-      <div class={class} {rest}>
-        <%= render_slot(slot) %>
+      <div class={@class} {@rest}>
+        <%= render_slot(@slot) %>
       </div>
       """
     end
@@ -5124,28 +5319,41 @@ defmodule PrimerLive.Component do
           [name: tag]
         ])
 
+      assigns =
+        assigns
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
       ~H"""
-      <.dynamic_tag {attributes}>
-        <%= render_slot(slot) %>
+      <.dynamic_tag {@attributes}>
+        <%= render_slot(@slot) %>
       </.dynamic_tag>
       """
     end
 
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:render_heading, render_heading)
+      |> assign(:render_action, render_action)
+      |> assign(:render_img, render_img)
+      |> assign(:render_octicon, render_octicon)
+
     ~H"""
-    <div class={classes.blankslate} {@rest}>
+    <div class={@classes.blankslate} {@rest}>
       <%= if @octicon && @octicon !== [] do %>
         <%= for slot <- @octicon do %>
-          <%= render_octicon.(slot) %>
+          <%= @render_octicon.(slot) %>
         <% end %>
       <% end %>
       <%= if @img && @img !== [] do %>
         <%= for slot <- @img do %>
-          <%= render_img.(slot) %>
+          <%= @render_img.(slot) %>
         <% end %>
       <% end %>
       <%= if @heading && @heading !== [] do %>
         <%= for slot <- @heading do %>
-          <%= render_heading.(slot) %>
+          <%= @render_heading.(slot) %>
         <% end %>
       <% end %>
       <%= if @inner_block && @inner_block !== [] do %>
@@ -5153,7 +5361,7 @@ defmodule PrimerLive.Component do
       <% end %>
       <%= if @action && @action !== [] do %>
         <%= for slot <- @action do %>
-          <%= render_action.(slot) %>
+          <%= @render_action.(slot) %>
         <% end %>
       <% end %>
     </div>
@@ -5359,24 +5567,35 @@ defmodule PrimerLive.Component do
           [name: tag]
         ])
 
+      assigns =
+        assigns
+        |> assign(:is_link, is_link)
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
       ~H"""
-      <%= if is_link do %>
-        <.link {attributes}>
-          <%= render_slot(slot) %>
+      <%= if @is_link do %>
+        <.link {@attributes}>
+          <%= render_slot(@slot) %>
         </.link>
       <% else %>
-        <.dynamic_tag {attributes}>
-          <%= render_slot(slot) %>
+        <.dynamic_tag {@attributes}>
+          <%= render_slot(@slot) %>
         </.dynamic_tag>
       <% end %>
       """
     end
 
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:render_item, render_item)
+
     ~H"""
-    <.dynamic_tag name={assigns.tag || "span"} class={classes.truncate} {@rest}>
+    <.dynamic_tag name={@tag || "span"} class={@classes.truncate} {@rest}>
       <%= if @item && @item !== [] do %>
         <%= for slot <- @item do %>
-          <%= render_item.(slot) %>
+          <%= @render_item.(slot) %>
         <% end %>
       <% end %>
     </.dynamic_tag>
@@ -5789,19 +6008,28 @@ defmodule PrimerLive.Component do
         end
       ])
 
+    assigns =
+      assigns
+      |> assign(:wrapper_attrs, wrapper_attrs)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
+      |> assign(:backdrop_attrs, backdrop_attrs)
+      |> assign(:box_attrs, box_attrs)
+      |> assign(:close_button_attrs, close_button_attrs)
+      |> assign(:focus_wrap_id, focus_wrap_id)
+
     ~H"""
-    <div {wrapper_attrs}>
-      <div {touch_layer_attrs}>
-        <%= if backdrop_attrs !== [] do %>
-          <div {backdrop_attrs} />
+    <div {@wrapper_attrs}>
+      <div {@touch_layer_attrs}>
+        <%= if @backdrop_attrs !== [] do %>
+          <div {@backdrop_attrs} />
         <% end %>
-        <.focus_wrap id={focus_wrap_id}>
-          <.box {box_attrs}>
+        <.focus_wrap id={@focus_wrap_id}>
+          <.box {@box_attrs}>
             <:header
               :if={@header_title && @header_title !== []}
               class="d-flex flex-justify-between flex-items-start"
             >
-              <.button {close_button_attrs}>
+              <.button {@close_button_attrs}>
                 <.octicon name="x-16" />
               </.button>
             </:header>

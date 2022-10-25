@@ -6,7 +6,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
-  @form %Phoenix.HTML.Form{
+  @default_form %Phoenix.HTML.Form{
     id: "user",
     name: "user",
     params: %{"first_name" => ""},
@@ -21,7 +21,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     }
   }
 
-  @changeset %Ecto.Changeset{
+  @default_changeset %Ecto.Changeset{
     action: nil,
     changes: %{},
     errors: [],
@@ -30,7 +30,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   }
 
   test "Called without options or inner_block: should render the component" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input />
@@ -43,7 +43,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Called with invalid form value" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input form="x" />
@@ -56,7 +56,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Attribute: is_group" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input form={:user} field={:first_name} is_group />
@@ -76,7 +76,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Group slot with label, without inner_block" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input form={:user} field={:first_name}>
@@ -98,7 +98,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Group slot with label and inner_block" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input form={:user} field={:first_name}>
@@ -123,7 +123,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Group slot with field_state" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input form={:user} field={:first_name}>
@@ -155,7 +155,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Attribute: form and field (atoms)" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input form={:user} field={:first_name} />
@@ -168,7 +168,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Attribute: field as string" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input form={:user} field="first_name" />
@@ -181,7 +181,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Attribute: name only" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input name="first_name" />
@@ -194,7 +194,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Attribute: types" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input type={:x} />
@@ -237,7 +237,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Attributes: is_contrast, is_full_width, is_hide_webkit_autofill, is_large, is_small" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input is_contrast />
@@ -258,7 +258,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Attribute: is_short without group: should render an error message" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input is_short />
@@ -271,7 +271,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Attribute: is_short with group slot" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input form={:f} field={:first_name} is_short>
@@ -290,7 +290,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Extra attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input name="first_name" />
@@ -303,7 +303,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Extra attributes: placeholder (and implicit aria-label)" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input name="first_name" placeholder="Enter your first name" />
@@ -316,7 +316,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Extra attributes: explicit aria_label" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input name="first_name" aria_label="Enter your first name" />
@@ -329,7 +329,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Group slot with attributes label and class" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input form={:f} field={:first_name}>
@@ -347,7 +347,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Group slot with extra attribute" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input form={:f} field={:first_name} dir="rtl">
@@ -365,11 +365,12 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Validation: default error" do
-    assigns = []
-    form = @form
+    assigns = %{
+      form: @default_form
+    }
 
     assert rendered_to_string(~H"""
-           <.text_input form={form} field={:first_name} is_group />
+           <.text_input form={@form} field={:first_name} is_group />
            """)
            |> format_html() ==
              """
@@ -384,11 +385,12 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Validation: custom error message" do
-    assigns = []
-    form = @form
+    assigns = %{
+      form: @default_form
+    }
 
     assert rendered_to_string(~H"""
-           <.text_input form={form} field={:first_name}>
+           <.text_input form={@form} field={:first_name}>
              <:group validation_message={
                fn field_state ->
                  if !field_state.valid?, do: "Please enter your first name"
@@ -410,8 +412,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Attribute: classes" do
-    assigns = []
-    form = @form
+    assigns = %{
+      form: @default_form
+    }
 
     assert rendered_to_string(~H"""
            <.text_input
@@ -426,7 +429,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
                  note: "note-x"
                }
              }
-             form={form}
+             form={@form}
              field={:first_name}
            >
              <:group class="my-group"></:group>
@@ -445,13 +448,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Validation: custom success message (action: :update)" do
-    update_changeset = %{@changeset | action: :update}
-    update_form = %{@form | source: update_changeset, params: %{"first_name" => "anna"}}
+    update_changeset = %{@default_changeset | action: :update}
 
-    assigns = []
+    assigns = %{
+      update_form: %{@default_form | source: update_changeset, params: %{"first_name" => "anna"}}
+    }
 
     assert rendered_to_string(~H"""
-           <.text_input form={update_form} field={:first_name}>
+           <.text_input form={@update_form} field={:first_name}>
              <:group validation_message={
                fn field_state ->
                  if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
@@ -473,13 +477,18 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Validation: custom success message (action: :validate)" do
-    validate_changeset = %{@changeset | action: :validate}
-    validate_form = %{@form | source: validate_changeset, params: %{"first_name" => "anna"}}
+    validate_changeset = %{@default_changeset | action: :validate}
 
-    assigns = []
+    assigns = %{
+      validate_form: %{
+        @default_form
+        | source: validate_changeset,
+          params: %{"first_name" => "anna"}
+      }
+    }
 
     assert rendered_to_string(~H"""
-           <.text_input form={validate_form} field={:first_name}>
+           <.text_input form={@validate_form} field={:first_name}>
              <:group validation_message={
                fn field_state ->
                  if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"

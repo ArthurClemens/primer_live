@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.HeaderTest do
   import Phoenix.LiveViewTest
 
   test "Without attributes or slots, ignores any other content" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.header>
@@ -22,7 +22,7 @@ defmodule PrimerLive.TestComponents.HeaderTest do
   end
 
   test "Slot: item" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.header>
@@ -43,7 +43,7 @@ defmodule PrimerLive.TestComponents.HeaderTest do
   end
 
   test "Slot: item with attribute is_full" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.header>
@@ -60,7 +60,7 @@ defmodule PrimerLive.TestComponents.HeaderTest do
   end
 
   test "Slot: item with links" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.header>
@@ -84,7 +84,7 @@ defmodule PrimerLive.TestComponents.HeaderTest do
   end
 
   test "Slot: item with input" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.header>
@@ -104,7 +104,7 @@ defmodule PrimerLive.TestComponents.HeaderTest do
   end
 
   test "Attribute: classes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.header
@@ -137,7 +137,7 @@ defmodule PrimerLive.TestComponents.HeaderTest do
   end
 
   test "Extra attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.header dir="rtl">

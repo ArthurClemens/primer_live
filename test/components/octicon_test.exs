@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.OcticonTest do
   import Phoenix.LiveViewTest
 
   test "With a correct name: should render the icon" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.octicon name="alert-16" />
@@ -24,7 +24,7 @@ defmodule PrimerLive.TestComponents.OcticonTest do
   end
 
   test "With an incorrect name: should render an error message" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.octicon name="x" />
@@ -37,7 +37,7 @@ defmodule PrimerLive.TestComponents.OcticonTest do
   end
 
   test "Attribute: class" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.octicon name="alert-16" class="x" />
@@ -54,7 +54,7 @@ defmodule PrimerLive.TestComponents.OcticonTest do
   end
 
   test "Extra attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.octicon name="alert-16" dir="rtl" />

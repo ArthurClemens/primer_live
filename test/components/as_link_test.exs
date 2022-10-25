@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.LinkTest do
   import Phoenix.LiveViewTest
 
   test "Without link attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.as_link>label</.as_link>
@@ -20,7 +20,7 @@ defmodule PrimerLive.TestComponents.LinkTest do
   end
 
   test "With link attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.as_link href="/home">label</.as_link>
@@ -37,7 +37,7 @@ defmodule PrimerLive.TestComponents.LinkTest do
   end
 
   test "Attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.as_link is_primary>label</.as_link>
@@ -58,7 +58,7 @@ defmodule PrimerLive.TestComponents.LinkTest do
   end
 
   test "Class" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.as_link class="my-link">label</.as_link>
@@ -73,7 +73,7 @@ defmodule PrimerLive.TestComponents.LinkTest do
   end
 
   test "Other attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.as_link rel="next">label</.as_link>

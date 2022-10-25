@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.ParentChildAvatarTest do
   import Phoenix.LiveViewTest
 
   test "Parent and child slots" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.parent_child_avatar>
@@ -26,7 +26,7 @@ defmodule PrimerLive.TestComponents.ParentChildAvatarTest do
   end
 
   test "Classes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.parent_child_avatar class="my-parent-child">

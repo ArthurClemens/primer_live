@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.ButtonGroupTest do
   import Phoenix.LiveViewTest
 
   test "Button slots" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.button_group>
@@ -30,7 +30,7 @@ defmodule PrimerLive.TestComponents.ButtonGroupTest do
   end
 
   test "Class" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.button_group class="button-group-x">
@@ -49,7 +49,7 @@ defmodule PrimerLive.TestComponents.ButtonGroupTest do
   end
 
   test "Extra attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.button_group dir="rtl">

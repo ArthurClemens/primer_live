@@ -7,7 +7,7 @@ defmodule PrimerLive.Components.SpinnerTest do
   import Phoenix.LiveViewTest
 
   test "Render component" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.spinner />
@@ -23,7 +23,7 @@ defmodule PrimerLive.Components.SpinnerTest do
   end
 
   test "Attribute: size" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.spinner size="40" />
@@ -44,7 +44,7 @@ defmodule PrimerLive.Components.SpinnerTest do
   end
 
   test "Attribute: color" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.spinner color="red" />
@@ -71,7 +71,7 @@ defmodule PrimerLive.Components.SpinnerTest do
   end
 
   test "Attribute: gap color" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.spinner gap_color="black" />
@@ -97,7 +97,7 @@ defmodule PrimerLive.Components.SpinnerTest do
   end
 
   test "Other attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.spinner class="my-spinner" dir="rtl" />

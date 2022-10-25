@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.AlertMessagesTest do
   import Phoenix.LiveViewTest
 
   test "Content slot" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.alert_messages>
@@ -32,7 +32,7 @@ defmodule PrimerLive.TestComponents.AlertMessagesTest do
   end
 
   test "Class" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.alert_messages class="x">Messages</.alert_messages>
@@ -45,7 +45,7 @@ defmodule PrimerLive.TestComponents.AlertMessagesTest do
   end
 
   test "Extra attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.alert_messages dir="rtl">Messages</.alert_messages>

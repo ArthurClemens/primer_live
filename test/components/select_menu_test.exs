@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
   import Phoenix.LiveViewTest
 
   test "Slot: item (various types)" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.select_menu>
@@ -55,7 +55,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
   end
 
   test "Slot: item (various types, is_disabled)" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.select_menu>
@@ -85,7 +85,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
   end
 
   test "Slot: item (is_selected)" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.select_menu>
@@ -142,7 +142,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
   end
 
   test "Slot: menu with title" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.select_menu id="my-menu-id">
@@ -183,7 +183,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
   end
 
   test "Slot: footer" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.select_menu>
@@ -215,7 +215,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
   end
 
   test "Slot: filter" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.select_menu>
@@ -254,7 +254,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
   end
 
   test "Slot: loading" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.select_menu>
@@ -285,7 +285,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
   end
 
   test "Slot: blankslate" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.select_menu>
@@ -311,7 +311,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
   end
 
   test "Attribute: is_borderless" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.select_menu is_borderless>
@@ -341,7 +341,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
   end
 
   test "Attribute: is_right_aligned" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.select_menu is_right_aligned>

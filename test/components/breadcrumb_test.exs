@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.BreadcrumbTest do
   import Phoenix.LiveViewTest
 
   test "Slot: item" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.breadcrumb>
@@ -30,7 +30,7 @@ defmodule PrimerLive.TestComponents.BreadcrumbTest do
   end
 
   test "Slot: item (single item)" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.breadcrumb>
@@ -49,7 +49,7 @@ defmodule PrimerLive.TestComponents.BreadcrumbTest do
   end
 
   test "Slot: item (with links)" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.breadcrumb>
@@ -73,7 +73,7 @@ defmodule PrimerLive.TestComponents.BreadcrumbTest do
   end
 
   test "Classes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.breadcrumb

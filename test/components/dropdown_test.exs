@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
   import Phoenix.LiveViewTest
 
   test "Slot: item (various types)" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dropdown>
@@ -39,7 +39,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
   end
 
   test "Slot: menu with title" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dropdown>
@@ -71,7 +71,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
   end
 
   test "Slot: menu with position" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dropdown>
@@ -100,7 +100,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
   end
 
   test "Slot: item" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dropdown>
@@ -128,7 +128,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
   end
 
   test "Slot: items with divider" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dropdown>
@@ -164,7 +164,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
   end
 
   test "Attribute: classes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dropdown
@@ -215,7 +215,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
   end
 
   test "Extra attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dropdown dir="rtl">
@@ -243,7 +243,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
   end
 
   test "Extra attributes: open" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dropdown open>

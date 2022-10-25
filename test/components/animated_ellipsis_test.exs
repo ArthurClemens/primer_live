@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.AnimatedEllipsisTest do
   import Phoenix.LiveViewTest
 
   test "Render component" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.animated_ellipsis />
@@ -20,7 +20,7 @@ defmodule PrimerLive.TestComponents.AnimatedEllipsisTest do
   end
 
   test "Other attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.animated_ellipsis class="x" dir="rtl" />

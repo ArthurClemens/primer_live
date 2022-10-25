@@ -7,7 +7,7 @@ defmodule PrimerLive.Components.TruncateTest do
   import Phoenix.LiveViewTest
 
   test "Slot: text" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.truncate>
@@ -27,7 +27,7 @@ defmodule PrimerLive.Components.TruncateTest do
   end
 
   test "Custom tags" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.truncate tag="ol">
@@ -50,7 +50,7 @@ defmodule PrimerLive.Components.TruncateTest do
   end
 
   test "Links" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.truncate>
@@ -77,7 +77,7 @@ defmodule PrimerLive.Components.TruncateTest do
   end
 
   test "Slot: text, attribute is_primary" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.truncate>
@@ -104,7 +104,7 @@ defmodule PrimerLive.Components.TruncateTest do
   end
 
   test "Slot: text, attribute is_expandable" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.truncate>
@@ -127,7 +127,7 @@ defmodule PrimerLive.Components.TruncateTest do
   end
 
   test "Classes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.truncate
@@ -154,7 +154,7 @@ defmodule PrimerLive.Components.TruncateTest do
   end
 
   test "Style" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.truncate>

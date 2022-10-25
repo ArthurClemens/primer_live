@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
   import Phoenix.LiveViewTest
 
   test "Without attributes or slots" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.box>
@@ -22,7 +22,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
   end
 
   test "Row slots" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.box>
@@ -43,7 +43,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
   end
 
   test "Slots header, body, row, footer - should be placed in this order" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.box>
@@ -72,7 +72,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
   end
 
   test "Classes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.box
@@ -137,7 +137,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
   end
 
   test "Header title without header slot" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.box>
@@ -159,7 +159,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
   end
 
   test "Header title with header slot" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.box>
@@ -183,7 +183,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
   end
 
   test "Header title with icon button" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.box>
@@ -238,7 +238,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
   end
 
   test "Box modifiers" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.box is_blue>Content</.box>
@@ -259,7 +259,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
   end
 
   test "Row modifiers" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.box>
@@ -288,7 +288,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
   end
 
   test "Row with link" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.box classes={%{link: "link-x"}}>
@@ -309,7 +309,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
   end
 
   test "Attribute: is_scrollable" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.box is_scrollable style="max-height: 400px">
@@ -344,7 +344,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
   end
 
   test "Extra attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.box dir="rtl">Content</.box>

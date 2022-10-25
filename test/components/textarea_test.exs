@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
   import Phoenix.LiveViewTest
 
   test "Called without options: should render the component" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.textarea />
@@ -20,7 +20,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
   end
 
   test "Attribute: is_large" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.textarea is_large />
@@ -33,7 +33,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
   end
 
   test "Attribute: is_small" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.textarea is_small />
@@ -46,7 +46,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
   end
 
   test "Attribute: is_short without form group: should render an error message" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.textarea is_short />
@@ -59,7 +59,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
   end
 
   test "Attribute: is_short with form group" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.textarea form={:f} field={:first_name} is_short is_group />
@@ -75,7 +75,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
   end
 
   test "Attribute: class" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.textarea class="x" />

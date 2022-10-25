@@ -91,7 +91,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
   end
 
   test "With page_count 1: should render nothing" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.pagination page_count={1} current_page={1} link_path={&"/page/#{&1}"} />
@@ -127,7 +127,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
   end
 
   test "Many pages" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.pagination page_count={99} current_page={9} link_path={&"/page/#{&1}"} />

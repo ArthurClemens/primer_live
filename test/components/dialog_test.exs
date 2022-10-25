@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   import Phoenix.LiveViewTest
 
   test "Basic" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog id="my-dialog-id">
@@ -31,7 +31,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   end
 
   test "Attribute: is_narrow" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog id="my-dialog-id" is_narrow>
@@ -55,7 +55,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   end
 
   test "Attribute: is_wide" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog id="my-dialog-id" is_wide>
@@ -79,7 +79,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   end
 
   test "Attribute: is_fast" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog id="my-dialog-id" is_fast>
@@ -103,7 +103,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   end
 
   test "Attribute: is_escapable" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog id="my-dialog-id" is_escapable>
@@ -127,7 +127,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   end
 
   test "Attribute: focus_first" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog id="my-dialog-id" focus_first="[name=first_name]">
@@ -151,7 +151,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   end
 
   test "Attribute: is_backdrop" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog id="my-dialog-id" is_backdrop>
@@ -176,7 +176,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   end
 
   test "Attribute: is_dark_backdrop" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog id="my-dialog-id" is_dark_backdrop>
@@ -201,7 +201,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   end
 
   test "Attribute: is_light_backdrop" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog id="my-dialog-id" is_light_backdrop>
@@ -226,7 +226,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   end
 
   test "Attribute: is_modal" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog id="my-dialog-id" is_modal>
@@ -250,7 +250,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   end
 
   test "Attribute: max_height and max_width (%)" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog id="my-dialog-id" max_height="50%" max_width="90%">
@@ -274,7 +274,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   end
 
   test "Attribute: max_height and max_width (vh, vw)" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog id="my-dialog-id" max_height="50vh" max_width="80vw">
@@ -298,7 +298,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   end
 
   test "All slots" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog id="my-dialog-id">
@@ -340,7 +340,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
   end
 
   test "Classes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.dialog

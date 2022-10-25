@@ -7,7 +7,7 @@ defmodule PrimerLive.Components.BlankslateTest do
   import Phoenix.LiveViewTest
 
   test "Render component" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.blankslate />
@@ -20,7 +20,7 @@ defmodule PrimerLive.Components.BlankslateTest do
   end
 
   test "Slot: inner_block" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.blankslate>
@@ -37,7 +37,7 @@ defmodule PrimerLive.Components.BlankslateTest do
   end
 
   test "Slot: heading" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.blankslate>
@@ -56,7 +56,7 @@ defmodule PrimerLive.Components.BlankslateTest do
   end
 
   test "Slot: heading with attr tag" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.blankslate>
@@ -75,7 +75,7 @@ defmodule PrimerLive.Components.BlankslateTest do
   end
 
   test "Slot: octicon" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.blankslate>
@@ -97,7 +97,7 @@ defmodule PrimerLive.Components.BlankslateTest do
   end
 
   test "Slot: img" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.blankslate>
@@ -114,7 +114,7 @@ defmodule PrimerLive.Components.BlankslateTest do
   end
 
   test "Slot: action" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.blankslate>
@@ -137,7 +137,7 @@ defmodule PrimerLive.Components.BlankslateTest do
   end
 
   test "Attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.blankslate is_narrow />
@@ -154,7 +154,7 @@ defmodule PrimerLive.Components.BlankslateTest do
   end
 
   test "Classes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.blankslate

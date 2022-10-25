@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.AvatarTest do
   import Phoenix.LiveViewTest
 
   test "Without size attribute" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.avatar src="user.jpg" />
@@ -20,7 +20,7 @@ defmodule PrimerLive.TestComponents.AvatarTest do
   end
 
   test "Attribute: size" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.avatar src="user.jpg" size={1} />
@@ -47,7 +47,7 @@ defmodule PrimerLive.TestComponents.AvatarTest do
   end
 
   test "Attribute: size (unsupported values)" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.avatar src="user.jpg" size={nil} />
@@ -68,7 +68,7 @@ defmodule PrimerLive.TestComponents.AvatarTest do
   end
 
   test "Attribute: size plus width or height" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.avatar src="user.jpg" width="40" size={1} />
@@ -85,7 +85,7 @@ defmodule PrimerLive.TestComponents.AvatarTest do
   end
 
   test "Class" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.avatar src="user.jpg" class="my-avatar" />

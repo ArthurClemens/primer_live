@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.SubheadTest do
   import Phoenix.LiveViewTest
 
   test "Without attributes or slots" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.subhead>Heading</.subhead>
@@ -22,7 +22,7 @@ defmodule PrimerLive.TestComponents.SubheadTest do
   end
 
   test "Attributes: is_spacious" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.subhead is_spacious>Heading</.subhead>
@@ -37,7 +37,7 @@ defmodule PrimerLive.TestComponents.SubheadTest do
   end
 
   test "Attributes: is_danger" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.subhead is_danger>Heading</.subhead>
@@ -52,7 +52,7 @@ defmodule PrimerLive.TestComponents.SubheadTest do
   end
 
   test "Slot: description" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.subhead>
@@ -73,7 +73,7 @@ defmodule PrimerLive.TestComponents.SubheadTest do
   end
 
   test "Slot: actions" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.subhead>
@@ -94,7 +94,7 @@ defmodule PrimerLive.TestComponents.SubheadTest do
   end
 
   test "Classes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.subhead

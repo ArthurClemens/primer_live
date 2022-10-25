@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
   import Phoenix.LiveViewTest
 
   test "Without attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.button>Button</.button>
@@ -20,7 +20,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
   end
 
   test "Modifiers" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.button is_full_width>Button</.button>
@@ -57,7 +57,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
   end
 
   test "Button with icon" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.button><.octicon name="search-16" /></.button>
@@ -70,7 +70,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
   end
 
   test "Button with icon 2" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.button>
@@ -87,7 +87,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
   end
 
   test "Option: is_icon_only" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.button is_icon_only aria-label="Desktop">
@@ -102,7 +102,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
   end
 
   test "Option: is_icon_only and is_danger" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.button is_icon_only is_danger aria-label="Desktop">
@@ -117,7 +117,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
   end
 
   test "Option: is_close_button" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.button is_close_button aria-label="Close">
@@ -132,7 +132,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
   end
 
   test "Extra attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.button dir="rtl">Button</.button>

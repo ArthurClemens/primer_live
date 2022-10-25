@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   import Phoenix.LiveViewTest
 
   test "Regular label: lWithout attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.label>Label</.label>
@@ -20,7 +20,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "Regular label: Attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.label is_primary>Label</.label>
@@ -57,7 +57,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "Regular label: Attribute: class" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.label class="my-label">Label</.label>
@@ -70,7 +70,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "Regular label: Other attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.label dir="rtl">Label</.label>
@@ -83,7 +83,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "Issue label: without attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.issue_label>Label</.issue_label>
@@ -96,7 +96,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "Issue label: Attribute: is_big" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.issue_label is_big>Label</.issue_label>
@@ -109,7 +109,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "Issue label: Attribute: class" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.issue_label class="color-bg-accent-emphasis color-fg-on-emphasis">Label</.issue_label>
@@ -122,7 +122,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "Issue label:Other attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.issue_label dir="rtl">Label</.issue_label>
@@ -135,7 +135,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "State label: without attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.state_label>Label</.state_label>
@@ -148,7 +148,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "State label: Attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.state_label is_small>Label</.state_label>
@@ -170,7 +170,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "State label: Attribute: class" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.state_label class="color-bg-accent-emphasis color-fg-on-emphasis">Label</.state_label>
@@ -183,7 +183,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "State label:Other attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.state_label dir="rtl">Label</.state_label>
@@ -196,7 +196,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "Counter label: without attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.counter>12</.counter>
@@ -209,7 +209,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "Counter label: Attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.counter is_primary>12</.counter>
@@ -224,7 +224,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "Counter label: Attribute: class" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.counter class="color-bg-accent-emphasis color-fg-on-emphasis">12</.counter>
@@ -237,7 +237,7 @@ defmodule PrimerLive.TestComponents.LabelTest do
   end
 
   test "Counter label:Other attributes" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.counter dir="rtl">12</.counter>

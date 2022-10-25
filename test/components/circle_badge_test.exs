@@ -7,7 +7,7 @@ defmodule PrimerLive.TestComponents.CircleBadgeTest do
   import Phoenix.LiveViewTest
 
   test "Slot: octicon" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.circle_badge>
@@ -29,7 +29,7 @@ defmodule PrimerLive.TestComponents.CircleBadgeTest do
   end
 
   test "Slot: img" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.circle_badge>
@@ -46,7 +46,7 @@ defmodule PrimerLive.TestComponents.CircleBadgeTest do
   end
 
   test "Attribute: size (medium)" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.circle_badge size="medium">
@@ -68,7 +68,7 @@ defmodule PrimerLive.TestComponents.CircleBadgeTest do
   end
 
   test "Attribute: size (large)" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.circle_badge size="large">
@@ -90,7 +90,7 @@ defmodule PrimerLive.TestComponents.CircleBadgeTest do
   end
 
   test "Links" do
-    assigns = []
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.circle_badge href="#url">
