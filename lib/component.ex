@@ -11,7 +11,7 @@ defmodule PrimerLive.Component do
   @doc section: :forms
 
   @doc ~S"""
-  Creates a text input field.
+  Generates a text input field.
 
   Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group" to add a field label and validation.
 
@@ -174,8 +174,8 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:type, :string, default: "text", doc: "Text input type.")
   attr(:tabindex, :string, doc: "Tab index.")
+  attr(:type, :string, default: "text", doc: "Text input type.")
   attr(:is_contrast, :boolean, default: false, doc: "Changes the background color to light gray.")
   attr(:is_full_width, :boolean, default: false, doc: "Full width input.")
 
@@ -189,7 +189,7 @@ defmodule PrimerLive.Component do
 
   attr(:is_short, :boolean,
     default: false,
-    doc: "Within a `group` slot. Creates an input with a reduced width."
+    doc: "Within a `group` slot. Generates an input with a reduced width."
   )
 
   attr(:is_group, :boolean,
@@ -501,7 +501,7 @@ defmodule PrimerLive.Component do
   @doc section: :forms
 
   @doc ~S"""
-  Creates a textarea.
+  Generates a textarea.
 
   ```
   <.textarea name="comments" />
@@ -529,7 +529,7 @@ defmodule PrimerLive.Component do
   @doc section: :alerts
 
   @doc ~S"""
-  Creates an alert message.
+  Generates an alert message.
 
   [Examples](#alert/1-examples) • [Attributes](#alert/1-attributes) • [Slots](#alert/1-slots) • [Reference](#alert/1-reference)
 
@@ -683,7 +683,7 @@ defmodule PrimerLive.Component do
   @doc section: :layout
 
   @doc ~S"""
-  Creates a responsive-friendly page layout with 2 columns.
+  Generates a responsive-friendly page layout with 2 columns.
 
   [Examples](#layout/1-examples) • [Attributes](#layout/1-attributes) • [Reference](#layout/1-reference)
 
@@ -836,7 +836,7 @@ defmodule PrimerLive.Component do
   attr(:is_divided, :boolean,
     default: false,
     doc:
-      "Use `is_divided` in conjunction with the `layout_item/1` element with attribute `divider` to show a divider between the main content and the sidebar. Creates a 1px line between main and sidebar."
+      "Use `is_divided` in conjunction with the `layout_item/1` element with attribute `divider` to show a divider between the main content and the sidebar. Generates a 1px line between main and sidebar."
   )
 
   attr(:is_narrow_sidebar, :boolean,
@@ -887,17 +887,17 @@ defmodule PrimerLive.Component do
 
   attr(:is_centered_lg, :boolean,
     default: false,
-    doc: "Creates a wrapper around `main` to keep its content centered up to max width \"lg\"."
+    doc: "Generates a wrapper around `main` to keep its content centered up to max width \"lg\"."
   )
 
   attr(:is_centered_md, :boolean,
     default: false,
-    doc: "Creates a wrapper around `main` to keep its content centered up to max width \"md\"."
+    doc: "Generates a wrapper around `main` to keep its content centered up to max width \"md\"."
   )
 
   attr(:is_centered_xl, :boolean,
     default: false,
-    doc: "Creates a wrapper around `main` to keep its content centered up to max width \"xl\"."
+    doc: "Generates a wrapper around `main` to keep its content centered up to max width \"xl\"."
   )
 
   attr(:is_flow_row_hidden, :boolean,
@@ -907,7 +907,7 @@ defmodule PrimerLive.Component do
 
   attr(:is_flow_row_shallow, :boolean,
     default: false,
-    doc: "On a small screen (up to 544px). Creates a filled 8px horizontal divider."
+    doc: "On a small screen (up to 544px). Generates a filled 8px horizontal divider."
   )
 
   attr(:rest, :global,
@@ -918,7 +918,7 @@ defmodule PrimerLive.Component do
 
   slot :main,
     doc:
-      "Creates a main element. Default gutter sizes: md: 16px, lg: 24px (change with `is_gutter_none`, `is_gutter_condensed` and `is_gutter_spacious`). Stacks when container is `sm` (change with `is_flow_row_until_md` and `is_flow_row_until_lg`)." do
+      "Generates a main element. Default gutter sizes: md: 16px, lg: 24px (change with `is_gutter_none`, `is_gutter_condensed` and `is_gutter_spacious`). Stacks when container is `sm` (change with `is_flow_row_until_md` and `is_flow_row_until_lg`)." do
     attr(:order, :integer,
       doc:
         "Markup order, defines in what order the slot is rendered in HTML. Keyboard navigation follows the markup order. Decide carefully how the focus order should be be by deciding whether main or sidebar comes first in code. The markup order won't affect the visual position. Possible values: 1 or 2; default value: 2."
@@ -927,12 +927,12 @@ defmodule PrimerLive.Component do
 
   slot(:divider,
     doc:
-      "Creates a divider element. The divider will only be shown with option `is_divided`. Creates a line between the main and sidebar elements - horizontal when the elements are stacked and vertical when they are shown side by side."
+      "Generates a divider element. The divider will only be shown with option `is_divided`. Generates a line between the main and sidebar elements - horizontal when the elements are stacked and vertical when they are shown side by side."
   )
 
   slot :sidebar,
     doc:
-      "Creates a sidebar element. Widths: md: 256px, lg: 296px (change with `is_narrow_sidebar` and `is_wide_sidebar`)." do
+      "Generates a sidebar element. Widths: md: 256px, lg: 296px (change with `is_narrow_sidebar` and `is_wide_sidebar`)." do
     attr :order, :integer, doc: "See `main` slot. Default value: 1."
   end
 
@@ -1061,7 +1061,7 @@ defmodule PrimerLive.Component do
   @doc section: :box
 
   @doc ~S"""
-  Creates a content container.
+  Generates a content container.
 
   [Examples](#box/1-examples) • [Attributes](#box/1-attributes) • [Slots](#box/1-slots) • [Lets](#box/1-lets) • [Reference](#box/1-reference)
 
@@ -1293,12 +1293,12 @@ defmodule PrimerLive.Component do
 
   attr(:is_blue, :boolean,
     default: false,
-    doc: "Creates a blue box theme."
+    doc: "Generates a blue box theme."
   )
 
   attr(:is_danger, :boolean,
     default: false,
-    doc: "Creates a danger color box theme. Only works with slots `row` and `body`."
+    doc: "Generates a danger color box theme. Only works with slots `row` and `body`."
   )
 
   attr(:is_border_dashed, :boolean,
@@ -1330,19 +1330,19 @@ defmodule PrimerLive.Component do
   )
 
   slot :header,
-    doc: "Creates a header row element." do
+    doc: "Generates a header row element." do
     attr :class, :string, doc: "Additional classname."
     attr :is_blue, :boolean, doc: "Change the header border and background to blue."
   end
 
   slot :header_title,
     doc:
-      "Creates a title within the header. If no header slot is passed, the header title will be wrapped inside a header element." do
+      "Generates a title within the header. If no header slot is passed, the header title will be wrapped inside a header element." do
     attr :class, :string, doc: "Additional classname."
   end
 
   slot :row,
-    doc: "Creates a content row element." do
+    doc: "Generates a content row element." do
     attr :class, :string, doc: "Additional classname."
     attr :is_blue, :boolean, doc: "Blue row theme."
     attr :is_gray, :boolean, doc: "Gray row theme."
@@ -1358,7 +1358,7 @@ defmodule PrimerLive.Component do
     attr :is_unread, :boolean,
       doc: "Apply a blue vertical line highlight for indicating a row contains unread items."
 
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the row element.
       """
@@ -1366,12 +1366,12 @@ defmodule PrimerLive.Component do
   end
 
   slot :body,
-    doc: "Creates a body element." do
+    doc: "Generates a body element." do
     attr :class, :string, doc: "Additional classname."
   end
 
   slot :footer,
-    doc: "Creates a footer row element." do
+    doc: "Generates a footer row element." do
     attr :class, :string, doc: "Additional classname."
   end
 
@@ -1545,7 +1545,7 @@ defmodule PrimerLive.Component do
   @doc section: :header
 
   @doc ~S"""
-  Creates a navigational header, to be placed at the top of the page.
+  Generates a navigational header, to be placed at the top of the page.
 
   [Examples](#header/1-examples) • [Attributes](#header/1-attributes) • [Slots](#header/1-slots) • [Lets](#header/1-lets) •  [Reference](#header/1-reference)
 
@@ -1662,9 +1662,9 @@ defmodule PrimerLive.Component do
     doc: """
     Header item.
     """ do
-    attr :is_full, :string, doc: "Stretches the item to maximum."
+    attr :is_full, :boolean, doc: "Stretches the item to maximum."
 
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
       """
@@ -1756,7 +1756,7 @@ defmodule PrimerLive.Component do
   @doc section: :dropdown
 
   @doc ~S"""
-  Creates a dropdown menu.
+  Generates a dropdown menu.
 
   Dropdowns are small context menus that can be used for navigation and actions. They are a simple alternative to [select menus](`select_menu/1`).
 
@@ -1861,7 +1861,7 @@ defmodule PrimerLive.Component do
   slot(:toggle,
     required: true,
     doc: """
-    Creates a toggle element (default with button appearance) using the slot content as label.
+    Generates a toggle element (default with button appearance) using the slot content as label.
 
     Any custom class will override the default class "btn".
     """
@@ -1869,11 +1869,11 @@ defmodule PrimerLive.Component do
 
   slot :menu,
     doc: """
-    Creates a menu element.
+    Generates a menu element.
     """ do
     attr(:title, :string,
       doc: """
-      Creates a menu header with specified title.
+      Generates a menu header with specified title.
       """
     )
 
@@ -1895,7 +1895,7 @@ defmodule PrimerLive.Component do
     """ do
     attr(:is_divider, :boolean,
       doc: """
-      Creates a divider element.
+      Generates a divider element.
       """
     )
 
@@ -1917,7 +1917,7 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
       """
@@ -2106,7 +2106,7 @@ defmodule PrimerLive.Component do
   @doc section: :select_menu
 
   @doc ~S"""
-  Creates a select menu.
+  Generates a select menu.
 
   [Examples](#select_menu/1-examples) • [Attributes](#select_menu/1-attributes) • [Slots](#select_menu/1-slots) • [Reference](#select_menu/1-reference)
 
@@ -2246,31 +2246,31 @@ defmodule PrimerLive.Component do
   attr :is_backdrop, :boolean,
     default: false,
     doc: """
-    Creates a light backdrop background color.
+    Generates a light backdrop background color.
     """
 
   attr :is_dark_backdrop, :boolean,
     default: false,
     doc: """
-    Creates a darker backdrop background color.
+    Generates a darker backdrop background color.
     """
 
   attr :is_medium_backdrop, :boolean,
     default: false,
     doc: """
-    Creates a medium backdrop background color.
+    Generates a medium backdrop background color.
     """
 
   attr :is_light_backdrop, :boolean,
     default: false,
     doc: """
-    Creates a lighter backdrop background color (default).
+    Generates a lighter backdrop background color (default).
     """
 
   attr :is_fast, :boolean,
     default: true,
     doc: """
-    Creates fast fade transitions for backdrop and content.
+    Generates fast fade transitions for backdrop and content.
     """
 
   attr(:rest, :global,
@@ -2282,7 +2282,7 @@ defmodule PrimerLive.Component do
   slot(:toggle,
     required: true,
     doc: """
-    Creates a toggle element (default with button appearance) using the slot content as label.
+    Generates a toggle element (default with button appearance) using the slot content as label.
 
     Any custom class will override the default class "btn".
     """
@@ -2290,11 +2290,11 @@ defmodule PrimerLive.Component do
 
   slot :menu,
     doc: """
-    Creates a menu element.
+    Generates a menu element.
     """ do
     attr(:title, :string,
       doc: """
-      Creates a menu header with specified title.
+      Generates a menu header with specified title.
       """
     )
   end
@@ -2351,13 +2351,13 @@ defmodule PrimerLive.Component do
 
     attr(:is_disabled, :boolean,
       doc: """
-      Creates a disabled state.
+      Generates a disabled state.
       """
     )
 
     attr(:is_divider, :boolean,
       doc: """
-      Creates a divider. The divider may have content, for example a label "More options".
+      Generates a divider. The divider may have content, for example a label "More options".
       """
     )
 
@@ -2387,7 +2387,7 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
       """
@@ -2739,7 +2739,7 @@ defmodule PrimerLive.Component do
   @doc section: :buttons
 
   @doc ~S"""
-  Creates a button.
+  Generates a button.
 
   [Examples](#button/1-examples) • [Attributes](#button/1-attributes) • [Slots](#button/1-slots) • Reference](#button/1-reference)
 
@@ -2806,30 +2806,30 @@ defmodule PrimerLive.Component do
   """
 
   attr :class, :string, doc: "Additional classname."
-  attr :is_full_width, :boolean, default: false, doc: "Creates a full-width button."
+  attr :is_full_width, :boolean, default: false, doc: "Generates a full-width button."
 
   attr :is_close_button, :boolean,
     default: false,
     doc: "Use when enclosing icon \"x-16\". This setting removes the default padding."
 
-  attr :is_danger, :boolean, default: false, doc: "Creates a red button."
-  attr :is_disabled, :boolean, default: false, doc: "Creates a disabled button."
+  attr :is_danger, :boolean, default: false, doc: "Generates a red button."
+  attr :is_disabled, :boolean, default: false, doc: "Generates a disabled button."
 
   attr :is_icon_only, :boolean,
     default: false,
-    doc: "Creates an icon button without a label. Add `is_danger` to create a danger icon."
+    doc: "Generates an icon button without a label. Add `is_danger` to create a danger icon."
 
   attr :is_invisible, :boolean,
     default: false,
     doc: "Create a button that looks like a link, maintaining the paddings of a regular button."
 
-  attr :is_large, :boolean, default: false, doc: "Creates a large button."
+  attr :is_large, :boolean, default: false, doc: "Generates a large button."
   attr :is_link, :boolean, default: false, doc: "Create a button that looks like a link."
-  attr :is_outline, :boolean, default: false, doc: "Creates an outline button."
-  attr :is_primary, :boolean, default: false, doc: "Creates a primary colored button."
-  attr :is_selected, :boolean, default: false, doc: "Creates a selected button."
-  attr :is_small, :boolean, default: false, doc: "Creates a small button."
-  attr :is_submit, :boolean, default: false, doc: "Creates a button with type=\"submit\"."
+  attr :is_outline, :boolean, default: false, doc: "Generates an outline button."
+  attr :is_primary, :boolean, default: false, doc: "Generates a primary colored button."
+  attr :is_selected, :boolean, default: false, doc: "Generates a selected button."
+  attr :is_small, :boolean, default: false, doc: "Generates a small button."
+  attr :is_submit, :boolean, default: false, doc: "Generates a button with type=\"submit\"."
 
   attr(:rest, :global,
     doc: """
@@ -2890,7 +2890,7 @@ defmodule PrimerLive.Component do
   @doc section: :buttons
 
   @doc ~S"""
-  Creates a group of buttons.
+  Generates a group of buttons.
 
   [Examples](#button_group/1-examples) • [Attributes](#button_group/1-attributes) • [Reference](#button_group/1-reference)
 
@@ -2975,7 +2975,7 @@ defmodule PrimerLive.Component do
   @doc section: :pagination
 
   @doc ~S"""
-  Creates a control to navigate search results.
+  Generates a control to navigate search results.
 
   [Examples](#pagination/1-examples) • [Attributes](#pagination/1-attributes) • [Reference](#pagination/1-reference)
 
@@ -3060,7 +3060,7 @@ defmodule PrimerLive.Component do
     default: 2,
     doc: "Number of page links at each side of the current page number element."
 
-  attr :is_numbered, :boolean, default: true, doc: "Showing page numbers."
+  attr :is_numbered, :any, default: true, doc: "Boolean atom or string. Showing page numbers."
   attr :class, :string, doc: "Additional classname."
 
   attr :classes, :map,
@@ -3448,7 +3448,7 @@ defmodule PrimerLive.Component do
   @doc section: :labels
 
   @doc ~S"""
-  Creates a label element.
+  Generates a label element.
 
   Labels add metadata or indicate status of items and navigational elements.
 
@@ -3504,13 +3504,13 @@ defmodule PrimerLive.Component do
   attr :is_primary, :boolean,
     default: false,
     doc: """
-    Creates a label with a stronger border.
+    Generates a label with a stronger border.
     """
 
   attr :is_secondary, :boolean,
     default: false,
     doc: """
-    Creates a label with a subtler text color.
+    Generates a label with a subtler text color.
     """
 
   attr :is_accent, :boolean,
@@ -4144,7 +4144,7 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
       """
@@ -4237,7 +4237,7 @@ defmodule PrimerLive.Component do
   @doc section: :links
 
   @doc ~S"""
-  Creates a consistent link-like appearance of actual links and spans inside links.
+  Generates a consistent link-like appearance of actual links and spans inside links.
 
   The component name deviates from the PrimerCSS name `Link` to prevent a naming conflict with `Phoenix.Component.link/1`.
 
@@ -4348,9 +4348,27 @@ defmodule PrimerLive.Component do
     Makes any text color used with links to turn blue on hover. This is useful when you want only part of a link to turn blue on hover.
     """
 
+  attr(:href, :any,
+    doc: """
+    Link attribute. If used, the link will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+    """
+  )
+
+  attr(:patch, :string,
+    doc: """
+    Link attribute - see `href`.
+    """
+  )
+
+  attr(:navigate, :string,
+    doc: """
+    Link attribute - see `href`.
+    """
+  )
+
   attr(:rest, :global,
     doc: """
-    Additional HTML attributes added to the link or span. Use `Phoenix.Component.link/1` attributes `href`, `navigate` or `patch` to create links.
+    Additional HTML attributes added to the link or span.
     """
   )
 
@@ -4368,20 +4386,26 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    is_link = AttributeHelpers.is_link?(assigns.rest)
+    attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class],
+        [href: assigns[:href], navigate: assigns[:navigate], patch: assigns[:patch]]
+      ])
+
+    is_link = AttributeHelpers.is_link?(assigns)
 
     assigns =
       assigns
       |> assign(:is_link, is_link)
-      |> assign(:class, class)
+      |> assign(:attributes, attributes)
 
     ~H"""
     <%= if @is_link do %>
-      <.link class={@class} {@rest}>
+      <.link {@attributes}>
         <%= render_slot(@inner_block) %>
       </.link>
     <% else %>
-      <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
+      <span {@attributes}><%= render_slot(@inner_block) %></span>
     <% end %>
     """
   end
@@ -4497,7 +4521,7 @@ defmodule PrimerLive.Component do
   @doc section: :avatars
 
   @doc ~S"""
-  Creates a larger "parent" avatar with a smaller "child" overlaid on top.
+  Generates a larger "parent" avatar with a smaller "child" overlaid on top.
 
   [Examples](#parent_child_avatar/1-examples) • [Attributes](#parent_child_avatar/1-attributes) • [Slots](#parent_child_avatar/1-slots) • [Reference](#parent_child_avatar/1-reference)
 
@@ -4533,10 +4557,10 @@ defmodule PrimerLive.Component do
   )
 
   slot :parent,
-    doc: "Creates a parent avatar." do
+    doc: "Generates a parent avatar." do
     attr(:size, :integer, doc: "Avatar size - see `avatar/1`.")
 
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the parent avatar.
       """
@@ -4544,10 +4568,10 @@ defmodule PrimerLive.Component do
   end
 
   slot :child,
-    doc: "Creates a child avatar." do
+    doc: "Generates a child avatar." do
     attr(:size, :integer, doc: "Avatar size - see `avatar/1`.")
 
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the child avatar.
       """
@@ -4714,8 +4738,8 @@ defmodule PrimerLive.Component do
   )
 
   slot :octicon,
-    doc: "Creates a badge icon with `octicon/1`." do
-    attr(:rest, :global,
+    doc: "Generates a badge icon with `octicon/1`." do
+    attr(:rest, :any,
       doc: """
       Attributes supplied to the `octicon` component.
       """
@@ -4723,8 +4747,8 @@ defmodule PrimerLive.Component do
   end
 
   slot :img,
-    doc: "Creates a badge icon with an `img` tag." do
-    attr(:rest, :global,
+    doc: "Generates a badge icon with an `img` tag." do
+    attr(:rest, :any,
       doc: """
       HTML attributes supplied to the `img` element.
       """
@@ -5160,7 +5184,7 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Attributes supplied to the heading.
       """
@@ -5169,7 +5193,7 @@ defmodule PrimerLive.Component do
 
   slot :octicon,
     doc: "Adds a top icon with `octicon/1`." do
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Attributes supplied to the `octicon` component.
       """
@@ -5178,7 +5202,7 @@ defmodule PrimerLive.Component do
 
   slot :img,
     doc: "Adds a top image with an `img` tag." do
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       HTML attributes supplied to the `img` element.
       """
@@ -5187,7 +5211,7 @@ defmodule PrimerLive.Component do
 
   slot :action,
     doc: "Adds a wrapper for a button or link." do
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       HTML attributes supplied to the action wrapper element.
       """
@@ -5516,7 +5540,7 @@ defmodule PrimerLive.Component do
       When using multiple items. Will expand the text on `hover` and `focus`.
       """
 
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Attributes supplied to the item.
       """
@@ -5801,37 +5825,37 @@ defmodule PrimerLive.Component do
   attr :is_backdrop, :boolean,
     default: false,
     doc: """
-    Creates a medium backdrop background color.
+    Generates a medium backdrop background color.
     """
 
   attr :is_dark_backdrop, :boolean,
     default: false,
     doc: """
-    Creates a darker backdrop background color.
+    Generates a darker backdrop background color.
     """
 
   attr :is_medium_backdrop, :boolean,
     default: false,
     doc: """
-    Creates a medium backdrop background color (default).
+    Generates a medium backdrop background color (default).
     """
 
   attr :is_light_backdrop, :boolean,
     default: false,
     doc: """
-    Creates a lighter backdrop background color.
+    Generates a lighter backdrop background color.
     """
 
   attr :is_fast, :boolean,
     default: false,
     doc: """
-    Creates fast fade transitions for backdrop and content.
+    Generates fast fade transitions for backdrop and content.
     """
 
   attr :is_modal, :boolean,
     default: false,
     doc: """
-    Creates a modal dialog; clicking the backdrop (if used) or outside of the dialog will not close the dialog.
+    Generates a modal dialog; clicking the backdrop (if used) or outside of the dialog will not close the dialog.
     """
 
   attr :is_escapable, :boolean,
@@ -5848,13 +5872,13 @@ defmodule PrimerLive.Component do
   attr :is_narrow, :boolean,
     default: false,
     doc: """
-    Creates a smaller dialog, width: `320px` (default: `440px`).
+    Generates a smaller dialog, width: `320px` (default: `440px`).
     """
 
   attr :is_wide, :boolean,
     default: false,
     doc: """
-    Creates a wider dialog, width: `640px` (default: `440px`).
+    Generates a wider dialog, width: `640px` (default: `440px`).
     """
 
   attr :max_height, :string,
@@ -5881,7 +5905,7 @@ defmodule PrimerLive.Component do
 
     Note that slot `header` is automatically created to ensure the correct close button.
     """ do
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Additional attributes.
       """
@@ -5892,7 +5916,7 @@ defmodule PrimerLive.Component do
     doc: """
     Dialog body. Uses `box/1` `body` slot.
     """ do
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Additional attributes.
       """
@@ -5903,7 +5927,7 @@ defmodule PrimerLive.Component do
     doc: """
     Dialog row. Uses `box/1` `row` slot.
     """ do
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Additional attributes.
       """
@@ -5914,7 +5938,7 @@ defmodule PrimerLive.Component do
     doc: """
     Dialog footer. Uses `box/1` `footer` slot.
     """ do
-    attr(:rest, :global,
+    attr(:rest, :any,
       doc: """
       Additional attributes.
       """

@@ -1,4 +1,4 @@
-defmodule PrimerLive.TestComponents.LinkTest do
+defmodule PrimerLive.TestComponents.AsLinkTest do
   use ExUnit.Case
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers
@@ -81,7 +81,7 @@ defmodule PrimerLive.TestComponents.LinkTest do
            """)
            |> format_html() ==
              """
-             <span class="Link" rel="next">label</span>
+             <span rel="next" class="Link">label</span>
              <a href="/home" class="Link" rel="next">label</a>
              """
              |> format_html()

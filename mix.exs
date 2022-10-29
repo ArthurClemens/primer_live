@@ -29,14 +29,14 @@ defmodule PrimerLive.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix_live_view, "~> 0.18.2"},
-      {:phoenix_html, "~> 3.0"},
-      {:typed_ecto_schema, "~> 0.4.1"},
-      {:ecto_sql, "~> 3.6"},
-      {:jason, "~> 1.0"},
-      {:ex_doc, "~> 0.28.5", only: :dev},
+      {:dialyxir, "~> 1.2", only: :dev, runtime: false},
       {:earmark, "~> 1.4", only: :dev},
-      {:dialyxir, "~> 1.2", only: :dev, runtime: false}
+      {:ecto_sql, "~> 3.6"},
+      {:ex_doc, "~> 0.28.5", only: :dev},
+      {:jason, "~> 1.0"},
+      {:phoenix_html, "~> 3.2.0"},
+      {:phoenix_live_view, "~> 0.18.3"},
+      {:typed_ecto_schema, "~> 0.4.1"}
     ]
   end
 

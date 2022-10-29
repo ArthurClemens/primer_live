@@ -167,9 +167,11 @@ defmodule PrimerLive.Helpers.SchemaHelpers do
         end)
       end)
 
+    assigns = assigns |> assign(:errors, errors)
+
     ~H"""
     <.error_message component_name={@component_name}>
-      <%= for {option_name, messages} <- errors do %>
+      <%= for {option_name, messages} <- @errors do %>
         <%= for message <- messages do %>
           <p><%= option_name %>: <%= message %></p>
         <% end %>
