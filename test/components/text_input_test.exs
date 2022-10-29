@@ -102,7 +102,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
 
     assert rendered_to_string(~H"""
            <.text_input form={:user} field={:first_name}>
-             <:group :let={field} label="First name">
+             <:group :let={field} label="Some label">
                <h2><%= field.label %></h2>
              </:group>
            </.text_input>
@@ -112,7 +112,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <div class="form-group">
              <div class="form-group-header">
              <h2>
-             <label for="user_first_name">First name</label>
+             <label for="user_first_name">Some label</label>
              </h2>
              </div>
              <div class="form-group-body"><input class="form-control" id="user_first_name" name="user[first_name]" type="text" />
@@ -127,7 +127,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
 
     assert rendered_to_string(~H"""
            <.text_input form={:user} field={:first_name}>
-             <:group :let={field} label="First name">
+             <:group :let={field} label="Some label">
                <h2>
                  <%= if !field.field_state.valid? do %>
                    <div>Please correct your input</div>
@@ -144,7 +144,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <div class="form-group-header">
              <h2>
              <div>Please correct your input</div>
-             <label for="user_first_name">First name</label>
+             <label for="user_first_name">Some label</label>
              </h2>
              </div>
              <div class="form-group-body"><input class="form-control" id="user_first_name" name="user[first_name]" type="text" />
@@ -333,13 +333,13 @@ defmodule PrimerLive.TestComponents.TextInputTest do
 
     assert rendered_to_string(~H"""
            <.text_input form={:f} field={:first_name}>
-             <:group label="First name" class="x"></:group>
+             <:group label="Some label" class="x"></:group>
            </.text_input>
            """)
            |> format_html() ==
              """
              <div class="form-group x">
-             <div class="form-group-header"><label for="f_first_name">First name</label></div>
+             <div class="form-group-header"><label for="f_first_name">Some label</label></div>
              <div class="form-group-body"><input class="form-control" id="f_first_name" name="f[first_name]" type="text" /></div>
              </div>
              """
@@ -424,7 +424,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
                  group: "group-x",
                  header: "header-x",
                  body: "body-x",
-                 label: "label-x",
+                 group_label: "group-label-x",
                  input: "input-x",
                  note: "note-x"
                }
@@ -438,7 +438,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="form-group errored my-group group-x">
-             <div class="form-group-header header-x"><label class="label-x" for="user_first_name">First name</label></div>
+             <div class="form-group-header header-x"><label class="group-label-x" for="user_first_name">First name</label></div>
              <div class="form-group-body body-x"><input aria-describedby="first_name-validation"
              class="form-control my-input input-x" id="user_first_name" name="user[first_name]" type="text" value="" /></div>
              <p class="note error note-x" id="first_name-validation">can&#39;t be blank</p>

@@ -20,7 +20,8 @@ defmodule PrimerLive.Helpers.FormHelpers do
     "text" => :text_input,
     "textarea" => :textarea,
     "time" => :time_input,
-    "url" => :url_input
+    "url" => :url_input,
+    "checkbox" => :checkbox
   }
 
   @doc """

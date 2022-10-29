@@ -151,7 +151,7 @@ defmodule PrimerLive.Component do
       group: nil,
       header: nil,
       body: nil,
-      label: nil,
+      group_label: nil,
       input: nil,
       note: nil
     },
@@ -163,12 +163,12 @@ defmodule PrimerLive.Component do
     Default map:
     ```
     %{
-      group: "",  # Form group element
-      header: "", # Header element containing the input label
-      body: "",   # Input wrapper
-      label: "",  # Input label
-      input: "",  # Input element
-      note: ""    # Validation message container
+      group: "",       # Form group element
+      header: "",      # Header element containing the group label
+      body: "",        # Input wrapper
+      group_label: "", # Form group label
+      input: "",       # Input element
+      note: ""         # Validation message container
     }
     ```
     """
@@ -195,7 +195,7 @@ defmodule PrimerLive.Component do
   attr(:is_group, :boolean,
     default: false,
     doc: """
-    Inserts the input inside a form group and creates a default field label.
+    Inserts the input inside a form group and creates a default group label.
 
     To configure the form group and label, see [slot `group`](#text_input/1-slots).
     """
@@ -326,16 +326,24 @@ defmodule PrimerLive.Component do
           assigns.class
         ])
       )
+      |> assign(:input_type, FormHelpers.input_type_as_atom(assigns.type))
 
     render_form_group(assigns)
   end
 
   defp render_form_group(assigns) do
-    type = assigns.type
-    input_type = FormHelpers.input_type_as_atom(type)
     form = assigns[:form]
     field = assigns[:field]
-    rest = assigns.rest
+
+    rest =
+      AttributeHelpers.append_attributes(
+        assigns_to_attributes(assigns.rest, [
+          :type
+        ]),
+        [
+          [checked: assigns[:checked]]
+        ]
+      )
 
     # Get the first group slot, if any
     group_slot = if assigns[:group] && assigns[:group] !== [], do: hd(assigns[:group]), else: []
@@ -360,7 +368,10 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:input, apply(Phoenix.HTML.Form, input_type, [form, field, input_attributes]))
+      |> assign(
+        :input,
+        apply(Phoenix.HTML.Form, assigns.input_type, [form, field, input_attributes])
+      )
 
     case has_group do
       false ->
@@ -388,9 +399,9 @@ defmodule PrimerLive.Component do
               "form-group-header",
               assigns.classes[:header]
             ]),
-          label:
+          group_label:
             AttributeHelpers.classnames([
-              assigns.classes[:label]
+              assigns.classes[:group_label]
             ]),
           input:
             AttributeHelpers.classnames([
@@ -417,9 +428,9 @@ defmodule PrimerLive.Component do
         # else use the default generated label
         header_label =
           if group_slot[:label] do
-            label(form, field, group_slot[:label], class: classes.label)
+            label(form, field, group_slot[:label], class: classes.group_label)
           else
-            label(form, field, class: classes.label)
+            label(form, field, class: classes.group_label)
           end
 
         # Data accessible by :let
@@ -520,6 +531,137 @@ defmodule PrimerLive.Component do
   def textarea(assigns) do
     assigns = assigns |> assign(:type, "textarea")
     text_input(assigns)
+  end
+
+  # ------------------------------------------------------------------------------------
+  # checkbox
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :forms
+
+  @doc ~S"""
+  Generates a checkbox.
+  """
+
+  attr :field, :any, doc: "Field name (atom or string)."
+
+  attr :form, :any,
+    doc:
+      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+
+  attr(:label, :string, default: nil, doc: "Checkbox label.")
+
+  attr(:is_checked, :boolean, default: nil, doc: "Checked state.")
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      group: nil,
+      header: nil,
+      body: nil,
+      group_label: nil,
+      label: nil,
+      input: nil,
+      hint: nil,
+      note: nil
+    },
+    doc: """
+    Additional classnames for form group elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      group: "",       # Form group element
+      header: "",      # Header element containing the input label
+      body: "",        # Input wrapper
+      group_label: "", # Group label
+      label: "",       # Input label
+      input: "",       # Checkbox input element
+      hint: ""         # Hint message container
+      note: ""         # Validation message container
+    }
+    ```
+    """
+  )
+
+  attr(:tabindex, :string, doc: "Tab index.")
+
+  attr(:is_group, :boolean,
+    default: false,
+    doc: """
+    Inserts the input inside a form group and creates a default field label.
+
+    To configure the form group and label, see [slot `group`](#text_input/1-slots).
+    """
+  )
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the input (or if applicable, the form group) element.
+    """
+  )
+
+  slot :group,
+    doc: """
+    Insert the input inside a form group.
+
+    Yields: see [:let](#text_input/1-lets).
+
+    """ do
+    attr(:label, :string,
+      doc: """
+      Group label. See `text_input/1-slots`.
+      """
+    )
+
+    attr(:validation_message, :any,
+      doc: """
+      Function to write a custom validation message (in case of error or success).
+      See `text_input/1-slots`.
+      """
+    )
+  end
+
+  def checkbox(assigns) do
+    with true <- validate_is_form(assigns),
+         true <- validate_is_short_with_form_group(assigns) do
+      render_checkbox(assigns)
+    else
+      {:error, reason} ->
+        assigns =
+          assigns
+          |> assign(:reason, reason)
+
+        ~H"""
+        <%= @reason %>
+        """
+    end
+  end
+
+  defp render_checkbox(assigns) do
+    assigns =
+      assigns
+      |> assign(
+        :class,
+        AttributeHelpers.classnames([
+          "form-checkbox",
+          assigns.class
+        ])
+      )
+      |> assign(:input_type, FormHelpers.input_type_as_atom("checkbox"))
+      |> assign(
+        :checked,
+        if assigns.is_checked do
+          "checked"
+        else
+          nil
+        end
+      )
+
+    render_form_group(assigns)
   end
 
   # ------------------------------------------------------------------------------------
