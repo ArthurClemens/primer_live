@@ -5,7 +5,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
   # Helper functions for components that interact with forms and changesets.
 
   # Map of input name to atom value that can be used by Phoenix.HTML.Form to render the appropriate input element.
-  @input_types %{
+  @text_input_types %{
     "color" => :color_input,
     "date" => :date_input,
     "datetime-local" => :datetime_local_input,
@@ -20,8 +20,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
     "text" => :text_input,
     "textarea" => :textarea,
     "time" => :time_input,
-    "url" => :url_input,
-    "checkbox" => :checkbox
+    "url" => :url_input
   }
 
   @doc """
@@ -181,18 +180,18 @@ defmodule PrimerLive.Helpers.FormHelpers do
 
   ## Examples
 
-      iex> PrimerLive.Helpers.FormHelpers.input_type_as_atom("x")
+      iex> PrimerLive.Helpers.FormHelpers.text_input_type_as_atom("x")
       :text_input
 
-      iex> PrimerLive.Helpers.FormHelpers.input_type_as_atom("text")
+      iex> PrimerLive.Helpers.FormHelpers.text_input_type_as_atom("text")
       :text_input
 
-      iex> PrimerLive.Helpers.FormHelpers.input_type_as_atom("color")
+      iex> PrimerLive.Helpers.FormHelpers.text_input_type_as_atom("color")
       :color_input
 
   """
-  def input_type_as_atom(type_name) do
-    input_type = Map.get(@input_types, type_name)
+  def text_input_type_as_atom(type_name) do
+    input_type = Map.get(@text_input_types, type_name)
 
     if is_nil(input_type), do: :text_input, else: input_type
   end

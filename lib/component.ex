@@ -310,68 +310,93 @@ defmodule PrimerLive.Component do
     end
   end
 
-  defp render_text_input(assigns) do
-    assigns =
-      assigns
-      |> assign(
-        :class,
-        AttributeHelpers.classnames([
-          "form-control",
-          assigns.is_contrast and "input-contrast",
-          assigns.is_hide_webkit_autofill and "input-hide-webkit-autofill",
-          assigns.is_large and "input-lg",
-          assigns.is_small and "input-sm",
-          assigns.is_short and "short",
-          assigns.is_full_width and "input-block",
-          assigns.class
-        ])
-      )
-      |> assign(:input_type, FormHelpers.input_type_as_atom(assigns.type))
-
-    render_form_group(assigns)
-  end
-
-  defp render_form_group(assigns) do
+  defp get_group_attributes(assigns) do
     form = assigns[:form]
     field = assigns[:field]
 
-    rest =
-      AttributeHelpers.append_attributes(
-        assigns_to_attributes(assigns.rest, [
-          :type
-        ]),
-        [
-          [checked: assigns[:checked]]
-        ]
-      )
-
     # Get the first group slot, if any
     group_slot = if assigns[:group] && assigns[:group] !== [], do: hd(assigns[:group]), else: []
+    has_group_slot = group_slot !== []
+    has_group = assigns.is_group || has_group_slot
 
     # Get the field state from the group slot attributes
     field_state = FormHelpers.field_state(form, field, group_slot[:validation_message])
     %{message: message, message_id: message_id, valid?: valid?} = field_state
 
-    has_group_slot = group_slot !== []
-    has_group = assigns.is_group || has_group_slot
+    %{
+      field_state: field_state,
+      group_slot: group_slot,
+      has_group: has_group,
+      message: message,
+      message_id: message_id,
+      valid?: valid?
+    }
+  end
+
+  defp render_text_input(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "form-control",
+        assigns.is_contrast and "input-contrast",
+        assigns.is_hide_webkit_autofill and "input-hide-webkit-autofill",
+        assigns.is_large and "input-lg",
+        assigns.is_small and "input-sm",
+        assigns.is_short and "short",
+        assigns.is_full_width and "input-block",
+        assigns.class
+      ])
+
+    # Remove type from rest, we'll set it on the input
+    rest =
+      assigns_to_attributes(assigns.rest, [
+        :type
+      ])
+
+    group_attributes = get_group_attributes(assigns)
+
+    %{
+      has_group: has_group,
+      message_id: message_id
+    } = group_attributes
 
     initial_input_attrs = if has_group, do: [], else: rest
 
     input_attributes =
       AttributeHelpers.append_attributes(initial_input_attrs, [
-        [class: [assigns.class, assigns.classes[:input]]],
+        [class: [class, assigns.classes[:input]]],
         # If aria_label is not set, use the value of placeholder (if any):
         is_nil(rest[:aria_label]) and [aria_label: rest[:placeholder]],
         not is_nil(message_id) and [aria_describedby: message_id],
         assigns["tabindex"] && [tabindex: assigns.tabindex]
       ])
 
+    form = assigns[:form]
+    field = assigns[:field]
+    input_type = FormHelpers.text_input_type_as_atom(assigns.type)
+    input = apply(Phoenix.HTML.Form, input_type, [form, field, input_attributes])
+
     assigns =
       assigns
-      |> assign(
-        :input,
-        apply(Phoenix.HTML.Form, assigns.input_type, [form, field, input_attributes])
-      )
+      |> assign(:input, input)
+      |> assign(:form, form)
+      |> assign(:field, field)
+      |> assign(:group_attributes, group_attributes)
+      |> assign(:rest, rest)
+
+    render_form_group(assigns)
+  end
+
+  defp render_form_group(assigns) do
+    %{form: form, field: field, rest: rest, group_attributes: group_attributes} = assigns
+
+    %{
+      field_state: field_state,
+      has_group: has_group,
+      group_slot: group_slot,
+      message: message,
+      message_id: message_id,
+      valid?: valid?
+    } = group_attributes
 
     case has_group do
       false ->
@@ -642,24 +667,46 @@ defmodule PrimerLive.Component do
   end
 
   defp render_checkbox(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "form-checkbox",
+        assigns.class
+      ])
+
+    # Remove type from rest, we'll set it on the input
+    rest =
+      assigns_to_attributes(assigns.rest, [
+        :type
+      ])
+
+    group_attributes = get_group_attributes(assigns)
+
+    %{
+      has_group: has_group,
+      message_id: message_id
+    } = group_attributes
+
+    initial_input_attrs = if has_group, do: [], else: rest
+
+    input_attributes =
+      AttributeHelpers.append_attributes(initial_input_attrs, [
+        [class: [class, assigns.classes[:input]]],
+        not is_nil(message_id) and [aria_describedby: message_id],
+        assigns["tabindex"] && [tabindex: assigns.tabindex],
+        assigns.is_checked && [checked: "checked"]
+      ])
+
+    form = assigns[:form]
+    field = assigns[:field]
+    input = apply(Phoenix.HTML.Form, :checkbox, [form, field, input_attributes])
+
     assigns =
       assigns
-      |> assign(
-        :class,
-        AttributeHelpers.classnames([
-          "form-checkbox",
-          assigns.class
-        ])
-      )
-      |> assign(:input_type, FormHelpers.input_type_as_atom("checkbox"))
-      |> assign(
-        :checked,
-        if assigns.is_checked do
-          "checked"
-        else
-          nil
-        end
-      )
+      |> assign(:input, input)
+      |> assign(:form, form)
+      |> assign(:field, field)
+      |> assign(:group_attributes, group_attributes)
+      |> assign(:rest, rest)
 
     render_form_group(assigns)
   end
