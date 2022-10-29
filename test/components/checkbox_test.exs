@@ -38,7 +38,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              """
              |> format_html()
   end
@@ -56,6 +56,44 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              |> format_html()
   end
 
+  test "Attribute: form and field (atoms)" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.checkbox form={:user} field={:available_for_hire} />
+           """)
+           |> format_html() ==
+             """
+             <div class="form-checkbox">
+             <label>
+             <input name="user[available_for_hire]" type="hidden" value="false" />
+             <input id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
+             Available for hire
+             </label>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: field as string" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.checkbox form={:user} field="available_for_hire" />
+           """)
+           |> format_html() ==
+             """
+             <div class="form-checkbox">
+             <label>
+             <input name="user[available_for_hire]" type="hidden" value="false" />
+             <input id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
+             Available for hire
+             </label>
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Attribute: is_group" do
     assigns = %{}
 
@@ -65,9 +103,17 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <div class="form-group">
-             <div class="form-group-header"><label for="user_available_for_hire">Available for hire</label></div>
-             <div class="form-group-body"><input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="form-checkbox" id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
+             <div class="form-group-header">
+             <label>Available for hire</label>
+             </div>
+             <div class="form-group-body">
+             <div class="form-checkbox">
+             <label>
+             <input name="user[available_for_hire]" type="hidden" value="false" />
+             <input id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
+             Available for hire
+             </label>
+             </div>
              </div>
              </div>
              """
@@ -85,10 +131,11 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <div class="form-group">
-             <div class="form-group-header"><label for="user_available_for_hire">Some label</label></div>
+             <div class="form-group-header"><label>Some label</label></div>
              <div class="form-group-body">
-             <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="form-checkbox" id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
+             <div class="form-checkbox"><label><input name="user[available_for_hire]" type="hidden" value="false" /><input
+             id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />Available for
+             hire</label></div>
              </div>
              </div>
              """
@@ -109,11 +156,12 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              """
              <div class="form-group">
              <div class="form-group-header">
-             <h2><label for="user_available_for_hire">Some label</label></h2>
+             <h2><label>Some label</label></h2>
              </div>
              <div class="form-group-body">
-             <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="form-checkbox" id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
+             <div class="form-checkbox"><label><input name="user[available_for_hire]" type="hidden" value="false" /><input
+             id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />Available for
+             hire</label></div>
              </div>
              </div>
              """
@@ -141,42 +189,15 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <div class="form-group">
              <div class="form-group-header">
              <h2>
-             <div>Please correct your input</div><label for="user_available_for_hire">Some label</label>
+             <div>Please correct your input</div><label>Some label</label>
              </h2>
              </div>
              <div class="form-group-body">
-             <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="form-checkbox" id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
+             <div class="form-checkbox"><label><input name="user[available_for_hire]" type="hidden" value="false" /><input
+             id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />Available for
+             hire</label></div>
              </div>
              </div>
-             """
-             |> format_html()
-  end
-
-  test "Attribute: form and field (atoms)" do
-    assigns = %{}
-
-    assert rendered_to_string(~H"""
-           <.checkbox form={:user} field={:available_for_hire} />
-           """)
-           |> format_html() ==
-             """
-             <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="form-checkbox" id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
-             """
-             |> format_html()
-  end
-
-  test "Attribute: field as string" do
-    assigns = %{}
-
-    assert rendered_to_string(~H"""
-           <.checkbox form={:user} field="available_for_hire" />
-           """)
-           |> format_html() ==
-             """
-             <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="form-checkbox" id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
              """
              |> format_html()
   end
@@ -190,7 +211,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <input name="available_for_hire" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="available_for_hire" type="checkbox" value="true" />
+             <input id="_" name="available_for_hire" type="checkbox" value="true" />
              """
              |> format_html()
   end
@@ -219,37 +240,37 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              <input name="[]" type="hidden" value="false" />
-             <input class="form-checkbox" id="_" name="[]" type="checkbox" value="true" />
+             <input id="_" name="[]" type="checkbox" value="true" />
              """
              |> format_html()
   end
@@ -262,7 +283,13 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             label
+             <div class="form-checkbox">
+             <label>
+               <input name="available_for_hire" type="hidden" value="false" />
+               <input id="_" name="available_for_hire" type="checkbox" value="true" />
+               Some label
+             </label>
+             </div>
              """
              |> format_html()
   end
@@ -276,7 +303,61 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <input name="available_for_hire" type="hidden" value="false" />
-             <input checked="checked" class="form-checkbox" id="_" name="available_for_hire" type="checkbox" value="true" />
+             <input checked="checked" id="_" name="available_for_hire" type="checkbox" value="true" />
+             """
+             |> format_html()
+  end
+
+  test "Group slot with attributes label and class" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.checkbox form={:f} field={:available_for_hire}>
+             <:group label="Some label" class="x"></:group>
+           </.checkbox>
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group x">
+             <div class="form-group-header"><label>Some label</label></div>
+             <div class="form-group-body">
+             <div class="form-checkbox">
+             <label>
+             <input name="f[available_for_hire]" type="hidden" value="false" />
+             <input id="f_available_for_hire" name="f[available_for_hire]" type="checkbox" value="true" />
+             Available for hire
+             </label>
+             </div>
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Group slot with extra attribute" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.checkbox form={:f} field={:available_for_hire} dir="rtl">
+             <:group></:group>
+           </.checkbox>
+           """)
+           |> format_html() ==
+             """
+             <div dir="rtl" class="form-group">
+             <div class="form-group-header">
+             <label>Available for hire</label>
+             </div>
+             <div class="form-group-body">
+             <div class="form-checkbox">
+             <label>
+             <input name="f[available_for_hire]" type="hidden" value="false" />
+             <input id="f_available_for_hire" name="f[available_for_hire]" type="checkbox" value="true" />
+             Available for hire
+             </label>
+             </div>
+             </div>
+             </div>
              """
              |> format_html()
   end

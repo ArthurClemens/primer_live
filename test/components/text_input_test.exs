@@ -154,6 +154,42 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
+  test "Group slot with attributes label and class" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input form={:f} field={:first_name}>
+             <:group label="Some label" class="x"></:group>
+           </.text_input>
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group x">
+             <div class="form-group-header"><label for="f_first_name">Some label</label></div>
+             <div class="form-group-body"><input class="form-control" id="f_first_name" name="f[first_name]" type="text" /></div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Group slot with extra attribute" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input form={:f} field={:first_name} dir="rtl">
+             <:group></:group>
+           </.text_input>
+           """)
+           |> format_html() ==
+             """
+             <div dir="rtl" class="form-group">
+             <div class="form-group-header"><label for="f_first_name">First name</label></div>
+             <div class="form-group-body"><input class="form-control" id="f_first_name" name="f[first_name]" type="text" /></div>
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Attribute: form and field (atoms)" do
     assigns = %{}
 
@@ -328,37 +364,37 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Group slot with attributes label and class" do
-    assigns = %{}
+  test "Attribute: classes" do
+    assigns = %{
+      form: @default_form
+    }
 
     assert rendered_to_string(~H"""
-           <.text_input form={:f} field={:first_name}>
-             <:group label="Some label" class="x"></:group>
+           <.text_input
+             class="my-input"
+             classes={
+               %{
+                 group: "group-x",
+                 header: "header-x",
+                 body: "body-x",
+                 group_label: "group-label-x",
+                 input: "input-x",
+                 note: "note-x"
+               }
+             }
+             form={@form}
+             field={:first_name}
+           >
+             <:group class="my-group"></:group>
            </.text_input>
            """)
            |> format_html() ==
              """
-             <div class="form-group x">
-             <div class="form-group-header"><label for="f_first_name">Some label</label></div>
-             <div class="form-group-body"><input class="form-control" id="f_first_name" name="f[first_name]" type="text" /></div>
-             </div>
-             """
-             |> format_html()
-  end
-
-  test "Group slot with extra attribute" do
-    assigns = %{}
-
-    assert rendered_to_string(~H"""
-           <.text_input form={:f} field={:first_name} dir="rtl">
-             <:group></:group>
-           </.text_input>
-           """)
-           |> format_html() ==
-             """
-             <div dir="rtl" class="form-group">
-             <div class="form-group-header"><label for="f_first_name">First name</label></div>
-             <div class="form-group-body"><input class="form-control" id="f_first_name" name="f[first_name]" type="text" /></div>
+             <div class="form-group errored my-group group-x">
+             <div class="form-group-header header-x"><label class="group-label-x" for="user_first_name">First name</label></div>
+             <div class="form-group-body body-x"><input aria-describedby="first_name-validation"
+             class="form-control my-input input-x" id="user_first_name" name="user[first_name]" type="text" value="" /></div>
+             <p class="note error note-x" id="first_name-validation">can&#39;t be blank</p>
              </div>
              """
              |> format_html()
@@ -406,42 +442,6 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <div class="form-group-body"><input aria-describedby="first_name-validation" class="form-control" id="user_first_name"
              name="user[first_name]" type="text" value="" /></div>
              <p class="note error" id="first_name-validation">Please enter your first name</p>
-             </div>
-             """
-             |> format_html()
-  end
-
-  test "Attribute: classes" do
-    assigns = %{
-      form: @default_form
-    }
-
-    assert rendered_to_string(~H"""
-           <.text_input
-             class="my-input"
-             classes={
-               %{
-                 group: "group-x",
-                 header: "header-x",
-                 body: "body-x",
-                 group_label: "group-label-x",
-                 input: "input-x",
-                 note: "note-x"
-               }
-             }
-             form={@form}
-             field={:first_name}
-           >
-             <:group class="my-group"></:group>
-           </.text_input>
-           """)
-           |> format_html() ==
-             """
-             <div class="form-group errored my-group group-x">
-             <div class="form-group-header header-x"><label class="group-label-x" for="user_first_name">First name</label></div>
-             <div class="form-group-body body-x"><input aria-describedby="first_name-validation"
-             class="form-control my-input input-x" id="user_first_name" name="user[first_name]" type="text" value="" /></div>
-             <p class="note error note-x" id="first_name-validation">can&#39;t be blank</p>
              </div>
              """
              |> format_html()

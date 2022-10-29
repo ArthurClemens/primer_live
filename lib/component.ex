@@ -334,6 +334,9 @@ defmodule PrimerLive.Component do
   end
 
   defp render_text_input(assigns) do
+    form = assigns[:form]
+    field = assigns[:field]
+
     class =
       AttributeHelpers.classnames([
         "form-control",
@@ -356,6 +359,7 @@ defmodule PrimerLive.Component do
 
     %{
       has_group: has_group,
+      group_slot: group_slot,
       message_id: message_id
     } = group_attributes
 
@@ -370,10 +374,14 @@ defmodule PrimerLive.Component do
         assigns["tabindex"] && [tabindex: assigns.tabindex]
       ])
 
-    form = assigns[:form]
-    field = assigns[:field]
     input_type = FormHelpers.text_input_type_as_atom(assigns.type)
     input = apply(Phoenix.HTML.Form, input_type, [form, field, input_attributes])
+
+    group_header_label_attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: assigns.classes.group_label],
+        [for: group_slot[:for] || Phoenix.HTML.Form.input_id(form, field)]
+      ])
 
     assigns =
       assigns
@@ -381,13 +389,20 @@ defmodule PrimerLive.Component do
       |> assign(:form, form)
       |> assign(:field, field)
       |> assign(:group_attributes, group_attributes)
+      |> assign(:group_header_label_attributes, group_header_label_attributes)
       |> assign(:rest, rest)
 
     render_form_group(assigns)
   end
 
   defp render_form_group(assigns) do
-    %{form: form, field: field, rest: rest, group_attributes: group_attributes} = assigns
+    %{
+      form: form,
+      field: field,
+      rest: rest,
+      group_attributes: group_attributes,
+      group_header_label_attributes: group_header_label_attributes
+    } = assigns
 
     %{
       field_state: field_state,
@@ -449,13 +464,18 @@ defmodule PrimerLive.Component do
             ])
         }
 
-        # If label is supplied, wrap it inside a label
+        # If label is supplied, wrap it inside a label element
         # else use the default generated label
         header_label =
           if group_slot[:label] do
-            label(form, field, group_slot[:label], class: classes.group_label)
+            Phoenix.HTML.Form.label(
+              form,
+              field,
+              group_slot[:label],
+              group_header_label_attributes
+            )
           else
-            label(form, field, class: classes.group_label)
+            Phoenix.HTML.Form.label(form, field, group_header_label_attributes)
           end
 
         # Data accessible by :let
@@ -667,11 +687,8 @@ defmodule PrimerLive.Component do
   end
 
   defp render_checkbox(assigns) do
-    class =
-      AttributeHelpers.classnames([
-        "form-checkbox",
-        assigns.class
-      ])
+    form = assigns[:form]
+    field = assigns[:field]
 
     # Remove type from rest, we'll set it on the input
     rest =
@@ -690,22 +707,68 @@ defmodule PrimerLive.Component do
 
     input_attributes =
       AttributeHelpers.append_attributes(initial_input_attrs, [
-        [class: [class, assigns.classes[:input]]],
+        assigns.classes[:input] && [class: [assigns.classes[:input]]],
         not is_nil(message_id) and [aria_describedby: message_id],
         assigns["tabindex"] && [tabindex: assigns.tabindex],
         assigns.is_checked && [checked: "checked"]
       ])
 
-    form = assigns[:form]
-    field = assigns[:field]
-    input = apply(Phoenix.HTML.Form, :checkbox, [form, field, input_attributes])
+    group_header_label_attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: assigns.classes.group_label],
+        # Remove the "for" reference to the checkbox input, because we are using another wrapping label for the checkbox itself
+        [for: nil]
+      ])
+
+    render_input = fn ->
+      class =
+        AttributeHelpers.classnames([
+          "form-checkbox",
+          assigns.class
+        ])
+
+      input = apply(Phoenix.HTML.Form, :checkbox, [form, field, input_attributes])
+
+      label_text =
+        cond do
+          assigns.label -> assigns.label
+          !is_nil(field) -> Phoenix.HTML.Form.humanize(field)
+          true -> nil
+        end
+
+      label_attributes =
+        AttributeHelpers.append_attributes([], [
+          assigns.classes["label"] && [class: [assigns.classes["label"]]]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:input, input)
+        |> assign(:class, class)
+        |> assign(:label_attributes, label_attributes)
+        |> assign(:label_text, label_text)
+
+      ~H"""
+      <%= if @label_text do %>
+        <div class={@class}>
+          <label {@label_attributes}>
+            <%= @input %>
+            <%= @label_text %>
+          </label>
+        </div>
+      <% else %>
+        <%= @input %>
+      <% end %>
+      """
+    end
 
     assigns =
       assigns
-      |> assign(:input, input)
+      |> assign(:input, render_input.())
       |> assign(:form, form)
       |> assign(:field, field)
       |> assign(:group_attributes, group_attributes)
+      |> assign(:group_header_label_attributes, group_header_label_attributes)
       |> assign(:rest, rest)
 
     render_form_group(assigns)
