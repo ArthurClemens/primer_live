@@ -215,13 +215,15 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
                  group_label: "group-label-x",
                  label: "label-x",
                  input: "input-x",
-                 note: "note-x"
+                 note: "note-x",
+                 hint: "hint-x"
                }
              }
              form={@form}
              field={:available_for_hire}
            >
              <:group label="Some label" class="my-group"></:group>
+             <:hint class="my-hint">Some hint</:hint>
            </.checkbox>
            """)
            |> format_html() ==
@@ -229,12 +231,16 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <div class="form-group errored my-group group-x">
              <div class="form-group-header header-x"><label class="group-label-x">Some label</label></div>
              <div class="form-group-body body-x">
-             <div class="form-checkbox my-checkbox"><label><input name="user[available_for_hire]" type="hidden"
-             value="false" /><input aria-describedby="available_for_hire-validation" class="input-x"
-             id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />Available for
-             hire</label></div>
-             </div>
+             <div class="form-checkbox my-checkbox">
+             <label>
+             <input name="user[available_for_hire]" type="hidden" value="false" />
+             <input aria-describedby="available_for_hire-validation" class="input-x" id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
+             Available for hire
+             </label>
+             <p class="note my-hint" id="available_for_hire-validation">Some hint</p>
              <p class="note error note-x" id="available_for_hire-validation">can&#39;t be blank</p>
+             </div>
+             </div>
              </div>
              """
              |> format_html()
@@ -418,7 +424,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              |> format_html()
   end
 
-  test "Note slot" do
+  test "Hint slot" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
@@ -426,9 +432,9 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <:label>
                Some label
              </:label>
-             <:note>
+             <:hint>
                Add your <strong>resume</strong> below
-             </:note>
+             </:hint>
            </.checkbox>
            """)
            |> format_html() ==
@@ -438,10 +444,10 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <input name="available_for_hire" type="hidden" value="false" />
              <input id="_" name="available_for_hire" type="checkbox" value="true" />
              Some label
+             </label>
              <p class="note">
               Add your<strong>resume</strong>below
              </p>
-             </label>
              </div>
              """
              |> format_html()
@@ -452,15 +458,76 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
 
     assert rendered_to_string(~H"""
            <.checkbox name="available_for_hire">
-             <:note>
+             <:hint>
                Add your <strong>resume</strong> below
-             </:note>
+             </:hint>
            </.checkbox>
            """)
            |> format_html() ==
              """
              <input name="available_for_hire" type="hidden" value="false" />
              <input id="_" name="available_for_hire" type="checkbox" value="true" />
+             """
+             |> format_html()
+  end
+
+  test "Validation: default error" do
+    assigns = %{
+      form: @default_form
+    }
+
+    assert rendered_to_string(~H"""
+           <.checkbox form={@form} field={:available_for_hire} is_group />
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group errored">
+             <div class="form-group-header"><label>Available for hire</label></div>
+             <div class="form-group-body">
+             <div class="form-checkbox">
+             <label>
+             <input name="user[available_for_hire]" type="hidden" value="false" />
+             <input aria-describedby="available_for_hire-validation" id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
+             Available for hire
+             </label>
+             <p class="note error" id="available_for_hire-validation">can&#39;t be blank</p>
+             </div>
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Validation: custom error message" do
+    assigns = %{
+      form: @default_form
+    }
+
+    assert rendered_to_string(~H"""
+           <.checkbox form={@form} field={:available_for_hire}>
+             <:group validation_message={
+               fn field_state ->
+                 if !field_state.valid?, do: "You need to accept"
+               end
+             }>
+             </:group>
+           </.checkbox>
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group errored">
+             <div class="form-group-header"><label>Available for hire</label></div>
+             <div class="form-group-body">
+             <div class="form-checkbox">
+             <label>
+             <input name="user[available_for_hire]" type="hidden" value="false" />
+             <input aria-describedby="available_for_hire-validation" id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
+             Available for hire
+             </label>
+             <p class="note error" id="available_for_hire-validation">You need to accept</p>
+             </div>
+             </div>
+             </div>
              """
              |> format_html()
   end

@@ -277,9 +277,10 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              """
              <div class="form-group errored my-group group-x">
              <div class="form-group-header header-x"><label class="group-label-x" for="user_first_name">First name</label></div>
-             <div class="form-group-body body-x"><input aria-describedby="first_name-validation"
-             class="form-control my-input input-x" id="user_first_name" name="user[first_name]" type="text" value="" /></div>
+             <div class="form-group-body body-x">
+             <input aria-describedby="first_name-validation" class="form-control my-input input-x" id="user_first_name" name="user[first_name]" type="text" value="" />
              <p class="note error note-x" id="first_name-validation">can&#39;t be blank</p>
+             </div>
              </div>
              """
              |> format_html()
@@ -412,9 +413,10 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              """
              <div class="form-group errored">
              <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body"><input aria-describedby="first_name-validation" class="form-control" id="user_first_name"
-                 name="user[first_name]" type="text" value="" /></div>
+             <div class="form-group-body">
+             <input aria-describedby="first_name-validation" class="form-control" id="user_first_name" name="user[first_name]" type="text" value="" />
              <p class="note error" id="first_name-validation">can&#39;t be blank</p>
+             </div>
              </div>
              """
              |> format_html()
@@ -439,9 +441,10 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              """
              <div class="form-group errored">
              <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body"><input aria-describedby="first_name-validation" class="form-control" id="user_first_name"
-             name="user[first_name]" type="text" value="" /></div>
+             <div class="form-group-body">
+             <input aria-describedby="first_name-validation" class="form-control" id="user_first_name" name="user[first_name]" type="text" value="" />
              <p class="note error" id="first_name-validation">Please enter your first name</p>
+             </div>
              </div>
              """
              |> format_html()
@@ -501,9 +504,10 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              """
              <div class="form-group successed">
              <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body"><input aria-describedby="first_name-validation" class="form-control" id="user_first_name"
-             name="user[first_name]" type="text" value="anna" /></div>
+             <div class="form-group-body">
+             <input aria-describedby="first_name-validation" class="form-control" id="user_first_name" name="user[first_name]" type="text" value="anna" />
              <p class="note success" id="first_name-validation">Is available</p>
+             </div>
              </div>
              """
              |> format_html()

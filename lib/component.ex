@@ -310,28 +310,45 @@ defmodule PrimerLive.Component do
     end
   end
 
-  defp get_group_attributes(assigns) do
-    form = assigns[:form]
-    field = assigns[:field]
-
-    # Get the first group slot, if any
-    group_slot = if assigns[:group] && assigns[:group] !== [], do: hd(assigns[:group]), else: []
-    has_group_slot = group_slot !== []
-    has_group = assigns.is_group || has_group_slot
-
-    # Get the field state from the group slot attributes
-    field_state = FormHelpers.field_state(form, field, group_slot[:validation_message])
-
-    Map.merge(field_state, %{
-      field_state: field_state,
-      group_slot: group_slot,
-      has_group: has_group
-    })
-  end
-
   defp render_text_input(assigns) do
     form = assigns[:form]
     field = assigns[:field]
+
+    # Remove type from rest, we'll set it on the input
+    rest =
+      assigns_to_attributes(assigns.rest, [
+        :type
+      ])
+
+    group_attributes = get_group_attributes(assigns)
+
+    %{
+      group_slot: group_slot
+    } = group_attributes
+
+    group_header_label_attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: assigns.classes.group_label],
+        [for: group_slot[:for] || Phoenix.HTML.Form.input_id(form, field)]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
+      |> assign(:rest, rest)
+      |> assign(:group_attributes, group_attributes)
+      |> assign(:group_header_label_attributes, group_header_label_attributes)
+
+    assigns =
+      assigns
+      |> assign(:input, render_text_input_input(assigns))
+
+    render_form_group(assigns)
+  end
+
+  defp render_text_input_input(assigns) do
+    %{group_attributes: group_attributes, form: form, field: field, rest: rest} = assigns
 
     class =
       AttributeHelpers.classnames([
@@ -345,18 +362,11 @@ defmodule PrimerLive.Component do
         assigns.class
       ])
 
-    # Remove type from rest, we'll set it on the input
-    rest =
-      assigns_to_attributes(assigns.rest, [
-        :type
-      ])
-
-    group_attributes = get_group_attributes(assigns)
-
     %{
       has_group: has_group,
-      group_slot: group_slot,
-      message_id: message_id
+      message_id: message_id,
+      message: message,
+      valid?: valid?
     } = group_attributes
 
     initial_input_attrs = if has_group, do: [], else: rest
@@ -373,22 +383,23 @@ defmodule PrimerLive.Component do
     input_type = FormHelpers.text_input_type_as_atom(assigns.type)
     input = apply(Phoenix.HTML.Form, input_type, [form, field, input_attributes])
 
-    group_header_label_attributes =
-      AttributeHelpers.append_attributes([], [
-        [class: assigns.classes.group_label],
-        [for: group_slot[:for] || Phoenix.HTML.Form.input_id(form, field)]
-      ])
-
     assigns =
       assigns
       |> assign(:input, input)
-      |> assign(:form, form)
-      |> assign(:field, field)
-      |> assign(:group_attributes, group_attributes)
-      |> assign(:group_header_label_attributes, group_header_label_attributes)
-      |> assign(:rest, rest)
+      |> assign(:message, message)
+      |> assign(:message_id, message_id)
+      |> assign(:valid?, valid?)
+      |> assign(:validation_message_class, assigns.classes[:note])
 
-    render_form_group(assigns)
+    ~H"""
+    <%= @input %>
+    <.input_validation_message
+      valid?={@valid?}
+      message={@message}
+      message_id={@message_id}
+      class={@validation_message_class}
+    />
+    """
   end
 
   defp render_form_group(assigns) do
@@ -405,7 +416,6 @@ defmodule PrimerLive.Component do
       has_group: has_group,
       group_slot: group_slot,
       message: message,
-      message_id: message_id,
       valid?: valid?
     } = group_attributes
 
@@ -447,16 +457,6 @@ defmodule PrimerLive.Component do
             AttributeHelpers.classnames([
               "form-group-body",
               assigns.classes[:body]
-            ]),
-          note:
-            AttributeHelpers.classnames([
-              "note",
-              if valid? do
-                "success"
-              else
-                "error"
-              end,
-              assigns.classes[:note]
             ])
         }
 
@@ -492,8 +492,6 @@ defmodule PrimerLive.Component do
           |> assign(:field, field)
           |> assign(:group_slot, group_slot)
           |> assign(:header_label, header_label)
-          |> assign(:message, message)
-          |> assign(:message_id, message_id)
 
         ~H"""
         <div {@group_attributes}>
@@ -503,14 +501,64 @@ defmodule PrimerLive.Component do
           <div class={@classes.body}>
             <%= @input %>
           </div>
-          <%= if not is_nil(@message) do %>
-            <p class={@classes.note} id={@message_id}>
-              <%= @message %>
-            </p>
-          <% end %>
         </div>
         """
     end
+  end
+
+  defp get_group_attributes(assigns) do
+    form = assigns[:form]
+    field = assigns[:field]
+
+    # Get the first group slot, if any
+    group_slot = if assigns[:group] && assigns[:group] !== [], do: hd(assigns[:group]), else: []
+    has_group_slot = group_slot !== []
+    has_group = assigns.is_group || has_group_slot
+
+    # Get the field state from the group slot attributes
+    field_state = FormHelpers.field_state(form, field, group_slot[:validation_message])
+
+    Map.merge(field_state, %{
+      field_state: field_state,
+      group_slot: group_slot,
+      has_group: has_group
+    })
+  end
+
+  # ------------------------------------------------------------------------------------
+  # input_validation_message
+  #
+  # Private comppnent
+  # ------------------------------------------------------------------------------------
+
+  attr(:message, :string, default: nil, doc: "Validation message.")
+  attr(:message_id, :string, default: nil, doc: "Validation message ID.")
+  attr(:valid?, :boolean, default: false, doc: "Valid state.")
+  attr(:class, :string, default: nil, doc: "Classname.")
+
+  defp input_validation_message(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "note",
+        if assigns.valid? do
+          "success"
+        else
+          "error"
+        end,
+        assigns.class
+      ])
+
+    assigns =
+      assigns
+      |> assign(:class, class)
+
+    ~H"""
+    <%= if not is_nil(@message) do %>
+      <p class={@class} id={@message_id}>
+        <%= @message %>
+      </p>
+    <% end %>
+    """
   end
 
   # Validates attribute `form`.
@@ -672,11 +720,16 @@ defmodule PrimerLive.Component do
     """
   )
 
-  slot(:note,
+  slot :hint,
     doc: """
     Adds text below the checkbox label. Enabled when a label is displayed.
-    """
-  )
+    """ do
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the hint element.
+      """
+    )
+  end
 
   def checkbox(assigns) do
     with true <- validate_is_form(assigns),
@@ -706,9 +759,36 @@ defmodule PrimerLive.Component do
 
     group_attributes = get_group_attributes(assigns)
 
+    group_header_label_attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: assigns.classes.group_label],
+        # Remove the "for" reference to the checkbox input, because we are using another wrapping label for the checkbox itself
+        [for: nil]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
+      |> assign(:group_attributes, group_attributes)
+      |> assign(:group_header_label_attributes, group_header_label_attributes)
+      |> assign(:rest, rest)
+
+    assigns =
+      assigns
+      |> assign(:input, render_checkbox_input(assigns))
+
+    render_form_group(assigns)
+  end
+
+  defp render_checkbox_input(assigns) do
+    %{group_attributes: group_attributes, form: form, field: field, rest: rest} = assigns
+
     %{
       has_group: has_group,
-      message_id: message_id
+      message_id: message_id,
+      message: message,
+      valid?: valid?
     } = group_attributes
 
     initial_input_attrs = if has_group, do: [], else: rest
@@ -721,95 +801,95 @@ defmodule PrimerLive.Component do
         assigns.is_checked && [checked: "checked"]
       ])
 
-    group_header_label_attributes =
+    classes = %{
+      container:
+        AttributeHelpers.classnames([
+          "form-checkbox",
+          assigns.class
+        ]),
+      hint: fn slot ->
+        AttributeHelpers.classnames([
+          "note",
+          assigns.classes["hint"],
+          slot[:class]
+        ])
+      end
+    }
+
+    input = apply(Phoenix.HTML.Form, :checkbox, [form, field, input_attributes])
+
+    label_slot = if assigns[:label] && assigns[:label] !== [], do: hd(assigns[:label]), else: []
+    has_label_slot = label_slot !== []
+    derived_label = Phoenix.HTML.Form.humanize(field)
+    has_label = has_label_slot || derived_label !== "Nil"
+
+    label_attributes =
       AttributeHelpers.append_attributes([], [
-        [class: assigns.classes.group_label],
-        # Remove the "for" reference to the checkbox input, because we are using another wrapping label for the checkbox itself
-        [for: nil]
+        assigns.classes["label"] && [class: [assigns.classes["label"]]]
       ])
 
-    render_input = fn ->
-      classes = %{
-        container:
-          AttributeHelpers.classnames([
-            "form-checkbox",
-            assigns.class
-          ]),
-        note:
-          AttributeHelpers.classnames([
-            "note",
-            assigns.classes["note"]
-          ])
-      }
+    assigns =
+      assigns
+      |> assign(:input, input)
+      |> assign(:classes, classes)
+      |> assign(:has_label, has_label)
+      |> assign(:label_slot, label_slot)
+      |> assign(:label_attributes, label_attributes)
+      |> assign(:derived_label, derived_label)
+      |> assign(:valid?, valid?)
+      |> assign(:message, message)
+      |> assign(:message_id, message_id)
+      |> assign(:validation_message_class, assigns.classes[:note])
 
-      input = apply(Phoenix.HTML.Form, :checkbox, [form, field, input_attributes])
-
-      label_slot = if assigns[:label] && assigns[:label] !== [], do: hd(assigns[:label]), else: []
-      has_label_slot = label_slot !== []
-      derived_label = Phoenix.HTML.Form.humanize(field)
-      has_label = has_label_slot || derived_label !== "Nil"
-
-      label_attributes =
-        AttributeHelpers.append_attributes([], [
-          assigns.classes["label"] && [class: [assigns.classes["label"]]]
-        ])
-
-      assigns =
-        assigns
-        |> assign(:input, input)
-        |> assign(:classes, classes)
-        |> assign(:has_label, has_label)
-        |> assign(:label_slot, label_slot)
-        |> assign(:label_attributes, label_attributes)
-        |> assign(:derived_label, derived_label)
-        |> assign(:message_id, message_id)
-
-      label =
-        case assigns.is_emphasised_label do
-          true ->
-            ~H"""
-            <em class="highlight"><%= render_slot(@label_slot) || @derived_label %></em>
-            """
-
-          false ->
-            ~H"""
-            <%= render_slot(@label_slot) || @derived_label %>
-            """
-        end
-
-      assigns =
-        assigns
-        |> assign(:label, label)
-
+    render_hint = fn ->
       ~H"""
-      <%= if @has_label do %>
-        <div class={@classes.container}>
-          <label {@label_attributes}>
-            <%= @input %>
-            <%= @label %>
-            <%= if @note !== [] do %>
-              <p class={@classes.note} id={@message_id}>
-                <%= render_slot(@note) %>
-              </p>
-            <% end %>
-          </label>
-        </div>
-      <% else %>
-        <%= @input %>
+      <%= for slot <- @hint do %>
+        <p class={@classes.hint.(slot)} id={@message_id}>
+          <%= render_slot(slot, @classes) %>
+        </p>
       <% end %>
       """
     end
 
+    label =
+      case assigns.is_emphasised_label do
+        true ->
+          ~H"""
+          <em class="highlight"><%= render_slot(@label_slot) || @derived_label %></em>
+          """
+
+        false ->
+          ~H"""
+          <%= render_slot(@label_slot) || @derived_label %>
+          """
+      end
+
     assigns =
       assigns
-      |> assign(:input, render_input.())
-      |> assign(:form, form)
-      |> assign(:field, field)
-      |> assign(:group_attributes, group_attributes)
-      |> assign(:group_header_label_attributes, group_header_label_attributes)
-      |> assign(:rest, rest)
+      |> assign(:label, label)
+      |> assign(:render_hint, render_hint)
 
-    render_form_group(assigns)
+    ~H"""
+    <%= if @has_label do %>
+      <div class={@classes.container}>
+        <label {@label_attributes}>
+          <%= @input %>
+          <%= @label %>
+        </label>
+        <%= if @hint && @hint !== [] do %>
+          <%= @render_hint.() %>
+        <% end %>
+        <.input_validation_message
+          valid?={@valid?}
+          message={@message}
+          message_id={@message_id}
+          class={@validation_message_class}
+        />
+      </div>
+    <% else %>
+      <%= @input %>
+    <% end %>
+    """
   end
 
   # ------------------------------------------------------------------------------------
