@@ -104,8 +104,14 @@ defmodule PrimerLive.Helpers.FormHelpers do
               true ->
                 case changeset.action === :validate do
                   true ->
-                    [field_error | _rest] = field_errors
-                    field_error
+                    case field_errors === [] do
+                      true ->
+                        nil
+
+                      false ->
+                        [field_error | _rest] = field_errors
+                        field_error
+                    end
 
                   false ->
                     nil

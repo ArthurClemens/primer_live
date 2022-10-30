@@ -321,16 +321,12 @@ defmodule PrimerLive.Component do
 
     # Get the field state from the group slot attributes
     field_state = FormHelpers.field_state(form, field, group_slot[:validation_message])
-    %{message: message, message_id: message_id, valid?: valid?} = field_state
 
-    %{
+    Map.merge(field_state, %{
       field_state: field_state,
       group_slot: group_slot,
-      has_group: has_group,
-      message: message,
-      message_id: message_id,
-      valid?: valid?
-    }
+      has_group: has_group
+    })
   end
 
   defp render_text_input(assigns) do
@@ -594,9 +590,9 @@ defmodule PrimerLive.Component do
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
-  attr(:label, :string, default: nil, doc: "Checkbox label.")
+  attr(:is_checked, :boolean, default: false, doc: "Checked state.")
 
-  attr(:is_checked, :boolean, default: nil, doc: "Checked state.")
+  attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
@@ -639,7 +635,7 @@ defmodule PrimerLive.Component do
     doc: """
     Inserts the input inside a form group and creates a default field label.
 
-    To configure the form group and label, see [slot `group`](#text_input/1-slots).
+    To configure the form group and label, see [`text_input group slot`](#text_input/1-slots).
     """
   )
 
@@ -653,22 +649,34 @@ defmodule PrimerLive.Component do
     doc: """
     Insert the input inside a form group.
 
-    Yields: see [:let](#text_input/1-lets).
+    Yields: see [`text_input :let`](#text_input/1-lets).
 
     """ do
     attr(:label, :string,
       doc: """
-      Group label. See `text_input/1-slots`.
+      Group label. See [`text_input slots`](#text_input/1-slots).
       """
     )
 
     attr(:validation_message, :any,
       doc: """
       Function to write a custom validation message (in case of error or success).
-      See `text_input/1-slots`.
+      See [`text_input slots`](#text_input/1-slots).
       """
     )
   end
+
+  slot(:label,
+    doc: """
+    Custom checkbox label. Overides the derived label when using a `form` and `field`.
+    """
+  )
+
+  slot(:note,
+    doc: """
+    Adds text below the checkbox label. Enabled when a label is displayed.
+    """
+  )
 
   def checkbox(assigns) do
     with true <- validate_is_form(assigns),
@@ -721,20 +729,25 @@ defmodule PrimerLive.Component do
       ])
 
     render_input = fn ->
-      class =
-        AttributeHelpers.classnames([
-          "form-checkbox",
-          assigns.class
-        ])
+      classes = %{
+        container:
+          AttributeHelpers.classnames([
+            "form-checkbox",
+            assigns.class
+          ]),
+        note:
+          AttributeHelpers.classnames([
+            "note",
+            assigns.classes["note"]
+          ])
+      }
 
       input = apply(Phoenix.HTML.Form, :checkbox, [form, field, input_attributes])
 
-      label_text =
-        cond do
-          assigns.label -> assigns.label
-          !is_nil(field) -> Phoenix.HTML.Form.humanize(field)
-          true -> nil
-        end
+      label_slot = if assigns[:label] && assigns[:label] !== [], do: hd(assigns[:label]), else: []
+      has_label_slot = label_slot !== []
+      derived_label = Phoenix.HTML.Form.humanize(field)
+      has_label = has_label_slot || derived_label !== "Nil"
 
       label_attributes =
         AttributeHelpers.append_attributes([], [
@@ -744,16 +757,41 @@ defmodule PrimerLive.Component do
       assigns =
         assigns
         |> assign(:input, input)
-        |> assign(:class, class)
+        |> assign(:classes, classes)
+        |> assign(:has_label, has_label)
+        |> assign(:label_slot, label_slot)
         |> assign(:label_attributes, label_attributes)
-        |> assign(:label_text, label_text)
+        |> assign(:derived_label, derived_label)
+        |> assign(:message_id, message_id)
+
+      label =
+        case assigns.is_emphasised_label do
+          true ->
+            ~H"""
+            <em class="highlight"><%= render_slot(@label_slot) || @derived_label %></em>
+            """
+
+          false ->
+            ~H"""
+            <%= render_slot(@label_slot) || @derived_label %>
+            """
+        end
+
+      assigns =
+        assigns
+        |> assign(:label, label)
 
       ~H"""
-      <%= if @label_text do %>
-        <div class={@class}>
+      <%= if @has_label do %>
+        <div class={@classes.container}>
           <label {@label_attributes}>
             <%= @input %>
-            <%= @label_text %>
+            <%= @label %>
+            <%= if @note !== [] do %>
+              <p class={@classes.note} id={@message_id}>
+                <%= render_slot(@note) %>
+              </p>
+            <% end %>
           </label>
         </div>
       <% else %>
