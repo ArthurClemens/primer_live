@@ -44,13 +44,13 @@ defmodule PrimerLive.Component do
   </.form>
   ```
 
-  Insert the input within a form group using `is_group`. This will insert the input inside a form group with a default generated label and field validation. To configure the form group, use the [`group` slot](#text_input/1-slots) instead.
+  Insert the input within a form group using `is_group` or by using a `group` slot. This will insert the input inside a form group with a default generated label and field validation. To configure the form group, use the [`group` slot](#text_input/1-slots).
 
   ```
   <.text_input form={:user} field={:first_name} is_group />
   ```
 
-  Use a custom label by providing `label`:
+  Use a custom group label by passing `label` to the `group` slot:
 
   ```
   <.text_input form={:user} field={:first_name}>
@@ -58,7 +58,7 @@ defmodule PrimerLive.Component do
   </.text_input>
   ```
 
-  Add markup to the label with attribute `:let` to get the label tag:
+  Add markup to the group label with attribute `:let` to get the label tag:
 
   ```
   <.text_input form={:user} field={:first_name}>
@@ -630,6 +630,92 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Generates a checkbox.
+
+  Wrapper around `Phoenix.HTML.Form.checkbox/3`, optionally wrapped itself inside a "form group" to add a field label and validation.
+
+  [Examples](#checkbox/1-examples) • [Attributes](#checkbox/1-attributes) • [Slots](#checkbox/1-slots) • [Reference](#checkbox/1-reference)
+
+  ```
+  <.checkbox name="available_for_hire" />
+  ```
+
+  ## Examples
+
+  Set the checked state:
+
+  ```
+  <.checkbox name="available_for_hire" is_checked />
+  ```
+
+  Using the checkbox with form data. This will automatically create the checkbox label:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.checkbox form={f} field={:available_for_hire} />
+  </.form>
+  ```
+
+  Insert the checkbox within a form group using `is_group` or by using a `group` slot. This will insert the input inside a form group with a default generated label and field validation. To configure the form group, use the [`group` slot](#checkbox/1-slots).
+
+  ```
+  <.checkbox form={:user} field={:available_for_hire}>
+    <:group label="Some label" />
+  </.text_input>
+  ```
+
+  For form group customisations, see `text_input/1`.
+
+  Because the group label and checkbox label are derived from the same source, you most likely want to pass a custom checkbox label with the `label` slot:
+
+  ```
+  <.checkbox form={:user} field={:available_for_hire}>
+    <:label>Some label</:label>
+  </.checkbox>
+  ```
+
+  Add emphasis to the label:
+
+  ```
+  <.checkbox name="available_for_hire" is_emphasised_label />
+  ```
+
+  Add a hint below the label:
+
+  ```
+  <.checkbox name="available_for_hire">
+    <:label>Some label</:label>
+    <:hint>
+      Add your <strong>resume</strong> below
+    </:hint>
+  </.checkbox>
+  ```
+
+  Reveal extra details when the checkbox is checked:
+
+  ```
+  <.checkbox name="available_for_hire">
+    <:label>Some label</:label>
+    <:disclosure>
+      <span class="d-block mb-1">Available hours per week</span>
+      <input type="text" name="" class="form-control input-contrast" size="3" />
+      <span class="text-small color-fg-muted pl-2">hours per week</span>
+    </:disclosure>
+  </.checkbox>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Lets
+
+  See [`text_input lets`](#text_input/1-lets).
+
+  ## Reference
+
+  [Primer/CSS Forms](https://primer.style/css/components/forms)
+
+  ## Status
+
+  Feature complete.
   """
 
   attr :field, :any, doc: "Field name (atom or string)."
