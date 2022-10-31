@@ -653,7 +653,8 @@ defmodule PrimerLive.Component do
       label: nil,
       input: nil,
       hint: nil,
-      note: nil
+      note: nil,
+      disclosure: nil
     },
     doc: """
     Additional classnames for form group elements.
@@ -669,8 +670,9 @@ defmodule PrimerLive.Component do
       group_label: "", # Group label
       label: "",       # Input label
       input: "",       # Checkbox input element
-      hint: ""         # Hint message container
-      note: ""         # Validation message container
+      hint: "",        # Hint message container
+      note: "",        # Validation message container
+      disclosure: ""   # Disclosure container (inline)
     }
     ```
     """
@@ -736,6 +738,19 @@ defmodule PrimerLive.Component do
     )
   end
 
+  slot :disclosure,
+    doc: """
+    Extra label content to be revealed when the checkbox is checked. Enabled when a label is displayed.
+
+    Note that the label element can only contain inline child elements.
+    """ do
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the disclosure wrapper element.
+      """
+    )
+  end
+
   def checkbox(assigns) do
     with true <- validate_is_form(assigns),
          true <- validate_is_short_with_form_group(assigns) do
@@ -796,16 +811,6 @@ defmodule PrimerLive.Component do
       valid?: valid?
     } = group_attributes
 
-    initial_input_attrs = if has_group, do: [], else: rest
-
-    input_attributes =
-      AttributeHelpers.append_attributes(initial_input_attrs, [
-        assigns.classes[:input] && [class: [assigns.classes[:input]]],
-        not is_nil(message_id) and [aria_describedby: message_id],
-        assigns["tabindex"] && [tabindex: assigns.tabindex],
-        assigns.is_checked && [checked: "checked"]
-      ])
-
     classes = %{
       container:
         AttributeHelpers.classnames([
@@ -815,18 +820,51 @@ defmodule PrimerLive.Component do
       hint: fn slot ->
         AttributeHelpers.classnames([
           "note",
-          assigns.classes["hint"],
+          assigns.classes[:hint],
+          slot[:class]
+        ])
+      end,
+      disclosure: fn slot ->
+        AttributeHelpers.classnames([
+          "form-checkbox-details",
+          "text-normal",
+          assigns.classes[:disclosure],
           slot[:class]
         ])
       end
     }
 
-    input = apply(Phoenix.HTML.Form, :checkbox, [form, field, input_attributes])
+    disclosure_slot =
+      if assigns[:disclosure] && assigns[:disclosure] !== [],
+        do: hd(assigns[:disclosure]),
+        else: []
+
+    has_disclosure_slot = disclosure_slot !== []
 
     label_slot = if assigns[:label] && assigns[:label] !== [], do: hd(assigns[:label]), else: []
     has_label_slot = label_slot !== []
     derived_label = Phoenix.HTML.Form.humanize(field)
     has_label = has_label_slot || derived_label !== "Nil"
+
+    initial_input_attrs = if has_group, do: [], else: rest
+
+    input_class =
+      AttributeHelpers.classnames([
+        if has_disclosure_slot do
+          "form-checkbox-details-trigger"
+        end,
+        assigns.classes[:input]
+      ])
+
+    input_attributes =
+      AttributeHelpers.append_attributes(initial_input_attrs, [
+        input_class && [class: input_class],
+        not is_nil(message_id) and [aria_describedby: message_id],
+        assigns["tabindex"] && [tabindex: assigns.tabindex],
+        assigns.is_checked && [checked: "checked"]
+      ])
+
+    input = apply(Phoenix.HTML.Form, :checkbox, [form, field, input_attributes])
 
     label_class =
       AttributeHelpers.classnames([
@@ -840,7 +878,8 @@ defmodule PrimerLive.Component do
           :class
         ]),
         [
-          label_class && [class: label_class]
+          label_class && [class: label_class],
+          has_disclosure_slot && [aria_live: "polite"]
         ]
       )
 
@@ -852,6 +891,7 @@ defmodule PrimerLive.Component do
       |> assign(:label_slot, label_slot)
       |> assign(:label_attributes, label_attributes)
       |> assign(:derived_label, derived_label)
+      |> assign(:has_disclosure_slot, has_disclosure_slot)
       |> assign(:valid?, valid?)
       |> assign(:message, message)
       |> assign(:message_id, message_id)
@@ -863,6 +903,16 @@ defmodule PrimerLive.Component do
         <p class={@classes.hint.(slot)} id={@message_id}>
           <%= render_slot(slot, @classes) %>
         </p>
+      <% end %>
+      """
+    end
+
+    render_disclosure = fn ->
+      ~H"""
+      <%= for slot <- @disclosure do %>
+        <span class={@classes.disclosure.(slot)}>
+          <%= render_slot(slot, @classes) %>
+        </span>
       <% end %>
       """
     end
@@ -884,6 +934,7 @@ defmodule PrimerLive.Component do
       assigns
       |> assign(:label, label)
       |> assign(:render_hint, render_hint)
+      |> assign(:render_disclosure, render_disclosure)
 
     ~H"""
     <%= if @has_label do %>
@@ -891,6 +942,9 @@ defmodule PrimerLive.Component do
         <label {@label_attributes}>
           <%= @input %>
           <%= @label %>
+          <%= if @has_disclosure_slot do %>
+            <%= @render_disclosure.() %>
+          <% end %>
         </label>
         <%= if @hint && @hint !== [] do %>
           <%= @render_hint.() %>
