@@ -174,7 +174,6 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:tabindex, :string, doc: "Tab index.")
   attr(:type, :string, default: "text", doc: "Text input type.")
   attr(:is_contrast, :boolean, default: false, doc: "Changes the background color to light gray.")
   attr(:is_full_width, :boolean, default: false, doc: "Full width input.")
@@ -376,8 +375,7 @@ defmodule PrimerLive.Component do
         [class: [class, assigns.classes[:input]]],
         # If aria_label is not set, use the value of placeholder (if any):
         is_nil(rest[:aria_label]) and [aria_label: rest[:placeholder]],
-        not is_nil(message_id) and [aria_describedby: message_id],
-        assigns["tabindex"] && [tabindex: assigns.tabindex]
+        not is_nil(message_id) and [aria_describedby: message_id]
       ])
 
     input_type = FormHelpers.text_input_type_as_atom(assigns.type)
@@ -615,6 +613,10 @@ defmodule PrimerLive.Component do
 
   [Primer/CSS Forms](https://primer.style/css/components/forms)
 
+  ## Status
+
+  Feature complete.
+
   """
 
   def textarea(assigns) do
@@ -764,8 +766,6 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:tabindex, :string, doc: "Tab index.")
-
   attr(:is_group, :boolean,
     default: false,
     doc: """
@@ -840,6 +840,10 @@ defmodule PrimerLive.Component do
   def checkbox(assigns) do
     with true <- validate_is_form(assigns),
          true <- validate_is_short_with_form_group(assigns) do
+      assigns =
+        assigns
+        |> assign(:input_type, :checkbox)
+
       render_checkbox(assigns)
     else
       {:error, reason} ->
@@ -946,11 +950,10 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes(initial_input_attrs, [
         input_class && [class: input_class],
         not is_nil(message_id) and [aria_describedby: message_id],
-        assigns["tabindex"] && [tabindex: assigns.tabindex],
         assigns.is_checked && [checked: "checked"]
       ])
 
-    input = apply(Phoenix.HTML.Form, :checkbox, [form, field, input_attributes])
+    input = apply(Phoenix.HTML.Form, assigns.input_type, [form, field, input_attributes])
 
     label_class =
       AttributeHelpers.classnames([

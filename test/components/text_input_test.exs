@@ -249,6 +249,19 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
+  test "Extra attributes: tabindex" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input name="first_name" tabindex="1" />
+           """)
+           |> format_html() ==
+             """
+             <input class="form-control" id="_" name="first_name" tabindex="1" type="text" />
+             """
+             |> format_html()
+  end
+
   test "Attribute: classes" do
     assigns = %{
       form: @default_form

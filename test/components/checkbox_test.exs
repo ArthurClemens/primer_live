@@ -251,6 +251,20 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              |> format_html()
   end
 
+  test "Extra attributes: tabindex" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.checkbox name="available_for_hire" tabindex="1" />
+           """)
+           |> format_html() ==
+             """
+             <input name="available_for_hire" type="hidden" value="false" />
+             <input id="_" name="available_for_hire" tabindex="1" type="checkbox" value="true" />
+             """
+             |> format_html()
+  end
+
   test "Label slot" do
     assigns = %{}
 
