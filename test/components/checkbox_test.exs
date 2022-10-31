@@ -222,6 +222,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              form={@form}
              field={:available_for_hire}
            >
+             <:label class="my-label">Some label</:label>
              <:group label="Some label" class="my-group"></:group>
              <:hint class="my-hint">Some hint</:hint>
            </.checkbox>
@@ -232,10 +233,10 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <div class="form-group-header header-x"><label class="group-label-x">Some label</label></div>
              <div class="form-group-body body-x">
              <div class="form-checkbox my-checkbox">
-             <label>
+             <label class="label-x my-label">
              <input name="user[available_for_hire]" type="hidden" value="false" />
              <input aria-describedby="available_for_hire-validation" class="input-x" id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
-             Available for hire
+             Some label
              </label>
              <p class="note my-hint" id="available_for_hire-validation">Some hint</p>
              <p class="note error note-x" id="available_for_hire-validation">can&#39;t be blank</p>
@@ -251,13 +252,13 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
 
     assert rendered_to_string(~H"""
            <.checkbox name="available_for_hire">
-             <:label>Some label</:label>
+             <:label dir="rtl">Some label</:label>
            </.checkbox>
            """)
            |> format_html() ==
              """
              <div class="form-checkbox">
-             <label>
+             <label dir="rtl">
                <input name="available_for_hire" type="hidden" value="false" />
                <input id="_" name="available_for_hire" type="checkbox" value="true" />
                Some label

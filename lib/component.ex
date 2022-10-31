@@ -714,11 +714,16 @@ defmodule PrimerLive.Component do
     )
   end
 
-  slot(:label,
+  slot :label,
     doc: """
     Custom checkbox label. Overides the derived label when using a `form` and `field`.
-    """
-  )
+    """ do
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the label element.
+      """
+    )
+  end
 
   slot :hint,
     doc: """
@@ -823,10 +828,21 @@ defmodule PrimerLive.Component do
     derived_label = Phoenix.HTML.Form.humanize(field)
     has_label = has_label_slot || derived_label !== "Nil"
 
-    label_attributes =
-      AttributeHelpers.append_attributes([], [
-        assigns.classes["label"] && [class: [assigns.classes["label"]]]
+    label_class =
+      AttributeHelpers.classnames([
+        assigns.classes[:label],
+        label_slot[:class]
       ])
+
+    label_attributes =
+      AttributeHelpers.append_attributes(
+        assigns_to_attributes(label_slot, [
+          :class
+        ]),
+        [
+          label_class && [class: label_class]
+        ]
+      )
 
     assigns =
       assigns
