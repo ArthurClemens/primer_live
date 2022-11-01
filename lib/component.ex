@@ -511,7 +511,7 @@ defmodule PrimerLive.Component do
     # Get the first group slot, if any
     group_slot = if assigns[:group] && assigns[:group] !== [], do: hd(assigns[:group]), else: []
     has_group_slot = group_slot !== []
-    has_group = assigns.is_group || has_group_slot
+    has_group = assigns[:is_group] || has_group_slot
 
     # Get the field state from the group slot attributes
     field_state = FormHelpers.field_state(form, field, group_slot[:validation_message])
@@ -633,7 +633,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a checkbox.
 
-  Wrapper around `Phoenix.HTML.Form.checkbox/3`, optionally wrapped itself inside a "form group" to add a field label and validation.
+  Wrapper around `Phoenix.HTML.Form.checkbox/3`.
 
   [Examples](#checkbox/1-examples) • [Attributes](#checkbox/1-attributes) • [Slots](#checkbox/1-slots) • [Reference](#checkbox/1-reference)
 
@@ -646,7 +646,7 @@ defmodule PrimerLive.Component do
   Set the checked state:
 
   ```
-  <.checkbox name="available_for_hire" is_checked />
+  <.checkbox name="available_for_hire" checked />
   ```
 
   Using the checkbox with form data. This will automatically create the checkbox label:
@@ -657,17 +657,7 @@ defmodule PrimerLive.Component do
   </.form>
   ```
 
-  Insert the checkbox within a form group using `is_group` or by using a `group` slot. This will insert the input inside a form group with a default generated label and field validation. To configure the form group, use the [`group` slot](#checkbox/1-slots).
-
-  ```
-  <.checkbox form={:user} field={:available_for_hire}>
-    <:group label="Some label" />
-  </.text_input>
-  ```
-
-  For form group customisations, see `text_input/1`.
-
-  Because the group label and checkbox label are derived from the same source, you most likely want to pass a custom checkbox label with the `label` slot:
+  Pass a custom checkbox label with the `label` slot:
 
   ```
   <.checkbox form={:user} field={:available_for_hire}>
@@ -707,10 +697,6 @@ defmodule PrimerLive.Component do
 
   [INSERT LVATTRDOCS]
 
-  ## Lets
-
-  See [`text_input lets`](#text_input/1-lets).
-
   ## Reference
 
   [Primer/CSS Forms](https://primer.style/css/components/forms)
@@ -726,81 +712,39 @@ defmodule PrimerLive.Component do
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
-  attr(:is_checked, :boolean, default: false, doc: "Checked state.")
-
   attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
   attr(:classes, :map,
     default: %{
-      group: nil,
-      header: nil,
-      body: nil,
-      group_label: nil,
       label: nil,
       input: nil,
       hint: nil,
-      note: nil,
       disclosure: nil
     },
     doc: """
-    Additional classnames for form group elements.
+    Additional classnames for checkbox elements.
 
     Any provided value will be appended to the default classname.
 
     Default map:
     ```
     %{
-      group: "",       # Form group element
-      header: "",      # Header element containing the input label
-      body: "",        # Input wrapper
-      group_label: "", # Group label
       label: "",       # Input label
       input: "",       # Checkbox input element
       hint: "",        # Hint message container
-      note: "",        # Validation message container
       disclosure: ""   # Disclosure container (inline)
     }
     ```
     """
   )
 
-  attr(:is_group, :boolean,
-    default: false,
-    doc: """
-    Inserts the input inside a form group and creates a default field label.
-
-    To configure the form group and label, see [`text_input group slot`](#text_input/1-slots).
-    """
-  )
-
   attr(:rest, :global,
     doc: """
-    Additional HTML attributes added to the input (or if applicable, the form group) element.
+    Additional HTML attributes added to the input element.
     """
   )
-
-  slot :group,
-    doc: """
-    Insert the input inside a form group.
-
-    Yields: see [`text_input :let`](#text_input/1-lets).
-
-    """ do
-    attr(:label, :string,
-      doc: """
-      Group label. See [`text_input slots`](#text_input/1-slots).
-      """
-    )
-
-    attr(:validation_message, :any,
-      doc: """
-      Function to write a custom validation message (in case of error or success).
-      See [`text_input slots`](#text_input/1-slots).
-      """
-    )
-  end
 
   slot :label,
     doc: """
@@ -838,12 +782,7 @@ defmodule PrimerLive.Component do
   end
 
   def checkbox(assigns) do
-    with true <- validate_is_form(assigns),
-         true <- validate_is_short_with_form_group(assigns) do
-      assigns =
-        assigns
-        |> assign(:input_type, :checkbox)
-
+    with true <- validate_is_form(assigns) do
       render_checkbox(assigns)
     else
       {:error, reason} ->
@@ -867,39 +806,18 @@ defmodule PrimerLive.Component do
         :type
       ])
 
-    group_attributes = get_group_attributes(assigns)
-
-    group_header_label_attributes =
-      AttributeHelpers.append_attributes([], [
-        [class: assigns.classes.group_label],
-        # Remove the "for" reference to the checkbox input, because we are using another wrapping label for the checkbox itself
-        [for: nil]
-      ])
-
     assigns =
       assigns
       |> assign(:form, form)
       |> assign(:field, field)
-      |> assign(:group_attributes, group_attributes)
-      |> assign(:group_header_label_attributes, group_header_label_attributes)
       |> assign(:rest, rest)
+      |> assign(:input_type, :checkbox)
 
-    assigns =
-      assigns
-      |> assign(:input, render_checkbox_input(assigns))
-
-    render_form_group(assigns)
+    render_checkbox_input(assigns)
   end
 
   defp render_checkbox_input(assigns) do
-    %{group_attributes: group_attributes, form: form, field: field, rest: rest} = assigns
-
-    %{
-      has_group: has_group,
-      message_id: message_id,
-      message: message,
-      valid?: valid?
-    } = group_attributes
+    %{form: form, field: field, rest: rest} = assigns
 
     classes = %{
       container:
@@ -933,10 +851,14 @@ defmodule PrimerLive.Component do
 
     label_slot = if assigns[:label] && assigns[:label] !== [], do: hd(assigns[:label]), else: []
     has_label_slot = label_slot !== []
-    derived_label = Phoenix.HTML.Form.humanize(field)
-    has_label = has_label_slot || derived_label !== "Nil"
 
-    initial_input_attrs = if has_group, do: [], else: rest
+    derived_label =
+      case assigns.input_type do
+        :checkbox -> Phoenix.HTML.Form.humanize(field)
+        :radio_button -> Phoenix.HTML.Form.humanize(assigns.value)
+      end
+
+    has_label = has_label_slot || derived_label !== "Nil"
 
     input_class =
       AttributeHelpers.classnames([
@@ -946,14 +868,19 @@ defmodule PrimerLive.Component do
         assigns.classes[:input]
       ])
 
-    input_attributes =
-      AttributeHelpers.append_attributes(initial_input_attrs, [
-        input_class && [class: input_class],
-        not is_nil(message_id) and [aria_describedby: message_id],
-        assigns.is_checked && [checked: "checked"]
+    input_opts =
+      AttributeHelpers.append_attributes(rest, [
+        input_class && [class: input_class]
       ])
 
-    input = apply(Phoenix.HTML.Form, assigns.input_type, [form, field, input_attributes])
+    input =
+      case assigns.input_type do
+        :checkbox ->
+          Phoenix.HTML.Form.checkbox(form, field, input_opts)
+
+        :radio_button ->
+          Phoenix.HTML.Form.radio_button(form, field, assigns.value, input_opts)
+      end
 
     label_class =
       AttributeHelpers.classnames([
@@ -981,15 +908,11 @@ defmodule PrimerLive.Component do
       |> assign(:label_attributes, label_attributes)
       |> assign(:derived_label, derived_label)
       |> assign(:has_disclosure_slot, has_disclosure_slot)
-      |> assign(:valid?, valid?)
-      |> assign(:message, message)
-      |> assign(:message_id, message_id)
-      |> assign(:validation_message_class, assigns.classes[:note])
 
     render_hint = fn ->
       ~H"""
       <%= for slot <- @hint do %>
-        <p class={@classes.hint.(slot)} id={@message_id}>
+        <p class={@classes.hint.(slot)}>
           <%= render_slot(slot, @classes) %>
         </p>
       <% end %>
@@ -1038,12 +961,6 @@ defmodule PrimerLive.Component do
         <%= if @hint && @hint !== [] do %>
           <%= @render_hint.() %>
         <% end %>
-        <.input_validation_message
-          valid?={@valid?}
-          message={@message}
-          message_id={@message_id}
-          class={@validation_message_class}
-        />
       </div>
     <% else %>
       <%= @input %>
