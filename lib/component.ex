@@ -969,6 +969,203 @@ defmodule PrimerLive.Component do
   end
 
   # ------------------------------------------------------------------------------------
+  # radio_button
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :forms
+
+  @doc ~S"""
+  Generates a radio button.
+
+  Wrapper around `Phoenix.HTML.Form.radio_button/4`.
+
+  [Examples](#radio_button/1-examples) • [Attributes](#radio_button/1-attributes) • [Slots](#radio_button/1-slots) • [Reference](#radio_button/1-reference)
+
+  ```
+  <.radio_button name="role" value="admin" />
+  <.radio_button name="role" value="editor" />
+  ```
+
+  ## Examples
+
+  Set the checked state:
+
+  ```
+  <.radio_button name="role" value="admin" />
+  <.radio_button name="role" value="editor" checked />
+  ```
+
+  Using the radio button with form data. This will automatically create the radio button label:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.radio_button form={f} field={:role} value="admin" />
+    <.radio_button form={f} field={:role} value="editor" />
+  </.form>
+  ```
+
+  Pass a custom radio button label with the `label` slot:
+
+  ```
+  <.radio_button form={:user} field={:role}>
+    <:label>Some label</:label>
+  </.radio_button>
+  ```
+
+  Add emphasis to the label:
+
+  ```
+  <.radio_button name="role" is_emphasised_label />
+  ```
+
+  Add a hint below the label:
+
+  ```
+  <.radio_button name="role">
+    <:label>Some label</:label>
+    <:hint>
+      Add your <strong>resume</strong> below
+    </:hint>
+  </.radio_button>
+  ```
+
+  Reveal extra details when the radio button is checked:
+
+  ```
+  <.radio_button name="role">
+    <:label>Some label</:label>
+    <:disclosure>
+      <span class="d-block mb-1">Available hours per week</span>
+      <input type="text" name="" class="form-control input-contrast" size="3" />
+      <span class="text-small color-fg-muted pl-2">hours per week</span>
+    </:disclosure>
+  </.radio_button>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Forms](https://primer.style/css/components/forms)
+
+  ## Status
+
+  Feature complete.
+  """
+
+  attr :field, :any, doc: "Field name (atom or string)."
+
+  attr :form, :any,
+    doc:
+      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+
+  attr(:value, :string, default: nil, doc: "Input value.")
+
+  attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      label: nil,
+      input: nil,
+      hint: nil,
+      disclosure: nil
+    },
+    doc: """
+    Additional classnames for radio button elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      label: "",      # Input label
+      input: "",      # Radio button input element
+      hint: "",       # Hint message container
+      disclosure: ""  # Disclosure container (inline)
+    }
+    ```
+    """
+  )
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the input element.
+    """
+  )
+
+  slot :label,
+    doc: """
+    Custom radio button label. Overides the derived label when using a `form` and `field`.
+    """ do
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the label element.
+      """
+    )
+  end
+
+  slot :hint,
+    doc: """
+    Adds text below the radio button label. Enabled when a label is displayed.
+    """ do
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the hint element.
+      """
+    )
+  end
+
+  slot :disclosure,
+    doc: """
+    Extra label content to be revealed when the radio button is checked. Enabled when a label is displayed.
+
+    Note that the label element can only contain inline child elements.
+    """ do
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the disclosure wrapper element.
+      """
+    )
+  end
+
+  def radio_button(assigns) do
+    with true <- validate_is_form(assigns) do
+      render_radio_button(assigns)
+    else
+      {:error, reason} ->
+        assigns =
+          assigns
+          |> assign(:reason, reason)
+
+        ~H"""
+        <%= @reason %>
+        """
+    end
+  end
+
+  defp render_radio_button(assigns) do
+    form = assigns[:form]
+    field = assigns[:field]
+
+    # Remove type from rest, we'll set it on the input
+    rest =
+      assigns_to_attributes(assigns.rest, [
+        :type
+      ])
+
+    assigns =
+      assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
+      |> assign(:rest, rest)
+      |> assign(:input_type, :radio_button)
+
+    render_checkbox_input(assigns)
+  end
+
+  # ------------------------------------------------------------------------------------
   # alert
   # ------------------------------------------------------------------------------------
 
