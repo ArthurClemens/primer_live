@@ -15,10 +15,10 @@ defmodule PrimerLive.Component do
 
   Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group" to add a field label and validation.
 
-  [Examples](#text_input/1-examples) • [Attributes](#text_input/1-attributes) • [Slots](#text_input/1-slots) • [Lets](#text_input/1-lets) • [Reference](#text_input/1-reference)
+  [Examples](#text_input/1-examples) • [Attributes](#text_input/1-attributes) • [Slots](#text_input/1-slots) • [Reference](#text_input/1-reference)
 
   ```
-  <.text_input name="first_name" />
+  <.text_input field="first_name" />
   ```
 
   ## Examples
@@ -39,94 +39,12 @@ defmodule PrimerLive.Component do
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.text_input form={f} field={:first_name} is_group />
-    <.text_input form={f} field={:last_name} is_group />
+    <.text_input form={f} field={:first_name} />
+    <.text_input form={f} field={:last_name} />
   </.form>
   ```
 
-  Insert the input within a form group using `is_group` or by using a `group` slot. This will insert the input inside a form group with a default generated label and field validation. To configure the form group, use the [`group` slot](#text_input/1-slots).
-
-  ```
-  <.text_input form={:user} field={:first_name} is_group />
-  ```
-
-  Use a custom group label by passing `label` to the `group` slot:
-
-  ```
-  <.text_input form={:user} field={:first_name}>
-    <:group label="Some label" />
-  </.text_input>
-  ```
-
-  Add markup to the group label with attribute `:let` to get the label tag:
-
-  ```
-  <.text_input form={:user} field={:first_name}>
-    <:group label="Some label" :let={field}>
-      <h2><%= field.label %></h2>
-    </:group>
-  </.text_input>
-  ```
-
-  This generates:
-
-  ```
-  <h2><label for="user_first_name">Some label</label></h2>
-  ```
-
-  Field data passed to `:let` also contains the `field_state`:
-
-  ```
-  <.text_input form={:user} field={:first_name}>
-    <:group :let={field} label="Some label">
-      <h2>
-        <%= if !field.field_state.valid? do %>
-          <div>Please correct your input</div>
-        <% end %>
-
-        <%= field.label %>
-      </h2>
-    </:group>
-  </.text_input>
-  ```
-
-  With a form changeset, write a custom error message:
-
-  ```
-  <.text_input form={f} field={:first_name}>
-    <:group validation_message={
-      fn field_state ->
-        if !field_state.valid?, do: "Please enter your first name"
-      end
-    }>
-    </:group>
-  </.text_input>
-  ```
-
-  With a form changeset, write a custom success message:
-
-  ```
-  <.text_input form={f} field={:first_name}>
-    <:group validation_message={
-      fn field_state ->
-        if changeset.valid?, do: "Complete"
-      end
-    }>
-    </:group>
-  </.text_input>
-  ```
-
   [INSERT LVATTRDOCS]
-
-  ## Lets
-
-  ```
-  <:group :let={field} />
-  ```
-
-  Yields a map with fields:
-  - `label` - Generated label from `Phoenix.HTML.Form.label/2`
-  - `field_state` - `PrimerLive.FieldState` struct
 
   ## Reference
 
@@ -146,36 +64,10 @@ defmodule PrimerLive.Component do
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
-  attr(:classes, :map,
-    default: %{
-      group: nil,
-      header: nil,
-      body: nil,
-      group_label: nil,
-      input: nil,
-      note: nil
-    },
-    doc: """
-    Additional classnames for form group elements.
-
-    Any provided value will be appended to the default classname.
-
-    Default map:
-    ```
-    %{
-      group: "",       # Form group element
-      header: "",      # Header element containing the group label
-      body: "",        # Input wrapper
-      group_label: "", # Form group label
-      input: "",       # Input element
-      note: ""         # Validation message container
-    }
-    ```
-    """
-  )
-
   attr(:type, :string, default: "text", doc: "Text input type.")
+
   attr(:is_contrast, :boolean, default: false, doc: "Changes the background color to light gray.")
+
   attr(:is_full_width, :boolean, default: false, doc: "Full width input.")
 
   attr(:is_hide_webkit_autofill, :boolean,
@@ -184,118 +76,19 @@ defmodule PrimerLive.Component do
   )
 
   attr(:is_large, :boolean, default: false, doc: "Larger text size.")
+
   attr(:is_small, :boolean, default: false, doc: "Smaller input with smaller text size.")
 
-  attr(:is_short, :boolean,
-    default: false,
-    doc: "Within a `group` slot. Generates an input with a reduced width."
-  )
-
-  attr(:is_group, :boolean,
-    default: false,
-    doc: """
-    Inserts the input inside a form group and creates a default group label.
-
-    To configure the form group and label, see [slot `group`](#text_input/1-slots).
-    """
-  )
+  attr(:is_short, :boolean, default: false, doc: "Generates an input with a reduced width.")
 
   attr(:rest, :global,
     doc: """
-    Additional HTML attributes added to the input (or if applicable, the form group) element.
+    Additional HTML attributes added to the input element.
     """
   )
 
-  slot :group,
-    doc: """
-    Insert the input inside a form group.
-
-    Yields: see [:let](#text_input/1-lets).
-
-    """ do
-    attr(:label, :string,
-      doc: """
-      Group label. Will be wrapped inside a `<label>` tag. This label tag is provided by attribute `:let` and can be integrated in other HTML markup.
-
-      The examples below assume form `:user` and field `:first_name`.
-
-      Without an `inner_block`, the generated label will be used:
-      ```
-      <:group label="Some label" />
-      ```
-
-      This generates:
-      ```
-      <label for="user_first_name">Some label</label>
-      ```
-
-      With an `inner_block`, `field` data can be retrieved from attribute `:let`:
-      ```
-      <:group
-        label="Some label"
-        :let={field}
-      >
-        <h2><%= field.label %></h2>
-      </:group>
-      ```
-
-      This generates:
-      ```
-      <h2><label for="user_first_name">Some label</label></h2>
-      ```
-
-      To conditionally change the header dependent on field state, use `field_state`, `PrimerLive.FieldState` struct:
-      ```
-      <:group :let={field} label="Some label">
-        <h2>
-          <%= if !field.field_state.valid? do %>
-            <div>Please correct your input</div>
-          <% end %>
-
-          <%= field.label %>
-        </h2>
-      </:group>
-      ```
-
-      """
-    )
-
-    attr(:validation_message, :any,
-      doc: """
-      Function to write a custom validation message (in case of error or success).
-
-      The function receives a `PrimerLive.FieldState` struct and returns a validation message.
-
-      A validation message is shown:
-      - If form is a `Phoenix.HTML.Form`, containing a `changeset`
-      - And either:
-        - `changeset.action` is `:validate`
-        - `validation_message` returns a string
-
-      Function signature: `fun field_state -> string | nil`.
-
-      Example error message:
-
-      ```
-      fn field_state ->
-        if !field_state.valid?, do: "Please enter your first name"
-      end
-      ```
-
-      Example success message, only shown when `changeset.action` is `:validate`:
-
-      ```
-      fn field_state ->
-        if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
-      end
-      ```
-      """
-    )
-  end
-
   def text_input(assigns) do
-    with true <- validate_is_form(assigns),
-         true <- validate_is_short_with_form_group(assigns) do
+    with true <- validate_is_form(assigns) do
       render_text_input(assigns)
     else
       {:error, reason} ->
@@ -313,42 +106,6 @@ defmodule PrimerLive.Component do
     form = assigns[:form]
     field = assigns[:field]
 
-    # Remove type from rest, we'll set it on the input
-    rest =
-      assigns_to_attributes(assigns.rest, [
-        :type
-      ])
-
-    group_attributes = get_group_attributes(assigns)
-
-    %{
-      group_slot: group_slot
-    } = group_attributes
-
-    group_header_label_attributes =
-      AttributeHelpers.append_attributes([], [
-        [class: assigns.classes.group_label],
-        [for: group_slot[:for] || Phoenix.HTML.Form.input_id(form, field)]
-      ])
-
-    assigns =
-      assigns
-      |> assign(:form, form)
-      |> assign(:field, field)
-      |> assign(:rest, rest)
-      |> assign(:group_attributes, group_attributes)
-      |> assign(:group_header_label_attributes, group_header_label_attributes)
-
-    assigns =
-      assigns
-      |> assign(:input, render_text_input_input(assigns))
-
-    render_form_group(assigns)
-  end
-
-  defp render_text_input_input(assigns) do
-    %{group_attributes: group_attributes, form: form, field: field, rest: rest} = assigns
-
     class =
       AttributeHelpers.classnames([
         "form-control",
@@ -362,165 +119,356 @@ defmodule PrimerLive.Component do
       ])
 
     %{
-      has_group: has_group,
-      message_id: message_id,
-      message: message,
-      valid?: valid?
-    } = group_attributes
-
-    initial_input_attrs = if has_group, do: [], else: rest
+      message_id: message_id
+    } = FormHelpers.field_state(form, field, nil)
 
     input_attributes =
-      AttributeHelpers.append_attributes(initial_input_attrs, [
-        [class: [class, assigns.classes[:input]]],
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class],
         # If aria_label is not set, use the value of placeholder (if any):
-        is_nil(rest[:aria_label]) and [aria_label: rest[:placeholder]],
+        is_nil(assigns.rest[:aria_label]) and [aria_label: assigns.rest[:placeholder]],
         not is_nil(message_id) and [aria_describedby: message_id]
       ])
 
-    input_type = FormHelpers.text_input_type_as_atom(assigns.type)
-    input = apply(Phoenix.HTML.Form, input_type, [form, field, input_attributes])
-
     assigns =
       assigns
-      |> assign(:input, input)
-      |> assign(:message, message)
-      |> assign(:message_id, message_id)
-      |> assign(:valid?, valid?)
-      |> assign(:validation_message_class, assigns.classes[:note])
+      |> assign(
+        :input,
+        apply(Phoenix.HTML.Form, FormHelpers.text_input_type_as_atom(assigns.type), [
+          form,
+          field,
+          input_attributes
+        ])
+      )
 
     ~H"""
     <%= @input %>
-    <.input_validation_message
-      valid?={@valid?}
-      message={@message}
-      message_id={@message_id}
-      class={@validation_message_class}
-    />
     """
   end
 
-  defp render_form_group(assigns) do
+  # ------------------------------------------------------------------------------------
+  # form_group
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :forms
+
+  @doc ~S"""
+  Generates a form group: a wrapper around one or more inputs, with a heading and validation.
+
+  [Examples](#form_group/1-examples) • [Attributes](#form_group/1-attributes) • [Slots](#form_group/1-slots) • [Reference](#form_group/1-reference)
+
+  ```
+  <.form_group field="first_name">
+    <.text_input field="first_name" />
+  </.form_group>
+  ```
+
+  ## Examples
+
+  With a `Phoenix.HTML.Form`:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.form_group form={f} field={:first_name}>
+      <.text_input
+        form={f}
+        field={:first_name}
+        phx_debounce="blur"
+        autocomplete="off"
+      />
+    </.form_group>
+  </.form>
+  ```
+
+  Custom label:
+
+  ```
+  <.form_group form={f} field={:first_name} label="Enter your first name">
+  ...
+  </.form_group>
+  ```
+
+  Hide the label:
+
+  ```
+  <.form_group form={f} field={:first_name} is_hide_label>
+  ...
+  </.form_group>
+  ```
+
+  With checkboxes:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.form_group form={f} field={:role}>
+      <.checkbox form={f} field={:role} checked_value="admin" />
+      <.checkbox form={f} field={:role} checked_value="editor" />
+    </.form_group>
+  </.form>
+  ```
+
+  With radio buttons:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.form_group form={f} field={:role}>
+      <.radio_button form={f} field={:work_experience} value="writing" />
+      <.radio_button form={f} field={:work_experience} value="managing" />
+    </.form_group>
+  </.form>
+  ```
+
+  Custom validation error message:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.form_group form={f} field={:first_name} validation_message={
+      fn field_state ->
+        if !field_state.valid?, do: "Please enter your first name"
+      end
+    }>
+      ...
+    </.form_group>
+  </.form>
+  ```
+  Custom validation success message:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.form_group form={f} field={:first_name} validation_message={
+      fn field_state ->
+        if field_state.valid?, do: "Available!"
+      end
+    }>
+      ...
+    </.form_group>
+  </.form>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Forms](https://primer.style/css/components/forms)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr :field, :any, doc: "Field name (atom or string)."
+
+  attr :form, :any,
+    doc:
+      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+
+  attr(:label, :string,
+    default: nil,
+    doc: "Custom label. Note that a label is automatically generated when using `field`."
+  )
+
+  attr :is_hide_label, :boolean, default: false, doc: "Omits the label when using `field`."
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      group: nil,
+      header: nil,
+      body: nil,
+      label: nil,
+      validation_message: nil
+    },
+    doc: """
+    Additional classnames for form group elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
     %{
-      form: form,
-      field: field,
-      rest: rest,
-      group_attributes: group_attributes,
-      group_header_label_attributes: group_header_label_attributes
-    } = assigns
+      group: "",              # Form group element
+      header: "",             # Header element containing the group label
+      body: "",               # Input wrapper
+      label: "",              # Form group label
+      validation_message: "", # Validation message
+    }
+    ```
+    """
+  )
 
-    %{
-      field_state: field_state,
-      has_group: has_group,
-      group_slot: group_slot,
-      message: message,
-      valid?: valid?
-    } = group_attributes
+  attr(:validation_message, :any,
+    doc: """
+    Function to write a custom validation message (in case of error or success).
 
-    case has_group do
-      false ->
-        ~H"""
-        <%= @input %>
-        """
+    The function receives a `PrimerLive.FieldState` struct and returns a validation message.
 
-      true ->
-        classes = %{
-          group:
-            AttributeHelpers.classnames([
-              "form-group",
-              if !is_nil(message) do
-                if valid? do
-                  "successed"
-                else
-                  "errored"
-                end
-              end,
-              group_slot[:class],
-              assigns.classes[:group]
-            ]),
-          header:
-            AttributeHelpers.classnames([
-              "form-group-header",
-              assigns.classes[:header]
-            ]),
-          group_label:
-            AttributeHelpers.classnames([
-              assigns.classes[:group_label]
-            ]),
-          input:
-            AttributeHelpers.classnames([
-              assigns.classes[:input]
-            ]),
-          body:
-            AttributeHelpers.classnames([
-              "form-group-body",
-              assigns.classes[:body]
-            ])
-        }
+    A validation message is shown:
+    - If form is a `Phoenix.HTML.Form`, containing a `changeset`
+    - And either:
+      - `changeset.action` is `:validate`
+      - `validation_message` returns a string
 
-        # If label is supplied, wrap it inside a label element
-        # else use the default generated label
-        header_label =
-          if group_slot[:label] do
-            Phoenix.HTML.Form.label(
-              form,
-              field,
-              group_slot[:label],
-              group_header_label_attributes
-            )
-          else
-            Phoenix.HTML.Form.label(form, field, group_header_label_attributes)
-          end
+    Function signature: `fun field_state -> string | nil`.
 
-        # Data accessible by :let
-        field = %{
-          label: header_label,
-          field_state: field_state
-        }
+    Example error message:
 
-        group_attributes =
-          AttributeHelpers.append_attributes(rest, [
-            [class: classes.group]
-          ])
+    ```
+    fn field_state ->
+      if !field_state.valid?, do: "Please enter your first name"
+    end
+    ```
 
+    Example success message, only shown when `changeset.action` is `:validate`:
+
+    ```
+    fn field_state ->
+      if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
+    end
+    ```
+    """
+  )
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the input element.
+    """
+  )
+
+  slot(:inner_block, required: true, doc: "Form group content.")
+
+  def form_group(assigns) do
+    with true <- validate_is_form(assigns) do
+      render_form_group(assigns)
+    else
+      {:error, reason} ->
         assigns =
           assigns
-          |> assign(:classes, classes)
-          |> assign(:group_attributes, group_attributes)
-          |> assign(:field, field)
-          |> assign(:group_slot, group_slot)
-          |> assign(:header_label, header_label)
+          |> assign(:reason, reason)
 
         ~H"""
-        <div {@group_attributes}>
-          <div class={@classes.header}>
-            <%= render_slot(@group_slot, @field) |> ComponentHelpers.maybe_slot_content() || @header_label %>
-          </div>
-          <div class={@classes.body}>
-            <%= @input %>
-          </div>
-        </div>
+        <%= @reason %>
         """
     end
   end
 
-  defp get_group_attributes(assigns) do
+  defp render_form_group(assigns) do
     form = assigns[:form]
     field = assigns[:field]
+    validation_message = assigns[:validation_message]
+    rest = assigns[:rest]
 
-    # Get the first group slot, if any
-    group_slot = if assigns[:group] && assigns[:group] !== [], do: hd(assigns[:group]), else: []
-    has_group_slot = group_slot !== []
-    has_group = assigns[:is_group] || has_group_slot
+    field_state = FormHelpers.field_state(form, field, validation_message)
 
-    # Get the field state from the group slot attributes
-    field_state = FormHelpers.field_state(form, field, group_slot[:validation_message])
+    %{
+      message_id: message_id,
+      message: message,
+      valid?: valid?
+    } = field_state
 
-    Map.merge(field_state, %{
-      field_state: field_state,
-      group_slot: group_slot,
-      has_group: has_group
-    })
+    classes = %{
+      group:
+        AttributeHelpers.classnames([
+          "form-group",
+          if !is_nil(message) do
+            if valid? do
+              "successed"
+            else
+              "errored"
+            end
+          end,
+          assigns[:class],
+          assigns.classes[:group]
+        ]),
+      header:
+        AttributeHelpers.classnames([
+          "form-group-header",
+          assigns.classes[:header]
+        ]),
+      label:
+        AttributeHelpers.classnames([
+          assigns.classes[:label]
+        ]),
+      input:
+        AttributeHelpers.classnames([
+          assigns.classes[:input]
+        ]),
+      body:
+        AttributeHelpers.classnames([
+          "form-group-body",
+          assigns.classes[:body]
+        ]),
+      validation_message: assigns.classes[:validation_message]
+    }
+
+    # If label is supplied, wrap it inside a label element
+    # else use the default generated label
+
+    header_label_attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: assigns.classes.label],
+        [for: assigns[:for] || Phoenix.HTML.Form.input_id(form, field)]
+      ])
+
+    header_label =
+      cond do
+        assigns.is_hide_label ->
+          nil
+
+        assigns[:label] ->
+          Phoenix.HTML.Form.label(
+            form,
+            field,
+            assigns[:label],
+            header_label_attributes
+          )
+
+        true ->
+          humanize_label = Phoenix.HTML.Form.humanize(field)
+
+          case humanize_label === "Nil" do
+            true -> nil
+            false -> Phoenix.HTML.Form.label(form, field, header_label_attributes)
+          end
+      end
+
+    has_header_label = header_label && header_label !== "Nil"
+
+    group_attributes =
+      AttributeHelpers.append_attributes(rest, [
+        [class: classes.group]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:group_attributes, group_attributes)
+      |> assign(:has_header_label, has_header_label)
+      |> assign(:header_label, header_label)
+      |> assign(:message, message)
+      |> assign(:message_id, message_id)
+      |> assign(:valid?, valid?)
+      |> assign(:validation_message_class, classes.validation_message)
+
+    ~H"""
+    <div {@group_attributes}>
+      <%= if @has_header_label do %>
+        <div class={@classes.header}>
+          <%= @header_label %>
+        </div>
+      <% end %>
+      <div class={@classes.body}>
+        <%= render_slot(@inner_block) %>
+        <.input_validation_message
+          valid?={@valid?}
+          message={@message}
+          message_id={@message_id}
+          class={@validation_message_class}
+        />
+      </div>
+    </div>
+    """
   end
 
   # ------------------------------------------------------------------------------------
@@ -565,30 +513,13 @@ defmodule PrimerLive.Component do
   # - atom
   # - Phoenix.HTML.Form
   defp validate_is_form(assigns) do
-    value = assigns[:form]
+    form = assigns[:form]
 
     cond do
-      is_nil(value) -> true
-      is_atom(value) -> true
-      SchemaHelpers.is_phoenix_form(value) -> true
+      is_nil(form) -> true
+      is_atom(form) -> true
+      SchemaHelpers.is_phoenix_form(form) -> true
       true -> {:error, "attr form: invalid value"}
-    end
-  end
-
-  # Validates that attribute `is_short` coexists with `group` slot.
-  # Allowed values:
-  # - nil
-  # - any truthy value if group is also present
-  defp validate_is_short_with_form_group(assigns) do
-    is_short = assigns[:is_short]
-    group = assigns[:group]
-    is_group = assigns[:is_group]
-    has_group = is_group || (!!group && group !== [])
-
-    cond do
-      !is_short -> true
-      !!is_short && has_group -> true
-      true -> {:error, "attr is_short: must be used in combination with a group slot"}
     end
   end
 
@@ -851,10 +782,11 @@ defmodule PrimerLive.Component do
 
     label_slot = if assigns[:label] && assigns[:label] !== [], do: hd(assigns[:label]), else: []
     has_label_slot = label_slot !== []
+    value_for_derived_label = rest[:checked_value] || rest[:value]
 
     derived_label =
       case assigns.input_type do
-        :checkbox -> Phoenix.HTML.Form.humanize(field)
+        :checkbox -> Phoenix.HTML.Form.humanize(value_for_derived_label || field)
         :radio_button -> Phoenix.HTML.Form.humanize(assigns.value)
       end
 

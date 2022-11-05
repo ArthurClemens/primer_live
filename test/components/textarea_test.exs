@@ -45,35 +45,6 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              |> format_html()
   end
 
-  test "Attribute: is_short without form group: should render an error message" do
-    assigns = %{}
-
-    assert rendered_to_string(~H"""
-           <.textarea is_short />
-           """)
-           |> format_html() ==
-             """
-             attr is_short: must be used in combination with a group slot
-             """
-             |> format_html()
-  end
-
-  test "Attribute: is_short with form group" do
-    assigns = %{}
-
-    assert rendered_to_string(~H"""
-           <.textarea form={:f} field={:first_name} is_short is_group />
-           """)
-           |> format_html() ==
-             """
-             <div class="form-group"><div class="form-group-header"><label for="f_first_name">First name</label></div>
-             <div class="form-group-body"><textarea class="form-control short" id="f_first_name" name="f[first_name]"></textarea>
-             </div>
-             </div>
-             """
-             |> format_html()
-  end
-
   test "Attribute: class" do
     assigns = %{}
 

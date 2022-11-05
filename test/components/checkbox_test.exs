@@ -209,16 +209,38 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              |> format_html()
   end
 
-  test "Extra attributes: value (should be ignored)" do
+  test "Extra attributes: value" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.checkbox name="available_for_hire" value="role" />
+           <.checkbox name="role" value="editor" />
            """)
            |> format_html() ==
              """
-             <input name="available_for_hire" type="hidden" value="false" />
-             <input id="_" name="available_for_hire" type="checkbox" value="true" />
+             <div class="form-checkbox">
+             <label>
+             <input name="role" type="hidden" value="false" /><input id="_" name="role" type="checkbox" value="true" />
+             Editor
+             </label>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Extra attributes: checked_value" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.checkbox name="role" checked_value="editor" />
+           """)
+           |> format_html() ==
+             """
+             <div class="form-checkbox">
+             <label>
+             <input name="role" type="hidden" value="false" /><input id="_" name="role" type="checkbox" value="editor" />
+             Editor
+             </label>
+             </div>
              """
              |> format_html()
   end
