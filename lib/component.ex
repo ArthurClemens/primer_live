@@ -1166,6 +1166,221 @@ defmodule PrimerLive.Component do
   end
 
   # ------------------------------------------------------------------------------------
+  # radio_group
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :forms
+
+  @doc ~S"""
+  Groups radio buttons in a tab-like row.
+
+  [Examples](#radio_group/1-examples) • [Attributes](#radio_group/1-attributes) • [Slots](#radio_group/1-slots) • [Reference](#radio_group/1-reference)
+
+  Radio buttons are generated from the `radio_button` slot:
+
+  ```
+  <.radio_group>
+    <:radio_button name="role" value="admin"></:radio_button>
+    <:radio_button name="role" value="editor"></:radio_button>
+  </.radio_group>
+  ```
+
+  ## Examples
+
+  Using a `Phoenix.HTML.Form`, attributes `form` and `field` are passed from radio group to the radio buttons, and labels are generated automatically:
+
+  ```
+  <.form let={f} for={@changeset}>
+    <.radio_group form={f} field={:role}>
+      <:radio_button value="admin"></:radio_button>
+      <:radio_button value="editor"></:radio_button>
+    </.radio_group>
+  </.form>
+  ```
+
+  Generates:
+
+  ```
+  <form method="post" errors="">
+    <div class="radio-group">
+      <input class="radio-input" id="demo_user_role_admin"
+        name="demo_user[role]" type="radio" value="admin">
+      <label class="radio-label" for="demo_user_role_admin">Admin</label>
+      <input class="radio-input" id="demo_user_role_editor"
+        name="demo_user[role]" type="radio" value="editor">
+      <label class="radio-label" for="demo_user_role_editor">Editor</label>
+    </div>
+  </form>
+  ```
+
+  Use custom label with the `radio_button` slot `inner_block`:
+
+  ```
+  <.radio_group>
+    <:radio_button name="role" value="admin">My role is Admin</:radio_button>
+    <:radio_button name="role" value="editor">My role is Editor</:radio_button>
+  </.radio_group>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Forms](https://primer.style/css/components/forms)
+
+  ## Status
+
+  Feature complete.
+  """
+
+  attr :field, :any, doc: "Field name (atom or string)."
+
+  attr :form, :any,
+    doc:
+      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      radio_group: nil,
+      label: nil,
+      radio_input: nil
+    },
+    doc: """
+    Additional classnames for radio group elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      radio_group: "", # Wrapper
+      label: "",       # Radio button label
+      radio_input: "", # Radio button input
+    }
+    ```
+    """
+  )
+
+  attr(:id_prefix, :string, default: nil, doc: "Attribute `id` prefix to create unique ids.")
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the wrapper element.
+    """
+  )
+
+  slot :radio_button,
+    doc: "Generates a radio button." do
+    attr(:value, :string, doc: "Radio button value")
+  end
+
+  def radio_group(assigns) do
+    with true <- validate_is_form(assigns) do
+      render_radio_group(assigns)
+    else
+      {:error, reason} ->
+        assigns =
+          assigns
+          |> assign(:reason, reason)
+
+        ~H"""
+        <%= @reason %>
+        """
+    end
+  end
+
+  defp render_radio_group(assigns) do
+    form = assigns[:form]
+    field = assigns[:field]
+
+    classes = %{
+      radio_group:
+        AttributeHelpers.classnames([
+          "radio-group",
+          assigns.classes[:radio_group],
+          assigns[:class]
+        ]),
+      label:
+        AttributeHelpers.classnames([
+          "radio-label",
+          assigns.classes[:label]
+        ]),
+      radio_input:
+        AttributeHelpers.classnames([
+          "radio-input",
+          assigns.classes[:radio_input]
+        ])
+    }
+
+    render_radio_button = fn slot ->
+      initial_opts =
+        assigns_to_attributes(slot, [
+          :inner_block,
+          :__slot__,
+          :value
+        ])
+
+      value = slot[:value]
+      escaped_value = Phoenix.HTML.html_escape(value)
+      id_prefix = if not is_nil(assigns.id_prefix), do: assigns.id_prefix <> "-", else: ""
+      id = id_prefix <> Phoenix.HTML.Form.input_id(form, field, escaped_value)
+
+      input_opts =
+        AttributeHelpers.append_attributes(initial_opts, [
+          [
+            class:
+              AttributeHelpers.classnames([
+                classes.radio_input,
+                slot[:class]
+              ])
+          ],
+          [id: id]
+        ])
+
+      label_opts =
+        AttributeHelpers.append_attributes([], [
+          [
+            class: classes.label
+          ],
+          [for: id]
+        ])
+
+      derived_label = Phoenix.HTML.Form.humanize(value)
+
+      input = Phoenix.HTML.Form.radio_button(form, field, value, input_opts)
+
+      assigns =
+        assigns
+        |> assign(:input, input)
+        |> assign(:label_opts, label_opts)
+        |> assign(:derived_label, derived_label)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <%= @input %>
+      <label {@label_opts}>
+        <%= render_slot(@slot) |> ComponentHelpers.maybe_slot_content() || @derived_label %>
+      </label>
+      """
+    end
+
+    assigns =
+      assigns
+      |> assign(:radio_group_class, classes.radio_group)
+      |> assign(:render_radio_button, render_radio_button)
+
+    ~H"""
+    <div class={@radio_group_class} {@rest}>
+      <%= for slot <- @radio_button do %>
+        <%= @render_radio_button.(slot) %>
+      <% end %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
   # alert
   # ------------------------------------------------------------------------------------
 
