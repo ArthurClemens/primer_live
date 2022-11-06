@@ -1017,11 +1017,11 @@ defmodule PrimerLive.Component do
   defp input_validation_message(assigns) do
     class =
       AttributeHelpers.classnames([
-        "note",
+        "FormControl-inlineValidation",
         if assigns.valid? do
-          "success"
+          "FormControl-inlineValidation--success"
         else
-          "error"
+          "FormControl-inlineValidation--error"
         end,
         assigns.class
       ])
@@ -1032,9 +1032,14 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <%= if not is_nil(@message) do %>
-      <p class={@class} id={@message_id}>
-        <%= @message %>
-      </p>
+      <div class={@class} id={@message_id}>
+        <%= if @valid? do %>
+          <.octicon name="check-circle-fill-12" />
+        <% else %>
+          <.octicon name="alert-fill-12" />
+        <% end %>
+        <span><%= @message %></span>
+      </div>
     <% end %>
     """
   end
