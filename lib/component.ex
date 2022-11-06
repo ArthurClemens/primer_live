@@ -15,22 +15,22 @@ defmodule PrimerLive.Component do
 
   [Examples](#tabnav/1-examples) • [Attributes](#tabnav/1-attributes) • [Slots](#tabnav/1-slots) • [Reference](#tabnav/1-reference)
 
-  Tab items are rendered as link elements, created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link.
+  Tab items are either rendered as link element (when using attrs `href`, `navigate` or `patch`), or as button.
 
   ```
   <.tabnav aria_label="Topics navigation">
-    <:item href="#url" is_current>
-      One
+    <:item href="#url" is_selected>
+      Link tab
     </:item>
-    <:item href="#url">
-      Two
+    <:item>
+      Button tab
     </:item>
   </.tabnav>
   ```
 
   ## Examples
 
-  Link navigation options:
+  Tabs links are created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link. Link navigation options:
 
   ```
   <:item href="#url">Item 1</:item>
@@ -42,7 +42,7 @@ defmodule PrimerLive.Component do
 
   ```
   <.tabnav>
-    <:item href="#url" is_current>
+    <:item href="#url" is_selected>
       <.octicon name="comment-discussion-16" />
       <span>Conversation</span>
       <span class="Counter">2</span>
@@ -61,7 +61,7 @@ defmodule PrimerLive.Component do
 
   ```
   <.tabnav>
-    <:item href="#url" is_current>
+    <:item href="#url" is_selected>
       One
     </:item>
     <:item href="#url">
@@ -77,7 +77,7 @@ defmodule PrimerLive.Component do
 
   ```
   <.tabnav>
-    <:item href="#url" is_current>
+    <:item href="#url" is_selected>
       One
     </:item>
     <:item href="#url">
@@ -135,9 +135,11 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Tab item content.
+    Tab item content: either a link or a button.
+
+    Tab items are rendered as link element when using attrs `href`, `navigate` or `patch`, otherwise as button elemens. Tabs links are created with `Phoenix.Component.link/1`.
     """ do
-    attr(:is_current, :boolean,
+    attr(:is_selected, :boolean,
       doc: """
       The currently selected item.
       """
@@ -221,19 +223,21 @@ defmodule PrimerLive.Component do
       end
     }
 
-    render_item = fn slot ->
+    render_tab = fn slot ->
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
         assigns_to_attributes(slot, [
           :class,
-          :is_current
+          :is_selected
         ])
 
       attributes =
         AttributeHelpers.append_attributes(rest, [
           [class: classes.tab.(slot)],
-          slot[:is_current] && [aria_current: "page"]
+          [role: "tab"],
+          slot[:is_selected] && [aria_selected: "true"],
+          slot[:is_selected] && [aria_current: "page"]
         ])
 
       assigns =
@@ -248,7 +252,9 @@ defmodule PrimerLive.Component do
           <%= render_slot(@slot) %>
         </Phoenix.Component.link>
       <% else %>
-        Not a link
+        <button {@attributes}>
+          <%= render_slot(@slot) %>
+        </button>
       <% end %>
       """
     end
@@ -284,7 +290,7 @@ defmodule PrimerLive.Component do
     assigns =
       assigns
       |> assign(:classes, classes)
-      |> assign(:render_item, render_item)
+      |> assign(:render_tab, render_tab)
       |> assign(:render_position_end, render_position_end)
       |> assign(:nav_attributes, nav_attributes)
 
@@ -298,7 +304,7 @@ defmodule PrimerLive.Component do
       <%= if @item && @item !== [] do %>
         <nav {@nav_attributes}>
           <%= for slot <- @item do %>
-            <%= @render_item.(slot) %>
+            <%= @render_tab.(slot) %>
           <% end %>
         </nav>
       <% end %>
@@ -3416,9 +3422,46 @@ defmodule PrimerLive.Component do
   <.select_menu id="this-id-is-optional">
     <:toggle>Menu</:toggle>
     <:menu title="Title" />
-    <:item>Item 1</:item>
-    <:item>Item 2</:item>
-    <:item>Item 3</:item>
+    ...
+  </.select_menu>
+  ```
+
+  Add a message:
+
+  ```
+  <.select_menu>
+    <:toggle>Menu</:toggle>
+    <:message class="color-bg-danger color-fg-danger">Message</:message>
+    ...
+  </.select_menu>
+  ```
+
+  Add a filter input:
+
+  ```
+   <.select_menu>
+    <:toggle>Menu</:toggle>
+    <:filter>
+      <form>
+        <.text_input class="SelectMenu-input" type="search" name="q" placeholder="Filter" />
+      </form>
+    </:filter>
+    ...
+  </.select_menu>
+  ```
+
+  Add a tab menu filter by using slot `tab`:
+
+  ```
+   <.select_menu>
+    <:toggle>Menu</:toggle>
+    <:tab is_selected>
+      Selected
+    </:tab>
+    <:tab>
+      Other tab
+    </:tab>
+    ...
   </.select_menu>
   ```
 
@@ -3427,9 +3470,7 @@ defmodule PrimerLive.Component do
   ```
   <.select_menu>
     <:toggle>Menu</:toggle>
-    <:item>Item 1</:item>
-    <:item>Item 2</:item>
-    <:item>Item 3</:item>
+    ...
     <:footer>Footer</:footer>
   </.select_menu>
   ```
@@ -3450,13 +3491,14 @@ defmodule PrimerLive.Component do
 
   ## Status
 
-  To do:
-  - Tabs slot
+  Feature complete.
 
   """
 
   attr :is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right."
   attr :is_borderless, :boolean, default: false, doc: "Removes the borders between list items."
+
+  attr :class, :string, doc: "Additional classname."
 
   attr :classes, :map,
     default: %{
@@ -3473,6 +3515,9 @@ defmodule PrimerLive.Component do
       menu_title: nil,
       menu: nil,
       message: nil,
+      select_menu: nil,
+      tabs: nil,
+      tab: nil,
       toggle: nil
     },
     doc: """
@@ -3496,7 +3541,11 @@ defmodule PrimerLive.Component do
       menu_title: "",          # Menu title.
       menu: "",                # Menu element
       message: "",             # Message element.
-      toggle: "",              # Toggle element. Any value will override the default class "btn".
+      select_menu: "",         # Select menu container (details element).
+      tabs: "",                # Tab container.
+      tab: "",                 # Tab button.
+      toggle: "",              # Toggle element. Any value will override the
+                               # default class "btn".
     }
     ```
     """
@@ -3559,9 +3608,26 @@ defmodule PrimerLive.Component do
 
   slot(:filter,
     doc: """
-    Filter slot to insert a `text_input/1` that will drive a custom filter function.
+    Filter slot to insert a `text_input/1` component that will drive a custom filter function.
     """
   )
+
+  slot :tab,
+    doc: """
+    Tab item element. If a tab slot is used, a tab navigation will be generated containing button elements.
+    """ do
+    attr(:is_selected, :boolean,
+      doc: """
+      The currently selected tab.
+      """
+    )
+
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the tab element.
+      """
+    )
+  end
 
   slot(:footer,
     doc: """
@@ -3669,6 +3735,7 @@ defmodule PrimerLive.Component do
           menu_title: nil,
           menu: nil,
           message: nil,
+          select_menu: nil,
           toggle: nil
         },
         assigns.classes
@@ -3704,6 +3771,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "details-reset",
           "details-overlay",
+          assigns_classes[:select_menu],
           assigns[:class]
         ]),
       toggle:
@@ -3722,7 +3790,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "SelectMenu",
           assigns.is_right_aligned and "right-0",
-          not is_nil(assigns[:filter]) and "SelectMenu--hasFilter",
+          assigns[:filter] !== [] && "SelectMenu--hasFilter",
           assigns_classes.menu
         ]),
       menu_container:
@@ -3785,7 +3853,19 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "SelectMenu-blankslate",
           assigns_classes.blankslate
+        ]),
+      tabs:
+        AttributeHelpers.classnames([
+          "SelectMenu-tabs",
+          assigns_classes.tabs
+        ]),
+      tab: fn slot ->
+        AttributeHelpers.classnames([
+          "SelectMenu-tab",
+          assigns.classes.tab,
+          slot[:class]
         ])
+      end
     }
 
     toggle_attrs =
@@ -3914,6 +3994,41 @@ defmodule PrimerLive.Component do
       """
     end
 
+    render_tab = fn slot ->
+      is_link = AttributeHelpers.is_link?(slot)
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class,
+          :is_selected
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: classes.tab.(slot)],
+          [role: "tab"],
+          slot[:is_selected] && [aria_selected: "true"]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:is_link, is_link)
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <%= if @is_link do %>
+        <Phoenix.Component.link {@attributes}>
+          <%= render_slot(@slot) %>
+        </Phoenix.Component.link>
+      <% else %>
+        <button {@attributes}>
+          <%= render_slot(@slot) %>
+        </button>
+      <% end %>
+      """
+    end
+
     assigns =
       assigns
       |> assign(:classes, classes)
@@ -3925,6 +4040,7 @@ defmodule PrimerLive.Component do
       |> assign(:menu_title, menu_title)
       |> assign(:item_slots, item_slots)
       |> assign(:render_item, render_item)
+      |> assign(:render_tab, render_tab)
 
     ~H"""
     <details {@select_menu_attrs}>
@@ -3945,17 +4061,24 @@ defmodule PrimerLive.Component do
               </button>
             </header>
           <% end %>
-          <%= if @filter && @filter !== [] do %>
-            <div class={@classes.filter}>
-              <%= render_slot(@filter) %>
-            </div>
-          <% end %>
           <%= if @message do %>
             <%= for message <- @message do %>
               <div class={AttributeHelpers.classnames([@classes.message, message[:class]])}>
                 <%= render_slot(message) %>
               </div>
             <% end %>
+          <% end %>
+          <%= if @filter && @filter !== [] do %>
+            <div class={@classes.filter}>
+              <%= render_slot(@filter) %>
+            </div>
+          <% end %>
+          <%= if @tab && @tab !== [] do %>
+            <div class={@classes.tabs}>
+              <%= for slot <- @tab do %>
+                <%= @render_tab.(slot) %>
+              <% end %>
+            </div>
           <% end %>
           <%= if @loading do %>
             <%= for loading <- @loading do %>
@@ -4098,10 +4221,6 @@ defmodule PrimerLive.Component do
   slot(:inner_block, required: true, doc: "Button content.")
 
   def button(assigns) do
-    assigns =
-      assigns
-      |> assign(:type, if(assigns.is_submit, do: "submit", else: "button"))
-
     class =
       AttributeHelpers.classnames([
         !assigns.is_link and !assigns.is_icon_only and !assigns.is_close_button and "btn",
@@ -4133,6 +4252,7 @@ defmodule PrimerLive.Component do
       assigns
       |> assign(:class, class)
       |> assign(:aria_attributes, aria_attributes)
+      |> assign(:type, if(assigns.is_submit, do: "submit", else: "button"))
 
     ~H"""
     <button class={@class} type={@type} {@rest} {@aria_attributes}>
