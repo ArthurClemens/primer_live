@@ -45,12 +45,12 @@ defmodule PrimerLive.Components.MenuTest do
              <:item href="#url" is_selected>
                <.octicon name="comment-discussion-16" />
                <span>Conversation</span>
-               <span class="Counter">2</span>
+               <.counter>2</.counter>
              </:item>
              <:item href="#url">
                <.octicon name="check-circle-16" />
                <span>Done</span>
-               <span class="Counter">99</span>
+               <.counter>99</.counter>
              </:item>
            </.menu>
            """)
