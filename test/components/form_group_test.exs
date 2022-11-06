@@ -104,7 +104,7 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
              |> format_html()
   end
 
-  test "Attribute: classes" do
+  test "Classes" do
     assigns = %{
       form: @default_form
     }
@@ -130,12 +130,10 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
            |> format_html() ==
              """
              <div class="form-group errored my-form-group group-x">
-             <div class="form-group-header header-x">
-             <label class="label-x" for="user_first_name">First name</label>
-             </div>
-             <div class="form-group-body body-x">
-             inputs
-             <p class="note error validation-message-x" id="first_name-validation">can&#39;t be blank</p>
+             <div class="form-group-header header-x"><label class="label-x" for="user_first_name">First name</label></div>
+             <div class="form-group-body body-x">inputs<div class="FormControl-inlineValidation FormControl-inlineValidation--error validation-message-x" id="first_name-validation"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+             <path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path>
+             </svg><span>can&#39;t be blank</span></div>
              </div>
              </div>
              """
@@ -154,7 +152,9 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
              """
              <div class="form-group errored">
              <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body">inputs<p class="note error" id="first_name-validation">can&#39;t be blank</p>
+             <div class="form-group-body">inputs<div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="first_name-validation"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+             <path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path>
+             </svg><span>can&#39;t be blank</span></div>
              </div>
              </div>
              """
@@ -183,7 +183,9 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
              """
              <div class="form-group errored">
              <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body">inputs<p class="note error" id="first_name-validation">Please enter your first name</p>
+             <div class="form-group-body">inputs<div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="first_name-validation"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+             <path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path>
+             </svg><span>Please enter your first name</span></div>
              </div>
              </div>
              """
@@ -248,7 +250,9 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
              """
              <div class="form-group successed">
              <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body">inputs<p class="note success" id="first_name-validation">Is available</p>
+             <div class="form-group-body">inputs<div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="first_name-validation"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+             <path fill-rule="evenodd" d="M6 0a6 6 0 100 12A6 6 0 006 0zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938z"></path>
+             </svg><span>Is available</span></div>
              </div>
              </div>
              """
