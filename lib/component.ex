@@ -465,6 +465,12 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `aria-label` to the outer element."
   )
 
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
   slot :item,
     required: true,
     doc: """
@@ -513,12 +519,6 @@ defmodule PrimerLive.Component do
       """
     )
   end
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
 
   def underline_nav(assigns) do
     classes = %{
@@ -673,6 +673,282 @@ defmodule PrimerLive.Component do
         </div>
       <% else %>
         <%= @render_items.(@item) %>
+      <% end %>
+    </nav>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # menu
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :navigation
+
+  @doc ~S"""
+  Generates a vertical list of navigational links.
+
+  [Examples](#menu/1-examples) • [Attributes](#menu/1-attributes) • [Slots](#menu/1-slots) • [Reference](#menu/1-reference)
+
+  Menu items are either rendered as link element.
+
+  ```
+  <.menu aria_label="Site navigation">
+    <:item href="#url" is_selected>
+      Account
+    </:item>
+    <:item href="#url">
+      Emails
+    </:item>
+  </.menu>
+  ```
+
+  ## Examples
+
+  Menu links are created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link. Link navigation options:
+
+  ```
+  <:item href="#url">Item 1</:item>
+  <:item navigate={Routes.page_path(@socket, :index)} class="underline">Item 2</:item>
+  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  ```
+
+  Add other types of content, such as icons and counters:
+
+  ```
+  <.menu>
+    <:item href="#url" is_selected>
+      <.octicon name="comment-discussion-16" />
+      <span>Conversation</span>
+      <span class="Counter">2</span>
+    </:item>
+    <:item href="#url">
+      <.octicon name="check-circle-16" />
+      <span>Done</span>
+      <span class="Counter">99</span>
+    </:item>
+  </.menu>
+  ```
+
+  Add a heading:
+
+  ```
+  <.menu aria_label="Site navigation">
+    <:heading>Menu heading</:heading>
+    <:item href="#url" is_selected>
+      Account
+    </:item>
+    <:item href="#url">
+      Emails
+    </:item>
+  </.menu>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Navigation](https://primer.style/css/components/navigation)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      menu: nil,
+      item: nil,
+      heading: nil
+    },
+    doc: """
+    Additional classnames for underline nav elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      menu: "",    # Outer container (nav elemnent)
+      item: "",    # Menu item element
+      heading: "", # Heading element
+    }
+    ```
+    """
+  )
+
+  attr(:aria_label, :string,
+    default: nil,
+    doc: "Adds attribute `aria-label` to the outer element."
+  )
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot :item,
+    required: true,
+    doc: """
+    Menu item (link)).
+    """ do
+    attr(:is_selected, :boolean,
+      doc: """
+      The currently selected item.
+      """
+    )
+
+    attr(:href, :any,
+      doc: """
+      Link attribute. If used, the menu item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      """
+    )
+
+    attr(:patch, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:navigate, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the item element.
+      """
+    )
+  end
+
+  slot(:heading,
+    required: false,
+    doc: """
+    Menu heading.
+    """
+  )
+
+  def menu(assigns) do
+    classes = %{
+      menu:
+        AttributeHelpers.classnames([
+          "menu",
+          assigns.classes[:menu],
+          assigns[:class]
+        ]),
+      heading: fn slot ->
+        AttributeHelpers.classnames([
+          "menu-heading",
+          assigns.classes[:heading],
+          slot[:class]
+        ])
+      end,
+      item: fn slot ->
+        AttributeHelpers.classnames([
+          "menu-item",
+          assigns.classes[:item],
+          slot[:class]
+        ])
+      end
+    }
+
+    has_heading = assigns.heading !== []
+
+    heading_id =
+      case has_heading do
+        true ->
+          "heading-#{assigns.rest[:id] || AttributeHelpers.random_string()}"
+
+        false ->
+          nil
+      end
+
+    render_item = fn slot ->
+      is_link = AttributeHelpers.is_link?(slot)
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class,
+          :is_selected
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: classes.item.(slot)],
+          slot[:is_selected] && [aria_current: "page"]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:is_link, is_link)
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <%= if @is_link do %>
+        <Phoenix.Component.link {@attributes}>
+          <%= render_slot(@slot) %>
+        </Phoenix.Component.link>
+      <% else %>
+        Not a link
+      <% end %>
+      """
+    end
+
+    render_heading = fn slot ->
+      rest =
+        assigns_to_attributes(slot, [
+          :class
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: classes.heading.(slot)],
+          [id: heading_id]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <span {@attributes}>
+        <%= render_slot(@slot) %>
+      </span>
+      """
+    end
+
+    menu_attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.menu],
+        [aria_label: assigns.aria_label],
+        has_heading && [aria_labelledby: heading_id]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:render_item, render_item)
+      |> assign(:render_heading, render_heading)
+      |> assign(:menu_attributes, menu_attributes)
+
+    ~H"""
+    <nav {@menu_attributes}>
+      <%= if @heading && @heading !== [] do %>
+        <%= for slot <- @heading do %>
+          <%= @render_heading.(slot) %>
+        <% end %>
+      <% end %>
+      <%= if @item && @item !== [] do %>
+        <%= for slot <- @item do %>
+          <%= @render_item.(slot) %>
+        <% end %>
       <% end %>
     </nav>
     """
