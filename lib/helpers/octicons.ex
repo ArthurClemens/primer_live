@@ -33,6 +33,7 @@ defmodule PrimerLive.Helpers.Octicons do
             name: &1 |> String.replace(".svg", "")
           }
         )
+        |> Enum.sort_by(& &1[:name])
 
       result = module_wrapper(icons)
 

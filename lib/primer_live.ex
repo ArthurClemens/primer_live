@@ -14,7 +14,6 @@ defmodule PrimerLive do
   - [Octicons](https://primer.style/octicons/): `17.9.0`
 
 
-
   ## Installation
 
   ### Install dependencies

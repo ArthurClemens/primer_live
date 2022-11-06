@@ -15,8 +15,7 @@ defmodule PrimerLive.Octicons do
   
   ```
   <%= for %{name: name} <- icons do %><.octicon name="<%= name %>" />
-  <% end %>
-  ```
+  <% end %>```
   """
 
   def octicons(assigns) do
