@@ -6,29 +6,6 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
-  @default_form %Phoenix.HTML.Form{
-    id: "user",
-    name: "user",
-    params: %{"first_name" => ""},
-    source: %Ecto.Changeset{
-      action: :validate,
-      changes: %{},
-      errors: [
-        first_name: {"can't be blank", [validation: :required]}
-      ],
-      data: nil,
-      valid?: false
-    }
-  }
-
-  @default_changeset %Ecto.Changeset{
-    action: nil,
-    changes: %{},
-    errors: [],
-    data: nil,
-    valid?: true
-  }
-
   test "Called without options or inner_block: should render the component" do
     assigns = %{}
 
@@ -211,9 +188,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Attribute: class" do
-    assigns = %{
-      form: @default_form
-    }
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input class="my-input" />

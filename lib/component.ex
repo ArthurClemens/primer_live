@@ -5,148 +5,6 @@ defmodule PrimerLive.Component do
   alias PrimerLive.Helpers.{AttributeHelpers, FormHelpers, SchemaHelpers, ComponentHelpers}
 
   # ------------------------------------------------------------------------------------
-  # text_input
-  # ------------------------------------------------------------------------------------
-
-  @doc section: :forms
-
-  @doc ~S"""
-  Generates a text input field.
-
-  Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group" to add a field label and validation.
-
-  [Examples](#text_input/1-examples) • [Attributes](#text_input/1-attributes) • [Slots](#text_input/1-slots) • [Reference](#text_input/1-reference)
-
-  ```
-  <.text_input field="first_name" />
-  ```
-
-  ## Examples
-
-  Set the input type:
-
-  ```
-  <.text_input type="password" />
-  ```
-
-  Set the placeholder. By default, the value of the placeholder attribute is used to fill in the aria-label attribute:
-
-  ```
-  <.text_input placeholder="Enter your first name" />
-  ```
-
-  Using the input with form data:
-
-  ```
-  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.text_input form={f} field={:first_name} />
-    <.text_input form={f} field={:last_name} />
-  </.form>
-  ```
-
-  [INSERT LVATTRDOCS]
-
-  ## Reference
-
-  [Primer/CSS Forms](https://primer.style/css/components/forms)
-
-  ## Status
-
-  Feature complete.
-
-  """
-
-  attr :field, :any, doc: "Field name (atom or string)."
-
-  attr :form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-
-  attr(:class, :string, default: nil, doc: "Additional classname.")
-
-  attr(:type, :string, default: "text", doc: "Text input type.")
-
-  attr(:is_contrast, :boolean, default: false, doc: "Changes the background color to light gray.")
-
-  attr(:is_full_width, :boolean, default: false, doc: "Full width input.")
-
-  attr(:is_hide_webkit_autofill, :boolean,
-    default: false,
-    doc: "Hide WebKit's contact info autofill icon."
-  )
-
-  attr(:is_large, :boolean, default: false, doc: "Larger text size.")
-
-  attr(:is_small, :boolean, default: false, doc: "Smaller input with smaller text size.")
-
-  attr(:is_short, :boolean, default: false, doc: "Generates an input with a reduced width.")
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the input element.
-    """
-  )
-
-  def text_input(assigns) do
-    with true <- validate_is_form(assigns) do
-      render_text_input(assigns)
-    else
-      {:error, reason} ->
-        assigns =
-          assigns
-          |> assign(:reason, reason)
-
-        ~H"""
-        <%= @reason %>
-        """
-    end
-  end
-
-  defp render_text_input(assigns) do
-    form = assigns[:form]
-    field = assigns[:field]
-
-    class =
-      AttributeHelpers.classnames([
-        "form-control",
-        assigns.is_contrast and "input-contrast",
-        assigns.is_hide_webkit_autofill and "input-hide-webkit-autofill",
-        assigns.is_large and "input-lg",
-        assigns.is_small and "input-sm",
-        assigns.is_short and "short",
-        assigns.is_full_width and "input-block",
-        assigns.class
-      ])
-
-    %{
-      message_id: message_id
-    } = FormHelpers.field_state(form, field, nil)
-
-    input_attributes =
-      AttributeHelpers.append_attributes(assigns.rest, [
-        [class: class],
-        # If aria_label is not set, use the value of placeholder (if any):
-        is_nil(assigns.rest[:aria_label]) and [aria_label: assigns.rest[:placeholder]],
-        not is_nil(message_id) and [aria_describedby: message_id]
-      ])
-
-    assigns =
-      assigns
-      |> assign(
-        :input,
-        apply(Phoenix.HTML.Form, FormHelpers.text_input_type_as_atom(assigns.type), [
-          form,
-          field,
-          input_attributes
-        ])
-      )
-
-    ~H"""
-    <%= @input %>
-    """
-  end
-
-  # ------------------------------------------------------------------------------------
   # form_group
   # ------------------------------------------------------------------------------------
 
@@ -524,6 +382,148 @@ defmodule PrimerLive.Component do
   end
 
   # ------------------------------------------------------------------------------------
+  # text_input
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :forms
+
+  @doc ~S"""
+  Generates a text input field.
+
+  Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group" to add a field label and validation.
+
+  [Examples](#text_input/1-examples) • [Attributes](#text_input/1-attributes) • [Slots](#text_input/1-slots) • [Reference](#text_input/1-reference)
+
+  ```
+  <.text_input field="first_name" />
+  ```
+
+  ## Examples
+
+  Set the input type:
+
+  ```
+  <.text_input type="password" />
+  ```
+
+  Set the placeholder. By default, the value of the placeholder attribute is used to fill in the aria-label attribute:
+
+  ```
+  <.text_input placeholder="Enter your first name" />
+  ```
+
+  Using the input with form data:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.text_input form={f} field={:first_name} />
+    <.text_input form={f} field={:last_name} />
+  </.form>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Forms](https://primer.style/css/components/forms)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr :field, :any, doc: "Field name (atom or string)."
+
+  attr :form, :any,
+    doc:
+      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:type, :string, default: "text", doc: "Text input type.")
+
+  attr(:is_contrast, :boolean, default: false, doc: "Changes the background color to light gray.")
+
+  attr(:is_full_width, :boolean, default: false, doc: "Full width input.")
+
+  attr(:is_hide_webkit_autofill, :boolean,
+    default: false,
+    doc: "Hide WebKit's contact info autofill icon."
+  )
+
+  attr(:is_large, :boolean, default: false, doc: "Larger text size.")
+
+  attr(:is_small, :boolean, default: false, doc: "Smaller input with smaller text size.")
+
+  attr(:is_short, :boolean, default: false, doc: "Generates an input with a reduced width.")
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the input element.
+    """
+  )
+
+  def text_input(assigns) do
+    with true <- validate_is_form(assigns) do
+      render_text_input(assigns)
+    else
+      {:error, reason} ->
+        assigns =
+          assigns
+          |> assign(:reason, reason)
+
+        ~H"""
+        <%= @reason %>
+        """
+    end
+  end
+
+  defp render_text_input(assigns) do
+    form = assigns[:form]
+    field = assigns[:field]
+
+    class =
+      AttributeHelpers.classnames([
+        "form-control",
+        assigns.is_contrast and "input-contrast",
+        assigns.is_hide_webkit_autofill and "input-hide-webkit-autofill",
+        assigns.is_large and "input-lg",
+        assigns.is_small and "input-sm",
+        assigns.is_short and "short",
+        assigns.is_full_width and "input-block",
+        assigns.class
+      ])
+
+    %{
+      message_id: message_id
+    } = FormHelpers.field_state(form, field, nil)
+
+    input_attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class],
+        # If aria_label is not set, use the value of placeholder (if any):
+        is_nil(assigns.rest[:aria_label]) and [aria_label: assigns.rest[:placeholder]],
+        not is_nil(message_id) and [aria_describedby: message_id]
+      ])
+
+    assigns =
+      assigns
+      |> assign(
+        :input,
+        apply(Phoenix.HTML.Form, FormHelpers.text_input_type_as_atom(assigns.type), [
+          form,
+          field,
+          input_attributes
+        ])
+      )
+
+    ~H"""
+    <%= @input %>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
   # textarea
   # ------------------------------------------------------------------------------------
 
@@ -553,6 +553,172 @@ defmodule PrimerLive.Component do
   def textarea(assigns) do
     assigns = assigns |> assign(:type, "textarea")
     text_input(assigns)
+  end
+
+  # ------------------------------------------------------------------------------------
+  # select
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :forms
+
+  @doc ~S"""
+  Generates a single or multiple select input.
+
+  Wrapper around `Phoenix.HTML.Form.select/4` and `Phoenix.HTML.Form.multiple_select/4`.
+
+  ```
+  <.select name="age" options={25..35} />
+  ```
+
+  [Examples](#select/1-examples) • [Attributes](#select/1-attributes) • [Reference](#select/1-reference)
+
+  ## Examples
+
+  Options can contain:
+  - A list:
+    - `25..35`
+    - `["male", "female", "won't say"]`
+  - A keyword list:
+    - `["Admin": "admin", "User": "user"]`
+  - A nested keyword list with option attributes:
+    - `[[key: "Admin", value: "admin", disabled: true], [key: "User", value: "user"]]`
+
+  Create a small select input:
+
+  ```
+  <.select name="age" options={25..35} is_small />
+  ```
+
+  Set the selected item:
+
+  ```
+  <.select name="age" options={25..35} selected="30" />
+  ```
+
+  Add a prompt:
+
+  ```
+  <.select name="age" options={25..35} prompt="Choose your age" />
+  ```
+
+  Set attributes to the prompt option:
+
+  ```
+  <.select name="age" options={25..35} prompt={[key: "Choose your role", disabled: true]} />
+  ```
+
+  Create a multiple select with `is_multiple`.
+  - Use `is_auto_height` to set the height of the select input to the number of options.
+  - From the Phoenix documentation: Values are expected to be an Enumerable containing two-item tuples (like maps and keyword lists) or any Enumerable where the element will be used both as key and value for the generated select.
+  - `selected` should contain a list of selected options.
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.select
+      form={f}
+      field={:role}
+      options={["Admin": "admin", "User": "user", "Editor": "editor"]}
+      is_multiple
+      is_auto_height
+      selected={["user", "tester"]}
+    />
+  </.form>
+  ```
+
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Forms](https://primer.style/css/components/forms)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr :field, :any, doc: "Field name (atom or string)."
+
+  attr :form, :any,
+    doc:
+      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+
+  attr :options, :any, required: true, doc: "List, map or keyword list."
+
+  attr :class, :string, doc: "Additional classname."
+
+  attr(:is_multiple, :boolean,
+    default: false,
+    doc: """
+    Creates a multiple select. Uses `Phoenix.HTML.Form.multiple_select/4`.
+
+    From the Phoenix documentation:
+
+    Values are expected to be an Enumerable containing two-item tuples (like maps and keyword lists) or any Enumerable where the element will be used both as key and value for the generated select.
+    """
+  )
+
+  attr :is_small, :boolean, default: false, doc: "Creates a small input."
+
+  attr :is_auto_height, :boolean,
+    default: false,
+    doc: "When using `is_multiple`: sets the size to the number of options."
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the select input.
+    """
+  )
+
+  def select(assigns) do
+    with true <- validate_is_form(assigns) do
+      render_select(assigns)
+    else
+      {:error, reason} ->
+        assigns =
+          assigns
+          |> assign(:reason, reason)
+
+        ~H"""
+        <%= @reason %>
+        """
+    end
+  end
+
+  defp render_select(assigns) do
+    form = assigns[:form]
+    field = assigns[:field]
+
+    class =
+      AttributeHelpers.classnames([
+        "form-select",
+        assigns.is_small and "select-sm",
+        assigns[:class]
+      ])
+
+    input_opts =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class],
+        assigns.is_auto_height && [size: Enum.count(assigns.options)]
+      ])
+
+    input_fn =
+      cond do
+        assigns.is_multiple -> :multiple_select
+        true -> :select
+      end
+
+    assigns =
+      assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
+      |> assign(:input_fn, input_fn)
+      |> assign(:input_opts, input_opts)
+
+    ~H"""
+    <%= apply(Phoenix.HTML.Form, @input_fn, [@form, @field, @options, @input_opts]) %>
+    """
   end
 
   # ------------------------------------------------------------------------------------
