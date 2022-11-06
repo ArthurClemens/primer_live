@@ -11,7 +11,7 @@ defmodule PrimerLive.Component do
   @doc section: :navigation
 
   @doc ~S"""
-  Generates a tab navigation
+  Generates a tab navigation.
 
   [Examples](#tabnav/1-examples) • [Attributes](#tabnav/1-attributes) • [Slots](#tabnav/1-slots) • [Reference](#tabnav/1-reference)
 
@@ -309,6 +309,372 @@ defmodule PrimerLive.Component do
         </nav>
       <% end %>
     </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # underline_nav
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :navigation
+
+  @doc ~S"""
+  Generates a tab navigation with minimal underlined selected state, typically used for navigation placed at the top of the page.
+
+  [Examples](#underline_nav/1-examples) • [Attributes](#underline_nav/1-attributes) • [Slots](#underline_nav/1-slots) • [Reference](#underline_nav/1-reference)
+
+  Tab items are either rendered as link element (when using attrs `href`, `navigate` or `patch`), or as button.
+
+  ```
+  <.underline_nav aria_label="Site navigation">
+    <:item href="#url" is_selected>
+      Link tab
+    </:item>
+    <:item>
+      Button tab
+    </:item>
+  </.underline_nav>
+  ```
+
+  ## Examples
+
+  Tabs links are created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link. Link navigation options:
+
+  ```
+  <:item href="#url">Item 1</:item>
+  <:item navigate={Routes.page_path(@socket, :index)} class="underline">Item 2</:item>
+  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  ```
+
+  Add other types of content, such as icons and counters:
+
+  ```
+  <.underline_nav>
+    <:item href="#url" is_selected>
+      <.octicon name="comment-discussion-16" />
+      <span>Conversation</span>
+      <span class="Counter">2</span>
+    </:item>
+    <:item href="#url">
+      <.octicon name="check-circle-16" />
+      <span>Done</span>
+      <span class="Counter">99</span>
+    </:item>
+  </.underline_nav>
+  ```
+
+  Position additional content to the far end of the tabs.
+
+  A button placed at the far end:
+
+  ```
+  <.underline_nav>
+    <:item href="#url" is_selected>
+      One
+    </:item>
+    <:item href="#url">
+      Two
+    </:item>
+    <:position_end>
+      <a class="btn btn-sm" href="#url" role="button">Button</a>
+    </:position_end>
+  </.underline_nav>
+  ```
+
+  Use `is_container_width` in combination with container styles to make navigation fill the width of the container:
+
+  ```
+  <.underline_nav is_container_width classes={%{
+      container: "container-sm"
+    }}>
+    <:item href="#url" is_selected>
+      One
+    </:item>
+    <:item href="#url">
+      Two
+    </:item>
+    <:position_end>
+      <a class="btn btn-sm" href="#url" role="button">Button</a>
+    </:position_end>
+  </.underline_nav>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Navigation](https://primer.style/css/components/navigation)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      underline_nav: nil,
+      container: nil,
+      body: nil,
+      tab: nil,
+      position_end: nil
+    },
+    doc: """
+    Additional classnames for underline nav elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      underline_nav: "", # Outer container (nav elemnent)
+      container: "",     # Extra container wrapper when using attr is_container_width
+      body: "",          # Tabs wrapper
+      tab: "",           # Tab link element
+      position_end: "",  # Container for elements positions at the far end
+    }
+    ```
+    """
+  )
+
+  attr(:is_container_width, :boolean,
+    default: false,
+    doc: """
+    Use in combination with container styles to make navigation fill the width of the container.
+
+    For example:
+    ```
+    <.underline_nav is_container_width classes={%{
+      container: "container-sm"
+    }}>
+      ...
+    </.underline_nav>
+    ```
+    """
+  )
+
+  attr(:is_reversed, :boolean,
+    default: false,
+    doc: "In left-to-right views the navigation will be positioned at the right."
+  )
+
+  attr(:aria_label, :string,
+    default: nil,
+    doc: "Adds attribute `aria-label` to the outer element."
+  )
+
+  slot :item,
+    required: true,
+    doc: """
+    Tab item content: either a link or a button.
+
+    Tab items are rendered as link element when using attrs `href`, `navigate` or `patch`, otherwise as button elemens. Tabs links are created with `Phoenix.Component.link/1`.
+    """ do
+    attr(:is_selected, :boolean,
+      doc: """
+      The currently selected item.
+      """
+    )
+
+    attr(:href, :any,
+      doc: """
+      Link attribute. If used, the menu item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      """
+    )
+
+    attr(:patch, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:navigate, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the item element.
+      """
+    )
+  end
+
+  slot :position_end,
+    doc: """
+    Container for elements positions at the far end.
+    """ do
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the far end container.
+      """
+    )
+  end
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  def underline_nav(assigns) do
+    classes = %{
+      underline_nav:
+        AttributeHelpers.classnames([
+          "UnderlineNav",
+          assigns.is_container_width and "UnderlineNav--full",
+          assigns.is_reversed and "UnderlineNav--right",
+          assigns.classes[:underline_nav],
+          assigns[:class]
+        ]),
+      container:
+        AttributeHelpers.classnames([
+          "UnderlineNav-container",
+          assigns.classes[:container]
+        ]),
+      body:
+        AttributeHelpers.classnames([
+          "UnderlineNav-body",
+          assigns.classes[:body]
+        ]),
+      tab: fn slot ->
+        AttributeHelpers.classnames([
+          "UnderlineNav-item",
+          assigns.classes[:tab],
+          slot[:class]
+        ])
+      end,
+      position_end: fn slot ->
+        AttributeHelpers.classnames([
+          "UnderlineNav-actions",
+          assigns.classes[:position_end],
+          slot[:class]
+        ])
+      end
+    }
+
+    body_attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: classes.body],
+        [role: "tablist"]
+      ])
+
+    render_tab = fn slot ->
+      is_link = AttributeHelpers.is_link?(slot)
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class,
+          :is_selected
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: classes.tab.(slot)],
+          [role: "tab"],
+          slot[:is_selected] && [aria_selected: "true"],
+          slot[:is_selected] && [aria_current: "page"]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:is_link, is_link)
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <%= if @is_link do %>
+        <Phoenix.Component.link {@attributes}>
+          <%= render_slot(@slot) %>
+        </Phoenix.Component.link>
+      <% else %>
+        <button {@attributes}>
+          <%= render_slot(@slot) %>
+        </button>
+      <% end %>
+      """
+    end
+
+    render_position_end = fn slot ->
+      rest =
+        assigns_to_attributes(slot, [
+          :class,
+          :is_extra
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: classes.position_end.(slot)]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <div {@attributes}><%= render_slot(@slot) %></div>
+      """
+    end
+
+    render_position_end_slots = fn slots ->
+      assigns =
+        assigns
+        |> assign(:slots, slots)
+        |> assign(:render_position_end, render_position_end)
+
+      ~H"""
+      <%= if @slots && @slots !== [] do %>
+        <%= for slot <- @slots do %>
+          <%= @render_position_end.(slot) %>
+        <% end %>
+      <% end %>
+      """
+    end
+
+    render_items = fn slots ->
+      assigns =
+        assigns
+        |> assign(:items, slots)
+        |> assign(:body_attributes, body_attributes)
+        |> assign(:render_tab, render_tab)
+        |> assign(:render_position_end_slots, render_position_end_slots)
+
+      ~H"""
+      <%= if @is_reversed do %>
+        <%= @render_position_end_slots.(@position_end) %>
+      <% end %>
+      <%= if @item && @items !== [] do %>
+        <div {@body_attributes}>
+          <%= for slot <- @item do %>
+            <%= @render_tab.(slot) %>
+          <% end %>
+        </div>
+      <% end %>
+      <%= if not @is_reversed do %>
+        <%= @render_position_end_slots.(@position_end) %>
+      <% end %>
+      """
+    end
+
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:render_items, render_items)
+
+    ~H"""
+    <nav class={@classes.underline_nav} {@rest}>
+      <%= if @is_container_width do %>
+        <div class={@classes.container}>
+          <%= @render_items.(@item) %>
+        </div>
+      <% else %>
+        <%= @render_items.(@item) %>
+      <% end %>
+    </nav>
     """
   end
 
