@@ -5,6 +5,308 @@ defmodule PrimerLive.Component do
   alias PrimerLive.Helpers.{AttributeHelpers, FormHelpers, SchemaHelpers, ComponentHelpers}
 
   # ------------------------------------------------------------------------------------
+  # tabnav
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :navigation
+
+  @doc ~S"""
+  Generates a tab navigation
+
+  [Examples](#tabnav/1-examples) • [Attributes](#tabnav/1-attributes) • [Slots](#tabnav/1-slots) • [Reference](#tabnav/1-reference)
+
+  Tab items are rendered as link elements, created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link.
+
+  ```
+  <.tabnav aria_label="Topics navigation">
+    <:item href="#url" is_current>
+      One
+    </:item>
+    <:item href="#url">
+      Two
+    </:item>
+  </.tabnav>
+  ```
+
+  ## Examples
+
+  Link navigation options:
+
+  ```
+  <:item href="#url">Item 1</:item>
+  <:item navigate={Routes.page_path(@socket, :index)} class="underline">Item 2</:item>
+  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  ```
+
+  Add other types of content, such as icons and counters:
+
+  ```
+  <.tabnav>
+    <:item href="#url" is_current>
+      <.octicon name="comment-discussion-16" />
+      <span>Conversation</span>
+      <span class="Counter">2</span>
+    </:item>
+    <:item href="#url">
+      <.octicon name="check-circle-16" />
+      <span>Done</span>
+      <span class="Counter">99</span>
+    </:item>
+  </.tabnav>
+  ```
+
+  Position additional content to the far end of the tabs.
+
+  A button placed at the far end:
+
+  ```
+  <.tabnav>
+    <:item href="#url" is_current>
+      One
+    </:item>
+    <:item href="#url">
+      Two
+    </:item>
+    <:position_end>
+      <a class="btn btn-sm" href="#url" role="button">Button</a>
+    </:position_end>
+  </.tabnav>
+  ```
+
+  Extra content (not a button) is styled using attribute `is_extra`:
+
+  ```
+  <.tabnav>
+    <:item href="#url" is_current>
+      One
+    </:item>
+    <:item href="#url">
+      Two
+    </:item>
+    <:position_end is_extra>
+      Tabnav widget text here.
+    </:position_end>
+  </.tabnav>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Navigation](https://primer.style/css/components/navigation)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      tabnav: nil,
+      nav: nil,
+      tab: nil,
+      position_end: nil
+    },
+    doc: """
+    Additional classnames for tabnav elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      tabnav: "",       # Outer container
+      nav: "",          # Nav element
+      tab: "",          # Tab link element
+      position_end: "", # Container for elements positions at the far end
+    }
+    ```
+    """
+  )
+
+  attr(:aria_label, :string,
+    default: nil,
+    doc: "Adds attribute `aria-label` to the `nav` element."
+  )
+
+  slot :item,
+    required: true,
+    doc: """
+    Tab item content.
+    """ do
+    attr(:is_current, :boolean,
+      doc: """
+      The currently selected item.
+      """
+    )
+
+    attr(:href, :any,
+      doc: """
+      Link attribute. If used, the menu item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      """
+    )
+
+    attr(:patch, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:navigate, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the item element.
+      """
+    )
+  end
+
+  slot :position_end,
+    doc: """
+    Container for elements positions at the far end.
+    """ do
+    attr(:is_extra, :boolean,
+      doc: """
+      Adds styles to optimise additional bits of text and links.
+      """
+    )
+
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the far end container.
+      """
+    )
+  end
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  def tabnav(assigns) do
+    classes = %{
+      tabnav:
+        AttributeHelpers.classnames([
+          "tabnav",
+          assigns.classes[:tabnav],
+          assigns[:class]
+        ]),
+      nav:
+        AttributeHelpers.classnames([
+          "tabnav-tabs",
+          assigns.classes[:nav]
+        ]),
+      tab: fn slot ->
+        AttributeHelpers.classnames([
+          "tabnav-tab",
+          assigns.classes[:tab],
+          slot[:class]
+        ])
+      end,
+      position_end: fn slot ->
+        AttributeHelpers.classnames([
+          "float-right",
+          assigns.classes[:position_end],
+          slot[:is_extra] && "tabnav-extra",
+          slot[:class]
+        ])
+      end
+    }
+
+    render_item = fn slot ->
+      is_link = AttributeHelpers.is_link?(slot)
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class,
+          :is_current
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: classes.tab.(slot)],
+          slot[:is_current] && [aria_current: "page"]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:is_link, is_link)
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <%= if @is_link do %>
+        <Phoenix.Component.link {@attributes}>
+          <%= render_slot(@slot) %>
+        </Phoenix.Component.link>
+      <% else %>
+        Not a link
+      <% end %>
+      """
+    end
+
+    render_position_end = fn slot ->
+      rest =
+        assigns_to_attributes(slot, [
+          :class,
+          :is_extra
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: classes.position_end.(slot)]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <div {@attributes}><%= render_slot(@slot) %></div>
+      """
+    end
+
+    nav_attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: classes.nav],
+        assigns[:aria_label] && [aria_label: assigns[:aria_label]]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:render_item, render_item)
+      |> assign(:render_position_end, render_position_end)
+      |> assign(:nav_attributes, nav_attributes)
+
+    ~H"""
+    <div class={@classes.tabnav} {@rest}>
+      <%= if @position_end && @position_end !== [] do %>
+        <%= for slot <- @position_end do %>
+          <%= @render_position_end.(slot) %>
+        <% end %>
+      <% end %>
+      <%= if @item && @item !== [] do %>
+        <nav {@nav_attributes}>
+          <%= for slot <- @item do %>
+            <%= @render_item.(slot) %>
+          <% end %>
+        </nav>
+      <% end %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
   # form_group
   # ------------------------------------------------------------------------------------
 
@@ -3005,9 +3307,9 @@ defmodule PrimerLive.Component do
         <li {@item_attributes} />
       <% else %>
         <li>
-          <.link {@item_attributes}>
+          <Phoenix.Component.link {@item_attributes}>
             <%= render_slot(@item) %>
-          </.link>
+          </Phoenix.Component.link>
         </li>
       <% end %>
       """
@@ -3602,12 +3904,12 @@ defmodule PrimerLive.Component do
         </button>
       <% end %>
       <%= if @is_link do %>
-        <.link {@item_attributes.(@item)}>
+        <Phoenix.Component.link {@item_attributes.(@item)}>
           <%= if @is_any_item_selected do %>
             <.octicon name={@selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
           <% end %>
           <%= render_slot(@item) %>
-        </.link>
+        </Phoenix.Component.link>
       <% end %>
       """
     end
@@ -4164,7 +4466,7 @@ defmodule PrimerLive.Component do
         <div class={@classes.pagination}>
           <%= if @show_prev_next do %>
             <%= if @has_previous_page do %>
-              <.link
+              <Phoenix.Component.link
                 navigate={@link_path.(@current_page - 1)}
                 class={@classes.previous_page}
                 rel="previous"
@@ -4172,7 +4474,7 @@ defmodule PrimerLive.Component do
                 replace={@link_options.replace}
               >
                 <%= @labels.previous_page %>
-              </.link>
+              </Phoenix.Component.link>
             <% else %>
               <span class={@classes.previous_page} aria-disabled="true" phx-no-format><%= @labels.previous_page %></span>
             <% end %>
@@ -4185,7 +4487,7 @@ defmodule PrimerLive.Component do
                 <%= if item == 0 do %>
                   <span class={@classes.gap} phx-no-format><%= @labels.gap %></span>
                 <% else %>
-                  <.link
+                  <Phoenix.Component.link
                     navigate={@link_path.(item)}
                     class={@classes.page}
                     aria-label={
@@ -4194,14 +4496,14 @@ defmodule PrimerLive.Component do
                     replace={@link_options.replace}
                   >
                     <%= item %>
-                  </.link>
+                  </Phoenix.Component.link>
                 <% end %>
               <% end %>
             <% end %>
           <% end %>
           <%= if @show_prev_next do %>
             <%= if @has_next_page do %>
-              <.link
+              <Phoenix.Component.link
                 navigate={@link_path.(@current_page + 1)}
                 class={@classes.next_page}
                 rel="next"
@@ -4209,7 +4511,7 @@ defmodule PrimerLive.Component do
                 replace={@link_options.replace}
               >
                 <%= @labels.next_page %>
-              </.link>
+              </Phoenix.Component.link>
             <% else %>
               <span class={@classes.next_page} aria-disabled="true" phx-no-format><%= @labels.next_page %></span>
             <% end %>
@@ -5175,9 +5477,9 @@ defmodule PrimerLive.Component do
         <ol>
           <%= for {item, is_last} <- @items_data do %>
             <li {@item_attributes.(is_last)}>
-              <.link {@link_attributes.(item)}>
+              <Phoenix.Component.link {@link_attributes.(item)}>
                 <%= render_slot(item) %>
-              </.link>
+              </Phoenix.Component.link>
             </li>
           <% end %>
         </ol>
@@ -5357,9 +5659,9 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <%= if @is_link do %>
-      <.link {@attributes}>
+      <Phoenix.Component.link {@attributes}>
         <%= render_slot(@inner_block) %>
-      </.link>
+      </Phoenix.Component.link>
     <% else %>
       <span {@attributes}><%= render_slot(@inner_block) %></span>
     <% end %>
@@ -5805,9 +6107,9 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <%= if @is_link do %>
-      <.link {@attributes}>
+      <Phoenix.Component.link {@attributes}>
         <%= @render_content.() %>
-      </.link>
+      </Phoenix.Component.link>
     <% else %>
       <div {@attributes}>
         <%= @render_content.() %>
@@ -6555,9 +6857,9 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <%= if @is_link do %>
-        <.link {@attributes}>
+        <Phoenix.Component.link {@attributes}>
           <%= render_slot(@slot) %>
-        </.link>
+        </Phoenix.Component.link>
       <% else %>
         <.dynamic_tag {@attributes}>
           <%= render_slot(@slot) %>

@@ -19,10 +19,10 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
                Divider
              </:item>
              <:item href="#url">
-               href ink
+               href link
              </:item>
              <:item navigate="#url">
-               navigate lLink
+               navigate link
              </:item>
              <:item patch="#url">
                patch link
@@ -42,8 +42,8 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Button</button>
              <div class="SelectMenu-divider" role="separator">Divider</div><a href="#url" class="SelectMenu-item"
-             role="menuitem">href ink</a><a href="#url" data-phx-link="redirect" data-phx-link-state="push"
-             class="SelectMenu-item" role="menuitem">navigate lLink</a><a href="#url" data-phx-link="patch"
+             role="menuitem">href link</a><a href="#url" data-phx-link="redirect" data-phx-link-state="push"
+             class="SelectMenu-item" role="menuitem">navigate link</a><a href="#url" data-phx-link="patch"
              data-phx-link-state="push" class="SelectMenu-item" role="menuitem">patch link</a>
              <hr class="SelectMenu-divider" /><button class="SelectMenu-item" role="menuitem">Button</button>
              </div>
