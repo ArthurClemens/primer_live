@@ -13,12 +13,14 @@ defmodule PrimerLive.Helpers.Octicons do
     [:icons]
   )
 
-  def build() do
-    with {:ok, filenames} <- File.ls("#{@priv_path}/icons") do
+  def build(dirname) do
+    icons_path = "#{@priv_path}/#{dirname}/icons"
+
+    with {:ok, filenames} <- File.ls(icons_path) do
       with true <- Enum.count(filenames) > 0 do
       else
         _ ->
-          IO.inspect("Could not proceed: directory '#{@priv_path}/icons' is empty.")
+          IO.inspect("Could not proceed: directory '#{icons_path}' is empty.")
       end
 
       icons =
@@ -26,7 +28,7 @@ defmodule PrimerLive.Helpers.Octicons do
         |> Enum.map(
           &%{
             svg:
-              File.read!("#{@priv_path}/icons/#{&1}")
+              File.read!("#{icons_path}/#{&1}")
               |> String.replace(~r/\<svg/, "<svg class={@class} {@rest}"),
             name: &1 |> String.replace(".svg", "")
           }
@@ -43,7 +45,7 @@ defmodule PrimerLive.Helpers.Octicons do
       end
     else
       _error ->
-        IO.inspect("Could not read directory '#{@priv_path}/icons'. Does this directory exist?")
+        IO.inspect("Could not read directory '#{icons_path}'. Does this directory exist?")
     end
   end
 end

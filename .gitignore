@@ -25,5 +25,5 @@ primer_live-*.tar
 # Temporary files, for example, from tests.
 /tmp/
 
-/priv/octicon_builder/icons
+/priv/octicon_builder/octicons-*
 priv/static/primer_live.js

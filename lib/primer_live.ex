@@ -1,6 +1,19 @@
 defmodule PrimerLive do
   @moduledoc ~S'''
-  PrimerLive is a collection of function components that implements [GitHub's Primer Design System](https://primer.style/). It is intended for usage in Phoenix LiveView pages and conventional (non-LiveView) views.
+  PrimerLive is a collection of function components that implements [GitHub's Primer Design System](https://primer.style/). It is intended for usage in Phoenix LiveView pages and regular (non-LiveView) views.
+
+  ## Versioning
+
+  Dependencies:
+  - [primer-live](https://www.npmjs.com/package/primer-live): `0.1.4`
+    - Includes:
+      - [@primer/css](https://www.npmjs.com/package/@primer/css): `20.5.1`
+      - [dialogic-js](https://www.npmjs.com/package/dialogic-js): `0.2.8`
+
+  Included libraries:
+  - [Octicons](https://primer.style/octicons/): `17.9.0`
+
+
 
   ## Installation
 
