@@ -34,7 +34,7 @@ defmodule PrimerLive.Component do
 
   ```
   <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)} class="underline">Item 2</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
   <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
   ```
 
@@ -342,7 +342,7 @@ defmodule PrimerLive.Component do
 
   ```
   <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)} class="underline">Item 2</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
   <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
   ```
 
@@ -708,7 +708,7 @@ defmodule PrimerLive.Component do
 
   ```
   <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)} class="underline">Item 2</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
   <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
   ```
 
@@ -984,7 +984,7 @@ defmodule PrimerLive.Component do
 
   ```
   <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)} class="underline">Item 2</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
   <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
   ```
 
@@ -1224,6 +1224,330 @@ defmodule PrimerLive.Component do
         <% end %>
       <% end %>
     </nav>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # subnav
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :navigation
+
+  @doc ~S"""
+  Subnav is navigation that is typically used when on a dashboard type interface with another set of navigation above it. This helps distinguish navigation hierarchy
+
+  [Examples](#subnav/1-examples) • [Attributes](#subnav/1-attributes) • [Slots](#subnav/1-slots) • [Reference](#subnav/1-reference)
+
+  Subnav itself is a wrapper around 1 or more child components:
+  - `subnav_links/1` - a link row
+  - `subnav_search/1` - a search field
+  - `subnav_search_context/1` - a search filter menu adjacent to the search field
+
+  Minimal version, showing the link row:
+
+  ```
+  <.subnav>
+    <.subnav_links>
+      <:item href="#url" is_selected>Item 1</:item>
+      <:item href="#url">Item 2</:item>
+      <:item href="#url">Item 3</:item>
+    </.subnav_links>
+  </.subnav>
+  ```
+
+  ## Examples
+
+  To show a link row, use child component `subnav_links/1`.
+  Navigation links are created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link. Link navigation options:
+
+  ```
+  <:item href="#url">Item 1</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
+  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  ```
+
+  To add a search field, use child component `subnav_search/1` with a `text_input/1` component. Use `type="search"` to display a search icon inside the search field.
+
+  ```
+  <.subnav>
+    <.subnav_search>
+      <.text_input type="search" />
+    </.subnav_search>
+  </.subnav>
+  ```
+
+  To place a filter menu adjacent to the search field, use child component `subnav_search_context/1` with a `select_menu/1` component:
+
+  ```
+  <.subnav>
+    <.subnav_search_context>
+      <.select_menu is_dropdown_caret>
+        <:toggle>Menu</:toggle>
+        <:item>Item 1</:item>
+        <:item>Item 2</:item>
+        <:item>Item 3</:item>
+      </.select_menu>
+    </.subnav_search_context>
+    <.subnav_search>
+      <.text_input type="search" />
+    </.subnav_search>
+  </.subnav>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Navigation](https://primer.style/css/components/navigation)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the subnav element.
+    """
+  )
+
+  slot(:inner_block, required: true, doc: "Subnav components.")
+
+  def subnav(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "subnav",
+        assigns[:class]
+      ])
+
+    assigns = assigns |> assign(:class, class)
+
+    ~H"""
+    <div class={@class} {@rest}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # subnav_links
+  # ------------------------------------------------------------------------------------
+
+  @doc ~S"""
+  Subnav link row. See `subnav/1`.
+
+  [INSERT LVATTRDOCS]
+  """
+
+  attr(:aria_label, :string,
+    default: nil,
+    doc: "Adds attribute `aria-label` to the subnav links element."
+  )
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      subnav_links: nil,
+      item: nil
+    },
+    doc: """
+    Additional classnames for subnav links elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      subnav_links: "", # Outer container (nav element)
+      item: "",         # Link item element
+    }
+    ```
+    """
+  )
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the subnav links element.
+    """
+  )
+
+  slot :item,
+    required: true,
+    doc: """
+    Subnav buttons item (link)).
+    """ do
+    attr(:is_selected, :boolean,
+      doc: """
+      The currently selected item.
+      """
+    )
+
+    attr(:href, :any,
+      doc: """
+      Link attribute. If used, the side_nav item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      """
+    )
+
+    attr(:patch, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:navigate, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the item element.
+      """
+    )
+  end
+
+  def subnav_links(assigns) do
+    classes = %{
+      subnav_links:
+        AttributeHelpers.classnames([
+          "subnav-links",
+          assigns.classes[:subnav_links],
+          assigns[:class]
+        ]),
+      item:
+        AttributeHelpers.classnames([
+          "subnav-item",
+          assigns.classes[:item]
+        ])
+    }
+
+    render_item = fn slot ->
+      is_link = AttributeHelpers.is_link?(slot)
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class,
+          :is_selected
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: classes.item],
+          slot[:is_selected] && [aria_current: "page"]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:is_link, is_link)
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <%= if @is_link do %>
+        <Phoenix.Component.link {@attributes}>
+          <%= render_slot(@slot) %>
+        </Phoenix.Component.link>
+      <% else %>
+        <%= render_slot(@slot) %>
+      <% end %>
+      """
+    end
+
+    subnav_links_attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.subnav_links],
+        [aria_label: assigns.aria_label]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:render_item, render_item)
+      |> assign(:subnav_links_attributes, subnav_links_attributes)
+
+    ~H"""
+    <nav {@subnav_links_attributes}>
+      <%= if @item && @item !== [] do %>
+        <%= for slot <- @item do %>
+          <%= @render_item.(slot) %>
+        <% end %>
+      <% end %>
+    </nav>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # subnav_search
+  # ------------------------------------------------------------------------------------
+
+  @doc ~S"""
+  Subnav search field. See `subnav/1`.
+
+  [INSERT LVATTRDOCS]
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the subnav search element.
+    """
+  )
+
+  def subnav_search(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "subnav-search",
+        "float-left",
+        assigns[:class]
+      ])
+
+    assigns = assigns |> assign(:class, class)
+
+    ~H"""
+    <div class={@class} {@rest}>
+      <%= render_slot(@inner_block) %>
+      <.octicon name="search-16" class="subnav-search-icon" />
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # subnav_search_context
+  # ------------------------------------------------------------------------------------
+
+  @doc ~S"""
+  Subnav search filter adjacent to the search field. See `subnav/1`.
+
+  [INSERT LVATTRDOCS]
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the subnav search context element.
+    """
+  )
+
+  def subnav_search_context(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "subnav-search-context",
+        "float-left",
+        assigns[:class]
+      ])
+
+    assigns = assigns |> assign(:class, class)
+
+    ~H"""
+    <div class={@class} {@rest}>
+      <%= render_slot(@inner_block) %>
+    </div>
     """
   end
 
@@ -1684,7 +2008,15 @@ defmodule PrimerLive.Component do
 
   attr(:is_small, :boolean, default: false, doc: "Smaller input with smaller text size.")
 
-  attr(:is_short, :boolean, default: false, doc: "Generates an input with a reduced width.")
+  attr(:is_short, :boolean,
+    default: false,
+    doc: "Inside a form group. Generates an input with a reduced width."
+  )
+
+  attr(:is_shorter, :boolean,
+    default: false,
+    doc: "Inside a form group. Generates an input with a even more reduced width."
+  )
 
   attr(:rest, :global,
     doc: """
@@ -1719,6 +2051,7 @@ defmodule PrimerLive.Component do
         assigns.is_large and "input-lg",
         assigns.is_small and "input-sm",
         assigns.is_short and "short",
+        assigns.is_shorter and "shorter",
         assigns.is_full_width and "input-block",
         assigns.class
       ])
@@ -3962,7 +4295,7 @@ defmodule PrimerLive.Component do
 
   ```
   <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)} class="underline">Item 2</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
   <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
   ```
 
@@ -4309,7 +4642,7 @@ defmodule PrimerLive.Component do
 
   ```
   <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)} class="underline">Item 2</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
   <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
   ```
 
@@ -7014,7 +7347,7 @@ defmodule PrimerLive.Component do
 
   ```
   <.circle_badge href="#url">...</.circle_badge>
-  <.circle_badge navigate={Routes.page_path(@socket, :index)} class="underline">...</.circle_badge>
+  <.circle_badge navigate={Routes.page_path(@socket, :index)}>...</.circle_badge>
   <.circle_badge patch={Routes.page_path(@socket, :index, :details)}>...</.circle_badge>
   ```
 
@@ -7754,7 +8087,7 @@ defmodule PrimerLive.Component do
 
   ```
   <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)} class="underline">Item 2</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
   <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
   ```
 
