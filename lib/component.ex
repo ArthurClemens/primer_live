@@ -5068,12 +5068,17 @@ defmodule PrimerLive.Component do
   <.button is_selected>Unread</.button>
   ```
 
+  With a dropdown caret:
+
+  ```
+  <.button is_dropdown_caret>Menu</.button>
+  ```
+
   Button with icon:
   ```
   <.button is_primary>
     <.octicon name="download-16" />
     <span>Clone</span>
-    <span class="dropdown-caret"></span>
   </.button>
   ```
 
@@ -5112,6 +5117,10 @@ defmodule PrimerLive.Component do
   attr :is_close_button, :boolean,
     default: false,
     doc: "Use when enclosing icon \"x-16\". This setting removes the default padding."
+
+  attr :is_dropdown_caret, :boolean,
+    default: false,
+    doc: "Adds a dropdown caret icon."
 
   attr :is_danger, :boolean, default: false, doc: "Generates a red button."
   attr :is_disabled, :boolean, default: false, doc: "Generates a disabled button."
@@ -5177,6 +5186,9 @@ defmodule PrimerLive.Component do
     ~H"""
     <button class={@class} type={@type} {@rest} {@aria_attributes}>
       <%= render_slot(@inner_block) %>
+      <%= if @is_dropdown_caret do %>
+        <span class="dropdown-caret"></span>
+      <% end %>
     </button>
     """
   end
