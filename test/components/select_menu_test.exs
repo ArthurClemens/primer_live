@@ -443,6 +443,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
                %{
                  select_menu: "select_menu-x",
                  blankslate: "blankslate-x",
+                 caret: "caret-x",
                  divider: "divider-x",
                  filter: "filter-x",
                  footer: "footer-x",
@@ -462,6 +463,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              }
              class="my-select-menu"
              id="my-menu-id"
+             is_dropdown_caret
            >
              <:toggle class="my-toggle">Menu</:toggle>
              <:blankslate class="my-blankslate">Blankslate content</:blankslate>
@@ -488,7 +490,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            |> format_html() ==
              """
              <details id="my-menu-id" class="details-reset details-overlay select_menu-x my-select-menu" data-menuid="my-menu-id" data-prompt="" ontoggle="Prompt.init(this)">
-             <summary class="toggle-x my-toggle" aria-haspopup="true">Menu</summary>
+             <summary class="toggle-x my-toggle" aria-haspopup="true">Menu<div class="dropdown-caret caret-x"></div></summary>
              <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter menu-x">
              <div class="SelectMenu-modal menu_container-x" data-content="" aria-role="menu">

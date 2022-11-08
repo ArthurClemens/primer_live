@@ -4313,6 +4313,14 @@ defmodule PrimerLive.Component do
   <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
   ```
 
+  Add a dropdown caret:
+
+  ```
+  <.select_menu is_dropdown_caret>
+    ...
+  </.select_menu>
+  ```
+
   Add dividers, with or without content:
 
   ```
@@ -4415,6 +4423,7 @@ defmodule PrimerLive.Component do
 
   """
 
+  attr :is_dropdown_caret, :boolean, default: false, doc: "Adds a dropdown caret to the button."
   attr :is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right."
   attr :is_borderless, :boolean, default: false, doc: "Removes the borders between list items."
 
@@ -4423,6 +4432,7 @@ defmodule PrimerLive.Component do
   attr :classes, :map,
     default: %{
       blankslate: nil,
+      caret: nil,
       divider: nil,
       filter: nil,
       footer: nil,
@@ -4449,6 +4459,7 @@ defmodule PrimerLive.Component do
     ```
     %{
       blankslate: "",          # Blankslate content element.
+      caret: "",               # Dropdown caret element.
       divider: "",             # Divider item element.
       filter: "",              # Filter content element
       footer: "",              # Footer element.
@@ -4643,6 +4654,7 @@ defmodule PrimerLive.Component do
       Map.merge(
         %{
           blankslate: nil,
+          caret: nil,
           divider: nil,
           filter: nil,
           footer: nil,
@@ -4705,6 +4717,11 @@ defmodule PrimerLive.Component do
           else
             "btn"
           end
+        ]),
+      caret:
+        AttributeHelpers.classnames([
+          "dropdown-caret",
+          assigns.classes[:caret]
         ]),
       menu:
         AttributeHelpers.classnames([
@@ -4966,6 +4983,9 @@ defmodule PrimerLive.Component do
     <details {@select_menu_attrs}>
       <summary {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
+        <%= if @is_dropdown_caret do %>
+          <div class={@classes.caret}></div>
+        <% end %>
       </summary>
       <%= if @backdrop_attrs !== [] do %>
         <div {@backdrop_attrs} />
