@@ -21,7 +21,7 @@ defmodule PrimerLive.Components.MenuTest do
                patch link
              </:item>
              <:item>
-               Missing link attr
+               Other content
              </:item>
            </.menu>
            """)
@@ -31,7 +31,7 @@ defmodule PrimerLive.Components.MenuTest do
              <a href="#url" aria-current="page" class="menu-item">href link</a>
              <a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="menu-item">navigate link</a>
              <a href="#url" data-phx-link="patch" data-phx-link-state="push" class="menu-item">patch link</a>
-             Not a link
+             Other content
              </nav>
              """
              |> format_html()
