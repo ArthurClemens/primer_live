@@ -1973,6 +1973,28 @@ defmodule PrimerLive.Component do
   </.form>
   ```
 
+  Attach a button to the input with slot `group_button`:
+
+  ```
+  <.text_input>
+    <:group_button>
+      <.button>Send</.button>
+    </:group_button>
+  </.text_input>
+  ```
+
+  or use an icon button:
+
+  ```
+  <.text_input>
+    <:group_button>
+      <.button aria-label="Copy">
+        <.octicon name="paste-16" />
+      </.button>
+    </:group_button>
+  </.text_input>
+  ```
+
   [INSERT LVATTRDOCS]
 
   ## Reference
@@ -1992,6 +2014,28 @@ defmodule PrimerLive.Component do
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      input: nil,
+      input_group: nil,
+      input_group_button: nil
+    },
+    doc: """
+    Additional classnames for input elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      input: "",              # Input element
+      input_group: "",        # Wrapper around the grouped input and group button
+      input_group_button: "", # Wrapper around slot group_button
+    }
+    ```
+    """
+  )
 
   attr(:type, :string, default: "text", doc: "Text input type.")
 
@@ -2024,6 +2068,23 @@ defmodule PrimerLive.Component do
     """
   )
 
+  slot(:group_button,
+    doc: """
+    Primer CSS "Input group". Attaches a button at the end of the input.
+
+    Example:
+    ```
+    <.text_input>
+      <:group_button>
+        <.button aria-label="Copy">
+          <.octicon name="paste-16" />
+        </.button>
+      </:group_button>
+    </.text_input>
+    ```
+    """
+  )
+
   def text_input(assigns) do
     with true <- validate_is_form(assigns) do
       render_text_input(assigns)
@@ -2042,19 +2103,33 @@ defmodule PrimerLive.Component do
   defp render_text_input(assigns) do
     form = assigns[:form]
     field = assigns[:field]
+    has_group_button = assigns[:group_button] !== []
 
-    class =
-      AttributeHelpers.classnames([
-        "form-control",
-        assigns.is_contrast and "input-contrast",
-        assigns.is_hide_webkit_autofill and "input-hide-webkit-autofill",
-        assigns.is_large and "input-lg",
-        assigns.is_small and "input-sm",
-        assigns.is_short and "short",
-        assigns.is_shorter and "shorter",
-        assigns.is_full_width and "input-block",
-        assigns.class
-      ])
+    classes = %{
+      input:
+        AttributeHelpers.classnames([
+          "form-control",
+          assigns.is_contrast and "input-contrast",
+          assigns.is_hide_webkit_autofill and "input-hide-webkit-autofill",
+          assigns.is_large and "input-lg",
+          assigns.is_small and "input-sm",
+          assigns.is_short and "short",
+          assigns.is_shorter and "shorter",
+          assigns.is_full_width and "input-block",
+          assigns.classes[:input],
+          assigns.class
+        ]),
+      input_group:
+        AttributeHelpers.classnames([
+          "input-group",
+          assigns.classes[:input_group]
+        ]),
+      input_group_button:
+        AttributeHelpers.classnames([
+          "input-group-button",
+          assigns.classes[:input_group_button]
+        ])
+    }
 
     %{
       message_id: message_id
@@ -2062,7 +2137,7 @@ defmodule PrimerLive.Component do
 
     input_attributes =
       AttributeHelpers.append_attributes(assigns.rest, [
-        [class: class],
+        [class: classes.input],
         # If aria_label is not set, use the value of placeholder (if any):
         is_nil(assigns.rest[:aria_label]) and [aria_label: assigns.rest[:placeholder]],
         not is_nil(message_id) and [aria_describedby: message_id]
@@ -2078,9 +2153,20 @@ defmodule PrimerLive.Component do
           input_attributes
         ])
       )
+      |> assign(:classes, classes)
+      |> assign(:has_group_button, has_group_button)
 
     ~H"""
-    <%= @input %>
+    <%= if @has_group_button do %>
+      <div class={@classes.input_group}>
+        <%= @input %>
+        <span class={@classes.input_group_button}>
+          <%= render_slot(@group_button) %>
+        </span>
+      </div>
+    <% else %>
+      <%= @input %>
+    <% end %>
     """
   end
 
@@ -5428,6 +5514,7 @@ defmodule PrimerLive.Component do
   ```
 
   Button with icon:
+
   ```
   <.button is_primary>
     <.octicon name="download-16" />
@@ -5435,7 +5522,8 @@ defmodule PrimerLive.Component do
   </.button>
   ```
 
-  Icon-only  button:
+  Icon-only button:
+
   ```
   <.button is_icon_only aria-label="Desktop">
     <.octicon name="device-desktop-16" />
