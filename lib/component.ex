@@ -141,7 +141,7 @@ defmodule PrimerLive.Component do
     """ do
     attr(:is_selected, :boolean,
       doc: """
-      The currently selected item.
+      Shows the selected state.
       """
     )
 
@@ -480,7 +480,7 @@ defmodule PrimerLive.Component do
     """ do
     attr(:is_selected, :boolean,
       doc: """
-      The currently selected item.
+      Shows the selected state.
       """
     )
 
@@ -689,7 +689,7 @@ defmodule PrimerLive.Component do
 
   [Examples](#menu/1-examples) • [Attributes](#menu/1-attributes) • [Slots](#menu/1-slots) • [Reference](#menu/1-reference)
 
-  Menu items are either rendered as link element.
+  Menu items are rendered as link element.
 
   ```
   <.menu aria_label="Site navigation">
@@ -797,7 +797,7 @@ defmodule PrimerLive.Component do
     """ do
     attr(:is_selected, :boolean,
       doc: """
-      The currently selected item.
+      Shows the selected state.
       """
     )
 
@@ -1116,7 +1116,7 @@ defmodule PrimerLive.Component do
     """ do
     attr(:is_selected, :boolean,
       doc: """
-      The currently selected item.
+      Shows the selected state.
       """
     )
 
@@ -1382,7 +1382,7 @@ defmodule PrimerLive.Component do
     """ do
     attr(:is_selected, :boolean,
       doc: """
-      The currently selected item.
+      Shows the selected state.
       """
     )
 
@@ -1548,6 +1548,233 @@ defmodule PrimerLive.Component do
     <div class={@class} {@rest}>
       <%= render_slot(@inner_block) %>
     </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # filter_list
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :navigation
+
+  @doc ~S"""
+  Generates a vertical list of filters.
+
+  [Examples](#filter_list/1-examples) • [Attributes](#filter_list/1-attributes) • [Slots](#filter_list/1-slots) • [Reference](#filter_list/1-reference)
+
+  Filter list items are rendered as link element.
+
+  ```
+  <.filter_list aria_label="Menu">
+    <:item href="#url" is_selected>
+      One
+    </:item>
+    <:item href="#url">
+      Two
+    </:item>
+    <:item href="#url">
+      Three
+    </:item>
+  </.filter_list>
+  ```
+
+  ## Examples
+
+  Filter links are created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link. Link navigation options:
+
+  ```
+  <:item href="#url">Item 1</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
+  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  ```
+
+  Add counts to the links:
+
+  ```
+  <.filter_list aria_label="Menu">
+    <:item href="#url" is_selected count="99">
+      First filter
+    </:item>
+    <:item href="#url" count={3}>
+      Second filter
+    </:item>
+    <:item href="#url">
+      Third filter
+    </:item>
+  </.filter_list>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Navigation](https://primer.style/css/components/navigation)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      filter_list: nil,
+      item: nil,
+      count: nil
+    },
+    doc: """
+    Additional classnames for filter list elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      filter_list: "", # Outer container (ul element)
+      item: "",        # Filter list item element (a element)
+      count: "",       # Filter list item count element (span element)
+    }
+    ```
+    """
+  )
+
+  attr(:aria_label, :string,
+    default: nil,
+    doc: "Adds attribute `aria-label` to the outer element."
+  )
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the subnav links element.
+    """
+  )
+
+  slot :item,
+    required: true,
+    doc: """
+    Filter list item (link)).
+    """ do
+    attr(:is_selected, :boolean,
+      doc: """
+      Shows the selected state.
+      """
+    )
+
+    attr(:count, :any,
+      doc: """
+      Integer or string. Displays a number at the far end of the filter link.
+      """
+    )
+
+    attr(:href, :any,
+      doc: """
+      Link attribute. If used, the filter list item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      """
+    )
+
+    attr(:patch, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:navigate, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the item element.
+      """
+    )
+  end
+
+  def filter_list(assigns) do
+    classes = %{
+      filter_list:
+        AttributeHelpers.classnames([
+          "filter-list",
+          assigns.classes[:filter_list],
+          assigns[:class]
+        ]),
+      item: fn slot ->
+        AttributeHelpers.classnames([
+          "filter-item",
+          assigns.classes[:item],
+          slot[:class]
+        ])
+      end,
+      count:
+        AttributeHelpers.classnames([
+          "count",
+          assigns.classes[:count]
+        ])
+    }
+
+    render_item = fn slot ->
+      is_link = AttributeHelpers.is_link?(slot)
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class,
+          :is_selected,
+          :count
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: classes.item.(slot)],
+          slot[:is_selected] && [aria_current: "page"]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:is_link, is_link)
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+        |> assign(:count, slot[:count])
+        |> assign(:classes, classes)
+
+      ~H"""
+      <li>
+        <%= if @is_link do %>
+          <Phoenix.Component.link {@attributes}>
+            <%= render_slot(@slot) %>
+            <%= if @count do %>
+              <span class={@classes.count}><%= @count %></span>
+            <% end %>
+          </Phoenix.Component.link>
+        <% else %>
+          <%= render_slot(@slot) %>
+        <% end %>
+      </li>
+      """
+    end
+
+    filter_list_attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.filter_list],
+        [aria_label: assigns.aria_label]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:filter_list_attributes, filter_list_attributes)
+      |> assign(:render_item, render_item)
+
+    ~H"""
+    <ul {@filter_list_attributes}>
+      <%= if @item !== [] do %>
+        <%= for slot <- @item do %>
+          <%= @render_item.(slot) %>
+        <% end %>
+      <% end %>
+    </ul>
     """
   end
 
