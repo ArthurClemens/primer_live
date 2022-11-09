@@ -9042,4 +9042,110 @@ defmodule PrimerLive.Component do
     </div>
     """
   end
+
+  # ------------------------------------------------------------------------------------
+  # branch_name
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :branch_name
+
+  @doc ~S"""
+  Formats a branch name.
+
+  [Examples](#branch_name/1-examples) • [Attributes](#branch_name/1-attributes) • [Slots](#branch_name/1-slots) • [Reference](#branch_name/1-reference)
+
+  ```
+  <.branch_name>development</.branch_name>
+  ```
+
+  ## Examples
+
+  A branch name may be a link. The link is created with `Phoenix.Component.link/1`, and any attribute passed to `branch_name` is passed to the link. Link navigation options:
+
+  ```
+  <.branch_name href="#url">some-name</.branch_name>
+  <.branch_name navigate={Routes.page_path(@socket, :index)}>some-name</.branch_name>
+  <.branch_name patch={Routes.page_path(@socket, :index, :details)}>some-name</.branch_name>
+  ```
+
+  Add an icon before the branch name:
+
+  ```
+  <.branch_name>
+    <.octicon name="git-branch-16" />
+    some-name
+  </.branch_name>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Branch name](https://primer.style/css/components/branch-name)
+
+  ## Status
+
+  Feature complete.
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:href, :any,
+    doc: """
+    Link attribute. If used, the filter list item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+    """
+  )
+
+  attr(:patch, :string,
+    doc: """
+    Link attribute - see `href`.
+    """
+  )
+
+  attr(:navigate, :string,
+    doc: """
+    Link attribute - see `href`.
+    """
+  )
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot(:inner_block, required: true, doc: "The branch name text and optionally an icon.")
+
+  def branch_name(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "branch-name",
+        assigns[:class]
+      ])
+
+    is_link = AttributeHelpers.is_link?(assigns)
+
+    attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class],
+        [href: assigns[:href], navigate: assigns[:navigate], patch: assigns[:patch]]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:attributes, attributes)
+      |> assign(:is_link, is_link)
+
+    ~H"""
+    <%= if @is_link do %>
+      <Phoenix.Component.link {@attributes}>
+        <%= render_slot(@inner_block) %>
+      </Phoenix.Component.link>
+    <% else %>
+      <span {@attributes}>
+        <%= render_slot(@inner_block) %>
+      </span>
+    <% end %>
+    """
+  end
 end
