@@ -9148,4 +9148,280 @@ defmodule PrimerLive.Component do
     <% end %>
     """
   end
+
+  # ------------------------------------------------------------------------------------
+  # progress
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :progress
+
+  @doc ~S"""
+  Generates a progress bar to visualize task completion.
+
+  [Examples](#progress/1-examples) • [Attributes](#progress/1-attributes) • [Slots](#progress/1-slots) • [Reference](#progress/1-reference)
+
+  The item slot creates the colored bar. Its width is a percentage value (0 - 100).
+
+  ```
+  <.progress aria_label="Tasks: 8 of 10 complete">
+    <:item width="50"></:item>
+  </.progress>
+  ```
+
+  ## Examples
+
+  The default bar state is "success" (green). Possible states:
+
+  - "success" - green
+  - "info" - blue
+  - "warning" - ocher
+  - "error" - red
+
+  ```
+  <.progress>
+    <:item width="50" state="error"></:item>
+  </.progress>
+  ```
+
+  Use multiple items to show a multicolored bar:
+
+  ```
+  <.progress>
+    <:item width="50" state="success"></:item>
+    <:item width="30" state="warning"></:item>
+    <:item width="10" state="error"></:item>
+    <:item width="5" state="info"></:item>
+  </.progress>
+  ```
+
+  Create a large progress bar:
+
+  ```
+  <.progress is_large>
+    <:item width="50"></:item>
+  </.progress>
+  ```
+
+  Create a small progress bar:
+
+  ```
+  <.progress is_small>
+    <:item width="50"></:item>
+  </.progress>
+  ```
+
+  Create an inline progress bar:
+
+  ```
+  <span class="text-small color-fg-muted mr-2">4 of 16</span>
+  <.progress is_inline style="width: 160px;">
+    <:item width="25"></:item>
+  </.progress>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Progress](https://primer.style/css/components/progress)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:aria_label, :string,
+    default: nil,
+    doc: "Adds attribute `aria-label` to the outer element."
+  )
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      progress: nil,
+      item: nil,
+      success: nil,
+      info: nil,
+      warning: nil,
+      error: nil
+    },
+    doc: """
+    Additional classnames for progress elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      progress: "", # Outer container
+      item: "",     # Colored bar element
+      success: "",  # Color bar modifier
+      info: "",     # Color bar modifier
+      warning: "",  # Color bar modifier
+      error: "",    # Color bar modifier
+    }
+    ```
+    """
+  )
+
+  attr :is_large, :boolean,
+    default: false,
+    doc: """
+    Creates a large progress bar.
+    """
+
+  attr :is_small, :boolean,
+    default: false,
+    doc: """
+    Creates a small progress bar.
+    """
+
+  attr :is_inline, :boolean,
+    default: false,
+    doc: """
+    Creates an inline progress bar, to be used next to other elements.
+
+    The "progress" element must have a width, for example:
+
+    ```
+    <.progress is_inline style="width: 160px;">
+      <:item width="25"></:item>
+    </.progress>
+    ```
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot :item,
+    required: true,
+    doc: """
+    Colored bar.
+    """ do
+    attr(:width, :any,
+      doc: """
+      String or integer. Percentage value (0 - 100).
+      """
+    )
+
+    attr(:state, :string,
+      doc: """
+      Possible states:
+
+      - "success" - green
+      - "info" - blue
+      - "warning" - ocher
+      - "error" - red
+
+      """
+    )
+  end
+
+  def progress(assigns) do
+    classes = %{
+      progress:
+        AttributeHelpers.classnames([
+          "Progress",
+          assigns.is_large and "Progress--large",
+          assigns.is_small and "Progress--small",
+          assigns.is_inline and "d-inline-flex",
+          assigns.classes[:progress],
+          assigns[:class]
+        ]),
+      # item: defined in render_item
+      success:
+        AttributeHelpers.classnames([
+          "color-bg-success-emphasis",
+          assigns.classes[:success]
+        ]),
+      info:
+        AttributeHelpers.classnames([
+          "color-bg-accent-emphasis",
+          assigns.classes[:info]
+        ]),
+      warning:
+        AttributeHelpers.classnames([
+          "color-bg-attention-emphasis",
+          assigns.classes[:warning]
+        ]),
+      error:
+        AttributeHelpers.classnames([
+          "color-bg-danger-emphasis",
+          assigns.classes[:error]
+        ])
+    }
+
+    render_item = fn slot ->
+      state = slot[:state] || "success"
+      width = AttributeHelpers.as_integer(slot[:width] || 0)
+
+      slot_style =
+        case is_nil(slot[:style]) do
+          true -> ""
+          false -> slot[:style] <> "; "
+        end
+
+      style = "#{slot_style}width:#{width}%;"
+
+      item_class = fn slot, state ->
+        AttributeHelpers.classnames([
+          "Progress-item",
+          state === "success" && classes.success,
+          state === "info" && classes.info,
+          state === "warning" && classes.warning,
+          state === "error" && classes.error,
+          assigns.classes[:item],
+          slot[:class]
+        ])
+      end
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class,
+          :state,
+          :width,
+          :style
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: item_class.(slot, state)],
+          [style: style]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:attributes, attributes)
+
+      ~H"""
+      <span {@attributes}></span>
+      """
+    end
+
+    progress_attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.progress],
+        [aria_label: assigns.aria_label]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:progress_attributes, progress_attributes)
+      |> assign(:render_item, render_item)
+
+    ~H"""
+    <span {@progress_attributes}>
+      <%= if @item !== [] do %>
+        <%= for slot <- @item do %>
+          <%= @render_item.(slot) %>
+        <% end %>
+      <% end %>
+    </span>
+    """
+  end
 end
