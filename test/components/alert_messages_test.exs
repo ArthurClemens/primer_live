@@ -11,7 +11,7 @@ defmodule PrimerLive.TestComponents.AlertMessagesTest do
 
     assert rendered_to_string(~H"""
            <.alert_messages>
-             <.alert is_success>
+             <.alert state="success">
                Message 1
              </.alert>
              <.alert class="mt-4">

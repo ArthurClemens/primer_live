@@ -174,10 +174,10 @@ defmodule PrimerLive.TestComponents.ProgressTest do
                %{
                  progress: "progress-x",
                  item: "item-x",
-                 success: "success-x",
-                 info: "info-x",
-                 warning: "warning-x",
-                 error: "error-x"
+                 state_success: "success-x",
+                 state_info: "info-x",
+                 state_warning: "warning-x",
+                 state_error: "error-x"
                }
              }
              class="my-progress"

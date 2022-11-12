@@ -3371,10 +3371,18 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  Success color:
+  Add color to the alert by using attribute `state`. Possible states:
+
+  - "default" - light blue
+  - "info" - same as default
+  - "success" - light green
+  - "warning" - light yellow
+  - "error" - pink
+
+  Add a success color to the alert:
 
   ```
-  <.alert is_success>
+  <.alert state="success">
     You're done!
   </.alert>
   ```
@@ -3382,7 +3390,7 @@ defmodule PrimerLive.Component do
   Multiline message:
 
   ```
-  <.alert is_success>
+  <.alert state="success">
     <p>You're done!</p>
     <p>You may close this message</p>
   </.alert>
@@ -3404,9 +3412,47 @@ defmodule PrimerLive.Component do
   """
 
   attr(:class, :string, doc: "Additional classname.")
-  attr(:is_error, :boolean, default: false, doc: "Sets the color to \"error\".")
-  attr(:is_success, :boolean, default: false, doc: "Sets the color to \"success\".")
-  attr(:is_warning, :boolean, default: false, doc: "Sets the color to \"warning\".")
+
+  attr(:classes, :map,
+    default: %{
+      alert: nil,
+      state_default: nil,
+      state_info: nil,
+      state_success: nil,
+      state_warning: nil,
+      state_error: nil
+    },
+    doc: """
+    Additional classnames for the alert element and alert states.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      alert: "",         # Outer container
+      state_default: "", # Alert color modifier
+      state_info: "",    # Alert color modifier
+      state_success: "", # Alert color modifier
+      state_warning: "", # Alert color modifier
+      state_error: "",   # Alert color modifier
+    }
+    ```
+    """
+  )
+
+  attr(:state, :string,
+    doc: """
+    Possible states:
+
+    - "default" - light blue
+    - "info" - same as default
+    - "success" - light green
+    - "warning" - light yellow
+    - "error" - pink
+
+    """
+  )
 
   attr(:is_full, :boolean,
     default: false,
@@ -3422,12 +3468,40 @@ defmodule PrimerLive.Component do
   slot(:inner_block, required: true, doc: "Alert content.")
 
   def alert(assigns) do
+    modifier_classes = %{
+      state_default:
+        AttributeHelpers.classnames([
+          assigns.classes[:state_default]
+        ]),
+      state_info:
+        AttributeHelpers.classnames([
+          assigns.classes[:state_info]
+        ]),
+      state_success:
+        AttributeHelpers.classnames([
+          "flash-success",
+          assigns.classes[:state_success]
+        ]),
+      state_warning:
+        AttributeHelpers.classnames([
+          "flash-warn",
+          assigns.classes[:state_warning]
+        ]),
+      state_error:
+        AttributeHelpers.classnames([
+          "flash-error",
+          assigns.classes[:state_error]
+        ])
+    }
+
     class =
       AttributeHelpers.classnames([
         "flash",
-        assigns.is_error and "flash-error",
-        assigns.is_success and "flash-success",
-        assigns.is_warning and "flash-warn",
+        assigns[:state] === "default" and modifier_classes.state_default,
+        assigns[:state] === "info" and modifier_classes.state_info,
+        assigns[:state] === "success" and modifier_classes.state_success,
+        assigns[:state] === "warning" and modifier_classes.state_warning,
+        assigns[:state] === "error" and modifier_classes.state_error,
         assigns.is_full and "flash-full",
         assigns[:class]
       ])
@@ -9172,8 +9246,8 @@ defmodule PrimerLive.Component do
 
   The default bar state is "success" (green). Possible states:
 
-  - "success" - green
   - "info" - blue
+  - "success" - green
   - "warning" - ocher
   - "error" - red
 
@@ -9242,10 +9316,10 @@ defmodule PrimerLive.Component do
     default: %{
       progress: nil,
       item: nil,
-      success: nil,
-      info: nil,
-      warning: nil,
-      error: nil
+      state_success: nil,
+      state_info: nil,
+      state_warning: nil,
+      state_error: nil
     },
     doc: """
     Additional classnames for progress elements.
@@ -9255,12 +9329,12 @@ defmodule PrimerLive.Component do
     Default map:
     ```
     %{
-      progress: "", # Outer container
-      item: "",     # Colored bar element
-      success: "",  # Color bar modifier
-      info: "",     # Color bar modifier
-      warning: "",  # Color bar modifier
-      error: "",    # Color bar modifier
+      progress: "",      # Outer container
+      item: "",          # Colored bar element
+      state_success: "", # Color bar modifier
+      state_info: "",    # Color bar modifier
+      state_warning: "", # Color bar modifier
+      state_error: "",   # Color bar modifier
     }
     ```
     """
@@ -9313,8 +9387,8 @@ defmodule PrimerLive.Component do
       doc: """
       Possible states:
 
-      - "success" - green
       - "info" - blue
+      - "success" - green
       - "warning" - ocher
       - "error" - red
 
@@ -9334,25 +9408,25 @@ defmodule PrimerLive.Component do
           assigns[:class]
         ]),
       # item: defined in render_item
-      success:
+      state_success:
         AttributeHelpers.classnames([
           "color-bg-success-emphasis",
-          assigns.classes[:success]
+          assigns.classes[:state_success]
         ]),
-      info:
+      state_info:
         AttributeHelpers.classnames([
           "color-bg-accent-emphasis",
-          assigns.classes[:info]
+          assigns.classes[:state_info]
         ]),
-      warning:
+      state_warning:
         AttributeHelpers.classnames([
           "color-bg-attention-emphasis",
-          assigns.classes[:warning]
+          assigns.classes[:state_warning]
         ]),
-      error:
+      state_error:
         AttributeHelpers.classnames([
           "color-bg-danger-emphasis",
-          assigns.classes[:error]
+          assigns.classes[:state_error]
         ])
     }
 
@@ -9371,10 +9445,10 @@ defmodule PrimerLive.Component do
       item_class = fn slot, state ->
         AttributeHelpers.classnames([
           "Progress-item",
-          state === "success" && classes.success,
-          state === "info" && classes.info,
-          state === "warning" && classes.warning,
-          state === "error" && classes.error,
+          state === "success" && classes.state_success,
+          state === "info" && classes.state_info,
+          state === "warning" && classes.state_warning,
+          state === "error" && classes.state_error,
           assigns.classes[:item],
           slot[:class]
         ])
