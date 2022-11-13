@@ -3448,8 +3448,9 @@ defmodule PrimerLive.Component do
   )
 
   attr(:state, :string,
+    values: ~w(default info success warning error),
     doc: """
-    Possible states:
+    Color mapping:
 
     - "default" - light blue
     - "info" - same as default
@@ -3830,8 +3831,10 @@ defmodule PrimerLive.Component do
     doc:
       "Generates a main element. Default gutter sizes: md: 16px, lg: 24px (change with `is_gutter_none`, `is_gutter_condensed` and `is_gutter_spacious`). Stacks when container is `sm` (change with `is_flow_row_until_md` and `is_flow_row_until_lg`)." do
     attr(:order, :integer,
-      doc:
-        "Markup order, defines in what order the slot is rendered in HTML. Keyboard navigation follows the markup order. Decide carefully how the focus order should be be by deciding whether main or sidebar comes first in code. The markup order won't affect the visual position. Possible values: 1 or 2; default value: 2."
+      values: [1, 2],
+      doc: """
+      Markup order, defines in what order the slot is rendered in HTML. Keyboard navigation follows the markup order. Decide carefully how the focus order should be be by deciding whether main or sidebar comes first in code. The markup order won't affect the visual position. Default value: 2.
+      """
     )
   end
 
@@ -3843,7 +3846,7 @@ defmodule PrimerLive.Component do
   slot :sidebar,
     doc:
       "Generates a sidebar element. Widths: md: 256px, lg: 296px (change with `is_narrow_sidebar` and `is_wide_sidebar`)." do
-    attr :order, :integer, doc: "See `main` slot. Default value: 1."
+    attr :order, :integer, values: [1, 2], doc: "See `main` slot. Default value: 1."
   end
 
   def layout(assigns) do
@@ -4788,10 +4791,9 @@ defmodule PrimerLive.Component do
     )
 
     attr(:position, :string,
+      values: ~w(se ne e sw s w),
       doc: """
       Position of the menu relative to the dropdown toggle.
-
-      Possible values: "se", "ne", "e", "sw", "s", "w".
 
       Default: "se".
       """
@@ -7514,9 +7516,10 @@ defmodule PrimerLive.Component do
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
   attr :size, :integer,
+    values: [1, 2, 3, 4, 5, 6, 7, 8],
     default: 3,
     doc: """
-    Avatar size. Possible values: 1 - 8.
+    Avatar size.
 
     Values translate to sizes:
     - 1: `16px`
@@ -9390,8 +9393,9 @@ defmodule PrimerLive.Component do
     )
 
     attr(:state, :string,
+      values: ~w(info success warning error),
       doc: """
-      Possible states:
+      Color mapping:
 
       - "info" - blue
       - "success" - green
@@ -9653,8 +9657,9 @@ defmodule PrimerLive.Component do
   )
 
   attr(:state, :string,
+    values: ~w(default info success warning error),
     doc: """
-    Create a badge color variant by setting the state. Possible states:
+    Create a badge color variant by setting the state. Color mapping:
 
     - "default" - light gray
     - "info" - blue
