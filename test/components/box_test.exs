@@ -287,6 +287,33 @@ defmodule PrimerLive.TestComponents.BoxTest do
              |> format_html()
   end
 
+  test "Rows as links" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.box>
+             <:row href="#url">
+               href link
+             </:row>
+             <:row navigate="#url">
+               navigate link
+             </:row>
+             <:row patch="#url">
+               patch link
+             </:row>
+           </.box>
+           """)
+           |> format_html() ==
+             """
+             <div class="Box">
+             <a href="#url" class="Box-row d-block">href link</a>
+             <a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="Box-row d-block">navigate link</a>
+             <a href="#url" data-phx-link="patch" data-phx-link-state="push" class="Box-row d-block">patch link</a>
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Row with link" do
     assigns = %{}
 

@@ -15,7 +15,7 @@ defmodule PrimerLive.Component do
 
   [Examples](#tabnav/1-examples) • [Attributes](#tabnav/1-attributes) • [Slots](#tabnav/1-slots) • [Reference](#tabnav/1-reference)
 
-  Tab items are either rendered as link element (when using attrs `href`, `navigate` or `patch`), or as button.
+  Tabs are by default rendered as buttons. To create link elements, pass attribute `href`, `navigate` or `patch`.
 
   ```
   <.tabnav aria_label="Topics navigation">
@@ -30,12 +30,12 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  Tabs links are created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link. Link navigation options:
+  When a link attribute is supplied to the item slot, links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
 
   ```
-  <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
-  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  <:item href="#url">href link</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>navigate link</:item>
+  <:item patch={Routes.page_path(@socket, :index)}>patch link</:item>
   ```
 
   Add other types of content, such as icons and counters:
@@ -135,9 +135,7 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Tab item content: either a link or a button.
-
-    Tab items are rendered as link element when using attrs `href`, `navigate` or `patch`, otherwise as button elemens. Tabs links are created with `Phoenix.Component.link/1`.
+    Tab item content. Tabs are by default rendered as buttons. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -147,7 +145,7 @@ defmodule PrimerLive.Component do
 
     attr(:href, :any,
       doc: """
-      Link attribute. If used, the menu item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
       """
     )
 
@@ -323,7 +321,7 @@ defmodule PrimerLive.Component do
 
   [Examples](#underline_nav/1-examples) • [Attributes](#underline_nav/1-attributes) • [Slots](#underline_nav/1-slots) • [Reference](#underline_nav/1-reference)
 
-  Tab items are either rendered as link element (when using attrs `href`, `navigate` or `patch`), or as button.
+  Tabs are by default rendered as buttons. To create link elements, pass attribute `href`, `navigate` or `patch`.
 
   ```
   <.underline_nav aria_label="Site navigation">
@@ -338,12 +336,12 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  Tabs links are created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link. Link navigation options:
+  When a link attribute is supplied to the item slot, links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
 
   ```
-  <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
-  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  <:item href="#url">href link</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>navigate link</:item>
+  <:item patch={Routes.page_path(@socket, :index)}>patch link</:item>
   ```
 
   Add other types of content, such as icons and counters:
@@ -476,7 +474,7 @@ defmodule PrimerLive.Component do
     doc: """
     Tab item content: either a link or a button.
 
-    Tab items are rendered as link element when using attrs `href`, `navigate` or `patch`, otherwise as button elemens. Tabs links are created with `Phoenix.Component.link/1`.
+    Tab item content. Tabs are by default rendered as buttons. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -486,7 +484,7 @@ defmodule PrimerLive.Component do
 
     attr(:href, :any,
       doc: """
-      Link attribute. If used, the menu item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
       """
     )
 
@@ -704,12 +702,12 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  Menu links are created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link. Link navigation options:
+  Menu links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
 
   ```
-  <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
-  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  <:item href="#url">href link</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>navigate link</:item>
+  <:item patch={Routes.page_path(@socket, :index)}>patch link</:item>
   ```
 
   Add other types of content, such as icons and counters:
@@ -793,7 +791,7 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Menu item (link)).
+    Menu content. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -803,7 +801,7 @@ defmodule PrimerLive.Component do
 
     attr(:href, :any,
       doc: """
-      Link attribute. If used, the menu item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
       """
     )
 
@@ -980,12 +978,12 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  Menu links are created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link. Link navigation options:
+  Menu links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
 
   ```
-  <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
-  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  <:item href="#url">href link</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>navigate link</:item>
+  <:item patch={Routes.page_path(@socket, :index)}>patch link</:item>
   ```
 
   Add other types of content, such as icons and counters:
@@ -1112,7 +1110,7 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Menu item (link)).
+    Menu content. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -1122,7 +1120,7 @@ defmodule PrimerLive.Component do
 
     attr(:href, :any,
       doc: """
-      Link attribute. If used, the side_nav item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
       """
     )
 
@@ -1258,12 +1256,13 @@ defmodule PrimerLive.Component do
   ## Examples
 
   To show a link row, use child component `subnav_links/1`.
-  Navigation links are created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link. Link navigation options:
+
+  Navigation links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
 
   ```
-  <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
-  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  <:item href="#url">href link</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>navigate link</:item>
+  <:item patch={Routes.page_path(@socket, :index)}>patch link</:item>
   ```
 
   To add a search field, use child component `subnav_search/1` with a `text_input/1` component. Use `type="search"` to display a search icon inside the search field.
@@ -1380,7 +1379,7 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Subnav buttons item (link)).
+    Subnav buttons item. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -1390,7 +1389,7 @@ defmodule PrimerLive.Component do
 
     attr(:href, :any,
       doc: """
-      Link attribute. If used, the side_nav item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
       """
     )
 
@@ -1586,12 +1585,12 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  Filter links are created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link. Link navigation options:
+  Filter links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
 
   ```
-  <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
-  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  <:item href="#url">href link</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>navigate link</:item>
+  <:item patch={Routes.page_path(@socket, :index)}>patch link</:item>
   ```
 
   Add counts to the links:
@@ -1660,7 +1659,7 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Filter list item (link)).
+    Filter list item content. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -1676,7 +1675,7 @@ defmodule PrimerLive.Component do
 
     attr(:href, :any,
       doc: """
-      Link attribute. If used, the filter list item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
       """
     )
 
@@ -4090,7 +4089,8 @@ defmodule PrimerLive.Component do
       </.button>
     </:header>
     <:header_title>
-      A very long title that wraps onto multiple lines without overlapping or wrapping underneath the icon to it's right
+      A very long title that wraps onto multiple lines without overlapping
+      or wrapping underneath the icon to it's right
     </:header_title>
     <:body>Content</:body>
   </.box>
@@ -4104,6 +4104,15 @@ defmodule PrimerLive.Component do
       <.link href="/" class={classes.link}>Home</.link>
     </:row>
   </.box>
+  ```
+
+  To make the entire row a link, pass attribute `href`, `navigate` or `patch`. Tweak the link behaviour with row attrs `is_hover_gray`, `is_hover_blue` and/or Primer CSS modifier class "no-underline". Link examples:
+
+  ```
+  <:row href="#url">href link</:row>
+  <:row navigate={Routes.page_path(@socket, :index)}>navigate link</:row>
+  <:row patch={Routes.page_path(@socket, :index)}>patch link</:row>
+  <:row href="#url" class="no-underline" is_hover_gray>Link, no underline, hover gray</:row>
   ```
 
   Box can be used inside dialogs. To make the box content scrollable within the confined space of the dialog, use `is_scrollable`. This will make all inner content (`inner_block`, `body` and `rows`) scrollable between header and footer.
@@ -4255,7 +4264,8 @@ defmodule PrimerLive.Component do
   end
 
   slot :row,
-    doc: "Generates a content row element." do
+    doc:
+      "Generates a content row element. To create a link element, pass attribute `href`, `navigate` or `patch`." do
     attr :class, :string, doc: "Additional classname."
     attr :is_blue, :boolean, doc: "Blue row theme."
     attr :is_gray, :boolean, doc: "Gray row theme."
@@ -4270,6 +4280,24 @@ defmodule PrimerLive.Component do
 
     attr :is_unread, :boolean,
       doc: "Apply a blue vertical line highlight for indicating a row contains unread items."
+
+    attr(:href, :any,
+      doc: """
+      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
+      """
+    )
+
+    attr(:patch, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:navigate, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
 
     attr(:rest, :any,
       doc: """
@@ -4312,7 +4340,7 @@ defmodule PrimerLive.Component do
           slot[:class]
         ])
       end,
-      row: fn slot ->
+      row: fn slot, is_link ->
         AttributeHelpers.classnames([
           "Box-row",
           slot[:is_blue] && "Box-row--blue",
@@ -4324,6 +4352,7 @@ defmodule PrimerLive.Component do
           slot[:is_navigation_focus] && "navigation-focus",
           slot[:is_yellow] && "Box-row--yellow",
           slot[:is_unread] && "Box-row--unread",
+          is_link && "d-block",
           assigns.classes[:row],
           slot[:class]
         ])
@@ -4378,11 +4407,44 @@ defmodule PrimerLive.Component do
       """
     end
 
-    render_row = fn ->
+    render_row = fn slot ->
+      is_link = AttributeHelpers.is_link?(slot)
+      class = classes.row.(slot, is_link)
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class,
+          :is_blue,
+          :is_gray,
+          :is_yellow,
+          :is_hover_blue,
+          :is_hover_gray,
+          :is_focus_blue,
+          :is_focus_gray,
+          :is_navigation_focus,
+          :is_unread
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:is_link, is_link)
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+        |> assign(:classes, classes)
+
       ~H"""
-      <%= for slot <- @row do %>
-        <div class={@classes.row.(slot)}>
-          <%= render_slot(slot, @classes) %>
+      <%= if @is_link do %>
+        <Phoenix.Component.link {@attributes}>
+          <%= render_slot(@slot, @classes) %>
+        </Phoenix.Component.link>
+      <% else %>
+        <div {@attributes}>
+          <%= render_slot(@slot, @classes) %>
         </div>
       <% end %>
       """
@@ -4421,7 +4483,9 @@ defmodule PrimerLive.Component do
         <%= @render_body.() %>
       <% end %>
       <%= if @row && @row !== [] do %>
-        <%= @render_row.() %>
+        <%= for slot <- @row do %>
+          <%= @render_row.(slot) %>
+        <% end %>
       <% end %>
       """
     end
@@ -4675,7 +4739,7 @@ defmodule PrimerLive.Component do
 
   [Examples](#dropdown/1-examples) • [Attributes](#dropdown/1-attributes) • [Slots](#dropdown/1-slots) • [Reference](#dropdown/1-reference)
 
-  Menu items are rendered as link elements, created with `Phoenix.Component.link/1`, and any attribute passed to the `item` slot is passed to the link.
+  Menu items are rendered as link element.
 
   ```
   <.dropdown>
@@ -4687,12 +4751,12 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  Link navigation options:
+  Menu links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
 
   ```
-  <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
-  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  <:item href="#url">href link</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>navigate link</:item>
+  <:item patch={Routes.page_path(@socket, :index)}>patch link</:item>
   ```
 
   Add a menu title by passing `title` to the `menu` slot:
@@ -4803,7 +4867,7 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Menu item content.
+    Menu item content. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
     attr(:is_divider, :boolean,
       doc: """
@@ -4813,7 +4877,7 @@ defmodule PrimerLive.Component do
 
     attr(:href, :any,
       doc: """
-      Link attribute. If used, the menu item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
       """
     )
 
@@ -5022,6 +5086,8 @@ defmodule PrimerLive.Component do
 
   [Examples](#select_menu/1-examples) • [Attributes](#select_menu/1-attributes) • [Slots](#select_menu/1-slots) • [Reference](#select_menu/1-reference)
 
+  Tabs are by default rendered as buttons. To create link elements, pass attribute `href`, `navigate` or `patch`.
+
   ```
   <.select_menu>
     <:toggle>Menu</:toggle>
@@ -5033,12 +5099,12 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  By default, items are turned into `<button>` elements. Pass a link attribute (`href`, `navigate` or `patch`) to change it automatically to a `Phoenix.Component.link/1`:
+  When a link attribute is supplied to the item slot, links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
 
   ```
-  <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
-  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  <:item href="#url">href link</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>navigate link</:item>
+  <:item patch={Routes.page_path(@socket, :index)}>patch link</:item>
   ```
 
   Add a dropdown caret:
@@ -5324,7 +5390,7 @@ defmodule PrimerLive.Component do
 
   slot :item,
     doc: """
-    Menu item content.
+    Menu item content. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -5354,7 +5420,7 @@ defmodule PrimerLive.Component do
 
     attr(:href, :any,
       doc: """
-      Link attribute. If used, the menu item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
       """
     )
 
@@ -7129,12 +7195,12 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  Link navigation options:
+  Links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
 
   ```
-  <:item href="/home">Home</:item>
-  <:item navigate={Routes.page_path(@socket, :index)}>Home</:item>
-  <:item patch={Routes.page_path(@socket, :index, :details)}>Home</:item>
+  <:item href="#url">href link</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>navigate link</:item>
+  <:item patch={Routes.page_path(@socket, :index)}>patch link</:item>
   ```
 
   [INSERT LVATTRDOCS]
@@ -7184,11 +7250,11 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Breadcrumb item content.
+    Breadcrumb item content. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
     attr(:href, :any,
       doc: """
-      Link attribute. If used, the link item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
       """
     )
 
@@ -7309,7 +7375,7 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  Links are created using `Phoenix.Component.link/1` when navigation attributes are supplied:
+  links are created with `Phoenix.Component.link/1`. Link examples:
 
   ```
   <.as_link href="/home">label</.as_link>
@@ -7410,7 +7476,7 @@ defmodule PrimerLive.Component do
 
   attr(:href, :any,
     doc: """
-    Link attribute. If used, the link will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+    Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other attributes to the link.
     """
   )
 
@@ -7741,7 +7807,7 @@ defmodule PrimerLive.Component do
   </.circle_badge>
   ```
 
-  By default, items are turned into `<div>` elements. Pass a link attribute (`href`, `navigate` or `patch`) to change it automatically to a `Phoenix.Component.link/1`:
+  Badges are by default rendered as div elements. To create link elements, pass attribute `href`, `navigate` or `patch`. Link examples:
 
   ```
   <.circle_badge href="#url">...</.circle_badge>
@@ -8481,12 +8547,12 @@ defmodule PrimerLive.Component do
   </.truncate>
   ```
 
-  By default, items are turned into `span` elements. Pass a link attribute (`href`, `navigate` or `patch`) to change it automatically to a `Phoenix.Component.link/1`:
+  Tabs are by default rendered as `span` elements. To create link elements, pass attribute `href`, `navigate` or `patch`. Link examples:
 
   ```
-  <:item href="#url">Item 1</:item>
-  <:item navigate={Routes.page_path(@socket, :index)}>Item 2</:item>
-  <:item patch={Routes.page_path(@socket, :index, :details)}>Item 3</:item>
+  <:item href="#url">href link</:item>
+  <:item navigate={Routes.page_path(@socket, :index)}>navigate link</:item>
+  <:item patch={Routes.page_path(@socket, :index)}>patch link</:item>
   ```
 
   Multiple item texts will truncate evenly.
@@ -8575,7 +8641,7 @@ defmodule PrimerLive.Component do
 
     attr(:href, :any,
       doc: """
-      Link attribute. If used, the item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
       """
     )
 
@@ -9143,7 +9209,7 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  A branch name may be a link. The link is created with `Phoenix.Component.link/1`, and any attribute passed to `branch_name` is passed to the link. Link navigation options:
+  A branch name may be a link. Links are created with `Phoenix.Component.link/1`, passing all other attributes to the link. Link examples:
 
   ```
   <.branch_name href="#url">some-name</.branch_name>
@@ -9175,7 +9241,7 @@ defmodule PrimerLive.Component do
 
   attr(:href, :any,
     doc: """
-    Link attribute. If used, the filter list item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+    Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other attributes to the link.
     """
   )
 
@@ -9561,12 +9627,12 @@ defmodule PrimerLive.Component do
   </.timeline_item>
   ```
 
-  The badge will be rendered as link when when using attrs `href`, `navigate` or `patch`:
+  When a link attribute is supplied to the badge slot, links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
 
   ```
-  <:badge href="#url">Item 1</:badge>
-  <:badge navigate={Routes.page_path(@socket, :index)}>Item 2</:badge>
-  <:badge patch={Routes.page_path(@socket, :index, :details)}>Item 3</:badge>
+  <:badge href="#url">href link</:item>
+  <:badge navigate={Routes.page_path(@socket, :index)}>navigate link</:item>
+  <:badge patch={Routes.page_path(@socket, :index)}>patch link</:item>
   ```
 
   Create a condensed item, reducing the vertical padding and removing the background from the badge item:
@@ -9690,13 +9756,11 @@ defmodule PrimerLive.Component do
 
   slot :badge,
     doc: """
-    Badge content. Pass an `octicon/1` to display an icon.
-
-    The badge will be rendered as link when when using attrs `href`, `navigate` or `patch`.
+    Badge content. Pass an `octicon/1` to display an icon. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
     attr(:href, :any,
       doc: """
-      Link attribute. If used, the bedge item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
       """
     )
 
