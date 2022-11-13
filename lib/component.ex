@@ -1336,6 +1336,8 @@ defmodule PrimerLive.Component do
   # subnav_links
   # ------------------------------------------------------------------------------------
 
+  @doc section: :navigation
+
   @doc ~S"""
   Subnav link row. See `subnav/1`.
 
@@ -1484,6 +1486,8 @@ defmodule PrimerLive.Component do
   # subnav_search
   # ------------------------------------------------------------------------------------
 
+  @doc section: :navigation
+
   @doc ~S"""
   Subnav search field. See `subnav/1`.
 
@@ -1519,6 +1523,8 @@ defmodule PrimerLive.Component do
   # ------------------------------------------------------------------------------------
   # subnav_search_context
   # ------------------------------------------------------------------------------------
+
+  @doc section: :navigation
 
   @doc ~S"""
   Subnav search filter adjacent to the search field. See `subnav/1`.
@@ -3468,7 +3474,7 @@ defmodule PrimerLive.Component do
   slot(:inner_block, required: true, doc: "Alert content.")
 
   def alert(assigns) do
-    modifier_classes = %{
+    state_modifier_classes = %{
       state_default:
         AttributeHelpers.classnames([
           assigns.classes[:state_default]
@@ -3497,11 +3503,11 @@ defmodule PrimerLive.Component do
     class =
       AttributeHelpers.classnames([
         "flash",
-        assigns[:state] === "default" and modifier_classes.state_default,
-        assigns[:state] === "info" and modifier_classes.state_info,
-        assigns[:state] === "success" and modifier_classes.state_success,
-        assigns[:state] === "warning" and modifier_classes.state_warning,
-        assigns[:state] === "error" and modifier_classes.state_error,
+        assigns[:state] === "default" and state_modifier_classes.state_default,
+        assigns[:state] === "info" and state_modifier_classes.state_info,
+        assigns[:state] === "success" and state_modifier_classes.state_success,
+        assigns[:state] === "warning" and state_modifier_classes.state_warning,
+        assigns[:state] === "error" and state_modifier_classes.state_error,
         assigns.is_full and "flash-full",
         assigns[:class]
       ])
@@ -9397,17 +9403,7 @@ defmodule PrimerLive.Component do
   end
 
   def progress(assigns) do
-    classes = %{
-      progress:
-        AttributeHelpers.classnames([
-          "Progress",
-          assigns.is_large and "Progress--large",
-          assigns.is_small and "Progress--small",
-          assigns.is_inline and "d-inline-flex",
-          assigns.classes[:progress],
-          assigns[:class]
-        ]),
-      # item: defined in render_item
+    state_modifier_classes = %{
       state_success:
         AttributeHelpers.classnames([
           "color-bg-success-emphasis",
@@ -9430,6 +9426,19 @@ defmodule PrimerLive.Component do
         ])
     }
 
+    classes = %{
+      progress:
+        AttributeHelpers.classnames([
+          "Progress",
+          assigns.is_large and "Progress--large",
+          assigns.is_small and "Progress--small",
+          assigns.is_inline and "d-inline-flex",
+          assigns.classes[:progress],
+          assigns[:class]
+        ])
+      # item: defined in render_item
+    }
+
     render_item = fn slot ->
       state = slot[:state] || "success"
       width = AttributeHelpers.as_integer(slot[:width] || 0)
@@ -9442,17 +9451,16 @@ defmodule PrimerLive.Component do
 
       style = "#{slot_style}width:#{width}%;"
 
-      item_class = fn slot, state ->
+      class =
         AttributeHelpers.classnames([
           "Progress-item",
-          state === "success" && classes.state_success,
-          state === "info" && classes.state_info,
-          state === "warning" && classes.state_warning,
-          state === "error" && classes.state_error,
+          state === "success" && state_modifier_classes.state_success,
+          state === "info" && state_modifier_classes.state_info,
+          state === "warning" && state_modifier_classes.state_warning,
+          state === "error" && state_modifier_classes.state_error,
           assigns.classes[:item],
           slot[:class]
         ])
-      end
 
       rest =
         assigns_to_attributes(slot, [
@@ -9464,7 +9472,7 @@ defmodule PrimerLive.Component do
 
       attributes =
         AttributeHelpers.append_attributes(rest, [
-          [class: item_class.(slot, state)],
+          [class: class],
           [style: style]
         ])
 
@@ -9496,6 +9504,384 @@ defmodule PrimerLive.Component do
         <% end %>
       <% end %>
     </span>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # timeline_item
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :timeline
+
+  @doc ~S"""
+  Generates a timeline item to display items on a vertical timeline.
+
+  [Examples](#timeline_item/1-examples) • [Attributes](#timeline_item/1-attributes) • [Slots](#timeline_item/1-slots) • [Reference](#timeline_item/1-reference)
+
+  ```
+  <.timeline_item>
+    <:badge>
+      <.octicon name="flame-16" />
+    </:badge>
+    Everything is fine
+  </.timeline_item>
+  ```
+
+  ## Examples
+
+  Add color to the badge by using attribute `state`. Possible states:
+
+  - "default" - light gray
+  - "info" - blue
+  - "success" - green
+  - "warning" - ocher
+  - "error" - red
+
+  ```
+  <.timeline_item state="error">
+    <:badge>
+      <.octicon name="flame-16" />
+    </:badge>
+    Everything will be fine
+  </.timeline_item>
+  ```
+
+  Alternatively, use Primer CSS modifier classes on the badge slot to assign colors:
+
+  ```
+  <.timeline_item>
+    <:badge class="color-bg-done-emphasis color-fg-on-emphasis">
+      <.octicon name="flame-16" />
+    </:badge>
+    Everything will be fine
+  </.timeline_item>
+  ```
+
+  The badge will be rendered as link when when using attrs `href`, `navigate` or `patch`:
+
+  ```
+  <:badge href="#url">Item 1</:badge>
+  <:badge navigate={Routes.page_path(@socket, :index)}>Item 2</:badge>
+  <:badge patch={Routes.page_path(@socket, :index, :details)}>Item 3</:badge>
+  ```
+
+  Create a condensed item, reducing the vertical padding and removing the background from the badge item:
+
+  ```
+  <.timeline_item is_condensed>
+    <:badge>
+      <.octicon name="git-commit-16" />
+    </:badge>
+    My commit
+  </.timeline_item>
+  ```
+
+  Display an avatar of the author:
+
+  ```
+  <.timeline_item>
+    <:badge>
+      <.octicon name="git-commit-16" />
+    </:badge>
+    <:avatar>
+      <.avatar size="6" src="user.jpg" />
+    </:avatar>
+    Someone's commit
+  </.timeline_item>
+  ```
+
+  Create a visual break in the timeline with attribute `is_break`. This adds a horizontal bar across the timeline to show that something has disrupted it.
+
+  ```
+  <.timeline_item state="error">
+    <:badge><.octicon name="flame-16" /></:badge>
+    Everything will be fine
+  </.timeline_item>
+  <.timeline_item is_break />
+  <.timeline_item state="success">
+    <:badge><.octicon name="smiley-16" /></:badge>
+    Everything is fine
+  </.timeline_item>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Timeline](https://primer.style/css/components/timeline)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      timeline_item: nil,
+      badge: nil,
+      avatar: nil,
+      body: nil,
+      state_default: nil,
+      state_info: nil,
+      state_success: nil,
+      state_warning: nil,
+      state_error: nil
+    },
+    doc: """
+    Additional classnames for timeline elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      timeline_item: "", # Outer container
+      badge: "",         # Badge element
+      avatar: "",        # Avatar container
+      body: "",          # Body element
+      state_default: "", # Badge color modifier
+      state_info: "",    # Badge color modifier
+      state_success: "", # Badge color modifier
+      state_warning: "", # Badge color modifier
+      state_error: "",   # Badge color modifier
+    }
+    ```
+    """
+  )
+
+  attr(:state, :string,
+    doc: """
+    Create a badge color variant by setting the state. Possible states:
+
+    - "default" - light gray
+    - "info" - blue
+    - "success" - green
+    - "warning" - ocher
+    - "error" - red
+
+    """
+  )
+
+  attr :is_condensed, :boolean,
+    default: false,
+    doc: """
+    Creates a condensed item, reducing the vertical padding and removing the background from the badge item.
+    """
+
+  attr :is_break, :boolean,
+    default: false,
+    doc: """
+    Creates a visual break in the timeline. This adds a horizontal bar across the timeline to show that something has disrupted it. Ignores any slots.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot :badge,
+    doc: """
+    Badge content. Pass an `octicon/1` to display an icon.
+
+    The badge will be rendered as link when when using attrs `href`, `navigate` or `patch`.
+    """ do
+    attr(:href, :any,
+      doc: """
+      Link attribute. If used, the bedge item will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+      """
+    )
+
+    attr(:patch, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:navigate, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the badge element.
+      """
+    )
+  end
+
+  slot(:avatar, doc: "Avatar container.")
+  slot(:inner_block, doc: "Item body.")
+
+  def timeline_item(assigns) do
+    state = assigns[:state] || "default"
+
+    state_modifier_classes = %{
+      state_default:
+        AttributeHelpers.classnames([
+          assigns.classes[:state_default]
+        ]),
+      state_info:
+        AttributeHelpers.classnames([
+          "color-bg-accent-emphasis",
+          "color-fg-on-emphasis",
+          assigns.classes[:state_info]
+        ]),
+      state_success:
+        AttributeHelpers.classnames([
+          "color-bg-success-emphasis",
+          "color-fg-on-emphasis",
+          assigns.classes[:state_success]
+        ]),
+      state_warning:
+        AttributeHelpers.classnames([
+          "color-bg-attention-emphasis",
+          "color-fg-on-emphasis",
+          assigns.classes[:state_warning]
+        ]),
+      state_error:
+        AttributeHelpers.classnames([
+          "color-bg-danger-emphasis",
+          "color-fg-on-emphasis",
+          assigns.classes[:state_error]
+        ])
+    }
+
+    classes = %{
+      timeline_item:
+        AttributeHelpers.classnames([
+          if assigns.is_break do
+            "TimelineItem-break"
+          else
+            "TimelineItem"
+          end,
+          assigns.is_condensed and "TimelineItem--condensed",
+          assigns.classes[:timeline_item],
+          assigns[:class]
+        ]),
+      body:
+        AttributeHelpers.classnames([
+          "TimelineItem-body",
+          assigns.classes[:body]
+        ])
+      # badge: defined in render_badge
+      # avatar: defined in render_avatar
+    }
+
+    render_badge = fn slot, state ->
+      is_link = AttributeHelpers.is_link?(slot)
+
+      rest =
+        assigns_to_attributes(slot, [
+          :class
+        ])
+
+      class =
+        AttributeHelpers.classnames([
+          "TimelineItem-badge",
+          state === "default" && state_modifier_classes.state_default,
+          state === "info" && state_modifier_classes.state_info,
+          state === "success" && state_modifier_classes.state_success,
+          state === "warning" && state_modifier_classes.state_warning,
+          state === "error" && state_modifier_classes.state_error,
+          assigns.classes[:badge],
+          slot[:class]
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class],
+          [href: slot[:href], navigate: slot[:navigate], patch: slot[:patch]]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:is_link, is_link)
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <%= if @is_link do %>
+        <Phoenix.Component.link {@attributes}>
+          <%= render_slot(@slot) %>
+        </Phoenix.Component.link>
+      <% else %>
+        <div {@attributes}>
+          <%= render_slot(@slot) %>
+        </div>
+      <% end %>
+      """
+    end
+
+    render_avatar = fn slot ->
+      rest =
+        assigns_to_attributes(slot, [
+          :class
+        ])
+
+      class =
+        AttributeHelpers.classnames([
+          "TimelineItem-avatar",
+          assigns.classes[:avatar],
+          slot[:class]
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <div {@attributes}>
+        <%= render_slot(@slot) %>
+      </div>
+      """
+    end
+
+    timeline_item_attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.timeline_item]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:state, state)
+      |> assign(:render_badge, render_badge)
+      |> assign(:render_avatar, render_avatar)
+      |> assign(:timeline_item_attributes, timeline_item_attributes)
+
+    ~H"""
+    <%= if @is_break do %>
+      <div {@timeline_item_attributes}></div>
+    <% else %>
+      <div {@timeline_item_attributes}>
+        <%= if @avatar && @avatar !== [] do %>
+          <%= for slot <- @avatar do %>
+            <%= @render_avatar.(slot) %>
+          <% end %>
+        <% end %>
+        <%= if @badge && @badge !== [] do %>
+          <%= for slot <- @badge do %>
+            <%= @render_badge.(slot, @state) %>
+          <% end %>
+        <% end %>
+        <%= if not is_nil(@inner_block) && @inner_block !== [] do %>
+          <div class={@classes.body}>
+            <%= render_slot(@inner_block) %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
     """
   end
 end
