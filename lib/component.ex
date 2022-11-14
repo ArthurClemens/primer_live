@@ -13,8 +13,6 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a tab navigation.
 
-  [Examples](#tabnav/1-examples) • [Attributes](#tabnav/1-attributes) • [Slots](#tabnav/1-slots) • [Reference](#tabnav/1-reference)
-
   Tabs are by default rendered as buttons. To create link elements, pass attribute `href`, `navigate` or `patch`.
 
   ```
@@ -318,8 +316,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Generates a tab navigation with minimal underlined selected state, typically used for navigation placed at the top of the page.
-
-  [Examples](#underline_nav/1-examples) • [Attributes](#underline_nav/1-attributes) • [Slots](#underline_nav/1-slots) • [Reference](#underline_nav/1-reference)
 
   Tabs are by default rendered as buttons. To create link elements, pass attribute `href`, `navigate` or `patch`.
 
@@ -685,8 +681,6 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a vertical list of navigational links.
 
-  [Examples](#menu/1-examples) • [Attributes](#menu/1-attributes) • [Slots](#menu/1-slots) • [Reference](#menu/1-reference)
-
   Menu items are rendered as link element.
 
   ```
@@ -961,8 +955,6 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a vertical list of navigational links.
 
-  [Examples](#side_nav/1-examples) • [Attributes](#side_nav/1-attributes) • [Slots](#side_nav/1-slots) • [Reference](#side_nav/1-reference)
-
   Menu items are rendered as link element.
 
   ```
@@ -1233,8 +1225,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Subnav is navigation that is typically used when on a dashboard type interface with another set of navigation above it. This helps distinguish navigation hierarchy
-
-  [Examples](#subnav/1-examples) • [Attributes](#subnav/1-attributes) • [Slots](#subnav/1-slots) • [Reference](#subnav/1-reference)
 
   Subnav itself is a wrapper around 1 or more child components:
   - `subnav_links/1` - a link row
@@ -1565,8 +1555,6 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a vertical list of filters.
 
-  [Examples](#filter_list/1-examples) • [Attributes](#filter_list/1-attributes) • [Slots](#filter_list/1-slots) • [Reference](#filter_list/1-reference)
-
   Filter list items are rendered as link element.
 
   ```
@@ -1791,8 +1779,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Generates a form group: a wrapper around one or more inputs, with a heading and validation.
-
-  [Examples](#form_group/1-examples) • [Attributes](#form_group/1-attributes) • [Slots](#form_group/1-slots) • [Reference](#form_group/1-reference)
 
   ```
   <.form_group field="first_name">
@@ -2176,8 +2162,6 @@ defmodule PrimerLive.Component do
 
   Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group" to add a field label and validation.
 
-  [Examples](#text_input/1-examples) • [Attributes](#text_input/1-attributes) • [Slots](#text_input/1-slots) • [Reference](#text_input/1-reference)
-
   ```
   <.text_input field="first_name" />
   ```
@@ -2449,8 +2433,6 @@ defmodule PrimerLive.Component do
   <.select name="age" options={25..35} />
   ```
 
-  [Examples](#select/1-examples) • [Attributes](#select/1-attributes) • [Reference](#select/1-reference)
-
   ## Examples
 
   Options can contain:
@@ -2610,8 +2592,6 @@ defmodule PrimerLive.Component do
   Generates a checkbox.
 
   Wrapper around `Phoenix.HTML.Form.checkbox/3`.
-
-  [Examples](#checkbox/1-examples) • [Attributes](#checkbox/1-attributes) • [Slots](#checkbox/1-slots) • [Reference](#checkbox/1-reference)
 
   ```
   <.checkbox name="available_for_hire" />
@@ -2956,8 +2936,6 @@ defmodule PrimerLive.Component do
 
   Wrapper around `Phoenix.HTML.Form.radio_button/4`.
 
-  [Examples](#radio_button/1-examples) • [Attributes](#radio_button/1-attributes) • [Slots](#radio_button/1-slots) • [Reference](#radio_button/1-reference)
-
   ```
   <.radio_button name="role" value="admin" />
   <.radio_button name="role" value="editor" />
@@ -3150,8 +3128,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Groups radio buttons in a tab-like row.
-
-  [Examples](#radio_group/1-examples) • [Attributes](#radio_group/1-attributes) • [Slots](#radio_group/1-slots) • [Reference](#radio_group/1-reference)
 
   Radio buttons are generated from the `radio_button` slot:
 
@@ -3366,8 +3342,6 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates an alert message.
 
-  [Examples](#alert/1-examples) • [Attributes](#alert/1-attributes) • [Slots](#alert/1-slots) • [Reference](#alert/1-reference)
-
   ```
   <.alert>
     Flash message goes here.
@@ -3532,8 +3506,6 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Wrapper to render a vertical stack of `alert/1` messages with spacing in between.
 
-  [Attributes](#alert_messages/1-attributes) • [Slots](#alert_messages/1-slots) • [Reference](#alert_messages/1-reference)
-
   ```
   <.alert_messages>
     <.alert is_success>
@@ -3594,8 +3566,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Generates a responsive-friendly page layout with 2 columns.
-
-  [Examples](#layout/1-examples) • [Attributes](#layout/1-attributes) • [Reference](#layout/1-reference)
 
   ```
   <.layout>
@@ -3974,8 +3944,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Generates a content container.
-
-  [Examples](#box/1-examples) • [Attributes](#box/1-attributes) • [Slots](#box/1-slots) • [Lets](#box/1-lets) • [Reference](#box/1-reference)
 
   A `box` is a container with rounded corners, a white background, and a light gray border.
   By default, there are no other styles, such as padding; however, these can be introduced
@@ -4524,8 +4492,6 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a navigational header, to be placed at the top of the page.
 
-  [Examples](#header/1-examples) • [Attributes](#header/1-attributes) • [Slots](#header/1-slots) • [Lets](#header/1-lets) •  [Reference](#header/1-reference)
-
   ```
   <.header>
     <:item>Item 1</:item>
@@ -4736,8 +4702,6 @@ defmodule PrimerLive.Component do
   Generates a dropdown menu.
 
   Dropdowns are small context menus that can be used for navigation and actions. They are a simple alternative to [select menus](`select_menu/1`).
-
-  [Examples](#dropdown/1-examples) • [Attributes](#dropdown/1-attributes) • [Slots](#dropdown/1-slots) • [Reference](#dropdown/1-reference)
 
   Menu items are rendered as link element.
 
@@ -5083,8 +5047,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Generates a select menu.
-
-  [Examples](#select_menu/1-examples) • [Attributes](#select_menu/1-attributes) • [Slots](#select_menu/1-slots) • [Reference](#select_menu/1-reference)
 
   Tabs are by default rendered as buttons. To create link elements, pass attribute `href`, `navigate` or `patch`.
 
@@ -5856,8 +5818,6 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a button.
 
-  [Examples](#button/1-examples) • [Attributes](#button/1-attributes) • [Slots](#button/1-slots) • Reference](#button/1-reference)
-
   ```
   <.button>Click me</.button>
   ```
@@ -6018,8 +5978,6 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a group of buttons.
 
-  [Examples](#button_group/1-examples) • [Attributes](#button_group/1-attributes) • [Reference](#button_group/1-reference)
-
   ```
   <.button_group>
     <:button>Button 1</:button>
@@ -6102,8 +6060,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Generates a control to navigate search results.
-
-  [Examples](#pagination/1-examples) • [Attributes](#pagination/1-attributes) • [Reference](#pagination/1-reference)
 
   ```
   <.pagination
@@ -6492,8 +6448,6 @@ defmodule PrimerLive.Component do
 
   See `PrimerLive.Octicons` for the complete list.
 
-  [Examples](#octicon/1-examples) • [Attributes](#octicon/1-attributes) • [Reference](#octicon/1-reference)
-
   ```
   <.octicon name="comment-16" />
   ```
@@ -6577,8 +6531,6 @@ defmodule PrimerLive.Component do
   Generates a label element.
 
   Labels add metadata or indicate status of items and navigational elements.
-
-  [Examples](#label/1-examples) • [Attributes](#label/1-attributes) • [Slots](#label/1-slots) • [Reference](#label/1-reference)
 
   ```
   <.label>Label</.label>
@@ -6752,8 +6704,6 @@ defmodule PrimerLive.Component do
 
   And issue label is basically labels without a border. It expects background and foreground colors.
 
-  [Examples](#issue_label/1-examples) • [Attributes](#issue_label/1-attributes) • [Slots](#issue_label/1-slots) • [Reference](#issue_label/1-reference)
-
   ```
   <.issue_label>Label</.issue_label>
   ```
@@ -6826,8 +6776,6 @@ defmodule PrimerLive.Component do
   Shows an item's status.
 
   State labels are larger and styled with bolded text. Attribute settings allows to apply colors.
-
-  [Examples](#state_label/1-examples) • [Attributes](#state_label/1-attributes) • [Slots](#state_label/1-slots) • [Reference](#state_label/1-reference)
 
   ```
   <.state_label>Label</.state_label>
@@ -6934,8 +6882,6 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Adds a count to navigational elements and buttons.
 
-  [Examples](#counter/1-examples) • [Attributes](#counter/1-attributes) • [Slots](#counter/1-slots) • [Reference](#counter/1-reference)
-
   ```
   <.counter>12</.counter>
   ```
@@ -7019,8 +6965,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Configurable and styled h2 heading.
-
-  [Examples](#subhead/1-examples) • [Attributes](#subhead/1-attributes) • [Slots](#subhead/1-slots) • [Reference](#subhead/1-reference)
 
   ```
   </.subhead>Plain subhead</.subhead>
@@ -7180,8 +7124,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Breadcrumb navigation to navigate a hierarchy of pages.
-
-  [Examples](#breadcrumb/1-examples) • [Attributes](#breadcrumb/1-attributes) • [Slots](#breadcrumb/1-slots) • [Reference](#breadcrumb/1-reference)
 
   All items are rendered as links. The last link will show a selected state.
 
@@ -7367,8 +7309,6 @@ defmodule PrimerLive.Component do
 
   The component name deviates from the PrimerCSS name `Link` to prevent a naming conflict with `Phoenix.Component.link/1`.
 
-  [Examples](#as_link/1-examples) • [Attributes](#as_link/1-attributes) • [Slots](#as_link/1-slots) • [Reference](#as_link/1-reference)
-
   ```
   Some text with a <.as_link>link</.as_link>
   ```
@@ -7547,8 +7487,6 @@ defmodule PrimerLive.Component do
 
   A simple wrapper function that returns an `img` element, styled square and rounded. For correct rendering, the input image must be square.
 
-  [Examples](#avatar/1-examples) • [Attributes](#avatar/1-attributes) • [Reference](#avatar/1-reference)
-
   ```
   <.avatar src="user.jpg" />
   ```
@@ -7649,8 +7587,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Generates a larger "parent" avatar with a smaller "child" overlaid on top.
-
-  [Examples](#parent_child_avatar/1-examples) • [Attributes](#parent_child_avatar/1-attributes) • [Slots](#parent_child_avatar/1-slots) • [Reference](#parent_child_avatar/1-reference)
 
   ## Examples
 
@@ -7771,9 +7707,7 @@ defmodule PrimerLive.Component do
   @doc section: :avatars
 
   @doc ~S"""
-  What is it
-
-  [Examples](#circle_badge/1-examples) • [Attributes](#circle_badge/1-attributes) • [Reference](#circle_badge/1-reference)
+  Generates a badge-like icon or logo.
 
   ```
   <.circle_badge>
@@ -7996,8 +7930,6 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Adds animated ellipsis to indicate progress.
 
-  [Examples](#animated_ellipsis/1-examples) • [Attributes](#animated_ellipsis/1-attributes) • [Reference](#animated_ellipsis/1-reference)
-
   ```
   <.animated_ellipsis />
   ```
@@ -8066,8 +7998,6 @@ defmodule PrimerLive.Component do
   SVG spinner animation.
 
   This spinner is derived from the Toast loading animation.
-
-  [Examples](#spinner/1-examples) • [Attributes](#spinner/1-attributes)
 
   ```
   <.spinner />
@@ -8148,9 +8078,7 @@ defmodule PrimerLive.Component do
   @doc section: :blankslate
 
   @doc ~S"""
-  What is it
-
-  [Examples](#blankslate/1-examples) • [Attributes](#blankslate/1-attributes) • [Slots](#blankslate/1-slots) • [Reference](#blankslate/1-reference)
+  Generates fallback content if the actual content does not yet exist or if the user needs to perform an action.
 
   ```
   <.blankslate>
@@ -8528,8 +8456,6 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Shortens text with ellipsis.
 
-  [Examples](#truncate/1-examples) • [Attributes](#truncate/1-attributes) • [Slots](#truncate/1-slots) • [Reference](#truncate/1-reference)
-
   ```
   <.truncate>
     <:item>really-long-text</:item>
@@ -8761,8 +8687,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Dialog, often called Modal.
-
-  [Examples](#dialog/1-examples) • [Attributes](#dialog/1-attributes) • [Slots](#dialog/1-slots) • [Reference](#dialog/1-reference)
 
   A dialog is created with `box/1` slots.
 
@@ -9201,8 +9125,6 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Formats a branch name.
 
-  [Examples](#branch_name/1-examples) • [Attributes](#branch_name/1-attributes) • [Slots](#branch_name/1-slots) • [Reference](#branch_name/1-reference)
-
   ```
   <.branch_name>development</.branch_name>
   ```
@@ -9306,8 +9228,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Generates a progress bar to visualize task completion.
-
-  [Examples](#progress/1-examples) • [Attributes](#progress/1-attributes) • [Slots](#progress/1-slots) • [Reference](#progress/1-reference)
 
   The item slot creates the colored bar. Its width is a percentage value (0 - 100).
 
@@ -9585,8 +9505,6 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Generates a timeline item to display items on a vertical timeline.
-
-  [Examples](#timeline_item/1-examples) • [Attributes](#timeline_item/1-attributes) • [Slots](#timeline_item/1-slots) • [Reference](#timeline_item/1-reference)
 
   ```
   <.timeline_item>
