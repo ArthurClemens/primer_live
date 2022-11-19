@@ -1898,7 +1898,7 @@ defmodule PrimerLive.Component do
   attr(:for, :string,
     default: nil,
     doc:
-      "Internally used for `text_input` and `textarea` with attr `is_form_group`. Label attribute to associate the label with the input. `for` should be the same as the input's `id`."
+      "Internally used by `text_input/1` and `textarea/1` when using `is_form_group` or `form_group`. Label attribute to associate the label with the input. `for` should be the same as the input's `id`."
   )
 
   attr(:classes, :map,
@@ -2221,13 +2221,13 @@ defmodule PrimerLive.Component do
 
   Place the input inside a `form_group/1` with `is_form_group`. Attributes `form` and `field` are passed to the form group to generate a group label.
 
-   ```
+  ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
     <.text_input form={f} field={:first_name} is_form_group />
   </.form>
   ```
 
-  To configure the form group and label, use attr `form_group`:
+  To configure the form group and label, use attr `form_group`. See `form_group/1` for supported attributes.
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
@@ -2244,6 +2244,7 @@ defmodule PrimerLive.Component do
     />
   </.form>
   ```
+
 
   [INSERT LVATTRDOCS]
 
@@ -2408,13 +2409,18 @@ defmodule PrimerLive.Component do
     } = FormHelpers.field_state(form, field, input_id, nil)
 
     input_attributes =
-      AttributeHelpers.append_attributes(rest, [
-        [class: classes.input],
-        # If aria_label is not set, use the value of placeholder (if any):
-        is_nil(rest[:aria_label]) and [aria_label: rest[:placeholder]],
-        not is_nil(message_id) and [aria_describedby: message_id],
-        [id: input_id]
-      ])
+      AttributeHelpers.append_attributes(
+        assigns_to_attributes(rest, [
+          :id
+        ]),
+        [
+          [class: classes.input],
+          # If aria_label is not set, use the value of placeholder (if any):
+          is_nil(rest[:aria_label]) and [aria_label: rest[:placeholder]],
+          not is_nil(message_id) and [aria_describedby: message_id],
+          [id: input_id]
+        ]
+      )
 
     render = fn ->
       assigns =
