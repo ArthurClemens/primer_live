@@ -1895,6 +1895,12 @@ defmodule PrimerLive.Component do
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
+  attr(:for, :string,
+    default: nil,
+    doc:
+      "Internally used for `text_input` and `textarea` with attr `is_form_group`. Label attribute to associate the label with the input. `for` should be the same as the input's `id`."
+  )
+
   attr(:classes, :map,
     default: %{
       group: nil,
@@ -1977,11 +1983,13 @@ defmodule PrimerLive.Component do
   end
 
   defp render_form_group(assigns) do
-    form = assigns[:form]
-    field = assigns[:field]
-    validation_message = assigns[:validation_message]
-    rest = assigns[:rest]
+    %{
+      rest: rest,
+      form: form,
+      field: field
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
 
+    validation_message = assigns[:validation_message]
     field_state = FormHelpers.field_state(form, field, validation_message)
 
     %{
@@ -2027,11 +2035,10 @@ defmodule PrimerLive.Component do
 
     # If label is supplied, wrap it inside a label element
     # else use the default generated label
-
     header_label_attributes =
       AttributeHelpers.append_attributes([], [
         [class: assigns.classes.label],
-        [for: assigns[:for] || Phoenix.HTML.Form.input_id(form, field)]
+        [for: assigns[:for] || nil]
       ])
 
     header_label =
@@ -2211,6 +2218,32 @@ defmodule PrimerLive.Component do
   </.text_input>
   ```
 
+  Place the input inside a `form_group/1` with `is_form_group`. Attributes `form` and `field` are passed to the form group to generate a group label.
+
+   ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.text_input form={f} field={:first_name} is_form_group />
+  </.form>
+  ```
+
+  To configure the form group and label, use attr `form_group`:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.text_input
+      form={f}
+      field={:first_name}
+      form_group={%{
+        label: "Custom label",
+        validation_message:
+          fn field_state ->
+            if !field_state.valid?, do: "Please enter your first name"
+          end
+      }}
+    />
+  </.form>
+  ```
+
   [INSERT LVATTRDOCS]
 
   ## Reference
@@ -2278,6 +2311,21 @@ defmodule PrimerLive.Component do
     doc: "Inside a form group. Generates an input with a even more reduced width."
   )
 
+  attr(:is_form_group, :boolean,
+    default: false,
+    doc: """
+    Inserts the input inside a `form_group/1`. Attributes `form` and `field` are passed to the form group to generate a group label.
+
+    To configure the form group and label, use attr `form_group`.
+    """
+  )
+
+  attr(:form_group, :any,
+    doc: """
+    Form group attributes. Inserts the input inside a `form_group/1` with given attributes, alongside `form` and `field` to generate a group label.
+    """
+  )
+
   attr(:rest, :global,
     doc: """
     Additional HTML attributes added to the input element.
@@ -2317,8 +2365,15 @@ defmodule PrimerLive.Component do
   end
 
   defp render_text_input(assigns) do
-    form = assigns[:form]
-    field = assigns[:field]
+    %{
+      rest: rest,
+      form: form,
+      field: field,
+      input_id: input_id,
+      has_form_group: has_form_group,
+      form_group_attrs: form_group_attrs
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
+
     has_group_button = assigns[:group_button] !== []
 
     classes = %{
@@ -2352,36 +2407,55 @@ defmodule PrimerLive.Component do
     } = FormHelpers.field_state(form, field, nil)
 
     input_attributes =
-      AttributeHelpers.append_attributes(assigns.rest, [
+      AttributeHelpers.append_attributes(rest, [
         [class: classes.input],
         # If aria_label is not set, use the value of placeholder (if any):
-        is_nil(assigns.rest[:aria_label]) and [aria_label: assigns.rest[:placeholder]],
-        not is_nil(message_id) and [aria_describedby: message_id]
+        is_nil(rest[:aria_label]) and [aria_label: rest[:placeholder]],
+        not is_nil(message_id) and [aria_describedby: message_id],
+        [id: input_id]
       ])
+
+    render = fn ->
+      assigns =
+        assigns
+        |> assign(
+          :input,
+          apply(Phoenix.HTML.Form, FormHelpers.text_input_type_as_atom(assigns.type), [
+            form,
+            field,
+            input_attributes
+          ])
+        )
+        |> assign(:classes, classes)
+        |> assign(:has_group_button, has_group_button)
+
+      ~H"""
+      <%= if @has_group_button do %>
+        <div class={@classes.input_group}>
+          <%= @input %>
+          <span class={@classes.input_group_button}>
+            <%= render_slot(@group_button) %>
+          </span>
+        </div>
+      <% else %>
+        <%= @input %>
+      <% end %>
+      """
+    end
 
     assigns =
       assigns
-      |> assign(
-        :input,
-        apply(Phoenix.HTML.Form, FormHelpers.text_input_type_as_atom(assigns.type), [
-          form,
-          field,
-          input_attributes
-        ])
-      )
-      |> assign(:classes, classes)
-      |> assign(:has_group_button, has_group_button)
+      |> assign(:has_form_group, has_form_group)
+      |> assign(:form_group_attrs, form_group_attrs)
+      |> assign(:render, render)
 
     ~H"""
-    <%= if @has_group_button do %>
-      <div class={@classes.input_group}>
-        <%= @input %>
-        <span class={@classes.input_group_button}>
-          <%= render_slot(@group_button) %>
-        </span>
-      </div>
+    <%= if @has_form_group do %>
+      <.form_group {@form_group_attrs}>
+        <%= @render.() %>
+      </.form_group>
     <% else %>
-      <%= @input %>
+      <%= @render.() %>
     <% end %>
     """
   end
@@ -2753,9 +2827,6 @@ defmodule PrimerLive.Component do
   end
 
   defp render_checkbox(assigns) do
-    form = assigns[:form]
-    field = assigns[:field]
-
     # Remove type from rest, we'll set it on the input
     rest =
       assigns_to_attributes(assigns.rest, [
@@ -2764,8 +2835,6 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:form, form)
-      |> assign(:field, field)
       |> assign(:rest, rest)
       |> assign(:input_type, :checkbox)
 
@@ -2773,7 +2842,16 @@ defmodule PrimerLive.Component do
   end
 
   defp render_checkbox_input(assigns) do
-    %{form: form, field: field, rest: rest} = assigns
+    input_type = assigns[:input_type]
+
+    %{
+      rest: rest,
+      form: form,
+      field: field,
+      input_id: input_id,
+      derived_label: derived_label,
+      value: value
+    } = AttributeHelpers.common_input_attrs(assigns, input_type)
 
     classes = %{
       container:
@@ -2807,14 +2885,6 @@ defmodule PrimerLive.Component do
 
     label_slot = if assigns[:label] && assigns[:label] !== [], do: hd(assigns[:label]), else: []
     has_label_slot = label_slot !== []
-    value_for_derived_label = rest[:checked_value] || rest[:value]
-
-    derived_label =
-      case assigns.input_type do
-        :checkbox -> Phoenix.HTML.Form.humanize(value_for_derived_label || field)
-        :radio_button -> Phoenix.HTML.Form.humanize(assigns.value)
-      end
-
     has_label = has_label_slot || derived_label !== "Nil"
 
     input_class =
@@ -2827,7 +2897,8 @@ defmodule PrimerLive.Component do
 
     input_opts =
       AttributeHelpers.append_attributes(rest, [
-        input_class && [class: input_class]
+        input_class && [class: input_class],
+        input_id && [id: input_id]
       ])
 
     input =
@@ -2836,7 +2907,7 @@ defmodule PrimerLive.Component do
           Phoenix.HTML.Form.checkbox(form, field, input_opts)
 
         :radio_button ->
-          Phoenix.HTML.Form.radio_button(form, field, assigns.value, input_opts)
+          Phoenix.HTML.Form.radio_button(form, field, value, input_opts)
       end
 
     label_class =

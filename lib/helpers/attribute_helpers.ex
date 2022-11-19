@@ -365,4 +365,67 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   def is_link?(item_slot) do
     !!item_slot[:href] || !!item_slot[:navigate] || !!item_slot[:patch]
   end
+
+  @doc ~S"""
+  Extracts common attributes for form inputs. Shared for consistency.
+  """
+  def common_input_attrs(assigns, input_type) do
+    rest = assigns[:rest]
+    name = rest[:name]
+    form = assigns[:form]
+    field = assigns[:field] || name
+
+    # ID
+
+    # Get value from checkbox or radio button
+
+    id = rest[:id]
+    value = assigns[:value] || rest[:value]
+    checked_value = rest[:checked_value]
+    value_for_derived_label = checked_value || value
+
+    derived_label =
+      case input_type do
+        :checkbox -> Phoenix.HTML.Form.humanize(value_for_derived_label || assigns[:field])
+        :radio_button -> Phoenix.HTML.Form.humanize(value_for_derived_label)
+        _ -> nil
+      end
+
+    input_id =
+      cond do
+        id ->
+          id
+
+        input_type === :radio_button || input_type === :checkbox ->
+          Phoenix.HTML.Form.input_id(form, field, value_for_derived_label)
+          |> String.replace("__", "_")
+
+        true ->
+          Phoenix.HTML.Form.input_id(form, field)
+      end
+
+    # Form group
+
+    form_group = assigns[:form_group]
+    is_form_group = assigns[:is_form_group]
+    has_form_group = is_form_group || form_group
+
+    form_group_attrs =
+      Map.merge(form_group || %{}, %{
+        form: form,
+        field: field,
+        for: input_id
+      })
+
+    %{
+      rest: rest,
+      form: form,
+      field: field,
+      input_id: input_id,
+      has_form_group: has_form_group,
+      form_group_attrs: form_group_attrs,
+      value: value,
+      derived_label: derived_label
+    }
+  end
 end

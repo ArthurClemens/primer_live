@@ -1,6 +1,6 @@
 defmodule PrimerLive do
   @moduledoc ~S'''
-  PrimerLive is a collection of function components that implements [GitHub's Primer Design System](https://primer.style/). It is intended for usage in Phoenix LiveView pages and regular (non-LiveView) views.
+  Primer Live is a collection of function components that implements [GitHub's Primer Design System](https://primer.style/). It is intended for usage in Phoenix LiveView pages and regular (non-LiveView) views.
 
   ## Versioning
 

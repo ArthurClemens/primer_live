@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      name: "PrimerLive",
+      name: "Primer Live",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: """
       A collection of function components that implements GitHub's Primer Design System.
@@ -42,7 +42,7 @@ defmodule PrimerLive.MixProject do
 
   defp docs do
     [
-      main: "PrimerLive",
+      main: "Primer Live",
       groups_for_functions: [
         Alerts: &(&1[:section] == :alerts),
         Avatars: &(&1[:section] == :avatars),

@@ -59,7 +59,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <div class="form-checkbox">
              <label>
              <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
+             <input id="user_available_for_hire_" name="user[available_for_hire]" type="checkbox" value="true" />
              Available for hire
              </label>
              </div>
@@ -78,7 +78,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <div class="form-checkbox">
              <label>
              <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
+             <input id="user_available_for_hire_" name="user[available_for_hire]" type="checkbox" value="true" />
              Available for hire
              </label>
              </div>
@@ -95,7 +95,34 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <input name="available_for_hire" type="hidden" value="false" />
-             <input id="_" name="available_for_hire" type="checkbox" value="true" />
+             <input id="_available_for_hire_" name="available_for_hire" type="checkbox" value="true" />
+             """
+             |> format_html()
+  end
+
+  test "Multiple" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.checkbox form={:user} name="interest" checked_value="coding" />
+           <.checkbox form={:user} name="interest" checked_value="music" />
+           """)
+           |> format_html() ==
+             """
+             <div class="form-checkbox">
+             <label>
+             <input name="interest" type="hidden" value="false" />
+             <input id="user_interest_coding" name="interest" type="checkbox" value="coding" />
+             Coding
+             </label>
+             </div>
+             <div class="form-checkbox">
+             <label>
+             <input name="interest" type="hidden" value="false" />
+             <input id="user_interest_music" name="interest" type="checkbox" value="music" />
+             Music
+             </label>
+             </div>
              """
              |> format_html()
   end
@@ -104,57 +131,57 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.checkbox type={:x} />
-           <.checkbox type="color" />
-           <.checkbox type="date" />
-           <.checkbox type="datetime-local" />
-           <.checkbox type="email" />
-           <.checkbox type="file" />
-           <.checkbox type="hidden" />
-           <.checkbox type="number" />
-           <.checkbox type="password" />
-           <.checkbox type="range" />
-           <.checkbox type="search" />
-           <.checkbox type="telephone" />
-           <.checkbox type="text" />
-           <.checkbox type="textarea" />
-           <.checkbox type="time" />
-           <.checkbox type="url" />
+           <.checkbox name="input-type" type={:x} />
+           <.checkbox name="input-type" type="color" />
+           <.checkbox name="input-type" type="date" />
+           <.checkbox name="input-type" type="datetime-local" />
+           <.checkbox name="input-type" type="email" />
+           <.checkbox name="input-type" type="file" />
+           <.checkbox name="input-type" type="hidden" />
+           <.checkbox name="input-type" type="number" />
+           <.checkbox name="input-type" type="password" />
+           <.checkbox name="input-type" type="range" />
+           <.checkbox name="input-type" type="search" />
+           <.checkbox name="input-type" type="telephone" />
+           <.checkbox name="input-type" type="text" />
+           <.checkbox name="input-type" type="textarea" />
+           <.checkbox name="input-type" type="time" />
+           <.checkbox name="input-type" type="url" />
            """)
            |> format_html() ==
              """
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
-             <input name="[]" type="hidden" value="false" />
-             <input id="_" name="[]" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
+             <input name="input-type" type="hidden" value="false" />
+             <input id="_input-type_" name="input-type" type="checkbox" value="true" />
              """
              |> format_html()
   end
@@ -168,7 +195,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <input name="available_for_hire" type="hidden" value="false" />
-             <input checked id="_" name="available_for_hire" type="checkbox" value="true" />
+             <input checked id="_available_for_hire_" name="available_for_hire" type="checkbox" value="true" />
              """
              |> format_html()
   end
@@ -201,7 +228,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              """
              <div class="form-checkbox my-checkbox"><label class="label-x my-label" aria-live="polite"><input
              name="user[available_for_hire]" type="hidden" value="false" /><input class="form-checkbox-details-trigger input-x"
-             id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />Some label<span
+             id="user_available_for_hire_" name="user[available_for_hire]" type="checkbox" value="true" />Some label<span
              class="form-checkbox-details text-normal disclosure-x my-disclosure">Some hint</span></label>
              <p class="note hint-x my-hint">Some hint</p>
              </div>
@@ -219,7 +246,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              """
              <div class="form-checkbox">
              <label>
-             <input name="role" type="hidden" value="false" /><input id="_" name="role" type="checkbox" value="true" />
+             <input name="role" type="hidden" value="false" /><input id="_role_editor" name="role" type="checkbox" value="true" />
              Editor
              </label>
              </div>
@@ -237,7 +264,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              """
              <div class="form-checkbox">
              <label>
-             <input name="role" type="hidden" value="false" /><input id="_" name="role" type="checkbox" value="editor" />
+             <input name="role" type="hidden" value="false" /><input id="_role_editor" name="role" type="checkbox" value="editor" />
              Editor
              </label>
              </div>
@@ -254,7 +281,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <input name="available_for_hire" type="hidden" value="false" />
-             <input id="_" name="available_for_hire" tabindex="1" type="checkbox" value="true" />
+             <input id="_available_for_hire_" name="available_for_hire" tabindex="1" type="checkbox" value="true" />
              """
              |> format_html()
   end
@@ -272,7 +299,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <div class="form-checkbox">
              <label dir="rtl">
                <input name="available_for_hire" type="hidden" value="false" />
-               <input id="_" name="available_for_hire" type="checkbox" value="true" />
+               <input id="_available_for_hire_" name="available_for_hire" type="checkbox" value="true" />
                Some label
              </label>
              </div>
@@ -293,7 +320,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <div class="form-checkbox">
              <label>
                <input name="available_for_hire" type="hidden" value="false" />
-               <input id="_" name="available_for_hire" type="checkbox" value="true" />
+               <input id="_available_for_hire_" name="available_for_hire" type="checkbox" value="true" />
                <em class="highlight">Some label</em>
              </label>
              </div>
@@ -317,7 +344,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <div class="form-checkbox">
              <label aria-live="polite">
              <input name="available_for_hire" type="hidden" value="false" />
-             <input class="form-checkbox-details-trigger" id="_" name="available_for_hire" type="checkbox" value="true" />
+             <input class="form-checkbox-details-trigger" id="_available_for_hire_" name="available_for_hire" type="checkbox" value="true" />
              Some label
              <span class="form-checkbox-details text-normal">
              <span>disclosure content</span>
@@ -346,7 +373,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <div class="form-checkbox">
              <label>
              <input name="available_for_hire" type="hidden" value="false" />
-             <input id="_" name="available_for_hire" type="checkbox" value="true" />
+             <input id="_available_for_hire_" name="available_for_hire" type="checkbox" value="true" />
              Some label
              </label>
              <p class="note">
@@ -370,7 +397,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <input name="available_for_hire" type="hidden" value="false" />
-             <input id="_" name="available_for_hire" type="checkbox" value="true" />
+             <input id="_available_for_hire_" name="available_for_hire" type="checkbox" value="true" />
              """
              |> format_html()
   end

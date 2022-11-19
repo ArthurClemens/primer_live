@@ -6,6 +6,21 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
+  @default_form %Phoenix.HTML.Form{
+    id: "user",
+    name: "user",
+    params: %{"first_name" => ""},
+    source: %Ecto.Changeset{
+      action: :validate,
+      changes: %{},
+      errors: [
+        first_name: {"can't be blank", [validation: :required]}
+      ],
+      data: nil,
+      valid?: false
+    }
+  }
+
   test "Called without options or inner_block: should render the component" do
     assigns = %{}
 
@@ -66,7 +81,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="form-control" id="_" name="first_name" type="text" />
+             <input class="form-control" id="_first_name" name="first_name" type="text" />
              """
              |> format_html()
   end
@@ -139,6 +154,78 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
+  test "Attribute: is_form_group" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input form={:user} name="first_name" is_form_group />
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group">
+             <div class="form-group-header"><label for="user_first_name">First name</label></div>
+             <div class="form-group-body"><input class="form-control" id="user_first_name" name="first_name" type="text" /></div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: form_group (label)" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input
+             form={:user}
+             field="first_name"
+             form_group={
+               %{
+                 label: "Some label"
+               }
+             }
+           />
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group">
+             <div class="form-group-header"><label for="user_first_name">Some label</label></div>
+             <div class="form-group-body"><input class="form-control" id="user_first_name" name="user[first_name]" type="text" /></div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: form_group (validation_message)" do
+    assigns = %{
+      form: @default_form
+    }
+
+    assert rendered_to_string(~H"""
+           <.text_input
+             form={@form}
+             field={:first_name}
+             form_group={
+               %{
+                 validation_message: fn field_state ->
+                   if !field_state.valid?, do: "Please enter your first name"
+                 end
+               }
+             }
+           />
+           """)
+           |> format_html() ==
+             """
+             <div class="form-group errored">
+             <div class="form-group-header"><label for="user_first_name">First name</label></div>
+             <div class="form-group-body"><input aria-describedby="first_name-validation" class="form-control" id="user_first_name" name="user[first_name]" type="text" value="" />
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="first_name-validation">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+             <span>Please enter your first name</span></div>
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Extra attributes" do
     assigns = %{}
 
@@ -147,7 +234,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="form-control" id="_" name="first_name" type="text" />
+             <input class="form-control" id="_first_name" name="first_name" type="text" />
              """
              |> format_html()
   end
@@ -160,7 +247,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input aria-label="Enter your first name" class="form-control" id="_" name="first_name" placeholder="Enter your first name" type="text" />
+             <input aria-label="Enter your first name" class="form-control" id="_first_name" name="first_name" placeholder="Enter your first name" type="text" />
              """
              |> format_html()
   end
@@ -173,7 +260,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input aria-label="Enter your first name" class="form-control" id="_" name="first_name" type="text" />
+             <input aria-label="Enter your first name" class="form-control" id="_first_name" name="first_name" type="text" />
              """
              |> format_html()
   end
@@ -186,7 +273,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="form-control" id="_" name="first_name" tabindex="1" type="text" />
+             <input class="form-control" id="_first_name" name="first_name" tabindex="1" type="text" />
              """
              |> format_html()
   end
@@ -204,7 +291,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Slot: grouo_button" do
+  test "Slot: group_button" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
