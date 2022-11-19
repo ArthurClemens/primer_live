@@ -131,7 +131,7 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
              """
              <div class="form-group errored my-form-group group-x">
              <div class="form-group-header header-x"><label class="label-x">First name</label></div>
-             <div class="form-group-body body-x">inputs<div class="FormControl-inlineValidation FormControl-inlineValidation--error validation-message-x" id="first_name-validation"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+             <div class="form-group-body body-x">inputs<div class="FormControl-inlineValidation FormControl-inlineValidation--error validation-message-x" id="user_first_name-validation"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
              <path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path>
              </svg><span>can&#39;t be blank</span></div>
              </div>
@@ -152,7 +152,7 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
              """
              <div class="form-group errored">
              <div class="form-group-header"><label>First name</label></div>
-             <div class="form-group-body">inputs<div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="first_name-validation"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+             <div class="form-group-body">inputs<div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
              <path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path>
              </svg><span>can&#39;t be blank</span></div>
              </div>
@@ -176,14 +176,16 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
                end
              }
            >
-             inputs
+             <.text_input form={@form} field={:first_name} />
            </.form_group>
            """)
            |> format_html() ==
              """
              <div class="form-group errored">
              <div class="form-group-header"><label>First name</label></div>
-             <div class="form-group-body">inputs<div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="first_name-validation"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+             <div class="form-group-body">
+             <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" name="user[first_name]" type="text" value="" />
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
              <path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path>
              </svg><span>Please enter your first name</span></div>
              </div>
@@ -250,7 +252,7 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
              """
              <div class="form-group successed">
              <div class="form-group-header"><label>First name</label></div>
-             <div class="form-group-body">inputs<div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="first_name-validation"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+             <div class="form-group-body">inputs<div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="user_first_name-validation"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
              <path fill-rule="evenodd" d="M6 0a6 6 0 100 12A6 6 0 006 0zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938z"></path>
              </svg><span>Is available</span></div>
              </div>
@@ -292,7 +294,7 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
              <div class="form-group-body">
              <div class="form-checkbox"><label><input name="user[available_for_hire]" type="hidden" value="false" /><input id="user_available_for_hire_admin" name="user[available_for_hire]" type="checkbox" value="admin" />Admin</label></div>
              <div class="form-checkbox"><label><input name="user[available_for_hire]" type="hidden" value="false" /><input id="user_available_for_hire_editor" name="user[available_for_hire]" type="checkbox" value="editor" />Editor</label></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="available_for_hire-validation">
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_available_for_hire-validation">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
              <span>can&#39;t be blank</span></div>
              </div>

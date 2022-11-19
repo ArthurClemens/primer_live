@@ -1986,11 +1986,12 @@ defmodule PrimerLive.Component do
     %{
       rest: rest,
       form: form,
-      field: field
+      field: field,
+      input_id: input_id
     } = AttributeHelpers.common_input_attrs(assigns, nil)
 
     validation_message = assigns[:validation_message]
-    field_state = FormHelpers.field_state(form, field, validation_message)
+    field_state = FormHelpers.field_state(form, field, input_id, validation_message)
 
     %{
       message_id: message_id,
@@ -2404,7 +2405,7 @@ defmodule PrimerLive.Component do
 
     %{
       message_id: message_id
-    } = FormHelpers.field_state(form, field, nil)
+    } = FormHelpers.field_state(form, field, input_id, nil)
 
     input_attributes =
       AttributeHelpers.append_attributes(rest, [
