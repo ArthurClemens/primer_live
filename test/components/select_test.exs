@@ -261,6 +261,53 @@ defmodule PrimerLive.TestComponents.SelectTest do
              |> format_html()
   end
 
+  test "Classes" do
+    assigns = %{
+      form: %{@default_form | source: @error_changeset}
+    }
+
+    assert rendered_to_string(~H"""
+           <.select
+             form={@form}
+             field={:role}
+             options={[
+               Admin: "admin",
+               User: "user",
+               Editor: "editor",
+               Copywriter: "copywriter",
+               Tester: "tester",
+               "Project owner": "project_owner",
+               Developer: "developer"
+             ]}
+             aria_label="Role"
+             classes={
+               %{
+                 select: "select-x",
+                 validation_message: "validation_message-x"
+               }
+             }
+             class="my-select"
+           />
+           """)
+           |> format_html() ==
+             """
+             <select aria-describedby="user_role-validation" aria-label="Role" class="form-select select-x my-select" id="user_role" invalid="" name="user[role]">
+             <option value="admin">Admin</option>
+             <option value="user">User</option>
+             <option value="editor">Editor</option>
+             <option value="copywriter">Copywriter</option>
+             <option value="tester">Tester</option>
+             <option value="project_owner">Project owner</option>
+             <option value="developer">Developer</option>
+             </select>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x" id="user_role-validation">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+             <span>can&#39;t be blank</span>
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Other attributes" do
     assigns = %{}
 

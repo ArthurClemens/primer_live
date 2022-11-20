@@ -2660,6 +2660,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "form-select",
           assigns.is_small and "select-sm",
+          assigns.classes[:select],
           assigns[:class]
         ]),
       validation_message: assigns.classes[:validation_message]
