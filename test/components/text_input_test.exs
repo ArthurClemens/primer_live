@@ -13,12 +13,20 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     source: %Ecto.Changeset{
       action: :validate,
       changes: %{},
-      errors: [
-        first_name: {"can't be blank", [validation: :required]}
-      ],
+      errors: [],
       data: nil,
-      valid?: false
+      valid?: true
     }
+  }
+
+  @error_changeset %Ecto.Changeset{
+    action: :validate,
+    changes: %{},
+    errors: [
+      first_name: {"can't be blank", [validation: :required]}
+    ],
+    data: nil,
+    valid?: false
   }
 
   test "Called without options or inner_block: should render the component" do
@@ -194,33 +202,78 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Attribute: form_group (validation_message)" do
+  test "Default validation message" do
     assigns = %{
-      form: @default_form
+      form: %{@default_form | source: @error_changeset}
+    }
+
+    assert rendered_to_string(~H"""
+           <.text_input form={@form} field={:first_name} />
+           """)
+           |> format_html() ==
+             """
+             <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]" type="text" value="" />
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+             <span>can&#39;t be blank</span>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: validation_message (custom error message)" do
+    assigns = %{
+      form: %{@default_form | source: @error_changeset}
     }
 
     assert rendered_to_string(~H"""
            <.text_input
              form={@form}
              field={:first_name}
-             form_group={
-               %{
-                 validation_message: fn field_state ->
-                   if !field_state.valid?, do: "Please enter your first name"
-                 end
-               }
+             validation_message={
+               fn field_state ->
+                 if !field_state.valid?, do: "Please enter your first name"
+               end
              }
            />
            """)
            |> format_html() ==
              """
-             <div class="form-group errored">
-             <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body"><input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" name="user[first_name]" type="text" value="" />
+             <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]" type="text" value="" />
              <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
-             <span>Please enter your first name</span></div>
+             <span>Please enter your first name</span>
              </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: validation_message (custom success message)" do
+    assigns = %{
+      form: %{
+        @default_form
+        | source: @default_form.source,
+          params: %{"first_name" => "anna"}
+      }
+    }
+
+    assert rendered_to_string(~H"""
+           <.text_input
+             form={@form}
+             field={:first_name}
+             validation_message={
+               fn field_state ->
+                 if field_state.valid?, do: "Available!"
+               end
+             }
+           />
+           """)
+           |> format_html() ==
+             """
+             <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" name="user[first_name]" type="text" value="anna" />
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="user_first_name-validation">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M6 0a6 6 0 100 12A6 6 0 006 0zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938z"></path></svg>
+             <span>Available!</span>
              </div>
              """
              |> format_html()

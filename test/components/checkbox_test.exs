@@ -13,11 +13,9 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
     source: %Ecto.Changeset{
       action: :validate,
       changes: %{},
-      errors: [
-        available_for_hire: {"can't be blank", [validation: :required]}
-      ],
+      errors: [],
       data: nil,
-      valid?: false
+      valid?: true
     }
   }
 

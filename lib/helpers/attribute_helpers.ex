@@ -1,4 +1,6 @@
 defmodule PrimerLive.Helpers.AttributeHelpers do
+  alias PrimerLive.Helpers.FormHelpers
+
   @moduledoc false
 
   @doc ~S"""
@@ -373,7 +375,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     rest = assigns[:rest]
     name = rest[:name]
     form = assigns[:form]
-    field = assigns[:field] || name
+    field = assigns[:field]
+    field_or_name = field || name
 
     # ID
 
@@ -386,7 +389,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     derived_label =
       case input_type do
-        :checkbox -> Phoenix.HTML.Form.humanize(value_for_derived_label || assigns[:field])
+        :checkbox -> Phoenix.HTML.Form.humanize(value_for_derived_label || field)
         :radio_button -> Phoenix.HTML.Form.humanize(value_for_derived_label)
         _ -> nil
       end
@@ -397,11 +400,11 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
           id
 
         input_type === :radio_button || input_type === :checkbox ->
-          Phoenix.HTML.Form.input_id(form, field, value_for_derived_label)
+          Phoenix.HTML.Form.input_id(form, field_or_name, value_for_derived_label)
           |> String.replace("__", "_")
 
         true ->
-          Phoenix.HTML.Form.input_id(form, field)
+          Phoenix.HTML.Form.input_id(form, field_or_name)
       end
 
     # Form group
@@ -413,19 +416,40 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     form_group_attrs =
       Map.merge(form_group || %{}, %{
         form: form,
-        field: field,
+        field: field_or_name,
         for: input_id
       })
 
+    # Field state
+    validation_message = assigns[:validation_message]
+    field_state = FormHelpers.field_state(form, field_or_name, validation_message)
+
     %{
+      message: message,
+      valid?: valid?
+    } = field_state
+
+    has_error = message && !valid?
+
+    validation_message_id = if !is_nil(field_state.message), do: "#{input_id}-validation"
+
+    %{
+      # Common
       rest: rest,
       form: form,
       field: field,
+      # ID and label
       input_id: input_id,
+      value: value,
+      derived_label: derived_label,
+      validation_message_id: validation_message_id,
+      # Form group
       has_form_group: has_form_group,
       form_group_attrs: form_group_attrs,
-      value: value,
-      derived_label: derived_label
+      # Field state
+      message: message,
+      valid?: valid?,
+      has_error: has_error
     }
   end
 end

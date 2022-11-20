@@ -26,8 +26,8 @@ defmodule PrimerLive.Helpers.FormHelpers do
   @doc """
   Returns a `PrimerLive.FieldState` struct to facilitate display logic in component rendering functions.
 
-      iex> PrimerLive.Helpers.FormHelpers.field_state(:f, :first_name, nil, nil)
-      %PrimerLive.FieldState{valid?: false, changeset: nil, message: nil, message_id: nil, field_errors: []}
+      iex> PrimerLive.Helpers.FormHelpers.field_state(:f, :first_name, nil)
+      %PrimerLive.FieldState{valid?: false, changeset: nil, message: nil, field_errors: []}
 
       # If validation_message_fn returns a string it will be added to FieldState, regardless of the changeset action value:
       iex> PrimerLive.Helpers.FormHelpers.field_state(
@@ -40,22 +40,8 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>       valid?: true
       ...>     },
       ...>   },
-      ...>   :first_name, nil, fn _field_state -> "always" end)
-      %PrimerLive.FieldState{valid?: true, changeset: %{action: :update, changes: %{first_name: "annette"}, data: nil, errors: [], valid?: true}, message: "always", message_id: "first_name-validation", field_errors: []}
-
-      # If input_id is defined, it is used for message_id
-      iex> PrimerLive.Helpers.FormHelpers.field_state(
-      ...>   %Phoenix.HTML.Form{
-      ...>     source: %{
-      ...>       action: :update,
-      ...>       changes: %{first_name: "annette"},
-      ...>       errors: [],
-      ...>       data: nil,
-      ...>       valid?: true
-      ...>     },
-      ...>   },
-      ...>   :first_name, "my-first-name", fn _field_state -> "always" end)
-      %PrimerLive.FieldState{valid?: true, changeset: %{action: :update, changes: %{first_name: "annette"}, data: nil, errors: [], valid?: true}, message: "always", message_id: "my-first-name-validation", field_errors: []}
+      ...>   :first_name, fn _field_state -> "always" end)
+      %PrimerLive.FieldState{valid?: true, changeset: %{action: :update, changes: %{first_name: "annette"}, data: nil, errors: [], valid?: true}, message: "always", field_errors: []}
 
       # If changeset action is :validate and no validation_message_fn is provided, the default field error is added to FieldState:
       iex> PrimerLive.Helpers.FormHelpers.field_state(
@@ -68,8 +54,8 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>       valid?: true
       ...>     },
       ...>   },
-      ...>   :first_name, nil, nil)
-      %PrimerLive.FieldState{valid?: false, changeset: %{action: :validate, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", message_id: "first_name-validation", field_errors: ["can't be blank"]}
+      ...>   :first_name, nil)
+      %PrimerLive.FieldState{valid?: false, changeset: %{action: :validate, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
 
       # If changeset action is :update and no validation_message_fn is provided, no message is added to FieldState:
       iex> PrimerLive.Helpers.FormHelpers.field_state(
@@ -82,25 +68,18 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>       valid?: true
       ...>     },
       ...>   },
-      ...>   :first_name,
-      ...>   nil,
-      ...>   nil)
-      %PrimerLive.FieldState{valid?: false, changeset: %{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: nil, message_id: nil, field_errors: ["can't be blank"]}
-
+      ...>   :first_name, nil)
+      %PrimerLive.FieldState{valid?: false, changeset: %{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: nil, field_errors: ["can't be blank"]}
   """
-  def field_state(form, field, input_id, validation_message_fn) do
-    field_state = get_field_state(form, field, validation_message_fn)
-
-    case is_nil(field_state.message) do
-      true -> field_state
-      false -> %{field_state | message_id: "#{input_id || field}-validation"}
-    end
-  end
-
-  defp get_field_state(form, field, validation_message_fn) do
+  def field_state(form, field, validation_message_fn) do
     changeset = form_changeset(form)
-    field_state = %PrimerLive.FieldState{}
-    get_field_state_for_changeset(changeset, field_state, field, validation_message_fn)
+
+    get_field_state_for_changeset(
+      changeset,
+      %PrimerLive.FieldState{},
+      field,
+      validation_message_fn
+    )
   end
 
   defp get_field_state_for_changeset(changeset, field_state, _field, _validation_message_fn)

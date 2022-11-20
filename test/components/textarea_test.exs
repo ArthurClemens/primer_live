@@ -13,12 +13,20 @@ defmodule PrimerLive.TestComponents.TextareaTest do
     source: %Ecto.Changeset{
       action: :validate,
       changes: %{},
-      errors: [
-        first_name: {"can't be blank", [validation: :required]}
-      ],
+      errors: [],
       data: nil,
-      valid?: false
+      valid?: true
     }
+  }
+
+  @error_changeset %Ecto.Changeset{
+    action: :validate,
+    changes: %{},
+    errors: [
+      first_name: {"can't be blank", [validation: :required]}
+    ],
+    data: nil,
+    valid?: false
   }
 
   test "Called without options: should render the component" do
@@ -113,33 +121,28 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              |> format_html()
   end
 
-  test "Attribute: form_group (validation_message)" do
+  test "Attribute: validation_message" do
     assigns = %{
-      form: @default_form
+      form: %{@default_form | source: @error_changeset}
     }
 
     assert rendered_to_string(~H"""
            <.textarea
              form={@form}
              field={:first_name}
-             form_group={
-               %{
-                 validation_message: fn field_state ->
-                   if !field_state.valid?, do: "Please enter your first name"
-                 end
-               }
+             validation_message={
+               fn field_state ->
+                 if !field_state.valid?, do: "Please enter your first name"
+               end
              }
            />
            """)
            |> format_html() ==
              """
-             <div class="form-group errored">
-             <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body"><textarea aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" name="user[first_name]"></textarea>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
-             <path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path>
-             </svg><span>Please enter your first name</span></div>
-             </div>
+             <textarea aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]"></textarea>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+             <span>Please enter your first name</span>
              </div>
              """
              |> format_html()

@@ -1778,7 +1778,7 @@ defmodule PrimerLive.Component do
   @doc section: :forms
 
   @doc ~S"""
-  Generates a form group: a wrapper around one or more inputs, with a heading and validation.
+  Generates a form group: a wrapper around one or more inputs. Automatically adds a label based on supplied form and field, with the option to set a custom label.
 
   ```
   <.form_group field="first_name">
@@ -1817,55 +1817,6 @@ defmodule PrimerLive.Component do
   <.form_group form={f} field={:first_name} is_hide_label>
   ...
   </.form_group>
-  ```
-
-  With checkboxes:
-
-  ```
-  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.form_group form={f} field={:role}>
-      <.checkbox form={f} field={:role} checked_value="admin" />
-      <.checkbox form={f} field={:role} checked_value="editor" />
-    </.form_group>
-  </.form>
-  ```
-
-  With radio buttons:
-
-  ```
-  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.form_group form={f} field={:role}>
-      <.radio_button form={f} field={:work_experience} value="writing" />
-      <.radio_button form={f} field={:work_experience} value="managing" />
-    </.form_group>
-  </.form>
-  ```
-
-  Custom validation error message:
-
-  ```
-  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.form_group form={f} field={:first_name} validation_message={
-      fn field_state ->
-        if !field_state.valid?, do: "Please enter your first name"
-      end
-    }>
-      ...
-    </.form_group>
-  </.form>
-  ```
-  Custom validation success message:
-
-  ```
-  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.form_group form={f} field={:first_name} validation_message={
-      fn field_state ->
-        if field_state.valid?, do: "Available!"
-      end
-    }>
-      ...
-    </.form_group>
-  </.form>
   ```
 
   [INSERT LVATTRDOCS]
@@ -1921,40 +1872,7 @@ defmodule PrimerLive.Component do
       header: "",             # Header element containing the group label
       body: "",               # Input wrapper
       label: "",              # Form group label
-      validation_message: "", # Validation message
     }
-    ```
-    """
-  )
-
-  attr(:validation_message, :any,
-    doc: """
-    Function to write a custom validation message (in case of error or success).
-
-    The function receives a `PrimerLive.FieldState` struct and returns a validation message.
-
-    A validation message is shown:
-    - If form is a `Phoenix.HTML.Form`, containing a `changeset`
-    - And either:
-      - `changeset.action` is `:validate`
-      - `validation_message` returns a string
-
-    Function signature: `fun field_state -> string | nil`.
-
-    Example error message:
-
-    ```
-    fn field_state ->
-      if !field_state.valid?, do: "Please enter your first name"
-    end
-    ```
-
-    Example success message, only shown when `changeset.action` is `:validate`:
-
-    ```
-    fn field_state ->
-      if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
-    end
     ```
     """
   )
@@ -1986,30 +1904,13 @@ defmodule PrimerLive.Component do
     %{
       rest: rest,
       form: form,
-      field: field,
-      input_id: input_id
+      field: field
     } = AttributeHelpers.common_input_attrs(assigns, nil)
-
-    validation_message = assigns[:validation_message]
-    field_state = FormHelpers.field_state(form, field, input_id, validation_message)
-
-    %{
-      message_id: message_id,
-      message: message,
-      valid?: valid?
-    } = field_state
 
     classes = %{
       group:
         AttributeHelpers.classnames([
           "form-group",
-          if !is_nil(message) do
-            if valid? do
-              "successed"
-            else
-              "errored"
-            end
-          end,
           assigns[:class],
           assigns.classes[:group]
         ]),
@@ -2030,8 +1931,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "form-group-body",
           assigns.classes[:body]
-        ]),
-      validation_message: assigns.classes[:validation_message]
+        ])
     }
 
     # If label is supplied, wrap it inside a label element
@@ -2077,10 +1977,6 @@ defmodule PrimerLive.Component do
       |> assign(:group_attributes, group_attributes)
       |> assign(:has_header_label, has_header_label)
       |> assign(:header_label, header_label)
-      |> assign(:message, message)
-      |> assign(:message_id, message_id)
-      |> assign(:valid?, valid?)
-      |> assign(:validation_message_class, classes.validation_message)
 
     ~H"""
     <div {@group_attributes}>
@@ -2091,12 +1987,6 @@ defmodule PrimerLive.Component do
       <% end %>
       <div class={@classes.body}>
         <%= render_slot(@inner_block) %>
-        <.input_validation_message
-          valid?={@valid?}
-          message={@message}
-          message_id={@message_id}
-          class={@validation_message_class}
-        />
       </div>
     </div>
     """
@@ -2105,7 +1995,8 @@ defmodule PrimerLive.Component do
   # ------------------------------------------------------------------------------------
   # input_validation_message
   #
-  # Private comppnent
+  # Private component
+  # Only shows when `message` exists.
   # ------------------------------------------------------------------------------------
 
   attr(:message, :string, default: nil, doc: "Validation message.")
@@ -2168,7 +2059,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a text input field.
 
-  Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group" to add a field label and validation.
+  Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group" to add a field label.
 
   ```
   <.text_input field="first_name" />
@@ -2245,6 +2136,38 @@ defmodule PrimerLive.Component do
   </.form>
   ```
 
+  A validation error message is automatically added when using a changeset with an error state. The message text is taken from the changeset errors.
+  To show a custom validation error message, supply function `validation_message`:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.text_input
+      form={f}
+      field={:first_name}
+      validation_message={
+        fn field_state ->
+          if !field_state.valid?, do: "Please enter your first name"
+        end
+      }
+  />
+  </.form>
+  ```
+
+  To show a custom validation success message:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.text_input
+      form={f}
+      field={:first_name}
+      validation_message={
+        fn field_state ->
+          if field_state.valid?, do: "Available!"
+        end
+      }
+    />
+  </.form>
+  ```
 
   [INSERT LVATTRDOCS]
 
@@ -2270,7 +2193,8 @@ defmodule PrimerLive.Component do
     default: %{
       input: nil,
       input_group: nil,
-      input_group_button: nil
+      input_group_button: nil,
+      validation_message: nil
     },
     doc: """
     Additional classnames for input elements.
@@ -2283,6 +2207,7 @@ defmodule PrimerLive.Component do
       input: "",              # Input element
       input_group: "",        # Wrapper around the grouped input and group button
       input_group_button: "", # Wrapper around slot group_button
+      validation_message: "", # Validation message
     }
     ```
     """
@@ -2325,6 +2250,38 @@ defmodule PrimerLive.Component do
   attr(:form_group, :any,
     doc: """
     Form group attributes. Inserts the input inside a `form_group/1` with given attributes, alongside `form` and `field` to generate a group label.
+    """
+  )
+
+  attr(:validation_message, :any,
+    doc: """
+    Function to write a custom validation message (in case of error or success).
+
+    The function receives a `PrimerLive.FieldState` struct and returns a validation message.
+
+    A validation message is shown:
+    - If form is a `Phoenix.HTML.Form`, containing a `changeset`
+    - And either:
+      - `changeset.action` is `:validate`
+      - `validation_message` returns a string
+
+    Function signature: `fun field_state -> string | nil`.
+
+    Example error message:
+
+    ```
+    fn field_state ->
+      if !field_state.valid?, do: "Please enter your first name"
+    end
+    ```
+
+    Example success message, only shown when `changeset.action` is `:validate`:
+
+    ```
+    fn field_state ->
+      if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
+    end
+    ```
     """
   )
 
@@ -2373,10 +2330,12 @@ defmodule PrimerLive.Component do
       field: field,
       input_id: input_id,
       has_form_group: has_form_group,
-      form_group_attrs: form_group_attrs
+      form_group_attrs: form_group_attrs,
+      has_error: has_error,
+      validation_message_id: validation_message_id,
+      message: message,
+      valid?: valid?
     } = AttributeHelpers.common_input_attrs(assigns, nil)
-
-    has_group_button = assigns[:group_button] !== []
 
     classes = %{
       input:
@@ -2401,40 +2360,44 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "input-group-button",
           assigns.classes[:input_group_button]
-        ])
+        ]),
+      validation_message: assigns.classes[:validation_message]
     }
 
-    %{
-      message_id: message_id
-    } = FormHelpers.field_state(form, field, input_id, nil)
-
-    input_attributes =
-      AttributeHelpers.append_attributes(
-        assigns_to_attributes(rest, [
-          :id
-        ]),
-        [
-          [class: classes.input],
-          # If aria_label is not set, use the value of placeholder (if any):
-          is_nil(rest[:aria_label]) and [aria_label: rest[:placeholder]],
-          not is_nil(message_id) and [aria_describedby: message_id],
-          [id: input_id]
-        ]
-      )
-
     render = fn ->
+      has_group_button = assigns[:group_button] !== []
+
+      input_attributes =
+        AttributeHelpers.append_attributes(
+          assigns_to_attributes(rest, [
+            :id
+          ]),
+          [
+            [class: classes.input],
+            # If aria_label is not set, use the value of placeholder (if any):
+            is_nil(rest[:aria_label]) and [aria_label: rest[:placeholder]],
+            not is_nil(validation_message_id) and [aria_describedby: validation_message_id],
+            [id: input_id],
+            has_error && [invalid: ""]
+          ]
+        )
+
+      input =
+        apply(Phoenix.HTML.Form, FormHelpers.text_input_type_as_atom(assigns.type), [
+          form,
+          field,
+          input_attributes
+        ])
+
       assigns =
         assigns
-        |> assign(
-          :input,
-          apply(Phoenix.HTML.Form, FormHelpers.text_input_type_as_atom(assigns.type), [
-            form,
-            field,
-            input_attributes
-          ])
-        )
+        |> assign(:input, input)
         |> assign(:classes, classes)
         |> assign(:has_group_button, has_group_button)
+        |> assign(:validation_message_id, validation_message_id)
+        |> assign(:message, message)
+        |> assign(:valid?, valid?)
+        |> assign(:validation_message_class, classes.validation_message)
 
       ~H"""
       <%= if @has_group_button do %>
@@ -2447,6 +2410,12 @@ defmodule PrimerLive.Component do
       <% else %>
         <%= @input %>
       <% end %>
+      <.input_validation_message
+        valid?={@valid?}
+        message={@message}
+        message_id={@validation_message_id}
+        class={@validation_message_class}
+      />
       """
     end
 
@@ -2567,6 +2536,9 @@ defmodule PrimerLive.Component do
   </.form>
   ```
 
+  Place the select inside a `form_group/1` with `is_form_group`. See `text_input/1` for examples.
+
+  A validation error message is automatically added when using a changeset with an error state. See `text_input/1` how to customise the validation messages.
 
   [INSERT LVATTRDOCS]
 
@@ -2590,6 +2562,26 @@ defmodule PrimerLive.Component do
 
   attr :class, :string, doc: "Additional classname."
 
+  attr(:classes, :map,
+    default: %{
+      select: nil,
+      validation_message: nil
+    },
+    doc: """
+    Additional classnames for select elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      select: "",             # Select element
+      validation_message: "", # Validation message
+    }
+    ```
+    """
+  )
+
   attr(:is_multiple, :boolean,
     default: false,
     doc: """
@@ -2606,6 +2598,27 @@ defmodule PrimerLive.Component do
   attr :is_auto_height, :boolean,
     default: false,
     doc: "When using `is_multiple`: sets the size to the number of options."
+
+  attr(:is_form_group, :boolean,
+    default: false,
+    doc: """
+    Inserts the select inside a `form_group/1`. Attributes `form` and `field` are passed to the form group to generate a group label.
+
+    To configure the form group and label, use attr `form_group`.
+    """
+  )
+
+  attr(:form_group, :any,
+    doc: """
+    Form group attributes. Inserts the select inside a `form_group/1` with given attributes, alongside `form` and `field` to generate a group label.
+    """
+  )
+
+  attr(:validation_message, :any,
+    doc: """
+    Function to write a custom validation message (in case of error or success). See `text_input/1`.
+    """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -2629,37 +2642,90 @@ defmodule PrimerLive.Component do
   end
 
   defp render_select(assigns) do
-    form = assigns[:form]
-    field = assigns[:field]
+    %{
+      rest: rest,
+      form: form,
+      field: field,
+      input_id: input_id,
+      has_form_group: has_form_group,
+      form_group_attrs: form_group_attrs,
+      has_error: has_error,
+      validation_message_id: validation_message_id,
+      message: message,
+      valid?: valid?
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
 
-    class =
-      AttributeHelpers.classnames([
-        "form-select",
-        assigns.is_small and "select-sm",
-        assigns[:class]
-      ])
+    classes = %{
+      select:
+        AttributeHelpers.classnames([
+          "form-select",
+          assigns.is_small and "select-sm",
+          assigns[:class]
+        ]),
+      validation_message: assigns.classes[:validation_message]
+    }
 
-    input_opts =
-      AttributeHelpers.append_attributes(assigns.rest, [
-        [class: class],
-        assigns.is_auto_height && [size: Enum.count(assigns.options)]
-      ])
+    render = fn ->
+      options = assigns.options
+      is_auto_height = assigns.is_auto_height
+      is_multiple = assigns.is_multiple
 
-    input_fn =
-      cond do
-        assigns.is_multiple -> :multiple_select
-        true -> :select
-      end
+      input_attributes =
+        AttributeHelpers.append_attributes(
+          assigns_to_attributes(rest, [
+            :id
+          ]),
+          [
+            [class: classes.select],
+            is_auto_height && [size: Enum.count(options)],
+            not is_nil(validation_message_id) and [aria_describedby: validation_message_id],
+            [id: input_id],
+            has_error && [invalid: ""]
+          ]
+        )
+
+      input_fn =
+        cond do
+          is_multiple -> :multiple_select
+          true -> :select
+        end
+
+      input = apply(Phoenix.HTML.Form, input_fn, [form, field, options, input_attributes])
+
+      assigns =
+        assigns
+        |> assign(:input, input)
+        |> assign(:classes, classes)
+        |> assign(:validation_message_id, validation_message_id)
+        |> assign(:message, message)
+        |> assign(:valid?, valid?)
+        |> assign(:validation_message_class, classes.validation_message)
+
+      ~H"""
+      <%= @input %>
+      <.input_validation_message
+        valid?={@valid?}
+        message={@message}
+        message_id={@validation_message_id}
+        class={@validation_message_class}
+      />
+      """
+    end
 
     assigns =
       assigns
-      |> assign(:form, form)
-      |> assign(:field, field)
-      |> assign(:input_fn, input_fn)
-      |> assign(:input_opts, input_opts)
+      |> assign(:has_form_group, has_form_group)
+      |> assign(:form_group_attrs, form_group_attrs)
+      |> assign(:render, render)
 
     ~H"""
-    <%= apply(Phoenix.HTML.Form, @input_fn, [@form, @field, @options, @input_opts]) %>
+    <%= if @has_form_group do %>
+      <.form_group {@form_group_attrs}>
+        <%= @render.() %>
+      </.form_group>
+    <% else %>
+      <%= @render.() %>
+    <% end %>
     """
   end
 

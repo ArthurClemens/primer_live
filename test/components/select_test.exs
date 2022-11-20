@@ -13,12 +13,20 @@ defmodule PrimerLive.TestComponents.SelectTest do
     source: %Ecto.Changeset{
       action: :validate,
       changes: %{},
-      errors: [
-        role: {"can't be blank", [validation: :required]}
-      ],
+      errors: [],
       data: nil,
-      valid?: false
+      valid?: true
     }
+  }
+
+  @error_changeset %Ecto.Changeset{
+    action: :validate,
+    changes: %{},
+    errors: [
+      role: {"can't be blank", [validation: :required]}
+    ],
+    data: nil,
+    valid?: false
   }
 
   test "Simple select" do
@@ -29,7 +37,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select class="form-select" id="_" name="age">
+             <select class="form-select" id="_age" name="age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>
@@ -49,7 +57,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select class="form-select select-sm" id="_" name="age">
+             <select class="form-select select-sm" id="_age" name="age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>
@@ -69,7 +77,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select class="form-select" id="_" name="age">
+             <select class="form-select" id="_age" name="age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option selected value="27">27</option>
@@ -187,6 +195,34 @@ defmodule PrimerLive.TestComponents.SelectTest do
              |> format_html()
   end
 
+  test "Default validation" do
+    assigns = %{
+      form: %{@default_form | source: @error_changeset}
+    }
+
+    assert rendered_to_string(~H"""
+           <.select
+             form={@form}
+             field={:role}
+             options={[Admin: "admin", User: "user"]}
+             prompt={[key: "Choose your role", disabled: true]}
+           />
+           """)
+           |> format_html() ==
+             """
+             <select aria-describedby="user_role-validation" class="form-select" id="user_role" invalid="" name="user[role]">
+             <option disabled value="">Choose your role</option>
+             <option value="admin">Admin</option>
+             <option value="user">User</option>
+             </select>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_role-validation">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+             <span>can&#39;t be blank</span>
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Attribute: is_multiple" do
     assigns = %{
       form: @default_form
@@ -233,7 +269,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select aria-label="Age" class="form-select" dir="rtl" id="_" name="age">
+             <select aria-label="Age" class="form-select" dir="rtl" id="_age" name="age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>

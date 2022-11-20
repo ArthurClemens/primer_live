@@ -13,14 +13,11 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
     source: %Ecto.Changeset{
       action: :validate,
       changes: %{},
-      errors: [
-        role: {"can't be blank", [validation: :required]}
-      ],
+      errors: [],
       data: nil,
-      valid?: false
+      valid?: true
     }
   }
-
   test "Called without options or inner_block: should render the component" do
     assigns = %{}
 
