@@ -136,6 +136,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
   ## Examples
 
+      iex> PrimerLive.Helpers.AttributeHelpers.as_integer(nil)
+      nil
+
       iex> PrimerLive.Helpers.AttributeHelpers.as_integer("1")
       1
 
@@ -364,8 +367,35 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       iex> PrimerLive.Helpers.AttributeHelpers.is_link?(%{url: "#url"})
       false
   """
-  def is_link?(item_slot) do
-    !!item_slot[:href] || !!item_slot[:navigate] || !!item_slot[:patch]
+  def is_link?(assigns), do: !!link_url(assigns)
+
+  defp link_url(assigns), do: assigns[:href] || assigns[:navigate] || assigns[:patch]
+
+  @doc """
+  Verifies if a slot should be handled as a link.
+
+  ## Examples
+
+      iex> PrimerLive.Helpers.AttributeHelpers.is_anchor_link?(%{})
+      false
+
+      iex> PrimerLive.Helpers.AttributeHelpers.is_anchor_link?(%{href: "/url"})
+      false
+
+      iex> PrimerLive.Helpers.AttributeHelpers.is_anchor_link?(%{href: "url"})
+      false
+
+      iex> PrimerLive.Helpers.AttributeHelpers.is_anchor_link?(%{href: "#url"})
+      true
+  """
+  def is_anchor_link?(assigns) do
+    link_url(assigns) |> is_anchor_link_url?()
+  end
+
+  defp is_anchor_link_url?(url) when is_nil(url), do: false
+
+  defp is_anchor_link_url?(url) do
+    String.match?(url, ~r/^#/)
   end
 
   @doc ~S"""

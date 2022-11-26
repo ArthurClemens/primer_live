@@ -5,6 +5,953 @@ defmodule PrimerLive.Component do
   alias PrimerLive.Helpers.{AttributeHelpers, FormHelpers, SchemaHelpers, ComponentHelpers}
 
   # ------------------------------------------------------------------------------------
+  # action_list
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :navigation
+
+  @doc ~S"""
+  Generates a vertical list of interactive actions or options. It’s composed of items presented in a consistent single-column format, with room for icons, descriptions, side information, and other rich visuals.
+
+  Action list is composed of one or more child components:
+  - `action_list_section_divider/1` - a divider with optional title
+  - `action_list_item/1` - versatile list item
+
+  See the [Primer Action List interface guidelines](https://primer.style/design/components/action-list) for more examples.
+
+  ## Examples
+
+  ### action_list
+
+  ```
+  <.action_list>
+    <.action_list_item>Item</.action_list_item>
+    <.action_list_item>Item</.action_list_item>
+  </.action_list>
+  ```
+
+  Create separator lines between the items:
+
+  ```
+  <.action_list is_divided>
+    ...
+  </.action_list>
+  ```
+
+  Remove default padding:
+
+  ```
+  <.action_list is_full_bleed>
+    ...
+  </.action_list>
+  ```
+
+  ### action_list_section_divider
+
+  Add a divider to separate a group of content:
+
+  ```
+  <.action_list>
+    <.action_list_section_divider />
+    ...
+  </.action_list>
+  ```
+
+  Add a title to the divider, and optionally a description:
+
+  ```
+  <.action_list>
+    <.action_list_section_divider>
+      <:title>Section title</:title>
+      <:description>A descriptive text</:description>
+    </.action_list_section_divider>
+    ...
+  </.action_list>
+  ```
+
+  Use the title slot to set the id for `aria-labelledby`:
+
+  ```
+  <.action_list aria-labelledby="title-01">
+    <.action_list_section_divider>
+      <:title id="title-01">Section title</:title>
+    </.action_list_section_divider>
+    ...
+  </.action_list>
+  ```
+
+  ### action_list_item
+
+  Items are by default rendered as span elements. To create link elements, pass attribute `href`, `navigate` or `patch`.
+  When a link attribute is supplied to the item, links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
+
+  ```
+  <:action_list_item href="#url">href link</:action_list_item>
+  <:action_list_item navigate={Routes.page_path(@socket, :index)}>navigate link</:action_list_item>
+  <:action_list_item patch={Routes.page_path(@socket, :index)}>patch link</:action_list_item>
+  ```
+
+  Common list item attributes:
+
+  ```
+  <:action_list_item is_selected>
+    This is the selected item
+  </:action_list_item>
+
+  <:action_list_item is_danger>
+    Descructive item
+  </:action_list_item>
+
+  <:action_list_item is_disabled>
+    Disabled item
+  </:action_list_item>
+
+  <:action_list_item is_height_medium>
+    A higher item
+  </:action_list_item>
+
+  <:action_list_item is_height_large>
+    An even higher item
+  </:action_list_item>
+
+  <:action_list_item is_truncated>
+    A very long text that should stay on one line, abbreviated by ellipsis
+  </:action_list_item>
+  ```
+
+  Use slot `description` to add a descriptive text. The description is displayed on a new line by default.
+
+  ```
+  <:action_list_item>
+    Short label
+    <:description>
+      A more descriptive text
+    </:description>
+  </:action_list_item>
+  ```
+
+  Place the description on the same line:
+
+  ```
+  <:action_list_item is_inline_description>
+    Short label
+    <:description>
+      A more descriptive text after the title
+    </:description>
+  </:action_list_item>
+  ```
+
+  Add a leading visual. This is usually an `octicon/1`, but can be any small image:
+
+  ```
+  <:action_list_item>
+    Item
+    <:leading_visual>
+      <.octicon name="bell-16" />
+    </:leading_visual>
+  </:action_list_item>
+  ```
+
+  Likewise, add a trailing visual:
+
+  ```
+  <:action_list_item>
+    Item
+    <:leading_visual>
+      <.counter>12</.counter>
+    </:leading_visual>
+  </:action_list_item>
+  ```
+
+  Action list items can be selected. Single selections are represented with a check `ui_icon/1`, while multiple selections are represented with a checkbox `ui_icon/1`.
+
+  Create a single select list:
+
+  ```
+  <.action_list>
+    <.action_list_item is_single_select is_selected>
+      Option
+    </.action_list_item>
+    <.action_list_item is_single_select>
+      Option
+    </.action_list_item>
+    <.action_list_item is_single_select>
+      Option
+    </.action_list_item>
+  </.action_list>
+  ```
+
+  Create a multiple select list:
+
+  ```
+  <.action_list>
+    <.action_list_item is_multiple_select is_selected>
+      Option
+    </.action_list_item>
+    <.action_list_item is_multiple_select is_selected>
+      Option
+    </.action_list_item>
+    <.action_list_item is_multiple_select>
+      Option
+    </.action_list_item>
+  </.action_list>
+  ```
+
+  Deviating from the Primer implementation, selected items don't show a highlight border at the left. To give these items a navigation like appearance, use `is_selected_link_marker`:
+
+  ```
+  <.action_list>
+    <.action_list_item is_single_select is_selected_link_marker is_selected>
+      Option
+    </.action_list_item>
+    <.action_list_item is_single_select is_selected_link_marker>
+      Option
+    </.action_list_item>
+    <.action_list_item is_single_select is_selected_link_marker>
+      Option
+    </.action_list_item>
+  </.action_list>
+  ```
+
+  Nested sub lists ("sub groups") can be used to initially hide additional options. A sub group is an action list placed inside a list item, which is automatically created by slot `sub_group`.
+
+  ```
+  <.action_list>
+    <.action_list_section_divider>
+      <:title>Section title</:title>
+    </.action_list_section_divider>
+    <.action_list_item leading_visual_width="16" is_collapsible is_expanded>
+      Collapsible and expanded item
+      <:leading_visual>
+        <.octicon name="comment-discussion-16" />
+      </:leading_visual>
+      <:sub_group>
+        <.action_list_item is_sub_item>
+          Sub item
+        </.action_list_item>
+        <.action_list_item is_sub_item>
+          Sub item
+        </.action_list_item>
+      </:sub_group>
+    </.action_list_item>
+  </.action_list>
+  ```
+
+  - slot `sub_group` accepts `action_list/1` attributes
+  - `is_collapsible` indicates that the sub group is conditionally hidden. The item is rendered as button.
+  - `is_expanded` reveals hidden items.
+  - `leading_visual_width` can be used to align the content with the visual.
+  - action list attribute `is_sub_item` renders the item smaller.
+
+  When using a sub group, use the divider's title slot to set the id for `aria-labelledby` on the sub group:
+
+  ```
+  <.action_list_section_divider>
+    <:title id="title-01">Section title</:title>
+  </.action_list_section_divider>
+  <.action_list_item>
+    Item
+    <:sub_group aria-labelledby="title-01">
+      ...
+    </:sub_group>
+  </.action_list_item>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Action List](https://primer.style/css/components/action-list)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:aria_label, :string,
+    default: nil,
+    doc: "Adds attribute `aria-label` to the outer element."
+  )
+
+  attr(:role, :string,
+    default: "listbox",
+    doc: "Adds attribute `role` to the outer element."
+  )
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr :is_divided, :boolean,
+    default: false,
+    doc: """
+    Show dividers between items.
+    """
+
+  attr :is_full_bleed, :boolean,
+    default: false,
+    doc: """
+    Removes the default padding.
+    """
+
+  attr :is_multiple_select, :boolean,
+    default: false,
+    doc: """
+    Sets ARIA attribute and classes for multi select checkmarks.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the action list element.
+    """
+  )
+
+  slot(:inner_block, required: true, doc: "Action list components.")
+
+  def action_list(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "ActionList",
+        assigns.is_divided and "ActionList--divided",
+        assigns.is_full_bleed and "ActionList--full",
+        assigns[:class]
+      ])
+
+    attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class],
+        [role: assigns.role],
+        assigns.aria_label && [aria_label: assigns.aria_label],
+        assigns.is_multiple_select and [aria_multiselectable: "true"]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:attributes, attributes)
+
+    ~H"""
+    <ul {@attributes}>
+      <%= render_slot(@inner_block) %>
+    </ul>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # action_list_section_divider
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :navigation
+
+  @doc ~S"""
+  Action list section divider for separating groups of content. See `action_list/1`.
+
+  [INSERT LVATTRDOCS]
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      section_divider: nil,
+      title: nil,
+      description: nil
+    },
+    doc: """
+    Additional classnames for section divider elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      section_divider: "", # Section divider element (li)
+      title: "",           # Title container (h3)
+      description: "",     # Description container (span)
+    }
+    ```
+    """
+  )
+
+  attr :is_filled, :boolean,
+    default: false,
+    doc: """
+    Creates a higher horizontal line. When used with the `title` slot, the title is placed inside the line.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the section divider element.
+    """
+  )
+
+  slot(:title,
+    required: false,
+    doc:
+      "Title separator. The input text is wrapped in a `<h3>` element. Omit to create a horizontal line only."
+  )
+
+  slot(:description,
+    required: false,
+    doc: "Optional extra text. Requires `title` slot."
+  )
+
+  def action_list_section_divider(assigns) do
+    has_title = assigns.title !== []
+
+    classes = %{
+      section_divider:
+        AttributeHelpers.classnames([
+          "ActionList-sectionDivider",
+          assigns.is_filled and "ActionList-sectionDivider--filled",
+          assigns[:classes][:section_divider],
+          assigns[:class]
+        ]),
+      title: fn slot ->
+        AttributeHelpers.classnames([
+          "ActionList-sectionDivider-title",
+          assigns[:classes][:title],
+          slot[:class]
+        ])
+      end,
+      description: fn slot ->
+        AttributeHelpers.classnames([
+          "ActionList-item-description",
+          assigns[:classes][:description],
+          slot[:class]
+        ])
+      end
+    }
+
+    render_title = fn slot ->
+      rest =
+        assigns_to_attributes(slot, [
+          :class
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: classes.title.(slot)]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <h3 {@attributes}>
+        <%= render_slot(@slot) %>
+      </h3>
+      """
+    end
+
+    render_description = fn slot ->
+      rest =
+        assigns_to_attributes(slot, [
+          :class
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: classes.description.(slot)]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <span {@attributes}><%= render_slot(@slot) %></span>
+      """
+    end
+
+    attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.section_divider],
+        !has_title && [role: "separator", aria_hidden: "true"]
+      ])
+
+    has_title = assigns.title && assigns.title !== []
+    has_description = has_title && assigns.description && assigns.description !== []
+
+    assigns =
+      assigns
+      |> assign(:attributes, attributes)
+      |> assign(:has_title, has_title)
+      |> assign(:has_description, has_description)
+      |> assign(:render_title, render_title)
+      |> assign(:render_description, render_description)
+
+    ~H"""
+    <%= if !@has_title do %>
+      <li {@attributes}></li>
+    <% else %>
+      <li {@attributes}>
+        <%= if @has_title do %>
+          <%= for slot <- @title do %>
+            <%= @render_title.(slot) %>
+          <% end %>
+        <% end %>
+        <%= if @has_description do %>
+          <%= for slot <- @description do %>
+            <%= @render_description.(slot) %>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # action_list_item
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :navigation
+
+  @doc ~S"""
+  Action list item. See `action_list/1`.
+
+  [INSERT LVATTRDOCS]
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr(:classes, :map,
+    default: %{
+      section_divider: nil,
+      content: nil,
+      label: nil,
+      description: nil,
+      description_container: nil,
+      leading_visual: nil,
+      trailing_visual: nil,
+      sub_group: nil
+    },
+    doc: """
+    Additional classnames for section item elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      action_list_item: "",          # Action list item element (li)
+      content: "",                   # Content wrapper (span, a or button)
+      label: "",                     # Label container (span)
+      description: "",               # Description container (span)
+      description_container: "",     # Container around label and description (span)
+      leading_visual: "",            # Leading visual container (span)
+      trailing_visual: "",           # Trailing visual container (span)
+      sub_group: "",                 # Nested action_list
+    }
+    ```
+    """
+  )
+
+  attr(:href, :any,
+    doc: """
+    Link attribute. The link is created with `Phoenix.Component.link/1`.
+    """
+  )
+
+  attr(:patch, :string,
+    doc: """
+    Link attribute - see `href`.
+    """
+  )
+
+  attr(:navigate, :string,
+    doc: """
+    Link attribute - see `href`.
+    """
+  )
+
+  attr(:is_selected, :boolean,
+    default: false,
+    doc: """
+    Shows the selected state.
+    - Link items show an active border at the left and a gray highlighted background
+    - Single select items show a check icon
+    - Multiple select items show a selected checkbox icon
+    """
+  )
+
+  attr(:is_selected_link_marker, :boolean,
+    default: false,
+    doc: """
+    When using `is_single_select` or `is_multiple_select`: creates a selected state similar for selected link items (border and background).
+    """
+  )
+
+  attr(:is_inline_description, :boolean,
+    default: false,
+    doc: """
+    Renders the description inline, on the same line as the label.
+    """
+  )
+
+  attr :is_height_medium, :boolean,
+    default: false,
+    doc: """
+    Sets the row height to at least 40px. The default row height is 32px (on touch devices this is 48px).
+    """
+
+  attr :is_height_large, :boolean,
+    default: false,
+    doc: """
+    Sets the row height to at least 48px. The default row height is 32px (on touch devices this is 48px as well).
+    """
+
+  attr :is_single_select, :boolean,
+    default: false,
+    doc: """
+    Inserts checkmark icons (override the visual by using `leading_visual` slot) and sets ARIA attributes.
+    """
+
+  attr :is_multiple_select, :boolean,
+    default: false,
+    doc: """
+    Inserts multi select checkmark icons (override the visual by using `leading_visual` slot) and sets ARIA attributes.
+    """
+
+  attr :is_collapsible, :boolean,
+    default: false,
+    doc: """
+    Inserts a collapse icon as trailing visual (override the visual by using `trailing_visual` slot). Use with `is_expanded` and sets ARIA attributes. Uses a `button` element instead of `span`.
+
+    When using slot `sub_group`, a false value of `is_expanded` will hide the sub group items.
+    """
+
+  attr :is_expanded, :boolean,
+    default: false,
+    doc: """
+    Use with `is_collapsible`. Sets the state of the collapsible by setting ARIA attributes.
+
+    When using slot `sub_group`, a false value of `is_expanded` will hide the sub group items; a true value will show the items and make the current item bold.
+    """
+
+  attr :is_danger, :boolean,
+    default: false,
+    doc: """
+    Adds a "danger" style to show that the item is descrucive.
+    """
+
+  attr :is_disabled, :boolean,
+    default: false,
+    doc: """
+    Shows the item is disabled.
+    """
+
+  attr :is_truncated, :boolean,
+    default: false,
+    doc: """
+    Shortens the item label with ellipsis.
+    """
+
+  attr :is_sub_item, :boolean,
+    default: false,
+    doc: """
+    For items within a `sub_group`. Renders the item smaller.
+    """
+
+  attr :leading_visual_width, :any,
+    doc: """
+    Use with the item that contains slots `sub_group` and `leading_visual`. Indents the items within the sub group to match the leading visual.
+
+    Supported sizes: 16, 20, 24.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the action list element.
+    """
+  )
+
+  slot(:inner_block, required: true, doc: "Label.")
+
+  slot(:description, required: false, doc: "Description.")
+
+  slot(:leading_visual,
+    required: false,
+    doc: """
+    Container for a leading visual. Commonly a `octicon/1` component is used.
+
+    The container's width is determined by the content. Use the same size icons and graphics for consistency. A common icon size is 16px.
+    """
+  )
+
+  slot(:trailing_visual,
+    required: false,
+    doc:
+      "Container for a trailing visual. Commonly a `octicon/1` component is used, but a textual \"visual\" is also possible."
+  )
+
+  slot :sub_group,
+    required: false,
+    doc: """
+    Creates a nested `action_list/1`. Pass `action_list_items` as children.
+
+    Use `is_sub_item` for child items to render them smaller.
+    """ do
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the action list element.
+      """
+    )
+  end
+
+  def action_list_item(assigns) do
+    is_selected = assigns.is_selected
+    is_link = AttributeHelpers.is_link?(assigns)
+    is_anchor_link = AttributeHelpers.is_anchor_link?(assigns)
+    is_selected_link_marker = assigns.is_selected_link_marker
+    is_single_select = assigns.is_single_select
+    is_multiple_select = assigns.is_multiple_select && !is_single_select
+    is_select = is_single_select || is_multiple_select
+    has_sub_group = assigns[:sub_group] && assigns[:sub_group] !== []
+    leading_visual_width = AttributeHelpers.as_integer(assigns[:leading_visual_width])
+
+    classes = %{
+      action_list_item:
+        AttributeHelpers.classnames([
+          "ActionList-item",
+          is_selected && (!is_select || is_selected_link_marker) && "ActionList-item--navActive",
+          assigns.is_danger && "ActionList-item--danger",
+          has_sub_group && "ActionList-item--hasSubItem",
+          assigns.is_sub_item && "ActionList-item--subItem",
+          assigns[:classes][:action_list_item],
+          assigns[:class]
+        ]),
+      content:
+        AttributeHelpers.classnames([
+          "ActionList-content",
+          assigns.is_height_medium && "ActionList-content--sizeMedium",
+          assigns.is_height_large && "ActionList-content--sizeLarge",
+          has_sub_group && assigns.is_expanded && assigns.is_expanded &&
+            "ActionList-content--hasActiveSubItem",
+          leading_visual_width === 16 && "ActionList-content--visual16",
+          leading_visual_width === 20 && "ActionList-content--visual20",
+          leading_visual_width === 24 && "ActionList-content--visual24",
+          assigns[:classes][:content]
+        ]),
+      label:
+        AttributeHelpers.classnames([
+          "ActionList-item-label",
+          assigns.is_truncated && "ActionList-item-label--truncate",
+          assigns[:classes][:label]
+        ]),
+      description:
+        AttributeHelpers.classnames([
+          "ActionList-item-description",
+          assigns[:classes][:description]
+        ]),
+      description_container:
+        AttributeHelpers.classnames([
+          "ActionList-item-descriptionWrap",
+          if assigns.is_inline_description do
+            "ActionList-item-descriptionWrap--inline"
+          else
+            "ActionList-item-blockDescription"
+          end,
+          assigns[:classes][:description_container]
+        ]),
+      leading_visual:
+        AttributeHelpers.classnames([
+          "ActionList-item-visual",
+          "ActionList-item-visual--leading",
+          # Note that classes for action are identical ("ActionList-item-action ActionList-item-action--leading") and therefore not implemented
+          assigns[:classes][:leading_visual]
+        ]),
+      trailing_visual:
+        AttributeHelpers.classnames([
+          "ActionList-item-visual",
+          "ActionList-item-visual--trailing",
+          # Note that classes for action are identical ("ActionList-item-action ActionList-item-action--trailing") and therefore not implemented
+          assigns[:classes][:trailing_visual]
+        ]),
+      sub_group: fn slot ->
+        AttributeHelpers.classnames([
+          "ActionList--subGroup",
+          assigns[:classes][:sub_group],
+          slot[:class]
+        ])
+      end
+    }
+
+    render_content_elements = fn ->
+      assigns =
+        assigns
+        |> assign(:classes, classes)
+
+      ~H"""
+      <span class={@classes.label}><%= render_slot(@inner_block) %></span>
+      <%= if @description && @description !== [] do %>
+        <span class={@classes.description}><%= render_slot(@description) %></span>
+      <% end %>
+      """
+    end
+
+    render_maybe_wrap_content_elements = fn ->
+      has_description = assigns.description && assigns.description !== []
+      has_leading_visual = assigns.leading_visual && assigns.leading_visual !== []
+      has_trailing_visual = assigns.trailing_visual && assigns.trailing_visual !== []
+
+      assigns =
+        assigns
+        |> assign(:has_description, has_description)
+        |> assign(:classes, classes)
+        |> assign(:render_content_elements, render_content_elements)
+        |> assign(:has_leading_visual, has_leading_visual)
+        |> assign(:has_trailing_visual, has_trailing_visual)
+        |> assign(:is_select, is_select)
+
+      ~H"""
+      <%= if @has_leading_visual do %>
+        <span class={@classes.leading_visual}>
+          <%= render_slot(@leading_visual) %>
+        </span>
+      <% else %>
+        <%= if @is_select do %>
+          <span class={@classes.leading_visual}>
+            <%= if @is_single_select do %>
+              <.ui_icon name="single-select-16" class="ActionList-item-singleSelectCheckmark" />
+            <% end %>
+            <%= if @is_multiple_select do %>
+              <.ui_icon name="multiple-select-16" class="ActionList-item-multiSelectIcon" />
+            <% end %>
+          </span>
+        <% end %>
+      <% end %>
+      <%= if @has_description do %>
+        <span class={@classes.description_container}>
+          <%= @render_content_elements.() %>
+        </span>
+      <% else %>
+        <%= @render_content_elements.() %>
+      <% end %>
+      <%= if @has_trailing_visual do %>
+        <span class={@classes.trailing_visual}>
+          <%= render_slot(@trailing_visual) %>
+        </span>
+      <% else %>
+        <%= if @is_collapsible do %>
+          <span class={@classes.trailing_visual}>
+            <.ui_icon name="collapse-16" class="ActionList-item-collapseIcon" />
+          </span>
+        <% end %>
+      <% end %>
+      """
+    end
+
+    render_sub_group = fn slot ->
+      rest =
+        assigns_to_attributes(slot, [
+          :class
+        ])
+
+      attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: classes.sub_group.(slot)],
+          [role: "list"]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:attributes, attributes)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <.action_list {@attributes}>
+        <%= render_slot(@slot) %>
+      </.action_list>
+      """
+    end
+
+    render_content = fn ->
+      is_button = assigns.is_collapsible
+      # If is_collapsible is not used, unhide the sub_group
+      is_expanded =
+        if assigns.is_collapsible do
+          assigns.is_expanded
+        else
+          if has_sub_group do
+            true
+          end
+        end
+
+      attributes =
+        AttributeHelpers.append_attributes([], [
+          [class: classes.content],
+          [href: assigns[:href], navigate: assigns[:navigate], patch: assigns[:patch]],
+          is_link && [role: "menuitem"],
+          is_selected && is_link && [aria_selected: "true"],
+          if is_selected && is_link do
+            if is_anchor_link do
+              [aria_current: "location"]
+            else
+              [aria_current: "page"]
+            end
+          end,
+          !is_nil(is_expanded) &&
+            [aria_expanded: is_expanded |> Atom.to_string()]
+        ])
+
+      assigns =
+        assigns
+        |> assign(:attributes, attributes)
+        |> assign(:is_link, is_link)
+        |> assign(:render_maybe_wrap_content_elements, render_maybe_wrap_content_elements)
+        |> assign(:has_sub_group, has_sub_group)
+        |> assign(:render_sub_group, render_sub_group)
+        |> assign(:is_button, is_button)
+
+      ~H"""
+      <%= if @is_link do %>
+        <Phoenix.Component.link {@attributes}>
+          <%= @render_maybe_wrap_content_elements.() %>
+        </Phoenix.Component.link>
+      <% else %>
+        <%= if @is_button do %>
+          <button {@attributes}>
+            <%= @render_maybe_wrap_content_elements.() %>
+          </button>
+        <% else %>
+          <span {@attributes}>
+            <%= @render_maybe_wrap_content_elements.() %>
+          </span>
+        <% end %>
+      <% end %>
+      <%= if @has_sub_group do %>
+        <%= for slot <- @sub_group do %>
+          <%= @render_sub_group.(slot) %>
+        <% end %>
+      <% end %>
+      """
+    end
+
+    attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.action_list_item],
+        is_link && [role: "none"],
+        !is_link && is_selected && [aria_selected: "true"],
+        is_select && !is_selected && [aria_selected: "false"],
+        !is_link && is_select && [role: "option"],
+        assigns.is_disabled && [aria_disabled: "true"]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:attributes, attributes)
+      |> assign(:render_content, render_content)
+
+    ~H"""
+    <li {@attributes}>
+      <%= @render_content.() %>
+    </li>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
   # tabnav
   # ------------------------------------------------------------------------------------
 
@@ -127,7 +1074,7 @@ defmodule PrimerLive.Component do
 
   attr(:aria_label, :string,
     default: nil,
-    doc: "Adds attribute `aria-label` to the `nav` element."
+    doc: "Adds attribute `aria-label` to the outer element."
   )
 
   slot :item,
@@ -1226,7 +2173,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Subnav is navigation that is typically used when on a dashboard type interface with another set of navigation above it. This helps distinguish navigation hierarchy
 
-  Subnav itself is a wrapper around 1 or more child components:
+  Subnav is composed of one or more child components:
   - `subnav_links/1` - a link row
   - `subnav_search/1` - a search field
   - `subnav_search_context/1` - a search filter menu adjacent to the search field
@@ -1245,6 +2192,8 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
+  ### subnav_links
+
   To show a link row, use child component `subnav_links/1`.
 
   Navigation links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
@@ -1255,6 +2204,8 @@ defmodule PrimerLive.Component do
   <:item patch={Routes.page_path(@socket, :index)}>patch link</:item>
   ```
 
+  ### subnav_search
+
   To add a search field, use child component `subnav_search/1` with a `text_input/1` component. Use `type="search"` to display a search icon inside the search field.
 
   ```
@@ -1264,6 +2215,8 @@ defmodule PrimerLive.Component do
     </.subnav_search>
   </.subnav>
   ```
+
+  ### subnav_search_context
 
   To place a filter menu adjacent to the search field, use child component `subnav_search_context/1` with a `select_menu/1` component:
 
@@ -1491,6 +2444,8 @@ defmodule PrimerLive.Component do
     """
   )
 
+  slot(:inner_block, required: true, doc: "Contents.")
+
   def subnav_search(assigns) do
     class =
       AttributeHelpers.classnames([
@@ -1528,6 +2483,8 @@ defmodule PrimerLive.Component do
     Additional HTML attributes added to the subnav search context element.
     """
   )
+
+  slot(:inner_block, required: true, doc: "Contents.")
 
   def subnav_search_context(assigns) do
     class =
@@ -2375,8 +3332,8 @@ defmodule PrimerLive.Component do
           [
             [class: classes.input],
             # If aria_label is not set, use the value of placeholder (if any):
-            is_nil(rest[:aria_label]) and [aria_label: rest[:placeholder]],
-            not is_nil(validation_message_id) and [aria_describedby: validation_message_id],
+            !rest[:aria_label] && [aria_label: rest[:placeholder]],
+            validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
             has_error && [invalid: ""]
           ]
@@ -2679,7 +3636,7 @@ defmodule PrimerLive.Component do
           [
             [class: classes.select],
             is_auto_height && [size: Enum.count(options)],
-            not is_nil(validation_message_id) and [aria_describedby: validation_message_id],
+            validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
             has_error && [invalid: ""]
           ]
@@ -6656,6 +7613,50 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns |> assign(:icon, PrimerLive.Octicons.octicons(assigns) |> Map.get(assigns[:name]))
+
+    ~H"""
+    <%= if @icon do %>
+      <%= @icon %>
+    <% else %>
+      Icon with name <%= @name %> does not exist.
+    <% end %>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # ui_icon
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :icons
+
+  @doc ~S"""
+  Renders an interface icon.
+
+  These icons, while not part of the `octicon/1` icons, are used in interface elements.
+
+  ```
+  <.ui_icon name="single-select-16" />
+  <.ui_icon name="multiple-select-16" />
+  <.ui_icon name="collapse-16" />
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  """
+
+  attr :name, :string,
+    required: true,
+    doc: "Icon name, e.g. \"single-select-16\"."
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the icon svg element.
+    """
+  )
+
+  def ui_icon(assigns) do
+    assigns =
+      assigns |> assign(:icon, PrimerLive.UIIcons.ui_icons(assigns) |> Map.get(assigns[:name]))
 
     ~H"""
     <%= if @icon do %>
