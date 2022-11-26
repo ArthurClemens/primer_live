@@ -106,6 +106,10 @@ defmodule PrimerLive.Component do
     Disabled item
   </:action_list_item>
 
+  <:action_list_item is_button phx-click="remove">
+    Button
+  </:action_list_item>
+
   <:action_list_item is_height_medium>
     A higher item
   </:action_list_item>
@@ -614,6 +618,12 @@ defmodule PrimerLive.Component do
     Inserts multi select checkmark icons (override the visual by using `leading_visual` slot) and sets ARIA attributes.
     """
 
+  attr :is_button, :boolean,
+    default: false,
+    doc: """
+    Renders the content element as button.
+    """
+
   attr :is_collapsible, :boolean,
     default: false,
     doc: """
@@ -868,7 +878,7 @@ defmodule PrimerLive.Component do
     end
 
     render_content = fn ->
-      is_button = assigns.is_collapsible
+      is_button = assigns.is_button || assigns.is_collapsible
       # If is_collapsible is not used, unhide the sub_group
       is_expanded =
         if assigns.is_collapsible do
@@ -6932,13 +6942,13 @@ defmodule PrimerLive.Component do
   <.button is_primary>Sign in</.button>
   ```
 
-  Small  button:
+  Small button:
 
   ```
   <.button is_small>Edit</.button>
   ```
 
-  Selected  button:
+  Selected button:
 
   ```
   <.button is_selected>Unread</.button>

@@ -130,14 +130,16 @@ defmodule PrimerLive.TestComponents.ButtonTest do
   end
 
   test "Extra attributes" do
-    assigns = %{}
+    assigns = %{
+      myself: nil
+    }
 
     assert rendered_to_string(~H"""
-           <.button dir="rtl">Button</.button>
+           <.button dir="rtl" phx-click="remove">Button</.button>
            """)
            |> format_html() ==
              """
-             <button class="btn" type="button" dir="rtl"> Button </button>
+             <button class="btn" type="button" dir="rtl" phx-click="remove"> Button </button>
              """
              |> format_html()
   end

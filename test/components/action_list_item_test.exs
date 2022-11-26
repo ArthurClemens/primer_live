@@ -16,7 +16,11 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item"><span class="ActionList-content"><span class="ActionList-item-label">Content</span></span></li>
+             <li class="ActionList-item">
+             <span class="ActionList-content">
+             <span class="ActionList-item-label">Content</span>
+             </span>
+             </li>
              """
              |> format_html()
   end
@@ -63,6 +67,23 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
              <li class="ActionList-item ActionList-item--navActive" role="none"><a href="#url" aria-current="location" aria-selected="true" class="ActionList-content" role="menuitem"><span class="ActionList-item-label">href link</span></a></li>
              <li class="ActionList-item" role="none"><a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="ActionList-content" role="menuitem"><span class="ActionList-item-label">navigate link</span></a></li>
              <li class="ActionList-item" role="none"><a href="#url" data-phx-link="patch" data-phx-link-state="push" class="ActionList-content" role="menuitem"><span class="ActionList-item-label">patch link</span></a></li>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: is_button" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.action_list_item is_button phx-click="remove">
+             Button
+           </.action_list_item>
+           """)
+           |> format_html() ==
+             """
+             <li phx-click="remove" class="ActionList-item">
+             <button class="ActionList-content"><span class="ActionList-item-label">Button</span></button>
+             </li>
              """
              |> format_html()
   end
@@ -537,8 +558,10 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
                  content: "content-x",
                  label: "label-x",
                  description: "description-x",
+                 description_container: "description_container-x",
                  leading_visual: "leading_visual-x",
-                 trailing_visual: "trailing_visual-x"
+                 trailing_visual: "trailing_visual-x",
+                 sub_group: "sub_group-x"
                }
              }
              class="my-action-list-item"
@@ -553,19 +576,30 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
              <:trailing_visual>
                Trailing visual
              </:trailing_visual>
+             <:sub_group class="my-sub-group">
+               <.action_list_item is_sub_item class="my-sub-item">
+                 Sub item
+               </.action_list_item>
+             </:sub_group>
            </.action_list_item>
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item action_list_item-x my-action-list-item">
-             <span class="ActionList-content content-x">
+             <li class="ActionList-item ActionList-item--hasSubItem action_list_item-x my-action-list-item">
+             <span class="ActionList-content content-x" aria-expanded="true">
              <span class="ActionList-item-visual ActionList-item-visual--leading leading_visual-x">Leading visual</span>
-             <span class="ActionList-item-descriptionWrap ActionList-item-blockDescription">
-             <span class="ActionList-item-label label-x">Content</span>
-             <span class="ActionList-item-description description-x">A descriptive text</span>
+             <span class="ActionList-item-descriptionWrap ActionList-item-blockDescription description_container-x">
+             <span class="ActionList-item-label label-x">Content</span><span class="ActionList-item-description description-x">A descriptive text</span>
              </span>
              <span class="ActionList-item-visual ActionList-item-visual--trailing trailing_visual-x">Trailing visual</span>
              </span>
+             <ul class="ActionList ActionList--subGroup sub_group-x my-sub-group" role="list">
+             <li class="ActionList-item ActionList-item--subItem my-sub-item">
+             <span class="ActionList-content">
+             <span class="ActionList-item-label">Sub item</span>
+             </span>
+             </li>
+             </ul>
              </li>
              """
              |> format_html()
