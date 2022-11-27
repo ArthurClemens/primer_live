@@ -30,10 +30,8 @@ defmodule PrimerLive.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:dialyxir, "~> 1.2", only: :dev, runtime: false},
       {:ecto_sql, "~> 3.6"},
       {:ex_doc, "~> 0.28.5", only: :dev},
-      {:jason, "~> 1.0"},
       {:phoenix_html, "~> 3.2.0"},
       {:phoenix_live_view, "~> 0.18.3"}
     ]
