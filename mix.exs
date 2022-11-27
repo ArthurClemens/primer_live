@@ -84,7 +84,7 @@ defmodule PrimerLive.MixProject do
       links: %{
         GitHub: "https://github.com/ArthurClemens/primer_live"
       },
-      files: ~w(lib priv .formatter.exs mix.exs README* LICENSE*
+      files: ~w(lib .formatter.exs mix.exs README* LICENSE*
                 CHANGELOG*)
     ]
   end
