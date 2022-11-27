@@ -387,16 +387,29 @@ defmodule PrimerLive.Component do
     """
   )
 
-  slot(:title,
+  slot :title,
     required: false,
-    doc:
-      "Title separator. The input text is wrapped in a `<h3>` element. Omit to create a horizontal line only."
-  )
+    doc: """
+    Title separator. The input text is wrapped in a `<h3>` element. Omit to create a horizontal line only.
+    """ do
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the action list element.
+      """
+    )
+  end
 
-  slot(:description,
+  slot :description,
     required: false,
-    doc: "Optional extra text. Requires `title` slot."
-  )
+    doc: """
+    Optional extra text. Requires `title` slot.
+    """ do
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the action list element.
+      """
+    )
+  end
 
   def action_list_section_divider(assigns) do
     has_title = assigns.title !== []
