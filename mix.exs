@@ -4,19 +4,20 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      name: "Primer Live",
-      homepage_url: "https://github.com/ArthurClemens/primer_live",
-      description: """
-      A collection of function components that implements GitHub's Primer Design System.
-      """,
       version: "0.1.0",
       elixir: "~> 1.13",
-      start_permanent: Mix.env() == :prod,
+      homepage_url: "https://github.com/ArthurClemens/primer_live",
+      description: description(),
       package: package(),
       aliases: aliases(),
+      name: "Primer Live",
       deps: deps(),
       docs: docs()
     ]
+  end
+
+  defp description() do
+    "A collection of function components that implements GitHub's Primer Design System."
   end
 
   # Run "mix help compile.app" to learn about applications.
@@ -30,13 +31,11 @@ defmodule PrimerLive.MixProject do
   defp deps do
     [
       {:dialyxir, "~> 1.2", only: :dev, runtime: false},
-      {:earmark, "~> 1.4", only: :dev},
       {:ecto_sql, "~> 3.6"},
       {:ex_doc, "~> 0.28.5", only: :dev},
       {:jason, "~> 1.0"},
       {:phoenix_html, "~> 3.2.0"},
-      {:phoenix_live_view, "~> 0.18.3"},
-      {:typed_ecto_schema, "~> 0.4.1"}
+      {:phoenix_live_view, "~> 0.18.3"}
     ]
   end
 
@@ -85,9 +84,8 @@ defmodule PrimerLive.MixProject do
       links: %{
         GitHub: "https://github.com/ArthurClemens/primer_live"
       },
-      files:
-        ~w(assets/css lib priv/static) ++
-          ~w(LICENSE.md mix.exs README.md)
+      files: ~w(lib priv .formatter.exs mix.exs README* LICENSE*
+                CHANGELOG*)
     ]
   end
 

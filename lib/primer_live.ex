@@ -1,10 +1,17 @@
 defmodule PrimerLive do
   @moduledoc ~S'''
-  Primer Live is a collection of function components that implements [GitHub's Primer Design System](https://primer.style/). It is intended for usage in Phoenix LiveView pages and regular (non-LiveView) views.
+
+  <p>
+  Primer Live is a collection of function components that implements <a href="https://primer.style/" target="_blank">GitHub's Primer Design System</a>. It is intended for usage in <a href="https://github.com/phoenixframework/phoenix_live_view" target="_blank">Phoenix LiveView pages</a> and regular (non-LiveView) views in Phoenix applications.
+  </p>
+
+  <p>
+  Since this implementation closely adheres to the <a href="https://primer.style/css/" target="_blank">Primer CSS documentation</a>, extending components with <a href="https://primer.style/css/utilities" target="blank">Primer's utility classes</a> should be simple.
+  </p>
 
   ## Versioning
 
-  Dependencies:
+  Included dependencies:
   - [primer-live](https://www.npmjs.com/package/primer-live): `0.1.11`
     - Includes:
       - [@primer/css](https://www.npmjs.com/package/@primer/css): `20.5.1`
