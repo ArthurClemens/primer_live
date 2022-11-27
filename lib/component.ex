@@ -86,85 +86,85 @@ defmodule PrimerLive.Component do
   When a link attribute is supplied to the item, links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
 
   ```
-  <:action_list_item href="#url">href link</:action_list_item>
-  <:action_list_item navigate={Routes.page_path(@socket, :index)}>navigate link</:action_list_item>
-  <:action_list_item patch={Routes.page_path(@socket, :index)}>patch link</:action_list_item>
+  <.action_list_item href="#url">href link</.action_list_item>
+  <.action_list_item navigate={Routes.page_path(@socket, :index)}>navigate link</.action_list_item>
+  <.action_list_item patch={Routes.page_path(@socket, :index)}>patch link</.action_list_item>
   ```
 
   Common list item attributes:
 
   ```
-  <:action_list_item is_selected>
+  <.action_list_item is_selected>
     This is the selected item
-  </:action_list_item>
+  </.action_list_item>
 
-  <:action_list_item is_danger>
+  <.action_list_item is_danger>
     Descructive item
-  </:action_list_item>
+  </.action_list_item>
 
-  <:action_list_item is_disabled>
+  <.action_list_item is_disabled>
     Disabled item
-  </:action_list_item>
+  </.action_list_item>
 
-  <:action_list_item is_button phx-click="remove">
+  <.action_list_item is_button phx-click="remove">
     Button
-  </:action_list_item>
+  </.action_list_item>
 
-  <:action_list_item is_height_medium>
+  <.action_list_item is_height_medium>
     A higher item
-  </:action_list_item>
+  </.action_list_item>
 
-  <:action_list_item is_height_large>
+  <.action_list_item is_height_large>
     An even higher item
-  </:action_list_item>
+  </.action_list_item>
 
-  <:action_list_item is_truncated>
+  <.action_list_item is_truncated>
     A very long text that should stay on one line, abbreviated by ellipsis
-  </:action_list_item>
+  </.action_list_item>
   ```
 
   Use slot `description` to add a descriptive text. The description is displayed on a new line by default.
 
   ```
-  <:action_list_item>
+  <.action_list_item>
     Short label
     <:description>
       A more descriptive text
     </:description>
-  </:action_list_item>
+  </.action_list_item>
   ```
 
   Place the description on the same line:
 
   ```
-  <:action_list_item is_inline_description>
+  <.action_list_item is_inline_description>
     Short label
     <:description>
       A more descriptive text after the title
     </:description>
-  </:action_list_item>
+  </.action_list_item>
   ```
 
   Add a leading visual. This is usually an `octicon/1`, but can be any small image:
 
   ```
-  <:action_list_item>
+  <.action_list_item>
     Item
     <:leading_visual>
       <.octicon name="bell-16" />
     </:leading_visual>
-  </:action_list_item>
+  </.action_list_item>
   ```
 
   Likewise, add a trailing visual:
 
   ```
-  <:action_list_item>
+  <.action_list_item>
     Item
     <:leading_visual>
       <.counter>12</.counter>
     </:leading_visual>
-  </:action_list_item>
+  </.action_list_item>
   ```
 
   Action list items can be selected. Single selections are represented with a check `ui_icon/1`, while multiple selections are represented with a checkbox `ui_icon/1`.
@@ -785,7 +785,9 @@ defmodule PrimerLive.Component do
           assigns[:classes][:sub_group],
           slot[:class]
         ])
-      end
+      end,
+      leading_visual_single_select_checkmark: "ActionList-item-singleSelectCheckmark",
+      leading_visual_multiple_select_checkmark: "ActionList-item-multiSelectIcon"
     }
 
     render_content_elements = fn ->
@@ -816,19 +818,30 @@ defmodule PrimerLive.Component do
         |> assign(:is_select, is_select)
 
       ~H"""
-      <%= if @has_leading_visual do %>
-        <span class={@classes.leading_visual}>
-          <%= render_slot(@leading_visual) %>
-        </span>
-      <% else %>
-        <%= if @is_select do %>
+      <%= if @is_select do %>
+        <%= if @has_leading_visual do %>
+          <span class={@classes.leading_visual}>
+            <span class={@classes.leading_visual_single_select_checkmark}>
+              <%= render_slot(@leading_visual) %>
+            </span>
+          </span>
+        <% else %>
           <span class={@classes.leading_visual}>
             <%= if @is_single_select do %>
-              <.ui_icon name="single-select-16" class="ActionList-item-singleSelectCheckmark" />
+              <.ui_icon name="single-select-16" class={@classes.leading_visual_single_select_checkmark} />
             <% end %>
             <%= if @is_multiple_select do %>
-              <.ui_icon name="multiple-select-16" class="ActionList-item-multiSelectIcon" />
+              <.ui_icon
+                name="multiple-select-16"
+                class={@classes.leading_visual_multiple_select_checkmark}
+              />
             <% end %>
+          </span>
+        <% end %>
+      <% else %>
+        <%= if @has_leading_visual do %>
+          <span class={@classes.leading_visual}>
+            <%= render_slot(@leading_visual) %>
           </span>
         <% end %>
       <% end %>

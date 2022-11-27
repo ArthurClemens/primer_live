@@ -189,8 +189,8 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item" aria-selected="true" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
-             <li class="ActionList-item" aria-selected="false" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
+             <li class="ActionList-item" aria-selected="true" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="ActionList-item-singleSelectCheckmark">Icon</span></span><span class="ActionList-item-label">Item</span></span></li>
+             <li class="ActionList-item" aria-selected="false" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="ActionList-item-singleSelectCheckmark">Icon</span></span><span class="ActionList-item-label">Item</span></span></li>
              """
              |> format_html()
   end
@@ -255,8 +255,8 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item" aria-selected="true" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
-             <li class="ActionList-item" aria-selected="false" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
+             <li class="ActionList-item" aria-selected="true" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="ActionList-item-singleSelectCheckmark">Icon</span></span><span class="ActionList-item-label">Item</span></span></li>
+             <li class="ActionList-item" aria-selected="false" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="ActionList-item-singleSelectCheckmark">Icon</span></span><span class="ActionList-item-label">Item</span></span></li>
              """
              |> format_html()
   end
