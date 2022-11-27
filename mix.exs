@@ -10,7 +10,7 @@ defmodule PrimerLive.MixProject do
       description: description(),
       package: package(),
       aliases: aliases(),
-      name: "Primer Live",
+      name: "PrimerLive",
       deps: deps(),
       docs: docs()
     ]
@@ -39,7 +39,7 @@ defmodule PrimerLive.MixProject do
 
   defp docs do
     [
-      main: "Primer Live",
+      main: "PrimerLive",
       groups_for_functions: [
         Alerts: &(&1[:section] == :alerts),
         Avatars: &(&1[:section] == :avatars),
