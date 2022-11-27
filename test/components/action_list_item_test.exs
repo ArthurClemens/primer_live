@@ -25,23 +25,29 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
              |> format_html()
   end
 
-  test "Link attributes" do
+  test "Slot: link" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.action_list_item href="/url" is_selected>
-             href link
+           <.action_list_item is_selected>
+             <:link href="/url" target="_blank">
+               href link
+             </:link>
            </.action_list_item>
-           <.action_list_item navigate="/url">
-             navigate link
+           <.action_list_item>
+             <:link navigate="/url">
+               navigate link
+             </:link>
            </.action_list_item>
-           <.action_list_item patch="/url">
-             patch link
+           <.action_list_item>
+             <:link patch="/url">
+               patch link
+             </:link>
            </.action_list_item>
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item ActionList-item--navActive" role="none"><a href="/url" aria-current="page" aria-selected="true" class="ActionList-content" role="menuitem"><span class="ActionList-item-label">href link</span></a></li>
+             <li class="ActionList-item ActionList-item--navActive" role="none"><a href="/url" aria-current="page" aria-selected="true" class="ActionList-content" role="menuitem" target="_blank"><span class="ActionList-item-label">href link</span></a></li>
              <li class="ActionList-item" role="none"><a href="/url" data-phx-link="redirect" data-phx-link-state="push" class="ActionList-content" role="menuitem"><span class="ActionList-item-label">navigate link</span></a></li>
              <li class="ActionList-item" role="none"><a href="/url" data-phx-link="patch" data-phx-link-state="push" class="ActionList-content" role="menuitem"><span class="ActionList-item-label">patch link</span></a></li>
              """
@@ -52,14 +58,20 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.action_list_item href="#url" is_selected>
-             href link
+           <.action_list_item is_selected>
+             <:link href="#url">
+               href link
+             </:link>
            </.action_list_item>
-           <.action_list_item navigate="#url">
-             navigate link
+           <.action_list_item>
+             <:link navigate="#url">
+               navigate link
+             </:link>
            </.action_list_item>
-           <.action_list_item patch="#url">
-             patch link
+           <.action_list_item>
+             <:link patch="#url">
+               patch link
+             </:link>
            </.action_list_item>
            """)
            |> format_html() ==
@@ -92,8 +104,10 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.action_list_item href="/url" is_selected>
-             Item
+           <.action_list_item is_selected>
+             <:link href="/url">
+               Item
+             </:link>
            </.action_list_item>
            <.action_list_item is_selected>
              Item

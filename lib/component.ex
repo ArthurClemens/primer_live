@@ -82,15 +82,6 @@ defmodule PrimerLive.Component do
 
   ### action_list_item
 
-  Items are by default rendered as span elements. To create link elements, pass attribute `href`, `navigate` or `patch`.
-  When a link attribute is supplied to the item, links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
-
-  ```
-  <.action_list_item href="#url">href link</.action_list_item>
-  <.action_list_item navigate={Routes.page_path(@socket, :index)}>navigate link</.action_list_item>
-  <.action_list_item patch={Routes.page_path(@socket, :index)}>patch link</.action_list_item>
-  ```
-
   Common list item attributes:
 
   ```
@@ -166,6 +157,28 @@ defmodule PrimerLive.Component do
     </:leading_visual>
   </.action_list_item>
   ```
+
+  Items are by default rendered as span elements. To create link elements, place the label text inside slot `link` and pass attribute `href`, `navigate` or `patch`.
+  When a link attribute is supplied to the link slot, links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
+
+  ```
+  <.action_list_item>
+    <:link href="/url" target="_blank">
+      href link
+    </:link>
+  </.action_list_item>
+  <.action_list_item>
+    <:link navigate={Routes.page_path(@socket, :index)}>
+      navigate link
+    </:link>
+  </.action_list_item>
+  <.action_list_item>
+    <:link patch={Routes.page_path(@socket, :index)}>
+      patch link
+    </:link>
+  </.action_list_item>
+  ```
+
 
   Action list items can be selected. Single selections are represented with a check `ui_icon/1`, while multiple selections are represented with a checkbox `ui_icon/1`.
 
@@ -565,24 +578,6 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:href, :any,
-    doc: """
-    Link attribute. The link is created with `Phoenix.Component.link/1`.
-    """
-  )
-
-  attr(:patch, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
-
-  attr(:navigate, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
-
   attr(:is_selected, :boolean,
     default: false,
     doc: """
@@ -692,6 +687,36 @@ defmodule PrimerLive.Component do
 
   slot(:inner_block, required: true, doc: "Label.")
 
+  slot :link,
+    required: false,
+    doc: """
+    Creates a link. Pass attribute `href`, `navigate` or `patch`.
+    """ do
+    attr(:href, :any,
+      doc: """
+      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
+      """
+    )
+
+    attr(:patch, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:navigate, :string,
+      doc: """
+      Link attribute - see `href`.
+      """
+    )
+
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the link element.
+      """
+    )
+  end
+
   slot(:description, required: false, doc: "Description.")
 
   slot(:leading_visual,
@@ -725,8 +750,10 @@ defmodule PrimerLive.Component do
 
   def action_list_item(assigns) do
     is_selected = assigns.is_selected
-    is_link = AttributeHelpers.is_link?(assigns)
-    is_anchor_link = AttributeHelpers.is_anchor_link?(assigns)
+    # Get the first link slot, if any
+    link_slot = if assigns[:link] && assigns[:link] !== [], do: hd(assigns[:link]), else: []
+    is_link = AttributeHelpers.is_link?(link_slot)
+    is_anchor_link = AttributeHelpers.is_anchor_link?(link_slot)
     is_selected_link_marker = assigns.is_selected_link_marker
     is_single_select = assigns.is_single_select
     is_multiple_select = assigns.is_multiple_select && !is_single_select
@@ -803,26 +830,28 @@ defmodule PrimerLive.Component do
       leading_visual_multiple_select_checkmark: "ActionList-item-multiSelectIcon"
     }
 
-    render_content_elements = fn ->
+    render_content_elements = fn content ->
       assigns =
         assigns
         |> assign(:classes, classes)
+        |> assign(:content, content)
 
       ~H"""
-      <span class={@classes.label}><%= render_slot(@inner_block) %></span>
+      <span class={@classes.label}><%= render_slot(@content) %></span>
       <%= if @description && @description !== [] do %>
         <span class={@classes.description}><%= render_slot(@description) %></span>
       <% end %>
       """
     end
 
-    render_maybe_wrap_content_elements = fn ->
+    render_maybe_wrap_content_elements = fn content ->
       has_description = assigns.description && assigns.description !== []
       has_leading_visual = assigns.leading_visual && assigns.leading_visual !== []
       has_trailing_visual = assigns.trailing_visual && assigns.trailing_visual !== []
 
       assigns =
         assigns
+        |> assign(:content, content)
         |> assign(:has_description, has_description)
         |> assign(:classes, classes)
         |> assign(:render_content_elements, render_content_elements)
@@ -860,10 +889,10 @@ defmodule PrimerLive.Component do
       <% end %>
       <%= if @has_description do %>
         <span class={@classes.description_container}>
-          <%= @render_content_elements.() %>
+          <%= @render_content_elements.(@content) %>
         </span>
       <% else %>
-        <%= @render_content_elements.() %>
+        <%= @render_content_elements.(@content) %>
       <% end %>
       <%= if @has_trailing_visual do %>
         <span class={@classes.trailing_visual}>
@@ -918,42 +947,48 @@ defmodule PrimerLive.Component do
       attributes =
         AttributeHelpers.append_attributes([], [
           [class: classes.content],
-          [href: assigns[:href], navigate: assigns[:navigate], patch: assigns[:patch]],
+          !is_nil(is_expanded) &&
+            [aria_expanded: is_expanded |> Atom.to_string()]
+        ])
+
+      link_attributes =
+        AttributeHelpers.append_attributes(assigns_to_attributes(link_slot), [
+          [class: classes.content],
           is_link && [role: "menuitem"],
-          is_selected && is_link && [aria_selected: "true"],
-          if is_selected && is_link do
+          is_selected && [aria_selected: "true"],
+          if is_selected do
             if is_anchor_link do
               [aria_current: "location"]
             else
               [aria_current: "page"]
             end
-          end,
-          !is_nil(is_expanded) &&
-            [aria_expanded: is_expanded |> Atom.to_string()]
+          end
         ])
 
       assigns =
         assigns
         |> assign(:attributes, attributes)
+        |> assign(:link_attributes, link_attributes)
         |> assign(:is_link, is_link)
         |> assign(:render_maybe_wrap_content_elements, render_maybe_wrap_content_elements)
         |> assign(:has_sub_group, has_sub_group)
         |> assign(:render_sub_group, render_sub_group)
         |> assign(:is_button, is_button)
+        |> assign(:link_slot, link_slot)
 
       ~H"""
       <%= if @is_link do %>
-        <Phoenix.Component.link {@attributes}>
-          <%= @render_maybe_wrap_content_elements.() %>
+        <Phoenix.Component.link {@link_attributes}>
+          <%= @render_maybe_wrap_content_elements.(@link_slot) %>
         </Phoenix.Component.link>
       <% else %>
         <%= if @is_button do %>
           <button {@attributes}>
-            <%= @render_maybe_wrap_content_elements.() %>
+            <%= @render_maybe_wrap_content_elements.(@inner_block) %>
           </button>
         <% else %>
           <span {@attributes}>
-            <%= @render_maybe_wrap_content_elements.() %>
+            <%= @render_maybe_wrap_content_elements.(@inner_block) %>
           </span>
         <% end %>
       <% end %>
