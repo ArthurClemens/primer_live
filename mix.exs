@@ -82,7 +82,8 @@ defmodule PrimerLive.MixProject do
       links: %{
         GitHub: "https://github.com/ArthurClemens/primer_live"
       },
-      files: ~w(lib .formatter.exs mix.exs README* LICENSE*
+      files:
+        ~w(lib .formatter.exs mix.exs README* LICENSE* priv/octicon_builder/PrimerLive.Octicons.template.eex priv/octicon_builder/build.exs
                 CHANGELOG*)
     ]
   end
