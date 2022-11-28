@@ -9,6 +9,10 @@ defmodule PrimerLive do
   Since this implementation closely adheres to the <a href="https://primer.style/css/" target="_blank">Primer CSS documentation</a>, extending components with <a href="https://primer.style/css/utilities" target="blank">Primer's utility classes</a> should be simple.
   </p>
 
+  ## Source code
+
+  [PrimerLive at GitHub](https://github.com/ArthurClemens/primer_live)
+
   ## Versioning
 
   Included dependencies:
