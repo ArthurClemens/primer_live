@@ -953,8 +953,16 @@ defmodule PrimerLive.Component do
 
       link_attributes =
         AttributeHelpers.append_attributes(assigns_to_attributes(link_slot), [
-          [class: classes.content],
-          is_link && [role: "menuitem"],
+          [
+            class:
+              AttributeHelpers.classnames([
+                classes.content,
+                link_slot[:class]
+              ])
+          ],
+          !is_nil(is_expanded) &&
+            [aria_expanded: is_expanded |> Atom.to_string()],
+          [role: "menuitem"],
           is_selected && [aria_selected: "true"],
           if is_selected do
             if is_anchor_link do

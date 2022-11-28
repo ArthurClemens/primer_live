@@ -32,6 +32,23 @@ defmodule PrimerLive do
   - Edit `mix.exs` and add dependency `primer_live`
   - Run `mix.deps get`
 
+  ### Dependency setup for deploying
+
+  To ensure that the assets are installed before your application has started, or before it has been deployed, add "npm install" to the scripts in `mix.exs`. For example:
+
+  ```
+  defp aliases do
+    [
+      setup: ["deps.get", "cmd npm --prefix assets install"],
+      "assets.deploy": [
+        "cmd npm --prefix assets install",
+        "esbuild default --minify",
+        "phx.digest"
+      ]
+    ]
+  end
+  ```
+
   ### Set up JavaScript / CSS
 
   Install [primer-live](https://www.npmjs.com/package/primer-live)
