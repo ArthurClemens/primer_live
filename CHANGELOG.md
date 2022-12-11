@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3
+
+Added:
+- `action_menu`
+
 ## 0.1.2
 
 Bug fix:

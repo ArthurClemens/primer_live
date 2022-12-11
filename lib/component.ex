@@ -5877,7 +5877,7 @@ defmodule PrimerLive.Component do
   # dropdown
   # ------------------------------------------------------------------------------------
 
-  @doc section: :dropdown
+  @doc section: :menus
 
   @doc ~S"""
   Generates a dropdown menu.
@@ -6224,12 +6224,10 @@ defmodule PrimerLive.Component do
   # select_menu
   # ------------------------------------------------------------------------------------
 
-  @doc section: :select_menu
+  @doc section: :menus
 
   @doc ~S"""
   Generates a select menu.
-
-  Tabs are by default rendered as buttons. To create link elements, pass attribute `href`, `navigate` or `patch`.
 
   ```
   <.select_menu>
@@ -6454,14 +6452,19 @@ defmodule PrimerLive.Component do
     """
   )
 
-  slot(:toggle,
+  slot :toggle,
     required: true,
     doc: """
     Generates a toggle element (default with button appearance) using the slot content as label.
 
     Any custom class will override the default class "btn".
-    """
-  )
+    """ do
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the item element.
+      """
+    )
+  end
 
   slot :menu,
     doc: """
@@ -6925,7 +6928,7 @@ defmodule PrimerLive.Component do
         <% end %>
       </summary>
       <%= if @backdrop_attrs !== [] do %>
-        <div {@backdrop_attrs} />
+        <div {@backdrop_attrs}></div>
       <% end %>
       <div data-touch=""></div>
       <div class={@classes.menu}>
@@ -6984,6 +6987,281 @@ defmodule PrimerLive.Component do
               </div>
             <% end %>
           <% end %>
+        </div>
+      </div>
+    </details>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # action_menu
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :menus
+
+  @doc ~S"""
+  Generates an action menu.
+
+  The action menu functions similarly to a `select_menu/1`, but with an `action_list/1` as content.
+
+  ```
+  <.action_menu>
+    <:toggle>Menu</:toggle>
+    <.action_list>
+      ...
+    </.action_list>
+  </.action_menu>
+  ```
+
+  ## Examples
+
+  Create a multiple select menu:
+
+  ```
+  <.action_menu is_dropdown_caret>
+    <:toggle>Select <.counter>2</.counter></:toggle>
+    <.action_list>
+      <.action_list_item is_multiple_select is_selected>
+        Option
+      </.action_list_item>
+      <.action_list_item is_multiple_select is_selected>
+        Option
+      </.action_list_item>
+      <.action_list_item is_multiple_select>
+        Option
+      </.action_list_item>
+    </.action_list>
+  </.action_menu>
+  ```
+
+  See for more examples:
+  - [Action list examples](#action_list/1-examples)
+  - [Select menu examples](#select_menu/1-examples)
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  - [Primer/CSS Select menu](https://primer.style/css/components/select-menu/)
+  - [Primer/CSS Action List](https://primer.style/css/components/action-list/)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr :is_dropdown_caret, :boolean, default: false, doc: "Adds a dropdown caret to the button."
+  attr :is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right."
+
+  attr :class, :string, doc: "Additional classname."
+
+  attr :classes, :map,
+    default: %{
+      action_menu: nil,
+      caret: nil,
+      menu_container: nil,
+      menu_list: nil,
+      menu: nil,
+      toggle: nil
+    },
+    doc: """
+    Additional classnames for action menu elements.
+
+    Any provided value will be appended to the default classname, except for `toggle` that will override the default class \"btn\".
+
+    Default map:
+    ```
+    %{
+      action_menu: "",         # Action menu container (details element).
+      caret: "",               # Dropdown caret element.
+      menu_container: "",      # Menu container (called "modal" at PrimerCSS).
+      menu_list: "",           # Menu list container.
+      menu: "",                # Menu element
+      toggle: "",              # Toggle element. Any value will override the
+                               # default class "btn".
+    }
+    ```
+    """
+
+  attr :is_backdrop, :boolean,
+    default: false,
+    doc: """
+    Generates a light backdrop background color.
+    """
+
+  attr :is_dark_backdrop, :boolean,
+    default: false,
+    doc: """
+    Generates a darker backdrop background color.
+    """
+
+  attr :is_medium_backdrop, :boolean,
+    default: false,
+    doc: """
+    Generates a medium backdrop background color.
+    """
+
+  attr :is_light_backdrop, :boolean,
+    default: false,
+    doc: """
+    Generates a lighter backdrop background color (default).
+    """
+
+  attr :is_fast, :boolean,
+    default: true,
+    doc: """
+    Generates fast fade transitions for backdrop and content.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot :toggle,
+    required: true,
+    doc: """
+    Generates a toggle element (default with button appearance) using the slot content as label.
+
+    Any custom class will override the default class "btn".
+    """ do
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the item element.
+      """
+    )
+  end
+
+  slot(:inner_block,
+    doc: """
+    Slot to place the `action_list/1` component.
+    """
+  )
+
+  def action_menu(assigns) do
+    assigns_classes =
+      Map.merge(
+        %{
+          action_menu: nil,
+          caret: nil,
+          menu_container: nil,
+          menu_list: nil,
+          menu: nil,
+          toggle: nil
+        },
+        assigns.classes
+      )
+
+    # Get the toggle menu slot, if any
+    toggle_slot = if assigns.toggle && assigns.toggle !== [], do: hd(assigns.toggle), else: []
+
+    classes = %{
+      action_menu:
+        AttributeHelpers.classnames([
+          "details-reset",
+          "details-overlay",
+          assigns_classes[:action_menu],
+          assigns[:class]
+        ]),
+      toggle:
+        AttributeHelpers.classnames([
+          # If a custom class is set, remove the default btn class
+          if assigns_classes[:toggle] || toggle_slot[:class] do
+            AttributeHelpers.classnames([
+              assigns_classes[:toggle],
+              toggle_slot[:class]
+            ])
+          else
+            "btn"
+          end
+        ]),
+      caret:
+        AttributeHelpers.classnames([
+          "dropdown-caret",
+          assigns.classes[:caret]
+        ]),
+      menu:
+        AttributeHelpers.classnames([
+          "SelectMenu",
+          assigns.is_right_aligned and "right-0",
+          assigns_classes.menu
+        ]),
+      menu_container:
+        AttributeHelpers.classnames([
+          "ActionMenu-modal",
+          assigns_classes.menu_container
+        ]),
+      menu_list:
+        AttributeHelpers.classnames([
+          "SelectMenu-list",
+          assigns_classes.menu_list
+        ])
+    }
+
+    toggle_attrs =
+      AttributeHelpers.append_attributes([], [
+        [class: classes.toggle],
+        [aria_haspopup: "true"]
+      ])
+
+    action_menu_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.action_menu],
+        [data_prompt: ""],
+        [ontoggle: "Prompt.init(this)"],
+        assigns.is_fast &&
+          (assigns.is_dark_backdrop ||
+             assigns.is_medium_backdrop ||
+             assigns.is_light_backdrop ||
+             assigns.is_backdrop) && [data_isfast: ""]
+      ])
+
+    menu_container_attrs =
+      AttributeHelpers.append_attributes([], [
+        [class: classes.menu_container],
+        [data_content: ""],
+        [aria_role: "menu"]
+      ])
+
+    backdrop_attrs =
+      AttributeHelpers.append_attributes([], [
+        cond do
+          assigns.is_dark_backdrop -> [data_backdrop: "", data_isdark: ""]
+          assigns.is_medium_backdrop -> [data_backdrop: "", data_ismedium: ""]
+          assigns.is_light_backdrop -> [data_backdrop: "", data_islight: ""]
+          assigns.is_backdrop -> [data_backdrop: "", data_islight: ""]
+          true -> []
+        end
+      ])
+
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:action_menu_attrs, action_menu_attrs)
+      |> assign(:toggle_attrs, toggle_attrs)
+      |> assign(:toggle_slot, toggle_slot)
+      |> assign(:backdrop_attrs, backdrop_attrs)
+      |> assign(:menu_container_attrs, menu_container_attrs)
+
+    ~H"""
+    <details {@action_menu_attrs}>
+      <summary {@toggle_attrs}>
+        <%= render_slot(@toggle_slot) %>
+        <%= if @is_dropdown_caret do %>
+          <div class={@classes.caret}></div>
+        <% end %>
+      </summary>
+      <%= if @backdrop_attrs !== [] do %>
+        <div {@backdrop_attrs}></div>
+      <% end %>
+      <div data-touch=""></div>
+      <div class={@classes.menu}>
+        <div {@menu_container_attrs}>
+          <div class={@classes.menu_list}>
+            <%= render_slot(@inner_block) %>
+          </div>
         </div>
       </div>
     </details>

@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.1.2",
+      version: "0.1.3",
       elixir: "~> 1.13",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: description(),
@@ -33,7 +33,8 @@ defmodule PrimerLive.MixProject do
       {:ecto_sql, "~> 3.6"},
       {:ex_doc, "~> 0.28.5", only: :dev},
       {:phoenix_html, "~> 3.2.0"},
-      {:phoenix_live_view, "~> 0.18.3"}
+      {:phoenix_live_view, "~> 0.18.3"},
+      {:jason, "~> 1.0"}
     ]
   end
 
@@ -49,7 +50,6 @@ defmodule PrimerLive.MixProject do
         Breadcrumbs: &(&1[:section] == :breadcrumbs),
         Buttons: &(&1[:section] == :buttons),
         Dialog: &(&1[:section] == :dialog),
-        Dropdown: &(&1[:section] == :dropdown),
         Forms: &(&1[:section] == :forms),
         Header: &(&1[:section] == :header),
         Icons: &(&1[:section] == :icons),
@@ -58,11 +58,11 @@ defmodule PrimerLive.MixProject do
         Links: &(&1[:section] == :links),
         Loaders: &(&1[:section] == :loaders),
         Markdown: &(&1[:section] == :markdown),
+        Menus: &(&1[:section] == :menus),
         Navigation: &(&1[:section] == :navigation),
         Pagination: &(&1[:section] == :pagination),
         Popover: &(&1[:section] == :popover),
         Progress: &(&1[:section] == :progress),
-        "Select menu": &(&1[:section] == :select_menu),
         Subhead: &(&1[:section] == :subhead),
         Timeline: &(&1[:section] == :timeline),
         Toasts: &(&1[:section] == :toasts),
