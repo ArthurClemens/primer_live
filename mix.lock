@@ -1,5 +1,5 @@
 %{
-  "castore": {:hex, :castore, "0.1.19", "a2c3e46d62b7f3aa2e6f88541c21d7400381e53704394462b9fd4f06f6d42bb6", [:mix], [], "hexpm", "e96e0161a5dc82ef441da24d5fa74aefc40d920f3a6645d15e1f9f3e66bb2109"},
+  "castore": {:hex, :castore, "0.1.20", "62a0126cbb7cb3e259257827b9190f88316eb7aa3fdac01fd6f2dfd64e7f46e9", [:mix], [], "hexpm", "a020b7650529c986c454a4035b6b13a328e288466986307bea3aadb4c95ac98a"},
   "connection": {:hex, :connection, "1.1.0", "ff2a49c4b75b6fb3e674bfc5536451607270aac754ffd1bdfe175abe4a6d7a68", [:mix], [], "hexpm", "722c1eb0a418fbe91ba7bd59a47e28008a189d47e37e0e7bb85585a016b2869c"},
   "db_connection": {:hex, :db_connection, "2.4.3", "3b9aac9f27347ec65b271847e6baeb4443d8474289bd18c1d6f4de655b70c94d", [:mix], [{:connection, "~> 1.0", [hex: :connection, repo: "hexpm", optional: false]}, {:telemetry, "~> 0.4 or ~> 1.0", [hex: :telemetry, repo: "hexpm", optional: false]}], "hexpm", "c127c15b0fa6cfb32eed07465e05da6c815b032508d4ed7c116122871df73c12"},
   "decimal": {:hex, :decimal, "2.0.0", "a78296e617b0f5dd4c6caf57c714431347912ffb1d0842e998e9792b5642d697", [:mix], [], "hexpm", "34666e9c55dea81013e77d9d87370fe6cb6291d1ef32f46a1600230b1d44f577"},
