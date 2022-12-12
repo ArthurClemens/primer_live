@@ -7184,7 +7184,7 @@ defmodule PrimerLive.Component do
         ]),
       menu:
         AttributeHelpers.classnames([
-          "SelectMenu",
+          "ActionMenu",
           assigns.is_right_aligned and "right-0",
           assigns_classes.menu
         ]),

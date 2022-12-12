@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4
+
+Bug fix:
+- Improve `action_menu` on mobile
+
 ## 0.1.3
 
 Added:
