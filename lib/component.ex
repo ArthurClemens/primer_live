@@ -7307,7 +7307,7 @@ defmodule PrimerLive.Component do
   <.button is_dropdown_caret>Menu</.button>
   ```
 
-  Button with icon:
+  Button that contains an icon next to the button label:
 
   ```
   <.button is_primary>
@@ -7316,7 +7316,15 @@ defmodule PrimerLive.Component do
   </.button>
   ```
 
-  Icon-only button:
+  Icon button (a button with an icon, similar to Primer React's IconButton):
+
+  ```
+  <.button is_icon_button aria-label="Desktop">
+    <.octicon name="device-desktop-16" />
+  </.button>
+  ```
+
+  Icon as button (reduced padding):
 
   ```
   <.button is_icon_only aria-label="Desktop">
@@ -7357,12 +7365,21 @@ defmodule PrimerLive.Component do
     default: false,
     doc: "Adds a dropdown caret icon."
 
-  attr :is_danger, :boolean, default: false, doc: "Generates a red button."
+  attr :is_danger, :boolean,
+    default: false,
+    doc: "Generates a danger button (red label, turns the button red on hover)."
+
   attr :is_disabled, :boolean, default: false, doc: "Generates a disabled button."
+
+  attr :is_icon_button, :boolean,
+    default: false,
+    doc:
+      "Generates an icon button without a label (similar to Primer React's IconButton). Add `is_danger` to create a danger icon (turns the icon red on hover)."
 
   attr :is_icon_only, :boolean,
     default: false,
-    doc: "Generates an icon button without a label. Add `is_danger` to create a danger icon."
+    doc:
+      "Generates an icon that functions as a button. Add `is_danger` to create a danger icon (turns the icon red on hover)."
 
   attr :is_invisible, :boolean,
     default: false,
@@ -7390,6 +7407,7 @@ defmodule PrimerLive.Component do
         !assigns.is_link and !assigns.is_icon_only and !assigns.is_close_button and "btn",
         assigns.is_link and "btn-link",
         assigns.is_icon_only and "btn-octicon",
+        assigns.is_icon_button and "btn-icon",
         assigns.is_danger and
           if assigns.is_icon_only do
             "btn-octicon-danger"
