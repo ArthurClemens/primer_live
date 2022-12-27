@@ -30,7 +30,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div data-touch=""></div>
-             <div class="SelectMenu">
+             <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-list">
              <ul class="ActionList" role="listbox">
@@ -79,7 +79,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <div class="dropdown-caret"></div>
              </summary>
              <div data-touch=""></div>
-             <div class="SelectMenu">
+             <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-list">
              <ul class="ActionList" role="listbox">
@@ -159,7 +159,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <div class="dropdown-caret"></div>
              </summary>
              <div data-touch=""></div>
-             <div class="SelectMenu">
+             <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-list">
              <ul class="ActionList" role="listbox">
