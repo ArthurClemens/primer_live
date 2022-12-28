@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.5
+
+Added:
+- `drawer`
+
 ## 0.1.4
 
 Bug fix:
