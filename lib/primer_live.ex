@@ -16,7 +16,7 @@ defmodule PrimerLive do
   ## Versioning
 
   Dependencies:
-  - [primer-live (npm)](https://www.npmjs.com/package/primer-live): `0.1.18`
+  - [primer-live (npm)](https://www.npmjs.com/package/primer-live)
     - Includes:
       - [@primer/css](https://www.npmjs.com/package/@primer/css)
       - [dialogic-js](https://www.npmjs.com/package/dialogic-js)
