@@ -837,7 +837,9 @@ defmodule PrimerLive.Component do
         |> assign(:content, content)
 
       ~H"""
-      <span class={@classes.label}><%= render_slot(@content) %></span>
+      <%= if @content && @content !== [] do %>
+        <span class={@classes.label}><%= render_slot(@content) %></span>
+      <% end %>
       <%= if @description && @description !== [] do %>
         <span class={@classes.description}><%= render_slot(@description) %></span>
       <% end %>
@@ -6167,7 +6169,7 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <%= if @is_divider do %>
-        <li {@item_attributes} />
+        <li {@item_attributes}></li>
       <% else %>
         <li>
           <Phoenix.Component.link {@item_attributes}>
@@ -10251,26 +10253,10 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Close the button with the Escape key:
+  Close the dialog with the Escape key:
 
   ```
   <.dialog is_escapable>
-    ...
-  </.dialog>
-  ```
-
-  Focus the first element after opening the dialog. Pass a selector to match the element.
-
-  ```
-  <.dialog focus_first="#login_first_name">
-    ...
-  </.dialog>
-  ```
-
-  or
-
-  ```
-  <.dialog focus_first="[name=login\[first_name\]]">
     ...
   </.dialog>
   ```
@@ -10295,6 +10281,22 @@ defmodule PrimerLive.Component do
 
   ```
   <.dialog is_wide>
+    ...
+  </.dialog>
+  ```
+
+  Focus the first element after opening the dialog. Pass a selector to match the element.
+
+  ```
+  <.dialog focus_first="#login_first_name">
+    ...
+  </.dialog>
+  ```
+
+  or
+
+  ```
+  <.dialog focus_first="[name=login\[first_name\]]">
     ...
   </.dialog>
   ```
@@ -10380,7 +10382,7 @@ defmodule PrimerLive.Component do
     %{
       # Dialog classes
       dialog_wrapper: "",  # The outer element
-      dialog: "",          # Dialog  element
+      dialog: "",          # Dialog element
       # Box classes - see box component:
       box: "",
       header: "",
@@ -10456,13 +10458,13 @@ defmodule PrimerLive.Component do
   attr :max_height, :string,
     default: "80vh",
     doc: """
-    Maximum height of dialog as CSS value. Use unit `vh` or `%`.
+    Maximum height of the dialog as CSS value. Use unit `vh` or `%`.
     """
 
   attr :max_width, :string,
     default: "90vw",
     doc: """
-    Maximum width of dialog as CSS value. Use unit `vh` or `%`.
+    Maximum width of the dialog as CSS value. Use unit `vh` or `%`.
     """
 
   attr(:rest, :global,
@@ -10633,6 +10635,344 @@ defmodule PrimerLive.Component do
           </.box>
         </.focus_wrap>
       </div>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # drawer
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :drawer
+
+  @doc ~S"""
+  Generates a drawer with configuration options for backdrop, position and behavior.
+
+  ```
+  <.drawer>
+    <.drawer_content>
+      Content
+    </.drawer_content>
+  </.drawer>
+  ```
+
+  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in `primer-js` (see Installation). Function `Prompt.show` requires a selector. When placed inside the drawer component, the selector can be replaced with `this`:
+
+  ```
+  <.drawer id="my-drawer">
+    <.drawer_content>
+      <.button onclick="Prompt.hide(this)">Close</.button>
+      Content
+    </.drawer_content>
+  </.drawer>
+
+  <.button onclick="Prompt.show('#my-drawer')">Open drawer</.button>
+  ```
+
+  ## Examples
+
+  By default the drawer width is defined by its content. To set an explicit width of the drawer content:
+
+  ```
+  <.drawer>
+    <.drawer_content width="300px">
+      ...
+    </.drawer_content>
+  </.drawer>
+  ```
+
+
+  Add a backdrop. Optionally add `is_light_backdrop` or `is_dark_backdrop`:
+
+  ```
+  <.drawer is_backdrop is_dark_backdrop>
+    ...
+  </.drawer>
+  ```
+
+  Create a modal drawer; clicking the backdrop (if used) or outside of the drawer will not close the drawer:
+
+  ```
+  <.drawer is_modal>
+    ...
+  </.drawer>
+  ```
+
+  Close the drawer with the Escape key:
+
+  ```
+  <.drawer is_escapable>
+    ...
+  </.drawer>
+  ```
+
+  Create faster slide in and out:
+
+  ```
+  <.drawer is_fast>
+    ...
+  </.drawer>
+  ```
+
+  Focus the first element after opening the drawer. Pass a selector to match the element.
+
+  ```
+  <.drawer focus_first="#login_first_name">
+    ...
+  </.drawer>
+  ```
+
+  or
+
+  ```
+  <.drawer focus_first="[name=login\[first_name\]]">
+    ...
+  </.drawer>
+  ```
+
+  Create a local drawer (inside a container) with `is_local`:
+
+  ```
+  <div style="position: relative; overflow-x: hidden;">
+    Page content
+    <.drawer is_local>
+      <.drawer_content>
+        Content
+      </.drawer_content>
+    </.drawer>
+  </div>
+  ```
+
+  Create a push drawer - where the drawer content pushes the adjacent content aside when it opens - with attr `is_push` and the content to be pushed inside `<.drawer>`:
+
+  ```
+  <div style="position: relative; overflow-x: hidden;">
+    <.drawer is_push>
+      Page content
+      <.drawer_content>
+        Content
+      </.drawer_content>
+    </.drawer>
+  </div>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  Neither Primer CSS nor Primer React provide a drawer component. However, a drawer is used on their documentation site (mobile view).
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr :is_far_side, :boolean,
+    default: false,
+    doc: """
+    Opens the drawer at the far end of the reading direction.
+    """
+
+  attr :is_backdrop, :boolean,
+    default: false,
+    doc: """
+    Generates a medium backdrop background color.
+    """
+
+  attr :is_dark_backdrop, :boolean,
+    default: false,
+    doc: """
+    Generates a darker backdrop background color.
+    """
+
+  attr :is_medium_backdrop, :boolean,
+    default: false,
+    doc: """
+    Generates a medium backdrop background color (default).
+    """
+
+  attr :is_light_backdrop, :boolean,
+    default: false,
+    doc: """
+    Generates a lighter backdrop background color.
+    """
+
+  attr :is_fast, :boolean,
+    default: false,
+    doc: """
+    Generates fast fade transitions for backdrop and content.
+    """
+
+  attr :is_modal, :boolean,
+    default: false,
+    doc: """
+    Generates a modal drawer; clicking the backdrop (if used) or outside of the drawer will not close the drawer.
+    """
+
+  attr :is_escapable, :boolean,
+    default: false,
+    doc: """
+    Closes the content when pressing the Escape key.
+    """
+
+  attr :is_local, :boolean,
+    default: false,
+    doc: """
+    Adds styles for a drawer inside a a container.
+    """
+
+  attr :is_push, :boolean,
+    default: false,
+    doc: """
+    Adds styles for a push drawer inside a a container.
+    """
+
+  attr :focus_first, :string,
+    doc: """
+    Focus the first element after opening the drawer. Pass a selector to match the element.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot(:inner_block,
+    doc:
+      "Drawer content and any adjacent elements. Use `drawer_content/1` for the content to be displayed inside the drawer."
+  )
+
+  def drawer(assigns) do
+    drawer_id = assigns.rest[:id] || AttributeHelpers.random_string()
+
+    wrapper_attrs =
+      AttributeHelpers.append_attributes(assigns.rest |> Map.drop([:id]), [
+        assigns[:class] && [class: assigns[:class]],
+        [id: drawer_id],
+        [data_prompt: ""],
+        [data_isdrawer: ""],
+        if assigns.is_far_side do
+          [data_isfarside: ""]
+        end,
+        assigns.is_modal && [data_ismodal: ""],
+        assigns.is_local && [data_islocal: ""],
+        assigns.is_push && [data_ispush: ""],
+        assigns.is_escapable && [data_isescapable: ""],
+        assigns.is_fast && [data_isfast: ""],
+        assigns[:focus_first] && [data_focusfirst: assigns[:focus_first]]
+      ])
+
+    touch_layer_attrs =
+      AttributeHelpers.append_attributes([], [
+        [data_touch: ""]
+      ])
+
+    backdrop_attrs =
+      AttributeHelpers.append_attributes([], [
+        cond do
+          assigns.is_dark_backdrop -> [data_backdrop: "", data_isdark: ""]
+          assigns.is_medium_backdrop -> [data_backdrop: "", data_ismedium: ""]
+          assigns.is_light_backdrop -> [data_backdrop: "", data_islight: ""]
+          assigns.is_backdrop -> [data_backdrop: "", data_ismedium: ""]
+          true -> []
+        end
+      ])
+
+    content_attrs =
+      AttributeHelpers.append_attributes([], [
+        [data_content: ""]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:wrapper_attrs, wrapper_attrs)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
+      |> assign(:backdrop_attrs, backdrop_attrs)
+      |> assign(:content_attrs, content_attrs)
+
+    ~H"""
+    <div {@wrapper_attrs}>
+      <%= if !@is_push do %>
+        <%= if @backdrop_attrs !== [] do %>
+          <div {@backdrop_attrs}></div>
+        <% end %>
+        <div {@touch_layer_attrs}></div>
+      <% end %>
+      <div {@content_attrs}>
+        <%= if @is_push do %>
+          <%= if @backdrop_attrs !== [] do %>
+            <div {@backdrop_attrs}></div>
+          <% end %>
+          <div {@touch_layer_attrs}></div>
+        <% end %>
+        <%= render_slot(@inner_block) %>
+      </div>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # drawer_content
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :drawer
+
+  @doc ~S"""
+  Drawer content. See `drawer/1`.
+
+  [INSERT LVATTRDOCS]
+  """
+
+  attr(:class, :string, default: nil, doc: "Additional classname.")
+
+  attr :width, :string,
+    default: nil,
+    doc: """
+    Sets the width of the drawer as CSS value. Add unit `px` or `rem` or other size unit.
+
+    By default the drawer width is defined by its content.
+    """
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot(:inner_block,
+    doc: "Drawer content."
+  )
+
+  def drawer_content(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "Box--overlay",
+        assigns[:class]
+      ])
+
+    # Assign an id for focus wrap
+    drawer_content_id = assigns.rest[:id] || AttributeHelpers.random_string()
+    focus_wrap_id = "focus-wrap-#{drawer_content_id}"
+
+    content_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [data_drawer_content: ""],
+        [class: class],
+        assigns[:width] &&
+          [
+            style: "width: #{assigns[:width]}"
+          ]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:content_attrs, content_attrs)
+      |> assign(:focus_wrap_id, focus_wrap_id)
+
+    ~H"""
+    <div {@content_attrs}>
+      <.focus_wrap id={@focus_wrap_id}>
+        <%= render_slot(@inner_block) %>
+      </.focus_wrap>
     </div>
     """
   end

@@ -50,6 +50,7 @@ defmodule PrimerLive.MixProject do
         Breadcrumbs: &(&1[:section] == :breadcrumbs),
         Buttons: &(&1[:section] == :buttons),
         Dialog: &(&1[:section] == :dialog),
+        Drawer: &(&1[:section] == :drawer),
         Forms: &(&1[:section] == :forms),
         Header: &(&1[:section] == :header),
         Icons: &(&1[:section] == :icons),
