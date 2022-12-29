@@ -35,6 +35,31 @@ defmodule PrimerLive.Components.TabnavTest do
              |> format_html()
   end
 
+  test "Attribute: is_small" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.tabnav aria_label="Tabs">
+             <:item is_small is_selected>
+               One
+             </:item>
+             <:item is_small>
+               Two
+             </:item>
+           </.tabnav>
+           """)
+           |> format_html() ==
+             """
+             <div class="tabnav">
+             <nav class="tabnav-tabs" aria-label="Tabs">
+             <button class="tabnav-tab tabnav-tab--small" role="tab" aria-selected="true" aria-current="page">One</button>
+             <button class="tabnav-tab tabnav-tab--small" role="tab">Two</button>
+             </nav>
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Slot: item links (with various content)" do
     assigns = %{}
 

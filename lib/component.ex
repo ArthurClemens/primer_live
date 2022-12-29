@@ -1115,6 +1115,19 @@ defmodule PrimerLive.Component do
   </.tabnav>
   ```
 
+  Create small tabs (similar to tabs inside a `select_menu/1`) with `is_small`:
+
+  ```
+  <.tabnav>
+    <:item is_small is_selected>
+      One
+    </:item>
+    <:item is_small>
+      Two
+    </:item>
+  </.tabnav>
+  ```
+
   [INSERT LVATTRDOCS]
 
   ## Reference
@@ -1166,6 +1179,12 @@ defmodule PrimerLive.Component do
     attr(:is_selected, :boolean,
       doc: """
       Shows the selected state.
+      """
+    )
+
+    attr(:is_small, :boolean,
+      doc: """
+      Creates a small tab, similar to tabs inside a `select_menu/1`.
       """
     )
 
@@ -1233,6 +1252,7 @@ defmodule PrimerLive.Component do
       tab: fn slot ->
         AttributeHelpers.classnames([
           "tabnav-tab",
+          slot[:is_small] && "tabnav-tab--small",
           assigns.classes[:tab],
           slot[:class]
         ])
@@ -1253,7 +1273,8 @@ defmodule PrimerLive.Component do
       rest =
         assigns_to_attributes(slot, [
           :class,
-          :is_selected
+          :is_selected,
+          :is_small
         ])
 
       attributes =
