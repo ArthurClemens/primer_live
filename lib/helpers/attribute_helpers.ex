@@ -316,39 +316,10 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     max(min, min(value, max))
   end
 
-  @random_string_length 12
-
   @doc """
-  Generates a random (printable) string.
-  Customised to return lowercase alpha characters.
-  Source: https://gist.github.com/ahmadshah/8d978bbc550128cca12dd917a09ddfb7?permalink_comment_id=4178225#gistcomment-4178225
-
-  ## Examples
-
-      iex> PrimerLive.Helpers.AttributeHelpers.random_string() |> is_binary
-      true
-
-      iex> PrimerLive.Helpers.AttributeHelpers.random_string() |> String.length
-      12
+  Generates a random string.
   """
-  def random_string() do
-    for(_ <- 1..@random_string_length, do: rand_uniform(97, 122))
-    |> List.to_string()
-  end
-
-  # Returns a random integer uniformly distributed in the range
-  # `n <= X <= m`.
-  #
-  # If the random variable `X` is uniformly distributed in the range
-  # `1 <= X <= m - n + 1`, then r.v `Y = X + n - 1` is uniformly
-  # distributed in the range `n <= Y <= m`.
-  # (Because we just shift X to the right).
-  defp rand_uniform(n, m) do
-    # random X
-    :rand.uniform(m - n + 1)
-    # shift X to the right to get Y
-    |> Kernel.+(n - 1)
-  end
+  def random_string(), do: Ecto.UUID.generate()
 
   @doc """
   Verifies if a slot should be handled as a link.
