@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.7
+
+Updated:
+- Added `is_small` for `tabnav` items
+
 ## 0.1.6
 
 Updated:

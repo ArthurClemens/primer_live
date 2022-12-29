@@ -22,7 +22,7 @@ defmodule PrimerLive do
       - [dialogic-js](https://www.npmjs.com/package/dialogic-js)
 
   Included libraries:
-  - [Octicons](https://primer.style/octicons/): `17.10.0`
+  - [Octicons](https://primer.style/octicons/)
 
 
   ## Installation
