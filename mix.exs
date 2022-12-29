@@ -31,7 +31,7 @@ defmodule PrimerLive.MixProject do
   defp deps do
     [
       {:ecto_sql, "~> 3.6"},
-      {:ex_doc, "~> 0.28.5", only: :dev},
+      {:ex_doc, "~> 0.29.0", only: :dev},
       {:phoenix_html, "~> 3.2.0"},
       {:phoenix_live_view, "~> 0.18.3"},
       {:jason, "~> 1.0"}
