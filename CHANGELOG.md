@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.8
+
+Updated:
+- Removed requirement for Elixir version
+
 ## 0.1.7
 
 Updated:
