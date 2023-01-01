@@ -518,4 +518,33 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              """
              |> format_html()
   end
+
+  test "Extra attributes (should ignore attr open)" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.select_menu dir="rtl" open>
+             <:toggle>Menu</:toggle>
+             <:item>
+               Item 1
+             </:item>
+             <:item>
+               Item 2
+             </:item>
+           </.select_menu>
+           """)
+           |> format_html() ==
+             """
+             <details dir="rtl" class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <summary class="btn" aria-haspopup="true">Menu</summary>
+             <div data-touch=""></div>
+             <div class="SelectMenu">
+             <div class="SelectMenu-modal" data-content="" aria-role="menu">
+             <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button class="SelectMenu-item" role="menuitem">Item 2</button></div>
+             </div>
+             </div>
+             </details>
+             """
+             |> format_html()
+  end
 end
