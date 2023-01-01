@@ -85,7 +85,7 @@ defmodule PrimerLive.Components.SubnavTest do
              """
              <div class="subnav">
              <div class="subnav-search-context float-left">
-             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu<div class="dropdown-caret"></div>
              </summary>
              <div data-touch=""></div>
@@ -146,7 +146,7 @@ defmodule PrimerLive.Components.SubnavTest do
              </div>
              <div class="subnav my-search-subnav">
              <div class="subnav-search-context float-left my-subnav-search-context">
-             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu<div class="dropdown-caret"></div>
              </summary>
              <div data-touch=""></div>

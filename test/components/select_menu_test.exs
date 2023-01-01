@@ -35,7 +35,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div data-touch=""></div>
              <div class="SelectMenu">
@@ -70,7 +70,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div data-touch=""></div>
              <div class="SelectMenu">
@@ -107,7 +107,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div data-touch=""></div>
              <div class="SelectMenu">
@@ -159,7 +159,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            |> format_html() ==
              """
              <details id="my-menu-id" class="details-reset details-overlay" data-menuid="my-menu-id" data-prompt=""
-             ontoggle="Prompt.init(this)">
+             ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div data-touch=""></div>
              <div class="SelectMenu">
@@ -199,7 +199,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div data-touch=""></div>
              <div class="SelectMenu">
@@ -235,7 +235,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter">
@@ -275,7 +275,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div data-touch=""></div>
              <div class="SelectMenu">
@@ -303,7 +303,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div data-touch=""></div>
              <div class="SelectMenu">
@@ -334,7 +334,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div data-touch=""></div>
              <div class="SelectMenu">
@@ -360,7 +360,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div data-touch=""></div>
              <div class="SelectMenu">
@@ -390,7 +390,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div data-touch=""></div>
              <div class="SelectMenu">
@@ -420,7 +420,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details class="details-reset details-overlay" data-prompt="" ontoggle="Prompt.init(this)">
+             <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="btn" aria-haspopup="true">Menu</summary>
              <div data-touch=""></div>
              <div class="SelectMenu right-0">
@@ -489,7 +489,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <details id="my-menu-id" class="details-reset details-overlay select_menu-x my-select-menu" data-menuid="my-menu-id" data-prompt="" ontoggle="Prompt.init(this)">
+             <details id="my-menu-id" class="details-reset details-overlay select_menu-x my-select-menu" data-menuid="my-menu-id" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
              <summary class="toggle-x my-toggle" aria-haspopup="true">Menu<div class="dropdown-caret caret-x"></div></summary>
              <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter menu-x">
@@ -512,6 +512,35 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              <div class="SelectMenu-blankslate blankslate-x my-blankslate">Blankslate content</div><button class="SelectMenu-item item-x my-item" role="menuitem">Item 1</button><button class="SelectMenu-item item-x" role="menuitem">Item 2</button>
              </div>
              <div class="SelectMenu-footer footer-x my-footer">Footer</div>
+             </div>
+             </div>
+             </details>
+             """
+             |> format_html()
+  end
+
+  test "Extra attributes (should ignore attr open)" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.select_menu dir="rtl" open>
+             <:toggle>Menu</:toggle>
+             <:item>
+               Item 1
+             </:item>
+             <:item>
+               Item 2
+             </:item>
+           </.select_menu>
+           """)
+           |> format_html() ==
+             """
+             <details dir="rtl" class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
+             <summary class="btn" aria-haspopup="true">Menu</summary>
+             <div data-touch=""></div>
+             <div class="SelectMenu">
+             <div class="SelectMenu-modal" data-content="" aria-role="menu">
+             <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button class="SelectMenu-item" role="menuitem">Item 2</button></div>
              </div>
              </div>
              </details>
