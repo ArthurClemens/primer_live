@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.9
+
+Added:
+- `styled_html`
+
 ## 0.1.8
 
 Updated:
