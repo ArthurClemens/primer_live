@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.1.8",
+      version: "0.1.9",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: description(),
       package: package(),
@@ -50,6 +50,7 @@ defmodule PrimerLive.MixProject do
         Buttons: &(&1[:section] == :buttons),
         Dialog: &(&1[:section] == :dialog),
         Drawer: &(&1[:section] == :drawer),
+        "Styled HTML": &(&1[:section] == :styled_html),
         Forms: &(&1[:section] == :forms),
         Header: &(&1[:section] == :header),
         Icons: &(&1[:section] == :icons),

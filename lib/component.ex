@@ -4763,6 +4763,61 @@ defmodule PrimerLive.Component do
   end
 
   # ------------------------------------------------------------------------------------
+  # styled_html
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :styled_html
+
+  @doc ~S"""
+  Adds styling to HTML.
+
+  ```
+  <.styled_html>
+    Content
+  </.styled_html>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Markdown](https://primer.style/css/components/markdown/)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:class, :string, doc: "Additional classname.")
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot(:inner_block, required: true, doc: "Content to be formatted.")
+
+  def styled_html(assigns) do
+    class =
+      AttributeHelpers.classnames([
+        "markdown-body",
+        assigns[:class]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:class, class)
+
+    ~H"""
+    <div class={@class} {@rest}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
   # layout
   # ------------------------------------------------------------------------------------
 
