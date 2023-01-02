@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.1.10",
+      version: "0.1.11",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: description(),
       package: package(),
@@ -65,6 +65,7 @@ defmodule PrimerLive.MixProject do
         Popover: &(&1[:section] == :popover),
         Progress: &(&1[:section] == :progress),
         Subhead: &(&1[:section] == :subhead),
+        Theme: &(&1[:section] == :theme),
         Timeline: &(&1[:section] == :timeline),
         Toasts: &(&1[:section] == :toasts),
         Tooltips: &(&1[:section] == :tooltips),

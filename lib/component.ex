@@ -11812,4 +11812,132 @@ defmodule PrimerLive.Component do
     <% end %>
     """
   end
+
+  # ------------------------------------------------------------------------------------
+  # theme
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :theme
+
+  @doc ~S"""
+  Sets the light/dark color mode and theme, with support for color blindness.
+
+  ## Examples
+
+  Use default settings:
+
+  ```
+  <.theme>
+    Content
+  </.theme>
+  ```
+
+  Set the color mode to dark and specify the dark theme:
+
+  ```
+  <.theme color_mode="dark" dark_theme="dark_dimmed">
+    Content
+  </.theme>
+  ```
+
+  Specify light and dark themes:
+
+  ```
+  <.theme color_mode="dark" light_theme="light_high_contrast" dark_theme="dark_high_contrast">
+    Content
+  </.theme>
+  ```
+
+  Set a theme on an invididual element. Use `is_inline` for inline elements:
+
+  ```
+  <.theme color_mode="dark" dark_theme="dark">
+    Dark theme content...
+    With a high contrast icon:
+    <.theme color_mode="dark" dark_theme="dark_high_contrast" is_inline>
+      <.octicon name="sun-24" />
+    </.theme>
+  </.theme>
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer/CSS Theming](https://primer.style/css/support/theming)
+
+  ## Status
+
+  Feature complete.
+
+  """
+
+  attr(:color_mode, :string, default: "auto", values: ~w(light dark auto), doc: "Color mode.")
+
+  attr(:light_theme, :string,
+    default: "light",
+    values: ~w(light light_high_contrast light_colorblind light_tritanopia),
+    doc: """
+    Light theme.
+
+    Possible values:
+    - "light"
+    - "light_high_contrast"
+    - "light_colorblind"
+    - "light_tritanopia"
+    """
+  )
+
+  attr(:dark_theme, :string,
+    default: "dark",
+    values: ~w(dark dark_dimmed dark_high_contrast dark_colorblind dark_tritanopia),
+    doc: """
+    Dark theme.
+
+    Possible values:
+    - "dark"
+    - "dark_dimmed"
+    - "dark_high_contrast"
+    - "dark_colorblind"
+    - "dark_tritanopia"
+    """
+  )
+
+  attr(:is_inline, :boolean,
+    default: false,
+    doc: """
+    Renders the wrapper as a `span`. Useful for setting the color on an inline element.
+    """
+  )
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  slot(:inner_block, required: true, doc: "Content.")
+
+  def theme(assigns) do
+    attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [data_color_mode: assigns.color_mode],
+        [data_light_theme: assigns.light_theme],
+        [data_dark_theme: assigns.dark_theme]
+      ])
+
+    assigns = assigns |> assign(:attributes, attributes)
+
+    ~H"""
+    <%= if @is_inline do %>
+      <span {@attributes}>
+        <%= render_slot(@inner_block) %>
+      </span>
+    <% else %>
+      <div {@attributes}>
+        <%= render_slot(@inner_block) %>
+      </div>
+    <% end %>
+    """
+  end
 end
