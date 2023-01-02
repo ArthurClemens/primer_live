@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.11
+
+Added:
+- `theme`
+
+## 0.1.10
+
+Updated:
+- Prevent attribute open on select menu
+
 ## 0.1.9
 
 Added:
