@@ -95,6 +95,21 @@ defmodule PrimerLive.TestComponents.ThemeTest do
              |> format_html()
   end
 
+  test "Attribute: inline" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.theme is_inline>
+             Content
+           </.theme>
+           """)
+           |> format_html() ==
+             """
+             <span data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">Content</span>
+             """
+             |> format_html()
+  end
+
   test "Additional attributes" do
     assigns = %{}
 

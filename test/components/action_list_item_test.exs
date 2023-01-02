@@ -157,29 +157,8 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item" aria-selected="true" role="option">
-             <span class="ActionList-content">
-             <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">
-             <path fill-rule="evenodd" clip-rule="evenodd"
-             d="M13.7799 4.22001C13.9203 4.36063 13.9992 4.55126 13.9992 4.75001C13.9992 4.94876 13.9203 5.13938 13.7799 5.28001L6.52985 12.53C6.38922 12.6704 6.1986 12.7493 5.99985 12.7493C5.8011 12.7493 5.61047 12.6704 5.46985 12.53L2.21985 9.28001C2.08737 9.13783 2.01525 8.94979 2.01867 8.75548C2.0221 8.56118 2.10081 8.3758 2.23823 8.23838C2.37564 8.10097 2.56103 8.02226 2.75533 8.01883C2.94963 8.0154 3.13767 8.08753 3.27985 8.22001L5.99985 10.94L12.7199 4.22001C12.8605 4.07956 13.0511 4.00067 13.2499 4.00067C13.4486 4.00067 13.6393 4.07956 13.7799 4.22001Z"
-             fill="#24292F"></path>
-             </svg>
-             </span>
-             <span class="ActionList-item-label">Item</span>
-             </span>
-             </li>
-             <li class="ActionList-item" aria-selected="false" role="option">
-             <span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">
-             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">
-             <path fill-rule="evenodd" clip-rule="evenodd"
-             d="M13.7799 4.22001C13.9203 4.36063 13.9992 4.55126 13.9992 4.75001C13.9992 4.94876 13.9203 5.13938 13.7799 5.28001L6.52985 12.53C6.38922 12.6704 6.1986 12.7493 5.99985 12.7493C5.8011 12.7493 5.61047 12.6704 5.46985 12.53L2.21985 9.28001C2.08737 9.13783 2.01525 8.94979 2.01867 8.75548C2.0221 8.56118 2.10081 8.3758 2.23823 8.23838C2.37564 8.10097 2.56103 8.02226 2.75533 8.01883C2.94963 8.0154 3.13767 8.08753 3.27985 8.22001L5.99985 10.94L12.7199 4.22001C12.8605 4.07956 13.0511 4.00067 13.2499 4.00067C13.4486 4.00067 13.6393 4.07956 13.7799 4.22001Z"
-             fill="#24292F"></path>
-             </svg>
-             </span>
-             <span class="ActionList-item-label">Item</span>
-             </span>
-             </li>
+             <li class="ActionList-item" aria-selected="true" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+             class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Item</span></span></li>
              """
              |> format_html()
   end
