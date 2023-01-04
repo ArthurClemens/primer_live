@@ -37,7 +37,27 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select class="form-select" id="_age" name="age">
+             <select class="form-select" id="_age" name="age" phx-feedback-for="_age">
+             <option value="25">25</option>
+             <option value="26">26</option>
+             <option value="27">27</option>
+             <option value="28">28</option>
+             <option value="29">29</option>
+             <option value="30">30</option>
+             </select>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: id" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.select name="age" options={25..30} id="my-select" />
+           """)
+           |> format_html() ==
+             """
+             <select class="form-select" id="my-select" name="age" phx-feedback-for="my-select">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>
@@ -57,7 +77,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select class="form-select select-sm" id="_age" name="age">
+             <select class="form-select select-sm" id="_age" name="age" phx-feedback-for="_age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>
@@ -77,7 +97,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select class="form-select" id="_age" name="age">
+             <select class="form-select" id="_age" name="age" phx-feedback-for="_age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option selected value="27">27</option>
@@ -95,14 +115,14 @@ defmodule PrimerLive.TestComponents.SelectTest do
     }
 
     assert rendered_to_string(~H"""
-           <.select form={@form} field={:role} options={["admin", "editor"]} /> />
+           <.select form={@form} field={:role} options={["admin", "editor"]} />
            """)
            |> format_html() ==
              """
-             <select class="form-select" id="user_role" name="user[role]">
+             <select class="form-select" id="user_role" name="user[role]" phx-feedback-for="user_role">
              <option value="admin">admin</option>
              <option value="editor">editor</option>
-             </select>/>
+             </select>
              """
              |> format_html()
   end
@@ -113,14 +133,14 @@ defmodule PrimerLive.TestComponents.SelectTest do
     }
 
     assert rendered_to_string(~H"""
-           <.select form={@form} field={:role} options={[Admin: "admin", User: "user"]} /> />
+           <.select form={@form} field={:role} options={[Admin: "admin", User: "user"]} />
            """)
            |> format_html() ==
              """
-             <select class="form-select" id="user_role" name="user[role]">
+             <select class="form-select" id="user_role" name="user[role]" phx-feedback-for="user_role">
              <option value="admin">Admin</option>
              <option value="user">User</option>
-             </select>/>
+             </select>
              """
              |> format_html()
   end
@@ -139,7 +159,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select class="form-select" id="user_role" name="user[role]">
+             <select class="form-select" id="user_role" name="user[role]" phx-feedback-for="user_role">
              <option disabled value="admin">Admin</option>
              <option value="user">User</option>
              </select>
@@ -162,7 +182,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select class="form-select" id="user_role" name="user[role]">
+             <select class="form-select" id="user_role" name="user[role]" phx-feedback-for="user_role">
              <option value="">Choose your role</option>
              <option value="admin">Admin</option>
              <option value="user">User</option>
@@ -186,7 +206,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select class="form-select" id="user_role" name="user[role]">
+             <select class="form-select" id="user_role" name="user[role]" phx-feedback-for="user_role">
              <option disabled value="">Choose your role</option>
              <option value="admin">Admin</option>
              <option value="user">User</option>
@@ -210,12 +230,12 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select aria-describedby="user_role-validation" class="form-select" id="user_role" invalid="" name="user[role]">
+             <select aria-describedby="user_role-validation" class="form-select" id="user_role" invalid="" name="user[role]" phx-feedback-for="user_role">
              <option disabled value="">Choose your role</option>
              <option value="admin">Admin</option>
              <option value="user">User</option>
              </select>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_role-validation">
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_role-validation" phx-feedback-for="user_role">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
              <span>can&#39;t be blank</span>
              </div>
@@ -248,7 +268,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select class="form-select" id="user_role" multiple="" name="user[role][]" size="7">
+             <select class="form-select" id="user_role" multiple="" name="user[role][]" phx-feedback-for="user_role" size="7">
              <option value="admin">Admin</option>
              <option value="user">User</option>
              <option value="editor">Editor</option>
@@ -291,7 +311,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select aria-describedby="user_role-validation" aria-label="Role" class="form-select select-x my-select" id="user_role" invalid="" name="user[role]">
+             <select aria-describedby="user_role-validation" aria-label="Role" class="form-select select-x my-select" id="user_role" invalid="" name="user[role]" phx-feedback-for="user_role">
              <option value="admin">Admin</option>
              <option value="user">User</option>
              <option value="editor">Editor</option>
@@ -300,7 +320,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
              <option value="project_owner">Project owner</option>
              <option value="developer">Developer</option>
              </select>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x" id="user_role-validation">
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x" id="user_role-validation" phx-feedback-for="user_role">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
              <span>can&#39;t be blank</span>
              </div>
@@ -316,7 +336,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <select aria-label="Age" class="form-select" dir="rtl" id="_age" name="age">
+             <select aria-label="Age" class="form-select" dir="rtl" id="_age" name="age" phx-feedback-for="_age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>

@@ -3063,6 +3063,11 @@ defmodule PrimerLive.Component do
   attr(:valid?, :boolean, default: false, doc: "Valid state.")
   attr(:class, :string, default: nil, doc: "Classname.")
 
+  attr(:input_id, :string,
+    default: nil,
+    doc: "Input id"
+  )
+
   defp input_validation_message(assigns) do
     class =
       AttributeHelpers.classnames([
@@ -3075,13 +3080,20 @@ defmodule PrimerLive.Component do
         assigns.class
       ])
 
+    attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: class],
+        [id: assigns.message_id],
+        [phx_feedback_for: assigns[:input_id]]
+      ])
+
     assigns =
       assigns
-      |> assign(:class, class)
+      |> assign(:attributes, attributes)
 
     ~H"""
     <%= if not is_nil(@message) do %>
-      <div class={@class} id={@message_id}>
+      <div {@attributes}>
         <%= if @valid? do %>
           <.octicon name="check-circle-fill-12" />
         <% else %>
@@ -3437,7 +3449,8 @@ defmodule PrimerLive.Component do
             !rest[:aria_label] && [aria_label: rest[:placeholder]],
             validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
-            has_error && [invalid: ""]
+            has_error && [invalid: ""],
+            [phx_feedback_for: input_id]
           ]
         )
 
@@ -3451,6 +3464,7 @@ defmodule PrimerLive.Component do
       assigns =
         assigns
         |> assign(:input, input)
+        |> assign(:input_id, input_id)
         |> assign(:classes, classes)
         |> assign(:has_group_button, has_group_button)
         |> assign(:validation_message_id, validation_message_id)
@@ -3474,6 +3488,7 @@ defmodule PrimerLive.Component do
         message={@message}
         message_id={@validation_message_id}
         class={@validation_message_class}
+        input_id={@input_id}
       />
       """
     end
@@ -3740,7 +3755,8 @@ defmodule PrimerLive.Component do
             is_auto_height && [size: Enum.count(options)],
             validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
-            has_error && [invalid: ""]
+            has_error && [invalid: ""],
+            [phx_feedback_for: input_id]
           ]
         )
 
@@ -3755,6 +3771,7 @@ defmodule PrimerLive.Component do
       assigns =
         assigns
         |> assign(:input, input)
+        |> assign(:input_id, input_id)
         |> assign(:classes, classes)
         |> assign(:validation_message_id, validation_message_id)
         |> assign(:message, message)
@@ -3768,6 +3785,7 @@ defmodule PrimerLive.Component do
         message={@message}
         message_id={@validation_message_id}
         class={@validation_message_class}
+        input_id={@input_id}
       />
       """
     end

@@ -97,7 +97,7 @@ defmodule PrimerLive.TestComponents.HeaderTest do
              """
              <div class="Header">
              <div class="Header-item"><input class="form-control Header-input" id="user_first_name" name="user[first_name]"
-             type="search" /></div>
+             phx-feedback-for="user_first_name" type="search" /></div>
              </div>
              """
              |> format_html()
