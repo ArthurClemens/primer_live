@@ -3061,7 +3061,9 @@ defmodule PrimerLive.Component do
   attr(:message, :string, default: nil, doc: "Validation message.")
   attr(:message_id, :string, default: nil, doc: "Validation message ID.")
   attr(:valid?, :boolean, default: false, doc: "Valid state.")
+  attr(:show_message?, :boolean, default: false, doc: "Whether to show the message.")
   attr(:class, :string, default: nil, doc: "Classname.")
+  attr(:phx_feedback_for_id, :string, default: nil)
 
   defp input_validation_message(assigns) do
     class =
@@ -3075,13 +3077,20 @@ defmodule PrimerLive.Component do
         assigns.class
       ])
 
+    attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: class],
+        [id: assigns.message_id],
+        [phx_feedback_for: assigns[:phx_feedback_for_id]]
+      ])
+
     assigns =
       assigns
-      |> assign(:class, class)
+      |> assign(:attributes, attributes)
 
     ~H"""
-    <%= if not is_nil(@message) do %>
-      <div class={@class} id={@message_id}>
+    <%= if @show_message? && not is_nil(@message) do %>
+      <div {@attributes}>
         <%= if @valid? do %>
           <.octicon name="check-circle-fill-12" />
         <% else %>
@@ -3388,9 +3397,11 @@ defmodule PrimerLive.Component do
       form: form,
       field: field,
       input_id: input_id,
+      phx_feedback_for_id: phx_feedback_for_id,
       has_form_group: has_form_group,
       form_group_attrs: form_group_attrs,
-      has_error: has_error,
+      show_message?: show_message?,
+      validation_marker_attrs: validation_marker_attrs,
       validation_message_id: validation_message_id,
       message: message,
       valid?: valid?
@@ -3426,7 +3437,7 @@ defmodule PrimerLive.Component do
     render = fn ->
       has_group_button = assigns[:group_button] !== []
 
-      input_attributes =
+      input_attrs =
         AttributeHelpers.append_attributes(
           assigns_to_attributes(rest, [
             :id
@@ -3437,7 +3448,7 @@ defmodule PrimerLive.Component do
             !rest[:aria_label] && [aria_label: rest[:placeholder]],
             validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
-            has_error && [invalid: ""]
+            show_message? && [invalid: ""]
           ]
         )
 
@@ -3445,35 +3456,46 @@ defmodule PrimerLive.Component do
         apply(Phoenix.HTML.Form, FormHelpers.text_input_type_as_atom(assigns.type), [
           form,
           field,
-          input_attributes
+          input_attrs
         ])
 
       assigns =
         assigns
         |> assign(:input, input)
+        |> assign(:phx_feedback_for_id, phx_feedback_for_id)
         |> assign(:classes, classes)
         |> assign(:has_group_button, has_group_button)
         |> assign(:validation_message_id, validation_message_id)
         |> assign(:message, message)
         |> assign(:valid?, valid?)
+        |> assign(:show_message?, show_message?)
         |> assign(:validation_message_class, classes.validation_message)
+        |> assign(:validation_marker_attrs, validation_marker_attrs)
 
       ~H"""
       <%= if @has_group_button do %>
         <div class={@classes.input_group}>
+          <%= if @validation_marker_attrs do %>
+            <span {@validation_marker_attrs}></span>
+          <% end %>
           <%= @input %>
           <span class={@classes.input_group_button}>
             <%= render_slot(@group_button) %>
           </span>
         </div>
       <% else %>
+        <%= if @validation_marker_attrs do %>
+          <span {@validation_marker_attrs}></span>
+        <% end %>
         <%= @input %>
       <% end %>
       <.input_validation_message
         valid?={@valid?}
+        show_message?={@show_message?}
         message={@message}
         message_id={@validation_message_id}
         class={@validation_message_class}
+        phx_feedback_for_id={@phx_feedback_for_id}
       />
       """
     end
@@ -3705,10 +3727,12 @@ defmodule PrimerLive.Component do
       rest: rest,
       form: form,
       field: field,
+      validation_marker_attrs: validation_marker_attrs,
       input_id: input_id,
+      phx_feedback_for_id: phx_feedback_for_id,
       has_form_group: has_form_group,
       form_group_attrs: form_group_attrs,
-      has_error: has_error,
+      show_message?: show_message?,
       validation_message_id: validation_message_id,
       message: message,
       valid?: valid?
@@ -3730,7 +3754,7 @@ defmodule PrimerLive.Component do
       is_auto_height = assigns.is_auto_height
       is_multiple = assigns.is_multiple
 
-      input_attributes =
+      input_attrs =
         AttributeHelpers.append_attributes(
           assigns_to_attributes(rest, [
             :id
@@ -3740,7 +3764,7 @@ defmodule PrimerLive.Component do
             is_auto_height && [size: Enum.count(options)],
             validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
-            has_error && [invalid: ""]
+            show_message? && [invalid: ""]
           ]
         )
 
@@ -3750,24 +3774,32 @@ defmodule PrimerLive.Component do
           true -> :select
         end
 
-      input = apply(Phoenix.HTML.Form, input_fn, [form, field, options, input_attributes])
+      input = apply(Phoenix.HTML.Form, input_fn, [form, field, options, input_attrs])
 
       assigns =
         assigns
         |> assign(:input, input)
+        |> assign(:phx_feedback_for_id, phx_feedback_for_id)
         |> assign(:classes, classes)
         |> assign(:validation_message_id, validation_message_id)
         |> assign(:message, message)
         |> assign(:valid?, valid?)
+        |> assign(:show_message?, show_message?)
         |> assign(:validation_message_class, classes.validation_message)
+        |> assign(:validation_marker_attrs, validation_marker_attrs)
 
       ~H"""
+      <%= if @validation_marker_attrs do %>
+        <span {@validation_marker_attrs}></span>
+      <% end %>
       <%= @input %>
       <.input_validation_message
         valid?={@valid?}
+        show_message?={@show_message?}
         message={@message}
         message_id={@validation_message_id}
         class={@validation_message_class}
+        phx_feedback_for_id={@phx_feedback_for_id}
       />
       """
     end

@@ -378,6 +378,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     form = assigns[:form]
     field = assigns[:field]
     field_or_name = field || name
+    phx_feedback_for_id = Phoenix.HTML.Form.input_name(form, field)
 
     # ID
 
@@ -427,12 +428,34 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     %{
       message: message,
-      valid?: valid?
+      valid?: valid?,
+      ignore_errors?: ignore_errors?
     } = field_state
 
-    has_error = message && !valid?
+    has_changeset = !is_nil(field_state.changeset)
 
+    show_message? = message && !ignore_errors?
     validation_message_id = if !is_nil(field_state.message), do: "#{input_id}-validation"
+
+    # Phoenix uses phx_feedback_for to hide form field errors that are untouched.
+    # However, this attribute can't be set on the element itself (the JS DOM library stalls).
+    # Element "validation_marker" is used as stopgap: a separate element placed just before the input element.
+    validation_marker_attrs =
+      case has_changeset do
+        true ->
+          [
+            phx_feedback_for: input_id,
+            class:
+              if valid? do
+                "pl-valid"
+              else
+                "pl-invalid"
+              end
+          ]
+
+        false ->
+          nil
+      end
 
     %{
       # Common
@@ -441,6 +464,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       field: field,
       # ID and label
       input_id: input_id,
+      phx_feedback_for_id: phx_feedback_for_id,
       value: value,
       derived_label: derived_label,
       validation_message_id: validation_message_id,
@@ -450,7 +474,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       # Field state
       message: message,
       valid?: valid?,
-      has_error: has_error
+      ignore_errors?: ignore_errors?,
+      show_message?: show_message?,
+      validation_marker_attrs: validation_marker_attrs
     }
   end
 end

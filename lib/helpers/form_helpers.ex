@@ -69,7 +69,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>     },
       ...>   },
       ...>   :first_name, nil)
-      %PrimerLive.FieldState{valid?: false, changeset: %{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: nil, field_errors: ["can't be blank"]}
+      %PrimerLive.FieldState{valid?: false, changeset: %{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
   """
   def field_state(form, field, validation_message_fn) do
     changeset = form_changeset(form)
@@ -92,13 +92,14 @@ defmodule PrimerLive.Helpers.FormHelpers do
          field_state <- %{
            field_state
            | valid?: valid?,
+             ignore_errors?: is_nil(changeset.action) && !valid?,
              field_errors: field_errors,
              changeset: changeset
          },
          message <-
            (case is_nil(validation_message_fn) do
               true ->
-                case changeset.action === :validate do
+                case !is_nil(changeset.action) do
                   true ->
                     case field_errors === [] do
                       true ->

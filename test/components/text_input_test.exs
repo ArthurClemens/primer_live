@@ -212,9 +212,10 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
+             <span phx-feedback-for="user_first_name" class="pl-invalid"></span>
              <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]" type="text" value="" />
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation" phx-feedback-for="user[first_name]">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
              <span>can&#39;t be blank</span>
              </div>
              """
@@ -239,11 +240,12 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
+             <span phx-feedback-for="user_first_name" class="pl-invalid"></span>
              <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]" type="text" value="" />
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
-             <span>Please enter your first name</span>
-             </div>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation" phx-feedback-for="user[first_name]">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
+             <span>Please enter your first
+             name</span></div>
              """
              |> format_html()
   end
@@ -270,11 +272,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" name="user[first_name]" type="text" value="anna" />
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="user_first_name-validation">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M6 0a6 6 0 100 12A6 6 0 006 0zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938z"></path></svg>
-             <span>Available!</span>
-             </div>
+             <span phx-feedback-for="user_first_name" class="pl-valid"></span>
+             <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]" type="text" value="anna" />
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="user_first_name-validation" phx-feedback-for="user[first_name]">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
+             <span>Available!</span></div>
              """
              |> format_html()
   end
