@@ -37,7 +37,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="text" />
+             <input class="form-control" id="_" name="[]" type="text" />
              """
              |> format_html()
   end
@@ -63,7 +63,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="form-control" id="user_first_name" name="user[first_name]" phx-feedback-for="user_first_name" type="text" />
+             <input class="form-control" id="user_first_name" name="user[first_name]" type="text" />
              """
              |> format_html()
   end
@@ -76,7 +76,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="form-control" id="user_first_name" name="user[first_name]" phx-feedback-for="user_first_name" type="text" />
+             <input class="form-control" id="user_first_name" name="user[first_name]" type="text" />
              """
              |> format_html()
   end
@@ -89,7 +89,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="form-control" id="_first_name" name="first_name" phx-feedback-for="_first_name" type="text" />
+             <input class="form-control" id="_first_name" name="first_name" type="text" />
              """
              |> format_html()
   end
@@ -117,22 +117,22 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="text" />
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="color" />
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="date" />
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="datetime-local" />
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="email" />
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="file" />
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="hidden" />
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="number" />
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="password" />
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="range" />
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="search" />
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="tel" />
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="text" />
-             <textarea class="form-control" id="_" name="[]" phx-feedback-for="_" ></textarea>
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="time" />
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="url" />
+             <input class="form-control" id="_" name="[]" type="text" />
+             <input class="form-control" id="_" name="[]" type="color" />
+             <input class="form-control" id="_" name="[]" type="date" />
+             <input class="form-control" id="_" name="[]" type="datetime-local" />
+             <input class="form-control" id="_" name="[]" type="email" />
+             <input class="form-control" id="_" name="[]" type="file" />
+             <input class="form-control" id="_" name="[]" type="hidden" />
+             <input class="form-control" id="_" name="[]" type="number" />
+             <input class="form-control" id="_" name="[]" type="password" />
+             <input class="form-control" id="_" name="[]" type="range" />
+             <input class="form-control" id="_" name="[]" type="search" />
+             <input class="form-control" id="_" name="[]" type="tel" />
+             <input class="form-control" id="_" name="[]" type="text" />
+             <textarea class="form-control" id="_" name="[]"></textarea>
+             <input class="form-control" id="_" name="[]" type="time" />
+             <input class="form-control" id="_" name="[]" type="url" />
              """
              |> format_html()
   end
@@ -151,13 +151,13 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="form-control input-contrast" id="_" name="[]" phx-feedback-for="_" type="text" />
-             <input class="form-control input-block" id="_" name="[]" phx-feedback-for="_" type="text" />
-             <input class="form-control input-hide-webkit-autofill" id="_" name="[]" phx-feedback-for="_" type="text" />
-             <input class="form-control input-lg" id="_" name="[]" phx-feedback-for="_" type="text" />
-             <input class="form-control input-sm" id="_" name="[]" phx-feedback-for="_" type="text" />
-             <input class="form-control short" id="_" name="[]" phx-feedback-for="_" type="text" />
-             <input class="form-control shorter" id="_" name="[]" phx-feedback-for="_" type="text" />
+             <input class="form-control input-contrast" id="_" name="[]" type="text" />
+             <input class="form-control input-block" id="_" name="[]" type="text" />
+             <input class="form-control input-hide-webkit-autofill" id="_" name="[]" type="text" />
+             <input class="form-control input-lg" id="_" name="[]" type="text" />
+             <input class="form-control input-sm" id="_" name="[]" type="text" />
+             <input class="form-control short" id="_" name="[]" type="text" />
+             <input class="form-control shorter" id="_" name="[]" type="text" />
              """
              |> format_html()
   end
@@ -172,7 +172,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              """
              <div class="form-group">
              <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body"><input class="form-control" id="user_first_name" name="first_name" phx-feedback-for="user_first_name" type="text" /></div>
+             <div class="form-group-body"><input class="form-control" id="user_first_name" name="first_name" type="text" /></div>
              </div>
              """
              |> format_html()
@@ -196,7 +196,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              """
              <div class="form-group">
              <div class="form-group-header"><label for="user_first_name">Some label</label></div>
-             <div class="form-group-body"><input class="form-control" id="user_first_name" name="user[first_name]" phx-feedback-for="user_first_name" type="text" /></div>
+             <div class="form-group-body"><input class="form-control" id="user_first_name" name="user[first_name]" type="text" /></div>
              </div>
              """
              |> format_html()
@@ -212,9 +212,10 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]" phx-feedback-for="user_first_name" type="text" value="" />
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation" phx-feedback-for="user_first_name">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+             <span phx-feedback-for="user_first_name" class="pl-invalid"></span>
+             <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]" type="text" value="" />
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation" phx-feedback-for="user[first_name]">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
              <span>can&#39;t be blank</span>
              </div>
              """
@@ -239,11 +240,12 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]" phx-feedback-for="user_first_name" type="text" value="" />
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation" phx-feedback-for="user_first_name">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
-             <span>Please enter your first name</span>
-             </div>
+             <span phx-feedback-for="user_first_name" class="pl-invalid"></span>
+             <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]" type="text" value="" />
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation" phx-feedback-for="user[first_name]">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
+             <span>Please enter your first
+             name</span></div>
              """
              |> format_html()
   end
@@ -270,11 +272,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" name="user[first_name]" phx-feedback-for="user_first_name" type="text" value="anna" />
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="user_first_name-validation" phx-feedback-for="user_first_name">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M6 0a6 6 0 100 12A6 6 0 006 0zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938z"></path></svg>
-             <span>Available!</span>
-             </div>
+             <span phx-feedback-for="user_first_name" class="pl-valid"></span>
+             <input aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]" type="text" value="anna" />
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="user_first_name-validation" phx-feedback-for="user[first_name]">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
+             <span>Available!</span></div>
              """
              |> format_html()
   end
@@ -287,7 +289,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="form-control" id="_first_name" name="first_name" phx-feedback-for="_first_name" type="text" />
+             <input class="form-control" id="_first_name" name="first_name" type="text" />
              """
              |> format_html()
   end
@@ -300,7 +302,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input aria-label="Enter your first name" class="form-control" id="_first_name" name="first_name" phx-feedback-for="_first_name" placeholder="Enter your first name" type="text" />
+             <input aria-label="Enter your first name" class="form-control" id="_first_name" name="first_name" placeholder="Enter your first name" type="text" />
              """
              |> format_html()
   end
@@ -313,7 +315,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input aria-label="Enter your first name" class="form-control" id="_first_name" name="first_name" phx-feedback-for="_first_name" type="text" />
+             <input aria-label="Enter your first name" class="form-control" id="_first_name" name="first_name" type="text" />
              """
              |> format_html()
   end
@@ -326,7 +328,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="form-control" id="_first_name" name="first_name" phx-feedback-for="_first_name" tabindex="1" type="text" />
+             <input class="form-control" id="_first_name" name="first_name" tabindex="1" type="text" />
              """
              |> format_html()
   end
@@ -339,7 +341,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="form-control my-input" id="_" name="[]" phx-feedback-for="_" type="text" />
+             <input class="form-control my-input" id="_" name="[]" type="text" />
              """
              |> format_html()
   end
@@ -364,13 +366,13 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="input-group">
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="text" />
+             <input class="form-control" id="_" name="[]" type="text" />
              <span class="input-group-button">
              <button class="btn" type="button">Send</button>
              </span>
              </div>
              <div class="input-group">
-             <input class="form-control" id="_" name="[]" phx-feedback-for="_" type="text" />
+             <input class="form-control" id="_" name="[]" type="text" />
              <span class="input-group-button">
              <button class="btn" type="button" aria-label="Copy">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5.75 1a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-4.5zm.75 3V2.5h3V4h-3zm-2.874-.467a.75.75 0 00-.752-1.298A1.75 1.75 0 002 3.75v9.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 13.25v-9.5a1.75 1.75 0 00-.874-1.515.75.75 0 10-.752 1.298.25.25 0 01.126.217v9.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-9.5a.25.25 0 01.126-.217z"></path></svg>

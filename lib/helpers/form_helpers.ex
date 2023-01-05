@@ -92,6 +92,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
          field_state <- %{
            field_state
            | valid?: valid?,
+             ignore_errors?: is_nil(changeset.action) && !valid?,
              field_errors: field_errors,
              changeset: changeset
          },

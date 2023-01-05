@@ -37,7 +37,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             <textarea class="form-control" id="_" name="[]" phx-feedback-for="_"></textarea>
+             <textarea class="form-control" id="_" name="[]"></textarea>
              """
              |> format_html()
   end
@@ -50,7 +50,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             <textarea class="form-control input-lg" id="_" name="[]" phx-feedback-for="_"></textarea>
+             <textarea class="form-control input-lg" id="_" name="[]"></textarea>
              """
              |> format_html()
   end
@@ -63,7 +63,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             <textarea class="form-control input-sm" id="_" name="[]" phx-feedback-for="_"></textarea>
+             <textarea class="form-control input-sm" id="_" name="[]"></textarea>
              """
              |> format_html()
   end
@@ -76,7 +76,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             <textarea class="form-control x" id="_" name="[]" phx-feedback-for="_"></textarea>
+             <textarea class="form-control x" id="_" name="[]"></textarea>
              """
              |> format_html()
   end
@@ -91,7 +91,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              """
              <div class="form-group">
              <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body"><textarea class="form-control" id="user_first_name" name="first_name" phx-feedback-for="user_first_name"></textarea></div>
+             <div class="form-group-body"><textarea class="form-control" id="user_first_name" name="first_name"></textarea></div>
              </div>
              """
              |> format_html()
@@ -115,7 +115,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              """
              <div class="form-group">
              <div class="form-group-header"><label for="user_first_name">Some label</label></div>
-             <div class="form-group-body"><textarea class="form-control" id="user_first_name" name="user[first_name]" phx-feedback-for="user_first_name"></textarea></div>
+             <div class="form-group-body"><textarea class="form-control" id="user_first_name" name="user[first_name]"></textarea></div>
              </div>
              """
              |> format_html()
@@ -139,11 +139,10 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             <textarea aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]" phx-feedback-for="user_first_name"></textarea>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation" phx-feedback-for="user_first_name">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 01-1.146 1.954H1.33A1.312 1.312 0 01.183 9.058L4.855.708zM7 7V3H5v4h2zm-1 3a1 1 0 100-2 1 1 0 000 2z"></path></svg>
-             <span>Please enter your first name</span>
-             </div>
+             <span phx-feedback-for="user_first_name" class="pl-invalid"></span>
+             <textarea aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]"></textarea>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation" phx-feedback-for="user[first_name]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>Please enter your first
+             name</span></div>
              """
              |> format_html()
   end
