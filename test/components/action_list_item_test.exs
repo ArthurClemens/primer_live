@@ -159,6 +159,8 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
              """
              <li class="ActionList-item" aria-selected="true" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
              class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Item</span></span></li>
+             <li class="ActionList-item" aria-selected="false" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+             class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Item</span></span></li>
              """
              |> format_html()
   end

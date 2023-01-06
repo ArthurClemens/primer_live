@@ -3,6 +3,7 @@ defmodule PrimerLive.Component do
   use Phoenix.HTML
 
   alias PrimerLive.Helpers.{AttributeHelpers, FormHelpers, SchemaHelpers, ComponentHelpers}
+  alias PrimerLive.Theme
 
   # ------------------------------------------------------------------------------------
   # action_list
@@ -7223,6 +7224,29 @@ defmodule PrimerLive.Component do
     Generates fast fade transitions for backdrop and content.
     """
 
+  attr :menu_theme, :map,
+    default: nil,
+    doc: """
+    Sets the theme of the menu, including the dropdown shadow, but excluding the toggle button. This is useful when the button resides in a part with a different theme, such as a dark header.
+
+    Pass a a map with all theme state keys. See `theme/1`.
+
+    Example:
+    ```
+    <.header>
+      <.action_menu menu_theme={@theme_state}>
+        <:toggle>
+          <.octicon name="sun-16" />
+        </:toggle>
+        <.theme_menu_options
+          default_theme_state={@default_theme_state}
+          theme_state={@theme_state}
+        />
+      </.action_menu>
+    <./header>
+    ```
+    """
+
   attr(:rest, :global,
     doc: """
     Additional HTML attributes added to the outer element.
@@ -7332,13 +7356,6 @@ defmodule PrimerLive.Component do
         ]
       )
 
-    menu_container_attrs =
-      AttributeHelpers.append_attributes([], [
-        [class: classes.menu_container],
-        [data_content: ""],
-        [aria_role: "menu"]
-      ])
-
     backdrop_attrs =
       AttributeHelpers.append_attributes([], [
         cond do
@@ -7348,6 +7365,14 @@ defmodule PrimerLive.Component do
           assigns.is_backdrop -> [data_backdrop: "", data_islight: ""]
           true -> []
         end
+      ])
+
+    menu_container_attrs =
+      AttributeHelpers.append_attributes([], [
+        [class: classes.menu_container],
+        [data_content: ""],
+        [aria_role: "menu"],
+        !is_nil(assigns[:menu_theme]) && Theme.html_attributes(assigns[:menu_theme])
       ])
 
     assigns =
@@ -11852,9 +11877,23 @@ defmodule PrimerLive.Component do
   @doc section: :theme
 
   @doc ~S"""
-  Sets the light/dark color mode and theme, with support for color blindness.
+  Creates a wrapper that sets the light/dark color mode and theme, with support for color blindness.
 
-  ## Examples
+  ## Alternative method
+
+  Instead of using a wrapper, consider using `Theme.html_attributes` to set a theme on a component or element directly:
+
+  ```
+  <.button
+    {PrimerLive.Theme.html_attributes([color_mode: "dark", dark_theme: "dark_high_contrast"])}
+  >Button</.button>
+
+  <.octicon name="sun-24"
+    {PrimerLive.Theme.html_attributes(%{color_mode: "dark", dark_theme: "dark_dimmed"})}
+  />
+  ```
+
+  ## Theme wrapper examples
 
   Use default settings:
 
@@ -11880,15 +11919,18 @@ defmodule PrimerLive.Component do
   </.theme>
   ```
 
-  Set a theme on an invididual element. Use `is_inline` for inline elements:
+  Use a `theme_state` struct for easier passing around state:
 
   ```
-  <.theme color_mode="dark" dark_theme="dark">
-    Dark theme content...
-    With a high contrast icon:
-    <.theme color_mode="dark" dark_theme="dark_high_contrast" is_inline>
-      <.octicon name="sun-24" />
-    </.theme>
+  assigns = assign
+    |> assign(:theme_state, %{
+      color_mode: "light",
+      light_theme: "light_high_contrast",
+      dark_theme: "dark_high_contrast"
+    })
+
+  <.theme theme_state={@theme_state}>
+    Content
   </.theme>
   ```
 
@@ -11904,10 +11946,16 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:color_mode, :string, default: "auto", values: ~w(light dark auto), doc: "Color mode.")
+  attr(:theme_state, :map, default: nil, doc: "Sets all theme values at once.")
+
+  attr(:color_mode, :string,
+    default: Theme.default_theme_state().color_mode,
+    values: ~w(light dark auto),
+    doc: "Color mode."
+  )
 
   attr(:light_theme, :string,
-    default: "light",
+    default: Theme.default_theme_state().light_theme,
     values: ~w(light light_high_contrast light_colorblind light_tritanopia),
     doc: """
     Light theme.
@@ -11921,7 +11969,7 @@ defmodule PrimerLive.Component do
   )
 
   attr(:dark_theme, :string,
-    default: "dark",
+    default: Theme.default_theme_state().dark_theme,
     values: ~w(dark dark_dimmed dark_high_contrast dark_colorblind dark_tritanopia),
     doc: """
     Dark theme.
@@ -11951,12 +11999,16 @@ defmodule PrimerLive.Component do
   slot(:inner_block, required: true, doc: "Content.")
 
   def theme(assigns) do
+    theme_state =
+      assigns[:theme_state] ||
+        %{
+          color_mode: assigns.color_mode,
+          light_theme: assigns.light_theme,
+          dark_theme: assigns.dark_theme
+        }
+
     attributes =
-      AttributeHelpers.append_attributes(assigns.rest, [
-        [data_color_mode: assigns.color_mode],
-        [data_light_theme: assigns.light_theme],
-        [data_dark_theme: assigns.dark_theme]
-      ])
+      AttributeHelpers.append_attributes(assigns.rest, [Theme.html_attributes(theme_state)])
 
     assigns = assigns |> assign(:attributes, attributes)
 
@@ -11969,6 +12021,331 @@ defmodule PrimerLive.Component do
       <div {@attributes}>
         <%= render_slot(@inner_block) %>
       </div>
+    <% end %>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # theme_menu_options
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :theme
+
+  @doc ~S"""
+  Generates theme menu options as an `action_list/1`, to be used inside an `action_menu/1`.
+
+  ## Menu options
+
+  To create a default menu - showing all possible options, using default labels:
+
+  ```
+  <.theme_menu_options
+    theme_state={@theme_state}
+    default_theme_state={@default_theme_state}
+  />
+  ```
+
+  - `theme_state` contains the current theme state
+  - `default_theme_state` contains the initial (default) state
+
+  ## Menu
+
+  Place the menu options inside an expanding menu:
+
+  ```
+  <.action_menu>
+    <:toggle class="btn btn-invisible">
+      <.octicon name="sun-16" />
+    </:toggle>
+    <.theme_menu_options
+      theme_state={@theme_state}
+    />
+  </.action_menu>
+  ```
+
+  ## Persistency
+
+  There is no easy way to save persistent session data in LiveView because LiveView's state is stored in a process that ends when the page is left. The solution is to use an Ajax request to our Phoenix app, which updates the session.
+
+  This setup involves 5 steps, but the provided helper functions make it a bit easier.
+
+
+  ### 1. Create a SessionController
+
+  Create file `controllers/session_controller.ex`:
+
+  ```
+  defmodule MyAppWeb.SessionController do
+    use MyAppWeb, :controller
+    use PrimerLive.ThemeSessionController
+  end
+  ```
+
+  `PrimerLive.ThemeSessionController` will add the received theme request data to the session.
+
+
+  ### 2. Add SessionController to the router's api
+
+  ```
+  scope "/api", MyAppWeb do
+    pipe_through :api
+
+    post PrimerLive.Theme.session_route(), SessionController, :set
+  end
+  ```
+
+  Optionally set the `max_age` in `endpoint.ex`:
+
+  ```
+  @session_options [
+    ...
+    # Over 300 years.
+    max_age: 9_999_999_999
+  ]
+  ```
+
+  ### 3. Add ThemeMenu hook
+
+  In `app.js`, import `ThemeMenu` and add it to the `liveSocket` hooks:
+
+  ```
+  import { Prompt, ThemeMenu } from 'primer-live';
+
+  const hooks = {};
+  hooks.Prompt = Prompt;
+  hooks.ThemeMenu = ThemeMenu;
+
+  let liveSocket = new LiveSocket('/live', Socket, {
+    params: { _csrf_token: csrfToken },
+    hooks,
+  });
+  ```
+
+  You may the hook anywhere, but only once for the entire application. If you have a single theme menu, add it there:
+
+  ```
+  <.action_menu phx-hook="ThemeMenu" id="theme_menu">
+  ...
+  </.action_menu>
+  ```
+
+  ### 4. Initialise the theme from session data
+
+  In the LiveView's `mount`, call `add_to_socket`:
+
+  ```
+  def mount(_params, session, socket) do
+    socket =
+      socket
+      |> PrimerLive.Theme.add_to_socket(session)
+
+    {:ok, socket}
+  end
+  ```
+
+  This reads the theme state and adds it to the socket assigns.
+
+  Optionally set the default theme in the seconds argument:
+
+  ```
+  PrimerLive.Theme.add_to_socket(session, %{
+    color_mode: "light",
+    light_theme: "light",
+    dark_theme: "dark"
+  })
+  ```
+
+  ### 5. Handle update events
+
+  In the LiveView where the action menu resides, add:
+
+  ```
+  use PrimerLive.ThemeEvent
+  ```
+
+  This implements function `handle_event` for "update_theme" (which is called by clicks on the menu's `action_list` items). The function updates the socket and sends the event that is picked by by JavaScript (via the `ThemeMenu` hook).
+
+
+  [INSERT LVATTRDOCS]
+
+  """
+
+  attr(:default_theme_state, :map,
+    required: false,
+    default: Theme.default_theme_state(),
+    doc: """
+    Defines the default (and initial) theme state.
+
+    Pass a map with all theme state keys.
+
+    Change the values to meet specific use cases, for example to set a light color mode instead of "auto":
+    ```
+    %{
+      color_mode: "light",
+      light_theme: "light",
+      dark_theme: "dark_dimmed"
+    }
+    ```
+    """
+  )
+
+  attr(:theme_state, :map,
+    required: true,
+    doc: """
+    Defines the current theme state. When using persistent data, this will be passed from the session.
+
+    Pass a map with all theme state keys. For example:
+    ```
+    %{
+      color_mode: "light",
+      light_theme: "light_high_contrast",
+      dark_theme: "dark_high_contrast"
+    }
+    ```
+    """
+  )
+
+  attr(:options, :map,
+    required: false,
+    default: Theme.default_menu_options(),
+    doc: """
+    Selectable options (keys).
+
+    To show a limited set of theme options:
+    ```
+    %{
+      color_mode: ~w(light dark),
+      light_theme: ~w(light light_high_contrast),
+      dark_theme: ~w(dark dark_dimmed)
+    }
+    ```
+    or even:
+    ```
+    %{
+      color_mode: ~w(light dark)
+    }
+    ```
+    """
+  )
+
+  attr(:labels, :map,
+    required: false,
+    default: Theme.default_menu_labels(),
+    doc: """
+    Custom labels for menu items. For example:
+    ```
+    %{
+      color_mode: %{
+        light: "Light theme"
+      },
+      reset: "Reset"
+    }
+    ```
+    """
+  )
+
+  attr(:is_show_group_labels, :boolean,
+    required: false,
+    default: true,
+    doc: """
+    Set to `false` to remove the labels above the menu groups.
+    """
+  )
+
+  attr(:is_show_reset_link, :boolean,
+    required: false,
+    default: true,
+    doc: """
+    Set to `false` to remove the reset link.
+    """
+  )
+
+  attr(:is_click_disabled, :boolean,
+    required: false,
+    default: false,
+    doc: """
+    For demo purposes. Set to `true` to prevent clicks on options.
+    """
+  )
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the outer element.
+    """
+  )
+
+  def theme_menu_options(assigns) do
+    menu_items =
+      Theme.create_menu_items(
+        assigns.theme_state,
+        assigns.options,
+        assigns.labels
+      )
+
+    is_default_theme = Theme.is_default_theme(assigns.theme_state, assigns.default_theme_state)
+
+    assigns =
+      assigns
+      |> assign(:menu_items, menu_items)
+      |> assign(:is_default_theme, is_default_theme)
+      |> assign(:is_reset_enabled, !is_default_theme && !assigns.is_click_disabled)
+
+    ~H"""
+    <.action_list {@rest}>
+      <%= for {{key, _}, idx} <- @menu_items |> Enum.with_index() do %>
+        <%= if idx > 0 do %>
+          <.action_list_section_divider />
+        <% end %>
+        <.theme_menu_option_items
+          key={key}
+          menu_items={@menu_items}
+          is_show_group_labels={@is_show_group_labels}
+          is_click_disabled={@is_click_disabled}
+        />
+      <% end %>
+      <%= if @is_show_reset_link && assigns.labels[:reset] do %>
+        <.action_list_section_divider />
+        <.action_list_item
+          phx-click={@is_reset_enabled && Theme.update_theme_event_key()}
+          phx-value-key={Theme.reset_key()}
+          phx-value-data=""
+          is_disabled={!@is_reset_enabled}
+        >
+          <%= assigns.labels.reset %>
+        </.action_list_item>
+      <% end %>
+    </.action_list>
+    """
+  end
+
+  attr :menu_items, :map, required: true
+  attr :key, :atom, required: true, values: [:color_mode, :light_theme, :dark_theme]
+  attr :is_show_group_labels, :boolean, required: true
+  attr :is_click_disabled, :boolean, required: true
+
+  defp theme_menu_option_items(assigns) do
+    group = assigns.menu_items[assigns.key]
+
+    assigns =
+      assigns
+      |> assign(:group, group)
+
+    ~H"""
+    <%= if @group.title && @is_show_group_labels do %>
+      <.action_list_section_divider>
+        <:title><%= @group.title %></:title>
+      </.action_list_section_divider>
+    <% end %>
+    <%= for {value, label} <- @group.labeled_options do %>
+      <.action_list_item
+        is_single_select
+        is_selected={@group.selected && value === @group.selected}
+        phx-click={!@is_click_disabled && Theme.update_theme_event_key()}
+        phx-value-key={@key}
+        phx-value-data={value}
+      >
+        <%= label %>
+      </.action_list_item>
     <% end %>
     """
   end
