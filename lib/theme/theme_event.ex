@@ -20,8 +20,11 @@ defmodule PrimerLive.ThemeEvent do
         socket =
           socket
           |> assign(:theme_state, new_theme_state)
-          # Persist new state:
-          |> push_event(Theme.session_key(), new_theme_state)
+          # Send to JavaScript:
+          |> push_event(
+            Theme.session_key(),
+            new_theme_state
+          )
 
         {:noreply, socket}
       end

@@ -1,17 +1,13 @@
 defmodule PrimerLive.ThemeSessionController do
   defmacro __using__(_) do
     quote do
-      alias PrimerLive.Theme
+      @session_payload_key "payload"
+      @session_theme_key PrimerLive.Theme.session_theme_key()
 
-      @theme_session_key Theme.session_key()
+      def set(conn, data) when is_map_key(data, @session_payload_key),
+        do: store_session(conn, @session_theme_key, Map.get(data, @session_payload_key))
 
-      @doc ~S"""
-      Capture theme request and store the theme data in the session.
-      """
-      def set(conn, data) when is_map_key(data, @theme_session_key),
-        do: store_theme(conn, :theme, Map.get(data, @theme_session_key))
-
-      defp store_theme(conn, key, value) do
+      defp store_session(conn, key, value) do
         conn
         |> put_session(key, value)
         |> json("ok")

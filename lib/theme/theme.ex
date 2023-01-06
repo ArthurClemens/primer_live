@@ -1,7 +1,8 @@
 defmodule PrimerLive.Theme do
   use Phoenix.Component
 
-  @theme_session_key "theme"
+  @session_key "pl-session"
+  @session_theme_key "theme"
   @reset_key "reset"
   @update_theme_event_key "update_theme"
 
@@ -42,8 +43,35 @@ defmodule PrimerLive.Theme do
     reset: "Reset to default"
   }
 
-  def session_key(), do: @theme_session_key
-  def session_route(), do: "/#{@theme_session_key}"
+  @doc ~S"""
+  Generic key used for:
+  - session route
+  - JS event name ("phx:" prefix is assigned automatically)
+  """
+  def session_key(), do: @session_key
+
+  @doc ~S"""
+  Route for session api calls.
+
+  For example:
+  ```
+  scope "/api", MyAppWeb do
+    pipe_through :api
+
+    post PrimerLive.Theme.session_route(), SessionController, :set
+  end
+  ```
+  """
+  def session_route(), do: "/#{@session_key}"
+
+  @doc ~S"""
+  Theme data stored in the session.
+  """
+  def session_theme_key(), do: @session_theme_key
+
+  @doc ~S"""
+  Reset link identifier to distinguish in update.
+  """
   def reset_key(), do: @reset_key
   def update_theme_event_key(), do: @update_theme_event_key
   def default_theme_state(), do: @default_theme_state
@@ -175,10 +203,10 @@ defmodule PrimerLive.Theme do
   def add_to_socket(socket, session), do: add_to_socket(socket, session, @default_theme_state)
 
   defp theme_state_from_session(data, default_theme_state)
-       when not is_map_key(data, @theme_session_key),
+       when not is_map_key(data, @session_theme_key),
        do: default_theme_state
 
-  defp theme_state_from_session(%{@theme_session_key => json}, default_theme_state) do
+  defp theme_state_from_session(%{@session_theme_key => json}, default_theme_state) do
     case Jason.decode(json) do
       {:ok, theme} -> theme |> Map.new(fn {k, v} -> {String.to_existing_atom(k), v} end)
       _ -> default_theme_state
