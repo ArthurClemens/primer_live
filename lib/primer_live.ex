@@ -122,6 +122,7 @@ defmodule PrimerLive do
     quote do
       import PrimerLive.Component
       import PrimerLive.Octicons
+      alias PrimerLive.Theme
     end
   end
 end

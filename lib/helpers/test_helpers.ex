@@ -22,7 +22,7 @@ defmodule PrimerLive.Helpers.TestHelpers do
     |> String.replace(~r/\s*\n\s*/, " ")
     |> String.replace(~r/\s*\<\s*/, "<")
     |> String.replace(~r/\s*\>\s*/, ">")
-    |> String.replace(~r/<path .*<\/path>/, "STRIPPED_SVG_PATHS")
+    |> String.replace(~r/<path .*?<\/path>/, "STRIPPED_SVG_PATHS")
     |> String.trim()
   end
 end

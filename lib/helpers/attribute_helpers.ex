@@ -65,6 +65,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([], [[]])
       []
 
+      iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([[]])
+      []
+
       iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([dir: "rtl"], [[]])
       [dir: "rtl"]
 
@@ -105,6 +108,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       acc ++ kw
     end)
   end
+
+  def append_attributes(input_attributes), do: append_attributes([], input_attributes)
 
   @aria_attributes_map %{
     is_selected: ["aria-selected": "true"],

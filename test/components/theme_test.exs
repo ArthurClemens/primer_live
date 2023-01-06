@@ -21,7 +21,28 @@ defmodule PrimerLive.TestComponents.ThemeTest do
              |> format_html()
   end
 
-  test "Color mode" do
+  test "Attribute: theme_state" do
+    assigns = %{
+      theme_state: %{
+        color_mode: "dark",
+        light_theme: "light_colorblind",
+        dark_theme: "dark_high_contrast"
+      }
+    }
+
+    assert rendered_to_string(~H"""
+           <.theme theme_state={@theme_state}>
+             Content
+           </.theme>
+           """)
+           |> format_html() ==
+             """
+             <div data-color-mode="dark" data-light-theme="light_colorblind" data-dark-theme="dark_high_contrast">Content</div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: color_mode" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
@@ -44,7 +65,7 @@ defmodule PrimerLive.TestComponents.ThemeTest do
              |> format_html()
   end
 
-  test "Theme" do
+  test "Attribute: light_theme, dark_theme" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
