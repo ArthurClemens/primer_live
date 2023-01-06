@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.13
+
+Added:
+- `theme_menu_options` to create a theme menu
+- `Theme.html_attributes` to set theme attributes on elements
+- Theme functions for persistent theme data in the session
+
+## 0.1.12
+
+Fixes an issue where validation messages did not show.
+
 ## 0.1.11
 
 Added:
