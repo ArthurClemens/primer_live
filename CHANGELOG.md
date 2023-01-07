@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.15
+
+Removed Octicon builder template files from distribution.
+
 ## 0.1.14
 
 - Updated `octicons` dependency to `17.10.1`
