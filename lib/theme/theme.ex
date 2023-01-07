@@ -1,4 +1,116 @@
 defmodule PrimerLive.Theme do
+  @moduledoc """
+  Primer CSS contains styles for light/dark color modes and themes, with support for color blindness.
+
+  PrimerLive provides components and functions to work with themes:
+  - [`theme/1`](`PrimerLive.Component.theme/1`) - wrapper to set the theme on child elements
+  - [`theme_menu_options/1`](`PrimerLive.Component.theme_menu_options/1`) - contents for a theme menu
+  - `html_attributes/2` - HTML attributes to set a theme on a component or element directly
+
+  ## Persistency
+
+  There is no easy way to save persistent session data in LiveView because LiveView's state is stored in a process that ends when the page is left. The solution is to use an Ajax request to our Phoenix app, which updates the session.
+
+  This setup involves 5 steps, but the provided helper functions make it a bit easier.
+
+
+  ### 1. Create a SessionController
+
+  Create file `controllers/session_controller.ex`:
+
+  ```
+  defmodule MyAppWeb.SessionController do
+    use MyAppWeb, :controller
+    use PrimerLive.ThemeSessionController
+  end
+  ```
+
+  `PrimerLive.ThemeSessionController` will add the received theme request data to the session.
+
+
+  ### 2. Add SessionController to the router's api
+
+  ```
+  scope "/api", MyAppWeb do
+    pipe_through :api
+
+    post PrimerLive.Theme.session_route(), SessionController, :set
+  end
+  ```
+
+  Optionally set the `max_age` in `endpoint.ex`:
+
+  ```
+  @session_options [
+    ...
+    # Over 300 years.
+    max_age: 9_999_999_999
+  ]
+  ```
+
+  ### 3. Add ThemeMenu hook
+
+  In `app.js`, import `ThemeMenu` and add it to the `liveSocket` hooks:
+
+  ```
+  import { Prompt, ThemeMenu } from 'primer-live';
+
+  const hooks = {};
+  hooks.Prompt = Prompt;
+  hooks.ThemeMenu = ThemeMenu;
+
+  let liveSocket = new LiveSocket('/live', Socket, {
+    params: { _csrf_token: csrfToken },
+    hooks,
+  });
+  ```
+
+  You may the hook anywhere, but only once for the entire application. If you have a single theme menu, add it there:
+
+  ```
+  <.action_menu phx-hook="ThemeMenu" id="theme_menu">
+  ...
+  </.action_menu>
+  ```
+
+  ### 4. Initialise the theme from session data
+
+  In the LiveView's `mount`, call `add_to_socket`:
+
+  ```
+  def mount(_params, session, socket) do
+    socket =
+      socket
+      |> PrimerLive.Theme.add_to_socket(session)
+
+    {:ok, socket}
+  end
+  ```
+
+  This reads the theme state and adds it to the socket assigns.
+
+  Optionally set the default theme in the seconds argument:
+
+  ```
+  PrimerLive.Theme.add_to_socket(session, %{
+    color_mode: "light",
+    light_theme: "light",
+    dark_theme: "dark"
+  })
+  ```
+
+  ### 5. Handle update events
+
+  In the LiveView where the action menu resides, add:
+
+  ```
+  use PrimerLive.ThemeEvent
+  ```
+
+  This implements function `handle_event` for "update_theme" (which is called by clicks on the menu's `action_list` items). The function updates the socket and sends the event that is picked by by JavaScript (via the `ThemeMenu` hook).
+
+  """
+
   use Phoenix.Component
 
   @session_key "pl-session"
@@ -70,12 +182,30 @@ defmodule PrimerLive.Theme do
   def session_theme_key(), do: @session_theme_key
 
   @doc ~S"""
+  Internal use.
   Reset link identifier to distinguish in update.
   """
   def reset_key(), do: @reset_key
+
+  @doc ~S"""
+  Internal use.
+  Update link identifier.
+  """
   def update_theme_event_key(), do: @update_theme_event_key
+
+  @doc ~S"""
+  Initial theme state.
+  """
   def default_theme_state(), do: @default_theme_state
+
+  @doc ~S"""
+  Default options for a theme menu.
+  """
   def default_menu_options(), do: @default_menu_options
+
+  @doc ~S"""
+  Default label for a theme menu.
+  """
   def default_menu_labels(), do: @default_menu_labels
 
   @doc ~S"""
@@ -94,7 +224,7 @@ defmodule PrimerLive.Theme do
   - option labels
   - the selected item
 
-  ## Examples
+  ## Tests
 
       iex> PrimerLive.Theme.create_menu_items(
       ...> %{
@@ -165,7 +295,7 @@ defmodule PrimerLive.Theme do
   @doc ~S"""
   Compares the supplied state with the supplied default state.
 
-  ## Examples
+  ## Tests
 
       iex> PrimerLive.Theme.is_default_theme(
       ...> %{
@@ -192,7 +322,7 @@ defmodule PrimerLive.Theme do
   end
 
   @doc ~S"""
-  Adds theme_state and default_theme_state to the socket.assigns.
+  Adds `theme_state` and `default_theme_state` to `socket.assigns`.
   """
   def add_to_socket(socket, session, default_theme_state) do
     socket
@@ -200,6 +330,9 @@ defmodule PrimerLive.Theme do
     |> assign(:default_theme_state, default_theme_state)
   end
 
+  @doc """
+  See `add_to_socket/3`.
+  """
   def add_to_socket(socket, session), do: add_to_socket(socket, session, @default_theme_state)
 
   defp theme_state_from_session(data, default_theme_state)
@@ -229,9 +362,19 @@ defmodule PrimerLive.Theme do
   end
 
   @doc ~S"""
-  Creates HTML (data) attributes from the supplied theme state.
+  Creates HTML (data) attributes from the supplied theme state to set a theme on a component or element directly:
 
-  ## Examples
+  ```
+  <.button
+    {PrimerLive.Theme.html_attributes([color_mode: "dark", dark_theme: "dark_high_contrast"])}
+  >Button</.button>
+
+  <.octicon name="sun-24"
+    {PrimerLive.Theme.html_attributes(%{color_mode: "dark", dark_theme: "dark_dimmed"})}
+  />
+  ```
+
+  ## Tests
 
       iex> PrimerLive.Theme.html_attributes(
       ...> %{
@@ -287,5 +430,8 @@ defmodule PrimerLive.Theme do
     ])
   end
 
+  @doc """
+  See `html_attributes/2`.
+  """
   def html_attributes(theme_state), do: html_attributes(theme_state, @default_theme_state)
 end

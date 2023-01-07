@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.14
+
+- Updated `octicons` dependency to `17.10.1`
+- Code quality refactoring
+- Documentation updates
+
 ## 0.1.13
 
 Added:

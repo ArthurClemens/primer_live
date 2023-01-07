@@ -1,4 +1,8 @@
 defmodule PrimerLive.Component do
+  @moduledoc """
+  PrimerLive components.
+  """
+
   use Phoenix.Component
   use Phoenix.HTML
 
@@ -2946,9 +2950,7 @@ defmodule PrimerLive.Component do
   slot(:inner_block, required: true, doc: "Form group content.")
 
   def form_group(assigns) do
-    with true <- validate_is_form(assigns) do
-      render_form_group(assigns)
-    else
+    case validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
           assigns
@@ -2957,6 +2959,9 @@ defmodule PrimerLive.Component do
         ~H"""
         <%= @reason %>
         """
+
+      _ ->
+        render_form_group(assigns)
     end
   end
 
@@ -3378,9 +3383,7 @@ defmodule PrimerLive.Component do
   )
 
   def text_input(assigns) do
-    with true <- validate_is_form(assigns) do
-      render_text_input(assigns)
-    else
+    case validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
           assigns
@@ -3389,6 +3392,9 @@ defmodule PrimerLive.Component do
         ~H"""
         <%= @reason %>
         """
+
+      _ ->
+        render_text_input(assigns)
     end
   end
 
@@ -3709,9 +3715,7 @@ defmodule PrimerLive.Component do
   )
 
   def select(assigns) do
-    with true <- validate_is_form(assigns) do
-      render_select(assigns)
-    else
+    case validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
           assigns
@@ -3720,6 +3724,9 @@ defmodule PrimerLive.Component do
         ~H"""
         <%= @reason %>
         """
+
+      _ ->
+        render_select(assigns)
     end
   end
 
@@ -3770,9 +3777,10 @@ defmodule PrimerLive.Component do
         )
 
       input_fn =
-        cond do
-          is_multiple -> :multiple_select
-          true -> :select
+        if is_multiple do
+          :multiple_select
+        else
+          :select
         end
 
       input = apply(Phoenix.HTML.Form, input_fn, [form, field, options, input_attrs])
@@ -3978,9 +3986,7 @@ defmodule PrimerLive.Component do
   end
 
   def checkbox(assigns) do
-    with true <- validate_is_form(assigns) do
-      render_checkbox(assigns)
-    else
+    case validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
           assigns
@@ -3989,6 +3995,9 @@ defmodule PrimerLive.Component do
         ~H"""
         <%= @reason %>
         """
+
+      _ ->
+        render_checkbox(assigns)
     end
   end
 
@@ -4323,9 +4332,7 @@ defmodule PrimerLive.Component do
   end
 
   def radio_button(assigns) do
-    with true <- validate_is_form(assigns) do
-      render_radio_button(assigns)
-    else
+    case validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
           assigns
@@ -4334,6 +4341,9 @@ defmodule PrimerLive.Component do
         ~H"""
         <%= @reason %>
         """
+
+      _ ->
+        render_radio_button(assigns)
     end
   end
 
@@ -4467,9 +4477,7 @@ defmodule PrimerLive.Component do
   end
 
   def radio_group(assigns) do
-    with true <- validate_is_form(assigns) do
-      render_radio_group(assigns)
-    else
+    case validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
           assigns
@@ -4478,6 +4486,9 @@ defmodule PrimerLive.Component do
         ~H"""
         <%= @reason %>
         """
+
+      _ ->
+        render_radio_group(assigns)
     end
   end
 
@@ -4514,7 +4525,7 @@ defmodule PrimerLive.Component do
 
       value = slot[:value]
       escaped_value = Phoenix.HTML.html_escape(value)
-      id_prefix = if not is_nil(assigns.id_prefix), do: assigns.id_prefix <> "-", else: ""
+      id_prefix = if is_nil(assigns.id_prefix), do: "", else: assigns.id_prefix <> "-"
       id = id_prefix <> Phoenix.HTML.Form.input_id(form, field, escaped_value)
 
       input_opts =
@@ -8033,7 +8044,7 @@ defmodule PrimerLive.Component do
     |> Enum.reduce([], fn num, acc ->
       # Insert a '0' divider when the page sequence is not sequential
       previous_num =
-        case Enum.count(acc) == 0 do
+        case acc == [] do
           true -> num
           false -> hd(acc)
         end
@@ -11879,6 +11890,8 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Creates a wrapper that sets the light/dark color mode and theme, with support for color blindness.
 
+  See also `PrimerLive.Theme`.
+
   ## Alternative method
 
   Instead of using a wrapper, consider using `Theme.html_attributes` to set a theme on a component or element directly:
@@ -11892,6 +11905,7 @@ defmodule PrimerLive.Component do
     {PrimerLive.Theme.html_attributes(%{color_mode: "dark", dark_theme: "dark_dimmed"})}
   />
   ```
+
 
   ## Theme wrapper examples
 
@@ -12034,6 +12048,8 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates theme menu options as an `action_list/1`, to be used inside an `action_menu/1`.
 
+  See also `PrimerLive.Theme`.
+
   ## Menu options
 
   To create a default menu - showing all possible options, using default labels:
@@ -12063,108 +12079,7 @@ defmodule PrimerLive.Component do
   </.action_menu>
   ```
 
-  ## Persistency
-
-  There is no easy way to save persistent session data in LiveView because LiveView's state is stored in a process that ends when the page is left. The solution is to use an Ajax request to our Phoenix app, which updates the session.
-
-  This setup involves 5 steps, but the provided helper functions make it a bit easier.
-
-
-  ### 1. Create a SessionController
-
-  Create file `controllers/session_controller.ex`:
-
-  ```
-  defmodule MyAppWeb.SessionController do
-    use MyAppWeb, :controller
-    use PrimerLive.ThemeSessionController
-  end
-  ```
-
-  `PrimerLive.ThemeSessionController` will add the received theme request data to the session.
-
-
-  ### 2. Add SessionController to the router's api
-
-  ```
-  scope "/api", MyAppWeb do
-    pipe_through :api
-
-    post PrimerLive.Theme.session_route(), SessionController, :set
-  end
-  ```
-
-  Optionally set the `max_age` in `endpoint.ex`:
-
-  ```
-  @session_options [
-    ...
-    # Over 300 years.
-    max_age: 9_999_999_999
-  ]
-  ```
-
-  ### 3. Add ThemeMenu hook
-
-  In `app.js`, import `ThemeMenu` and add it to the `liveSocket` hooks:
-
-  ```
-  import { Prompt, ThemeMenu } from 'primer-live';
-
-  const hooks = {};
-  hooks.Prompt = Prompt;
-  hooks.ThemeMenu = ThemeMenu;
-
-  let liveSocket = new LiveSocket('/live', Socket, {
-    params: { _csrf_token: csrfToken },
-    hooks,
-  });
-  ```
-
-  You may the hook anywhere, but only once for the entire application. If you have a single theme menu, add it there:
-
-  ```
-  <.action_menu phx-hook="ThemeMenu" id="theme_menu">
-  ...
-  </.action_menu>
-  ```
-
-  ### 4. Initialise the theme from session data
-
-  In the LiveView's `mount`, call `add_to_socket`:
-
-  ```
-  def mount(_params, session, socket) do
-    socket =
-      socket
-      |> PrimerLive.Theme.add_to_socket(session)
-
-    {:ok, socket}
-  end
-  ```
-
-  This reads the theme state and adds it to the socket assigns.
-
-  Optionally set the default theme in the seconds argument:
-
-  ```
-  PrimerLive.Theme.add_to_socket(session, %{
-    color_mode: "light",
-    light_theme: "light",
-    dark_theme: "dark"
-  })
-  ```
-
-  ### 5. Handle update events
-
-  In the LiveView where the action menu resides, add:
-
-  ```
-  use PrimerLive.ThemeEvent
-  ```
-
-  This implements function `handle_event` for "update_theme" (which is called by clicks on the menu's `action_list` items). The function updates the socket and sends the event that is picked by by JavaScript (via the `ThemeMenu` hook).
-
+  To make the selected theme persist, follow the instructions in `PrimerLive.Theme`.
 
   [INSERT LVATTRDOCS]
 

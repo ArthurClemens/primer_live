@@ -41,7 +41,7 @@ defmodule PrimerLive.Helpers.ComponentHelpers do
 
   defp is_empty_slot_content(static) do
     cond do
-      Enum.count(static) === 0 -> true
+      static == [] -> true
       hd(static) |> String.trim() == "" -> true
       true -> false
     end

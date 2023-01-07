@@ -1,10 +1,10 @@
 defmodule PrimerLive.Helpers.SchemaHelpers do
+  @moduledoc false
+
   import Phoenix.Component
   use Phoenix.Component
 
   import Ecto.Changeset
-
-  @moduledoc false
 
   @doc """
   Validates a changeset by checking an attribute value.
@@ -127,14 +127,15 @@ defmodule PrimerLive.Helpers.SchemaHelpers do
   def validate_options(assigns, options_module, component_name) do
     option_names = get_keys(options_module)
 
-    with {:ok, options} <- options_module.parse(assigns) do
-      assigns =
-        assigns
-        |> assign(options |> Map.from_struct())
-        |> assign(:extra, assigns_to_attributes(assigns, option_names ++ [:extra]))
+    case options_module.parse(assigns) do
+      {:ok, options} ->
+        assigns =
+          assigns
+          |> assign(options |> Map.from_struct())
+          |> assign(:extra, assigns_to_attributes(assigns, option_names ++ [:extra]))
 
-      {:ok, assigns}
-    else
+        {:ok, assigns}
+
       {:error, changeset} ->
         show_errors(changeset, component_name)
     end

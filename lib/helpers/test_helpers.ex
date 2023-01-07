@@ -4,7 +4,7 @@ defmodule PrimerLive.Helpers.TestHelpers do
   @doc ~S"""
   Tweaks Phoenix.LiveView.HTMLFormatter.format/2 to remove spaces surrounding HTML tags.
 
-  ## Examples
+  ## Tests
 
       iex> PrimerLive.Helpers.TestHelpers.format_html("
       ...>   <div> <span>Content</span>

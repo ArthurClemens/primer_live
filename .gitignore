@@ -27,3 +27,4 @@ primer_live-*.tar
 
 /priv/octicon_builder/octicons-*
 priv/static/primer_live.js
+priv/octicon_builder/story_list.ex

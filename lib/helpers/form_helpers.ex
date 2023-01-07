@@ -1,8 +1,8 @@
 defmodule PrimerLive.Helpers.FormHelpers do
-  use Phoenix.HTML
-
   @moduledoc false
   # Helper functions for components that interact with forms and changesets.
+
+  use Phoenix.HTML
 
   # Map of input name to atom value that can be used by Phoenix.HTML.Form to render the appropriate input element.
   @text_input_types %{
@@ -88,7 +88,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
 
   defp get_field_state_for_changeset(changeset, field_state, field, validation_message_fn) do
     with field_errors <- get_field_errors(changeset, field),
-         valid? <- Enum.count(field_errors) == 0,
+         valid? <- field_errors == [],
          field_state <- %{
            field_state
            | valid?: valid?,
@@ -97,28 +97,27 @@ defmodule PrimerLive.Helpers.FormHelpers do
              changeset: changeset
          },
          message <-
-           (case is_nil(validation_message_fn) do
-              true ->
-                case !is_nil(changeset.action) do
-                  true ->
-                    case field_errors === [] do
-                      true ->
-                        nil
-
-                      false ->
-                        [field_error | _rest] = field_errors
-                        field_error
-                    end
-
-                  false ->
-                    nil
-                end
-
-              false ->
-                validation_message_fn.(field_state)
-            end) do
+           get_message(changeset.action, field_errors, field_state, validation_message_fn) do
       %{field_state | message: message}
     end
+  end
+
+  # changeset.action is nil
+  defp get_message(nil, _field_errors, _field_state, _), do: nil
+
+  # validation_message_fn is nil, field_errors is empty
+  defp get_message(_changeset_action, field_errors, _field_state, nil) when field_errors == [],
+    do: nil
+
+  # validation_message_fn is nil, field_errors exists
+  defp get_message(_changeset_action, field_errors, _field_state, nil) do
+    [field_error | _rest] = field_errors
+    field_error
+  end
+
+  # validation_message_fn exists
+  defp get_message(_changeset_action, _field_errors, field_state, validation_message_fn) do
+    validation_message_fn.(field_state)
   end
 
   @doc """
@@ -181,7 +180,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
   @doc """
   Get the input type atom from a name, e.g. "search" returns :search_input
 
-  ## Examples
+  ## Tests
 
       iex> PrimerLive.Helpers.FormHelpers.text_input_type_as_atom("x")
       :text_input
