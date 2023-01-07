@@ -39,7 +39,7 @@ defmodule PrimerLive do
   Add PrimerLive as a dependency in your Phoenix application's `mix.exs`
 
   ```
-  {:primer_live, "~> 0.1.14"}
+  {:primer_live, "~> 0.1.15"}
   ```
 
   Run `mix.deps get`

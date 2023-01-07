@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.1.14",
+      version: "0.1.15",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: description(),
       package: package(),
@@ -85,8 +85,7 @@ defmodule PrimerLive.MixProject do
       links: %{
         GitHub: "https://github.com/ArthurClemens/primer_live"
       },
-      files:
-        ~w(lib .formatter.exs mix.exs README* LICENSE* priv/octicon_builder/PrimerLive.Octicons.template.eex priv/octicon_builder/build.exs
+      files: ~w(lib .formatter.exs mix.exs README* LICENSE* priv/octicon_builder/build.exs
                 CHANGELOG*)
     ]
   end
