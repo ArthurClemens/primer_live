@@ -1,0 +1,3 @@
+stories = [
+  <%= for %{name: name} <- icons do %>%{title: "<%= name %>", story_fn: &icon_story/1},
+  <% end %>]

@@ -5,4 +5,4 @@
 # - Run script:
 #     mix run priv/octicon_builder/build.exs
 
-PrimerLive.Helpers.Octicons.build("../../../octicons")
+PrimerLive.Helpers.OcticonsHelper.build("../../../octicons")

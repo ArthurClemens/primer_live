@@ -7,11 +7,19 @@ defmodule PrimerLive.Helpers.OcticonsHelper do
 
   @priv_path "priv/octicon_builder"
   @module_path "lib/octicons.ex"
+  @story_list_path "#{@priv_path}/story_list.ex"
 
   EEx.function_from_file(
     :defp,
     :module_wrapper,
     "#{@priv_path}/PrimerLive.Octicons.template.eex",
+    [:icons]
+  )
+
+  EEx.function_from_file(
+    :defp,
+    :story_list,
+    "#{@priv_path}/PrimerLive.Octicons.story_list_template.eex",
     [:icons]
   )
 
@@ -40,6 +48,17 @@ defmodule PrimerLive.Helpers.OcticonsHelper do
 
         error ->
           IO.puts("Error writing PrimerLive.Octicons module")
+          error
+      end
+
+      story_list_result = story_list(icons)
+
+      case File.write(@story_list_path, story_list_result) do
+        :ok ->
+          IO.puts("Story list written")
+
+        error ->
+          IO.puts("Error writing story list")
           error
       end
     else
