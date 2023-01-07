@@ -36,8 +36,13 @@ defmodule PrimerLive do
 
   ### Install primer_live
 
-  - Edit `mix.exs` and add dependency `primer_live`
-  - Run `mix.deps get`
+  Add PrimerLive as a dependency in your Phoenix application's `mix.exs`
+
+  ```
+  {:primer_live, "~> 0.1.14"}
+  ```
+
+  Run `mix.deps get`
 
   ### Add CSS and JavaScript dependencies
 
