@@ -1,7 +1,7 @@
 defmodule PrimerLive.Helpers.AttributeHelpers do
-  alias PrimerLive.Helpers.FormHelpers
-
   @moduledoc false
+
+  alias PrimerLive.Helpers.FormHelpers
 
   @doc ~S"""
   Concatenates a list of classnames to a single string.
@@ -10,7 +10,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   - Trims whitespaces
   Returns nil if the resulting output is an empty string.
 
-  ## Examples
+  ## Tests
 
       iex> PrimerLive.Helpers.AttributeHelpers.classnames([])
       nil
@@ -60,7 +60,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   - Ignores any nil or false entries
   - Removes duplicate entries
 
-  ## Examples
+  ## Tests
 
       iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([], [[]])
       []
@@ -119,7 +119,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   @doc ~S'''
   Creates an "aria attributes" keyword list from an input keyword list with component values.
 
-  ## Examples
+  ## Tests
 
       iex> PrimerLive.Helpers.AttributeHelpers.get_aria_attributes([])
       []
@@ -139,7 +139,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   @doc ~S"""
   Converts user input to an integer, with optionally a default value
 
-  ## Examples
+  ## Tests
 
       iex> PrimerLive.Helpers.AttributeHelpers.as_integer(nil)
       nil
@@ -176,7 +176,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   @doc ~S"""
   Converts user input to a boolean, with optionally a default value
 
-  ## Examples
+  ## Tests
 
       iex> PrimerLive.Helpers.AttributeHelpers.as_boolean(true)
       true
@@ -240,9 +240,10 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   end
 
   def as_boolean(input, _default_value) when is_number(input) do
-    cond do
-      input > 0 -> true
-      true -> false
+    if input > 0 do
+      true
+    else
+      false
     end
   end
 
@@ -251,7 +252,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   @doc """
   Takes 2 lists and padds the shortest list with placeholder values.
 
-  ## Examples
+  ## Tests
 
       iex> PrimerLive.Helpers.AttributeHelpers.pad_lists([], [])
       [[], []]
@@ -302,7 +303,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   @doc """
   Forces a value to be within a min and max value.any()
 
-  ## Examples
+  ## Tests
 
       iex> PrimerLive.Helpers.AttributeHelpers.minmax(-1, 0, 2)
       0
@@ -329,7 +330,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   @doc """
   Verifies if a slot should be handled as a link.
 
-  ## Examples
+  ## Tests
 
       iex> PrimerLive.Helpers.AttributeHelpers.is_link?(%{href: "#url"})
       true
@@ -350,7 +351,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   @doc """
   Verifies if a slot should be handled as a link.
 
-  ## Examples
+  ## Tests
 
       iex> PrimerLive.Helpers.AttributeHelpers.is_anchor_link?(%{})
       false

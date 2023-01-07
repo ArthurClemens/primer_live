@@ -1,5 +1,7 @@
-defmodule PrimerLive.Helpers.Octicons do
+defmodule PrimerLive.Helpers.OcticonsHelper do
   @moduledoc false
+  # Processes icon files from https://github.com/primer/octicons and writes the SVG data to `lib/octicons.ex`.
+  # Called by `priv/octicon_builder/build.exs`.
 
   require EEx
 
@@ -16,13 +18,8 @@ defmodule PrimerLive.Helpers.Octicons do
   def build(dirname) do
     icons_path = "#{@priv_path}/#{dirname}/icons"
 
-    with {:ok, filenames} <- File.ls(icons_path) do
-      with true <- Enum.count(filenames) > 0 do
-      else
-        _ ->
-          IO.inspect("Could not proceed: directory '#{icons_path}' is empty.")
-      end
-
+    with {:ok, filenames} <- File.ls(icons_path),
+         {:ok, _count} <- file_count(filenames) do
       icons =
         filenames
         |> Enum.map(
@@ -37,16 +34,27 @@ defmodule PrimerLive.Helpers.Octicons do
 
       result = module_wrapper(icons)
 
-      with :ok <- File.write(@module_path, result) do
-        IO.puts("PrimerLive.Octicons module written")
-      else
+      case File.write(@module_path, result) do
+        :ok ->
+          IO.puts("PrimerLive.Octicons module written")
+
         error ->
           IO.puts("Error writing PrimerLive.Octicons module")
           error
       end
     else
-      _error ->
-        IO.inspect("Could not read directory '#{icons_path}'. Does this directory exist?")
+      {:error, :enoent} ->
+        IO.puts("Could not read directory '#{icons_path}'. Does this directory exist?")
+
+      {:error, :empty} ->
+        IO.puts("Could not proceed: directory '#{icons_path}' is empty.")
+    end
+  end
+
+  defp file_count(filenames) do
+    case Enum.count(filenames) do
+      0 -> {:error, :empty}
+      count -> {:ok, count}
     end
   end
 end

@@ -2,12 +2,20 @@ defmodule PrimerLive do
   @moduledoc ~S'''
 
   <p>
-  PrimerLive is a collection of function components that implements <a href="https://primer.style/" target="_blank">GitHub's Primer Design System</a>. It is intended for usage in <a href="https://github.com/phoenixframework/phoenix_live_view" target="_blank">Phoenix LiveView pages</a> and regular (non-LiveView) views in Phoenix applications.
+    PrimerLive components can be used in <a href="https://github.com/phoenixframework/phoenix_live_view" target="_blank">Phoenix LiveView pages</a> and regular (non-LiveView) views in Phoenix applications.
   </p>
 
   <p>
-  Since this implementation closely adheres to the <a href="https://primer.style/css/" target="_blank">Primer CSS documentation</a>, extending components with <a href="https://primer.style/css/utilities" target="blank">Primer's utility classes</a> should be simple.
+    The Primer Design System provides a strong base for creating data driven applications such as rich CRUD applications with interactive forms.
   </p>
+
+  <p>
+    Since this implementation closely adheres to the <a href="https://primer.style/css/" target="_blank">Primer CSS documentation</a>, extending components with <a href="https://primer.style/css/utilities" target="blank">Primer's utility classes</a> should be simple.
+  </p>
+
+  ## Demo
+
+  [PrimerLive Storybook](https://primer-live.org)
 
   ## Source code
 
@@ -24,55 +32,109 @@ defmodule PrimerLive do
   Included libraries:
   - [Octicons](https://primer.style/octicons/)
 
-
   ## Installation
 
-  ### Install dependencies
+  ### Install primer_live
 
   - Edit `mix.exs` and add dependency `primer_live`
   - Run `mix.deps get`
 
-  ### Dependency setup for deploying
+  ### Add CSS and JavaScript dependencies
 
-  To ensure that the assets are installed before your application has started, or before it has been deployed, add "npm install" to the scripts in `mix.exs`. For example:
+  <p>You can either use npm, or add the dependencies to the HTML file.</p>
+  <p>
+    If you plan to use menus, dialogs, or drawers in your project, you will need to include JavaScript dependencies. If not, you may skip the JavaScript imports and hooks.
+  </p>
+
+  <h3>
+    Option A: Adding dependencies using npm
+  </h3>
+
+  <p>
+    Install <a href="https://www.npmjs.com/package/primer-live">primer-live</a>. Inside your assets folder, do:
+  </p>
 
   ```
-  defp aliases do
-    [
-      setup: ["deps.get", "cmd npm --prefix assets install"],
-      "assets.deploy": [
-        "cmd npm --prefix assets install",
-        "esbuild default --minify",
-        "phx.digest"
-      ]
-    ]
-  end
-  ```
-
-  ### Set up JavaScript / CSS
-
-  Install [primer-live](https://www.npmjs.com/package/primer-live)
-
-  Inside your assets folder, do:
-
-  ```bash
   npm install primer-live --save
   ```
 
-  Add to your `app.js`:
+  <p>
+    To ensure that the assets are installed before your application has started, and before it has been deployed, add &quot;npm install&quot; to the setup and deploy scripts in <code class="inline">mix.exs</code>.
+  </p>
 
-  ```js
-  import { Prompt } from "primer-live";
-  import "primer-live/primer-live.css";
+  <p>For example:</p>
+
+  ```
+  defp aliases do
+  [
+    setup: ["deps.get", "cmd npm --prefix assets install"],
+    "assets.deploy": [
+      "cmd npm --prefix assets install",
+      "esbuild default --minify",
+      "phx.digest"
+    ]
+  ]
+  end
   ```
 
-  In `app.js`, add `Prompt` to the hooks:
+  <p>Run <code class="inline">mix setup</code> to install the npm dependencies.</p>
 
-  ```js
+  <p>Add to <code>assets/js/app.js</code>:</p>
+
+  ```
+  import "primer-live/primer-live.css";
+  import { Prompt, Session } from "primer-live";
+  ```
+
+  <p>Also in <code>assets/js/app.js</code>, add <code>Prompt</code> and <code>Session</code> to the hooks:</p>
+
+  ```
   let liveSocket = new LiveSocket("/live", Socket, {
     params: { _csrf_token: csrfToken },
     hooks: {
       Prompt,
+      Session,
+      // existing hooks ...
+    },
+  });
+  ```
+
+  <h3>
+    Option B: Adding dependencies to the HTML file
+  </h3>
+
+  <p>Load the dependencies from a content delivery service such as unpkg.</p>
+
+  <h4>CSS only</h4>
+
+  <p>Add to <code>root.html.heex</code>:</p>
+
+  ```
+  <link rel="stylesheet" href="https://unpkg.com/primer-live/dist/primer-live.min.css" media="all">
+  ```
+
+  <h4>CSS and JavaScript</h4>
+
+  <p>Add to <code>root.html.heex</code>:</p>
+
+  ```
+  <link rel="stylesheet" href="https://unpkg.com/primer-live/dist/primer-live.min.css" media="all">
+  <script src="https://unpkg.com/primer-live/dist/primer-live.min.js"></script>
+  <script src="https://unpkg.com/dialogic-js/dist/dialogic-js.min.js"></script>
+  ```
+
+  <p>
+    In <code>assets/js/app.js</code>, add global <code>Prompt</code>
+    and <code>Session</code>
+    to the hooks:
+  </p>
+
+  ```
+  let liveSocket = new LiveSocket("/live", Socket, {
+    params: { _csrf_token: csrfToken },
+    hooks: {
+      Prompt,
+      Session,
       // existing hooks ...
     },
   });

@@ -1,4 +1,8 @@
 defmodule PrimerLive.UIIcons do
+  @moduledoc """
+  Interface icons that are not part of the Octicons set.
+  """
+
   use Phoenix.Component
 
   @doc """

@@ -29,6 +29,7 @@ defmodule PrimerLive.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.6"},
       {:ex_doc, "~> 0.29.0", only: :dev},
       {:phoenix_html, "~> 3.2.0"},

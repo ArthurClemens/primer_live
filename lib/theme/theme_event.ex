@@ -1,4 +1,8 @@
 defmodule PrimerLive.ThemeEvent do
+  @moduledoc """
+  Handles update events from a theme menu.
+  """
+
   defmacro __using__(_) do
     quote do
       alias PrimerLive.Theme
