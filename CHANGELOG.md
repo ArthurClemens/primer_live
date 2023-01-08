@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.16
+
+Added anchor link attributes to `button`.
+
 ## 0.1.15
 
 Removed Octicon builder template files from distribution.

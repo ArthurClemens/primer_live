@@ -19,6 +19,23 @@ defmodule PrimerLive.TestComponents.ButtonTest do
              |> format_html()
   end
 
+  test "Anchor link button" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.button href="/home">href link</.button>
+           <.button navigate="/home">navigate link</.button>
+           <.button patch="/home">patch link</.button>
+           """)
+           |> format_html() ==
+             """
+             <a href="/home" class="btn">href link</a>
+             <a href="/home" data-phx-link="redirect" data-phx-link-state="push" class="btn">navigate link</a>
+             <a href="/home" data-phx-link="patch" data-phx-link-state="push" class="btn">patch link</a>
+             """
+             |> format_html()
+  end
+
   test "Modifiers" do
     assigns = %{}
 

@@ -7433,6 +7433,14 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
+  Optionally create an anchor link rendered as a button. Anchor links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
+
+  ```
+  <.button href="#url">href link</.button>
+  <.button navigate={Routes.page_path(@socket, :index)}>navigate link</.button>
+  <.button patch={Routes.page_path(@socket, :index)}>patch link</.button>
+  ```
+
   Primary button:
 
   ```
@@ -7543,6 +7551,24 @@ defmodule PrimerLive.Component do
   attr :is_small, :boolean, default: false, doc: "Generates a small button."
   attr :is_submit, :boolean, default: false, doc: "Generates a button with type=\"submit\"."
 
+  attr(:href, :any,
+    doc: """
+    Creates an anchor link using `Phoenix.Component.link/1`, passing all other attributes to the link.
+    """
+  )
+
+  attr(:patch, :string,
+    doc: """
+    Link attribute - see `href`.
+    """
+  )
+
+  attr(:navigate, :string,
+    doc: """
+    Link attribute - see `href`.
+    """
+  )
+
   attr(:rest, :global,
     doc: """
     Additional HTML attributes added to the button element.
@@ -7574,25 +7600,42 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    is_link = AttributeHelpers.is_link?(assigns)
+
     attributes =
       AttributeHelpers.append_attributes(assigns.rest, [
         assigns.is_selected && [aria_selected: "true"],
         assigns.is_disabled && [aria_disabled: "true"],
         [class: class],
-        [type: if(assigns.is_submit, do: "submit", else: "button")]
+        !is_link && [type: if(assigns.is_submit, do: "submit", else: "button")],
+        [href: assigns[:href], navigate: assigns[:navigate], patch: assigns[:patch]]
       ])
 
-    assigns =
-      assigns
-      |> assign(:attributes, attributes)
-
-    ~H"""
-    <button {@attributes}>
+    render_content = fn ->
+      ~H"""
       <%= render_slot(@inner_block) %>
       <%= if @is_dropdown_caret do %>
         <span class="dropdown-caret"></span>
       <% end %>
-    </button>
+      """
+    end
+
+    assigns =
+      assigns
+      |> assign(:attributes, attributes)
+      |> assign(:is_link, is_link)
+      |> assign(:render_content, render_content)
+
+    ~H"""
+    <%= if @is_link do %>
+      <Phoenix.Component.link {@attributes}>
+        <%= @render_content.() %>
+      </Phoenix.Component.link>
+    <% else %>
+      <button {@attributes}>
+        <%= @render_content.() %>
+      </button>
+    <% end %>
     """
   end
 
