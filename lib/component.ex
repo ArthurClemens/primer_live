@@ -7574,20 +7574,20 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    aria_attributes =
-      AttributeHelpers.get_aria_attributes(
-        is_selected: assigns.is_selected,
-        is_disabled: assigns.is_disabled
-      )
+    attributes =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        assigns.is_selected && [aria_selected: "true"],
+        assigns.is_disabled && [aria_disabled: "true"],
+        [class: class],
+        [type: if(assigns.is_submit, do: "submit", else: "button")]
+      ])
 
     assigns =
       assigns
-      |> assign(:class, class)
-      |> assign(:aria_attributes, aria_attributes)
-      |> assign(:type, if(assigns.is_submit, do: "submit", else: "button"))
+      |> assign(:attributes, attributes)
 
     ~H"""
-    <button class={@class} type={@type} {@rest} {@aria_attributes}>
+    <button {@attributes}>
       <%= render_slot(@inner_block) %>
       <%= if @is_dropdown_caret do %>
         <span class="dropdown-caret"></span>
