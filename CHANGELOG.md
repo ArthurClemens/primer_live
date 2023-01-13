@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.1.17
+
+Rework form controls. This includes using CSS from [Primer ViewComponents](https://primer.style/view-components/) as it is more mature than Primer CSS styles.
+
+Inputs inside a form group no longer have a background color by default; use `is_contrast` to set it explicitly.
+
+- `text_input`:
+  - Added attr `is_monospace`
+  - Added slots `leading_visual` and `trailing_action`
+  - Added attr `is_trailing_action_divider`
+- `textarea`:
+  - Added attr `is_monospace`
+- `select`:
+  - Added wrapper element
+  - Added attr `is_monospace`
+  - Added attr `is_large`
+  - Added attr `is_short`
+  - Added attr `is_shorter`
+  - Added attr `is_full_width`
+  - Improved styling for multiple select
+- `subnav` with search field:
+  - Added attr `is_wrap` to wrap child elements
+  - Improved CSS for small screens
+
 ## 0.1.16
 
 Added anchor link attributes to `button`.
