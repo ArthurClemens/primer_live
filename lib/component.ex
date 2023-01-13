@@ -4378,7 +4378,7 @@ defmodule PrimerLive.Component do
     <:label>Some label</:label>
     <:disclosure>
       <span class="d-block mb-1">Available hours per week</span>
-      <input type="text" name="" class="form-control input-contrast" size="3" />
+      <.text_input is_contrast size="3" />
       <span class="text-small color-fg-muted pl-2">hours per week</span>
     </:disclosure>
   </.radio_button>
