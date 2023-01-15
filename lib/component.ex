@@ -4707,13 +4707,15 @@ defmodule PrimerLive.Component do
         assigns_to_attributes(slot, [
           :inner_block,
           :__slot__,
-          :value
+          :value,
+          :class,
+          :id
         ])
 
       value = slot[:value]
       escaped_value = Phoenix.HTML.html_escape(value)
       id_prefix = if is_nil(assigns.id_prefix), do: "", else: assigns.id_prefix <> "-"
-      id = id_prefix <> Phoenix.HTML.Form.input_id(form, field, escaped_value)
+      id = slot[:id] || id_prefix <> Phoenix.HTML.Form.input_id(form, field, escaped_value)
 
       input_opts =
         AttributeHelpers.append_attributes(initial_opts, [

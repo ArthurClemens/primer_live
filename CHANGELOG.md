@@ -28,6 +28,8 @@ Inputs inside a form group no longer have a background color by default; use `is
   - Added attr `is_wrap` to wrap child elements
   - Improved CSS for small screens
 
+Added styling for input elements inside a disabled fieldset.
+
 ## 0.1.16
 
 Added anchor link attributes to `button` to create a link that looks like a button.
