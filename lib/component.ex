@@ -4251,10 +4251,15 @@ defmodule PrimerLive.Component do
       ])
 
     input_opts =
-      AttributeHelpers.append_attributes(rest, [
-        input_class && [class: input_class],
-        input_id && [id: input_id]
-      ])
+      AttributeHelpers.append_attributes(
+        assigns_to_attributes(rest, [
+          :id
+        ]),
+        [
+          input_class && [class: input_class],
+          input_id && [id: input_id]
+        ]
+      )
 
     input =
       case assigns.input_type do
@@ -4692,6 +4697,7 @@ defmodule PrimerLive.Component do
       radio_input:
         AttributeHelpers.classnames([
           "radio-input",
+          "FormControl-radio",
           assigns.classes[:radio_input]
         ])
     }
