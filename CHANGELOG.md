@@ -12,6 +12,8 @@ Inputs inside a form group no longer have a background color by default; use `is
   - Added attr `is_trailing_action_divider`
 - `textarea`:
   - Added attr `is_monospace`
+- `checkbox` and `radio_button`
+  - Changed internal structure
 - `select`:
   - Added wrapper element
   - Added attr `is_monospace`
@@ -26,7 +28,7 @@ Inputs inside a form group no longer have a background color by default; use `is
 
 ## 0.1.16
 
-Added anchor link attributes to `button`.
+Added anchor link attributes to `button` to create a link that looks like a button.
 
 ## 0.1.15
 
