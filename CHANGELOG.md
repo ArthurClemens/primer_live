@@ -1,23 +1,28 @@
 # Changelog
 
-## 0.1.17
+## 0.2.0
 
-Rework form controls. This includes using CSS from [Primer ViewComponents](https://primer.style/view-components/) as it is more mature than Primer CSS styles.
+### Rework of form controls
 
-Inputs inside a form group no longer have a background color by default; use `is_contrast` to set it explicitly.
+The rework includes styles from [Primer ViewComponents](https://primer.style/view-components/). The form styles from this flavor of Primer is more mature than the generally used Primer CSS.
 
+Updated components:
 - `text_input`:
   - Added attr `is_monospace`
   - Added slots `leading_visual` and `trailing_action`
   - Added attr `is_trailing_action_divider`
+  - Inputs inside a form group no longer have a background color by default; use `is_contrast` to set it explicitly
+  - Removed validation message for hidden inputs
 - `textarea`:
   - Added attr `is_monospace`
+  - Use `is_contrast` to explicitly set a contrasting background color
 - `checkbox` and `radio_button`
-  - Changed internal structure
+  - Have a clearer (more colorful) appearance
+  - Changed the HTML structure
 - `radio_group`
-  - Added input styling from Primer ViewComponents radio button (keeping the initial size)
+  - For consistency, added input styling from Primer ViewComponents radio button (keeping the initial size)
 - `select`:
-  - Added wrapper element
+  - Added wrapper HTML element
   - Added attr `is_monospace`
   - Added attr `is_large`
   - Added attr `is_short`
@@ -28,7 +33,15 @@ Inputs inside a form group no longer have a background color by default; use `is
   - Added attr `is_wrap` to wrap child elements
   - Improved CSS for small screens
 
-Added styling for input elements inside a disabled fieldset.
+Added component:
+- `input_validation_message` - can be used as standalone message component for inputs where the position of the validation feedback is not so obvious, for example lists of checkboxes or radio buttons
+
+Additional:
+- Added styling for input elements inside a disabled fieldset
+
+### Integration of npm dependencies
+
+JavaScript and CSS dependencies (from npm library `primer-live`) are now incorporated in the Elixir package. The installation instructions are slightly simplified (see the documentation) and are recommended for a fresh setup. The previous installation method works just fine for existing projects.
 
 ## 0.1.16
 

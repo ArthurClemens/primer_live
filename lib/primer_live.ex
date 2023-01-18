@@ -39,14 +39,14 @@ defmodule PrimerLive do
   Add PrimerLive as a dependency in your Phoenix application's `mix.exs`
 
   ```
-  {:primer_live, "~> 0.1.16"}
+  {:primer_live, "~> 0.2.0"}
   ```
 
   Run `mix.deps get`
 
   ### Add CSS and JavaScript dependencies
 
-  <p>You can either use npm, or add the dependencies to the HTML file.</p>
+  <p>You can either use `npm`, or add the dependencies to the HTML file.</p>
   <p>
     If you plan to use menus, dialogs, or drawers in your project, you will need to include JavaScript dependencies. If not, you may skip the JavaScript imports and hooks.
   </p>
@@ -55,12 +55,35 @@ defmodule PrimerLive do
     Option A: Adding dependencies using npm
   </h3>
 
-  <p>
-    Install <a href="https://www.npmjs.com/package/primer-live">primer-live</a>. Inside your assets folder, do:
-  </p>
+  Add npm library `primer-live` to your `assets/package.json`. For a regular project, do:
+  ```
+  {
+    "dependencies": {
+      "primer-live": "file:../deps/primer_live"
+    }
+  }
+  ```
+
+  If you're adding `primer-live` to an umbrella project, change the paths accordingly:
 
   ```
-  npm install primer-live --save
+  {
+    "dependencies": {
+      "primer-live": "file:../../../deps/primer_live"
+    }
+  }
+  ```
+
+  Now run the next command from your web app root:
+
+  ```
+  npm install --prefix assets
+  ```
+
+  If you had previously installed `primer-live` and want to get the latest JavaScript, then force an install with:
+
+  ```
+  npm install --force primer-live --prefix assets
   ```
 
   <p>
@@ -87,7 +110,7 @@ defmodule PrimerLive do
   <p>Add to <code>assets/js/app.js</code>:</p>
 
   ```
-  import "primer-live/primer-live.css";
+  import "primer-live/primer-live.min.css";
   import { Prompt, Session } from "primer-live";
   ```
 

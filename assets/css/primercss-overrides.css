@@ -1,0 +1,515 @@
+:root {
+  /* Provide a value for the monospace var. */
+  --primer-fontStack-monospace: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Provide a value for max height of dialog content. */
+  --prompt-max-height-content: 80vh;
+}
+
+/* Set max height on dialog content. */
+[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
+  max-height: var(--prompt-max-height-content);
+}
+
+/* Adjusted backdrop opacities for dark theme. */
+[data-color-mode=dark] [data-prompt] {
+  --prompt-background-opacity-backdrop-dark: 0.7;
+  --prompt-background-opacity-backdrop-medium: 0.5;
+  --prompt-background-opacity-backdrop-light: 0.3;
+}
+
+/* Adjusted backdrop opacities for dimmed dark theme. */
+[data-color-mode=dark][data-dark-theme=dark_dimmed] [data-prompt] {
+  --prompt-background-opacity-backdrop-dark: 0.5;
+  --prompt-background-opacity-backdrop-medium: 0.35;
+  --prompt-background-opacity-backdrop-light: 0.2;
+}
+
+/* Remove SelectMenu backdrop. */
+.SelectMenu::before {
+  display: none;
+}
+
+/* Remove SelectMenu animation (conflicts with appear transition). */
+.SelectMenu-modal {
+  animation: none;
+}
+
+/* Reset `margin-bottom: -1px` which causes a scrollbar. Replace with removal of bottom border. */
+.Box-body:last-of-type {
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+
+/* Remove redundant top spacing of first form group. */
+.Box-body>.form-group:first-child {
+  margin-top: 0;
+}
+
+/* Add the right octicon styles for underline nav items, to avoid having to add class `UnderlineNav-octicon`. */
+.UnderlineNav-item>.octicon {
+  display: inline !important;
+  margin-right: 8px;
+  color: var(--color-fg-muted);
+  fill: var(--color-fg-muted);
+}
+
+/* Add the right octicon styles for side nav items, to avoid having to add class `SideNav-icon`. */
+.SideNav-item>.octicon,
+.SideNav-subItem>.octicon {
+  width: 16px;
+  margin-right: 8px;
+  color: var(--color-fg-muted);
+}
+
+/* Resize octicon in a small button. */
+.btn-sm .octicon[width="16"],
+.btn-sm .octicon[height="16"] {
+  width: 14px;
+  height: 14px;
+}
+
+/* Use consistent height for large buttons. */
+.btn-large {
+  height: var(--primer-control-large-size, 40px);
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Bring input sizes used for form-control to FormControl-* elements. Default to auto size. */
+.FormControl-input,
+.FormControl-select,
+.FormControl-textarea {
+  width: auto;
+}
+
+/* -- idem */
+.form-group .FormControl-input,
+.form-group .FormControl-select-wrap,
+.form-group .FormControl-textarea {
+  width: 100%;
+  max-width: 440px;
+}
+
+/* -- idem for short inputs. */
+.form-group .FormControl-input.FormControl--short,
+.form-group .FormControl-select-wrap.FormControl--short,
+.form-group .FormControl-textarea.FormControl--short {
+  width: 100%;
+  max-width: 250px;
+}
+
+/* -- idem for even shorter inputs. */
+.form-group .FormControl-input.FormControl--shorter,
+.form-group .FormControl-select-wrap.FormControl--shorter,
+.form-group .FormControl-textarea.FormControl--shorter {
+  width: 100%;
+  max-width: 130px;
+}
+
+/* -- idem - restore full width. */
+.FormControl-input.SelectMenu-input,
+.FormControl-input.FormControl--fullWidth,
+.FormControl-select-wrap.FormControl--fullWidth,
+.FormControl-textarea.FormControl--fullWidth,
+.form-group .FormControl-input.FormControl--fullWidth,
+.form-group .FormControl-select.FormControl--fullWidth,
+.form-group .FormControl-textarea.FormControl--fullWidth {
+  width: 100%;
+  max-width: unset;
+}
+
+/* Don't set height on textareas. */
+.FormControl-textarea.FormControl-small,
+.FormControl-textarea.FormControl-medium,
+.FormControl-textarea.FormControl-large {
+  height: auto;
+}
+
+/* Don't set height on multiple selects. */
+.FormControl-select[multiple].FormControl-small,
+.FormControl-select[multiple].FormControl-medium,
+.FormControl-select[multiple].FormControl-large {
+  height: auto;
+}
+
+/* Don't create space for dropdown icon on multiple selects. */
+.FormControl-select-wrap.pl-multiple-select .FormControl-select {
+  padding-inline: var(--primer-control-medium-paddingInline-condensed, 8px);
+}
+
+/* Don't show dropdown icon on multiple selects. */
+.FormControl-select-wrap.pl-multiple-select:after {
+  display: none;
+}
+
+/* Support input-group with group button when using FormControl-x elements. */
+.input-group .FormControl-input:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* -- idem */
+.input-group .FormControl-input:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* -- idem */
+.input-group .FormControl-input {
+  width: 100%;
+}
+
+/* Provide default values for trailing action separator. */
+.FormControl-input-wrap .FormControl-input-trailingAction.FormControl-input-trailingAction--divider:before {
+  height: var(--base-size-16, 16px);
+  width: var(--primer-borderWidth-thin, 1px);
+}
+
+/* Remove padding and margin for "icon only" button inside a trailing action. */
+.FormControl-input-trailingAction .btn-octicon {
+  padding: 0;
+  margin: 0;
+}
+
+/* Form validation styles that conform to https://primer.style/view-components/components/alpha/textfield#with-a-validation-message */
+.form-control:not(:focus)[invalid],
+.form-select:not(:focus)[invalid] {
+  border-color: var(--color-danger-emphasis);
+}
+
+/* -- idem */
+.form-group.errored label {
+  color: inherit;
+}
+
+/* -- idem */
+.form-group .form-group-header {
+  margin-bottom: 4px;
+}
+
+/* -- idem */
+.FormControl-inlineValidation {
+  margin-top: 4px;
+}
+
+/* -- idem */
+.FormControl-inlineValidation--success {
+  color: var(--color-success-fg);
+  fill: var(--color-success-fg);
+}
+
+/* Reset error state to initial if element has class phx-no-feedback. */
+.FormControl-inlineValidation.phx-no-feedback {
+  display: none;
+}
+
+/* Copy checkbox emphasis style to FormControl checkbox and radio button.*/
+.FormControl-checkbox-wrap .FormControl-label em.highlight,
+.FormControl-radio-wrap .FormControl-label em.highlight {
+  position: relative;
+  left: -4px;
+  padding: 2px 4px;
+  font-style: normal;
+  background: var(--color-attention-subtle);
+  border-radius: 6px;
+}
+
+/* Use the radio styling from FormControl-radio for radio-group inputs. */
+.radio-group input[type=radio].radio-input.FormControl-radio {
+  margin: 10px -32px 0 16px;
+  width: 13px;
+  height: 13px;
+}
+
+/* Disable form elements when wrapping fieldset is disabled. */
+fieldset[disabled] input.FormControl-radio[type=radio],
+fieldset[disabled] input.FormControl-checkbox[type=checkbox] {
+  -webkit-text-fill-color: var(--color-primer-fg-disabled);
+  background-color: var(--color-input-disabled-bg);
+  border-color: var(--color-border-default);
+  color: var(--color-primer-fg-disabled);
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+/* -- idem */
+fieldset[disabled] .FormControl-checkbox-labelWrap .FormControl-label,
+fieldset[disabled] .FormControl-radio-labelWrap .FormControl-label {
+  color: var(--color-primer-fg-disabled);
+  cursor: not-allowed;
+}
+
+/* -- idem */
+fieldset[disabled] .FormControl-input,
+fieldset[disabled] .FormControl-textarea,
+fieldset[disabled] .FormControl-select {
+  color: var(--color-primer-fg-disabled);
+  background-color: var(--color-input-disabled-bg);
+  border-color: var(--color-border-default);
+  -webkit-text-fill-color: var(--color-primer-fg-disabled);
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+/* -- idem */
+fieldset[disabled] .FormControl-input::placeholder,
+fieldset[disabled] .FormControl-textarea::placeholder {
+  color: var(--color-primer-fg-disabled);
+}
+
+/* Reset error state to initial if preceding marker element has class phx-no-feedback. */
+
+.pl-invalid.phx-no-feedback+.FormControl-input[invalid]:not(:focus),
+.pl-invalid.phx-no-feedback+.FormControl-select[invalid]:not(:focus),
+.pl-invalid.phx-no-feedback+.FormControl-textarea[invalid]:not(:focus) {
+  border-color: var(--color-border-default);
+}
+
+/* -- idem */
+.pl-invalid.phx-no-feedback+input.FormControl-checkbox[type=checkbox][invalid]:not(:focus),
+.pl-invalid.phx-no-feedback+input.FormControl-radio[type=radio][invalid]:not(:focus) {
+  border-color: var(--color-border-default);
+}
+
+/* -- idem */
+.pl-invalid.phx-no-feedback+.form-control:not(:focus)[invalid],
+.pl-invalid.phx-no-feedback+.FormControl-input:not(:focus)[invalid],
+.pl-invalid.phx-no-feedback+.form-select:not(:focus)[invalid],
+.pl-invalid.phx-no-feedback+.FormControl-select:not(:focus)[invalid] {
+  border-color: var(--color-border-default);
+}
+
+/* -- idem - no need to take up space */
+.pl-valid,
+.pl-invalid {
+  display: none;
+}
+
+/* Set error state to success if preceding marker element has class pl-valid. */
+.pl-valid+.form-control:not(:focus)[invalid],
+.pl-valid+.FormControl-input:not(:focus)[invalid],
+.pl-valid+.form-select:not(:focus)[invalid],
+.pl-valid+.FormControl-select:not(:focus)[invalid] {
+  border-color: var(--color-success-emphasis);
+}
+
+/* Center SVG within leading visual. */
+.FormControl-input-wrap .FormControl-input-leadingVisualWrap {
+  display: grid;
+}
+
+/* Make the close button square. */
+.close-button {
+  width: inherit;
+  min-width: 16px;
+  height: inherit;
+  min-height: 16px;
+  line-height: 16px;
+}
+
+/* Improve subnav layout on small screens. */
+.subnav {
+  display: flex;
+}
+
+.subnav-search {
+  display: flex;
+  flex-grow: 1;
+}
+
+/* -- idem */
+@media (min-width: 544px) {
+  .subnav-search {
+    flex-grow: unset;
+  }
+}
+
+/* Add the right styles for search input inside subnav, to avoid having to add class `subnav-search-input`. */
+/* input[type="search"] will display a search icon (when .octicon SVG exists). */
+.subnav-search input[type="text"],
+.subnav-search input[type="search"] {
+  color: var(--color-fg-muted);
+  flex-grow: 1;
+}
+
+/* -- idem */
+.subnav-search input[type="text"].input-block,
+.subnav-search input[type="search"].input-block {
+  width: 100%;
+}
+
+/* -- idem */
+.subnav-search input[type="search"] {
+  padding-left: 32px;
+}
+
+/* -- idem */
+.subnav-search input+.octicon {
+  display: none;
+}
+
+/* -- idem */
+.subnav-search input[type="search"]+.octicon {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: block;
+  color: var(--color-fg-muted);
+  text-align: center;
+  pointer-events: none;
+}
+
+/* -- idem */
+.subnav-search-context+.subnav-search input[type="text"],
+.subnav-search-context+.subnav-search input[type="search"] {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* Support wrapping of subnav child elements. */
+.subnav.pl-subnav--wrap {
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* -- idem - remove float style */
+.subnav.pl-subnav--wrap:before,
+.subnav.pl-subnav--wrap:after {
+  display: none;
+}
+
+/* -- idem - remove float style */
+.subnav.pl-subnav--wrap .subnav-search.float-left {
+  float: none !important;
+  margin-left: 0;
+}
+
+/* Ensure that successive Box-row siblings don't show rounded top corners. */
+.Box-header+.Box-row,
+.Box-row+.Box-row {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+/* Don't show link menu appearance for non-link items such as single and multiple select items: */
+/* hide selection line at left and selection background. */
+.ActionList-item:not(.ActionList-item--navActive)[aria-selected="true"]:not(:hover) {
+  background: none;
+}
+
+/* -- idem */
+.ActionList-item:not(.ActionList-item--navActive)[aria-selected="true"]::after {
+  display: none;
+}
+
+/* Add space to label following an octicon. */
+.ActionList-item-label>.octicon+span {
+  margin-left: 8px;
+}
+
+/* Hide sub group toggles that are not button */
+span.ActionList-content[aria-expanded] {
+  display: none;
+}
+
+/* Hide empty labels */
+.ActionList-item-label:empty {
+  display: none;
+}
+
+/* For ActionMenu, take SelectMenu non-mobile style for all screen sizes. */
+.ActionMenu {
+  position: absolute;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  padding: 0;
+}
+
+/* Reset extra padding for touch devices because lots of layouts break because of it. */
+@media (pointer: coarse) {
+  .ActionList-content {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
+
+/* Mimic Primer/React's ActionMenu overlay style. */
+.ActionMenu-modal {
+  position: relative;
+  z-index: 99;
+  display: flex;
+  overflow: hidden;
+  pointer-events: auto;
+  flex-direction: column;
+  background-color: var(--color-canvas-overlay);
+  border-radius: 12px;
+  box-shadow: var(--color-overlay-shadow);
+  min-width: 192px;
+  max-width: 640px;
+  border: none;
+  margin: 8px 0 16px 0;
+}
+
+/* Header: make whitespace work on both sides. */
+.Header {
+  column-gap: 16px;
+}
+
+/* -- idem */
+.Header-item {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Implement Primer React's IconButton. */
+.btn-icon {
+  padding: 5px 8px;
+}
+
+/* -- idem */
+.btn-icon.btn-sm {
+  padding: 3px 6px;
+}
+
+/* -- idem */
+.btn-icon.btn-large {
+  padding: 9px 12px;
+}
+
+/* Box--overlay: reduce width on small screens */
+@media (max-width: 480px) {
+  .Box--overlay {
+    max-width: 90vw;
+  }
+}
+
+/* Box--overlay: drawer width */
+[data-prompt][data-isdrawer] [data-drawer-content].Box--overlay {
+  width: initial;
+}
+
+/* Box--overlay: prevent shadow for push drawer when not showing. */
+[data-prompt][data-isdrawer]:not([data-isshowing]) [data-drawer-content].Box--overlay {
+  box-shadow: none;
+}
+
+/* Small tabnav-tab items */
+.tabnav-tab--small {
+  padding: 8px 16px;
+  font-size: 12px;
+}
+
+/* -- idem */
+@media (min-width: 544px) {
+  .tabnav-tab--small {
+    padding: 4px 16px;
+  }
+}
+
+/* Theming: prevent setting a background on inline elements. */
+span[data-color-mode] {
+  background: none;
+}

@@ -240,7 +240,7 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-radio-wrap my-radio-button"><input class="form-checkbox-details-trigger FormControl-radio input-x" id="user_role_" name="user[role]" type="radio" value="" />
+             <div class="FormControl-radio-wrap my-radio-button"><span phx-feedback-for="user_role_" class="pl-valid"></span><input class="form-checkbox-details-trigger FormControl-radio input-x" id="user_role_" name="user[role]" type="radio" value="" />
              <div class="FormControl-radio-labelWrap"><label class="FormControl-label label-x my-label" aria-live="polite" for="user_role_">Some label</label>
              <p class="FormControl-caption hint-x my-hint">Some hint</p><span class="form-checkbox-details text-normal disclosure-x my-disclosure">Some hint</span>
              </div>

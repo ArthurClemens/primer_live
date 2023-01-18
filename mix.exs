@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.1.16",
+      version: "0.2.0",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: description(),
       package: package(),
@@ -31,6 +31,7 @@ defmodule PrimerLive.MixProject do
     [
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.6"},
+      {:esbuild, "~> 0.2", only: :dev},
       {:ex_doc, "~> 0.29.0", only: :dev},
       {:phoenix_html, "~> 3.2.0"},
       {:phoenix_live_view, "~> 0.18.3"},
@@ -85,14 +86,22 @@ defmodule PrimerLive.MixProject do
       links: %{
         GitHub: "https://github.com/ArthurClemens/primer_live"
       },
-      files: ~w(lib .formatter.exs mix.exs README* LICENSE* priv/octicon_builder/build.exs
+      files:
+        ~w(lib .formatter.exs mix.exs README* LICENSE* priv/octicon_builder/build.exs priv/static
                 CHANGELOG*)
     ]
   end
 
   defp aliases do
     [
-      setup: ["deps.get"]
+      setup: ["deps.get", "cmd --cd assets npm install"],
+      "assets.build": [
+        "cmd npm --prefix assets run build -- --format=esm --sourcemap --outfile=../priv/static/primer-live.esm.js",
+        "cmd npm --prefix assets run build -- --format=cjs --sourcemap --outfile=../priv/static/primer-live.cjs.js",
+        "cmd npm --prefix assets run build -- --format=iife --target=es2016 --outfile=../priv/static/primer-live.js",
+        "cmd npm --prefix assets run build -- --format=iife --target=es2016 --minify --outfile=../priv/static/primer-live.min.js",
+        "cmd npm --prefix assets run build:types"
+      ]
     ]
   end
 end

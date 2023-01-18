@@ -209,6 +209,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <div class="FormControl-checkbox-wrap container-x my-checkbox">
+             <span phx-feedback-for="user_available_for_hire_" class="pl-valid"></span>
              <input name="user[available_for_hire]" type="hidden" value="false" />
              <input class="form-checkbox-details-trigger FormControl-checkbox input-x" id="user_available_for_hire_" name="user[available_for_hire]" type="checkbox" value="true" />
              <div class="FormControl-checkbox-labelWrap label_container-x"><label class="FormControl-label label-x my-label" aria-live="polite" for="user_available_for_hire_">Some label</label>

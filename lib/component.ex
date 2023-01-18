@@ -2956,7 +2956,7 @@ defmodule PrimerLive.Component do
   slot(:inner_block, required: true, doc: "Form group content.")
 
   def form_group(assigns) do
-    case validate_is_form(assigns) do
+    case SchemaHelpers.validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
           assigns
@@ -3065,40 +3065,121 @@ defmodule PrimerLive.Component do
 
   # ------------------------------------------------------------------------------------
   # input_validation_message
-  #
-  # Private component
-  # Only shows when `message` exists.
   # ------------------------------------------------------------------------------------
 
-  attr(:message, :string, default: nil, doc: "Validation message.")
-  attr(:message_id, :string, default: nil, doc: "Validation message ID.")
-  attr(:valid?, :boolean, default: false, doc: "Valid state.")
-  attr(:show_message?, :boolean, default: false, doc: "Whether to show the message.")
-  attr(:class, :string, default: nil, doc: "Classname.")
-  attr(:phx_feedback_for_id, :string, default: nil)
+  @doc section: :forms
 
-  defp input_validation_message(assigns) do
+  @doc ~S"""
+  Generates a validation message for a form input.
+
+  This component is incorporated in "singular inputs" `text_input/1`, `textarea/1` and `select/1`. It can be used as standalone component for inputs where the position of the validation feedback is not so obvious.
+
+  A validation error message is automatically added when using a changeset with an error state. The message text is taken from the changeset errors.
+
+
+  To show the default validation message:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <!-- INPUTS -->
+    <.input_validation_message form={@form} field={:availability} />
+  </.form>
+  ```
+
+  To show a custom error message:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <!-- INPUTS -->
+    <.input_validation_message
+      form={@form}
+      field={:availability}
+      validation_message={
+        fn field_state ->
+          if !field_state.valid?, do: "Please select your availability"
+        end
+      }
+    />
+  </.form>
+  ```
+
+  Similarly, to show a custom validation success message:
+
+  ```
+  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <!-- INPUTS -->
+    <.input_validation_message
+      form={@form}
+      field={:availability}
+      validation_message={
+        fn field_state ->
+          if field_state.valid?, do: "Great!"
+        end
+      }
+    />
+  </.form>
+  ```
+  """
+
+  attr(:class, :string, default: nil, doc: "Classname.")
+
+  attr :field, :any, doc: "Field name (atom or string)."
+
+  attr :form, :any,
+    doc:
+      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+
+  attr(:validation_message, :any,
+    doc: """
+    Function to write a custom validation message (in case of error or success). See `text_input/1`.
+    """
+  )
+
+  attr(:input_id, :string,
+    doc: """
+    If the associated input has an id, pass it here as "input_id".
+    """
+  )
+
+  attr(:rest, :global,
+    doc: """
+    Additional HTML attributes added to the input element.
+    """
+  )
+
+  def input_validation_message(assigns) do
+    %{
+      show_message?: show_message?,
+      validation_message_id: validation_message_id,
+      phx_feedback_for_id: phx_feedback_for_id,
+      message: message,
+      valid?: valid?
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
+
     class =
       AttributeHelpers.classnames([
         "FormControl-inlineValidation",
-        if assigns.valid? do
+        if valid? do
           "FormControl-inlineValidation--success"
         else
           "FormControl-inlineValidation--error"
         end,
-        assigns.class
+        assigns[:class]
       ])
 
     attributes =
       AttributeHelpers.append_attributes([], [
         [class: class],
-        [id: assigns.message_id],
-        [phx_feedback_for: assigns[:phx_feedback_for_id]]
+        [id: validation_message_id],
+        [phx_feedback_for: phx_feedback_for_id]
       ])
 
     assigns =
       assigns
       |> assign(:attributes, attributes)
+      |> assign(:message, message)
+      |> assign(:valid?, valid?)
+      |> assign(:show_message?, show_message?)
 
     ~H"""
     <%= if @show_message? && not is_nil(@message) do %>
@@ -3112,22 +3193,6 @@ defmodule PrimerLive.Component do
       </div>
     <% end %>
     """
-  end
-
-  # Validates attribute `form`.
-  # Allowed values:
-  # - nil
-  # - atom
-  # - Phoenix.HTML.Form
-  defp validate_is_form(assigns) do
-    form = assigns[:form]
-
-    cond do
-      is_nil(form) -> true
-      is_atom(form) -> true
-      SchemaHelpers.is_phoenix_form(form) -> true
-      true -> {:error, "attr form: invalid value"}
-    end
   end
 
   # ------------------------------------------------------------------------------------
@@ -3151,6 +3216,8 @@ defmodule PrimerLive.Component do
 
   ```
   <.text_input type="password" />
+  <.text_input type="hidden" />
+  <.text_input type="email" />
   ```
 
   Set the placeholder. By default, the value of the placeholder attribute is used to fill in the aria-label attribute:
@@ -3222,6 +3289,9 @@ defmodule PrimerLive.Component do
 
   To configure the form group and label, use attr `form_group`. See `form_group/1` for supported attributes.
 
+  A validation error message is automatically added when using a changeset with an error state. The message text is taken from the changeset errors.
+  To show a custom validation error message, supply function `validation_message`:
+
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
     <.text_input
@@ -3238,24 +3308,7 @@ defmodule PrimerLive.Component do
   </.form>
   ```
 
-  A validation error message is automatically added when using a changeset with an error state. The message text is taken from the changeset errors.
-  To show a custom validation error message, supply function `validation_message`:
-
-  ```
-  <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.text_input
-      form={f}
-      field={:first_name}
-      validation_message={
-        fn field_state ->
-          if !field_state.valid?, do: "Please enter your first name"
-        end
-      }
-  />
-  </.form>
-  ```
-
-  To show a custom validation success message:
+  Similarly, to show a custom validation success message:
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
@@ -3444,7 +3497,7 @@ defmodule PrimerLive.Component do
   )
 
   def text_input(assigns) do
-    case validate_is_form(assigns) do
+    case SchemaHelpers.validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
           assigns
@@ -3461,18 +3514,15 @@ defmodule PrimerLive.Component do
 
   defp render_text_input(assigns) do
     %{
-      rest: rest,
-      form: form,
       field: field,
-      input_id: input_id,
-      phx_feedback_for_id: phx_feedback_for_id,
-      has_form_group: has_form_group,
       form_group_attrs: form_group_attrs,
+      form: form,
+      has_form_group: has_form_group,
+      input_id: input_id,
+      rest: rest,
       show_message?: show_message?,
       validation_marker_attrs: validation_marker_attrs,
-      validation_message_id: validation_message_id,
-      message: message,
-      valid?: valid?
+      validation_message_id: validation_message_id
     } = AttributeHelpers.common_input_attrs(assigns, nil)
 
     type = assigns.type
@@ -3574,16 +3624,16 @@ defmodule PrimerLive.Component do
 
       assigns =
         assigns
-        |> assign(:phx_feedback_for_id, phx_feedback_for_id)
         |> assign(:classes, classes)
         |> assign(:has_group_button, has_group_button)
-        |> assign(:validation_message_id, validation_message_id)
-        |> assign(:message, message)
-        |> assign(:valid?, valid?)
-        |> assign(:show_message?, show_message?)
-        |> assign(:validation_message_class, classes.validation_message)
         |> assign(:has_input_wrap, has_input_wrap)
         |> assign(:render_input_with_validation_marker, render_input_with_validation_marker)
+        |> assign(:input_id, input_id)
+        |> assign(:form, form)
+        |> assign(:field, field)
+        |> assign(:show_message?, show_message?)
+        |> assign(:validation_message_class, classes.validation_message)
+        |> assign(:validation_message, assigns[:validation_message])
 
       ~H"""
       <%= if @has_group_button do %>
@@ -3608,14 +3658,15 @@ defmodule PrimerLive.Component do
           <%= @render_input_with_validation_marker.() %>
         <% end %>
       <% end %>
-      <.input_validation_message
-        valid?={@valid?}
-        show_message?={@show_message?}
-        message={@message}
-        message_id={@validation_message_id}
-        class={@validation_message_class}
-        phx_feedback_for_id={@phx_feedback_for_id}
-      />
+      <%= if @show_message? do %>
+        <.input_validation_message
+          form={@form}
+          field={@field}
+          input_id={@input_id}
+          validation_message={@validation_message}
+          class={@validation_message_class}
+        />
+      <% end %>
       """
     end
 
@@ -3715,7 +3766,11 @@ defmodule PrimerLive.Component do
   Set attributes to the prompt option:
 
   ```
-  <.select name="age" options={25..35} prompt={[key: "Choose your role", disabled: true]} />
+  <.select
+    name="age"
+    options={25..35}
+    prompt={[key: "Choose your age", disabled: true, selected: true]}
+  />
   ```
 
   Create a multiple select with `is_multiple`.
@@ -3784,6 +3839,31 @@ defmodule PrimerLive.Component do
     """
   )
 
+  attr(:prompt, :any,
+    doc: """
+    The default option that is displayed in the select options before the user makes a selection. See
+    `Phoenix.HTML.Form.multiple_select/4`.
+
+    Pass a string or a keyword list.
+
+    Examples:
+
+    ```
+    <.select name="age" options={25..35} prompt="Choose your age" />
+    ```
+
+    Set attributes to the prompt option:
+
+    ```
+    <.select
+      name="age"
+      options={25..35}
+      prompt={[key: "Choose your age", disabled: true, selected: true]}
+    />
+    ```
+    """
+  )
+
   attr(:is_multiple, :boolean,
     default: false,
     doc: """
@@ -3838,7 +3918,7 @@ defmodule PrimerLive.Component do
   )
 
   def select(assigns) do
-    case validate_is_form(assigns) do
+    case SchemaHelpers.validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
           assigns
@@ -3860,13 +3940,10 @@ defmodule PrimerLive.Component do
       field: field,
       validation_marker_attrs: validation_marker_attrs,
       input_id: input_id,
-      phx_feedback_for_id: phx_feedback_for_id,
       has_form_group: has_form_group,
       form_group_attrs: form_group_attrs,
       show_message?: show_message?,
-      validation_message_id: validation_message_id,
-      message: message,
-      valid?: valid?
+      validation_message_id: validation_message_id
     } = AttributeHelpers.common_input_attrs(assigns, nil)
 
     is_multiple = assigns.is_multiple
@@ -3910,6 +3987,7 @@ defmodule PrimerLive.Component do
             is_auto_height && [size: Enum.count(options)],
             validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
+            [prompt: assigns[:prompt]],
             show_message? && [invalid: ""]
           ]
         )
@@ -3927,14 +4005,14 @@ defmodule PrimerLive.Component do
         assigns
         |> assign(:input, input)
         |> assign(:container_attrs, container_attrs)
-        |> assign(:phx_feedback_for_id, phx_feedback_for_id)
         |> assign(:classes, classes)
-        |> assign(:validation_message_id, validation_message_id)
-        |> assign(:message, message)
-        |> assign(:valid?, valid?)
-        |> assign(:show_message?, show_message?)
         |> assign(:validation_message_class, classes.validation_message)
         |> assign(:validation_marker_attrs, validation_marker_attrs)
+        |> assign(:input_id, input_id)
+        |> assign(:form, form)
+        |> assign(:field, field)
+        |> assign(:validation_message_class, classes.validation_message)
+        |> assign(:validation_message, assigns[:validation_message])
 
       ~H"""
       <div {@container_attrs}>
@@ -3944,12 +4022,11 @@ defmodule PrimerLive.Component do
         <%= @input %>
       </div>
       <.input_validation_message
-        valid?={@valid?}
-        show_message?={@show_message?}
-        message={@message}
-        message_id={@validation_message_id}
+        form={@form}
+        field={@field}
+        input_id={@input_id}
+        validation_message={@validation_message}
         class={@validation_message_class}
-        phx_feedback_for_id={@phx_feedback_for_id}
       />
       """
     end
@@ -4131,7 +4208,7 @@ defmodule PrimerLive.Component do
   end
 
   def checkbox(assigns) do
-    case validate_is_form(assigns) do
+    case SchemaHelpers.validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
           assigns
@@ -4165,12 +4242,14 @@ defmodule PrimerLive.Component do
     input_type = assigns[:input_type]
 
     %{
-      rest: rest,
-      form: form,
-      field: field,
-      input_id: input_id,
       derived_label: derived_label,
-      value: value
+      field: field,
+      form: form,
+      input_id: input_id,
+      rest: rest,
+      show_message?: show_message?,
+      value: value,
+      validation_marker_attrs: validation_marker_attrs
     } = AttributeHelpers.common_input_attrs(assigns, input_type)
 
     classes = %{
@@ -4257,7 +4336,8 @@ defmodule PrimerLive.Component do
         ]),
         [
           input_class && [class: input_class],
-          input_id && [id: input_id]
+          input_id && [id: input_id],
+          show_message? && [invalid: ""]
         ]
       )
 
@@ -4336,9 +4416,13 @@ defmodule PrimerLive.Component do
       |> assign(:label, label)
       |> assign(:render_hint, render_hint)
       |> assign(:render_disclosure, render_disclosure)
+      |> assign(:validation_marker_attrs, validation_marker_attrs)
 
     ~H"""
     <div {@container_attributes}>
+      <%= if @validation_marker_attrs do %>
+        <span {@validation_marker_attrs}></span>
+      <% end %>
       <%= @input %>
       <%= if @has_label do %>
         <div {@label_container_attributes}>
@@ -4518,7 +4602,7 @@ defmodule PrimerLive.Component do
   end
 
   def radio_button(assigns) do
-    case validate_is_form(assigns) do
+    case SchemaHelpers.validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
           assigns
@@ -4663,7 +4747,7 @@ defmodule PrimerLive.Component do
   end
 
   def radio_group(assigns) do
-    case validate_is_form(assigns) do
+    case SchemaHelpers.validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
           assigns
