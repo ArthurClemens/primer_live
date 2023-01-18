@@ -157,8 +157,14 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
              <div class="form-group">
              <div class="form-group-header"><label>Available for hire</label></div>
              <div class="form-group-body">
-             <div class="form-checkbox"><label><input name="user[available_for_hire]" type="hidden" value="false" /><input id="user_available_for_hire_admin" name="user[available_for_hire]" type="checkbox" value="admin" />Admin</label></div>
-             <div class="form-checkbox"><label><input name="user[available_for_hire]" type="hidden" value="false" /><input id="user_available_for_hire_editor" name="user[available_for_hire]" type="checkbox" value="editor" />Editor</label></div>
+             <div class="FormControl-checkbox-wrap"><span phx-feedback-for="user_available_for_hire_admin" class="pl-invalid"></span><input name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user_available_for_hire_admin" invalid=""
+             name="user[available_for_hire]" type="checkbox" value="admin" />
+             <div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user_available_for_hire_admin">Admin</label></div>
+             </div>
+             <div class="FormControl-checkbox-wrap"><span phx-feedback-for="user_available_for_hire_editor" class="pl-invalid"></span><input name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user_available_for_hire_editor" invalid=""
+             name="user[available_for_hire]" type="checkbox" value="editor" />
+             <div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user_available_for_hire_editor">Editor</label></div>
+             </div>
              </div>
              </div>
              """

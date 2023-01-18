@@ -18,10 +18,31 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            |> format_html() ==
              """
              <div class="radio-group">
-             <input class="radio-input" id="__admin" name="role" type="radio" value="admin" />
+             <input class="radio-input FormControl-radio" id="__admin" name="role" type="radio" value="admin" />
              <label class="radio-label" for="__admin">Admin</label>
-             <input class="radio-input" id="__editor" name="role" type="radio" value="editor" />
+             <input class="radio-input FormControl-radio" id="__editor" name="role" type="radio" value="editor" />
              <label class="radio-label" for="__editor">Editor</label></div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: id" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.radio_group>
+             <:radio_button name="role" value="admin" id="admin-id"></:radio_button>
+             <:radio_button name="role" value="editor" id="editor-id"></:radio_button>
+           </.radio_group>
+           """)
+           |> format_html() ==
+             """
+             <div class="radio-group">
+             <input class="radio-input FormControl-radio" id="admin-id" name="role" type="radio" value="admin" />
+             <label class="radio-label" for="admin-id">Admin</label>
+             <input class="radio-input FormControl-radio" id="editor-id" name="role" type="radio" value="editor" />
+             <label class="radio-label" for="editor-id">Editor</label>
+             </div>
              """
              |> format_html()
   end
@@ -51,9 +72,9 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            |> format_html() ==
              """
              <div class="radio-group">
-             <input class="radio-input" id="__admin" name="role" type="radio" value="admin" />
+             <input class="radio-input FormControl-radio" id="__admin" name="role" type="radio" value="admin" />
              <label class="radio-label" for="__admin">Some label A</label>
-             <input class="radio-input" id="__editor" name="role" type="radio" value="editor" />
+             <input class="radio-input FormControl-radio" id="__editor" name="role" type="radio" value="editor" />
              <label class="radio-label" for="__editor">Some label B</label></div>
              """
              |> format_html()
@@ -71,9 +92,9 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            |> format_html() ==
              """
              <div class="radio-group">
-             <input class="radio-input" id="user_role_admin" name="user[role]" type="radio" value="admin" />
+             <input class="radio-input FormControl-radio" id="user_role_admin" name="user[role]" type="radio" value="admin" />
              <label class="radio-label" for="user_role_admin">Admin</label>
-             <input class="radio-input" id="user_role_editor" name="user[role]" type="radio" value="editor" />
+             <input class="radio-input FormControl-radio" id="user_role_editor" name="user[role]" type="radio" value="editor" />
              <label class="radio-label" for="user_role_editor">Editor</label>
              </div>
              """
@@ -92,9 +113,9 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            |> format_html() ==
              """
              <div class="radio-group">
-             <input class="radio-input" id="user_role_admin" name="user[role]" type="radio" value="admin" />
+             <input class="radio-input FormControl-radio" id="user_role_admin" name="user[role]" type="radio" value="admin" />
              <label class="radio-label" for="user_role_admin">Admin</label>
-             <input class="radio-input" id="user_role_editor" name="user[role]" type="radio" value="editor" />
+             <input class="radio-input FormControl-radio" id="user_role_editor" name="user[role]" type="radio" value="editor" />
              <label class="radio-label" for="user_role_editor">Editor</label>
              </div>
              """
@@ -113,9 +134,9 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            |> format_html() ==
              """
              <div class="radio-group">
-             <input class="radio-input" id="custom-user_role_admin" name="user[role]" type="radio" value="admin" />
+             <input class="radio-input FormControl-radio" id="custom-user_role_admin" name="user[role]" type="radio" value="admin" />
              <label class="radio-label" for="custom-user_role_admin">Admin</label>
-             <input class="radio-input" id="custom-user_role_editor" name="user[role]" type="radio" value="editor" />
+             <input class="radio-input FormControl-radio" id="custom-user_role_editor" name="user[role]" type="radio" value="editor" />
              <label class="radio-label" for="custom-user_role_editor">Editor</label>
              </div>
              """
@@ -143,9 +164,9 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            |> format_html() ==
              """
              <div class="radio-group radio-group-x my-radio-group">
-             <input class="my-radio-button-a" class="radio-input radio-input-x my-radio-button-a" id="__admin" name="role" type="radio" value="admin" />
+             <input class="radio-input FormControl-radio radio-input-x my-radio-button-a" id="__admin" name="role" type="radio" value="admin" />
              <label class="radio-label label-x" for="__admin">Some label A</label>
-             <input class="my-radio-button-b" class="radio-input radio-input-x my-radio-button-b" id="__editor" name="role" type="radio" value="editor" />
+             <input class="radio-input FormControl-radio radio-input-x my-radio-button-b" id="__editor" name="role" type="radio" value="editor" />
              <label class="radio-label label-x" for="__editor">Some label B</label>
              </div>
              """
@@ -164,9 +185,9 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            |> format_html() ==
              """
              <div class="radio-group" dir="rtl">
-             <input class="radio-input" id="__admin" name="role" type="radio" value="admin" />
+             <input class="radio-input FormControl-radio" id="__admin" name="role" type="radio" value="admin" />
              <label class="radio-label" for="__admin">Admin</label>
-             <input class="radio-input" id="__editor" name="role" type="radio" value="editor" />
+             <input class="radio-input FormControl-radio" id="__editor" name="role" type="radio" value="editor" />
              <label class="radio-label" for="__editor">Editor</label></div>
              """
              |> format_html()

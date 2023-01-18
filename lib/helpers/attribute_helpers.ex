@@ -379,6 +379,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     input_id =
       cond do
+        assigns[:input_id] ->
+          assigns[:input_id]
+
         id ->
           id
 
@@ -414,8 +417,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     } = field_state
 
     has_changeset = !is_nil(field_state.changeset)
-
-    show_message? = message && !ignore_errors?
+    show_message? = !!message && !ignore_errors? && assigns[:type] !== "hidden"
     validation_message_id = if !is_nil(field_state.message), do: "#{input_id}-validation"
 
     # Phoenix uses phx_feedback_for to hide form field errors that are untouched.

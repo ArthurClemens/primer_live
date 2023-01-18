@@ -241,7 +241,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              <div class="SelectMenu SelectMenu--hasFilter">
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-filter">
-             <form><input aria-label="Filter" class="form-control SelectMenu-input" id="_q" name="q" placeholder="Filter"
+             <form><input aria-label="Filter" class="FormControl-input FormControl-medium SelectMenu-input" id="_q" name="q" placeholder="Filter"
              type="search" /></form>
              </div>
              <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button

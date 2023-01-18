@@ -1,0 +1,23 @@
+{
+  "name": "primer-live",
+  "version": "0.2.0",
+  "description": "JavaScript and CSS for PrimerLive",
+  "license": "MIT",
+  "repository": {},
+  "dependencies": {
+    "@primer/css": "20.8.0",
+    "dialogic-js": "0.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "esbuild": "^0.16.14",
+    "esbuild-sass-plugin": "^2.4.5",
+    "tsx": "^3.12.1",
+    "typescript": "^4.9.4"
+  },
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "build:types": "./node_modules/typescript/bin/tsc --p tsconfig.gen.json"
+  },
+  "author": "Arthur Clemens <arthurclemens@gmail.com> (http://arthurclemens.com)"
+}

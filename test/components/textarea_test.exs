@@ -37,7 +37,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             <textarea class="form-control" id="_" name="[]"></textarea>
+             <textarea class="FormControl-textarea FormControl-medium" id="_" name="[]"></textarea>
              """
              |> format_html()
   end
@@ -50,7 +50,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             <textarea class="form-control input-lg" id="_" name="[]"></textarea>
+             <textarea class="FormControl-textarea FormControl-large" id="_" name="[]"></textarea>
              """
              |> format_html()
   end
@@ -63,7 +63,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             <textarea class="form-control input-sm" id="_" name="[]"></textarea>
+             <textarea class="FormControl-textarea FormControl-small" id="_" name="[]"></textarea>
              """
              |> format_html()
   end
@@ -72,11 +72,11 @@ defmodule PrimerLive.TestComponents.TextareaTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.textarea class="x" />
+           <.textarea class="my-textarea" />
            """)
            |> format_html() ==
              """
-             <textarea class="form-control x" id="_" name="[]"></textarea>
+             <textarea class="FormControl-textarea FormControl-medium my-textarea" id="_" name="[]"></textarea>
              """
              |> format_html()
   end
@@ -91,7 +91,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              """
              <div class="form-group">
              <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body"><textarea class="form-control" id="user_first_name" name="first_name"></textarea></div>
+             <div class="form-group-body"><textarea class="FormControl-textarea FormControl-medium" id="user_first_name" name="first_name"></textarea></div>
              </div>
              """
              |> format_html()
@@ -115,7 +115,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              """
              <div class="form-group">
              <div class="form-group-header"><label for="user_first_name">Some label</label></div>
-             <div class="form-group-body"><textarea class="form-control" id="user_first_name" name="user[first_name]"></textarea></div>
+             <div class="form-group-body"><textarea class="FormControl-textarea FormControl-medium" id="user_first_name" name="user[first_name]"></textarea></div>
              </div>
              """
              |> format_html()
@@ -140,7 +140,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            |> format_html() ==
              """
              <span phx-feedback-for="user_first_name" class="pl-invalid"></span>
-             <textarea aria-describedby="user_first_name-validation" class="form-control" id="user_first_name" invalid="" name="user[first_name]"></textarea>
+             <textarea aria-describedby="user_first_name-validation" class="FormControl-textarea FormControl-medium" id="user_first_name" invalid="" name="user[first_name]"></textarea>
              <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation" phx-feedback-for="user[first_name]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>Please enter your first
              name</span></div>
              """

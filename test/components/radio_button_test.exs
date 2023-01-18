@@ -26,7 +26,7 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <input checked id="_" name="[]" type="radio" value="" />
+             <div class="FormControl-radio-wrap"><input checked class="FormControl-radio" id="_" name="[]" type="radio" value="" /></div>
              """
              |> format_html()
   end
@@ -53,8 +53,12 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <div class="form-checkbox"><label><input id="_role_admin" name="role" type="radio" value="admin" />Admin</label></div>
-             <div class="form-checkbox"><label><input id="_role_editor" name="role" type="radio" value="editor" />Editor</label></div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_role_admin" name="role" type="radio" value="admin" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_role_admin">Admin</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_role_editor" name="role" type="radio" value="editor" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_role_editor">Editor</label></div>
+             </div>
              """
              |> format_html()
   end
@@ -68,17 +72,11 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <div class="form-checkbox">
-             <label>
-             <input id="user_role_admin" name="user[role]" type="radio" value="admin" />
-             Admin
-             </label>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="user_role_admin" name="user[role]" type="radio" value="admin" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="user_role_admin">Admin</label></div>
              </div>
-             <div class="form-checkbox">
-             <label>
-             <input id="user_role_editor" name="user[role]" type="radio" value="editor" />
-             Editor
-             </label>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="user_role_editor" name="user[role]" type="radio" value="editor" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="user_role_editor">Editor</label></div>
              </div>
              """
              |> format_html()
@@ -93,17 +91,11 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <div class="form-checkbox">
-             <label>
-             <input id="user_role_admin" name="user[role]" type="radio" value="admin" />
-             Admin
-             </label>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="user_role_admin" name="user[role]" type="radio" value="admin" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="user_role_admin">Admin</label></div>
              </div>
-             <div class="form-checkbox">
-             <label>
-             <input id="user_role_editor" name="user[role]" type="radio" value="editor" />
-             Editor
-             </label>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="user_role_editor" name="user[role]" type="radio" value="editor" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="user_role_editor">Editor</label></div>
              </div>
              """
              |> format_html()
@@ -118,8 +110,12 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <div class="form-checkbox"><label><input id="_role_admin" name="role" type="radio" value="admin" />Admin</label></div>
-             <div class="form-checkbox"><label><input id="_role_editor" name="role" type="radio" value="editor" />Editor</label></div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_role_admin" name="role" type="radio" value="admin" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_role_admin">Admin</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_role_editor" name="role" type="radio" value="editor" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_role_editor">Editor</label></div>
+             </div>
              """
              |> format_html()
   end
@@ -147,22 +143,54 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <div class="form-checkbox"><label><input id="_types_x" name="types" type="radio" value="x" />X</label></div>
-             <div class="form-checkbox"><label><input id="_types_color" name="types" type="radio" value="color" />Color</label></div>
-             <div class="form-checkbox"><label><input id="_types_date" name="types" type="radio" value="date" />Date</label></div>
-             <div class="form-checkbox"><label><input id="_types_datetime_local" name="types" type="radio" value="datetime-local" />Datetime-local</label></div>
-             <div class="form-checkbox"><label><input id="_types_email" name="types" type="radio" value="email" />Email</label></div>
-             <div class="form-checkbox"><label><input id="_types_file" name="types" type="radio" value="file" />File</label></div>
-             <div class="form-checkbox"><label><input id="_types_hidden" name="types" type="radio" value="hidden" />Hidden</label></div>
-             <div class="form-checkbox"><label><input id="_types_number" name="types" type="radio" value="number" />Number</label></div>
-             <div class="form-checkbox"><label><input id="_types_password" name="types" type="radio" value="password" />Password</label></div>
-             <div class="form-checkbox"><label><input id="_types_range" name="types" type="radio" value="range" />Range</label></div>
-             <div class="form-checkbox"><label><input id="_types_search" name="types" type="radio" value="search" />Search</label></div>
-             <div class="form-checkbox"><label><input id="_types_telephone" name="types" type="radio" value="telephone" />Telephone</label></div>
-             <div class="form-checkbox"><label><input id="_types_text" name="types" type="radio" value="text" />Text</label></div>
-             <div class="form-checkbox"><label><input id="_types_textarea" name="types" type="radio" value="textarea" />Textarea</label></div>
-             <div class="form-checkbox"><label><input id="_types_time" name="types" type="radio" value="time" />Time</label></div>
-             <div class="form-checkbox"><label><input id="_types_url" name="types" type="radio" value="url" />Url</label></div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_x" name="types" type="radio" value="x" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_x">X</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_color" name="types" type="radio" value="color" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_color">Color</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_date" name="types" type="radio" value="date" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_date">Date</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_datetime_local" name="types" type="radio" value="datetime-local" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_datetime_local">Datetime-local</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_email" name="types" type="radio" value="email" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_email">Email</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_file" name="types" type="radio" value="file" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_file">File</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_hidden" name="types" type="radio" value="hidden" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_hidden">Hidden</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_number" name="types" type="radio" value="number" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_number">Number</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_password" name="types" type="radio" value="password" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_password">Password</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_range" name="types" type="radio" value="range" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_range">Range</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_search" name="types" type="radio" value="search" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_search">Search</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_telephone" name="types" type="radio" value="telephone" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_telephone">Telephone</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_text" name="types" type="radio" value="text" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_text">Text</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_textarea" name="types" type="radio" value="textarea" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_textarea">Textarea</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_time" name="types" type="radio" value="time" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_time">Time</label></div>
+             </div>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_types_url" name="types" type="radio" value="url" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_types_url">Url</label></div>
+             </div>
              """
              |> format_html()
   end
@@ -176,11 +204,11 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <div class="form-checkbox">
-             <label><input id="_role_admin" name="role" type="radio" value="admin" />Admin</label>
+             <div class="FormControl-radio-wrap"><input class="FormControl-radio" id="_role_admin" name="role" type="radio" value="admin" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_role_admin">Admin</label></div>
              </div>
-             <div class="form-checkbox">
-             <label><input checked id="_role_editor" name="role" type="radio" value="editor" />Editor</label>
+             <div class="FormControl-radio-wrap"><input checked class="FormControl-radio" id="_role_editor" name="role" type="radio" value="editor" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_role_editor">Editor</label></div>
              </div>
              """
              |> format_html()
@@ -212,13 +240,10 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <div class="form-checkbox my-radio-button">
-             <label class="label-x my-label" aria-live="polite">
-             <input class="form-checkbox-details-trigger input-x" id="user_role_" name="user[role]" type="radio" value="" />
-             Some label
-             <span class="form-checkbox-details text-normal disclosure-x my-disclosure">Some hint</span>
-             </label>
-             <p class="note hint-x my-hint">Some hint</p>
+             <div class="FormControl-radio-wrap my-radio-button"><span phx-feedback-for="user_role_" class="pl-valid"></span><input class="form-checkbox-details-trigger FormControl-radio input-x" id="user_role_" name="user[role]" type="radio" value="" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label label-x my-label" aria-live="polite" for="user_role_">Some label</label>
+             <p class="FormControl-caption hint-x my-hint">Some hint</p><span class="form-checkbox-details text-normal disclosure-x my-disclosure">Some hint</span>
+             </div>
              </div>
              """
              |> format_html()
@@ -232,7 +257,7 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <input checked id="_role_" name="role" tabindex="1" type="radio" value="" />
+             <div class="FormControl-radio-wrap"><input checked class="FormControl-radio" id="_role_" name="role" tabindex="1" type="radio" value="" /></div>
              """
              |> format_html()
   end
@@ -247,11 +272,8 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <div class="form-checkbox">
-             <label dir="rtl">
-             <input checked id="_role_" name="role" type="radio" value="" />
-             Some label
-             </label>
+             <div class="FormControl-radio-wrap"><input checked class="FormControl-radio" id="_role_" name="role" type="radio" value="" />
+             <div class="FormControl-radio-labelWrap"><label dir="rtl" class="FormControl-label" for="_role_">Some label</label></div>
              </div>
              """
              |> format_html()
@@ -267,11 +289,8 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <div class="form-checkbox">
-             <label>
-             <input checked id="_role_" name="role" type="radio" value="" />
-               <em class="highlight">Some label</em>
-             </label>
+             <div class="FormControl-radio-wrap"><input checked class="FormControl-radio" id="_role_" name="role" type="radio" value="" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_role_"><em class="highlight">Some label</em></label></div>
              </div>
              """
              |> format_html()
@@ -290,14 +309,8 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <div class="form-checkbox">
-             <label aria-live="polite">
-             <input checked class="form-checkbox-details-trigger" id="_role_" name="role" type="radio" value="" />
-             Some label
-             <span class="form-checkbox-details text-normal">
-             <span>disclosure content</span>
-             </span>
-             </label>
+             <div class="FormControl-radio-wrap"><input checked class="form-checkbox-details-trigger FormControl-radio" id="_role_" name="role" type="radio" value="" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" aria-live="polite" for="_role_">Some label</label><span class="form-checkbox-details text-normal"><span>disclosure content</span></span></div>
              </div>
              """
              |> format_html()
@@ -318,14 +331,10 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <div class="form-checkbox">
-             <label>
-             <input checked id="_role_" name="role" type="radio" value="" />
-             Some label
-             </label>
-             <p class="note">
-              Add your<strong>resume</strong>below
-             </p>
+             <div class="FormControl-radio-wrap"><input checked class="FormControl-radio" id="_role_" name="role" type="radio" value="" />
+             <div class="FormControl-radio-labelWrap"><label class="FormControl-label" for="_role_">Some label</label>
+             <p class="FormControl-caption">Add your<strong>resume</strong>below</p>
+             </div>
              </div>
              """
              |> format_html()
@@ -343,7 +352,7 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <input checked id="_role_" name="role" type="radio" value="" />
+             <div class="FormControl-radio-wrap"><input checked class="FormControl-radio" id="_role_" name="role" type="radio" value="" /></div>
              """
              |> format_html()
   end

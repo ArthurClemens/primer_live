@@ -1,0 +1,37 @@
+{
+  "name": "primer-live",
+  "version": "0.2.0",
+  "description": "JavaScript and CSS for PrimerLive",
+  "license": "MIT",
+  "module": "./priv/static/primer-live.esm.js",
+  "main": "./priv/static/primer-live.cjs.js",
+  "unpkg": "./priv/static/primer-live.min.js",
+  "jsdelivr": "./priv/static/primer-live.min.js",
+  "exports": {
+    ".": {
+      "import": "./priv/static/primer-live.esm.js",
+      "require": "./priv/static/primer-live.cjs.js",
+      "default": "./priv/static/primer-live.js"
+    },
+    "./primer-live.css": {
+      "import": "./priv/static/primer-live.css",
+      "default": "./priv/static/primer-live.css"
+    },
+    "./primer-live.min.css": {
+      "default": "./priv/static/primer-live.min.css"
+    }
+  },
+  "types": "./priv/static",
+  "author": "Arthur Clemens <arthurclemens@gmail.com> (http://arthurclemens.com)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArthurClemens/primer_live.git"
+  },
+  "homepage": "https://primer-live.org/",
+  "files": [
+    "README.md",
+    "LICENSE.md",
+    "package.json",
+    "priv/static/*"
+  ]
+}
