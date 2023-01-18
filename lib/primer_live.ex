@@ -21,17 +21,6 @@ defmodule PrimerLive do
 
   [PrimerLive at GitHub](https://github.com/ArthurClemens/primer_live)
 
-  ## Versioning
-
-  Dependencies:
-  - [primer-live (npm)](https://www.npmjs.com/package/primer-live)
-    - Includes:
-      - [@primer/css](https://www.npmjs.com/package/@primer/css)
-      - [dialogic-js](https://www.npmjs.com/package/dialogic-js)
-
-  Included libraries:
-  - [Octicons](https://primer.style/octicons/)
-
   ## Installation
 
   ### Install primer_live
@@ -138,7 +127,7 @@ defmodule PrimerLive do
   <p>Add to <code>root.html.heex</code>:</p>
 
   ```
-  <link rel="stylesheet" href="https://unpkg.com/primer-live/dist/primer-live.min.css" media="all">
+  <link rel="stylesheet" href="https://unpkg.com/primer-live/priv/static/primer-live.min.css" media="all">
   ```
 
   <h4>CSS and JavaScript</h4>
@@ -146,9 +135,8 @@ defmodule PrimerLive do
   <p>Add to <code>root.html.heex</code>:</p>
 
   ```
-  <link rel="stylesheet" href="https://unpkg.com/primer-live/dist/primer-live.min.css" media="all">
-  <script src="https://unpkg.com/primer-live/dist/primer-live.min.js"></script>
-  <script src="https://unpkg.com/dialogic-js/dist/dialogic-js.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/primer-live/priv/static/primer-live.min.css" media="all">
+  <script src="https://unpkg.com/primer-live/priv/static/primer-live.min.js"></script>
   ```
 
   <p>
