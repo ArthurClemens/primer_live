@@ -88,7 +88,7 @@ defmodule PrimerLive.MixProject do
       },
       files:
         ~w(lib .formatter.exs mix.exs README* LICENSE* priv/octicon_builder/build.exs priv/static
-                CHANGELOG*)
+                CHANGELOG* package.json)
     ]
   end
 
