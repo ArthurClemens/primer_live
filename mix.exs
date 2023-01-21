@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.2.1",
+      version: "0.2.2",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: description(),
       package: package(),
@@ -96,6 +96,7 @@ defmodule PrimerLive.MixProject do
     [
       setup: ["deps.get", "cmd --cd assets npm install"],
       "assets.build": [
+        "cmd npm --prefix assets run build:clear -- ../priv/static/*",
         "cmd npm --prefix assets run build -- --format=esm --sourcemap --outfile=../priv/static/primer-live.esm.js",
         "cmd npm --prefix assets run build -- --format=cjs --sourcemap --outfile=../priv/static/primer-live.cjs.js",
         "cmd npm --prefix assets run build -- --format=iife --target=es2016 --outfile=../priv/static/primer-live.js",

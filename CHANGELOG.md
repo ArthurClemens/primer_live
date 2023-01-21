@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.2
+
+Updated component:
+- `text_input`:
+  - Moved attr `is_trailing_action_divider` to slot `trailing_action` as `is_divider`
+  - Added attr `is_visible_with_value` to slot `trailing_action` to only show the trailing action when the input has a value. Use this cor example to show a clear button only when the input has a value to clear.
+
 ## 0.2.1
 
 ### Rework of form controls

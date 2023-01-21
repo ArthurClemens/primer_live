@@ -26714,6 +26714,16 @@ a.branch-name .octicon {
   padding: 0;
   margin: 0;
 }
+.FormControl-input-trailingAction button {
+  position: relative;
+  z-index: 1;
+}
+input:placeholder-shown + .FormControl-input-trailingAction.pl-trailingAction--if-value {
+  visibility: hidden;
+}
+input:not(:placeholder-shown) + .FormControl-input-trailingAction.pl-trailingAction--if-value {
+  visibility: visible;
+}
 .form-control:not(:focus)[invalid],
 .form-select:not(:focus)[invalid] {
   border-color: var(--color-danger-emphasis);

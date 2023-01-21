@@ -172,6 +172,22 @@
   margin: 0;
 }
 
+/* Make button clicks work inside a trailing action. */
+.FormControl-input-trailingAction button {
+  position: relative;
+  z-index: 1;
+}
+
+/* Conditional trailing action. */
+input:placeholder-shown+.FormControl-input-trailingAction.pl-trailingAction--if-value {
+  visibility: hidden;
+}
+
+/* -- idem */
+input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingAction--if-value {
+  visibility: visible;
+}
+
 /* Form validation styles that conform to https://primer.style/view-components/components/alpha/textfield#with-a-validation-message */
 .form-control:not(:focus)[invalid],
 .form-select:not(:focus)[invalid] {
