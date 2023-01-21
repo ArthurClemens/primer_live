@@ -3501,13 +3501,13 @@ defmodule PrimerLive.Component do
     doc: """
     Container for a trailing action. Commonly a `octicon/1` component, or a `button/1` component with an icon (no label) is used.
     """ do
-    attr(:is_divider, :any,
+    attr(:is_divider, :boolean,
       doc: """
       Adds a separator line.
       """
     )
 
-    attr(:is_visible_with_value, :any,
+    attr(:is_visible_with_value, :boolean,
       doc: """
       Only show the trailing action when the input has a value.
       """
