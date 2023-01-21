@@ -3269,6 +3269,18 @@ defmodule PrimerLive.Component do
   </.text_input>
   ```
 
+  Only show the trailing action when the input has a value:
+
+  ```
+  <.text_input>
+    <:trailing_action is_visible_with_value>
+      <.button is_icon_only aria-label="Clear">
+        <.octicon name="x-16" />
+      </.button>
+    </:trailing_action>
+  </.text_input>
+  ```
+
   Add a leading visual with slot `leading_visual`:
 
   ```
@@ -3407,11 +3419,6 @@ defmodule PrimerLive.Component do
     doc: "Uses a monospace font."
   )
 
-  attr(:is_trailing_action_divider, :boolean,
-    default: false,
-    doc: "Adds a separator line to slot `trailing_action`."
-  )
-
   attr(:is_form_group, :boolean,
     default: false,
     doc: """
@@ -3489,12 +3496,23 @@ defmodule PrimerLive.Component do
     """
   )
 
-  slot(:trailing_action,
+  slot :trailing_action,
     required: false,
     doc: """
     Container for a trailing action. Commonly a `octicon/1` component, or a `button/1` component with an icon (no label) is used.
-    """
-  )
+    """ do
+    attr(:is_divider, :any,
+      doc: """
+      Adds a separator line.
+      """
+    )
+
+    attr(:is_visible_with_value, :any,
+      doc: """
+      Only show the trailing action when the input has a value.
+      """
+    )
+  end
 
   def text_input(assigns) do
     case SchemaHelpers.validate_is_form(assigns) do
@@ -3530,10 +3548,13 @@ defmodule PrimerLive.Component do
     has_leading_visual =
       type !== "textarea" && !is_nil(assigns[:leading_visual]) && assigns[:leading_visual] !== []
 
-    has_trailing_action =
-      type !== "textarea" && !is_nil(assigns[:trailing_action]) &&
-        assigns[:trailing_action] !== []
+    # Get the first trailing action slot, if any
+    trailing_action_slot =
+      if type !== "textarea" && assigns[:trailing_action] && assigns[:trailing_action] !== [],
+        do: hd(assigns[:trailing_action]),
+        else: []
 
+    has_trailing_action = Enum.count(trailing_action_slot) > 0
     has_input_wrap = has_leading_visual || has_trailing_action
 
     classes = %{
@@ -3575,25 +3596,45 @@ defmodule PrimerLive.Component do
           assigns.classes[:input_wrap]
         ]),
       leading_visual: "FormControl-input-leadingVisualWrap",
-      trailing_action:
+      trailing_action: fn slot ->
         AttributeHelpers.classnames([
           "FormControl-input-trailingAction",
-          type !== "textarea" && assigns.is_trailing_action_divider &&
-            "FormControl-input-trailingAction--divider"
+          type !== "textarea" && slot[:is_divider] &&
+            "FormControl-input-trailingAction--divider",
+          type !== "textarea" && slot[:is_visible_with_value] &&
+            "pl-trailingAction--if-value"
         ])
+      end
     }
+
+    render_trailing_action = fn slot ->
+      class = classes.trailing_action.(slot)
+
+      assigns =
+        assigns
+        |> assign(:class, class)
+        |> assign(:slot, slot)
+
+      ~H"""
+      <span class={@class}><%= render_slot(@slot) %></span>
+      """
+    end
 
     render = fn ->
       has_group_button = assigns[:group_button] !== []
+      requires_placeholder = trailing_action_slot[:is_visible_with_value]
+      placeholder = rest[:placeholder] || if requires_placeholder, do: " ", else: nil
 
       input_attrs =
         AttributeHelpers.append_attributes(
           assigns_to_attributes(rest, [
-            :id
+            :id,
+            :placeholder
           ]),
           [
             [class: classes.input],
             # If aria_label is not set, use the value of placeholder (if any):
+            !is_nil(placeholder) && [placeholder: placeholder],
             !rest[:aria_label] && [aria_label: rest[:placeholder]],
             validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
@@ -3634,6 +3675,7 @@ defmodule PrimerLive.Component do
         |> assign(:show_message?, show_message?)
         |> assign(:validation_message_class, classes.validation_message)
         |> assign(:validation_message, assigns[:validation_message])
+        |> assign(:render_trailing_action, render_trailing_action)
 
       ~H"""
       <%= if @has_group_button do %>
@@ -3651,7 +3693,9 @@ defmodule PrimerLive.Component do
             <% end %>
             <%= @render_input_with_validation_marker.() %>
             <%= if !is_nil(@trailing_action) && @trailing_action !== [] do %>
-              <span class={@classes.trailing_action}><%= render_slot(@trailing_action) %></span>
+              <%= for slot <- @trailing_action do %>
+                <%= @render_trailing_action.(slot) %>
+              <% end %>
             <% end %>
           </div>
         <% else %>

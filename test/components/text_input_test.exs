@@ -395,12 +395,12 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Slot: trailing_action, attr is_trailing_action_divider" do
+  test "Slot: trailing_action, attr is_divider" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.text_input is_trailing_action_divider>
-             <:trailing_action>
+           <.text_input>
+             <:trailing_action is_divider>
                <.button is_icon_only aria-label="Clear">
                  <.octicon name="x-16" />
                </.button>
@@ -412,6 +412,32 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <div class="FormControl-input-wrap FormControl-input-wrap--trailingAction">
              <input class="FormControl-input FormControl-medium" id="_" name="[]" type="text" />
              <span class="FormControl-input-trailingAction FormControl-input-trailingAction--divider">
+             <button aria-label="Clear" class="btn-octicon" type="button">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>
+             </button>
+             </span>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Slot: trailing_action, attr is_visible_with_value" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input>
+             <:trailing_action is_visible_with_value>
+               <.button is_icon_only aria-label="Clear">
+                 <.octicon name="x-16" />
+               </.button>
+             </:trailing_action>
+           </.text_input>
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl-input-wrap FormControl-input-wrap--trailingAction">
+             <input class="FormControl-input FormControl-medium" id="_" name="[]" placeholder=" " type="text" />
+             <span class="FormControl-input-trailingAction pl-trailingAction--if-value">
              <button aria-label="Clear" class="btn-octicon" type="button">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>
              </button>
@@ -467,7 +493,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
                <.octicon name="person-16" />
              </:leading_visual>
            </.text_input>
-           <.text_input is_trailing_action_divider>
+           <.text_input>
              <:trailing_action>
                <.button is_close_button aria-label="Clear">
                  <.octicon name="x-16" />
@@ -485,7 +511,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              </div>
              <div class="FormControl-input-wrap FormControl-input-wrap--trailingAction"
              ><input class="FormControl-input FormControl-medium" id="_" name="[]" type="text" />
-             <span class="FormControl-input-trailingAction FormControl-input-trailingAction--divider">
+             <span class="FormControl-input-trailingAction">
              <button aria-label="Clear" class="close-button"
              type="button">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>
