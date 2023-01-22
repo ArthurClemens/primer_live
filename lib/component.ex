@@ -5202,12 +5202,25 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  The position of the sidebar is set by CSS (and can be changed with attribute `is_sidebar_position_end`).
+  The position of the sidebar (left or right on desktop) is set by CSS (and can be changed with attribute `is_sidebar_position_end`).
 
   To place the sidebar at the right:
 
   ```
   <.layout is_sidebar_position_end>
+    <:main>
+      Main content
+    </:main>
+    <:sidebar>
+      Sidebar content
+    </:sidebar>
+  </.layout>
+  ```
+
+  To place the sidebar slot below the main slot on small screens, use attribute `is_sidebar_position_flow_row_end`:
+
+  ```
+  <.layout is_sidebar_position_flow_row_end>
     <:main>
       Main content
     </:main>
@@ -5366,7 +5379,7 @@ defmodule PrimerLive.Component do
 
   attr(:is_sidebar_position_end, :boolean,
     default: false,
-    doc: "Places the sidebar at the end (commonly at the right)."
+    doc: "Places the sidebar at the end (commonly at the right) on desktop."
   )
 
   attr(:is_sidebar_position_flow_row_start, :boolean,
@@ -5421,8 +5434,8 @@ defmodule PrimerLive.Component do
   slot :main,
     doc:
       "Generates a main element. Default gutter sizes: md: 16px, lg: 24px (change with `is_gutter_none`, `is_gutter_condensed` and `is_gutter_spacious`). Stacks when container is `sm` (change with `is_flow_row_until_md` and `is_flow_row_until_lg`)." do
-    attr(:order, :integer,
-      values: [1, 2],
+    attr(:order, :any,
+      values: [1, 2, "1", "2"],
       doc: """
       Markup order, defines in what order the slot is rendered in HTML. Keyboard navigation follows the markup order. Decide carefully how the focus order should be be by deciding whether main or sidebar comes first in code. The markup order won't affect the visual position. Default value: 2.
       """

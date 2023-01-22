@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.x
+
+Clarified `layout` attributes to change the rendered order of slots.
+
 ## 0.2.2
 
 Updated component:
