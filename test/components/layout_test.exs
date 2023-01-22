@@ -56,7 +56,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              |> format_html()
   end
 
-  test "Specific order or slots: should maintain order" do
+  test "Specific order of slots: should maintain order" do
     # Test number string, string and integer
     assigns = %{}
 
@@ -77,6 +77,32 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              <div class="Layout-sidebar">Sidebar content</div>
              <div class="Layout-divider"></div>
              <div class="Layout-main">Main content</div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Swapped order of slots" do
+    # Test number string, string and integer
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.layout>
+             <:sidebar order="2">
+               Sidebar content
+             </:sidebar>
+             <:divider order="0"></:divider>
+             <:main order={1}>
+               Main content
+             </:main>
+           </.layout>
+           """)
+           |> format_html() ==
+             """
+             <div class="Layout">
+             <div class="Layout-main">Main content</div>
+             <div class="Layout-divider"></div>
+             <div class="Layout-sidebar">Sidebar content</div>
              </div>
              """
              |> format_html()

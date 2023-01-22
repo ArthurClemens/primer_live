@@ -5421,8 +5421,8 @@ defmodule PrimerLive.Component do
   slot :main,
     doc:
       "Generates a main element. Default gutter sizes: md: 16px, lg: 24px (change with `is_gutter_none`, `is_gutter_condensed` and `is_gutter_spacious`). Stacks when container is `sm` (change with `is_flow_row_until_md` and `is_flow_row_until_lg`)." do
-    attr(:order, :integer,
-      values: [1, 2],
+    attr(:order, :any,
+      values: [1, 2, "1", "2"],
       doc: """
       Markup order, defines in what order the slot is rendered in HTML. Keyboard navigation follows the markup order. Decide carefully how the focus order should be be by deciding whether main or sidebar comes first in code. The markup order won't affect the visual position. Default value: 2.
       """
