@@ -5202,12 +5202,25 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  The position of the sidebar is set by CSS (and can be changed with attribute `is_sidebar_position_end`).
+  The position of the sidebar (left or right on desktop) is set by CSS (and can be changed with attribute `is_sidebar_position_end`).
 
   To place the sidebar at the right:
 
   ```
   <.layout is_sidebar_position_end>
+    <:main>
+      Main content
+    </:main>
+    <:sidebar>
+      Sidebar content
+    </:sidebar>
+  </.layout>
+  ```
+
+  To place the sidebar slot below the main slot on small screens, use attribute `is_sidebar_position_flow_row_end`:
+
+  ```
+  <.layout is_sidebar_position_flow_row_end>
     <:main>
       Main content
     </:main>
@@ -5366,7 +5379,7 @@ defmodule PrimerLive.Component do
 
   attr(:is_sidebar_position_end, :boolean,
     default: false,
-    doc: "Places the sidebar at the end (commonly at the right)."
+    doc: "Places the sidebar at the end (commonly at the right) on desktop."
   )
 
   attr(:is_sidebar_position_flow_row_start, :boolean,
