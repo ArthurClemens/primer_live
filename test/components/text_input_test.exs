@@ -37,7 +37,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="text" />
+             <input class="FormControl-input FormControl-medium" type="text" />
              """
              |> format_html()
   end
@@ -63,7 +63,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
+             <input class="FormControl-input FormControl-medium" id="user[first_name]" name="user[first_name]" type="text" />
              """
              |> format_html()
   end
@@ -76,7 +76,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
+             <input class="FormControl-input FormControl-medium" id="user[first_name]" name="user[first_name]" type="text" />
              """
              |> format_html()
   end
@@ -89,7 +89,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium" id="_first_name" name="first_name" type="text" />
+             <input class="FormControl-input FormControl-medium" id="first_name" name="first_name" type="text" />
              """
              |> format_html()
   end
@@ -117,22 +117,22 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="text" />
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="color" />
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="date" />
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="datetime-local" />
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="email" />
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="file" />
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="hidden" />
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="number" />
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="password" />
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="range" />
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="search" />
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="tel" />
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="text" />
-             <textarea class="FormControl-textarea FormControl-medium" id="_" name="[]"></textarea>
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="time" />
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="url" />
+             <input class="FormControl-input FormControl-medium" type="text" />
+             <input class="FormControl-input FormControl-medium" type="color" />
+             <input class="FormControl-input FormControl-medium" type="date" />
+             <input class="FormControl-input FormControl-medium" type="datetime-local" />
+             <input class="FormControl-input FormControl-medium" type="email" />
+             <input class="FormControl-input FormControl-medium" type="file" />
+             <input class="FormControl-input FormControl-medium" type="hidden" />
+             <input class="FormControl-input FormControl-medium" type="number" />
+             <input class="FormControl-input FormControl-medium" type="password" />
+             <input class="FormControl-input FormControl-medium" type="range" />
+             <input class="FormControl-input FormControl-medium" type="search" />
+             <input class="FormControl-input FormControl-medium" type="tel" />
+             <input class="FormControl-input FormControl-medium" type="text" />
+             <textarea class="FormControl-textarea FormControl-medium"></textarea>
+             <input class="FormControl-input FormControl-medium" type="time" />
+             <input class="FormControl-input FormControl-medium" type="url" />
              """
              |> format_html()
   end
@@ -152,14 +152,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium FormControl-monospace" id="_" name="[]" type="text" />
-             <input class="FormControl-input FormControl-inset FormControl-medium" id="_" name="[]" type="text" />
-             <input class="FormControl-input FormControl-medium FormControl--fullWidth" id="_" name="[]" type="text" />
-             <input class="FormControl-input input-hide-webkit-autofill FormControl-medium" id="_" name="[]" type="text" />
-             <input class="FormControl-input FormControl-large" id="_" name="[]" type="text" />
-             <input class="FormControl-input FormControl-small" id="_" name="[]" type="text" />
-             <input class="FormControl-input FormControl-medium FormControl--short" id="_" name="[]" type="text" />
-             <input class="FormControl-input FormControl-medium FormControl--shorter" id="_" name="[]" type="text" />
+             <input class="FormControl-input FormControl-medium FormControl-monospace" type="text" />
+             <input class="FormControl-input FormControl-inset FormControl-medium" type="text" />
+             <input class="FormControl-input FormControl-medium FormControl--fullWidth" type="text" />
+             <input class="FormControl-input input-hide-webkit-autofill FormControl-medium" type="text" />
+             <input class="FormControl-input FormControl-large" type="text" />
+             <input class="FormControl-input FormControl-small" type="text" />
+             <input class="FormControl-input FormControl-medium FormControl--short" type="text" />
+             <input class="FormControl-input FormControl-medium FormControl--shorter" type="text" />
              """
              |> format_html()
   end
@@ -173,8 +173,8 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="form-group">
-             <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body"><input class="FormControl-input FormControl-medium" id="user_first_name" name="first_name" type="text" /></div>
+             <div class="form-group-header"><label for="user[first_name]">First name</label></div>
+             <div class="form-group-body"><input class="FormControl-input FormControl-medium" id="user[first_name]" name="user[first_name]" type="text" /></div>
              </div>
              """
              |> format_html()
@@ -197,8 +197,8 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="form-group">
-             <div class="form-group-header"><label for="user_first_name">Some label</label></div>
-             <div class="form-group-body"><input class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" /></div>
+             <div class="form-group-header"><label for="user[first_name]">Some label</label></div>
+             <div class="form-group-body"><input class="FormControl-input FormControl-medium" id="user[first_name]" name="user[first_name]" type="text" /></div>
              </div>
              """
              |> format_html()
@@ -214,9 +214,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <span phx-feedback-for="user_first_name" class="pl-invalid"></span>
-             <input aria-describedby="user_first_name-validation" class="FormControl-input FormControl-medium" id="user_first_name" invalid="" name="user[first_name]" type="text" value="" />
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation" phx-feedback-for="user[first_name]">
+             <span phx-feedback-for="user[first_name]" class="pl-invalid"></span>
+             <input aria-describedby="user[first_name]-validation" class="FormControl-input FormControl-medium" id="user[first_name]" invalid="" name="user[first_name]" type="text" value="" />
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user[first_name]-validation" phx-feedback-for="user[first_name]">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
              <span>can&#39;t be blank</span>
              </div>
@@ -242,9 +242,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <span phx-feedback-for="user_first_name" class="pl-invalid"></span>
-             <input aria-describedby="user_first_name-validation" class="FormControl-input FormControl-medium" id="user_first_name" invalid="" name="user[first_name]" type="text" value="" />
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation" phx-feedback-for="user[first_name]">
+             <span phx-feedback-for="user[first_name]" class="pl-invalid"></span>
+             <input aria-describedby="user[first_name]-validation" class="FormControl-input FormControl-medium" id="user[first_name]" invalid="" name="user[first_name]" type="text" value="" />
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user[first_name]-validation" phx-feedback-for="user[first_name]">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
              <span>Please enter your first
              name</span></div>
@@ -274,9 +274,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <span phx-feedback-for="user_first_name" class="pl-valid"></span>
-             <input aria-describedby="user_first_name-validation" class="FormControl-input FormControl-medium" id="user_first_name" invalid="" name="user[first_name]" type="text" value="anna" />
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="user_first_name-validation" phx-feedback-for="user[first_name]">
+             <span phx-feedback-for="user[first_name]" class="pl-valid"></span>
+             <input aria-describedby="user[first_name]-validation" class="FormControl-input FormControl-medium" id="user[first_name]" invalid="" name="user[first_name]" type="text" value="anna" />
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="user[first_name]-validation" phx-feedback-for="user[first_name]">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
              <span>Available!</span></div>
              """
@@ -291,7 +291,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium" id="_first_name" name="first_name" type="text" />
+             <input class="FormControl-input FormControl-medium" id="first_name" name="first_name" type="text" />
              """
              |> format_html()
   end
@@ -304,7 +304,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input aria-label="Enter your first name" class="FormControl-input FormControl-medium" id="_first_name" name="first_name" placeholder="Enter your first name" type="text" />
+             <input aria-label="Enter your first name" class="FormControl-input FormControl-medium" id="first_name" name="first_name" placeholder="Enter your first name" type="text" />
              """
              |> format_html()
   end
@@ -317,7 +317,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input aria-label="Enter your first name" class="FormControl-input FormControl-medium" id="_first_name" name="first_name" type="text" />
+             <input aria-label="Enter your first name" class="FormControl-input FormControl-medium" id="first_name" name="first_name" type="text" />
              """
              |> format_html()
   end
@@ -330,7 +330,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium" id="_first_name" name="first_name" tabindex="1" type="text" />
+             <input class="FormControl-input FormControl-medium" id="first_name" name="first_name" tabindex="1" type="text" />
              """
              |> format_html()
   end
@@ -343,7 +343,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium my-input" id="_" name="[]" type="text" />
+             <input class="FormControl-input FormControl-medium my-input" type="text" />
              """
              |> format_html()
   end
@@ -364,7 +364,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <span class="FormControl-input-leadingVisualWrap">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>
              </span>
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="text" />
+             <input class="FormControl-input FormControl-medium" type="text" />
              </div>
              """
              |> format_html()
@@ -385,7 +385,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="FormControl-input-wrap FormControl-input-wrap--trailingAction">
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="text" />
+             <input class="FormControl-input FormControl-medium" type="text" />
              <span class="FormControl-input-trailingAction">
              <button aria-label="Clear" class="btn-octicon" type="button"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>
              </button>
@@ -410,7 +410,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="FormControl-input-wrap FormControl-input-wrap--trailingAction">
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="text" />
+             <input class="FormControl-input FormControl-medium" type="text" />
              <span class="FormControl-input-trailingAction FormControl-input-trailingAction--divider">
              <button aria-label="Clear" class="btn-octicon" type="button">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>
@@ -436,7 +436,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="FormControl-input-wrap FormControl-input-wrap--trailingAction">
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" placeholder=" " type="text" />
+             <input class="FormControl-input FormControl-medium" placeholder=" " type="text" />
              <span class="FormControl-input-trailingAction pl-trailingAction--if-value">
              <button aria-label="Clear" class="btn-octicon" type="button">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>
@@ -467,13 +467,13 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="input-group">
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="text" />
+             <input class="FormControl-input FormControl-medium" type="text" />
              <span class="input-group-button">
              <button class="btn" type="button">Send</button>
              </span>
              </div>
              <div class="input-group">
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="text" />
+             <input class="FormControl-input FormControl-medium" type="text" />
              <span class="input-group-button">
              <button aria-label="Copy" class="btn" type="button">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5.75 1a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-4.5zm.75 3V2.5h3V4h-3zm-2.874-.467a.75.75 0 00-.752-1.298A1.75 1.75 0 002 3.75v9.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 13.25v-9.5a1.75 1.75 0 00-.874-1.515.75.75 0 10-.752 1.298.25.25 0 01.126.217v9.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-9.5a.25.25 0 01.126-.217z"></path></svg>
@@ -507,10 +507,10 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <span class="FormControl-input-leadingVisualWrap">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>
              </span>
-             <input class="FormControl-input FormControl-medium" id="_" name="[]" type="text" />
+             <input class="FormControl-input FormControl-medium" type="text" />
              </div>
              <div class="FormControl-input-wrap FormControl-input-wrap--trailingAction"
-             ><input class="FormControl-input FormControl-medium" id="_" name="[]" type="text" />
+             ><input class="FormControl-input FormControl-medium" type="text" />
              <span class="FormControl-input-trailingAction">
              <button aria-label="Clear" class="close-button"
              type="button">

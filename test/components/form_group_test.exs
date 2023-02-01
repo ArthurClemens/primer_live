@@ -158,19 +158,19 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
              <div class="form-group-header"><label>Available for hire</label></div>
              <div class="form-group-body">
              <span class="FormControl-checkbox-wrap">
-             <span phx-feedback-for="user_available_for_hire_admin" class="pl-invalid"></span>
+             <span phx-feedback-for="user[available_for_hire][admin]" class="pl-invalid"></span>
              <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="user_available_for_hire_admin" invalid="" name="user[available_for_hire]" type="checkbox" value="admin" />
+             <input class="FormControl-checkbox" id="user[available_for_hire][admin]" invalid="" name="user[available_for_hire]" type="checkbox" value="admin" />
              <span class="FormControl-checkbox-labelWrap">
-             <label class="FormControl-label" for="user_available_for_hire_admin">Admin</label>
+             <label class="FormControl-label" for="user[available_for_hire][admin]">Admin</label>
              </span>
              </span>
              <span class="FormControl-checkbox-wrap">
-             <span phx-feedback-for="user_available_for_hire_editor" class="pl-invalid"></span>
+             <span phx-feedback-for="user[available_for_hire][editor]" class="pl-invalid"></span>
              <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="user_available_for_hire_editor" invalid="" name="user[available_for_hire]" type="checkbox" value="editor" />
+             <input class="FormControl-checkbox" id="user[available_for_hire][editor]" invalid="" name="user[available_for_hire]" type="checkbox" value="editor" />
              <span class="FormControl-checkbox-labelWrap">
-             <label class="FormControl-label" for="user_available_for_hire_editor">Editor</label>
+             <label class="FormControl-label" for="user[available_for_hire][editor]">Editor</label>
              </span>
              </span>
              </div>

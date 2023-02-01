@@ -71,7 +71,8 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
            |> format_html() ==
              """
              <details class="details-reset details-overlay" data-prompt="" ontoggle="window.Prompt &amp;&amp; Prompt.init(this)">
-             <summary class="btn" aria-haspopup="true"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Number</span>
+             <summary class="btn" aria-haspopup="true">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Number</span>
              <div class="dropdown-caret"></div>
              </summary>
              <div data-touch=""></div>
@@ -79,14 +80,66 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-list">
              <ul class="ActionList" role="listbox">
-             <li class="ActionList-item" aria-selected="false" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
-                  class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Text</span></span></span></li>
-             <li class="ActionList-item" aria-selected="true" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
-                  class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Number</span></span></span></li>
-             <li class="ActionList-item" aria-selected="false" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
-                  class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Calendar</span></span></span></li>
-             <li class="ActionList-item" aria-selected="false" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
-                  class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Iteration</span></span></span></li>
+             <li class="ActionList-item" aria-selected="false" role="option">
+             <span class="ActionList-content">
+              <span class="ActionList-item-visual ActionList-item-visual--leading">
+                <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
+                  <input class="FormControl-radio" type="radio" value="" />
+                  <span class="FormControl-radio-labelWrap">
+                    <label class="FormControl-label">
+                      <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
+                    </label>
+                  </span>
+                </span>
+              </span>
+              <span class="ActionList-item-label"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Text</span></span>
+             </span>
+             </li>
+             <li class="ActionList-item" aria-selected="true" role="option">
+             <span class="ActionList-content">
+              <span class="ActionList-item-visual ActionList-item-visual--leading">
+                <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
+                  <input checked class="FormControl-radio" type="radio" value="" />
+                  <span class="FormControl-radio-labelWrap">
+                    <label class="FormControl-label">
+                      <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
+                    </label>
+                  </span>
+                </span>
+              </span>
+              <span class="ActionList-item-label"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Number</span></span>
+             </span>
+             </li>
+             <li class="ActionList-item" aria-selected="false" role="option">
+             <span class="ActionList-content">
+              <span class="ActionList-item-visual ActionList-item-visual--leading">
+                <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
+                  <input class="FormControl-radio" type="radio" value="" />
+                  <span class="FormControl-radio-labelWrap">
+                    <label class="FormControl-label">
+                      <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
+                    </label>
+                  </span>
+                </span>
+              </span>
+              <span class="ActionList-item-label"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Calendar</span></span>
+             </span>
+             </li>
+             <li class="ActionList-item" aria-selected="false" role="option">
+             <span class="ActionList-content">
+              <span class="ActionList-item-visual ActionList-item-visual--leading">
+                <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
+                  <input class="FormControl-radio" type="radio" value="" />
+                  <span class="FormControl-radio-labelWrap">
+                    <label class="FormControl-label">
+                      <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
+                    </label>
+                  </span>
+                </span>
+              </span>
+              <span class="ActionList-item-label"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Iteration</span></span>
+             </span>
+             </li>
              </ul>
              </div>
              </div>
@@ -129,27 +182,35 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
              <div class="SelectMenu-list">
              <ul class="ActionList" role="listbox">
-             <li class="ActionList-item" aria-selected="true" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
-                  class="ActionList-item-multiSelectIcon">
-                  <rect x="2" y="2" width="12" height="12" rx="4" class="ActionList-item-multiSelectIconRect"></rect>
-                  <path fill-rule="evenodd"
-                    d="M4.03231 8.69862C3.84775 8.20646 4.49385 7.77554 4.95539 7.77554C5.41693 7.77554 6.80154 9.85246 6.80154 9.85246C6.80154 9.85246 10.2631 4.314 10.4938 4.08323C10.7246 3.85246 11.8785 4.08323 11.4169 5.00631C11.0081 5.82388 7.26308 11.4678 7.26308 11.4678C7.26308 11.4678 6.80154 12.1602 6.34 11.4678C5.87846 10.7755 4.21687 9.19077 4.03231 8.69862Z"
-                    class="ActionList-item-multiSelectCheckmark"></path>
-                </svg></span><span class="ActionList-item-label">Option</span></span></li>
-             <li class="ActionList-item" aria-selected="true" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
-                  class="ActionList-item-multiSelectIcon">
-                  <rect x="2" y="2" width="12" height="12" rx="4" class="ActionList-item-multiSelectIconRect"></rect>
-                  <path fill-rule="evenodd"
-                    d="M4.03231 8.69862C3.84775 8.20646 4.49385 7.77554 4.95539 7.77554C5.41693 7.77554 6.80154 9.85246 6.80154 9.85246C6.80154 9.85246 10.2631 4.314 10.4938 4.08323C10.7246 3.85246 11.8785 4.08323 11.4169 5.00631C11.0081 5.82388 7.26308 11.4678 7.26308 11.4678C7.26308 11.4678 6.80154 12.1602 6.34 11.4678C5.87846 10.7755 4.21687 9.19077 4.03231 8.69862Z"
-                    class="ActionList-item-multiSelectCheckmark"></path>
-                </svg></span><span class="ActionList-item-label">Option</span></span></li>
-             <li class="ActionList-item" aria-selected="false" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
-                  class="ActionList-item-multiSelectIcon">
-                  <rect x="2" y="2" width="12" height="12" rx="4" class="ActionList-item-multiSelectIconRect"></rect>
-                  <path fill-rule="evenodd"
-                    d="M4.03231 8.69862C3.84775 8.20646 4.49385 7.77554 4.95539 7.77554C5.41693 7.77554 6.80154 9.85246 6.80154 9.85246C6.80154 9.85246 10.2631 4.314 10.4938 4.08323C10.7246 3.85246 11.8785 4.08323 11.4169 5.00631C11.0081 5.82388 7.26308 11.4678 7.26308 11.4678C7.26308 11.4678 6.80154 12.1602 6.34 11.4678C5.87846 10.7755 4.21687 9.19077 4.03231 8.69862Z"
-                    class="ActionList-item-multiSelectCheckmark"></path>
-                </svg></span><span class="ActionList-item-label">Option</span></span></li>
+             <li class="ActionList-item" aria-selected="true" role="option">
+             <span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">
+                <span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon">
+                  <input checked class="FormControl-checkbox" type="checkbox" value="" />
+                </span>
+              </span>
+              <span class="ActionList-item-label">Option</span>
+             </span>
+             </li>
+             <li class="ActionList-item" aria-selected="true" role="option">
+             <span class="ActionList-content">
+              <span class="ActionList-item-visual ActionList-item-visual--leading">
+                <span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon">
+                  <input checked class="FormControl-checkbox" type="checkbox" value="" />
+                </span>
+              </span>
+              <span class="ActionList-item-label">Option</span>
+             </span>
+             </li>
+             <li class="ActionList-item" aria-selected="false" role="option">
+             <span class="ActionList-content">
+              <span class="ActionList-item-visual ActionList-item-visual--leading">
+                <span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon">
+                  <input class="FormControl-checkbox" type="checkbox" value="" />
+                </span>
+              </span>
+              <span class="ActionList-item-label">Option</span>
+             </span>
+             </li>
              </ul>
              </div>
              </div>
