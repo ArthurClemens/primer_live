@@ -549,6 +549,14 @@ defmodule PrimerLive.Component do
   [INSERT LVATTRDOCS]
   """
 
+  attr :field, :any, doc: "Field name (atom or string)."
+
+  attr :form, :any,
+    doc:
+      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+
+  attr(:checked_value, :any, default: nil, doc: "Checkbox `checked_value`.")
+
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
   attr(:classes, :map,
@@ -622,19 +630,26 @@ defmodule PrimerLive.Component do
   attr :is_single_select, :boolean,
     default: false,
     doc: """
-    Inserts checkmark icons (override the visual by using `leading_visual` slot) and sets ARIA attributes.
+    Creates a radio button group, visualized as checkmark icons, and sets ARIA attributes. The icons can be replaced with the `leading_visual` slot.
     """
 
   attr :is_multiple_select, :boolean,
     default: false,
     doc: """
-    Inserts multi select checkmark icons (override the visual by using `leading_visual` slot) and sets ARIA attributes.
+    Creates a checkbox group, using smaller sized checkboxes, and sets ARIA attributes. The icons can be replaced with the `leading_visual` slot.
     """
+
+  attr(:is_checkmark_icon, :boolean,
+    default: false,
+    doc: """
+    When using `is_multiple_select`. Visualizes the checkboxes as checkmark icons.
+    """
+  )
 
   attr :is_button, :boolean,
     default: false,
     doc: """
-    Renders the content element as button.
+    Renders the content element with a `button` tag.
     """
 
   attr :is_collapsible, :boolean,
@@ -755,6 +770,7 @@ defmodule PrimerLive.Component do
 
   def action_list_item(assigns) do
     is_selected = assigns.is_selected
+    is_form_input = assigns[:form] || assigns[:field]
     # Get the first link slot, if any
     link_slot = if assigns[:link] && assigns[:link] !== [], do: hd(assigns[:link]), else: []
     is_link = AttributeHelpers.is_link?(link_slot)
@@ -865,24 +881,47 @@ defmodule PrimerLive.Component do
         |> assign(:has_leading_visual, has_leading_visual)
         |> assign(:has_trailing_visual, has_trailing_visual)
         |> assign(:is_select, is_select)
+        |> assign(:form, assigns[:form])
+        |> assign(:field, assigns[:field])
+        |> assign(:checked_value, assigns[:checked_value])
 
       ~H"""
       <%= if @is_select do %>
         <%= if @has_leading_visual do %>
           <span class={@classes.leading_visual}>
-            <span class={@classes.leading_visual_single_select_checkmark}>
-              <%= render_slot(@leading_visual) %>
-            </span>
+            <%= render_slot(@leading_visual) %>
           </span>
         <% else %>
           <span class={@classes.leading_visual}>
             <%= if @is_single_select do %>
-              <.ui_icon name="single-select-16" class={@classes.leading_visual_single_select_checkmark} />
-            <% end %>
-            <%= if @is_multiple_select do %>
-              <.ui_icon
-                name="multiple-select-16"
-                class={@classes.leading_visual_multiple_select_checkmark}
+              <.radio_button
+                form={@form}
+                field={@field}
+                checked={@is_selected}
+                value={@checked_value}
+                class={@classes.leading_visual_single_select_checkmark}
+              >
+                <:label>
+                  <.ui_icon
+                    name="single-select-16"
+                    class={@classes.leading_visual_single_select_checkmark}
+                  />
+                </:label>
+              </.radio_button>
+            <% else %>
+              <.checkbox
+                is_multiple
+                checked={@is_selected}
+                form={@form}
+                field={@field}
+                checked_value={@checked_value}
+                is_omit_label
+                hidden_input={@form || @field}
+                class={
+                  if @is_checkmark_icon,
+                    do: @classes.leading_visual_single_select_checkmark,
+                    else: @classes.leading_visual_multiple_select_checkmark
+                }
               />
             <% end %>
           </span>
@@ -990,6 +1029,7 @@ defmodule PrimerLive.Component do
         |> assign(:render_sub_group, render_sub_group)
         |> assign(:is_button, is_button)
         |> assign(:link_slot, link_slot)
+        |> assign(:is_label, is_form_input)
 
       ~H"""
       <%= if @is_link do %>
@@ -1002,9 +1042,15 @@ defmodule PrimerLive.Component do
             <%= @render_maybe_wrap_content_elements.(@inner_block) %>
           </button>
         <% else %>
-          <span {@attributes}>
-            <%= @render_maybe_wrap_content_elements.(@inner_block) %>
-          </span>
+          <%= if @is_label do %>
+            <label {@attributes}>
+              <%= @render_maybe_wrap_content_elements.(@inner_block) %>
+            </label>
+          <% else %>
+            <span {@attributes}>
+              <%= @render_maybe_wrap_content_elements.(@inner_block) %>
+            </span>
+          <% end %>
         <% end %>
       <% end %>
       <%= if @has_sub_group do %>
@@ -3537,6 +3583,7 @@ defmodule PrimerLive.Component do
       form: form,
       has_form_group: has_form_group,
       input_id: input_id,
+      input_name: input_name,
       rest: rest,
       show_message?: show_message?,
       validation_marker_attrs: validation_marker_attrs,
@@ -3629,7 +3676,8 @@ defmodule PrimerLive.Component do
         AttributeHelpers.append_attributes(
           assigns_to_attributes(rest, [
             :id,
-            :placeholder
+            :placeholder,
+            :name
           ]),
           [
             [class: classes.input],
@@ -3638,6 +3686,7 @@ defmodule PrimerLive.Component do
             !rest[:aria_label] && [aria_label: rest[:placeholder]],
             validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
+            [name: input_name],
             show_message? && [invalid: ""]
           ]
         )
@@ -3984,11 +4033,12 @@ defmodule PrimerLive.Component do
       field: field,
       validation_marker_attrs: validation_marker_attrs,
       input_id: input_id,
+      input_name: input_name,
       has_form_group: has_form_group,
       form_group_attrs: form_group_attrs,
       show_message?: show_message?,
       validation_message_id: validation_message_id
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns, :select)
 
     is_multiple = assigns.is_multiple
 
@@ -4024,13 +4074,15 @@ defmodule PrimerLive.Component do
       input_attrs =
         AttributeHelpers.append_attributes(
           assigns_to_attributes(rest, [
-            :id
+            :id,
+            :name
           ]),
           [
             [class: classes.select],
             is_auto_height && [size: Enum.count(options)],
             validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
+            [name: input_name],
             [prompt: assigns[:prompt]],
             show_message? && [invalid: ""]
           ]
@@ -4178,7 +4230,14 @@ defmodule PrimerLive.Component do
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
+  attr :is_multiple, :boolean,
+    default: false,
+    doc:
+      "When creating a list of checkboxes. Appends `[]` to the input name so that a list of values is passed to the form events."
+
   attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
+
+  attr(:is_omit_label, :boolean, default: false, doc: "Omits any label.")
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
@@ -4290,6 +4349,7 @@ defmodule PrimerLive.Component do
       field: field,
       form: form,
       input_id: input_id,
+      input_name: input_name,
       rest: rest,
       show_message?: show_message?,
       value: value,
@@ -4356,9 +4416,13 @@ defmodule PrimerLive.Component do
 
     has_disclosure_slot = disclosure_slot !== []
 
-    label_slot = if assigns[:label] && assigns[:label] !== [], do: hd(assigns[:label]), else: []
+    label_slot =
+      if assigns[:label] && assigns[:label] !== [],
+        do: hd(assigns[:label]),
+        else: []
+
     has_label_slot = label_slot !== []
-    has_label = has_label_slot || derived_label !== "Nil"
+    has_label = !assigns[:is_omit_label] && (has_label_slot || derived_label !== "Nil")
 
     container_attributes =
       AttributeHelpers.append_attributes([
@@ -4376,11 +4440,13 @@ defmodule PrimerLive.Component do
     input_opts =
       AttributeHelpers.append_attributes(
         assigns_to_attributes(rest, [
-          :id
+          :id,
+          :name
         ]),
         [
+          [id: input_id],
+          [name: input_name],
           input_class && [class: input_class],
-          input_id && [id: input_id],
           show_message? && [invalid: ""]
         ]
       )
@@ -4578,6 +4644,8 @@ defmodule PrimerLive.Component do
 
   attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
 
+  attr(:is_omit_label, :boolean, default: false, doc: "Omits any label.")
+
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
   attr(:classes, :map,
@@ -4664,17 +4732,20 @@ defmodule PrimerLive.Component do
   defp render_radio_button(assigns) do
     form = assigns[:form]
     field = assigns[:field]
+    is_omit_label = assigns[:is_omit_label]
 
     # Remove type from rest, we'll set it on the input
     rest =
       assigns_to_attributes(assigns.rest, [
-        :type
+        :type,
+        :is_omit_label
       ])
 
     assigns =
       assigns
       |> assign(:form, form)
       |> assign(:field, field)
+      |> assign(:is_omit_label, is_omit_label)
       |> assign(:rest, rest)
       |> assign(:input_type, :radio_button)
 

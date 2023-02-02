@@ -274,8 +274,80 @@ fieldset[disabled] .FormControl-textarea::placeholder {
   color: var(--color-primer-fg-disabled);
 }
 
-/* Reset error state to initial if preceding marker element has class phx-no-feedback. */
+/* Align checkox styles with action list select icons. */
+/* Multiple select: use smaller checkboxes when shown in an action list (mimic ui icon "multiple-select-16") */
+.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type=checkbox],
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type=checkbox] {
+  height: 13px;
+  width: 13px;
+  margin: 0;
+}
 
+/* -- idem */
+.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type=checkbox] {
+  border-color: var(--color-border-default);
+}
+
+/* -- idem */
+.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type=checkbox]:checked {
+  border-color: var(--color-accent-fg);
+}
+
+/* -- idem */
+.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type=checkbox]:before {
+  height: 12px;
+  width: 12px;
+}
+
+/* -- idem */
+.ActionList-item-visual .ActionList-item-multiSelectIcon.FormControl-checkbox-wrap,
+.ActionList-item-visual .ActionList-item-multiSelectIcon.FormControl-radio-wrap {
+  gap: 0;
+  width: 16px;
+}
+
+/* Use borderless checkboxes when shown in an action list, single select style (mimic ui icon "single-select-16") */
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type=checkbox] {
+  background: none;
+  border: none;
+}
+
+/* -- idem */
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type=checkbox]:before {
+  background-color: var(--color-fg-muted);
+}
+
+/* -- idem */
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark.FormControl-checkbox-wrap,
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark.FormControl-radio-wrap {
+  gap: 0;
+  width: 16px;
+}
+
+/* Hide radio inputs in an action list. */
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-radio[type=radio] {
+  visibility: hidden;
+  width: 0;
+  border: 0;
+}
+
+/* -- idem - reduce label element height. */
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark .FormControl-radio-labelWrap .FormControl-label {
+  display: grid;
+}
+
+/* -- idem - shorten animation duration. */
+@media screen and (prefers-reduced-motion: no-preference) {
+
+  .ActionList-item[aria-checked=false] .ActionList-item-singleSelectCheckmark,
+  .ActionList-item[aria-selected=false] .ActionList-item-singleSelectCheckmark,
+  .ActionList-item[aria-checked=true] .ActionList-item-singleSelectCheckmark,
+  .ActionList-item[aria-selected=true] .ActionList-item-singleSelectCheckmark {
+    animation-duration: 80ms;
+  }
+}
+
+/* Reset error state to initial if preceding marker element has class phx-no-feedback. */
 .pl-invalid.phx-no-feedback+.FormControl-input[invalid]:not(:focus),
 .pl-invalid.phx-no-feedback+.FormControl-select[invalid]:not(:focus),
 .pl-invalid.phx-no-feedback+.FormControl-textarea[invalid]:not(:focus) {
