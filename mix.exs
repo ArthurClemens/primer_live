@@ -33,8 +33,8 @@ defmodule PrimerLive.MixProject do
       {:ecto_sql, "~> 3.9"},
       {:esbuild, "~> 0.7", only: :dev},
       {:ex_doc, "~> 0.29", only: :dev},
-      {:phoenix_html, "~> 3.2.0"},
-      {:phoenix_live_view, ">= 0.18.3"},
+      {:phoenix_html, "~> 3.3"},
+      {:phoenix_live_view, "~> 0.18.3"},
       {:jason, "~> 1.4"}
     ]
   end
