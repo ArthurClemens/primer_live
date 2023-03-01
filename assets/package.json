@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@primer/css": "20.8.0",
-    "dialogic-js": "0.4.4"
+    "dialogic-js": "0.4.5"
   },
   "devDependencies": {
     "@jest/globals": "^29.3.1",
