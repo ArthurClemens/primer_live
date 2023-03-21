@@ -394,6 +394,9 @@ fieldset[disabled] .FormControl-textarea::placeholder {
   height: inherit;
   min-height: 16px;
   line-height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Improve subnav layout on small screens. */
