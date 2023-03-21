@@ -11,19 +11,19 @@
     "test": "jest"
   },
   "dependencies": {
-    "@primer/css": "20.8.0",
-    "dialogic-js": "0.4.5"
+    "@primer/css": "20.8.3",
+    "dialogic-js": "0.5.2"
   },
   "devDependencies": {
-    "@jest/globals": "^29.3.1",
-    "@types/jest": "^29.2.6",
-    "@types/node": "^18.11.18",
-    "esbuild": "^0.17.4",
-    "esbuild-sass-plugin": "^2.4.5",
+    "@jest/globals": "^29.5.0",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^18.15.5",
+    "esbuild": "^0.17.12",
+    "esbuild-sass-plugin": "^2.7.0",
     "trash-cli": "^5.0.0",
     "ts-jest": "^29.0.5",
-    "tsx": "^3.12.2",
-    "typescript": "^4.9.4"
+    "tsx": "^3.12.6",
+    "typescript": "^5.0.2"
   },
   "author": "Arthur Clemens <arthurclemens@gmail.com> (http://arthurclemens.com)"
 }
