@@ -104,7 +104,7 @@ var getDuration = (domElement) => {
 };
 var repaint = (element) => element.scrollTop;
 var isVisible = (element) => {
-  const style = window.getComputedStyle(element);
+  const style = typeof window !== "undefined" ? window.getComputedStyle(element) : {};
   if (style.opacity === "0" || style.display === "none") {
     return false;
   }
@@ -163,14 +163,26 @@ var IS_SHOWING_DATA = "isshowing";
 var IS_HIDING_DATA = "ishiding";
 var IS_LOCKED_DATA = "islocked";
 var LOCK_DURATION = 300;
+var INITIAL_STATUS = {
+  isOpen: false,
+  willShow: false,
+  didShow: false,
+  willHide: false,
+  didHide: false
+};
 var hideView = (_0, ..._1) => __async(void 0, [_0, ..._1], function* (elements, options = {}) {
-  const { content, root, isDetails, isEscapable, escapeListener } = elements;
+  var _a, _b, _c, _d;
+  const { prompt, content, root, isDetails, isEscapable, escapeListener } = elements;
   if (root.dataset[IS_LOCKED_DATA] !== void 0 && !options.isIgnoreLockDuration) {
     return;
   }
-  if (options.willHide) {
-    options.willHide(elements);
-  }
+  prompt.status = __spreadProps(__spreadValues({}, INITIAL_STATUS), {
+    isOpen: true,
+    // still open while hiding
+    willHide: true
+  });
+  (_a = options.willHide) == null ? void 0 : _a.call(options, elements);
+  (_b = options.getStatus) == null ? void 0 : _b.call(options, prompt.status);
   delete root.dataset[IS_SHOWING_DATA];
   root.dataset[IS_HIDING_DATA] = "";
   const duration = getDuration(content);
@@ -180,15 +192,19 @@ var hideView = (_0, ..._1) => __async(void 0, [_0, ..._1], function* (elements, 
   }
   delete root.dataset[IS_HIDING_DATA];
   delete root.dataset[IS_OPEN_DATA];
-  if (options.didHide) {
-    options.didHide(elements);
-  }
-  if (isEscapable) {
+  prompt.status = __spreadProps(__spreadValues({}, INITIAL_STATUS), {
+    didHide: true
+  });
+  (_c = options.getStatus) == null ? void 0 : _c.call(options, prompt.status);
+  (_d = options.didHide) == null ? void 0 : _d.call(options, elements);
+  if (isEscapable && typeof window !== "undefined") {
     window.removeEventListener("keydown", escapeListener);
   }
 });
 var showView = (_0, ..._1) => __async(void 0, [_0, ..._1], function* (elements, options = {}) {
+  var _a, _b, _c, _d;
   const {
+    prompt,
     content,
     root,
     isDetails,
@@ -206,7 +222,7 @@ var showView = (_0, ..._1) => __async(void 0, [_0, ..._1], function* (elements, 
       delete root.dataset[IS_LOCKED_DATA];
     }
   }, LOCK_DURATION);
-  if (isEscapable) {
+  if (isEscapable && typeof window !== "undefined") {
     window.addEventListener("keydown", escapeListener);
   }
   if (isDetails) {
@@ -215,9 +231,11 @@ var showView = (_0, ..._1) => __async(void 0, [_0, ..._1], function* (elements, 
   root.dataset[IS_OPEN_DATA] = "";
   repaint(root);
   root.dataset[IS_SHOWING_DATA] = "";
-  if (options.willShow) {
-    options.willShow(elements);
-  }
+  prompt.status = __spreadProps(__spreadValues({}, INITIAL_STATUS), {
+    willShow: true
+  });
+  (_a = options.willShow) == null ? void 0 : _a.call(options, elements);
+  (_b = options.getStatus) == null ? void 0 : _b.call(options, prompt.status);
   const duration = getDuration(content);
   yield wait(duration);
   if (isFocusFirst) {
@@ -231,9 +249,12 @@ var showView = (_0, ..._1) => __async(void 0, [_0, ..._1], function* (elements, 
       firstFocusable.focus();
     }
   }
-  if (options.didShow) {
-    options.didShow(elements);
-  }
+  prompt.status = __spreadProps(__spreadValues({}, INITIAL_STATUS), {
+    didShow: true,
+    isOpen: true
+  });
+  (_c = options.didShow) == null ? void 0 : _c.call(options, elements);
+  (_d = options.getStatus) == null ? void 0 : _d.call(options, prompt.status);
 });
 var toggleView = (_0, ..._1) => __async(void 0, [_0, ..._1], function* (elements, mode = 2, options) {
   switch (mode) {
@@ -250,7 +271,7 @@ var toggleView = (_0, ..._1) => __async(void 0, [_0, ..._1], function* (elements
     }
   }
 });
-var getElements = (promptElement, command, options) => {
+var getElements = (prompt, promptElement, command, options) => {
   let root = null;
   if (!command && promptElement) {
     root = promptElement;
@@ -276,6 +297,7 @@ var getElements = (promptElement, command, options) => {
   const isFocusFirst = root.dataset[IS_FOCUS_FIRST_DATA] !== void 0;
   const focusFirstSelector = root.dataset[FOCUS_FIRST_SELECTOR_DATA];
   const elements = {
+    prompt,
     root,
     isDetails,
     isModal,
@@ -330,7 +352,7 @@ var initTouchEvents = (elements) => {
 function init(prompt, command, options, mode) {
   return __async(this, null, function* () {
     prompt.options = __spreadValues(__spreadValues({}, prompt.options), options);
-    const elements = getElements(prompt.el, command, prompt.options);
+    const elements = getElements(prompt, prompt.el, command, prompt.options);
     if (elements === void 0) {
       return;
     }
@@ -367,6 +389,7 @@ var Prompt = {
     var _a;
     clearDataset(this._cache, (_a = this.el) == null ? void 0 : _a.id);
   },
+  status: INITIAL_STATUS,
   init(command, options) {
     return __async(this, null, function* () {
       yield init(this, command, options);
@@ -406,7 +429,9 @@ var Prompt = {
     });
   }
 };
-window.Prompt = Prompt;
+if (typeof window !== "undefined") {
+  window.Prompt = Prompt;
+}
 
 // js/session.ts
 var Session = {
