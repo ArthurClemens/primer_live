@@ -1,8 +1,15 @@
 # Changelog
 
-## 0.2.x
+## 0.2.3
 
-Clarified `layout` attributes to change the rendered order of slots.
+- Clarified `layout` attributes to change the rendered order of slots.
+- Improve field name and id generation.
+- Use checkboxes and radio buttons in action lists.
+
+Updated component:
+- `checkbox`:
+  - Added attr `is_multiple`: When creating a list of checkboxes. Appends `[]` to the input name so that a list of values is passed to the form events.
+  - Added attr `is_omit_label`: Omits any label.
 
 ## 0.2.2
 
