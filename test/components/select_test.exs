@@ -38,7 +38,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <select class="FormControl-select FormControl-medium" id="_age" name="age">
+             <select class="FormControl-select FormControl-medium" id="age" name="age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>
@@ -82,7 +82,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <select class="FormControl-select FormControl-medium FormControl-monospace" id="_age" name="age">
+             <select class="FormControl-select FormControl-medium FormControl-monospace" id="age" name="age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>
@@ -101,7 +101,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <select class="FormControl-select FormControl-small" id="_age" name="age">
+             <select class="FormControl-select FormControl-small" id="age" name="age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>
@@ -120,7 +120,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <select class="FormControl-select FormControl-large" id="_age" name="age">
+             <select class="FormControl-select FormControl-large" id="age" name="age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>
@@ -139,7 +139,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap FormControl--short">
-             <select class="FormControl-select FormControl-medium" id="_age" name="age">
+             <select class="FormControl-select FormControl-medium" id="age" name="age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>
@@ -158,7 +158,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap FormControl--shorter">
-             <select class="FormControl-select FormControl-medium" id="_age" name="age">
+             <select class="FormControl-select FormControl-medium" id="age" name="age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>
@@ -177,7 +177,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap FormControl--fullWidth">
-             <select class="FormControl-select FormControl-medium" id="_age" name="age">
+             <select class="FormControl-select FormControl-medium" id="age" name="age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>
@@ -196,7 +196,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <select class="FormControl-select FormControl-medium" id="_age" name="age">
+             <select class="FormControl-select FormControl-medium" id="age" name="age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option selected value="27">27</option>
@@ -220,8 +220,8 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user_role" class="pl-valid"></span>
-             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
+             <span phx-feedback-for="user[role]" class="pl-valid"></span>
+             <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
              <option value="admin">admin</option>
              <option value="editor">editor</option>
              </select>
@@ -241,8 +241,8 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user_role" class="pl-valid"></span>
-             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
+             <span phx-feedback-for="user[role]" class="pl-valid"></span>
+             <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
              <option value="admin">Admin</option>
              <option value="user">User</option>
              </select>
@@ -266,8 +266,8 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user_role" class="pl-valid"></span>
-             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
+             <span phx-feedback-for="user[role]" class="pl-valid"></span>
+             <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
              <option disabled value="admin">Admin</option>
              <option value="user">User</option>
              </select>
@@ -292,8 +292,8 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user_role" class="pl-valid"></span>
-             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
+             <span phx-feedback-for="user[role]" class="pl-valid"></span>
+             <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
              <option value="">Choose your role</option>
              <option value="admin">Admin</option>
              <option value="user">User</option>
@@ -319,8 +319,8 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user_role" class="pl-valid"></span>
-             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
+             <span phx-feedback-for="user[role]" class="pl-valid"></span>
+             <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
              <option disabled value="">Choose your role</option>
              <option value="admin">Admin</option>
              <option value="user">User</option>
@@ -345,12 +345,12 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap"><span phx-feedback-for="user_role" class="pl-invalid"></span><select aria-describedby="user_role-validation" class="FormControl-select FormControl-medium" id="user_role" invalid="" name="user[role]">
+             <div class="FormControl-select-wrap"><span phx-feedback-for="user[role]" class="pl-invalid"></span><select aria-describedby="user[role]-validation" class="FormControl-select FormControl-medium" id="user[role]" invalid="" name="user[role]">
              <option disabled value="">Choose your role</option>
              <option value="admin">Admin</option>
              <option value="user">User</option>
              </select></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_role-validation" phx-feedback-for="user[role]">
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user[role]-validation" phx-feedback-for="user[role]">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
              <span>can&#39;t be blank</span>
              </div>
@@ -384,8 +384,8 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap pl-multiple-select">
-             <span phx-feedback-for="user_role" class="pl-valid"></span>
-             <select class="FormControl-select FormControl-medium" id="user_role" multiple="" name="user[role][]" size="7">
+             <span phx-feedback-for="user[role]" class="pl-valid"></span>
+             <select class="FormControl-select FormControl-medium" id="user[role]" multiple="" name="user[role][]" size="7">
              <option value="admin">Admin</option>
              <option value="user">User</option>
              <option value="editor">Editor</option>
@@ -430,7 +430,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap select_container-x my-select-container"><span phx-feedback-for="user_role" class="pl-invalid"></span><select aria-describedby="user_role-validation" aria-label="Role" class="FormControl-select FormControl-medium select-x" id="user_role" invalid=""
+             <div class="FormControl-select-wrap select_container-x my-select-container"><span phx-feedback-for="user[role]" class="pl-invalid"></span><select aria-describedby="user[role]-validation" aria-label="Role" class="FormControl-select FormControl-medium select-x" id="user[role]" invalid=""
              name="user[role]">
              <option value="admin">Admin</option>
              <option value="user">User</option>
@@ -440,7 +440,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
              <option value="project_owner">Project owner</option>
              <option value="developer">Developer</option>
              </select></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x" id="user_role-validation" phx-feedback-for="user[role]">
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x" id="user[role]-validation" phx-feedback-for="user[role]">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
              <span>can&#39;t be blank</span></div>
              """
@@ -456,7 +456,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <select aria-label="Age" class="FormControl-select FormControl-medium" dir="rtl" id="_age" name="age">
+             <select aria-label="Age" class="FormControl-select FormControl-medium" dir="rtl" id="age" name="age">
              <option value="25">25</option>
              <option value="26">26</option>
              <option value="27">27</option>

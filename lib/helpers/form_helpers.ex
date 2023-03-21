@@ -133,7 +133,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
   end
 
   @doc """
-  Returns all error for a given field from a changeset.
+  Returns all errors for a given field from a changeset.
 
       iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
       ...>   %{

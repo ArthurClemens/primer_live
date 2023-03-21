@@ -48,7 +48,7 @@ defmodule PrimerLive.TestComponents.InputValidationMessageTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation" phx-feedback-for="user[first_name]">
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user[first_name]-validation" phx-feedback-for="user[first_name]">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
              <span>can&#39;t be blank</span>
              </div>
@@ -74,7 +74,7 @@ defmodule PrimerLive.TestComponents.InputValidationMessageTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation" phx-feedback-for="user[first_name]">
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user[first_name]-validation" phx-feedback-for="user[first_name]">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
              <span>Please enter your first name</span>
              </div>
@@ -104,7 +104,7 @@ defmodule PrimerLive.TestComponents.InputValidationMessageTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="user_first_name-validation" phx-feedback-for="user[first_name]">
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="user[first_name]-validation" phx-feedback-for="user[first_name]">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
              <span>Available!</span>
              </div>
@@ -140,7 +140,7 @@ defmodule PrimerLive.TestComponents.InputValidationMessageTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error my-input_validation_message" id="user_first_name-validation" phx-feedback-for="user[first_name]">
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error my-input_validation_message" id="user[first_name]-validation" phx-feedback-for="user[first_name]">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
              <span>can&#39;t be blank</span>
              </div>

@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.2.2",
+      version: "0.2.3",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: description(),
       package: package(),
@@ -29,13 +29,13 @@ defmodule PrimerLive.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:ecto_sql, "~> 3.6"},
-      {:esbuild, "~> 0.6", only: :dev},
-      {:ex_doc, "~> 0.29.0", only: :dev},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:ecto_sql, "~> 3.9"},
+      {:esbuild, "~> 0.7", only: :dev},
+      {:ex_doc, "~> 0.29", only: :dev},
       {:phoenix_html, "~> 3.2.0"},
-      {:phoenix_live_view, "~> 0.18.3"},
-      {:jason, "~> 1.0"}
+      {:phoenix_live_view, ">= 0.18.3"},
+      {:jason, "~> 1.4"}
     ]
   end
 

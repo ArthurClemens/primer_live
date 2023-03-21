@@ -350,22 +350,170 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     String.match?(url, ~r/^#/)
   end
 
+  @doc """
+  Generates the input name of a form field, using `Phoenix.HTML.Form.input_name/2` with support for multiple inputs (e.g. checkboxes).
+  Param opts accepts
+  - name: the field name
+  - is_multiple
+
+  ## Tests
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_name(nil, nil)
+      nil
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_name("my-form", nil)
+      "my-form"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_name("my-form", "field")
+      "my-form[field]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_name(:form, nil)
+      "form"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_name(nil, "my-field")
+      "[my-field]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_name(nil, :first_name)
+      "[first_name]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_name(:profile, :first_name)
+      "profile[first_name]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_name(nil, nil, name: "my-first-name")
+      "my-first-name"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_name(:profile, nil, name: "my-first-name")
+      "profile[my-first-name]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_name(:profile, :first_name, name: "my-first-name")
+      "profile[my-first-name]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_name(:profile, :first_name, is_multiple: true)
+      "profile[first_name][]"
+  """
+
+  def input_name(form, field, opts \\ []) do
+    _input_name(form, field, opts[:name], !!opts[:is_multiple])
+  end
+
+  defp _input_name(form, field, name, _is_multiple) when is_nil(form) and is_nil(field),
+    do: name
+
+  defp _input_name(form, field, name, is_multiple) do
+    single_input_name =
+      Phoenix.HTML.Form.input_name(form, name || field || "")
+      |> String.replace(~r/(\[\])+$/, "")
+
+    cond do
+      is_multiple && single_input_name !== "" -> single_input_name <> "[]"
+      single_input_name !== "" -> single_input_name
+      true -> nil
+    end
+  end
+
+  @doc """
+  Generates the input id of a form field.
+
+  ## Tests
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id("my-input-id", nil, nil, "", nil)
+      "my-input-id"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, "my-id", nil, "", nil)
+      "my-id"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :select, "", nil)
+      nil
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :select, "[my-input-name]", nil)
+      "[my-input-name]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :select, "[my-input-name][]", nil)
+      "[my-input-name]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "", nil)
+      nil
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "my-input-name", nil)
+      "my-input-name"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "my-input-name", "my-value")
+      "my-input-name[my-value]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "[my-input-name]", "my-value")
+      "[my-input-name][my-value]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "[my-input-name][]", "my-value")
+      "[my-input-name][my-value]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "[my-input-name][]", nil)
+      "[my-input-name][]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :radio_button, "", nil)
+      nil
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :radio_button, "my-input-name", nil)
+      "my-input-name"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :radio_button, "my-input-name", "my-value")
+      "my-input-name[my-value]"
+
+  """
+  def input_id(input_id, _id, _input_type, _input_name, _value_for_derived_label)
+      when not is_nil(input_id),
+      do: input_id
+
+  def input_id(_input_id, id, _input_type, _input_name, _value_for_derived_label)
+      when not is_nil(id),
+      do: id
+
+  def input_id(_input_id, _id, input_type, "", _value_for_derived_label)
+      when input_type === :select,
+      do: nil
+
+  def input_id(_input_id, _id, input_type, input_name, _value_for_derived_label)
+      when input_type === :select,
+      do: input_name |> String.replace(~r/\[\]$/, "")
+
+  def input_id(_input_id, _id, input_type, "", value_for_derived_label)
+      when input_type === :checkbox or input_type === :radio_button,
+      do: value_for_derived_label
+
+  def input_id(_input_id, _id, input_type, input_name, value_for_derived_label)
+      when (input_type === :checkbox or input_type === :radio_button) and is_binary(input_name) do
+    cond do
+      String.match?(input_name, ~r/\[\]$/) ->
+        String.replace(input_name, ~r/(\[\]$)/, "[#{value_for_derived_label}]")
+
+      !is_nil(value_for_derived_label) ->
+        "#{input_name}[#{value_for_derived_label}]"
+
+      true ->
+        input_name
+    end
+  end
+
+  def input_id(_input_id, _id, _input_type, "", _value_for_derived_label), do: nil
+  def input_id(_input_id, _id, _input_type, input_name, _value_for_derived_label), do: input_name
+
   @doc ~S"""
   Extracts common attributes for form inputs. Shared for consistency.
   """
   def common_input_attrs(assigns, input_type) do
     rest = assigns[:rest]
     name = rest[:name]
+    id = rest[:id]
     form = assigns[:form]
     field = assigns[:field]
-    field_or_name = field || name
-    phx_feedback_for_id = Phoenix.HTML.Form.input_name(form, field)
+    field_or_name = field || name || ""
+    is_multiple = !!assigns[:is_multiple]
 
-    # ID
+    input_name = input_name(form, field, name: name, is_multiple: is_multiple)
+
+    phx_feedback_for_id = input_name
 
     # Get value from checkbox or radio button
 
-    id = rest[:id]
     value = assigns[:value] || rest[:value]
     checked_value = rest[:checked_value]
     value_for_derived_label = checked_value || value
@@ -377,21 +525,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         _ -> nil
       end
 
-    input_id =
-      cond do
-        assigns[:input_id] ->
-          assigns[:input_id]
-
-        id ->
-          id
-
-        input_type === :radio_button || input_type === :checkbox ->
-          Phoenix.HTML.Form.input_id(form, field_or_name, value_for_derived_label)
-          |> String.replace("__", "_")
-
-        true ->
-          Phoenix.HTML.Form.input_id(form, field_or_name)
-      end
+    input_id = input_id(assigns[:input_id], id, input_type, input_name, value_for_derived_label)
 
     # Form group
 
@@ -446,6 +580,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       form: form,
       field: field,
       # ID and label
+      input_name: input_name,
       input_id: input_id,
       phx_feedback_for_id: phx_feedback_for_id,
       value: value,
