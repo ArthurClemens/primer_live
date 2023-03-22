@@ -7,6 +7,7 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
   import Phoenix.LiveViewTest
 
   @default_form %Phoenix.HTML.Form{
+    impl: Phoenix.HTML.FormData.Atom,
     id: "user",
     name: "user",
     params: %{"first_name" => ""},
@@ -128,6 +129,7 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
 
   test "Checkboxes" do
     form = %Phoenix.HTML.Form{
+      impl: Phoenix.HTML.FormData.Atom,
       id: "user",
       name: "user",
       params: %{"available_for_hire" => ""},

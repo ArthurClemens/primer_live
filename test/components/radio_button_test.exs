@@ -7,6 +7,7 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
   import Phoenix.LiveViewTest
 
   @default_form %Phoenix.HTML.Form{
+    impl: Phoenix.HTML.FormData.Atom,
     id: "user",
     name: "user",
     params: %{"role" => ""},
