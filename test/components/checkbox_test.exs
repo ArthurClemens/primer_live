@@ -7,6 +7,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
   import Phoenix.LiveViewTest
 
   @default_form %Phoenix.HTML.Form{
+    impl: Phoenix.HTML.FormData.Atom,
     id: "user",
     name: "user",
     params: %{"available_for_hire" => ""},
