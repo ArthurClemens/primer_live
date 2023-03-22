@@ -6976,6 +6976,25 @@ defmodule PrimerLive.Component do
 
     Any custom class will override the default class "btn".
     """ do
+    attr(:options, :string,
+      doc: """
+      Toggle options as string. For example:
+
+      ```
+      <:toggle options="{
+        willShow: function(elements) { /* */ }
+        didShow: function(elements) { /* */ }
+        willHide: function(elements) { /* */ }
+        didHide: function(elements) { /* */ }
+        getStatus: function(status) { /* */ }
+      }">Menu</:toggle>
+      ```
+
+      See also: See: https://github.com/ArthurClemens/dialogic-js#prompttoggle
+      ```
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
@@ -7318,7 +7337,9 @@ defmodule PrimerLive.Component do
           # Add the menu id when we will show a header with close button
           not is_nil(menu_id) and [data_menuid: menu_id],
           [data_prompt: ""],
-          [ontoggle: "window.Prompt && Prompt.init(this)"],
+          [
+            ontoggle: "window.Prompt && Prompt.init(this, #{toggle_slot[:options] || "{}"})"
+          ],
           assigns.is_fast &&
             (assigns.is_dark_backdrop ||
                assigns.is_medium_backdrop ||
@@ -7672,6 +7693,41 @@ defmodule PrimerLive.Component do
 
     Any custom class will override the default class "btn".
     """ do
+    attr(:options, :string,
+      doc: """
+      Toggle options as string. For example:
+
+      ```
+      <:toggle options="{
+        willShow: function(elements) { /* */ }
+        didShow: function(elements) { /* */ }
+        willHide: function(elements) { /* */ }
+        didHide: function(elements) { /* */ }
+        getStatus: function(status) { /* */ }
+      }">Menu</:toggle>
+      ```
+
+      See also: See: https://github.com/ArthurClemens/dialogic-js#prompttoggle
+
+      To keep the action menu open while interacting with its content, you can use `didHide` to initiate a form submit:
+
+      ```
+      <.action_menu>
+        <:toggle options="{
+          didHide: function() {
+            document
+              .querySelector('#role-form')
+              .dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
+          }
+        }">Menu</:toggle>
+        <.form :let={f} for={@changeset} phx-submit="save_user" id="role-form">
+          ...
+        </.form>
+      </.action_menu>
+      ```
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
@@ -7759,7 +7815,9 @@ defmodule PrimerLive.Component do
         [
           [class: classes.action_menu],
           [data_prompt: ""],
-          [ontoggle: "window.Prompt && Prompt.init(this)"],
+          [
+            ontoggle: "window.Prompt && Prompt.init(this, #{toggle_slot[:options] || "{}"})"
+          ],
           assigns.is_fast &&
             (assigns.is_dark_backdrop ||
                assigns.is_medium_backdrop ||
