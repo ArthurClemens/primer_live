@@ -170,6 +170,19 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>     valid?: true
       ...>   }, :work_experience)
       ["invalid value"]
+
+      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
+      ...>   %{
+      ...>     action: :update,
+      ...>     changes: %{},
+      ...>     errors: [
+      ...>       first_name: {"should be at most %{count} character(s)",
+      ...>         [count: 255, validation: :length, kind: :max, type: :string]}
+      ...>     ],
+      ...>     data: nil,
+      ...>     valid?: true
+      ...>   }, :first_name)
+      ["should be at most 255 character(s)"]
   """
   def get_field_errors(changeset, field) do
     changeset.errors
