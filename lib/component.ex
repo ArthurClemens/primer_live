@@ -7338,7 +7338,15 @@ defmodule PrimerLive.Component do
           not is_nil(menu_id) and [data_menuid: menu_id],
           [data_prompt: ""],
           [
-            ontoggle: "window.Prompt && Prompt.init(this, #{toggle_slot[:options] || "{}"})"
+            ontoggle:
+              [
+                "window.Prompt && Prompt.init(this",
+                if toggle_slot[:options] do
+                  ", #{toggle_slot[:options]}"
+                end,
+                ")"
+              ]
+              |> Enum.join("")
           ],
           assigns.is_fast &&
             (assigns.is_dark_backdrop ||
@@ -7816,7 +7824,15 @@ defmodule PrimerLive.Component do
           [class: classes.action_menu],
           [data_prompt: ""],
           [
-            ontoggle: "window.Prompt && Prompt.init(this, #{toggle_slot[:options] || "{}"})"
+            ontoggle:
+              [
+                "window.Prompt && Prompt.init(this",
+                if toggle_slot[:options] do
+                  ", #{toggle_slot[:options]}"
+                end,
+                ")"
+              ]
+              |> Enum.join("")
           ],
           assigns.is_fast &&
             (assigns.is_dark_backdrop ||
