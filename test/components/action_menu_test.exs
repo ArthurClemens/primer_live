@@ -397,4 +397,40 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              """
              |> format_html()
   end
+
+  test "Attribute: toggle options" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.action_menu is_backdrop>
+             <:toggle options="{
+            didHide: function() {
+              document.querySelector('#role-form').dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
+            }
+           }">
+               Menu
+             </:toggle>
+             LIST
+           </.action_menu>
+           """)
+           |> format_html() ==
+             """
+             <details
+             class="details-reset details-overlay"
+             data-prompt=""
+             ontoggle="window.Prompt &amp;&amp; Prompt.init(this, { didHide: function() { document.querySelector(&#39;#role-form&#39;).dispatchEvent(new Event(&#39;submit&#39;, {bubbles: true, cancelable: true})); } })"
+             data-isfast=""
+             >
+             <summary class="btn" aria-haspopup="true">Menu</summary>
+             <div data-backdrop="" data-islight=""></div>
+             <div data-touch=""></div>
+             <div class="ActionMenu">
+             <div class="ActionMenu-modal" data-content="" aria-role="menu">
+             <div class="SelectMenu-list">LIST</div>
+             </div>
+             </div>
+             </details>
+             """
+             |> format_html()
+  end
 end

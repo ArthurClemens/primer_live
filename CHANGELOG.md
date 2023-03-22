@@ -1,5 +1,13 @@
 # Changelog
 
+
+## 0.2.5
+
+Updated components:
+- `action_menu` and `select_menu`: 
+  - Added `prompt` slot attr `options` to pass Prompt options. This enables (for example) to postpone submitting a form in the menu by calling `submit` event in the Prompt functions `willHide` or `didHide`.
+
+
 ## 0.2.4
 
 - Fixes a bug where variables in error messages where not interpolated.
