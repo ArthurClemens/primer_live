@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.4
+
+- Fixes a bug where variables in error messages where not interpolated.
+- Update to `phoenix_html` `3.3.x`
+
 ## 0.2.3
 
 - Clarified `layout` attributes to change the rendered order of slots.
