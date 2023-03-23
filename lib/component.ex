@@ -7700,6 +7700,7 @@ defmodule PrimerLive.Component do
     Generates a toggle element (default with button appearance) using the slot content as label.
 
     Any custom class will override the default class "btn".
+
     """ do
     attr(:options, :string,
       doc: """
@@ -7717,18 +7718,17 @@ defmodule PrimerLive.Component do
 
       See also: See: https://github.com/ArthurClemens/dialogic-js#prompttoggle
 
-      To keep the action menu open while interacting with its content, you can use `didHide` to initiate a form submit:
+      To keep the action menu open while interacting with its content, you can use `willHide` or `didHide` to initiate a form submit:
 
       ```
       <.action_menu>
         <:toggle options="{
-          didHide: function() {
-            document
-              .querySelector('#role-form')
+          willHide: function(elements) {
+            elements.root.querySelector('form')
               .dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
           }
         }">Menu</:toggle>
-        <.form :let={f} for={@changeset} phx-submit="save_user" id="role-form">
+        <.form :let={f} for={@changeset} phx-submit="save_user">
           ...
         </.form>
       </.action_menu>
