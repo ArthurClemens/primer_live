@@ -126,13 +126,11 @@ defmodule PrimerLive.Helpers.FormHelpers do
   Returns the form changeset (from form.source).
   Returns nil if no changeset is found,
   """
-  def form_changeset(form) do
-    try do
-      form.source
-    rescue
-      _ -> nil
-    end
+  def form_changeset(%Phoenix.HTML.Form{source: %Ecto.Changeset{}} = form) do
+    form.source
   end
+
+  def form_changeset(_form), do: nil
 
   @doc """
   Returns all errors for a given field from a changeset.
