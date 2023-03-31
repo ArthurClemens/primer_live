@@ -11,7 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@primer/css": "20.8.3",
+    "@primer/css": "21.0.0",
     "dialogic-js": "0.5.2"
   },
   "devDependencies": {
