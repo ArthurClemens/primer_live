@@ -204,4 +204,17 @@ defmodule PrimerLive.Components.BlankslateTest do
              """
              |> format_html()
   end
+
+  test "Attribute: style" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.blankslate style="border: 1px solid red;" />
+           """)
+           |> format_html() ==
+             """
+             <div class="blankslate" style="border: 1px solid red;"></div>
+             """
+             |> format_html()
+  end
 end

@@ -470,7 +470,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              <:loading class="my-loading"><.octicon name="copilot-48" class="anim-pulse" /></:loading>
              <:menu title="Title" class="my-menu" />
              <:filter class="my-filter">
-               filter
+               Filter
              </:filter>
              <:item class="my-item">
                Item 1
@@ -484,6 +484,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              <:tab>
                Other tab
              </:tab>
+             <:message class="my-message">Message</:message>
              <:footer class="my-footer">Footer</:footer>
            </.select_menu>
            """)
@@ -500,7 +501,8 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"></path></svg>
              </button>
              </header>
-             <div class="SelectMenu-filter filter-x">filter</div>
+             <div class="SelectMenu-message message-x my-message">Message</div>
+             <div class="SelectMenu-filter filter-x">Filter</div>
              <div class="SelectMenu-tabs tabs-x">
              <button class="SelectMenu-tab tab-x my-tab" role="tab" aria-selected="true">Selected tab</button>
              <button class="SelectMenu-tab tab-x" role="tab">Other tab</button>

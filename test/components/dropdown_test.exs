@@ -181,7 +181,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
                }
              }
            >
-             <:toggle class="my-toggle">Menu</:toggle>
+             <:toggle class="my-toggle" dir="rtl">Menu</:toggle>
              <:menu title="Menu title" />
              <:item href="#url" class="my-item">
                Item 1
@@ -198,7 +198,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            |> format_html() ==
              """
              <details class="dropdown details-reset details-overlay d-inline-block dropdown-x my-dropdown">
-             <summary class="toggle-x my-toggle" aria-haspopup="true">Menu<div class="dropdown-caret caret-x"></div>
+             <summary dir="rtl" class="toggle-x my-toggle" aria-haspopup="true">Menu<div class="dropdown-caret caret-x"></div>
              </summary>
              <div class="dropdown-menu dropdown-menu-se menu-x">
              <div class="dropdown-header header-x">Menu title</div>

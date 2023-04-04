@@ -78,8 +78,8 @@ defmodule PrimerLive.TestComponents.AvatarTest do
            |> format_html() ==
              """
              <img class="avatar" src="user.jpg" width="40" />
-             <img class="avatar" height="40" src="user.jpg" />
-             <img class="avatar" height="40" src="user.jpg" width="40" />
+             <img class="avatar" src="user.jpg" height="40" />
+             <img class="avatar" src="user.jpg" width="40" height="40" />
              """
              |> format_html()
   end
@@ -93,6 +93,19 @@ defmodule PrimerLive.TestComponents.AvatarTest do
            |> format_html() ==
              """
              <img class="avatar avatar-3 my-avatar" src="user.jpg" />
+             """
+             |> format_html()
+  end
+
+  test "Attribute: style" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.avatar src="user.jpg" style="border: 1px solid red;" />
+           """)
+           |> format_html() ==
+             """
+             <img class="avatar avatar-3" src="user.jpg" style="border: 1px solid red;" />
              """
              |> format_html()
   end
