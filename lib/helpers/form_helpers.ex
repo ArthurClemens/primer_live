@@ -34,7 +34,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       # If validation_message_fn returns a string it will be added to FieldState, regardless of the changeset action value:
       iex> PrimerLive.Helpers.FormHelpers.field_state(
       ...>   %Phoenix.HTML.Form{
-      ...>     source: %{
+      ...>     source: %Ecto.Changeset{
       ...>       action: :update,
       ...>       changes: %{first_name: "annette"},
       ...>       errors: [],
@@ -43,12 +43,12 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>     },
       ...>   },
       ...>   :first_name, fn _field_state -> "always" end)
-      %PrimerLive.FieldState{valid?: true, changeset: %{action: :update, changes: %{first_name: "annette"}, data: nil, errors: [], valid?: true}, message: "always", field_errors: []}
+      %PrimerLive.FieldState{valid?: true, changeset: %Ecto.Changeset{action: :update, changes: %{first_name: "annette"}, data: nil, errors: [], valid?: true}, message: "always", field_errors: []}
 
       # If changeset action is :validate and no validation_message_fn is provided, the default field error is added to FieldState:
       iex> PrimerLive.Helpers.FormHelpers.field_state(
       ...>   %Phoenix.HTML.Form{
-      ...>     source: %{
+      ...>     source: %Ecto.Changeset{
       ...>       action: :validate,
       ...>       changes: %{},
       ...>       errors: [first_name: {"can't be blank", [validation: :required]}],
@@ -57,12 +57,12 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>     },
       ...>   },
       ...>   :first_name, nil)
-      %PrimerLive.FieldState{valid?: false, changeset: %{action: :validate, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
+      %PrimerLive.FieldState{valid?: false, changeset: %Ecto.Changeset{action: :validate, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
 
       # If changeset action is :update and no validation_message_fn is provided, no message is added to FieldState:
       iex> PrimerLive.Helpers.FormHelpers.field_state(
       ...>   %Phoenix.HTML.Form{
-      ...>     source: %{
+      ...>     source: %Ecto.Changeset{
       ...>       action: :update,
       ...>       changes: %{},
       ...>       errors: [first_name: {"can't be blank", [validation: :required]}],
@@ -71,7 +71,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>     },
       ...>   },
       ...>   :first_name, nil)
-      %PrimerLive.FieldState{valid?: false, changeset: %{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
+      %PrimerLive.FieldState{valid?: false, changeset: %Ecto.Changeset{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
   """
   def field_state(form, field, validation_message_fn) do
     changeset = form_changeset(form)
@@ -123,16 +123,28 @@ defmodule PrimerLive.Helpers.FormHelpers do
   end
 
   @doc """
-  Returns the form changeset (from form.source).
-  Returns nil if no changeset is found,
+  Returns the form changeset extracted from `form.source`.
+  Returns nil if no changeset is found.
+
+      iex> PrimerLive.Helpers.FormHelpers.form_changeset(nil)
+      nil
+
+      iex> PrimerLive.Helpers.FormHelpers.form_changeset(%{})
+      nil
+
+      iex> PrimerLive.Helpers.FormHelpers.form_changeset(%Phoenix.HTML.Form{})
+      nil
+
+      iex> PrimerLive.Helpers.FormHelpers.form_changeset(%Phoenix.HTML.Form{
+      ...>   source: %Ecto.Changeset{}
+      ...> })
+      %Ecto.Changeset{action: nil, changes: %{}, errors: [], data: nil, valid?: false}
   """
-  def form_changeset(form) do
-    try do
-      form.source
-    rescue
-      _ -> nil
-    end
+  def form_changeset(%Phoenix.HTML.Form{source: %Ecto.Changeset{}} = form) do
+    form.source
   end
+
+  def form_changeset(_form), do: nil
 
   @doc """
   Returns all errors for a given field from a changeset.

@@ -3,9 +3,11 @@
 
 # 0.2.6
 
-Updated component:
-- `text_input`: added attrs `name` and `value`
-- `checkbox`: add attrs `checked`, `checked_value`, `hidden_input`
+- Fixes a bug where `FormHelpers.field_state` did not handle forms without a changeset.
+- Updated components:
+  - `text_input`: added attrs `name` and `value`
+  - `checkbox`: add attrs `checked`, `checked_value`, `hidden_input`
+
 
 ## 0.2.5
 
