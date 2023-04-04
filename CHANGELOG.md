@@ -1,7 +1,10 @@
 # Changelog
 
+## 0.2.7
 
-# 0.2.6
+Fixes a bug introduced in `0.2.6` where single select `action_list_item`s did not get unique ids.
+
+## 0.2.6
 
 - Fixes a bug where `FormHelpers.field_state` did not handle forms without a changeset.
 - Updated components:
