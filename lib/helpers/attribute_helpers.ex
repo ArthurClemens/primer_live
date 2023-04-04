@@ -517,8 +517,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     # Get value from checkbox or radio button
 
+    ## Ignore the default value "true" when generating derived_label and input_id
+    checked_value = if assigns[:checked_value] === "true", do: nil, else: assigns[:checked_value]
     value = assigns[:value] || rest[:value]
-    checked_value = rest[:checked_value]
     value_for_derived_label = checked_value || value
 
     derived_label =
@@ -557,9 +558,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     show_message? = !!message && !ignore_errors? && assigns[:type] !== "hidden"
     validation_message_id = if !is_nil(field_state.message), do: "#{input_id}-validation"
 
-    # Phoenix uses phx_feedback_for to hide form field errors that are untouched.
-    # However, this attribute can't be set on the element itself (the JS DOM library stalls).
-    # Element "validation_marker" is used as stopgap: a separate element placed just before the input element.
+    ## Phoenix uses phx_feedback_for to hide form field errors that are untouched.
+    ## However, this attribute can't be set on the element itself (the JS DOM library stalls).
+    ## Element "validation_marker" is used as stopgap: a separate element placed just before the input element.
     validation_marker_attrs =
       case has_changeset do
         true ->

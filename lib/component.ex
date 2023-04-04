@@ -555,7 +555,7 @@ defmodule PrimerLive.Component do
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
-  attr(:checked_value, :any, default: nil, doc: "Checkbox `checked_value`.")
+  attr(:checked_value, :string, default: nil, doc: "Checkbox `checked_value`.")
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
@@ -4234,6 +4234,11 @@ defmodule PrimerLive.Component do
 
   attr :checked, :boolean, doc: "The state of the checkbox (when not using `form` and `field`)."
 
+  attr :checked_value, :string,
+    default: nil,
+    doc:
+      "The value to be sent when the checkbox is checked. If `checked_value` equals `value`, the checkbox is marked checked. Defaults to \"true\"."
+
   attr :hidden_input, :string,
     default: "true",
     doc: """
@@ -4459,6 +4464,10 @@ defmodule PrimerLive.Component do
           !is_nil(assigns[:checked]) && [checked: assigns[:checked]],
           assigns.input_type === :checkbox &&
             [hidden_input: assigns.hidden_input],
+          assigns.input_type === :checkbox && !is_nil(assigns[:checked_value]) &&
+            [checked_value: assigns[:checked_value]],
+          assigns.input_type === :checkbox && !is_nil(value) &&
+            [value: value],
           input_class && [class: input_class],
           show_message? && [invalid: ""]
         ]

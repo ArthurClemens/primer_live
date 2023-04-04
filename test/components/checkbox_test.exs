@@ -246,12 +246,19 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
 
     assert rendered_to_string(~H"""
            <.checkbox name="role" checked_value="editor" />
+           <.checkbox name="role" checked_value="editor" value="editor" />
            """)
            |> format_html() ==
              """
              <span class="FormControl-checkbox-wrap">
              <input name="role" type="hidden" value="false" />
              <input class="FormControl-checkbox" id="role[editor]" name="role" type="checkbox" value="editor" />
+             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role[editor]">Editor</label></span>
+             </span>
+
+             <span class="FormControl-checkbox-wrap">
+             <input name="role" type="hidden" value="false" />
+             <input checked class="FormControl-checkbox" id="role[editor]" name="role" type="checkbox" value="editor" />
              <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role[editor]">Editor</label></span>
              </span>
              """
