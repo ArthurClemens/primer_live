@@ -23,6 +23,8 @@ defmodule PrimerLive.Helpers.FormHelpers do
     "url" => :url_input
   }
 
+  def text_input_types(), do: @text_input_types
+
   @doc """
   Returns a `PrimerLive.FieldState` struct to facilitate display logic in component rendering functions.
 
@@ -208,7 +210,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
 
   """
   def text_input_type_as_atom(type_name) do
-    input_type = Map.get(@text_input_types, type_name)
+    input_type = Map.get(text_input_types(), type_name)
 
     if is_nil(input_type), do: :text_input, else: input_type
   end
