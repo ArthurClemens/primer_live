@@ -3428,6 +3428,8 @@ defmodule PrimerLive.Component do
     """
   )
 
+  attr(:name, :string, doc: "Text input name attribute (when not using `form` and `field`).")
+  attr(:value, :string, doc: "Text input value attribute (when not using `form` and `field`).")
   attr(:type, :string, default: "text", doc: "Text input type.")
 
   attr(:is_contrast, :boolean, default: false, doc: "Changes the background color to light gray.")
@@ -3587,7 +3589,8 @@ defmodule PrimerLive.Component do
       rest: rest,
       show_message?: show_message?,
       validation_marker_attrs: validation_marker_attrs,
-      validation_message_id: validation_message_id
+      validation_message_id: validation_message_id,
+      value: value
     } = AttributeHelpers.common_input_attrs(assigns, nil)
 
     type = assigns.type
@@ -3676,8 +3679,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.append_attributes(
           assigns_to_attributes(rest, [
             :id,
-            :placeholder,
-            :name
+            :placeholder
           ]),
           [
             [class: classes.input],
@@ -3687,6 +3689,7 @@ defmodule PrimerLive.Component do
             validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
             [name: input_name],
+            (is_nil(form) || is_nil(field)) && !is_nil(value) && [value: value],
             show_message? && [invalid: ""]
           ]
         )

@@ -501,14 +501,17 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   """
   def common_input_attrs(assigns, input_type) do
     rest = assigns[:rest]
-    name = rest[:name]
+    name = assigns[:name] || rest[:name]
     id = rest[:id]
     form = assigns[:form]
     field = assigns[:field]
     field_or_name = field || name || ""
     is_multiple = !!assigns[:is_multiple]
 
-    input_name = input_name(form, field, name: name, is_multiple: is_multiple)
+    input_name =
+      if !is_nil(form) || !is_nil(field),
+        do: input_name(form, field, name: name, is_multiple: is_multiple),
+        else: name
 
     phx_feedback_for_id = input_name
 
