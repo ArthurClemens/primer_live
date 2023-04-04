@@ -501,21 +501,25 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   """
   def common_input_attrs(assigns, input_type) do
     rest = assigns[:rest]
-    name = rest[:name]
+    name = assigns[:name] || rest[:name]
     id = rest[:id]
     form = assigns[:form]
     field = assigns[:field]
     field_or_name = field || name || ""
     is_multiple = !!assigns[:is_multiple]
 
-    input_name = input_name(form, field, name: name, is_multiple: is_multiple)
+    input_name =
+      if !is_nil(form) || !is_nil(field),
+        do: input_name(form, field, name: name, is_multiple: is_multiple),
+        else: name
 
     phx_feedback_for_id = input_name
 
     # Get value from checkbox or radio button
 
+    ## Ignore the default value "true" when generating derived_label and input_id
+    checked_value = if assigns[:checked_value] === "true", do: nil, else: assigns[:checked_value]
     value = assigns[:value] || rest[:value]
-    checked_value = rest[:checked_value]
     value_for_derived_label = checked_value || value
 
     derived_label =
@@ -554,9 +558,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     show_message? = !!message && !ignore_errors? && assigns[:type] !== "hidden"
     validation_message_id = if !is_nil(field_state.message), do: "#{input_id}-validation"
 
-    # Phoenix uses phx_feedback_for to hide form field errors that are untouched.
-    # However, this attribute can't be set on the element itself (the JS DOM library stalls).
-    # Element "validation_marker" is used as stopgap: a separate element placed just before the input element.
+    ## Phoenix uses phx_feedback_for to hide form field errors that are untouched.
+    ## However, this attribute can't be set on the element itself (the JS DOM library stalls).
+    ## Element "validation_marker" is used as stopgap: a separate element placed just before the input element.
     validation_marker_attrs =
       case has_changeset do
         true ->

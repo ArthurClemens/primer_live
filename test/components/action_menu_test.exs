@@ -185,7 +185,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <li class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">
                 <span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon">
-                  <input checked class="FormControl-checkbox" type="checkbox" value="" />
+                  <input checked class="FormControl-checkbox" type="checkbox" value="true" />
                 </span>
               </span>
               <span class="ActionList-item-label">Option</span>
@@ -195,7 +195,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <span class="ActionList-content">
               <span class="ActionList-item-visual ActionList-item-visual--leading">
                 <span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon">
-                  <input checked class="FormControl-checkbox" type="checkbox" value="" />
+                  <input checked class="FormControl-checkbox" type="checkbox" value="true" />
                 </span>
               </span>
               <span class="ActionList-item-label">Option</span>
@@ -205,7 +205,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <span class="ActionList-content">
               <span class="ActionList-item-visual ActionList-item-visual--leading">
                 <span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon">
-                  <input class="FormControl-checkbox" type="checkbox" value="" />
+                  <input class="FormControl-checkbox" type="checkbox" value="true" />
                 </span>
               </span>
               <span class="ActionList-item-label">Option</span>

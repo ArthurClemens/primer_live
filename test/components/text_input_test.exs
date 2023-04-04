@@ -69,6 +69,19 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
+  test "Attribute: name, value" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input name="first_name" value="Greta" />
+           """)
+           |> format_html() ==
+             """
+             <input class="FormControl-input FormControl-medium" id="first_name" name="first_name" type="text" value="Greta" />
+             """
+             |> format_html()
+  end
+
   test "Attribute: field as string" do
     assigns = %{}
 

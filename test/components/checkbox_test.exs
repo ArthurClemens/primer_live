@@ -10,7 +10,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
     impl: Phoenix.HTML.FormData.Atom,
     id: "user",
     name: "user",
-    params: %{"available_for_hire" => ""},
+    params: %{"available_for_hire" => "true"},
     source: %Ecto.Changeset{
       action: :validate,
       changes: %{},
@@ -215,7 +215,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <span class="FormControl-checkbox-wrap container-x my-checkbox">
              <span phx-feedback-for="user[available_for_hire]" class="pl-valid"></span>
              <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="form-checkbox-details-trigger FormControl-checkbox input-x" id="user[available_for_hire]" name="user[available_for_hire]" type="checkbox" value="true" />
+             <input checked class="form-checkbox-details-trigger FormControl-checkbox input-x" id="user[available_for_hire]" name="user[available_for_hire]" type="checkbox" value="true" />
              <span class="FormControl-checkbox-labelWrap label_container-x"><label class="FormControl-label label-x my-label" aria-live="polite" for="user[available_for_hire]">Some label</label>
              <p class="FormControl-caption hint-x my-hint">Some hint</p><span class="form-checkbox-details text-normal disclosure-x my-disclosure">Some hint</span>
              </span>
@@ -246,12 +246,19 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
 
     assert rendered_to_string(~H"""
            <.checkbox name="role" checked_value="editor" />
+           <.checkbox name="role" checked_value="editor" value="editor" />
            """)
            |> format_html() ==
              """
              <span class="FormControl-checkbox-wrap">
              <input name="role" type="hidden" value="false" />
              <input class="FormControl-checkbox" id="role[editor]" name="role" type="checkbox" value="editor" />
+             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role[editor]">Editor</label></span>
+             </span>
+
+             <span class="FormControl-checkbox-wrap">
+             <input name="role" type="hidden" value="false" />
+             <input checked class="FormControl-checkbox" id="role[editor]" name="role" type="checkbox" value="editor" />
              <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role[editor]">Editor</label></span>
              </span>
              """

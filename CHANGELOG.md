@@ -1,6 +1,12 @@
 # Changelog
 
 
+# 0.2.6
+
+Updated component:
+- `text_input`: added attrs `name` and `value`
+- `checkbox`: add attrs `checked`, `checked_value`, `hidden_input`
+
 ## 0.2.5
 
 Updated components:

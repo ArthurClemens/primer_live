@@ -13,7 +13,7 @@ defmodule PrimerLive.Component do
   # action_list
   # ------------------------------------------------------------------------------------
 
-  @doc section: :navigation
+  @doc section: :menus
 
   @doc ~S"""
   Generates a vertical list of interactive actions or options. It’s composed of items presented in a consistent single-column format, with room for icons, descriptions, side information, and other rich visuals.
@@ -361,7 +361,7 @@ defmodule PrimerLive.Component do
   # action_list_section_divider
   # ------------------------------------------------------------------------------------
 
-  @doc section: :navigation
+  @doc section: :menus
 
   @doc ~S"""
   Action list section divider for separating groups of content. See `action_list/1`.
@@ -541,7 +541,7 @@ defmodule PrimerLive.Component do
   # action_list_item
   # ------------------------------------------------------------------------------------
 
-  @doc section: :navigation
+  @doc section: :menus
 
   @doc ~S"""
   Action list item. See `action_list/1`.
@@ -555,7 +555,7 @@ defmodule PrimerLive.Component do
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
-  attr(:checked_value, :any, default: nil, doc: "Checkbox `checked_value`.")
+  attr(:checked_value, :string, default: nil, doc: "Checkbox `checked_value`.")
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
@@ -898,7 +898,6 @@ defmodule PrimerLive.Component do
                 form={@form}
                 field={@field}
                 checked={@is_selected}
-                value={@checked_value}
                 class={@classes.leading_visual_single_select_checkmark}
               >
                 <:label>
@@ -3428,6 +3427,8 @@ defmodule PrimerLive.Component do
     """
   )
 
+  attr(:name, :string, doc: "Text input name attribute (when not using `form` and `field`).")
+  attr(:value, :string, doc: "Text input value attribute (when not using `form` and `field`).")
   attr(:type, :string, default: "text", doc: "Text input type.")
 
   attr(:is_contrast, :boolean, default: false, doc: "Changes the background color to light gray.")
@@ -3587,7 +3588,8 @@ defmodule PrimerLive.Component do
       rest: rest,
       show_message?: show_message?,
       validation_marker_attrs: validation_marker_attrs,
-      validation_message_id: validation_message_id
+      validation_message_id: validation_message_id,
+      value: value
     } = AttributeHelpers.common_input_attrs(assigns, nil)
 
     type = assigns.type
@@ -3676,8 +3678,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.append_attributes(
           assigns_to_attributes(rest, [
             :id,
-            :placeholder,
-            :name
+            :placeholder
           ]),
           [
             [class: classes.input],
@@ -3687,6 +3688,7 @@ defmodule PrimerLive.Component do
             validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
             [name: input_name],
+            (is_nil(form) || is_nil(field)) && !is_nil(value) && [value: value],
             show_message? && [invalid: ""]
           ]
         )
@@ -4230,6 +4232,19 @@ defmodule PrimerLive.Component do
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
+  attr :checked, :boolean, doc: "The state of the checkbox (when not using `form` and `field`)."
+
+  attr :checked_value, :string,
+    default: nil,
+    doc:
+      "The value to be sent when the checkbox is checked. If `checked_value` equals `value`, the checkbox is marked checked. Defaults to \"true\"."
+
+  attr :hidden_input, :string,
+    default: "true",
+    doc: """
+    Controls if the component will generate a hidden input to submit the unchecked checkbox value or not. Defaults to "true". Uses `Phoenix.HTML.Form.hidden_input/3`.
+    """
+
   attr :is_multiple, :boolean,
     default: false,
     doc:
@@ -4446,6 +4461,13 @@ defmodule PrimerLive.Component do
         [
           [id: input_id],
           [name: input_name],
+          !is_nil(assigns[:checked]) && [checked: assigns[:checked]],
+          assigns.input_type === :checkbox &&
+            [hidden_input: assigns.hidden_input],
+          assigns.input_type === :checkbox && !is_nil(assigns[:checked_value]) &&
+            [checked_value: assigns[:checked_value]],
+          assigns.input_type === :checkbox && !is_nil(value) &&
+            [value: value],
           input_class && [class: input_class],
           show_message? && [invalid: ""]
         ]
@@ -4641,6 +4663,9 @@ defmodule PrimerLive.Component do
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
   attr(:value, :string, default: nil, doc: "Input value.")
+
+  attr :checked, :boolean,
+    doc: "The state of the radio button (when not using `form` and `field`)."
 
   attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
 
@@ -6990,8 +7015,7 @@ defmodule PrimerLive.Component do
       }">Menu</:toggle>
       ```
 
-      See also: See: https://github.com/ArthurClemens/dialogic-js#prompttoggle
-      ```
+      See also: https://github.com/ArthurClemens/dialogic-js#prompttoggle
       """
     )
 
