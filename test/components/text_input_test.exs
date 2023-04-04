@@ -108,6 +108,21 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
+  test "Attribute: size" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input size="3" />
+           <.text_input size={3} />
+           """)
+           |> format_html() ==
+             """
+             <input class="FormControl-input FormControl-medium" size="3" type="text" />
+             <input class="FormControl-input FormControl-medium" size="3" type="text" />
+             """
+             |> format_html()
+  end
+
   test "Attribute: types" do
     assigns = %{}
 
@@ -358,6 +373,19 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <input class="FormControl-input FormControl-medium my-input" type="text" />
+             """
+             |> format_html()
+  end
+
+  test "Attribute: style" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input style="border: 1px solid red;" />
+           """)
+           |> format_html() ==
+             """
+             <input class="FormControl-input FormControl-medium" style="border: 1px solid red;" type="text" />
              """
              |> format_html()
   end

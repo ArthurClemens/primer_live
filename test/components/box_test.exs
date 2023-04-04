@@ -382,4 +382,17 @@ defmodule PrimerLive.TestComponents.BoxTest do
              """
              |> format_html()
   end
+
+  test "Attribute: style" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.box style="border: 1px solid red;"></.box>
+           """)
+           |> format_html() ==
+             """
+             <div class="Box" style="border: 1px solid red;"></div>
+             """
+             |> format_html()
+  end
 end

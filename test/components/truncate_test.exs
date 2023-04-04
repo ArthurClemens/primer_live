@@ -153,7 +153,7 @@ defmodule PrimerLive.Components.TruncateTest do
              |> format_html()
   end
 
-  test "Style" do
+  test "Attribute: style" do
     assigns = %{}
 
     assert rendered_to_string(~H"""

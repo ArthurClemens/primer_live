@@ -410,6 +410,18 @@ defmodule PrimerLive.Component do
     doc: """
     Title separator. The input text is wrapped in a `<h3>` element. Omit to create a horizontal line only.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the action list element.
@@ -422,6 +434,18 @@ defmodule PrimerLive.Component do
     doc: """
     Optional extra text. Requires `title` slot.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the action list element.
@@ -730,6 +754,24 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:target, :string,
+      doc: """
+      Link target.
+      """
+    )
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the link element.
@@ -761,6 +803,18 @@ defmodule PrimerLive.Component do
 
     Use `is_sub_item` for child items to render them smaller.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the action list element.
@@ -1256,6 +1310,18 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
@@ -1270,6 +1336,18 @@ defmodule PrimerLive.Component do
     attr(:is_extra, :boolean,
       doc: """
       Adds styles to optimise additional bits of text and links.
+      """
+    )
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
       """
     )
 
@@ -1595,6 +1673,18 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
@@ -1606,6 +1696,18 @@ defmodule PrimerLive.Component do
     doc: """
     Container for elements positions at the far end.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the far end container.
@@ -1907,6 +2009,18 @@ defmodule PrimerLive.Component do
     attr(:navigate, :string,
       doc: """
       Link attribute - see `href`.
+      """
+    )
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
       """
     )
 
@@ -2227,6 +2341,18 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
@@ -2503,6 +2629,18 @@ defmodule PrimerLive.Component do
     attr(:navigate, :string,
       doc: """
       Link attribute - see `href`.
+      """
+    )
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
       """
     )
 
@@ -2794,6 +2932,18 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
@@ -2907,12 +3057,11 @@ defmodule PrimerLive.Component do
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.form_group form={f} field={:first_name}>
+    <.form_group form={f} field={:first_name} autocomplete="off">
       <.text_input
         form={f}
         field={:first_name}
         phx_debounce="blur"
-        autocomplete="off"
       />
     </.form_group>
   </.form>
@@ -3430,6 +3579,7 @@ defmodule PrimerLive.Component do
   attr(:name, :string, doc: "Text input name attribute (when not using `form` and `field`).")
   attr(:value, :string, doc: "Text input value attribute (when not using `form` and `field`).")
   attr(:type, :string, default: "text", doc: "Text input type.")
+  attr(:size, :any, doc: "Defines the width of the input (number or number as string).")
 
   attr(:is_contrast, :boolean, default: false, doc: "Changes the background color to light gray.")
 
@@ -3557,6 +3707,12 @@ defmodule PrimerLive.Component do
     attr(:is_visible_with_value, :boolean,
       doc: """
       Only show the trailing action when the input has a value.
+      """
+    )
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
       """
     )
   end
@@ -3688,6 +3844,7 @@ defmodule PrimerLive.Component do
             validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
             [name: input_name],
+            [size: assigns[:size]],
             (is_nil(form) || is_nil(field)) && !is_nil(value) && [value: value],
             show_message? && [invalid: ""]
           ]
@@ -3908,7 +4065,12 @@ defmodule PrimerLive.Component do
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
-  attr :options, :any, required: true, doc: "List, map or keyword list."
+  attr(:name, :string, doc: "Select name attribute (when not using `form` and `field`).")
+
+  attr :options, :any, required: true, doc: "Selectable options (list, map or keyword list)."
+
+  attr :selected, :any,
+    doc: "Selected option or options (string for single select, list when using `is_multiple`)."
 
   attr :class, :string, doc: "Additional classname."
 
@@ -4086,6 +4248,7 @@ defmodule PrimerLive.Component do
             [id: input_id],
             [name: input_name],
             [prompt: assigns[:prompt]],
+            [selected: assigns[:selected]],
             show_message? && [invalid: ""]
           ]
         )
@@ -4232,6 +4395,8 @@ defmodule PrimerLive.Component do
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
+  attr(:name, :string, doc: "Input name attribute (when not using `form` and `field`).")
+
   attr :checked, :boolean, doc: "The state of the checkbox (when not using `form` and `field`)."
 
   attr :checked_value, :string,
@@ -4244,6 +4409,8 @@ defmodule PrimerLive.Component do
     doc: """
     Controls if the component will generate a hidden input to submit the unchecked checkbox value or not. Defaults to "true". Uses `Phoenix.HTML.Form.hidden_input/3`.
     """
+
+  attr(:value, :string, doc: "Checkbox value attribute (when not using `form` and `field`).")
 
   attr :is_multiple, :boolean,
     default: false,
@@ -4294,6 +4461,18 @@ defmodule PrimerLive.Component do
     doc: """
     Custom checkbox label. Overides the derived label when using a `form` and `field`.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the label element.
@@ -4305,6 +4484,18 @@ defmodule PrimerLive.Component do
     doc: """
     Adds text below the checkbox label. Enabled when a label is displayed.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the hint element.
@@ -4318,6 +4509,18 @@ defmodule PrimerLive.Component do
 
     Note that the label element can only contain inline child elements.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the disclosure wrapper element.
@@ -4662,6 +4865,8 @@ defmodule PrimerLive.Component do
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
+  attr(:name, :string, doc: "Input name attribute (when not using `form` and `field`).")
+
   attr(:value, :string, default: nil, doc: "Input value.")
 
   attr :checked, :boolean,
@@ -4707,6 +4912,18 @@ defmodule PrimerLive.Component do
     doc: """
     Custom radio button label. Overides the derived label when using a `form` and `field`.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the label element.
@@ -4718,6 +4935,18 @@ defmodule PrimerLive.Component do
     doc: """
     Adds text below the radio button label. Enabled when a label is displayed.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the hint element.
@@ -4731,6 +4960,18 @@ defmodule PrimerLive.Component do
 
     Note that the label element can only contain inline child elements.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the disclosure wrapper element.
@@ -4883,7 +5124,10 @@ defmodule PrimerLive.Component do
 
   slot :radio_button,
     doc: "Generates a radio button." do
-    attr(:value, :string, doc: "Radio button value")
+    attr(:value, :string, doc: "See `radio_button/1`.")
+    attr(:name, :string, doc: "See `radio_button/1`.")
+    attr(:checked, :boolean, doc: "See `radio_button/1`.")
+    attr(:class, :string, doc: "Additional classname.")
   end
 
   def radio_group(assigns) do
@@ -5546,7 +5790,7 @@ defmodule PrimerLive.Component do
   slot :sidebar,
     doc:
       "Generates a sidebar element. Widths: md: 256px, lg: 296px (change with `is_narrow_sidebar` and `is_wide_sidebar`)." do
-    attr :order, :integer, values: [1, 2], doc: "See `main` slot. Default value: 1."
+    attr :order, :any, values: [1, 2, "1", "2"], doc: "See `main` slot. Default value: 1."
   end
 
   def layout(assigns) do
@@ -5965,7 +6209,6 @@ defmodule PrimerLive.Component do
   slot :row,
     doc:
       "Generates a content row element. To create a link element, pass attribute `href`, `navigate` or `patch`." do
-    attr :class, :string, doc: "Additional classname."
     attr :is_blue, :boolean, doc: "Blue row theme."
     attr :is_gray, :boolean, doc: "Gray row theme."
     attr :is_yellow, :boolean, doc: "Yellow row theme."
@@ -5995,6 +6238,18 @@ defmodule PrimerLive.Component do
     attr(:navigate, :string,
       doc: """
       Link attribute - see `href`.
+      """
+    )
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
       """
     )
 
@@ -6338,6 +6593,18 @@ defmodule PrimerLive.Component do
     """ do
     attr :is_full, :boolean, doc: "Stretches the item to maximum."
 
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
@@ -6530,14 +6797,31 @@ defmodule PrimerLive.Component do
     """
   )
 
-  slot(:toggle,
+  slot :toggle,
     required: true,
     doc: """
     Generates a toggle element (default with button appearance) using the slot content as label.
 
     Any custom class will override the default class "btn".
-    """
-  )
+    """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
+    attr(:rest, :any,
+      doc: """
+      Additional HTML attributes added to the toggle element.
+      """
+    )
+  end
 
   slot :menu,
     doc: """
@@ -6585,6 +6869,24 @@ defmodule PrimerLive.Component do
     attr(:navigate, :string,
       doc: """
       Link attribute - see `href`.
+      """
+    )
+
+    attr(:phx_click, :string,
+      doc: """
+      See https://hexdocs.pm/phoenix_live_view/bindings.html
+      """
+    )
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
       """
     )
 
@@ -6655,10 +6957,15 @@ defmodule PrimerLive.Component do
     }
 
     toggle_attrs =
-      AttributeHelpers.append_attributes([], [
-        [class: classes[:toggle]],
-        [aria_haspopup: "true"]
-      ])
+      AttributeHelpers.append_attributes(
+        assigns_to_attributes(toggle_slot, [
+          :class
+        ]),
+        [
+          [class: classes[:toggle]],
+          [aria_haspopup: "true"]
+        ]
+      )
 
     item_attributes = fn item, is_divider ->
       # Distinguish between link items and divider items:
@@ -7019,6 +7326,18 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
@@ -7053,6 +7372,18 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the tab element.
@@ -7066,7 +7397,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  slot(:message,
+  slot :message,
     doc: """
     Message container. Use utility classes to further style the message.
 
@@ -7074,8 +7405,13 @@ defmodule PrimerLive.Component do
     ```
     <:message class="color-bg-danger color-fg-danger">Message</:message>
     ```
-    """
-  )
+    """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+  end
 
   slot(:loading,
     doc: """
@@ -7139,6 +7475,24 @@ defmodule PrimerLive.Component do
     attr(:navigate, :string,
       doc: """
       Link attribute - see `href`.
+      """
+    )
+
+    attr(:phx_click, :string,
+      doc: """
+      See https://hexdocs.pm/phoenix_live_view/bindings.html
+      """
+    )
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
       """
     )
 
@@ -7760,6 +8114,18 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
@@ -8188,10 +8554,31 @@ defmodule PrimerLive.Component do
     """
   )
 
-  slot(:button,
+  slot :button,
     required: true,
-    doc: "Button. Use `button/1` attributes to configure the button appearance and behaviour."
-  )
+    doc: """
+    Button. Use `button/1` attributes to configure the button appearance and behaviour.
+    """ do
+    attr :class, :boolean, doc: "Additional classname."
+    attr :href, :boolean, doc: "See `button/1`."
+    attr :is_close_button, :boolean, doc: "See `button/1`."
+    attr :is_danger, :boolean, doc: "See `button/1`."
+    attr :is_disabled, :boolean, doc: "See `button/1`."
+    attr :is_dropdown_caret, :boolean, doc: "See `button/1`."
+    attr :is_full_width, :boolean, doc: "See `button/1`."
+    attr :is_icon_button, :boolean, doc: "See `button/1`."
+    attr :is_icon_only, :boolean, doc: "See `button/1`."
+    attr :is_invisible, :boolean, doc: "See `button/1`."
+    attr :is_large, :boolean, doc: "See `button/1`."
+    attr :is_link, :boolean, doc: "See `button/1`."
+    attr :is_outline, :boolean, doc: "See `button/1`."
+    attr :is_primary, :boolean, doc: "See `button/1`."
+    attr :is_selected, :boolean, doc: "See `button/1`."
+    attr :is_small, :boolean, doc: "See `button/1`."
+    attr :is_submit, :boolean, doc: "See `button/1`."
+    attr :navigate, :boolean, doc: "See `button/1`."
+    attr :patch, :boolean, doc: "See `button/1`."
+  end
 
   def button_group(assigns) do
     classes = %{
@@ -9425,6 +9812,18 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional HTML attributes added to the item element.
@@ -9732,11 +10131,16 @@ defmodule PrimerLive.Component do
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
-  attr :size, :integer,
-    values: [1, 2, 3, 4, 5, 6, 7, 8],
+  attr(:src, :string, default: nil, doc: "Image source attribute.")
+  attr(:width, :string, default: nil, doc: "Image width attribute.")
+  attr(:height, :string, default: nil, doc: "Image height attribute.")
+  attr(:alt, :string, default: nil, doc: "Image alt attribute.")
+
+  attr :size, :any,
+    values: [1, 2, 3, 4, 5, 6, 7, 8, "1", "2", "3", "4", "5", "6", "7", "8"],
     default: 3,
     doc: """
-    Avatar size.
+    Avatar size (number or number as string).
 
     Values translate to sizes:
     - 1: `16px`
@@ -9759,7 +10163,7 @@ defmodule PrimerLive.Component do
 
   def avatar(assigns) do
     size =
-      if assigns.rest[:width] || assigns.rest[:height] do
+      if assigns.width || assigns.height do
         nil
       else
         avatar_size_in_range(assigns.size)
@@ -9772,10 +10176,19 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    img_attributes =
+      AttributeHelpers.append_attributes([], [
+        [class: class],
+        [src: assigns.src],
+        [width: assigns.width],
+        [height: assigns.height],
+        [alt: assigns.alt]
+      ])
+
+    assigns = assigns |> assign(:img_attributes, img_attributes)
 
     ~H"""
-    <img class={@class} {@rest} />
+    <img {@img_attributes} {@rest} />
     """
   end
 
@@ -9834,7 +10247,20 @@ defmodule PrimerLive.Component do
 
   slot :parent,
     doc: "Generates a parent avatar." do
-    attr(:size, :integer, doc: "Avatar size - see `avatar/1`.")
+    attr(:size, :any, doc: "Avatar image size - see `avatar/1`.")
+    attr(:src, :any, doc: "Avatar image source - see `avatar/1`.")
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
 
     attr(:rest, :any,
       doc: """
@@ -9845,7 +10271,20 @@ defmodule PrimerLive.Component do
 
   slot :child,
     doc: "Generates a child avatar." do
-    attr(:size, :integer, doc: "Avatar size - see `avatar/1`.")
+    attr(:size, :any, doc: "Avatar size - see `avatar/1`.")
+    attr(:src, :any, doc: "Avatar image source - see `avatar/1`.")
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
 
     attr(:rest, :any,
       doc: """
@@ -10013,6 +10452,24 @@ defmodule PrimerLive.Component do
 
   slot :octicon,
     doc: "Generates a badge icon with `octicon/1`." do
+    attr(:name, :string,
+      doc: """
+      Octicon name.
+      """
+    )
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Attributes supplied to the `octicon` component.
@@ -10022,6 +10479,24 @@ defmodule PrimerLive.Component do
 
   slot :img,
     doc: "Generates a badge icon with an `img` tag." do
+    attr(:src, :any,
+      doc: """
+      Image source attribute.
+      """
+    )
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       HTML attributes supplied to the `img` element.
@@ -10252,7 +10727,7 @@ defmodule PrimerLive.Component do
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
-  attr(:size, :integer, default: 18, doc: "Spinner size.")
+  attr(:size, :any, default: 18, doc: "Spinner size (number or number as string).")
 
   attr(:color, :string, default: "#959da5", doc: "Spinner color as SVG fill color.")
 
@@ -10452,6 +10927,18 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Attributes supplied to the heading.
@@ -10461,6 +10948,24 @@ defmodule PrimerLive.Component do
 
   slot :octicon,
     doc: "Adds a top icon with `octicon/1`." do
+    attr(:name, :string,
+      doc: """
+      Octicon name.
+      """
+    )
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Attributes supplied to the `octicon` component.
@@ -10470,6 +10975,42 @@ defmodule PrimerLive.Component do
 
   slot :img,
     doc: "Adds a top image with an `img` tag." do
+    attr(:src, :string,
+      doc: """
+      Image source attribute.
+      """
+    )
+
+    attr(:alt, :string,
+      doc: """
+      Image alt attribute.
+      """
+    )
+
+    attr(:width, :string,
+      doc: """
+      Image width attribute.
+      """
+    )
+
+    attr(:height, :string,
+      doc: """
+      Image height attribute.
+      """
+    )
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       HTML attributes supplied to the `img` element.
@@ -10479,6 +11020,18 @@ defmodule PrimerLive.Component do
 
   slot :action,
     doc: "Adds a wrapper for a button or link." do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       HTML attributes supplied to the action wrapper element.
@@ -10805,6 +11358,18 @@ defmodule PrimerLive.Component do
       doc: """
       When using multiple items. Will expand the text on `hover` and `focus`.
       """
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
 
     attr(:rest, :any,
       doc: """
@@ -11169,6 +11734,18 @@ defmodule PrimerLive.Component do
 
     Note that slot `header` is automatically created to ensure the correct close button.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional attributes.
@@ -11180,6 +11757,18 @@ defmodule PrimerLive.Component do
     doc: """
     Dialog body. Uses `box/1` `body` slot.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional attributes.
@@ -11191,6 +11780,18 @@ defmodule PrimerLive.Component do
     doc: """
     Dialog row. Uses `box/1` `row` slot.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional attributes.
@@ -11202,6 +11803,18 @@ defmodule PrimerLive.Component do
     doc: """
     Dialog footer. Uses `box/1` `footer` slot.
     """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
+      """
+    )
+
     attr(:rest, :any,
       doc: """
       Additional attributes.
@@ -12242,6 +12855,18 @@ defmodule PrimerLive.Component do
     attr(:navigate, :string,
       doc: """
       Link attribute - see `href`.
+      """
+    )
+
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:style, :string,
+      doc: """
+      Additional CSS styles.
       """
     )
 

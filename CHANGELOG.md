@@ -7,7 +7,7 @@
 - Updated components:
   - `text_input`: added attrs `name` and `value`
   - `checkbox`: add attrs `checked`, `checked_value`, `hidden_input`
-
+- Update `@primer/css` to `21.0.0`.
 
 ## 0.2.5
 
