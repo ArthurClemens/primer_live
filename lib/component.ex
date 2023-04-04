@@ -952,6 +952,7 @@ defmodule PrimerLive.Component do
                 form={@form}
                 field={@field}
                 checked={@is_selected}
+                checked_value={@checked_value}
                 class={@classes.leading_visual_single_select_checkmark}
               >
                 <:label>
@@ -4871,6 +4872,11 @@ defmodule PrimerLive.Component do
 
   attr :checked, :boolean,
     doc: "The state of the radio button (when not using `form` and `field`)."
+
+  attr :checked_value, :string,
+    default: nil,
+    doc:
+      "For internal use to ensure compatibility with \"single select\" radio buttons in `action_list/1`."
 
   attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
 
