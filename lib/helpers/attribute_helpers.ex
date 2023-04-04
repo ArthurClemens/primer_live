@@ -517,8 +517,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     # Get value from checkbox or radio button
 
-    ## Ignore the default value "true" when generating derived_label and input_id
-    checked_value = if assigns[:checked_value] === "true", do: nil, else: assigns[:checked_value]
+    checked_value = assigns[:checked_value]
     value = assigns[:value] || rest[:value]
     value_for_derived_label = checked_value || value
 
