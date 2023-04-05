@@ -21,17 +21,14 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
            |> format_html() ==
              """
              <ul class="ActionList" role="listbox">
-             <li class="ActionList-sectionDivider"><h3 class="ActionList-sectionDivider-title">Theme</h3></li>
+             <li class="ActionList-sectionDivider">
+             <h3 class="ActionList-sectionDivider-title">Theme</h3>
+             </li>
              <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light</span>
@@ -40,13 +37,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark</span>
@@ -55,30 +47,23 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="auto" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">System</span>
              </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
-             <li class="ActionList-sectionDivider"><h3 class="ActionList-sectionDivider-title">Dark tone</h3></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
+             <li class="ActionList-sectionDivider">
+             <h3 class="ActionList-sectionDivider-title">Dark tone</h3>
+             </li>
              <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark</span>
@@ -87,13 +72,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark dimmed</span>
@@ -102,13 +82,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_high_contrast" phx-value-key="dark_theme" class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark high contrast</span>
@@ -117,13 +92,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_colorblind" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark colorblind</span>
@@ -132,30 +102,23 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_tritanopia" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark Tritanopia</span>
              </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
-             <li class="ActionList-sectionDivider"><h3 class="ActionList-sectionDivider-title">Light tone</h3></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
+             <li class="ActionList-sectionDivider">
+             <h3 class="ActionList-sectionDivider-title">Light tone</h3>
+             </li>
              <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light</span>
@@ -164,13 +127,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light high contrast</span>
@@ -179,13 +137,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="light_colorblind" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light colorblind</span>
@@ -194,21 +147,19 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="light_tritanopia" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light Tritanopia</span>
              </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
              <li phx-click="update_theme" phx-value-data="" phx-value-key="reset" class="ActionList-item">
-             <span class="ActionList-content"><span class="ActionList-item-label">Reset to default</span></span>
+             <span class="ActionList-content">
+             <span class="ActionList-item-label">Reset to default</span>
+             </span>
              </li>
              </ul>
              """
@@ -235,107 +186,87 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
            |> format_html() ==
              """
              <ul class="ActionList" role="listbox">
-             <li class="ActionList-sectionDivider"><h3 class="ActionList-sectionDivider-title">Theme</h3></li>
+             <li class="ActionList-sectionDivider">
+             <h3 class="ActionList-sectionDivider-title">Theme</h3>
+             </li>
              <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" aria-selected="true" role="option">
-               <span class="ActionList-content">
-                 <span class="ActionList-item-visual ActionList-item-visual--leading">
-                   <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-                     <input checked class="FormControl-radio" type="radio" value="" />
-                     <span class="FormControl-radio-labelWrap">
-                       <label class="FormControl-label">
-                         <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-                       </label>
-                     </span>
-                   </span>
-                 </span>
-                 <span class="ActionList-item-label">Light</span>
-               </span>
+             <span class="ActionList-content">
+             <span class="ActionList-item-visual ActionList-item-visual--leading">
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
+             </span>
+             </span>
+             <span class="ActionList-item-label">Light</span>
+             </span>
              </li>
              <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
-               <span class="ActionList-content">
-                 <span class="ActionList-item-visual ActionList-item-visual--leading">
-                   <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-                     <input class="FormControl-radio" type="radio" value="" />
-                     <span class="FormControl-radio-labelWrap">
-                       <label class="FormControl-label">
-                         <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-                       </label>
-                     </span>
-                   </span>
-                 </span>
-                 <span class="ActionList-item-label">Dark</span>
-               </span>
+             <span class="ActionList-content">
+             <span class="ActionList-item-visual ActionList-item-visual--leading">
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
+             </span>
+             </span>
+             <span class="ActionList-item-label">Dark</span>
+             </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
-             <li class="ActionList-sectionDivider"><h3 class="ActionList-sectionDivider-title">Dark tone</h3></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
+             <li class="ActionList-sectionDivider">
+             <h3 class="ActionList-sectionDivider-title">Dark tone</h3>
+             </li>
              <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
-               <span class="ActionList-content">
-                 <span class="ActionList-item-visual ActionList-item-visual--leading">
-                   <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-                     <input class="FormControl-radio" type="radio" value="" />
-                     <span class="FormControl-radio-labelWrap">
-                       <label class="FormControl-label">
-                         <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-                       </label>
-                     </span>
-                   </span>
-                 </span>
-                 <span class="ActionList-item-label">Dark</span>
-               </span>
+             <span class="ActionList-content">
+             <span class="ActionList-item-visual ActionList-item-visual--leading">
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
+             </span>
+             </span>
+             <span class="ActionList-item-label">Dark</span>
+             </span>
              </li>
              <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
-               <span class="ActionList-content">
-                 <span class="ActionList-item-visual ActionList-item-visual--leading">
-                   <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-                     <input class="FormControl-radio" type="radio" value="" />
-                     <span class="FormControl-radio-labelWrap">
-                       <label class="FormControl-label">
-                         <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-                       </label>
-                     </span>
-                   </span>
-                 </span>
-                 <span class="ActionList-item-label">Dark dimmed</span>
-               </span>
+             <span class="ActionList-content">
+             <span class="ActionList-item-visual ActionList-item-visual--leading">
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
+             </span>
+             </span>
+             <span class="ActionList-item-label">Dark dimmed</span>
+             </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
-             <li class="ActionList-sectionDivider"><h3 class="ActionList-sectionDivider-title">Light tone</h3></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
+             <li class="ActionList-sectionDivider">
+             <h3 class="ActionList-sectionDivider-title">Light tone</h3>
+             </li>
              <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
-               <span class="ActionList-content">
-                 <span class="ActionList-item-visual ActionList-item-visual--leading">
-                   <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-                     <input class="FormControl-radio" type="radio" value="" />
-                     <span class="FormControl-radio-labelWrap">
-                       <label class="FormControl-label">
-                         <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-                       </label>
-                     </span>
-                   </span>
-                 </span>
-                 <span class="ActionList-item-label">Light</span>
-               </span>
+             <span class="ActionList-content">
+             <span class="ActionList-item-visual ActionList-item-visual--leading">
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
+             </span>
+             </span>
+             <span class="ActionList-item-label">Light</span>
+             </span>
              </li>
              <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" aria-selected="true" role="option">
-               <span class="ActionList-content">
-                 <span class="ActionList-item-visual ActionList-item-visual--leading">
-                   <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-                     <input checked class="FormControl-radio" type="radio" value="" />
-                     <span class="FormControl-radio-labelWrap">
-                       <label class="FormControl-label">
-                         <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-                       </label>
-                     </span>
-                   </span>
-                 </span>
-                 <span class="ActionList-item-label">Light high contrast</span>
-               </span>
+             <span class="ActionList-content">
+             <span class="ActionList-item-visual ActionList-item-visual--leading">
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
+             </span>
+             </span>
+             <span class="ActionList-item-label">Light high contrast</span>
+             </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
              <li phx-click="update_theme" phx-value-data="" phx-value-key="reset" class="ActionList-item">
-               <span class="ActionList-content"><span class="ActionList-item-label">Reset to default</span></span>
+             <span class="ActionList-content">
+             <span class="ActionList-item-label">Reset to default</span>
+             </span>
              </li>
              </ul>
-
              """
              |> format_html()
   end
@@ -364,17 +295,14 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
            |> format_html() ==
              """
              <ul class="ActionList" role="listbox">
-             <li class="ActionList-sectionDivider"><h3 class="ActionList-sectionDivider-title">Theme</h3></li>
+             <li class="ActionList-sectionDivider">
+             <h3 class="ActionList-sectionDivider-title">Theme</h3>
+             </li>
              <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light theme</span>
@@ -383,21 +311,19 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark</span>
              </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
              <li phx-click="update_theme" phx-value-data="" phx-value-key="reset" class="ActionList-item">
-             <span class="ActionList-content"><span class="ActionList-item-label">Reset</span></span>
+             <span class="ActionList-content">
+             <span class="ActionList-item-label">Reset</span>
+             </span>
              </li>
              </ul>
              """
@@ -423,13 +349,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light</span>
@@ -438,13 +359,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark</span>
@@ -453,29 +369,20 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="auto" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">System</span>
              </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
              <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark</span>
@@ -484,13 +391,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark dimmed</span>
@@ -499,13 +401,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_high_contrast" phx-value-key="dark_theme" class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark high contrast</span>
@@ -514,13 +411,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_colorblind" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark colorblind</span>
@@ -529,29 +421,20 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_tritanopia" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark Tritanopia</span>
              </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
              <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light</span>
@@ -560,13 +443,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light high contrast</span>
@@ -575,13 +453,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="light_colorblind" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light colorblind</span>
@@ -590,21 +463,19 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="light_tritanopia" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light Tritanopia</span>
              </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
              <li phx-click="update_theme" phx-value-data="" phx-value-key="reset" class="ActionList-item">
-             <span class="ActionList-content"><span class="ActionList-item-label">Reset to default</span></span>
+             <span class="ActionList-content">
+             <span class="ActionList-item-label">Reset to default</span>
+             </span>
              </li>
              </ul>
              """
@@ -627,17 +498,14 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
            |> format_html() ==
              """
              <ul class="ActionList" role="listbox">
-             <li class="ActionList-sectionDivider"><h3 class="ActionList-sectionDivider-title">Theme</h3></li>
+             <li class="ActionList-sectionDivider">
+             <h3 class="ActionList-sectionDivider-title">Theme</h3>
+             </li>
              <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light</span>
@@ -646,13 +514,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark</span>
@@ -661,30 +524,23 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="auto" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">System</span>
              </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
-             <li class="ActionList-sectionDivider"><h3 class="ActionList-sectionDivider-title">Dark tone</h3></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
+             <li class="ActionList-sectionDivider">
+             <h3 class="ActionList-sectionDivider-title">Dark tone</h3>
+             </li>
              <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark</span>
@@ -693,13 +549,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark dimmed</span>
@@ -708,13 +559,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_high_contrast" phx-value-key="dark_theme" class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark high contrast</span>
@@ -723,13 +569,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_colorblind" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark colorblind</span>
@@ -738,30 +579,23 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_tritanopia" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark Tritanopia</span>
              </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
-             <li class="ActionList-sectionDivider"><h3 class="ActionList-sectionDivider-title">Light tone</h3></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
+             <li class="ActionList-sectionDivider">
+             <h3 class="ActionList-sectionDivider-title">Light tone</h3>
+             </li>
              <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light</span>
@@ -770,13 +604,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light high contrast</span>
@@ -785,13 +614,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="light_colorblind" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light colorblind</span>
@@ -800,13 +624,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="light_tritanopia" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light Tritanopia</span>
@@ -832,17 +651,14 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
            |> format_html() ==
              """
              <ul dir="rtl" class="ActionList my-menu-options" role="listbox">
-             <li class="ActionList-sectionDivider"><h3 class="ActionList-sectionDivider-title">Theme</h3></li>
+             <li class="ActionList-sectionDivider">
+             <h3 class="ActionList-sectionDivider-title">Theme</h3>
+             </li>
              <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light</span>
@@ -851,13 +667,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark</span>
@@ -866,30 +677,23 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="auto" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">System</span>
              </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
-             <li class="ActionList-sectionDivider"><h3 class="ActionList-sectionDivider-title">Dark tone</h3></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
+             <li class="ActionList-sectionDivider">
+             <h3 class="ActionList-sectionDivider-title">Dark tone</h3>
+             </li>
              <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark</span>
@@ -898,13 +702,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark dimmed</span>
@@ -913,13 +712,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_high_contrast" phx-value-key="dark_theme" class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark high contrast</span>
@@ -928,13 +722,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_colorblind" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark colorblind</span>
@@ -943,30 +732,23 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="dark_tritanopia" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Dark Tritanopia</span>
              </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
-             <li class="ActionList-sectionDivider"><h3 class="ActionList-sectionDivider-title">Light tone</h3></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
+             <li class="ActionList-sectionDivider">
+             <h3 class="ActionList-sectionDivider-title">Light tone</h3>
+             </li>
              <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light</span>
@@ -975,13 +757,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light high contrast</span>
@@ -990,13 +767,8 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="light_colorblind" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light colorblind</span>
@@ -1005,21 +777,19 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li phx-click="update_theme" phx-value-data="light_tritanopia" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Light Tritanopia</span>
              </span>
              </li>
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
+             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
+             </li>
              <li phx-click="update_theme" phx-value-data="" phx-value-key="reset" class="ActionList-item">
-             <span class="ActionList-content"><span class="ActionList-item-label">Reset to default</span></span>
+             <span class="ActionList-content">
+             <span class="ActionList-item-label">Reset to default</span>
+             </span>
              </li>
              </ul>
              """
