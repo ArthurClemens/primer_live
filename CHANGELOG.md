@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+
+Breaking change: `action_list_item` now always renders a checkbox group, also when `is_multiple_select` is set on the list items. This change makes handling form data in events more consistent: the data will always consist of a list of checkbox values.
+
 ## 0.2.7
 
 Fixes a bug introduced in `0.2.6` where single select `action_list_item`s did not get unique ids.

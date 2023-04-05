@@ -160,13 +160,8 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
              <li class="ActionList-item" aria-selected="true" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-             <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Item</span>
@@ -175,13 +170,8 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
              <li class="ActionList-item" aria-selected="false" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-radio-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-radio" type="radio" value="" />
-             <span class="FormControl-radio-labelWrap">
-             <label class="FormControl-label">
-             <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="ActionList-item-singleSelectCheckmark">STRIPPED_SVG_PATHS</svg>
-             </label>
-             </span>
+             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
+             <input class="FormControl-checkbox" type="checkbox" value="true" />
              </span>
              </span>
              <span class="ActionList-item-label">Item</span>

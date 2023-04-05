@@ -203,10 +203,10 @@ defmodule PrimerLive.Component do
   </.action_list>
   ```
 
-  Create a multiple select list:
+  Create a multiple select list. Add `is_multiple_select` to both `action_list` (for the proper ARIA attributes) and `action_list_item` (for leading visuals):
 
   ```
-  <.action_list>
+  <.action_list is_multiple_select>
     <.action_list_item is_multiple_select is_selected>
       Option
     </.action_list_item>
@@ -277,6 +277,49 @@ defmodule PrimerLive.Component do
       ...
     </:sub_group>
   </.action_list_item>
+  ```
+
+  Example of using a form and event handler to submit a "single select" selection:
+
+  ```
+  options = [
+    %{id: "1", is_selected: true, label: "Writer"},
+    %{id: "2", is_selected: false, label: "Programmer"},
+    %{id: "3", is_selected: false, label: "Activist"}
+  ]
+
+  ...
+
+  <.form :let={f} for={@changeset} phx-change="save_user_job">
+    <.action_list>
+      <%= for %{id: id, label: label, is_selected: is_selected} <- @options do %>
+        <.action_list_item
+          is_single_select
+          form={f}
+          field={:job_id}
+          checked_value={id}
+          is_selected={is_selected}
+        >
+          <%= label %>
+        </.action_list_item>
+      <% end %>
+    </.action_list>
+  </.form>
+
+  ...
+
+  def handle_event("save_user_job", %{"user" => params}, socket) do
+    %{user: user} = socket.assigns
+    current_job_id = get_in(user.job, [Access.key!(:id)])
+
+    selected_job_ids = params["job_id"] |> Enum.filter(&(&1 !== "false" && &1 !== current_job_id))
+    job_id = if Enum.count(selected_job_ids) > 0, do: hd(selected_job_ids), else: nil
+
+    changeset = User.changeset(socket.assigns.user, %{"job_id" => job_id})
+
+    # apply changeset and assign user to socket
+    ...
+  end
   ```
 
   [INSERT LVATTRDOCS]
@@ -579,7 +622,7 @@ defmodule PrimerLive.Component do
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
 
-  attr(:checked_value, :string, default: nil, doc: "Checkbox `checked_value`.")
+  attr(:checked_value, :string, default: nil, doc: "Checkbox `checked_value`, see `checkbox/1`.")
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
@@ -654,7 +697,7 @@ defmodule PrimerLive.Component do
   attr :is_single_select, :boolean,
     default: false,
     doc: """
-    Creates a radio button group, visualized as checkmark icons, and sets ARIA attributes. The icons can be replaced with the `leading_visual` slot.
+    Creates a checkbox group, visualized as checkmark icons, and sets ARIA attributes. The icons can be replaced with the `leading_visual` slot.
     """
 
   attr :is_multiple_select, :boolean,
@@ -666,7 +709,7 @@ defmodule PrimerLive.Component do
   attr(:is_checkmark_icon, :boolean,
     default: false,
     doc: """
-    When using `is_multiple_select`. Visualizes the checkboxes as checkmark icons.
+    Overrides the default `leading_visual` when using `is_multiple_select`. Visualizes the checkboxes as checkmark icons.
     """
   )
 
@@ -947,37 +990,20 @@ defmodule PrimerLive.Component do
           </span>
         <% else %>
           <span class={@classes.leading_visual}>
-            <%= if @is_single_select do %>
-              <.radio_button
-                form={@form}
-                field={@field}
-                checked={@is_selected}
-                checked_value={@checked_value}
-                class={@classes.leading_visual_single_select_checkmark}
-              >
-                <:label>
-                  <.ui_icon
-                    name="single-select-16"
-                    class={@classes.leading_visual_single_select_checkmark}
-                  />
-                </:label>
-              </.radio_button>
-            <% else %>
-              <.checkbox
-                is_multiple
-                checked={@is_selected}
-                form={@form}
-                field={@field}
-                checked_value={@checked_value}
-                is_omit_label
-                hidden_input={@form || @field}
-                class={
-                  if @is_checkmark_icon,
-                    do: @classes.leading_visual_single_select_checkmark,
-                    else: @classes.leading_visual_multiple_select_checkmark
-                }
-              />
-            <% end %>
+            <.checkbox
+              is_multiple
+              checked={@is_selected}
+              form={@form}
+              field={@field}
+              checked_value={@checked_value}
+              is_omit_label
+              hidden_input={@form || @field}
+              class={
+                if @is_checkmark_icon or @is_single_select,
+                  do: @classes.leading_visual_single_select_checkmark,
+                  else: @classes.leading_visual_multiple_select_checkmark
+              }
+            />
           </span>
         <% end %>
       <% else %>
@@ -4872,11 +4898,6 @@ defmodule PrimerLive.Component do
 
   attr :checked, :boolean,
     doc: "The state of the radio button (when not using `form` and `field`)."
-
-  attr :checked_value, :string,
-    default: nil,
-    doc:
-      "For internal use to ensure compatibility with \"single select\" radio buttons in `action_list/1`."
 
   attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
 
