@@ -26567,6 +26567,10 @@ a.branch-name .octicon {
 .Box-body > .form-group:first-child {
   margin-top: 0;
 }
+.Box.Box--danger .Box-row,
+.Box.color-border-danger .Box-row {
+  border-color: inherit;
+}
 .UnderlineNav-item > .octicon {
   display: inline !important;
   margin-right: 8px;

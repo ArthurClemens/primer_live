@@ -6192,7 +6192,7 @@ defmodule PrimerLive.Component do
 
   attr(:is_danger, :boolean,
     default: false,
-    doc: "Generates a danger color box theme. Only works with slots `row` and `body`."
+    doc: "Generates a danger color box theme. Only works with slots `row` and `body`. Use class \"color-border-danger\" for a lighter danger color."
   )
 
   attr(:is_border_dashed, :boolean,
