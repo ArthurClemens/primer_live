@@ -4128,6 +4128,8 @@ defmodule PrimerLive.Component do
     The default option that is displayed in the select options before the user makes a selection. See
     `Phoenix.HTML.Form.multiple_select/4`.
 
+    Can't be used with a multiple select - this attribute will be ignored.
+
     Pass a string or a keyword list.
 
     Examples:
@@ -4274,7 +4276,7 @@ defmodule PrimerLive.Component do
             validation_message_id && [aria_describedby: validation_message_id],
             [id: input_id],
             [name: input_name],
-            [prompt: assigns[:prompt]],
+            !is_multiple && [prompt: assigns[:prompt]],
             [selected: assigns[:selected]],
             show_message? && [invalid: ""]
           ]
