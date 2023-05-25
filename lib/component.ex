@@ -6192,7 +6192,8 @@ defmodule PrimerLive.Component do
 
   attr(:is_danger, :boolean,
     default: false,
-    doc: "Generates a danger color box theme. Only works with slots `row` and `body`. Use class \"color-border-danger\" for a lighter danger color."
+    doc:
+      "Generates a danger color box theme. Only works with slots `row` and `body`. Use class \"color-border-danger\" for a lighter danger color."
   )
 
   attr(:is_border_dashed, :boolean,
@@ -11506,7 +11507,8 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in `primer-js` (see Installation). Function `Prompt.show` requires a selector. When placed inside the dialog component, the selector can be replaced with `this`:
+  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in PrimerLive.
+  Function `Prompt.show` requires a selector. When placed inside the dialog component, the selector can be replaced with `this`:
 
   ```
   <.dialog id="my-dialog">
@@ -11988,7 +11990,8 @@ defmodule PrimerLive.Component do
   </.drawer>
   ```
 
-  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in `primer-js` (see Installation). Function `Prompt.show` requires a selector. When placed inside the drawer component, the selector can be replaced with `this`:
+  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in PrimerLive.
+  Function `Prompt.show` requires a selector. When placed inside the drawer component, the selector can be replaced with `this`:
 
   ```
   <.drawer id="my-drawer">
