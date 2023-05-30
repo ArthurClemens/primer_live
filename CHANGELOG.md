@@ -2,6 +2,8 @@
 
 ## 0.3.1
 
+Replaced underscores in HTML element attributes with dashes because Phoenix LiveView 0.19 no longer does automatic substitution.
+
 Updated components:
 - `select`: attr `prompt` is ignored when `is_multiple` is also used. This prevents `Phoenix.HTML.Form.multiple_select/4` from raising an error.
 
