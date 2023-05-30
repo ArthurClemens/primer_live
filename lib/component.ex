@@ -386,7 +386,7 @@ defmodule PrimerLive.Component do
         [class: class],
         [role: assigns.role],
         assigns.aria_label && ["aria-label": assigns.aria_label],
-        assigns.is_multiple_select and [aria_multiselectable: "true"]
+        assigns.is_multiple_select and ["aria-multiselectable": "true"]
       ])
 
     assigns =
@@ -570,7 +570,7 @@ defmodule PrimerLive.Component do
     attributes =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.section_divider],
-        !has_title && [role: "separator", aria_hidden: "true"]
+        !has_title && [role: "separator", "aria-hidden": "true"]
       ])
 
     has_title = assigns.title && assigns.title !== []
@@ -7712,7 +7712,7 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes(item_rest, [
         [class: AttributeHelpers.classnames([classes.item, item[:class]])],
         !is_selected && [role: "menuitem"],
-        is_selected && [role: "menuitemcheckbox", aria_checked: "true"],
+        is_selected && [role: "menuitemcheckbox", "aria-checked": "true"],
         is_link && is_disabled && ["aria-disabled": "true"],
         !is_link && is_disabled && [disabled: "true"]
       ])

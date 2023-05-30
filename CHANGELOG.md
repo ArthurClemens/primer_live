@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2
+
+Replaced a couple more underscores.
+
 ## 0.3.1
 
 Replaced underscores in HTML element attributes with dashes because Phoenix LiveView 0.19 no longer does automatic substitution.
