@@ -26567,6 +26567,10 @@ a.branch-name .octicon {
 .Box-body > .form-group:first-child {
   margin-top: 0;
 }
+.Box.Box--danger .Box-row,
+.Box.color-border-danger .Box-row {
+  border-color: inherit;
+}
 .UnderlineNav-item > .octicon {
   display: inline !important;
   margin-right: 8px;
@@ -26868,6 +26872,9 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 .subnav.pl-subnav--wrap .subnav-search.float-left {
   float: none !important;
   margin-left: 0;
+}
+.Box-title {
+  line-height: 1.25;
 }
 .Box-header + .Box-row,
 .Box-row + .Box-row {

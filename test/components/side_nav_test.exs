@@ -25,7 +25,8 @@ defmodule PrimerLive.Components.SideNavTest do
            |> format_html() ==
              """
              <nav class="SideNav" aria-label="Menu">
-             <a href="#url" aria-current="page" class="SideNav-item">href link</a><a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="SideNav-item">navigate link</a>
+             <a href="#url" aria-current="page" class="SideNav-item">href link</a>
+             <a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="SideNav-item">navigate link</a>
              <a href="#url" data-phx-link="patch" data-phx-link-state="push" class="SideNav-item">patch link</a>
              </nav>
              """
@@ -234,7 +235,7 @@ defmodule PrimerLive.Components.SideNavTest do
            |> format_html() ==
              """
              <nav dir="rtl" class="SideNav" aria-label="Topics navigation">
-             <a href="#url" aria-label="View One" aria-current="page" class="SideNav-item">One</a><a href="#url" class="SideNav-item">Two</a>
+             <a href="#url" aria-current="page" aria-label="View One" class="SideNav-item">One</a><a href="#url" class="SideNav-item">Two</a>
              </nav>
              """
              |> format_html()

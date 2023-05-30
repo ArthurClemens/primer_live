@@ -250,7 +250,7 @@ defmodule PrimerLive.Components.TabnavTest do
              Tabnav widget text here.
              </div>
              <nav class="tabnav-tabs" aria-label="Topics navigation">
-             <a href="#url" aria-label="View One" aria-current="page" aria-selected="true" class="tabnav-tab" role="tab">One</a>
+             <a href="#url" aria-current="page" aria-label="View One" aria-selected="true" class="tabnav-tab" role="tab">One</a>
              <a href="#url" class="tabnav-tab" role="tab">Two</a>
              </nav>
              </div>

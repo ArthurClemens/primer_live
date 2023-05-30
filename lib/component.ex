@@ -385,7 +385,7 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: class],
         [role: assigns.role],
-        assigns.aria_label && [aria_label: assigns.aria_label],
+        assigns.aria_label && ["aria-label": assigns.aria_label],
         assigns.is_multiple_select and [aria_multiselectable: "true"]
       ])
 
@@ -1074,7 +1074,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.append_attributes([], [
           [class: classes.content],
           !is_nil(is_expanded) &&
-            [aria_expanded: is_expanded |> Atom.to_string()]
+            ["aria-expanded": is_expanded |> Atom.to_string()]
         ])
 
       link_attributes =
@@ -1087,14 +1087,14 @@ defmodule PrimerLive.Component do
               ])
           ],
           !is_nil(is_expanded) &&
-            [aria_expanded: is_expanded |> Atom.to_string()],
+            ["aria-expanded": is_expanded |> Atom.to_string()],
           [role: "menuitem"],
-          is_selected && [aria_selected: "true"],
+          is_selected && ["aria-selected": "true"],
           if is_selected do
             if is_anchor_link do
-              [aria_current: "location"]
+              ["aria-current": "location"]
             else
-              [aria_current: "page"]
+              ["aria-current": "page"]
             end
           end
         ])
@@ -1145,10 +1145,10 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.action_list_item],
         is_link && [role: "none"],
-        !is_link && is_selected && [aria_selected: "true"],
-        is_select && !is_selected && [aria_selected: "false"],
+        !is_link && is_selected && ["aria-selected": "true"],
+        is_select && !is_selected && ["aria-selected": "false"],
         !is_link && is_select && [role: "option"],
-        assigns.is_disabled && [aria_disabled: "true"]
+        assigns.is_disabled && ["aria-disabled": "true"]
       ])
 
     assigns =
@@ -1436,8 +1436,8 @@ defmodule PrimerLive.Component do
         AttributeHelpers.append_attributes(rest, [
           [class: classes.tab.(slot)],
           [role: "tab"],
-          slot[:is_selected] && [aria_selected: "true"],
-          slot[:is_selected] && [aria_current: "page"]
+          slot[:is_selected] && ["aria-selected": "true"],
+          slot[:is_selected] && ["aria-current": "page"]
         ])
 
       assigns =
@@ -1484,7 +1484,7 @@ defmodule PrimerLive.Component do
     nav_attributes =
       AttributeHelpers.append_attributes([], [
         [class: classes.nav],
-        assigns[:aria_label] && [aria_label: assigns[:aria_label]]
+        assigns[:aria_label] && ["aria-label": assigns[:aria_label]]
       ])
 
     assigns =
@@ -1797,8 +1797,8 @@ defmodule PrimerLive.Component do
         AttributeHelpers.append_attributes(rest, [
           [class: classes.tab.(slot)],
           [role: "tab"],
-          slot[:is_selected] && [aria_selected: "true"],
-          slot[:is_selected] && [aria_current: "page"]
+          slot[:is_selected] && ["aria-selected": "true"],
+          slot[:is_selected] && ["aria-current": "page"]
         ])
 
       assigns =
@@ -2112,7 +2112,7 @@ defmodule PrimerLive.Component do
       attributes =
         AttributeHelpers.append_attributes(rest, [
           [class: classes.item.(slot)],
-          slot[:is_selected] && [aria_current: "page"]
+          slot[:is_selected] && ["aria-current": "page"]
         ])
 
       assigns =
@@ -2159,8 +2159,8 @@ defmodule PrimerLive.Component do
     menu_attributes =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.menu],
-        [aria_label: assigns.aria_label],
-        has_heading && [aria_labelledby: heading_id]
+        ["aria-label": assigns.aria_label],
+        has_heading && ["aria-labelledby": heading_id]
       ])
 
     assigns =
@@ -2426,7 +2426,7 @@ defmodule PrimerLive.Component do
       attributes =
         AttributeHelpers.append_attributes(rest, [
           [class: classes.item.(slot)],
-          slot[:is_selected] && [aria_current: "page"]
+          slot[:is_selected] && ["aria-current": "page"]
         ])
 
       assigns =
@@ -2449,7 +2449,7 @@ defmodule PrimerLive.Component do
     side_nav_attributes =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.side_nav],
-        [aria_label: assigns.aria_label]
+        ["aria-label": assigns.aria_label]
       ])
 
     assigns =
@@ -2705,7 +2705,7 @@ defmodule PrimerLive.Component do
       attributes =
         AttributeHelpers.append_attributes(rest, [
           [class: classes.item],
-          slot[:is_selected] && [aria_current: "page"]
+          slot[:is_selected] && ["aria-current": "page"]
         ])
 
       assigns =
@@ -2728,7 +2728,7 @@ defmodule PrimerLive.Component do
     subnav_links_attributes =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.subnav_links],
-        [aria_label: assigns.aria_label]
+        ["aria-label": assigns.aria_label]
       ])
 
     assigns =
@@ -3013,7 +3013,7 @@ defmodule PrimerLive.Component do
       attributes =
         AttributeHelpers.append_attributes(rest, [
           [class: classes.item.(slot)],
-          slot[:is_selected] && [aria_current: "page"]
+          slot[:is_selected] && ["aria-current": "page"]
         ])
 
       assigns =
@@ -3043,7 +3043,7 @@ defmodule PrimerLive.Component do
     filter_list_attributes =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.filter_list],
-        [aria_label: assigns.aria_label]
+        ["aria-label": assigns.aria_label]
       ])
 
     assigns =
@@ -3392,7 +3392,7 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes([], [
         [class: class],
         [id: validation_message_id],
-        [phx_feedback_for: phx_feedback_for_id]
+        ["phx-feedback-for": phx_feedback_for_id]
       ])
 
     assigns =
@@ -3867,8 +3867,8 @@ defmodule PrimerLive.Component do
             [class: classes.input],
             # If aria_label is not set, use the value of placeholder (if any):
             !is_nil(placeholder) && [placeholder: placeholder],
-            !rest[:aria_label] && [aria_label: rest[:placeholder]],
-            validation_message_id && [aria_describedby: validation_message_id],
+            !rest[:aria_label] && ["aria-label": rest[:placeholder]],
+            validation_message_id && ["aria-describedby": validation_message_id],
             [id: input_id],
             [name: input_name],
             [size: assigns[:size]],
@@ -4128,6 +4128,8 @@ defmodule PrimerLive.Component do
     The default option that is displayed in the select options before the user makes a selection. See
     `Phoenix.HTML.Form.multiple_select/4`.
 
+    Can't be used with a multiple select - this attribute will be ignored.
+
     Pass a string or a keyword list.
 
     Examples:
@@ -4271,10 +4273,10 @@ defmodule PrimerLive.Component do
           [
             [class: classes.select],
             is_auto_height && [size: Enum.count(options)],
-            validation_message_id && [aria_describedby: validation_message_id],
+            validation_message_id && ["aria-describedby": validation_message_id],
             [id: input_id],
             [name: input_name],
-            [prompt: assigns[:prompt]],
+            !is_multiple && [prompt: assigns[:prompt]],
             [selected: assigns[:selected]],
             show_message? && [invalid: ""]
           ]
@@ -4723,7 +4725,7 @@ defmodule PrimerLive.Component do
         ]),
         [
           [class: classes.label.(label_slot)],
-          has_disclosure_slot && [aria_live: "polite"],
+          has_disclosure_slot && ["aria-live": "polite"],
           [for: input_id]
         ]
       )
@@ -6190,7 +6192,8 @@ defmodule PrimerLive.Component do
 
   attr(:is_danger, :boolean,
     default: false,
-    doc: "Generates a danger color box theme. Only works with slots `row` and `body`."
+    doc:
+      "Generates a danger color box theme. Only works with slots `row` and `body`. Use class \"color-border-danger\" for a lighter danger color."
   )
 
   attr(:is_border_dashed, :boolean,
@@ -6990,7 +6993,7 @@ defmodule PrimerLive.Component do
         ]),
         [
           [class: classes[:toggle]],
-          [aria_haspopup: "true"]
+          ["aria-haspopup": "true"]
         ]
       )
 
@@ -7689,7 +7692,7 @@ defmodule PrimerLive.Component do
     toggle_attrs =
       AttributeHelpers.append_attributes([], [
         [class: classes.toggle],
-        [aria_haspopup: "true"]
+        ["aria-haspopup": "true"]
       ])
 
     item_attributes = fn item ->
@@ -7710,7 +7713,7 @@ defmodule PrimerLive.Component do
         [class: AttributeHelpers.classnames([classes.item, item[:class]])],
         !is_selected && [role: "menuitem"],
         is_selected && [role: "menuitemcheckbox", aria_checked: "true"],
-        is_link && is_disabled && [aria_disabled: "true"],
+        is_link && is_disabled && ["aria-disabled": "true"],
         !is_link && is_disabled && [disabled: "true"]
       ])
     end
@@ -7740,8 +7743,8 @@ defmodule PrimerLive.Component do
         [
           [class: classes.select_menu],
           # Add the menu id when we will show a header with close button
-          not is_nil(menu_id) and [data_menuid: menu_id],
-          [data_prompt: ""],
+          not is_nil(menu_id) and ["data-menuid": menu_id],
+          ["data-prompt": ""],
           [
             ontoggle:
               [
@@ -7757,24 +7760,24 @@ defmodule PrimerLive.Component do
             (assigns.is_dark_backdrop ||
                assigns.is_medium_backdrop ||
                assigns.is_light_backdrop ||
-               assigns.is_backdrop) && [data_isfast: ""]
+               assigns.is_backdrop) && ["data-isfast": ""]
         ]
       )
 
     menu_container_attrs =
       AttributeHelpers.append_attributes([], [
         [class: classes.menu_container],
-        [data_content: ""],
-        [aria_role: "menu"]
+        ["data-content": ""],
+        ["aria-role": "menu"]
       ])
 
     backdrop_attrs =
       AttributeHelpers.append_attributes([], [
         cond do
-          assigns.is_dark_backdrop -> [data_backdrop: "", data_isdark: ""]
-          assigns.is_medium_backdrop -> [data_backdrop: "", data_ismedium: ""]
-          assigns.is_light_backdrop -> [data_backdrop: "", data_islight: ""]
-          assigns.is_backdrop -> [data_backdrop: "", data_islight: ""]
+          assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
+          assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
+          assigns.is_light_backdrop -> ["data-backdrop": "", "data-islight": ""]
+          assigns.is_backdrop -> ["data-backdrop": "", "data-islight": ""]
           true -> []
         end
       ])
@@ -7840,7 +7843,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.append_attributes(rest, [
           [class: classes.tab.(slot)],
           [role: "tab"],
-          slot[:is_selected] && [aria_selected: "true"]
+          slot[:is_selected] && ["aria-selected": "true"]
         ])
 
       assigns =
@@ -8229,7 +8232,7 @@ defmodule PrimerLive.Component do
     toggle_attrs =
       AttributeHelpers.append_attributes([], [
         [class: classes.toggle],
-        [aria_haspopup: "true"]
+        ["aria-haspopup": "true"]
       ])
 
     action_menu_attrs =
@@ -8239,7 +8242,7 @@ defmodule PrimerLive.Component do
         ]),
         [
           [class: classes.action_menu],
-          [data_prompt: ""],
+          ["data-prompt": ""],
           [
             ontoggle:
               [
@@ -8255,17 +8258,17 @@ defmodule PrimerLive.Component do
             (assigns.is_dark_backdrop ||
                assigns.is_medium_backdrop ||
                assigns.is_light_backdrop ||
-               assigns.is_backdrop) && [data_isfast: ""]
+               assigns.is_backdrop) && ["data-isfast": ""]
         ]
       )
 
     backdrop_attrs =
       AttributeHelpers.append_attributes([], [
         cond do
-          assigns.is_dark_backdrop -> [data_backdrop: "", data_isdark: ""]
-          assigns.is_medium_backdrop -> [data_backdrop: "", data_ismedium: ""]
-          assigns.is_light_backdrop -> [data_backdrop: "", data_islight: ""]
-          assigns.is_backdrop -> [data_backdrop: "", data_islight: ""]
+          assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
+          assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
+          assigns.is_light_backdrop -> ["data-backdrop": "", "data-islight": ""]
+          assigns.is_backdrop -> ["data-backdrop": "", "data-islight": ""]
           true -> []
         end
       ])
@@ -8273,8 +8276,8 @@ defmodule PrimerLive.Component do
     menu_container_attrs =
       AttributeHelpers.append_attributes([], [
         [class: classes.menu_container],
-        [data_content: ""],
-        [aria_role: "menu"],
+        ["data-content": ""],
+        ["aria-role": "menu"],
         !is_nil(assigns[:menu_theme]) && Theme.html_attributes(assigns[:menu_theme])
       ])
 
@@ -8496,8 +8499,8 @@ defmodule PrimerLive.Component do
 
     attributes =
       AttributeHelpers.append_attributes(assigns.rest, [
-        assigns.is_selected && [aria_selected: "true"],
-        assigns.is_disabled && [aria_disabled: "true"],
+        assigns.is_selected && ["aria-selected": "true"],
+        assigns.is_disabled && ["aria-disabled": "true"],
         [class: class],
         !is_link && [type: if(assigns.is_submit, do: "submit", else: "button")],
         [href: assigns[:href], navigate: assigns[:navigate], patch: assigns[:patch]]
@@ -11504,7 +11507,8 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in `primer-js` (see Installation). Function `Prompt.show` requires a selector. When placed inside the dialog component, the selector can be replaced with `this`:
+  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in PrimerLive.
+  Function `Prompt.show` requires a selector. When placed inside the dialog component, the selector can be replaced with `this`:
 
   ```
   <.dialog id="my-dialog">
@@ -11880,17 +11884,17 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes(assigns.rest |> Map.drop([:id]), [
         [class: classes.dialog_wrapper],
         [id: dialog_id],
-        [data_prompt: ""],
-        assigns.is_modal && [data_ismodal: ""],
-        assigns.is_escapable && [data_isescapable: ""],
-        assigns.is_fast && [data_isfast: ""],
-        assigns[:focus_first] && [data_focusfirst: assigns[:focus_first]]
+        ["data-prompt": ""],
+        assigns.is_modal && ["data-ismodal": ""],
+        assigns.is_escapable && ["data-isescapable": ""],
+        assigns.is_fast && ["data-isfast": ""],
+        assigns[:focus_first] && ["data-focusfirst": assigns[:focus_first]]
       ])
 
     close_button_attrs =
       AttributeHelpers.append_attributes([], [
         [is_close_button: true],
-        [aria_label: "Close"],
+        ["aria-label": "Close"],
         [class: "Box-btn-octicon btn-octicon flex-shrink-0"],
         [onclick: "Prompt.hide(this)"]
       ])
@@ -11903,7 +11907,7 @@ defmodule PrimerLive.Component do
         [class: classes.dialog],
         [classes: assigns.classes |> Map.drop([:dialog_wrapper, :dialog])],
         [is_scrollable: true],
-        [data_content: ""],
+        ["data-content": ""],
         [
           style:
             AttributeHelpers.inline_styles([
@@ -11922,16 +11926,16 @@ defmodule PrimerLive.Component do
 
     touch_layer_attrs =
       AttributeHelpers.append_attributes([], [
-        [data_touch: ""]
+        ["data-touch": ""]
       ])
 
     backdrop_attrs =
       AttributeHelpers.append_attributes([], [
         cond do
-          assigns.is_dark_backdrop -> [data_backdrop: "", data_isdark: ""]
-          assigns.is_medium_backdrop -> [data_backdrop: "", data_ismedium: ""]
-          assigns.is_light_backdrop -> [data_backdrop: "", data_islight: ""]
-          assigns.is_backdrop -> [data_backdrop: "", data_ismedium: ""]
+          assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
+          assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
+          assigns.is_light_backdrop -> ["data-backdrop": "", "data-islight": ""]
+          assigns.is_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
           true -> []
         end
       ])
@@ -11986,7 +11990,8 @@ defmodule PrimerLive.Component do
   </.drawer>
   ```
 
-  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in `primer-js` (see Installation). Function `Prompt.show` requires a selector. When placed inside the drawer component, the selector can be replaced with `this`:
+  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in PrimerLive.
+  Function `Prompt.show` requires a selector. When placed inside the drawer component, the selector can be replaced with `this`:
 
   ```
   <.drawer id="my-drawer">
@@ -12178,38 +12183,38 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes(assigns.rest |> Map.drop([:id]), [
         assigns[:class] && [class: assigns[:class]],
         [id: drawer_id],
-        [data_prompt: ""],
-        [data_isdrawer: ""],
+        ["data-prompt": ""],
+        ["data-isdrawer": ""],
         if assigns.is_far_side do
-          [data_isfarside: ""]
+          ["data-isfarside": ""]
         end,
-        assigns.is_modal && [data_ismodal: ""],
-        assigns.is_local && [data_islocal: ""],
-        assigns.is_push && [data_ispush: ""],
-        assigns.is_escapable && [data_isescapable: ""],
-        assigns.is_fast && [data_isfast: ""],
-        assigns[:focus_first] && [data_focusfirst: assigns[:focus_first]]
+        assigns.is_modal && ["data-ismodal": ""],
+        assigns.is_local && ["data-islocal": ""],
+        assigns.is_push && ["data-ispush": ""],
+        assigns.is_escapable && ["data-isescapable": ""],
+        assigns.is_fast && ["data-isfast": ""],
+        assigns[:focus_first] && ["data-focusfirst": assigns[:focus_first]]
       ])
 
     touch_layer_attrs =
       AttributeHelpers.append_attributes([], [
-        [data_touch: ""]
+        ["data-touch": ""]
       ])
 
     backdrop_attrs =
       AttributeHelpers.append_attributes([], [
         cond do
-          assigns.is_dark_backdrop -> [data_backdrop: "", data_isdark: ""]
-          assigns.is_medium_backdrop -> [data_backdrop: "", data_ismedium: ""]
-          assigns.is_light_backdrop -> [data_backdrop: "", data_islight: ""]
-          assigns.is_backdrop -> [data_backdrop: "", data_ismedium: ""]
+          assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
+          assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
+          assigns.is_light_backdrop -> ["data-backdrop": "", "data-islight": ""]
+          assigns.is_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
           true -> []
         end
       ])
 
     content_attrs =
       AttributeHelpers.append_attributes([], [
-        [data_content: ""]
+        ["data-content": ""]
       ])
 
     assigns =
@@ -12285,7 +12290,7 @@ defmodule PrimerLive.Component do
 
     content_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
-        [data_drawer_content: ""],
+        ["data-drawer-content": ""],
         [class: class],
         assigns[:width] &&
           [
@@ -12669,7 +12674,7 @@ defmodule PrimerLive.Component do
     progress_attributes =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.progress],
-        [aria_label: assigns.aria_label]
+        ["aria-label": assigns.aria_label]
       ])
 
     assigns =

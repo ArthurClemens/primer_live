@@ -46,6 +46,12 @@
   margin-top: 0;
 }
 
+/* Prevent row border styles from interfering with the box danger border style. */
+.Box.Box--danger .Box-row,
+.Box.color-border-danger .Box-row {
+  border-color: inherit;
+}
+
 /* Add the right octicon styles for underline nav items, to avoid having to add class `UnderlineNav-octicon`. */
 .UnderlineNav-item>.octicon {
   display: inline !important;
@@ -474,6 +480,11 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 .subnav.pl-subnav--wrap .subnav-search.float-left {
   float: none !important;
   margin-left: 0;
+}
+
+/* Tweak box header whitespace so that any adjacent buttons align nicely. */
+.Box-title {
+  line-height: 1.25;
 }
 
 /* Ensure that successive Box-row siblings don't show rounded top corners. */
