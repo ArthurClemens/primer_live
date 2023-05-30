@@ -16,7 +16,6 @@ const optsFromArgs: OptsFromArgs = args.reduce((acc, arg) => {
   if (parts !== null && parts.groups) {
     const key = parts.groups?.key;
     const value = parts.groups?.value !== '' ? parts.groups.value : true;
-    console.log(key, value);
     return {
       ...acc,
       [key]: value,
