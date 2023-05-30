@@ -160,7 +160,7 @@ defmodule PrimerLive.Components.MenuTest do
              """
              <nav dir="rtl" id="qqq" class="menu" aria-labelledby="heading-qqq">
              <span aria-label="Heading" class="menu-heading" id="heading-qqq">Menu heading</span>
-             <a href="#url" aria-label="View One" aria-current="page" class="menu-item">One</a>
+             <a href="#url" aria-current="page" aria-label="View One" class="menu-item">One</a>
              <a href="#url" class="menu-item">Two</a>
              </nav>
              """

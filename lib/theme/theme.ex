@@ -383,7 +383,7 @@ defmodule PrimerLive.Theme do
       ...>   dark_theme: "dark_high_contrast"
       ...> }
       ...> )
-      [data_color_mode: "light", data_light_theme: "light_high_contrast", data_dark_theme: "dark_high_contrast"]
+      ["data-color-mode": "light", "data-light-theme": "light_high_contrast", "data-dark-theme": "dark_high_contrast"]
 
       iex> PrimerLive.Theme.html_attributes(
       ...> %{
@@ -394,7 +394,7 @@ defmodule PrimerLive.Theme do
       ...>   dark_theme: "dark"
       ...> }
       ...> )
-      [data_color_mode: "auto", data_light_theme: "light", data_dark_theme: "dark"]
+      ["data-color-mode": "auto", "data-light-theme": "light", "data-dark-theme": "dark"]
 
       iex> PrimerLive.Theme.html_attributes(
       ...> %{
@@ -406,7 +406,7 @@ defmodule PrimerLive.Theme do
       ...>   dark_theme: "dark"
       ...> }
       ...> )
-      [data_color_mode: "auto", data_light_theme: "light_high_contrast", data_dark_theme: "dark"]
+      ["data-color-mode": "auto", "data-light-theme": "light_high_contrast", "data-dark-theme": "dark"]
 
       iex> PrimerLive.Theme.html_attributes(
       ...> %{
@@ -415,7 +415,7 @@ defmodule PrimerLive.Theme do
       ...>   color_mode: "auto",
       ...> }
       ...> )
-      [data_color_mode: "auto"]
+      ["data-color-mode": "auto"]
   """
 
   def html_attributes(theme_state, default_theme_state) do
@@ -424,9 +424,9 @@ defmodule PrimerLive.Theme do
     data_dark_theme = theme_state[:dark_theme] || default_theme_state[:dark_theme]
 
     PrimerLive.Helpers.AttributeHelpers.append_attributes([
-      data_color_mode && [data_color_mode: data_color_mode],
-      data_light_theme && [data_light_theme: data_light_theme],
-      data_dark_theme && [data_dark_theme: data_dark_theme]
+      data_color_mode && ["data-color-mode": data_color_mode],
+      data_light_theme && ["data-light-theme": data_light_theme],
+      data_dark_theme && ["data-dark-theme": data_dark_theme]
     ])
   end
 

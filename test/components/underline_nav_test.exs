@@ -254,7 +254,7 @@ defmodule PrimerLive.Components.UnderlineNavTest do
              """
              <nav class="UnderlineNav" dir="rtl">
              <div class="UnderlineNav-body" role="tablist">
-             <a href="#url" aria-label="View One" aria-current="page" aria-selected="true" class="UnderlineNav-item" role="tab">One</a>
+             <a href="#url" aria-current="page" aria-label="View One" aria-selected="true" class="UnderlineNav-item" role="tab">One</a>
              <a href="#url" class="UnderlineNav-item" role="tab">Two</a>
              </div>
              <div aria-label="Actions" class="UnderlineNav-actions">Actions here</div>
