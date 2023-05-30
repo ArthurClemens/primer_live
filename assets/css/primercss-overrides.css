@@ -482,6 +482,11 @@ fieldset[disabled] .FormControl-textarea::placeholder {
   margin-left: 0;
 }
 
+/* Tweak box header whitespace so that any adjacent buttons align nicely. */
+.Box-title {
+  line-height: 1.25;
+}
+
 /* Ensure that successive Box-row siblings don't show rounded top corners. */
 .Box-header+.Box-row,
 .Box-row+.Box-row {
