@@ -26873,6 +26873,9 @@ fieldset[disabled] .FormControl-textarea::placeholder {
   float: none !important;
   margin-left: 0;
 }
+.Box-title {
+  line-height: 1.25;
+}
 .Box-header + .Box-row,
 .Box-row + .Box-row {
   border-top-left-radius: 0px;
