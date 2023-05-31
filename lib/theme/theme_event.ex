@@ -1,6 +1,6 @@
 defmodule PrimerLive.ThemeEvent do
   @moduledoc """
-  Handles update events from a theme menu.
+  Handles update events from a theme menu. Usage instructions: see `PrimerLive.Theme`.
   """
 
   defmacro __using__(_) do

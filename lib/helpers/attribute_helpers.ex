@@ -500,13 +500,87 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   Extracts common attributes for form inputs. Shared for consistency.
   """
   def common_input_attrs(assigns, input_type) do
+    common_shared_attrs = common_shared_attrs(assigns)
+
+    %{
+      rest: rest,
+      form: form,
+      field: field
+    } = common_shared_attrs
+
+    # ID and label
+    %{
+      derived_label: derived_label,
+      input_id: input_id,
+      input_name: input_name,
+      phx_feedback_for_id: phx_feedback_for_id,
+      value: value
+    } = common_id_attrs(assigns, input_type, common_shared_attrs)
+
+    # Form group
+    %{
+      form_group_attrs: form_group_attrs,
+      has_form_group: has_form_group
+    } = common_form_group_attrs(assigns, input_id, common_shared_attrs)
+
+    # Field state
+    %{
+      message: message,
+      valid?: valid?,
+      ignore_errors?: ignore_errors?,
+      show_message?: show_message?,
+      validation_message_id: validation_message_id,
+      validation_marker_attrs: validation_marker_attrs
+    } = common_field_state_attrs(assigns, input_id, common_shared_attrs)
+
+    %{
+      # Common
+      rest: rest,
+      form: form,
+      field: field,
+      # ID and label
+      input_name: input_name,
+      input_id: input_id,
+      phx_feedback_for_id: phx_feedback_for_id,
+      value: value,
+      derived_label: derived_label,
+      # Form group
+      has_form_group: has_form_group,
+      form_group_attrs: form_group_attrs,
+      # Field state
+      message: message,
+      valid?: valid?,
+      validation_message_id: validation_message_id,
+      ignore_errors?: ignore_errors?,
+      show_message?: show_message?,
+      validation_marker_attrs: validation_marker_attrs
+    }
+  end
+
+  defp common_shared_attrs(assigns) do
     rest = assigns[:rest]
     name = assigns[:name] || rest[:name]
-    id = rest[:id]
     form = assigns[:form]
     field = assigns[:field]
     field_or_name = field || name || ""
+
+    %{
+      rest: rest,
+      name: name,
+      form: form,
+      field: field,
+      field_or_name: field_or_name
+    }
+  end
+
+  defp common_id_attrs(
+         assigns,
+         input_type,
+         %{form: form, field: field, rest: rest, name: name}
+       ) do
+    id = rest[:id]
     is_multiple = !!assigns[:is_multiple]
+    checked_value = assigns[:checked_value]
 
     input_name =
       if !is_nil(form) || !is_nil(field),
@@ -515,11 +589,10 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     phx_feedback_for_id = input_name
 
-    # Get value from checkbox or radio button
-
-    checked_value = assigns[:checked_value]
     value = assigns[:value] || rest[:value]
     value_for_derived_label = checked_value || value
+
+    input_id = input_id(assigns[:input_id], id, input_type, input_name, value_for_derived_label)
 
     derived_label =
       case input_type do
@@ -528,10 +601,19 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         _ -> nil
       end
 
-    input_id = input_id(assigns[:input_id], id, input_type, input_name, value_for_derived_label)
+    %{
+      derived_label: derived_label,
+      input_id: input_id,
+      input_name: input_name,
+      phx_feedback_for_id: phx_feedback_for_id,
+      value: value
+    }
+  end
 
-    # Form group
-
+  defp common_form_group_attrs(assigns, input_id, %{
+         form: form,
+         field_or_name: field_or_name
+       }) do
     form_group = assigns[:form_group]
     is_form_group = assigns[:is_form_group]
     has_form_group = is_form_group || form_group
@@ -543,7 +625,16 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         for: input_id
       })
 
-    # Field state
+    %{
+      form_group_attrs: form_group_attrs,
+      has_form_group: has_form_group
+    }
+  end
+
+  defp common_field_state_attrs(assigns, input_id, %{
+         form: form,
+         field_or_name: field_or_name
+       }) do
     validation_message = assigns[:validation_message]
     field_state = FormHelpers.field_state(form, field_or_name, validation_message)
 
@@ -564,7 +655,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       case has_changeset do
         true ->
           [
-            phx_feedback_for: input_id,
+            "phx-feedback-for": input_id,
             class:
               if valid? do
                 "pl-valid"
@@ -578,26 +669,75 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       end
 
     %{
-      # Common
-      rest: rest,
-      form: form,
-      field: field,
-      # ID and label
-      input_name: input_name,
-      input_id: input_id,
-      phx_feedback_for_id: phx_feedback_for_id,
-      value: value,
-      derived_label: derived_label,
-      validation_message_id: validation_message_id,
-      # Form group
-      has_form_group: has_form_group,
-      form_group_attrs: form_group_attrs,
-      # Field state
       message: message,
       valid?: valid?,
       ignore_errors?: ignore_errors?,
       show_message?: show_message?,
+      validation_message_id: validation_message_id,
       validation_marker_attrs: validation_marker_attrs
+    }
+  end
+
+  def menu_toggle_attrs(assigns, form, field, %{
+        toggle_slot: toggle_slot,
+        toggle_class: toggle_class,
+        menu_class: menu_class
+      }) do
+    id = assigns[:id] || assigns.rest[:id]
+
+    input_name = if field, do: Phoenix.HTML.Form.input_name(form, field), else: nil
+
+    toggle_id =
+      if id,
+        do: "#{id}-toggle",
+        else: input_name || random_string()
+
+    toggle_attrs = [
+      class: toggle_class,
+      "aria-haspopup": "true",
+      for: toggle_id
+    ]
+
+    checkbox_attrs = [
+      id: toggle_id,
+      "aria-hidden": "true",
+      onchange:
+        [
+          "window.Prompt && Prompt.change(this",
+          if toggle_slot[:options] do
+            ", #{toggle_slot[:options]}"
+          end,
+          ")"
+        ]
+        |> Enum.join("")
+    ]
+
+    menu_attrs =
+      append_attributes([
+        [class: menu_class, "data-prompt": "", id: id],
+        assigns.is_fast &&
+          (assigns.is_dark_backdrop ||
+             assigns.is_medium_backdrop ||
+             assigns.is_light_backdrop ||
+             assigns.is_backdrop) && ["data-isfast": ""]
+      ])
+
+    backdrop_attrs =
+      append_attributes([
+        cond do
+          assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
+          assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
+          assigns.is_light_backdrop -> ["data-backdrop": "", "data-islight": ""]
+          assigns.is_backdrop -> ["data-backdrop": "", "data-islight": ""]
+          true -> []
+        end
+      ])
+
+    %{
+      toggle_attrs: toggle_attrs,
+      checkbox_attrs: checkbox_attrs,
+      menu_attrs: menu_attrs,
+      backdrop_attrs: backdrop_attrs
     }
   end
 end

@@ -113,11 +113,13 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <span class="FormControl-checkbox-wrap">
-             <input name="user[interest]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user[interest][coding]" name="user[interest]" type="checkbox" value="coding" />
+             <input name="user[interest]" type="hidden" value="false" />
+             <input class="FormControl-checkbox" id="user[interest][coding]" name="user[interest]" type="checkbox" value="coding" />
              <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user[interest][coding]">Coding</label></span>
              </span>
              <span class="FormControl-checkbox-wrap">
-             <input name="user[interest]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user[interest][music]" name="user[interest]" type="checkbox" value="music" />
+             <input name="user[interest]" type="hidden" value="false" />
+             <input class="FormControl-checkbox" id="user[interest][music]" name="user[interest]" type="checkbox" value="music" />
              <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user[interest][music]">Music</label></span>
              </span>
 

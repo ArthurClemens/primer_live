@@ -107,8 +107,8 @@ defmodule PrimerLive.Theme do
   use PrimerLive.ThemeEvent
   ```
 
-  This implements function `handle_event` for "update_theme" (which is called by clicks on the menu's `action_list` items). The function updates the socket and sends the event that is picked by by JavaScript (via the `ThemeMenu` hook).
-
+  This implements function `handle_event` for "update_theme" (which is called by clicks on the menu's `action_list` items).
+  The function updates the socket and sends the event that is picked by by JavaScript (via the `ThemeMenu` hook).
   """
 
   use Phoenix.Component
@@ -156,7 +156,9 @@ defmodule PrimerLive.Theme do
   }
 
   @doc ~S"""
-  Generic key used for:
+  Generic key.
+
+  Used for:
   - session route
   - JS event name ("phx:" prefix is assigned automatically)
   """

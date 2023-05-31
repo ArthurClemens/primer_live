@@ -253,8 +253,8 @@ defmodule PrimerLive.TestComponents.TimelineItemTest do
 
     assert rendered_to_string(~H"""
            <.timeline_item dir="rtl">
-             <:badge aria_label="Badge">icon</:badge>
-             <:avatar aria_label="Avatar">avatar</:avatar>
+             <:badge aria-label="Badge">icon</:badge>
+             <:avatar aria-label="Avatar">avatar</:avatar>
            </.timeline_item>
            """)
            |> format_html() ==

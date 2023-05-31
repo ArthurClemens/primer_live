@@ -24,7 +24,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li class="ActionList-sectionDivider">
              <h3 class="ActionList-sectionDivider-title">Theme</h3>
              </li>
-             <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -34,7 +34,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -44,7 +44,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="auto" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="auto" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -59,7 +59,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li class="ActionList-sectionDivider">
              <h3 class="ActionList-sectionDivider-title">Dark tone</h3>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -69,7 +69,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -79,7 +79,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark dimmed</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_high_contrast" phx-value-key="dark_theme" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_high_contrast" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -89,7 +89,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark high contrast</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_colorblind" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_colorblind" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -99,7 +99,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark colorblind</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_tritanopia" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_tritanopia" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -114,7 +114,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li class="ActionList-sectionDivider">
              <h3 class="ActionList-sectionDivider-title">Light tone</h3>
              </li>
-             <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -124,7 +124,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -134,7 +134,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light high contrast</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="light_colorblind" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="light_colorblind" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -144,7 +144,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light colorblind</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="light_tritanopia" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="light_tritanopia" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -189,7 +189,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li class="ActionList-sectionDivider">
              <h3 class="ActionList-sectionDivider-title">Theme</h3>
              </li>
-             <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -199,7 +199,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -214,7 +214,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li class="ActionList-sectionDivider">
              <h3 class="ActionList-sectionDivider-title">Dark tone</h3>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -224,7 +224,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -239,7 +239,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li class="ActionList-sectionDivider">
              <h3 class="ActionList-sectionDivider-title">Light tone</h3>
              </li>
-             <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -249,7 +249,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -298,7 +298,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li class="ActionList-sectionDivider">
              <h3 class="ActionList-sectionDivider-title">Theme</h3>
              </li>
-             <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -308,7 +308,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light theme</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -346,7 +346,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
            |> format_html() ==
              """
              <ul class="ActionList" role="listbox">
-             <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -356,7 +356,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -366,7 +366,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="auto" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="auto" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -378,7 +378,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              </li>
              <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
              </li>
-             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -388,7 +388,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -398,7 +398,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark dimmed</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_high_contrast" phx-value-key="dark_theme" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_high_contrast" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -408,7 +408,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark high contrast</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_colorblind" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_colorblind" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -418,7 +418,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark colorblind</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_tritanopia" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_tritanopia" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -430,7 +430,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              </li>
              <li class="ActionList-sectionDivider" role="separator" aria-hidden="true">
              </li>
-             <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -440,7 +440,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -450,7 +450,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light high contrast</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="light_colorblind" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="light_colorblind" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -460,7 +460,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light colorblind</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="light_tritanopia" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="light_tritanopia" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -501,7 +501,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li class="ActionList-sectionDivider">
              <h3 class="ActionList-sectionDivider-title">Theme</h3>
              </li>
-             <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -511,7 +511,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -521,7 +521,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="auto" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="auto" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -536,7 +536,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li class="ActionList-sectionDivider">
              <h3 class="ActionList-sectionDivider-title">Dark tone</h3>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -546,7 +546,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -556,7 +556,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark dimmed</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_high_contrast" phx-value-key="dark_theme" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_high_contrast" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -566,7 +566,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark high contrast</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_colorblind" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_colorblind" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -576,7 +576,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark colorblind</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_tritanopia" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_tritanopia" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -591,7 +591,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li class="ActionList-sectionDivider">
              <h3 class="ActionList-sectionDivider-title">Light tone</h3>
              </li>
-             <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -601,7 +601,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -611,7 +611,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light high contrast</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="light_colorblind" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="light_colorblind" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -621,7 +621,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light colorblind</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="light_tritanopia" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="light_tritanopia" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -654,7 +654,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li class="ActionList-sectionDivider">
              <h3 class="ActionList-sectionDivider-title">Theme</h3>
              </li>
-             <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="light" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -664,7 +664,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -674,7 +674,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="auto" phx-value-key="color_mode" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="auto" phx-value-key="color_mode" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -689,7 +689,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li class="ActionList-sectionDivider">
              <h3 class="ActionList-sectionDivider-title">Dark tone</h3>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -699,7 +699,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_dimmed" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -709,7 +709,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark dimmed</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_high_contrast" phx-value-key="dark_theme" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_high_contrast" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -719,7 +719,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark high contrast</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_colorblind" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_colorblind" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -729,7 +729,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Dark colorblind</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="dark_tritanopia" phx-value-key="dark_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="dark_tritanopia" phx-value-key="dark_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -744,7 +744,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <li class="ActionList-sectionDivider">
              <h3 class="ActionList-sectionDivider-title">Light tone</h3>
              </li>
-             <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="light" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -754,7 +754,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" aria-selected="true" role="option">
+             <li phx-click="update_theme" phx-value-data="light_high_contrast" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -764,7 +764,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light high contrast</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="light_colorblind" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="light_colorblind" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -774,7 +774,7 @@ defmodule PrimerLive.TestComponents.ThemeMenuOptionsTest do
              <span class="ActionList-item-label">Light colorblind</span>
              </span>
              </li>
-             <li phx-click="update_theme" phx-value-data="light_tritanopia" phx-value-key="light_theme" class="ActionList-item" aria-selected="false" role="option">
+             <li phx-click="update_theme" phx-value-data="light_tritanopia" phx-value-key="light_theme" class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
