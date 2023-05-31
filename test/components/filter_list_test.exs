@@ -106,7 +106,7 @@ defmodule PrimerLive.Components.FilterListTest do
 
     assert rendered_to_string(~H"""
            <.filter_list aria_label="Menu" dir="rtl">
-             <:item href="#url" is_selected aria_label="Item">
+             <:item href="#url" is_selected aria-label="Item">
                href link
              </:item>
            </.filter_list>

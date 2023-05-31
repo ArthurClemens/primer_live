@@ -1,17 +1,6 @@
 defmodule PrimerLive.ThemeSessionController do
   @moduledoc """
-  Handles api calls to `/api/theme`.
-
-  Usage:
-
-  Create file `controllers/session_controller.ex`:
-
-  ```
-  defmodule MyAppWeb.SessionController do
-    use MyAppWeb, :controller
-    use PrimerLive.ThemeSessionController
-  end
-  ```
+  Handles api calls to `/api/theme`. Usage instructions: see `PrimerLive.Theme`.
   """
 
   defmacro __using__(_) do

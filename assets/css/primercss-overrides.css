@@ -244,6 +244,21 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
   height: 13px;
 }
 
+/* Conditionally hide the radio button leading visual instead of using aria-checked on the parent li element. */
+input[type=radio].FormControl-radio + .FormControl-radio-labelWrap {
+  visibility: hidden;
+}
+input[type=radio].FormControl-radio:checked + .FormControl-radio-labelWrap {
+  visibility: visible;
+}
+/* Remove checkbox animation dururation because the effect appears to lag compared to other page updates. */
+@media screen and (prefers-reduced-motion: no-preference) {
+  input.FormControl-checkbox[type=checkbox]:checked:before {
+    animation-duration: 0ms;
+    animation-delay: 0ms;
+  }
+}
+
 /* Disable form elements when wrapping fieldset is disabled. */
 fieldset[disabled] input.FormControl-radio[type=radio],
 fieldset[disabled] input.FormControl-checkbox[type=checkbox] {

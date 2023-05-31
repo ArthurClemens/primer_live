@@ -25,7 +25,7 @@ defmodule PrimerLive.Components.SubnavTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.subnav aria_label="Menu">
+           <.subnav aria-label="Menu">
              <.subnav_links>
                <:item href="#url" is_selected>
                  href link

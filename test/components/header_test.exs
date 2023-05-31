@@ -142,7 +142,7 @@ defmodule PrimerLive.TestComponents.HeaderTest do
 
     assert rendered_to_string(~H"""
            <.header dir="rtl">
-             <:item aria_disabled={true}>Item</:item>
+             <:item aria-disabled={true}>Item</:item>
            </.header>
            """)
            |> format_html() ==

@@ -8,6 +8,7 @@ defmodule PrimerLive.Component do
 
   alias PrimerLive.Helpers.{AttributeHelpers, FormHelpers, SchemaHelpers, ComponentHelpers}
   alias PrimerLive.Theme
+  alias Phoenix.HTML.Form
 
   # ------------------------------------------------------------------------------------
   # action_list
@@ -1071,7 +1072,7 @@ defmodule PrimerLive.Component do
         end
 
       attributes =
-        AttributeHelpers.append_attributes([], [
+        AttributeHelpers.append_attributes([
           [class: classes.content],
           !is_nil(is_expanded) &&
             ["aria-expanded": is_expanded |> Atom.to_string()]
@@ -1145,10 +1146,9 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.action_list_item],
         is_link && [role: "none"],
-        !is_link && is_selected && ["aria-selected": "true"],
-        is_select && !is_selected && ["aria-selected": "false"],
         !is_link && is_select && [role: "option"],
         assigns.is_disabled && ["aria-disabled": "true"]
+        # Don't use aria-selected on the list item, because the associated CSS prevents visual updates then updating the checkbox (see git history)
       ])
 
     assigns =
@@ -1482,7 +1482,7 @@ defmodule PrimerLive.Component do
     end
 
     nav_attributes =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: classes.nav],
         assigns[:aria_label] && ["aria-label": assigns[:aria_label]]
       ])
@@ -1779,7 +1779,7 @@ defmodule PrimerLive.Component do
     }
 
     body_attributes =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: classes.body],
         [role: "tablist"]
       ])
@@ -3229,7 +3229,7 @@ defmodule PrimerLive.Component do
     # If label is supplied, wrap it inside a label element
     # else use the default generated label
     header_label_attributes =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: assigns.classes.label],
         [for: assigns[:for] || nil]
       ])
@@ -3240,7 +3240,7 @@ defmodule PrimerLive.Component do
           nil
 
         assigns[:label] ->
-          Phoenix.HTML.Form.label(
+          Form.label(
             form,
             field,
             assigns[:label],
@@ -3248,11 +3248,11 @@ defmodule PrimerLive.Component do
           )
 
         true ->
-          humanize_label = Phoenix.HTML.Form.humanize(field)
+          humanize_label = Form.humanize(field)
 
           case humanize_label === "Nil" do
             true -> nil
-            false -> Phoenix.HTML.Form.label(form, field, header_label_attributes)
+            false -> Form.label(form, field, header_label_attributes)
           end
       end
 
@@ -3389,7 +3389,7 @@ defmodule PrimerLive.Component do
       ])
 
     attributes =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: class],
         [id: validation_message_id],
         ["phx-feedback-for": phx_feedback_for_id]
@@ -4691,8 +4691,7 @@ defmodule PrimerLive.Component do
           :name
         ]),
         [
-          [id: input_id],
-          [name: input_name],
+          [id: input_id, name: input_name],
           !is_nil(assigns[:checked]) && [checked: assigns[:checked]],
           assigns.input_type === :checkbox &&
             [hidden_input: assigns.hidden_input],
@@ -4708,10 +4707,10 @@ defmodule PrimerLive.Component do
     input =
       case assigns.input_type do
         :checkbox ->
-          Phoenix.HTML.Form.checkbox(form, field, input_opts)
+          Form.checkbox(form, field, input_opts)
 
         :radio_button ->
-          Phoenix.HTML.Form.radio_button(form, field, value, input_opts)
+          Form.radio_button(form, field, value, input_opts)
       end
 
     label_container_attributes = [
@@ -4930,6 +4929,11 @@ defmodule PrimerLive.Component do
     ```
     """
   )
+
+  attr :checked_value, :string,
+    default: nil,
+    doc:
+      "For internal use to ensure compatibility with \"single select\" radio buttons in `action_list/1`."
 
   attr(:rest, :global,
     doc: """
@@ -5212,7 +5216,7 @@ defmodule PrimerLive.Component do
       value = slot[:value]
       escaped_value = Phoenix.HTML.html_escape(value)
       id_prefix = if is_nil(assigns.id_prefix), do: "", else: assigns.id_prefix <> "-"
-      id = slot[:id] || id_prefix <> Phoenix.HTML.Form.input_id(form, field, escaped_value)
+      id = slot[:id] || id_prefix <> Form.input_id(form, field, escaped_value)
 
       input_opts =
         AttributeHelpers.append_attributes(initial_opts, [
@@ -5227,16 +5231,16 @@ defmodule PrimerLive.Component do
         ])
 
       label_opts =
-        AttributeHelpers.append_attributes([], [
+        AttributeHelpers.append_attributes([
           [
             class: classes.label
           ],
           [for: id]
         ])
 
-      derived_label = Phoenix.HTML.Form.humanize(value)
+      derived_label = Form.humanize(value)
 
-      input = Phoenix.HTML.Form.radio_button(form, field, value, input_opts)
+      input = Form.radio_button(form, field, value, input_opts)
 
       assigns =
         assigns
@@ -7031,7 +7035,7 @@ defmodule PrimerLive.Component do
     end
 
     menu_attributes =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: classes[:menu]]
       ])
 
@@ -7348,11 +7352,8 @@ defmodule PrimerLive.Component do
         didShow: function(elements) { /* */ }
         willHide: function(elements) { /* */ }
         didHide: function(elements) { /* */ }
-        getStatus: function(status) { /* */ }
       }">Menu</:toggle>
       ```
-
-      See also: https://github.com/ArthurClemens/dialogic-js#prompttoggle
       """
     )
 
@@ -7690,7 +7691,7 @@ defmodule PrimerLive.Component do
     }
 
     toggle_attrs =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: classes.toggle],
         ["aria-haspopup": "true"]
       ])
@@ -7765,14 +7766,14 @@ defmodule PrimerLive.Component do
       )
 
     menu_container_attrs =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: classes.menu_container],
         ["data-content": ""],
         ["aria-role": "menu"]
       ])
 
     backdrop_attrs =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         cond do
           assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
           assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
@@ -8010,6 +8011,27 @@ defmodule PrimerLive.Component do
 
   """
 
+  attr(:id, :string,
+    doc: """
+    Menu element id. If not set, an id is generated. Use to toggle from the outside, and to get consistent IDs in tests.
+    """
+  )
+
+  attr :form, :any,
+    doc: """
+    Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.
+    To maintain the open state when using the menu inside a form, pass the surrounding form.
+    """
+
+  attr :field, :any,
+    doc: """
+    Field name (atom or string).
+    To maintain the open state when using the menu inside a form, pass a unique atom, for example:
+    ```
+    field={:favorite_animal_toggle}
+    ```
+    """
+
   attr :is_dropdown_caret, :boolean, default: false, doc: "Adds a dropdown caret to the button."
   attr :is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right."
 
@@ -8108,7 +8130,6 @@ defmodule PrimerLive.Component do
     Generates a toggle element (default with button appearance) using the slot content as label.
 
     Any custom class will override the default class "btn".
-
     """ do
     attr(:options, :string,
       doc: """
@@ -8120,26 +8141,7 @@ defmodule PrimerLive.Component do
         didShow: function(elements) { /* */ }
         willHide: function(elements) { /* */ }
         didHide: function(elements) { /* */ }
-        getStatus: function(status) { /* */ }
       }">Menu</:toggle>
-      ```
-
-      See also: See: https://github.com/ArthurClemens/dialogic-js#prompttoggle
-
-      To keep the action menu open while interacting with its content, you can use `willHide` or `didHide` to initiate a form submit:
-
-      ```
-      <.action_menu>
-        <:toggle options="{
-          willHide: function(elements) {
-            elements.root.querySelector('form')
-              .dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
-          }
-        }">Menu</:toggle>
-        <.form :let={f} for={@changeset} phx-submit="save_user">
-          ...
-        </.form>
-      </.action_menu>
       ```
       """
     )
@@ -8170,6 +8172,11 @@ defmodule PrimerLive.Component do
   )
 
   def action_menu(assigns) do
+    %{
+      form: form,
+      field: field
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
+
     assigns_classes =
       Map.merge(
         %{
@@ -8229,52 +8236,20 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    toggle_attrs =
-      AttributeHelpers.append_attributes([], [
-        [class: classes.toggle],
-        ["aria-haspopup": "true"]
-      ])
-
-    action_menu_attrs =
-      AttributeHelpers.append_attributes(
-        assigns_to_attributes(assigns.rest, [
-          :open
-        ]),
-        [
-          [class: classes.action_menu],
-          ["data-prompt": ""],
-          [
-            ontoggle:
-              [
-                "window.Prompt && Prompt.init(this",
-                if toggle_slot[:options] do
-                  ", #{toggle_slot[:options]}"
-                end,
-                ")"
-              ]
-              |> Enum.join("")
-          ],
-          assigns.is_fast &&
-            (assigns.is_dark_backdrop ||
-               assigns.is_medium_backdrop ||
-               assigns.is_light_backdrop ||
-               assigns.is_backdrop) && ["data-isfast": ""]
-        ]
-      )
-
-    backdrop_attrs =
-      AttributeHelpers.append_attributes([], [
-        cond do
-          assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
-          assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
-          assigns.is_light_backdrop -> ["data-backdrop": "", "data-islight": ""]
-          assigns.is_backdrop -> ["data-backdrop": "", "data-islight": ""]
-          true -> []
-        end
-      ])
+    %{
+      toggle_attrs: toggle_attrs,
+      checkbox_attrs: checkbox_attrs,
+      menu_attrs: action_menu_attrs,
+      backdrop_attrs: backdrop_attrs
+    } =
+      AttributeHelpers.menu_toggle_attrs(assigns, form, field, %{
+        toggle_slot: toggle_slot,
+        toggle_class: classes.toggle,
+        menu_class: classes.action_menu
+      })
 
     menu_container_attrs =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: classes.menu_container],
         ["data-content": ""],
         ["aria-role": "menu"],
@@ -8283,33 +8258,39 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
       |> assign(:classes, classes)
       |> assign(:action_menu_attrs, action_menu_attrs)
+      |> assign(:checkbox_attrs, checkbox_attrs)
       |> assign(:toggle_attrs, toggle_attrs)
       |> assign(:toggle_slot, toggle_slot)
       |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:menu_container_attrs, menu_container_attrs)
 
     ~H"""
-    <details {@action_menu_attrs}>
-      <summary {@toggle_attrs}>
+    <div {@action_menu_attrs}>
+      <label {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
-      </summary>
-      <%= if @backdrop_attrs !== [] do %>
-        <div {@backdrop_attrs}></div>
-      <% end %>
-      <div data-touch=""></div>
-      <div class={@classes.menu}>
-        <div {@menu_container_attrs}>
-          <div class={@classes.menu_list}>
-            <%= render_slot(@inner_block) %>
+      </label>
+      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <div data-prompt-content>
+        <%= if @backdrop_attrs !== [] do %>
+          <div {@backdrop_attrs}></div>
+        <% end %>
+        <div data-touch="" onclick="window.Prompt && Prompt.hide(this)"></div>
+        <div class={@classes.menu}>
+          <div {@menu_container_attrs}>
+            <div class={@classes.menu_list}>
+              <%= render_slot(@inner_block) %>
+            </div>
           </div>
         </div>
       </div>
-    </details>
+    </div>
     """
   end
 
@@ -9888,7 +9869,7 @@ defmodule PrimerLive.Component do
     }
 
     item_attributes = fn is_last ->
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [
           class:
             AttributeHelpers.classnames([
@@ -10207,7 +10188,7 @@ defmodule PrimerLive.Component do
       ])
 
     img_attributes =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: class],
         [src: assigns.src],
         [width: assigns.width],
@@ -11507,7 +11488,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in PrimerLive.
+  Showing and hiding is done with JS function `Prompt`, included in PrimerLive.
   Function `Prompt.show` requires a selector. When placed inside the dialog component, the selector can be replaced with `this`:
 
   ```
@@ -11892,7 +11873,7 @@ defmodule PrimerLive.Component do
       ])
 
     close_button_attrs =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [is_close_button: true],
         ["aria-label": "Close"],
         [class: "Box-btn-octicon btn-octicon flex-shrink-0"],
@@ -11903,7 +11884,7 @@ defmodule PrimerLive.Component do
     max_width_css = assigns.max_width || @default_dialog_max_width_css
 
     box_attrs =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: classes.dialog],
         [classes: assigns.classes |> Map.drop([:dialog_wrapper, :dialog])],
         [is_scrollable: true],
@@ -11924,13 +11905,10 @@ defmodule PrimerLive.Component do
         [inner_block: assigns.inner_block]
       ])
 
-    touch_layer_attrs =
-      AttributeHelpers.append_attributes([], [
-        ["data-touch": ""]
-      ])
+    touch_layer_attrs = ["data-touch": ""]
 
     backdrop_attrs =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         cond do
           assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
           assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
@@ -11990,7 +11968,7 @@ defmodule PrimerLive.Component do
   </.drawer>
   ```
 
-  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in PrimerLive.
+  Showing and hiding is done with JS function `Prompt`, included in PrimerLive.
   Function `Prompt.show` requires a selector. When placed inside the drawer component, the selector can be replaced with `this`:
 
   ```
@@ -12196,13 +12174,10 @@ defmodule PrimerLive.Component do
         assigns[:focus_first] && ["data-focusfirst": assigns[:focus_first]]
       ])
 
-    touch_layer_attrs =
-      AttributeHelpers.append_attributes([], [
-        ["data-touch": ""]
-      ])
+    touch_layer_attrs = ["data-touch": ""]
 
     backdrop_attrs =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         cond do
           assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
           assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
@@ -12212,10 +12187,7 @@ defmodule PrimerLive.Component do
         end
       ])
 
-    content_attrs =
-      AttributeHelpers.append_attributes([], [
-        ["data-content": ""]
-      ])
+    content_attrs = ["data-content": ""]
 
     assigns =
       assigns

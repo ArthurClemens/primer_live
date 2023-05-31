@@ -29,9 +29,12 @@ function getCheckboxFromPromptContent(contentElement: HTMLElement) {
 }
 
 function getCheckboxFromSelectorOrElement(selectorOrElement: string | HTMLElement) {
-  let checkbox: HTMLInputElement | null;
+  let checkbox: HTMLInputElement | null = null;
   if (typeof selectorOrElement === "string") {
-    checkbox = document.querySelector(selectorOrElement);
+    const element: MaybeHTMLElement = document.querySelector(selectorOrElement);
+    if (element) {
+      checkbox = element.querySelector('input[type="checkbox"]');
+    }
   } else {
     checkbox = getCheckboxFromPromptContent(selectorOrElement);
   }

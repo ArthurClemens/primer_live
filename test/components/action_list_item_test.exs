@@ -115,8 +115,16 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item ActionList-item--navActive" role="none"><a href="/url" aria-current="page" aria-selected="true" class="ActionList-content" role="menuitem"><span class="ActionList-item-label">Item</span></a></li>
-             <li class="ActionList-item ActionList-item--navActive" aria-selected="true"><span class="ActionList-content"><span class="ActionList-item-label">Item</span></span></li>
+             <li class="ActionList-item ActionList-item--navActive" role="none">
+             <a href="/url" aria-current="page" aria-selected="true" class="ActionList-content" role="menuitem">
+             <span class="ActionList-item-label">Item</span>
+             </a>
+             </li>
+             <li class="ActionList-item ActionList-item--navActive">
+             <span class="ActionList-content">
+             <span class="ActionList-item-label">Item</span>
+             </span>
+             </li>
              """
              |> format_html()
   end
@@ -157,7 +165,7 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item" aria-selected="true" role="option">
+             <li class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -167,7 +175,7 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
              <span class="ActionList-item-label">Item</span>
              </span>
              </li>
-             <li class="ActionList-item" aria-selected="false" role="option">
+             <li class="ActionList-item" role="option">
              <span class="ActionList-content">
              <span class="ActionList-item-visual ActionList-item-visual--leading">
              <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
@@ -200,8 +208,8 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item" aria-selected="true" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
-             <li class="ActionList-item" aria-selected="false" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
+             <li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
+             <li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
              """
              |> format_html()
   end
@@ -219,9 +227,9 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item" aria-selected="true" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon">
+             <li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon">
              <input checked class="FormControl-checkbox" type="checkbox" value="true" /></span></span><span class="ActionList-item-label">Item</span></span></li>
-             <li class="ActionList-item" aria-selected="false" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon">
+             <li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon">
              <input class="FormControl-checkbox" type="checkbox" value="true" /></span></span><span class="ActionList-item-label">Item</span></span></li>
              """
              |> format_html()
@@ -246,8 +254,8 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item" aria-selected="true" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
-             <li class="ActionList-item" aria-selected="false" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
+             <li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
+             <li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
              """
              |> format_html()
   end
@@ -271,8 +279,8 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item" aria-selected="true" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
-             <li class="ActionList-item" aria-selected="false" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
+             <li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
+             <li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading">Icon</span><span class="ActionList-item-label">Item</span></span></li>
              """
              |> format_html()
   end
