@@ -48,6 +48,48 @@ The toggle slot is required for menus.
 
 - `toggle` - Generates a toggle element (default with button appearance) using the slot content as label.
 
+## Prompt
+
+The menu `toggle` element contains an `onclick` handler with `Prompt.show(this)` to open the menu. This Prompt command can also be called from outside the component.
+
+Both `Prompt.show` and `Prompt.hide` either take a selector, or `this` when used from inside the menu or dialog component.
+
+```
+<.button is_primary onclick="Prompt.show('#my-menu')">
+  Show menu from outside
+</.button>
+
+<.action_menu id="my-menu">
+  <:toggle>Show menu</:toggle>
+  <.action_list>
+    <.action_list_item>
+      One
+    </.action_list_item>
+    <.action_list_item>
+      Two
+    </.action_list_item>
+    <.action_list_item onclick="Prompt.hide(this)">
+      Hide from inside
+    </.action_list_item>
+  </.action_list>
+</.action_menu>
+```
+
+### Status callbacks
+
+Use attr `prompt_options` to pass JavaScript state callback functions.
+
+```
+<.action_menu prompt_options="{
+  willShow: function(elements) { console.log('willShow', elements) },
+  didShow: function(elements) { console.log('didShow', elements) },
+  willHide: function(elements) { console.log('willHide', elements) },
+  didHide: function(elements) { console.log('didHide', elements) }
+}">
+  ...
+</.action_menu>
+```
+
 ## Maintaining state in forms
 
 Under the hood, menu behavior is implemented through the "Prompt" hook that retrieves the open state and other relevant attributes from a hidden toggle checkbox.
