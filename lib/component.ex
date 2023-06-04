@@ -1,12 +1,23 @@
 defmodule PrimerLive.Component do
   @moduledoc """
-  PrimerLive components.
+  Component documentation.
   """
 
   use Phoenix.Component
   use Phoenix.HTML
 
-  alias PrimerLive.Helpers.{AttributeHelpers, FormHelpers, SchemaHelpers, ComponentHelpers}
+  require PrimerLive.Helpers.DeclarationHelpers
+  require PrimerLive.Helpers.PromptDeclarationHelpers
+
+  alias PrimerLive.Helpers.{
+    AttributeHelpers,
+    FormHelpers,
+    SchemaHelpers,
+    ComponentHelpers,
+    PromptDeclarationHelpers,
+    DeclarationHelpers
+  }
+
   alias PrimerLive.Theme
   alias Phoenix.HTML.Form
 
@@ -365,11 +376,7 @@ defmodule PrimerLive.Component do
     Sets ARIA attribute and classes for multi select checkmarks.
     """
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the action list element.
-    """
-  )
+  attr(:rest, :global)
 
   slot(:inner_block, required: true, doc: "Action list components.")
 
@@ -861,7 +868,7 @@ defmodule PrimerLive.Component do
 
     attr(:rest, :any,
       doc: """
-      Additional HTML attributes added to the action list element.
+      Additional HTML attributes added to the nested action list element.
       """
     )
   end
@@ -2156,7 +2163,7 @@ defmodule PrimerLive.Component do
       """
     end
 
-    menu_attributes =
+    menu_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.menu],
         ["aria-label": assigns.aria_label],
@@ -2168,10 +2175,10 @@ defmodule PrimerLive.Component do
       |> assign(:classes, classes)
       |> assign(:render_item, render_item)
       |> assign(:render_heading, render_heading)
-      |> assign(:menu_attributes, menu_attributes)
+      |> assign(:menu_attrs, menu_attrs)
 
     ~H"""
-    <nav {@menu_attributes}>
+    <nav {@menu_attrs}>
       <%= if @heading && @heading !== [] do %>
         <%= for slot <- @heading do %>
           <%= @render_heading.(slot) %>
@@ -6654,7 +6661,7 @@ defmodule PrimerLive.Component do
           assigns.classes[:header],
           assigns[:class]
         ]),
-      # item: # Set in item_attributes/1
+      # item: # Set in item_attrs/1
       link:
         AttributeHelpers.classnames([
           "Header-link",
@@ -6667,7 +6674,7 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    item_attributes = fn item ->
+    item_attrs = fn item ->
       # Don't pass item attributes to the HTML
       item_rest =
         assigns_to_attributes(item, [
@@ -6693,7 +6700,7 @@ defmodule PrimerLive.Component do
       |> assign(:classes, classes)
 
     render_item = fn item ->
-      {item_rest, item_class, item_classes} = item_attributes.(item)
+      {item_rest, item_class, item_classes} = item_attrs.(item)
 
       assigns =
         assigns
@@ -6733,7 +6740,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a dropdown menu.
 
-  Dropdowns are small context menus that can be used for navigation and actions. They are a simple alternative to [select menus](`select_menu/1`).
+  A dropdown is a small context menu that can be used for navigation and actions. It is a simple alternative to [`select menus`](`select_menu/1`).
 
   Menu items are rendered as link element.
 
@@ -6794,7 +6801,19 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, default: nil, doc: "Additional classname."
+  PromptDeclarationHelpers.id("Dropdown element id")
+  PromptDeclarationHelpers.form("the dropdown element")
+  PromptDeclarationHelpers.field("the dropdown")
+  PromptDeclarationHelpers.is_dropdown_caret(true)
+  PromptDeclarationHelpers.is_backdrop()
+  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_fast(true)
+  PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.toggle_slot()
+
+  DeclarationHelpers.class()
 
   attr :classes, :map,
     default: %{
@@ -6830,32 +6849,6 @@ defmodule PrimerLive.Component do
     Additional HTML attributes added to the outer element.
     """
   )
-
-  slot :toggle,
-    required: true,
-    doc: """
-    Generates a toggle element (default with button appearance) using the slot content as label.
-
-    Any custom class will override the default class "btn".
-    """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the toggle element.
-      """
-    )
-  end
 
   slot :menu,
     doc: """
@@ -6932,6 +6925,11 @@ defmodule PrimerLive.Component do
   end
 
   def dropdown(assigns) do
+    %{
+      form: form,
+      field: field
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
+
     # Get the first menu slot, if any
     menu_slot = if assigns[:menu] && assigns[:menu] !== [], do: hd(assigns[:menu]), else: []
 
@@ -6944,8 +6942,6 @@ defmodule PrimerLive.Component do
       dropdown:
         AttributeHelpers.classnames([
           "dropdown",
-          "details-reset",
-          "details-overlay",
           "d-inline-block",
           assigns.classes[:dropdown],
           assigns.class
@@ -6976,12 +6972,12 @@ defmodule PrimerLive.Component do
       item:
         AttributeHelpers.classnames([
           "dropdown-item"
-          # assigns.classes[:item] is conditionally set in item_attributes/2
+          # assigns.classes[:item] is conditionally set in item_attrs/2
         ]),
       divider:
         AttributeHelpers.classnames([
           "dropdown-divider"
-          # assigns.classes[:divider] is conditionally set in item_attributes/2
+          # assigns.classes[:divider] is conditionally set in item_attrs/2
         ]),
       header:
         AttributeHelpers.classnames([
@@ -6990,18 +6986,22 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    toggle_attrs =
-      AttributeHelpers.append_attributes(
-        assigns_to_attributes(toggle_slot, [
-          :class
-        ]),
-        [
-          [class: classes[:toggle]],
-          ["aria-haspopup": "true"]
-        ]
-      )
+    %{
+      toggle_attrs: toggle_attrs,
+      checkbox_attrs: checkbox_attrs,
+      menu_attrs: dropdown_menu_attrs,
+      backdrop_attrs: backdrop_attrs,
+      touch_layer_attrs: touch_layer_attrs
+    } =
+      AttributeHelpers.prompt_attrs(assigns, %{
+        form: form,
+        field: field,
+        toggle_options: toggle_slot[:options],
+        toggle_class: classes.toggle,
+        menu_class: classes.dropdown
+      })
 
-    item_attributes = fn item, is_divider ->
+    item_attrs = fn item, is_divider ->
       # Distinguish between link items and divider items:
       # - 'regular' item: is in fact a link element inside an li
       # - divider item: an li with "divider" class
@@ -7025,23 +7025,18 @@ defmodule PrimerLive.Component do
           item[:class]
         ])
 
-      item_attributes =
+      item_attrs =
         AttributeHelpers.append_attributes(item_rest, [
           [class: item_class],
           is_divider && [role: "separator"]
         ])
 
-      item_attributes
+      item_attrs
     end
-
-    menu_attributes =
-      AttributeHelpers.append_attributes([
-        [class: classes[:menu]]
-      ])
 
     assigns =
       assigns
-      |> assign(:menu_attributes, menu_attributes)
+      |> assign(:dropdown_menu_attrs, dropdown_menu_attrs)
       |> assign(:toggle_attrs, toggle_attrs)
       |> assign(:classes, classes)
       |> assign(:toggle_slot, toggle_slot)
@@ -7054,14 +7049,14 @@ defmodule PrimerLive.Component do
         assigns
         |> assign(:item, item)
         |> assign(:is_divider, is_divider)
-        |> assign(:item_attributes, item_attributes.(item, is_divider))
+        |> assign(:item_attrs, item_attrs.(item, is_divider))
 
       ~H"""
       <%= if @is_divider do %>
-        <li {@item_attributes}></li>
+        <li {@item_attrs}></li>
       <% else %>
         <li>
-          <Phoenix.Component.link {@item_attributes}>
+          <Phoenix.Component.link {@item_attrs}>
             <%= render_slot(@item) %>
           </Phoenix.Component.link>
         </li>
@@ -7073,13 +7068,13 @@ defmodule PrimerLive.Component do
       assigns
       |> assign(:render_item, render_item)
 
-    render_menu = fn menu_attributes ->
+    render_menu = fn menu_attrs ->
       assigns =
         assigns
-        |> assign(:menu_attributes, menu_attributes)
+        |> assign(:menu_attrs, menu_attrs)
 
       ~H"""
-      <ul {@menu_attributes}>
+      <ul {@menu_attrs}>
         <%= for item <- @item do %>
           <%= @render_item.(item) %>
         <% end %>
@@ -7087,27 +7082,50 @@ defmodule PrimerLive.Component do
       """
     end
 
+    menu_container_attrs =
+      AttributeHelpers.append_attributes([
+        [class: classes.menu],
+        ["data-content": ""],
+        ["aria-role": "menu"],
+        !is_nil(assigns[:menu_theme]) && Theme.html_attributes(assigns[:menu_theme])
+      ])
+
     assigns =
       assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
+      |> assign(:menu_container_attrs, menu_container_attrs)
       |> assign(:render_menu, render_menu)
+      |> assign(:checkbox_attrs, checkbox_attrs)
+      |> assign(:backdrop_attrs, backdrop_attrs)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
 
     ~H"""
-    <details class={@classes.dropdown} {@rest}>
-      <summary {@toggle_attrs}>
+    <div {@dropdown_menu_attrs}>
+      <label {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
-        <div class={@classes.caret}></div>
-      </summary>
-      <%= if not is_nil(@menu_title) do %>
-        <div {@menu_attributes}>
-          <div class={@classes.header}>
-            <%= @menu_title %>
+        <%= if @is_dropdown_caret do %>
+          <div class={@classes.caret}></div>
+        <% end %>
+      </label>
+      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <div data-prompt-content>
+        <%= if @backdrop_attrs !== [] do %>
+          <div {@backdrop_attrs}></div>
+        <% end %>
+        <div {@touch_layer_attrs}></div>
+        <%= if not is_nil(@menu_title) do %>
+          <div {@menu_container_attrs}>
+            <div class={@classes.header}>
+              <%= @menu_title %>
+            </div>
+            <%= @render_menu.([]) %>
           </div>
-          <%= @render_menu.([]) %>
-        </div>
-      <% else %>
-        <%= @render_menu.(@menu_attributes) %>
-      <% end %>
-    </details>
+        <% else %>
+          <%= @render_menu.(@menu_container_attrs) %>
+        <% end %>
+      </div>
+    </div>
     """
   end
 
@@ -7696,7 +7714,7 @@ defmodule PrimerLive.Component do
         ["aria-haspopup": "true"]
       ])
 
-    item_attributes = fn item ->
+    item_attrs = fn item ->
       is_selected = item[:is_selected]
       is_disabled = item[:is_disabled]
       is_link = AttributeHelpers.is_link?(item)
@@ -7797,7 +7815,7 @@ defmodule PrimerLive.Component do
         |> assign(:is_divider_content, is_divider_content)
         |> assign(:divider_attributes, divider_attributes)
         |> assign(:is_button, is_button)
-        |> assign(:item_attributes, item_attributes)
+        |> assign(:item_attrs, item_attrs)
         |> assign(:selected_octicon_name, selected_octicon_name)
         |> assign(:is_any_item_selected, is_any_item_selected)
         |> assign(:is_link, is_link)
@@ -7813,7 +7831,7 @@ defmodule PrimerLive.Component do
         <% end %>
       <% end %>
       <%= if @is_button do %>
-        <button {@item_attributes.(@item)}>
+        <button {@item_attrs.(@item)}>
           <%= if @is_any_item_selected do %>
             <.octicon name={@selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
           <% end %>
@@ -7821,7 +7839,7 @@ defmodule PrimerLive.Component do
         </button>
       <% end %>
       <%= if @is_link do %>
-        <Phoenix.Component.link {@item_attributes.(@item)}>
+        <Phoenix.Component.link {@item_attrs.(@item)}>
           <%= if @is_any_item_selected do %>
             <.octicon name={@selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
           <% end %>
@@ -8011,31 +8029,21 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:id, :string,
-    doc: """
-    Menu element id. If not set, an id is generated. Use to toggle from the outside, and to get consistent IDs in tests.
-    """
-  )
+  PromptDeclarationHelpers.id("Menu element id")
+  PromptDeclarationHelpers.form("the menu element")
+  PromptDeclarationHelpers.field("the menu")
+  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.is_backdrop()
+  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_fast(true)
+  PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.toggle_slot()
 
-  attr :form, :any,
-    doc: """
-    Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.
-    To maintain the open state when using the menu inside a form, pass the surrounding form.
-    """
-
-  attr :field, :any,
-    doc: """
-    Field name (atom or string).
-    To maintain the open state when using the menu inside a form, pass a unique atom, for example:
-    ```
-    field={:favorite_animal_toggle}
-    ```
-    """
-
-  attr :is_dropdown_caret, :boolean, default: false, doc: "Adds a dropdown caret to the button."
   attr :is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right."
 
-  attr :class, :string, doc: "Additional classname."
+  DeclarationHelpers.class()
 
   attr :classes, :map,
     default: %{
@@ -8065,42 +8073,12 @@ defmodule PrimerLive.Component do
     ```
     """
 
-  attr :is_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a light backdrop background color.
-    """
-
-  attr :is_dark_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a darker backdrop background color.
-    """
-
-  attr :is_medium_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a medium backdrop background color.
-    """
-
-  attr :is_light_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a lighter backdrop background color (default).
-    """
-
-  attr :is_fast, :boolean,
-    default: true,
-    doc: """
-    Generates fast fade transitions for backdrop and content.
-    """
-
   attr :menu_theme, :map,
     default: nil,
     doc: """
     Sets the theme of the menu, including the dropdown shadow, but excluding the toggle button. This is useful when the button resides in a part with a different theme, such as a dark header.
 
-    Pass a a map with all theme state keys. See `theme/1`.
+    Pass a map with all theme state keys. See `theme/1`.
 
     Example:
     ```
@@ -8123,47 +8101,6 @@ defmodule PrimerLive.Component do
     Additional HTML attributes added to the outer element.
     """
   )
-
-  slot :toggle,
-    required: true,
-    doc: """
-    Generates a toggle element (default with button appearance) using the slot content as label.
-
-    Any custom class will override the default class "btn".
-    """ do
-    attr(:options, :string,
-      doc: """
-      Toggle options as string. For example:
-
-      ```
-      <:toggle options="{
-        willShow: function(elements) { /* */ }
-        didShow: function(elements) { /* */ }
-        willHide: function(elements) { /* */ }
-        didHide: function(elements) { /* */ }
-      }">Menu</:toggle>
-      ```
-      """
-    )
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
-  end
 
   slot(:inner_block,
     doc: """
@@ -8196,8 +8133,6 @@ defmodule PrimerLive.Component do
     classes = %{
       action_menu:
         AttributeHelpers.classnames([
-          "details-reset",
-          "details-overlay",
           assigns_classes[:action_menu],
           assigns[:class]
         ]),
@@ -8240,10 +8175,13 @@ defmodule PrimerLive.Component do
       toggle_attrs: toggle_attrs,
       checkbox_attrs: checkbox_attrs,
       menu_attrs: action_menu_attrs,
-      backdrop_attrs: backdrop_attrs
+      backdrop_attrs: backdrop_attrs,
+      touch_layer_attrs: touch_layer_attrs
     } =
-      AttributeHelpers.menu_toggle_attrs(assigns, form, field, %{
-        toggle_slot: toggle_slot,
+      AttributeHelpers.prompt_attrs(assigns, %{
+        form: form,
+        field: field,
+        toggle_options: toggle_slot[:options],
         toggle_class: classes.toggle,
         menu_class: classes.action_menu
       })
@@ -8266,6 +8204,7 @@ defmodule PrimerLive.Component do
       |> assign(:toggle_attrs, toggle_attrs)
       |> assign(:toggle_slot, toggle_slot)
       |> assign(:backdrop_attrs, backdrop_attrs)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:menu_container_attrs, menu_container_attrs)
 
     ~H"""
@@ -8281,7 +8220,7 @@ defmodule PrimerLive.Component do
         <%= if @backdrop_attrs !== [] do %>
           <div {@backdrop_attrs}></div>
         <% end %>
-        <div data-touch="" onclick="window.Prompt && Prompt.hide(this)"></div>
+        <div {@touch_layer_attrs}></div>
         <div class={@classes.menu}>
           <div {@menu_container_attrs}>
             <div class={@classes.menu_list}>
@@ -9868,7 +9807,7 @@ defmodule PrimerLive.Component do
       link: assigns.classes[:link]
     }
 
-    item_attributes = fn is_last ->
+    item_attrs = fn is_last ->
       AttributeHelpers.append_attributes([
         [
           class:
@@ -9901,7 +9840,7 @@ defmodule PrimerLive.Component do
       assigns
       |> assign(:classes, classes)
       |> assign(:items_data, items_data)
-      |> assign(:item_attributes, item_attributes)
+      |> assign(:item_attrs, item_attrs)
       |> assign(:link_attributes, link_attributes)
 
     ~H"""
@@ -9909,7 +9848,7 @@ defmodule PrimerLive.Component do
       <%= if @items_data !== [] do %>
         <ol>
           <%= for {item, is_last} <- @items_data do %>
-            <li {@item_attributes.(is_last)}>
+            <li {@item_attrs.(is_last)}>
               <Phoenix.Component.link {@link_attributes.(item)}>
                 <%= render_slot(item) %>
               </Phoenix.Component.link>

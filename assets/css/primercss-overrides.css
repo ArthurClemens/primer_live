@@ -609,7 +609,7 @@ span.ActionList-content[aria-expanded] {
 }
 
 /* Box--overlay: prevent shadow for push drawer when not showing. */
-[data-prompt][data-isdrawer]:not([data-isshowing]) [data-drawer-content].Box--overlay {
+[data-prompt][data-isdrawer]:not(:checked) [data-drawer-content].Box--overlay {
   box-shadow: none;
 }
 

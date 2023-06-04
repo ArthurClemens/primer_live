@@ -25,50 +25,64 @@ GENERAL
 ----------------------------------------------------- */
 
 /* Hide inner elements as long as prompt is not open */
-[data-prompt]>input[type="checkbox"]:not([data-ishiding])+[data-prompt-content] [data-touch] {
+
+/* -- Hide completely until mounted to prevent flashes of transitioning content and background. */
+[data-prompt]>input[type="checkbox"]:not([data-ismounted])+[data-prompt-content] {
   display: none;
 }
 
-[data-prompt]>input[type="checkbox"]:not([data-ishiding])+[data-prompt-content] [data-backdrop],
-[data-prompt]>input[type="checkbox"]:not([data-ishiding])+[data-prompt-content] [data-content] {
+[data-prompt]>input[type="checkbox"][data-ismounted]+[data-prompt-content] {
+  display: block;
   visibility: hidden;
+}
+
+[data-prompt]>input[type=checkbox]:checked+[data-prompt-content] {
+  visibility: visible;
+}
+
+/* -- The touch layer is not transitioning, so display none/block is sufficient. */
+[data-prompt]>input[type="checkbox"]+[data-prompt-content] [data-touch] {
+  display: none;
 }
 
 [data-prompt]>input[type="checkbox"]:checked+[data-prompt-content] [data-touch] {
   display: block;
 }
 
-[data-prompt]>input[type="checkbox"]:checked+[data-prompt-content] [data-backdrop],
-[data-prompt]>input[type="checkbox"]:checked+[data-prompt-content] [data-content] {
-  visibility: visible;
-}
-
 /* Hide checkbox element */
-[data-prompt]>input[type="checkbox"] {
+[data-prompt] input[type="checkbox"][aria-hidden="true"] {
   visibility: hidden;
   height: 0;
   width: 0;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-  pointer-events: none;
   position: absolute;
 }
 
 /* Add a transition to the checkbox so we can receive a transitionend evennt */
 [data-prompt]>input[type="checkbox"] {
   transition-property: opacity;
-  transition-delay: var(--prompt-transition-duration-backdrop);
   transition-duration: 0ms;
   opacity: 1;
 }
 
-[data-prompt]>input[type="checkbox"][data-isshowing] {
+[data-prompt]>input[type="checkbox"] {
+  transition-delay: var(--prompt-transition-duration-content);
+}
+
+[data-prompt][data-isfast]>input[type="checkbox"] {
+  transition-delay: var(--prompt-fast-transition-duration-content);
+}
+
+[data-prompt]>input[type="checkbox"]:checked {
   opacity: 0.5;
 }
 
 [data-prompt]>input[type="checkbox"][data-ishiding] {
   opacity: 0;
+}
+
+/* Ensure correct absolute positioning within content container. */
+[data-prompt]>input[type="checkbox"]+[data-prompt-content] {
+  position: relative;
 }
 
 /* Ignore any clicks on the backdrop layer. */
@@ -86,7 +100,7 @@ GENERAL
 /* Set content size and set up fade */
 [data-prompt]:not([data-isdrawer]) [data-content] {
   z-index: var(--prompt-z-index-content);
-  transition-property: opacity;
+  transition-property: opacity, visibility;
   transition-timing-function: var(--prompt-transition-timing-function-content);
   opacity: 0;
 }
@@ -119,7 +133,7 @@ TOUCH AND BACKDROP
 [data-prompt] [data-backdrop] {
   background: var(--prompt-background-color-backdrop);
   opacity: 0;
-  transition-property: opacity;
+  transition-property: opacity, visibility;
   transition-timing-function: var(--prompt-transition-timing-function-backdrop);
 }
 
@@ -190,7 +204,7 @@ DRAWER
 /* Drawer content */
 [data-prompt][data-isdrawer] [data-content] {
   z-index: var(--prompt-z-index-content);
-  transition-property: transform;
+  transition-property: transform, visibility;
   transition-timing-function: var(--prompt-transition-timing-function-content);
   position: fixed;
   height: 100%;
@@ -246,7 +260,7 @@ DRAWER
 
 /* Appear: slide in */
 [data-prompt][data-isdrawer] input[type="checkbox"]:checked+[data-prompt-content] [data-content],
-[dir="rtl"] [data-prompt][data-isdrawer] input[type="checkbox"]:checked [data-content] {
+[dir="rtl"] [data-prompt][data-isdrawer] input[type="checkbox"]:checked+[data-prompt-content] [data-content] {
   transform: translateX(0);
 }
 
@@ -259,8 +273,8 @@ DRAWER
 }
 
 /* Push drawer: touch and backdrop */
-[data-prompt][data-ispush] [data-prompt-content] [data-touch],
-[data-prompt][data-ispush] [data-prompt-content] [data-backdrop] {
+[data-prompt][data-ispush]+[data-prompt-content] [data-touch],
+[data-prompt][data-ispush]+[data-prompt-content] [data-backdrop] {
   z-index: 1;
   position: absolute;
 }

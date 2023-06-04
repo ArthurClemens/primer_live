@@ -11,12 +11,17 @@ type PromptOptions = {
     willHide?: (elements?: PromptElements) => void;
     didHide?: (elements?: PromptElements) => void;
 };
-export declare const Prompt: {
-    mounted(): void;
-    change: (checkbox: HTMLInputElement, options?: PromptOptions) => void;
+type TPrompt = {
+    el?: MaybeHTMLElement;
+    checkbox?: MaybeHTMLElement;
+    init: () => void;
+    mounted: () => void;
+    updated: () => void;
+    change: (checkbox: HTMLInputElement, options: PromptOptions) => void;
     hide: (selectorOrElement: string | HTMLElement) => void;
     show: (selectorOrElement: string | HTMLElement) => void;
 };
+export declare const Prompt: TPrompt;
 declare global {
     interface Window {
         Prompt?: typeof Prompt;
