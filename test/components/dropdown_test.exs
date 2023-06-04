@@ -10,7 +10,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.dropdown>
+           <.dropdown id="querty">
              <:toggle>Menu</:toggle>
              <:item href="#url">
                href link
@@ -25,15 +25,19 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            """)
            |> format_html() ==
              """
-             <details class="dropdown details-reset details-overlay d-inline-block">
-             <summary class="btn" aria-haspopup="true">Menu<div class="dropdown-caret"></div>
-             </summary>
-             <ul class="dropdown-menu dropdown-menu-se">
+             <div class="dropdown d-inline-block" data-prompt="" id="querty" phx-hook="Prompt" data-isfast="">
+             <label class="btn" aria-haspopup="true" for="querty-toggle">Menu<div class="dropdown-caret"></div>
+             </label>
+             <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
+              <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <ul class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
              <li><a href="#url" class="dropdown-item">href link</a></li>
              <li><a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="dropdown-item">navigate link</a></li>
              <li><a href="#url" data-phx-link="patch" data-phx-link-state="push" class="dropdown-item">patch link</a></li>
              </ul>
-             </details>
+             </div>
+             </div>
              """
              |> format_html()
   end
@@ -42,7 +46,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.dropdown>
+           <.dropdown id="querty">
              <:toggle>Menu</:toggle>
              <:menu title="Menu title" />
              <:item href="#url">
@@ -55,17 +59,21 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            """)
            |> format_html() ==
              """
-             <details class="dropdown details-reset details-overlay d-inline-block">
-             <summary class="btn" aria-haspopup="true">Menu<div class="dropdown-caret"></div>
-             </summary>
-             <div class="dropdown-menu dropdown-menu-se">
-             <div class="dropdown-header">Menu title</div>
-             <ul>
-             <li><a href="#url" class="dropdown-item">Item 1</a></li>
-             <li><a href="#url" class="dropdown-item">Item 2</a></li>
-             </ul>
+             <div class="dropdown d-inline-block" data-prompt="" id="querty" phx-hook="Prompt" data-isfast="">
+             <label class="btn" aria-haspopup="true" for="querty-toggle">Menu<div class="dropdown-caret"></div>
+             </label>
+             <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
+              <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+              <div class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
+              <div class="dropdown-header">Menu title</div>
+              <ul>
+              <li><a href="#url" class="dropdown-item">Item 1</a></li>
+              <li><a href="#url" class="dropdown-item">Item 2</a></li>
+              </ul>
              </div>
-             </details>
+             </div>
+             </div>
              """
              |> format_html()
   end
@@ -74,7 +82,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.dropdown>
+           <.dropdown id="querty">
              <:toggle>Menu</:toggle>
              <:menu position="e" />
              <:item href="#url">
@@ -87,14 +95,18 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            """)
            |> format_html() ==
              """
-             <details class="dropdown details-reset details-overlay d-inline-block">
-             <summary class="btn" aria-haspopup="true">Menu<div class="dropdown-caret"></div>
-             </summary>
-             <ul class="dropdown-menu dropdown-menu-e">
+             <div class="dropdown d-inline-block" data-prompt="" id="querty" phx-hook="Prompt" data-isfast="">
+             <label class="btn" aria-haspopup="true" for="querty-toggle">Menu<div class="dropdown-caret"></div>
+             </label>
+             <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
+              <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <ul class="dropdown-menu dropdown-menu-e" data-content="" aria-role="menu">
              <li><a href="#url" class="dropdown-item">Item 1</a></li>
              <li><a href="#url" class="dropdown-item">Item 2</a></li>
              </ul>
-             </details>
+             </div>
+             </div>
              """
              |> format_html()
   end
@@ -103,7 +115,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.dropdown>
+           <.dropdown id="querty">
              <:toggle>Menu</:toggle>
              <:item href="#url">
                Item 1
@@ -115,14 +127,18 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            """)
            |> format_html() ==
              """
-             <details class="dropdown details-reset details-overlay d-inline-block">
-             <summary class="btn" aria-haspopup="true">Menu<div class="dropdown-caret"></div>
-             </summary>
-             <ul class="dropdown-menu dropdown-menu-se">
+             <div class="dropdown d-inline-block" data-prompt="" id="querty" phx-hook="Prompt" data-isfast="">
+             <label class="btn" aria-haspopup="true" for="querty-toggle">Menu<div class="dropdown-caret"></div>
+             </label>
+             <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
+              <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <ul class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
              <li><a href="#url" class="dropdown-item">Item 1</a></li>
              <li><a href="#url" class="dropdown-item">Item 2</a></li>
              </ul>
-             </details>
+             </div>
+             </div>
              """
              |> format_html()
   end
@@ -131,7 +147,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.dropdown>
+           <.dropdown id="querty">
              <:toggle>Menu</:toggle>
              <:item href="#url">
                Item 1
@@ -148,17 +164,21 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            """)
            |> format_html() ==
              """
-             <details class="dropdown details-reset details-overlay d-inline-block">
-             <summary class="btn" aria-haspopup="true">Menu<div class="dropdown-caret"></div>
-             </summary>
-             <ul class="dropdown-menu dropdown-menu-se">
+             <div class="dropdown d-inline-block" data-prompt="" id="querty" phx-hook="Prompt" data-isfast="">
+             <label class="btn" aria-haspopup="true" for="querty-toggle">Menu<div class="dropdown-caret"></div>
+             </label>
+             <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
+              <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <ul class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
              <li><a href="#url" class="dropdown-item">Item 1</a></li>
              <li><a href="#url" class="dropdown-item">Item 2</a></li>
              <li class="dropdown-divider" role="separator"></li>
              <li class="dropdown-divider my-divider" role="separator"></li>
              <li><a href="#url" class="dropdown-item">Item 3</a></li>
              </ul>
-             </details>
+             </div>
+             </div>
              """
              |> format_html()
   end
@@ -168,6 +188,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
 
     assert rendered_to_string(~H"""
            <.dropdown
+             id="querty"
              class="my-dropdown"
              classes={
                %{
@@ -181,7 +202,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
                }
              }
            >
-             <:toggle class="my-toggle" dir="rtl">Menu</:toggle>
+             <:toggle class="my-toggle">Menu</:toggle>
              <:menu title="Menu title" />
              <:item href="#url" class="my-item">
                Item 1
@@ -197,10 +218,13 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            """)
            |> format_html() ==
              """
-             <details class="dropdown details-reset details-overlay d-inline-block dropdown-x my-dropdown">
-             <summary dir="rtl" class="toggle-x my-toggle" aria-haspopup="true">Menu<div class="dropdown-caret caret-x"></div>
-             </summary>
-             <div class="dropdown-menu dropdown-menu-se menu-x">
+             <div class="dropdown d-inline-block dropdown-x my-dropdown" data-prompt="" id="querty" phx-hook="Prompt" data-isfast="">
+             <label class="toggle-x my-toggle" aria-haspopup="true" for="querty-toggle">Menu<div class="dropdown-caret caret-x"></div>
+             </label>
+             <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
+             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div class="dropdown-menu dropdown-menu-se menu-x" data-content="" aria-role="menu">
              <div class="dropdown-header header-x">Menu title</div>
              <ul>
              <li><a href="#url" class="dropdown-item item-x my-item">Item 1</a></li>
@@ -209,7 +233,8 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              <li><a href="#url" class="dropdown-item item-x">Item 3</a></li>
              </ul>
              </div>
-             </details>
+             </div>
+             </div>
              """
              |> format_html()
   end
@@ -218,7 +243,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.dropdown dir="rtl">
+           <.dropdown id="querty" dir="rtl">
              <:toggle>Menu</:toggle>
              <:item href="#url">
                Item 1
@@ -230,42 +255,18 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            """)
            |> format_html() ==
              """
-             <details class="dropdown details-reset details-overlay d-inline-block" dir="rtl">
-             <summary class="btn" aria-haspopup="true">Menu<div class="dropdown-caret"></div>
-             </summary>
-             <ul class="dropdown-menu dropdown-menu-se">
+             <div dir="rtl" class="dropdown d-inline-block" data-prompt="" id="querty" phx-hook="Prompt" data-isfast="">
+             <label class="btn" aria-haspopup="true" for="querty-toggle">Menu<div class="dropdown-caret"></div>
+             </label>
+             <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
+             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <ul class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
              <li><a href="#url" class="dropdown-item">Item 1</a></li>
              <li><a href="#url" class="dropdown-item">Item 2</a></li>
              </ul>
-             </details>
-             """
-             |> format_html()
-  end
-
-  test "Extra attributes: open" do
-    assigns = %{}
-
-    assert rendered_to_string(~H"""
-           <.dropdown open>
-             <:toggle>Menu</:toggle>
-             <:item href="#url">
-               Item 1
-             </:item>
-             <:item href="#url">
-               Item 2
-             </:item>
-           </.dropdown>
-           """)
-           |> format_html() ==
-             """
-             <details class="dropdown details-reset details-overlay d-inline-block" open>
-             <summary class="btn" aria-haspopup="true">Menu<div class="dropdown-caret"></div>
-             </summary>
-             <ul class="dropdown-menu dropdown-menu-se">
-             <li><a href="#url" class="dropdown-item">Item 1</a></li>
-             <li><a href="#url" class="dropdown-item">Item 2</a></li>
-             </ul>
-             </details>
+             </div>
+             </div>
              """
              |> format_html()
   end

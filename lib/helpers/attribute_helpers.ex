@@ -678,8 +678,155 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     }
   end
 
-  def menu_toggle_attrs(assigns, form, field, %{
-        toggle_slot: toggle_slot,
+  @doc ~S"""
+  Extracts menu/dialog prompt attributes.
+
+  ## Tests
+
+      Default values (with attr id to prevent getting random values in tests):
+      iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
+      ...>   %{
+      ...>     rest: %{
+      ...>       id: "some-id"
+      ...>     },
+      ...>     prompt_options: nil,
+      ...>     is_fast: false,
+      ...>     is_dark_backdrop: false,
+      ...>     is_medium_backdrop: false,
+      ...>     is_light_backdrop: false,
+      ...>     is_backdrop: false
+      ...>   },
+      ...>   %{
+      ...>     form: nil,
+      ...>     field: nil,
+      ...>     toggle_options: nil,
+      ...>     toggle_class: "btn",
+      ...>     menu_class: "",
+      ...>   })
+      %{
+        backdrop_attrs: [],
+        checkbox_attrs: [
+          id: "some-id-toggle",
+          "aria-hidden": "true",
+          hidden_input: false,
+          onchange: "window.Prompt && Prompt.change(this)"
+        ],
+        menu_attrs: [
+          class: "",
+          "data-prompt": "",
+          id: "some-id",
+          "phx-hook": "Prompt"
+        ],
+        toggle_attrs: [
+          class: "btn",
+          "aria-haspopup": "true",
+          for: "some-id-toggle"
+        ],
+        touch_layer_attrs: ["data-touch": "", onclick: "window.Prompt && Prompt.hide(this)"]
+      }
+
+      Backdrop settings:
+      iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
+      ...>   %{
+      ...>     rest: %{
+      ...>       id: "some-id"
+      ...>     },
+      ...>     prompt_options: nil,
+      ...>     is_fast: true,
+      ...>     is_dark_backdrop: false,
+      ...>     is_medium_backdrop: true,
+      ...>     is_light_backdrop: false,
+      ...>     is_backdrop: true
+      ...>   },
+      ...>   %{
+      ...>     form: nil,
+      ...>     field: nil,
+      ...>     toggle_options: nil,
+      ...>     toggle_class: "btn",
+      ...>     menu_class: "",
+      ...>   })
+      %{
+        backdrop_attrs: [
+          "data-backdrop": "",
+          "data-ismedium": "",
+        ],
+        checkbox_attrs: [
+          id: "some-id-toggle",
+          "aria-hidden": "true",
+          hidden_input: false,
+          onchange: "window.Prompt && Prompt.change(this)"
+        ],
+        menu_attrs: [
+          class: "",
+          "data-prompt": "",
+          id: "some-id",
+          "phx-hook": "Prompt",
+          "data-isfast": ""
+        ],
+        toggle_attrs: [
+          class: "btn",
+          "aria-haspopup": "true",
+          for: "some-id-toggle"
+        ],
+        touch_layer_attrs: ["data-touch": "", onclick: "window.Prompt && Prompt.hide(this)"]
+      }
+
+      With form:
+      iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
+      ...>   %{
+      ...>     rest: %{},
+      ...>     prompt_options: nil,
+      ...>     is_fast: true,
+      ...>     is_dark_backdrop: true,
+      ...>     is_medium_backdrop: false,
+      ...>     is_light_backdrop: false,
+      ...>     is_backdrop: true
+      ...>   },
+      ...>   %{
+      ...>     form: %Phoenix.HTML.Form{
+      ...>       source: %Ecto.Changeset{
+      ...>         action: :update,
+      ...>         changes: [],
+      ...>         errors: [],
+      ...>         data: nil,
+      ...>         valid?: true
+      ...>       },
+      ...>     },
+      ...>     field: :job,
+      ...>     toggle_options: nil,
+      ...>     toggle_class: "btn",
+      ...>     menu_class: "my-menu",
+      ...>   })
+      %{
+        backdrop_attrs: [
+          "data-backdrop": "",
+          "data-isdark": "",
+        ],
+        checkbox_attrs: [
+          id: "job",
+          "aria-hidden": "true",
+          hidden_input: true,
+          onchange: "window.Prompt && Prompt.change(this)"
+        ],
+        menu_attrs: [
+          class: "my-menu",
+          "data-prompt": "",
+          id: "menu-job",
+          "phx-hook": "Prompt",
+          "data-isfast": ""
+        ],
+        toggle_attrs: [
+          class: "btn",
+          "aria-haspopup": "true",
+          for: "job"
+        ],
+        touch_layer_attrs: ["data-touch": "", onclick: "window.Prompt && Prompt.hide(this)"]
+      }
+  """
+  def prompt_attrs(assigns, %{
+        form: form,
+        field: field,
+        toggle_options: toggle_options,
         toggle_class: toggle_class,
         menu_class: menu_class
       }) do
@@ -698,28 +845,40 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       for: toggle_id
     ]
 
-    checkbox_attrs = [
-      id: toggle_id,
-      "aria-hidden": "true",
-      onchange:
+    if !is_nil(toggle_options) && Application.get_env(:primer_live, :env) !== :test do
+      IO.puts("Deprecated: pass options to the main component as prompt_options.")
+    end
+
+    prompt_options = assigns[:prompt_options] || toggle_options
+
+    checkbox_attrs =
+      append_attributes([
         [
-          "window.Prompt && Prompt.change(this",
-          if toggle_slot[:options] do
-            ", #{toggle_slot[:options]}"
-          end,
-          ")"
+          id: toggle_id,
+          "aria-hidden": "true",
+          # Only use the default extra hidden input when using the menu inside a form
+          hidden_input: !is_nil(field),
+          onchange:
+            [
+              "window.Prompt && Prompt.change(this",
+              if prompt_options do
+                ", #{prompt_options}"
+              end,
+              ")"
+            ]
+            |> Enum.join("")
         ]
-        |> Enum.join("")
-    ]
+      ])
 
     menu_attrs =
-      append_attributes([
-        [class: menu_class, "data-prompt": "", id: id],
-        assigns.is_fast &&
-          (assigns.is_dark_backdrop ||
-             assigns.is_medium_backdrop ||
-             assigns.is_light_backdrop ||
-             assigns.is_backdrop) && ["data-isfast": ""]
+      append_attributes(assigns.rest |> Map.drop([:id]), [
+        [
+          class: menu_class,
+          "data-prompt": "",
+          id: id || "menu-" <> toggle_id,
+          "phx-hook": "Prompt"
+        ],
+        assigns.is_fast && ["data-isfast": ""]
       ])
 
     backdrop_attrs =
@@ -733,11 +892,17 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         end
       ])
 
+    touch_layer_attrs = [
+      "data-touch": "",
+      onclick: "window.Prompt && Prompt.hide(this)"
+    ]
+
     %{
       toggle_attrs: toggle_attrs,
       checkbox_attrs: checkbox_attrs,
       menu_attrs: menu_attrs,
-      backdrop_attrs: backdrop_attrs
+      backdrop_attrs: backdrop_attrs,
+      touch_layer_attrs: touch_layer_attrs
     }
   end
 end

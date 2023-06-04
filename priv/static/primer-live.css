@@ -26319,41 +26319,47 @@ a.branch-name .octicon {
   --prompt-z-index-touch: 99;
   --prompt-z-index-content: 100;
 }
-[data-prompt] > input[type=checkbox]:not([data-ishiding]) + [data-prompt-content] [data-touch] {
+[data-prompt] > input[type=checkbox]:not([data-ismounted]) + [data-prompt-content] {
   display: none;
 }
-[data-prompt] > input[type=checkbox]:not([data-ishiding]) + [data-prompt-content] [data-backdrop],
-[data-prompt] > input[type=checkbox]:not([data-ishiding]) + [data-prompt-content] [data-content] {
+[data-prompt] > input[type=checkbox][data-ismounted] + [data-prompt-content] {
+  display: block;
   visibility: hidden;
+}
+[data-prompt] > input[type=checkbox]:checked + [data-prompt-content] {
+  visibility: visible;
+}
+[data-prompt] > input[type=checkbox] + [data-prompt-content] [data-touch] {
+  display: none;
 }
 [data-prompt] > input[type=checkbox]:checked + [data-prompt-content] [data-touch] {
   display: block;
 }
-[data-prompt] > input[type=checkbox]:checked + [data-prompt-content] [data-backdrop],
-[data-prompt] > input[type=checkbox]:checked + [data-prompt-content] [data-content] {
-  visibility: visible;
-}
-[data-prompt] > input[type=checkbox] {
+[data-prompt] input[type=checkbox][aria-hidden=true] {
   visibility: hidden;
   height: 0;
   width: 0;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-  pointer-events: none;
   position: absolute;
 }
 [data-prompt] > input[type=checkbox] {
   transition-property: opacity;
-  transition-delay: var(--prompt-transition-duration-backdrop);
   transition-duration: 0ms;
   opacity: 1;
 }
-[data-prompt] > input[type=checkbox][data-isshowing] {
+[data-prompt] > input[type=checkbox] {
+  transition-delay: var(--prompt-transition-duration-content);
+}
+[data-prompt][data-isfast] > input[type=checkbox] {
+  transition-delay: var(--prompt-fast-transition-duration-content);
+}
+[data-prompt] > input[type=checkbox]:checked {
   opacity: 0.5;
 }
 [data-prompt] > input[type=checkbox][data-ishiding] {
   opacity: 0;
+}
+[data-prompt] > input[type=checkbox] + [data-prompt-content] {
+  position: relative;
 }
 [data-prompt] [data-backdrop] {
   pointer-events: none;
@@ -26365,7 +26371,7 @@ a.branch-name .octicon {
 }
 [data-prompt]:not([data-isdrawer]) [data-content] {
   z-index: var(--prompt-z-index-content);
-  transition-property: opacity;
+  transition-property: opacity, visibility;
   transition-timing-function: var(--prompt-transition-timing-function-content);
   opacity: 0;
 }
@@ -26386,7 +26392,7 @@ a.branch-name .octicon {
 [data-prompt] [data-backdrop] {
   background: var(--prompt-background-color-backdrop);
   opacity: 0;
-  transition-property: opacity;
+  transition-property: opacity, visibility;
   transition-timing-function: var(--prompt-transition-timing-function-backdrop);
 }
 [data-prompt]:not([data-isfast]) [data-backdrop] {
@@ -26426,7 +26432,7 @@ a.branch-name .octicon {
 }
 [data-prompt][data-isdrawer] [data-content] {
   z-index: var(--prompt-z-index-content);
-  transition-property: transform;
+  transition-property: transform, visibility;
   transition-timing-function: var(--prompt-transition-timing-function-content);
   position: fixed;
   height: 100%;
@@ -26468,7 +26474,7 @@ a.branch-name .octicon {
   transform: translateX(-100%);
 }
 [data-prompt][data-isdrawer] input[type=checkbox]:checked + [data-prompt-content] [data-content],
-[dir=rtl] [data-prompt][data-isdrawer] input[type=checkbox]:checked [data-content] {
+[dir=rtl] [data-prompt][data-isdrawer] input[type=checkbox]:checked + [data-prompt-content] [data-content] {
   transform: translateX(0);
 }
 [data-prompt][data-islocal] [data-touch],
@@ -26477,8 +26483,8 @@ a.branch-name .octicon {
   position: absolute;
   z-index: initial;
 }
-[data-prompt][data-ispush] [data-prompt-content] [data-touch],
-[data-prompt][data-ispush] [data-prompt-content] [data-backdrop] {
+[data-prompt][data-ispush] + [data-prompt-content] [data-touch],
+[data-prompt][data-ispush] + [data-prompt-content] [data-backdrop] {
   z-index: 1;
   position: absolute;
 }
@@ -26987,7 +26993,7 @@ span.ActionList-content[aria-expanded] {
 [data-prompt][data-isdrawer] [data-drawer-content].Box--overlay {
   width: initial;
 }
-[data-prompt][data-isdrawer]:not([data-isshowing]) [data-drawer-content].Box--overlay {
+[data-prompt][data-isdrawer]:not(:checked) [data-drawer-content].Box--overlay {
   box-shadow: none;
 }
 .tabnav-tab--small {

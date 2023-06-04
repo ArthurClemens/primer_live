@@ -1,8 +1,14 @@
 # Changelog
 
-## 0.3.2
+## 0.4.0
 
-Replaced a couple more underscores.
+The open state of menus and dialogs can now be maintained when used inside forms.
+
+Deprecated:
+- Passing prompt options to the `toggle` slot. The options should now be passed to the main component as `prompt_options`.
+
+Breaking changes:
+- The HTML structure and some of the CSS classes of `action_menu`, `dropdown_menu` and `select_menu` have changed. Instead of `<details>` and `<summary>` elements, the open state is now controlled with `<input type="checkbox">` and `<label>`.
 
 ## 0.3.1
 

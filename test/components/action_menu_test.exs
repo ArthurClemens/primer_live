@@ -27,12 +27,11 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
            """)
            |> format_html() ==
              """
-             <div class="details-reset details-overlay" data-prompt="" id="qwerty"><label class="btn" aria-haspopup="true"
+             <div data-prompt="" id="qwerty" phx-hook="Prompt" data-isfast=""><label class="btn" aria-haspopup="true"
              for="qwerty-toggle">Menu</label>
-             <input name="[]" type="hidden" value="false" />
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt && Prompt.hide(this)"></div>
+             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
              <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">
@@ -77,16 +76,15 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
            """)
            |> format_html() ==
              """
-             <div class="details-reset details-overlay" data-prompt="" id="qwerty">
+             <div data-prompt="" id="qwerty" phx-hook="Prompt" data-isfast="">
              <label class="btn" aria-haspopup="true" for="qwerty-toggle">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>
              <span>Number</span>
              <div class="dropdown-caret"></div>
              </label>
-             <input name="[]" type="hidden" value="false" />
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt && Prompt.hide(this)"></div>
+             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
              <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">
@@ -160,14 +158,13 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
            """)
            |> format_html() ==
              """
-             <div class="details-reset details-overlay" data-prompt="" id="qwerty"><label class="btn" aria-haspopup="true"
+             <div data-prompt="" id="qwerty" phx-hook="Prompt" data-isfast=""><label class="btn" aria-haspopup="true"
              for="qwerty-toggle">Select<span class="Counter">2</span>
              <div class="dropdown-caret"></div>
              </label>
-             <input name="[]" type="hidden" value="false" />
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt && Prompt.hide(this)"></div>
+             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
              <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">
@@ -216,12 +213,11 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
            """)
            |> format_html() ==
              """
-             <div class="details-reset details-overlay" data-prompt="" id="qwerty">
+             <div data-prompt="" id="qwerty" phx-hook="Prompt" data-isfast="">
              <label class="btn" aria-haspopup="true" for="qwerty-toggle">Menu</label>
-             <input name="[]" type="hidden" value="false" />
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt && Prompt.hide(this)"></div>
+             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
              <div class="ActionMenu right-0">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">LIST</div>
@@ -246,13 +242,12 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
            """)
            |> format_html() ==
              """
-             <div class="details-reset details-overlay" data-prompt="" id="qwerty" data-isfast="">
+             <div data-prompt="" id="qwerty" phx-hook="Prompt" data-isfast="">
              <label class="btn" aria-haspopup="true" for="qwerty-toggle">Menu</label>
-             <input name="[]" type="hidden" value="false" />
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
              <div data-backdrop="" data-islight=""></div>
-             <div data-touch="" onclick="window.Prompt && Prompt.hide(this)"></div>
+             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
              <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">LIST</div>
@@ -277,13 +272,12 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
            """)
            |> format_html() ==
              """
-             <div class="details-reset details-overlay" data-prompt="" id="qwerty" data-isfast="">
+             <div data-prompt="" id="qwerty" phx-hook="Prompt" data-isfast="">
              <label class="btn" aria-haspopup="true" for="qwerty-toggle">Menu</label>
-             <input name="[]" type="hidden" value="false" />
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
              <div data-backdrop="" data-isdark=""></div>
-             <div data-touch="" onclick="window.Prompt && Prompt.hide(this)"></div>
+             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
              <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">LIST</div>
@@ -299,7 +293,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.action_menu is_fast id="qwerty">
+           <.action_menu id="qwerty" is_fast={false}>
              <:toggle>
                Menu
              </:toggle>
@@ -308,12 +302,11 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
            """)
            |> format_html() ==
              """
-             <div class="details-reset details-overlay" data-prompt="" id="qwerty">
+             <div data-prompt="" id="qwerty" phx-hook="Prompt">
              <label class="btn" aria-haspopup="true" for="qwerty-toggle">Menu</label>
-             <input name="[]" type="hidden" value="false" />
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt && Prompt.hide(this)"></div>
+             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
              <div class="ActionMenu">
                  <div class="ActionMenu-modal" data-content="" aria-role="menu">
                      <div class="SelectMenu-list">LIST</div>
@@ -344,13 +337,12 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
            """)
            |> format_html() ==
              """
-             <div class="details-reset details-overlay" data-prompt="" id="qwerty">
+             <div data-prompt="" id="qwerty" phx-hook="Prompt" data-isfast="">
              <label class="btn" aria-haspopup="true" for="qwerty-toggle">Menu</label>
-             <input name="[]" type="hidden" value="false" />
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true"
              />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt && Prompt.hide(this)"></div>
+             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
              <div class="ActionMenu right-0">
              <div
              class="ActionMenu-modal"
@@ -396,12 +388,11 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
            """)
            |> format_html() ==
              """
-             <div class="details-reset details-overlay action_menu-x my-action-menu" data-prompt="" id="qwerty">
+             <div class="action_menu-x my-action-menu" data-prompt="" id="qwerty" phx-hook="Prompt" data-isfast="">
              <label class="toggle-x my-toggle" aria-haspopup="true" for="qwerty-toggle">Menu<div class="dropdown-caret caret-x"></div></label>
-             <input name="[]" type="hidden" value="false" />
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt && Prompt.hide(this)"></div>
+             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
              <div class="ActionMenu menu-x">
              <div class="ActionMenu-modal menu_container-x" data-content="" aria-role="menu">
              <div class="SelectMenu-list menu_list-x">LIST</div>
@@ -413,7 +404,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              |> format_html()
   end
 
-  test "Attribute: toggle options" do
+  test "Attribute: toggle options (deprecated)" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
@@ -430,13 +421,50 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
            """)
            |> format_html() ==
              """
-             <div class="details-reset details-overlay" data-prompt="" id="qwerty" data-isfast="">
+             <div data-prompt="" id="qwerty" phx-hook="Prompt" data-isfast="">
              <label class="btn" aria-haspopup="true" for="qwerty-toggle">Menu</label>
-             <input name="[]" type="hidden" value="false" />
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this, { didHide: function() { document.querySelector(&#39;#role-form&#39;).dispatchEvent(new Event(&#39;submit&#39;, {bubbles: true, cancelable: true})); } })" type="checkbox" value="true" />
              <div data-prompt-content>
              <div data-backdrop="" data-islight=""></div>
-             <div data-touch="" onclick="window.Prompt && Prompt.hide(this)"></div>
+             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div class="ActionMenu">
+             <div class="ActionMenu-modal" data-content="" aria-role="menu">
+                <div class="SelectMenu-list">LIST</div>
+             </div>
+             </div>
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: prompt options" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.action_menu
+             is_backdrop
+             id="qwerty"
+             prompt_options="{
+             didHide: function() {
+               document.querySelector('#role-form').dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
+             }
+           }"
+           >
+             <:toggle>
+               Menu
+             </:toggle>
+             LIST
+           </.action_menu>
+           """)
+           |> format_html() ==
+             """
+             <div data-prompt="" id="qwerty" phx-hook="Prompt" data-isfast="">
+             <label class="btn" aria-haspopup="true" for="qwerty-toggle">Menu</label>
+             <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this, { didHide: function() { document.querySelector(&#39;#role-form&#39;).dispatchEvent(new Event(&#39;submit&#39;, {bubbles: true, cancelable: true})); } })" type="checkbox" value="true" />
+             <div data-prompt-content>
+             <div data-backdrop="" data-islight=""></div>
+             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
              <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">LIST</div>

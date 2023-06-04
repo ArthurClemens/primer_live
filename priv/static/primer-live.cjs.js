@@ -40,7 +40,7 @@ window.Session = Session;
 
 // js/prompt.ts
 function getCheckboxFromPromptContent(contentElement) {
-  const root = contentElement.closest("[data-prompt]");
+  const root = contentElement == null ? void 0 : contentElement.closest("[data-prompt]");
   if (!root) {
     return null;
   }
@@ -93,21 +93,18 @@ function setCheckboxState({
   switch (state) {
     case "showing":
       delete checkbox.dataset.ishiding;
-      checkbox.dataset.isshowing = "";
       if (options.willShow) {
         options.willShow(elements);
       }
       break;
     case "endShowing":
-      delete checkbox.dataset.isshowing;
       if (options.didShow) {
         options.didShow(elements);
       }
       break;
     case "hiding":
-      delete checkbox.dataset.isshowing;
       checkbox.checked = false;
-      checkbox.dataset.ishiding = "";
+      checkbox.dataset.ishiding = "true";
       if (options.willHide) {
         options.willHide(elements);
       }
@@ -123,7 +120,17 @@ function setCheckboxState({
   }
 }
 var Prompt = {
-  mounted() {
+  init: function() {
+    this.checkbox = getCheckboxFromPromptContent(this.el || void 0);
+    if (this.checkbox) {
+      this.checkbox.dataset.ismounted = "true";
+    }
+  },
+  mounted: function() {
+    this.init();
+  },
+  updated: function() {
+    this.init();
   },
   change: function(checkbox, options = {}) {
     const elements = getElements(checkbox);
