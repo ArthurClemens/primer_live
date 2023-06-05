@@ -7259,11 +7259,22 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :is_dropdown_caret, :boolean, default: false, doc: "Adds a dropdown caret to the button."
+  PromptDeclarationHelpers.id("Select menu element id")
+  PromptDeclarationHelpers.form("the menu element")
+  PromptDeclarationHelpers.field("the menu")
+  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.is_backdrop()
+  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_fast(true)
+  PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.toggle_slot()
+
+  DeclarationHelpers.class()
+
   attr :is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right."
   attr :is_borderless, :boolean, default: false, doc: "Removes the borders between list items."
-
-  attr :class, :string, doc: "Additional classname."
 
   attr :classes, :map,
     default: %{
@@ -7317,82 +7328,11 @@ defmodule PrimerLive.Component do
     ```
     """
 
-  attr :is_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a light backdrop background color.
-    """
-
-  attr :is_dark_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a darker backdrop background color.
-    """
-
-  attr :is_medium_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a medium backdrop background color.
-    """
-
-  attr :is_light_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a lighter backdrop background color (default).
-    """
-
-  attr :is_fast, :boolean,
-    default: true,
-    doc: """
-    Generates fast fade transitions for backdrop and content.
-    """
-
   attr(:rest, :global,
     doc: """
     Additional HTML attributes added to the outer element.
     """
   )
-
-  slot :toggle,
-    required: true,
-    doc: """
-    Generates a toggle element (default with button appearance) using the slot content as label.
-
-    Any custom class will override the default class "btn".
-    """ do
-    attr(:options, :string,
-      doc: """
-      Toggle options as string. For example:
-
-      ```
-      <:toggle options="{
-        willShow: function(elements) { /* */ }
-        didShow: function(elements) { /* */ }
-        willHide: function(elements) { /* */ }
-        didHide: function(elements) { /* */ }
-      }">Menu</:toggle>
-      ```
-      """
-    )
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
-  end
 
   slot :menu,
     doc: """
@@ -7553,6 +7493,11 @@ defmodule PrimerLive.Component do
   end
 
   def select_menu(assigns) do
+    %{
+      form: form,
+      field: field
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
+
     assigns_classes =
       Map.merge(
         %{
@@ -7599,13 +7544,10 @@ defmodule PrimerLive.Component do
 
     is_any_item_selected = item_slots |> Enum.any?(& &1[:is_selected])
     menu_title = menu_slot[:title]
-    has_header = !!menu_title
 
     classes = %{
       select_menu:
         AttributeHelpers.classnames([
-          "details-reset",
-          "details-overlay",
           assigns_classes[:select_menu],
           assigns[:class]
         ]),
@@ -7708,11 +7650,20 @@ defmodule PrimerLive.Component do
       end
     }
 
-    toggle_attrs =
-      AttributeHelpers.append_attributes([
-        [class: classes.toggle],
-        ["aria-haspopup": "true"]
-      ])
+    %{
+      toggle_attrs: toggle_attrs,
+      checkbox_attrs: checkbox_attrs,
+      menu_attrs: select_menu_attrs,
+      backdrop_attrs: backdrop_attrs,
+      touch_layer_attrs: touch_layer_attrs
+    } =
+      AttributeHelpers.prompt_attrs(assigns, %{
+        form: form,
+        field: field,
+        toggle_options: toggle_slot[:options],
+        toggle_class: classes.toggle,
+        menu_class: classes.select_menu
+      })
 
     item_attrs = fn item ->
       is_selected = item[:is_selected]
@@ -7744,61 +7695,11 @@ defmodule PrimerLive.Component do
       ])
     end
 
-    # Use an id as close button target
-    menu_id =
-      case has_header do
-        true ->
-          assigns.rest[:id] || AttributeHelpers.random_string()
-
-        false ->
-          nil
-      end
-
-    select_menu_attrs =
-      AttributeHelpers.append_attributes(
-        assigns_to_attributes(assigns.rest, [
-          :open
-        ]),
-        [
-          [class: classes.select_menu],
-          # Add the menu id when we will show a header with close button
-          not is_nil(menu_id) and ["data-menuid": menu_id],
-          ["data-prompt": ""],
-          [
-            ontoggle:
-              [
-                "window.Prompt && Prompt.init(this",
-                if toggle_slot[:options] do
-                  ", #{toggle_slot[:options]}"
-                end,
-                ")"
-              ]
-              |> Enum.join("")
-          ],
-          assigns.is_fast &&
-            (assigns.is_dark_backdrop ||
-               assigns.is_medium_backdrop ||
-               assigns.is_light_backdrop ||
-               assigns.is_backdrop) && ["data-isfast": ""]
-        ]
-      )
-
     menu_container_attrs =
       AttributeHelpers.append_attributes([
         [class: classes.menu_container],
         ["data-content": ""],
         ["aria-role": "menu"]
-      ])
-
-    backdrop_attrs =
-      AttributeHelpers.append_attributes([
-        cond do
-          assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
-          assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
-          assigns.is_light_backdrop -> ["data-backdrop": "", "data-islight": ""]
-          assigns.is_backdrop -> ["data-backdrop": "", "data-islight": ""]
-          true -> []
-        end
       ])
 
     render_item = fn item ->
@@ -7886,11 +7787,15 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
       |> assign(:classes, classes)
       |> assign(:select_menu_attrs, select_menu_attrs)
+      |> assign(:checkbox_attrs, checkbox_attrs)
+      |> assign(:backdrop_attrs, backdrop_attrs)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:toggle_attrs, toggle_attrs)
       |> assign(:toggle_slot, toggle_slot)
-      |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:menu_container_attrs, menu_container_attrs)
       |> assign(:menu_title, menu_title)
       |> assign(:item_slots, item_slots)
@@ -7898,76 +7803,79 @@ defmodule PrimerLive.Component do
       |> assign(:render_tab, render_tab)
 
     ~H"""
-    <details {@select_menu_attrs}>
-      <summary {@toggle_attrs}>
+    <div {@select_menu_attrs}>
+      <label {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
-      </summary>
-      <%= if @backdrop_attrs !== [] do %>
-        <div {@backdrop_attrs}></div>
-      <% end %>
-      <div data-touch=""></div>
-      <div class={@classes.menu}>
-        <div {@menu_container_attrs}>
-          <%= if not is_nil(@menu_title) do %>
-            <header class={@classes.header}>
-              <h3 class={@classes.menu_title}><%= @menu_title %></h3>
-              <button class={@classes.header_close_button} type="button" onclick="Prompt.hide(this)">
-                <.octicon name="x-16" />
-              </button>
-            </header>
-          <% end %>
-          <%= if @message do %>
-            <%= for message <- @message do %>
-              <div class={AttributeHelpers.classnames([@classes.message, message[:class]])}>
-                <%= render_slot(message) %>
-              </div>
+      </label>
+      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <div data-prompt-content>
+        <%= if @backdrop_attrs !== [] do %>
+          <div {@backdrop_attrs}></div>
+        <% end %>
+        <div {@touch_layer_attrs}></div>
+        <div class={@classes.menu}>
+          <div {@menu_container_attrs}>
+            <%= if not is_nil(@menu_title) do %>
+              <header class={@classes.header}>
+                <h3 class={@classes.menu_title}><%= @menu_title %></h3>
+                <button class={@classes.header_close_button} type="button" onclick="Prompt.hide(this)">
+                  <.octicon name="x-16" />
+                </button>
+              </header>
             <% end %>
-          <% end %>
-          <%= if @filter && @filter !== [] do %>
-            <div class={@classes.filter}>
-              <%= render_slot(@filter) %>
-            </div>
-          <% end %>
-          <%= if @tab && @tab !== [] do %>
-            <div class={@classes.tabs}>
-              <%= for slot <- @tab do %>
-                <%= @render_tab.(slot) %>
-              <% end %>
-            </div>
-          <% end %>
-          <%= if @loading do %>
-            <%= for loading <- @loading do %>
-              <div class={AttributeHelpers.classnames([@classes.loading, loading[:class]])}>
-                <%= render_slot(loading) %>
-              </div>
-            <% end %>
-          <% end %>
-          <div class={@classes.menu_list}>
-            <%= if @blankslate do %>
-              <%= for blankslate <- @blankslate do %>
-                <div class={AttributeHelpers.classnames([@classes.blankslate, blankslate[:class]])}>
-                  <%= render_slot(blankslate) %>
+            <%= if @message do %>
+              <%= for message <- @message do %>
+                <div class={AttributeHelpers.classnames([@classes.message, message[:class]])}>
+                  <%= render_slot(message) %>
                 </div>
               <% end %>
             <% end %>
-
-            <%= for item <- @item_slots do %>
-              <%= @render_item.(item) %>
-            <% end %>
-          </div>
-          <%= if @footer do %>
-            <%= for footer <- @footer do %>
-              <div class={AttributeHelpers.classnames([@classes.footer, footer[:class]])}>
-                <%= render_slot(footer) %>
+            <%= if @filter && @filter !== [] do %>
+              <div class={@classes.filter}>
+                <%= render_slot(@filter) %>
               </div>
             <% end %>
-          <% end %>
+            <%= if @tab && @tab !== [] do %>
+              <div class={@classes.tabs}>
+                <%= for slot <- @tab do %>
+                  <%= @render_tab.(slot) %>
+                <% end %>
+              </div>
+            <% end %>
+            <%= if @loading do %>
+              <%= for loading <- @loading do %>
+                <div class={AttributeHelpers.classnames([@classes.loading, loading[:class]])}>
+                  <%= render_slot(loading) %>
+                </div>
+              <% end %>
+            <% end %>
+            <div class={@classes.menu_list}>
+              <%= if @blankslate do %>
+                <%= for blankslate <- @blankslate do %>
+                  <div class={AttributeHelpers.classnames([@classes.blankslate, blankslate[:class]])}>
+                    <%= render_slot(blankslate) %>
+                  </div>
+                <% end %>
+              <% end %>
+
+              <%= for item <- @item_slots do %>
+                <%= @render_item.(item) %>
+              <% end %>
+            </div>
+            <%= if @footer do %>
+              <%= for footer <- @footer do %>
+                <div class={AttributeHelpers.classnames([@classes.footer, footer[:class]])}>
+                  <%= render_slot(footer) %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
-    </details>
+    </div>
     """
   end
 
