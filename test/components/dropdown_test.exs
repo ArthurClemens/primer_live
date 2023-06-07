@@ -6,6 +6,105 @@ defmodule PrimerLive.TestComponents.DropdownTest do
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
+  test "Attribute: is_backdrop" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.dropdown id="querty" is_backdrop>
+             <:toggle>Menu</:toggle>
+             <:item>item</:item>
+             <:item>item</:item>
+             <:item>item</:item>
+           </.dropdown>
+           """)
+           |> format_html() ==
+             """
+             <div class="dropdown d-inline-block" data-prompt="" id="querty" phx-hook="Prompt" data-isfast=""><label class="btn"
+             aria-haspopup="true" for="querty-toggle">Menu<div class="dropdown-caret"></div></label><input aria-hidden="true"
+             id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
+             <div data-prompt-content>
+             <div data-backdrop="" data-islight=""></div>
+             <div data-touch=""></div>
+             <ul class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
+             <li><a href="#" class="dropdown-item">item</a></li>
+             <li><a href="#" class="dropdown-item">item</a></li>
+             <li><a href="#" class="dropdown-item">item</a></li>
+             </ul>
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: is_dropdown_caret (false)" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.dropdown id="querty" is_dropdown_caret={false}>
+             <:toggle>Menu</:toggle>
+             <:item>item</:item>
+             <:item>item</:item>
+             <:item>item</:item>
+           </.dropdown>
+           """)
+           |> format_html() ==
+             """
+             <div class="dropdown d-inline-block" data-prompt="" id="querty" phx-hook="Prompt" data-isfast="">
+             <label class="btn"
+             aria-haspopup="true" for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
+             <div data-touch=""></div>
+             <ul class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
+             <li><a href="#" class="dropdown-item">item</a></li>
+             <li><a href="#" class="dropdown-item">item</a></li>
+             <li><a href="#" class="dropdown-item">item</a></li>
+             </ul>
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: prompt_options" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.dropdown
+             id="querty"
+             prompt_options="{
+            didHide: function() {
+              document.querySelector('#role-form').dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
+            }
+           }"
+           >
+             <:toggle>Menu</:toggle>
+             <:item>item</:item>
+             <:item>item</:item>
+             <:item>item</:item>
+           </.dropdown>
+           """)
+           |> format_html() ==
+             """
+             <div class="dropdown d-inline-block" data-prompt="" id="querty" phx-hook="Prompt" data-isfast=""><label class="btn"
+             aria-haspopup="true" for="querty-toggle">Menu<div class="dropdown-caret"></div></label><input aria-hidden="true"
+             id="querty-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this, { didHide: function() { document.querySelector(&#39;#role-form&#39;).dispatchEvent(new Event(&#39;submit&#39;, {bubbles: true, cancelable: true})); } })"
+             type="checkbox" value="true" />
+             <div data-prompt-content>
+             <div data-touch=""></div>
+             <ul class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
+             <li><a href="#" class="dropdown-item">item</a></li>
+             <li><a href="#" class="dropdown-item">item</a></li>
+             <li><a href="#" class="dropdown-item">item</a></li>
+             </ul>
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Slot: item (various types)" do
     assigns = %{}
 
@@ -30,7 +129,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              </label>
              <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-              <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+              <div data-touch=""></div>
              <ul class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
              <li><a href="#url" class="dropdown-item">href link</a></li>
              <li><a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="dropdown-item">navigate link</a></li>
@@ -64,7 +163,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              </label>
              <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-              <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+              <div data-touch=""></div>
               <div class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
               <div class="dropdown-header">Menu title</div>
               <ul>
@@ -100,7 +199,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              </label>
              <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-              <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+              <div data-touch=""></div>
              <ul class="dropdown-menu dropdown-menu-e" data-content="" aria-role="menu">
              <li><a href="#url" class="dropdown-item">Item 1</a></li>
              <li><a href="#url" class="dropdown-item">Item 2</a></li>
@@ -132,7 +231,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              </label>
              <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-              <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+              <div data-touch=""></div>
              <ul class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
              <li><a href="#url" class="dropdown-item">Item 1</a></li>
              <li><a href="#url" class="dropdown-item">Item 2</a></li>
@@ -169,7 +268,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              </label>
              <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-              <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+              <div data-touch=""></div>
              <ul class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
              <li><a href="#url" class="dropdown-item">Item 1</a></li>
              <li><a href="#url" class="dropdown-item">Item 2</a></li>
@@ -223,7 +322,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              </label>
              <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="dropdown-menu dropdown-menu-se menu-x" data-content="" aria-role="menu">
              <div class="dropdown-header header-x">Menu title</div>
              <ul>
@@ -260,7 +359,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              </label>
              <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <ul class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
              <li><a href="#url" class="dropdown-item">Item 1</a></li>
              <li><a href="#url" class="dropdown-item">Item 2</a></li>

@@ -16,13 +16,16 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div id="my-dialog-id" data-prompt="">
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true" id="my-dialog-id-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
              <div data-touch="">
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column Box--overlay" data-content="">
-             <div class="overflow-auto">Message</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay" data-content="">
+                    <div class="overflow-auto">Message</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
              </div>
              </div>
              </div>
@@ -40,13 +43,16 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div id="my-dialog-id" data-prompt="">
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true" id="my-dialog-id-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
              <div data-touch="">
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column Box--overlay Box-overlay--narrow" data-content="">
-             <div class="overflow-auto">Message</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay Box-overlay--narrow" data-content="">
+                    <div class="overflow-auto">Message</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
              </div>
              </div>
              </div>
@@ -64,13 +70,16 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div id="my-dialog-id" data-prompt="">
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true" id="my-dialog-id-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
              <div data-touch="">
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column Box--overlay Box-overlay--wide" data-content="">
-             <div class="overflow-auto">Message</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay Box-overlay--wide" data-content="">
+                    <div class="overflow-auto">Message</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
              </div>
              </div>
              </div>
@@ -88,13 +97,17 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div id="my-dialog-id" data-prompt="" data-isfast="">
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt" data-isfast="">
+             <input aria-hidden="true" id="my-dialog-id-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
              <div data-touch="">
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column Box--overlay" data-content="">
-             <div class="overflow-auto">Message</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay" data-content="">
+                    <div class="overflow-auto">Message</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
              </div>
              </div>
              </div>
@@ -112,13 +125,16 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div id="my-dialog-id" data-prompt="" data-isescapable="">
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt" data-isescapable="">
+             <input aria-hidden="true" id="my-dialog-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
              <div data-touch="">
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column Box--overlay" data-content="">
-             <div class="overflow-auto">Message</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay" data-content="">
+                    <div class="overflow-auto">Message</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
              </div>
              </div>
              </div>
@@ -136,13 +152,18 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div id="my-dialog-id" data-prompt="" data-focusfirst="[name=first_name]">
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt" data-focusfirst="[name=first_name]">
+             <input aria-hidden="true"
+             id="my-dialog-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
+             <div data-prompt-content>
              <div data-touch="">
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column Box--overlay" data-content="">
-             <div class="overflow-auto">Message</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay" data-content="">
+                    <div class="overflow-auto">Message</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
              </div>
              </div>
              </div>
@@ -160,14 +181,17 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div id="my-dialog-id" data-prompt="">
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true" id="my-dialog-id-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
              <div data-touch="">
-             <div data-backdrop="" data-ismedium=""></div>
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column Box--overlay" data-content="">
-             <div class="overflow-auto">Message</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             <div data-backdrop=""></div>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay" data-content="">
+                    <div class="overflow-auto">Message</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
              </div>
              </div>
              </div>
@@ -185,14 +209,17 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div id="my-dialog-id" data-prompt="">
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true" id="my-dialog-id-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
              <div data-touch="">
              <div data-backdrop="" data-isdark=""></div>
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column Box--overlay" data-content="">
-             <div class="overflow-auto">Message</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay" data-content="">
+                    <div class="overflow-auto">Message</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
              </div>
              </div>
              </div>
@@ -210,14 +237,17 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div id="my-dialog-id" data-prompt="">
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true" id="my-dialog-id-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
              <div data-touch="">
              <div data-backdrop="" data-islight=""></div>
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column Box--overlay" data-content="">
-             <div class="overflow-auto">Message</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay" data-content="">
+                    <div class="overflow-auto">Message</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
              </div>
              </div>
              </div>
@@ -235,13 +265,17 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div id="my-dialog-id" data-prompt="" data-ismodal="">
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt" data-ismodal=""><input aria-hidden="true"
+             id="my-dialog-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
+             <div data-prompt-content>
              <div data-touch="">
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column Box--overlay" data-content="">
-             <div class="overflow-auto">Message</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay" data-content="">
+                    <div class="overflow-auto">Message</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
              </div>
              </div>
              </div>
@@ -259,13 +293,17 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div id="my-dialog-id" data-prompt="">
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true" id="my-dialog-id-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
              <div data-touch="">
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column Box--overlay" data-content="" style="max-height: 50%; max-width: 90%">
-             <div class="overflow-auto">Message</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay" data-content=""
+                    style="max-height: 50%; max-width: 90%">
+                    <div class="overflow-auto">Message</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
              </div>
              </div>
              </div>
@@ -283,13 +321,52 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div id="my-dialog-id" data-prompt="">
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true" id="my-dialog-id-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
              <div data-touch="">
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column Box--overlay" data-content="" style="max-height: 50vh; max-width: 80vw">
-             <div class="overflow-auto">Message</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay" data-content=""
+                    style="max-height: 50vh; max-width: 80vw">
+                    <div class="overflow-auto">Message</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
+             </div>
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: prompt_options" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.dialog
+             id="my-dialog-id"
+             prompt_options="{
+            didHide: function() {
+              document.querySelector('#role-form').dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
+            }
+           }"
+           >
+             Message
+           </.dialog>
+           """)
+           |> format_html() ==
+             """
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true" id="my-dialog-id-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this, { didHide: function() { document.querySelector(&#39;#role-form&#39;).dispatchEvent(new Event(&#39;submit&#39;, {bubbles: true, cancelable: true})); } })"
+             type="checkbox" value="true" />
+             <div data-prompt-content>
+             <div data-touch="">
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay" data-content="">
+                    <div class="overflow-auto">Message</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             </div>
              </div>
              </div>
              </div>
@@ -312,26 +389,26 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div id="my-dialog-id" data-prompt="">
+             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true" id="my-dialog-id-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
              <div data-touch="">
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column Box--overlay" data-content="">
-             <div class="Box-header d-flex flex-justify-between flex-items-start">
-             <h3 class="Box-title">Dialog title</h3><button aria-label="Close" onclick="Prompt.hide(this)" class="close-button Box-btn-octicon btn-octicon flex-shrink-0"
-             type="button"><svg class="octicon"
-              xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-              <path fill-rule="evenodd"
-                d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z">
-              </path>
-             </svg></button>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column Box--overlay" data-content="">
+                    <div class="Box-header d-flex flex-justify-between flex-items-start">
+                        <h3 class="Box-title">Dialog title</h3><button aria-label="Close" onclick="Prompt.hide(this)"
+                            class="close-button Box-btn-octicon btn-octicon flex-shrink-0" type="button"><svg
+                                class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></button>
+                    </div>
+                    <div class="overflow-auto">Message<div class="Box-body">Body message</div>
+                        <div class="Box-row">Row 1</div>
+                        <div class="Box-row">Row 2</div>
+                    </div>
+                    <div class="Box-footer">Footer</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
-             <div class="overflow-auto">Message<div class="Box-body">Body message</div>
-             <div class="Box-row">Row 1</div>
-             <div class="Box-row">Row 2</div>
-             </div>
-             <div class="Box-footer">Footer</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
              </div>
              </div>
@@ -371,27 +448,27 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div class="dialog-wrapper-x my-dialog" id="my-dialog-id" data-prompt="">
+             <div class="dialog-wrapper-x my-dialog" data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true"
+             id="my-dialog-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
+             <div data-prompt-content>
              <div data-touch="">
-             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start" tabindex="0"
-             aria-hidden="true"></span>
-             <div class="Box d-flex flex-column box-x Box--overlay dialog-x" data-content="">
-             <div class="Box-header header-x d-flex flex-justify-between flex-items-start">
-             <h3 class="Box-title header_title-x my-header-title">Dialog title</h3><button
-             aria-label="Close"
-             onclick="Prompt.hide(this)" class="close-button Box-btn-octicon btn-octicon flex-shrink-0" type="button"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-              viewBox="0 0 16 16">
-              <path fill-rule="evenodd"
-                d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z">
-              </path>
-             </svg></button>
+             <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
+                    tabindex="0" aria-hidden="true"></span>
+                <div class="Box d-flex flex-column box-x Box--overlay dialog-x" data-content="">
+                    <div class="Box-header header-x d-flex flex-justify-between flex-items-start">
+                        <h3 class="Box-title header_title-x my-header-title">Dialog title</h3><button aria-label="Close"
+                            onclick="Prompt.hide(this)" class="close-button Box-btn-octicon btn-octicon flex-shrink-0"
+                            type="button"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></button>
+                    </div>
+                    <div class="overflow-auto">Message<div class="Box-body body-x my-body">Body message</div>
+                        <div class="Box-row row-x my-row">Row 1</div>
+                        <div class="Box-row row-x">Row 2</div>
+                    </div>
+                    <div class="Box-footer footer-x my-footer">Footer</div>
+                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
-             <div class="overflow-auto">Message<div class="Box-body body-x my-body">Body message</div>
-             <div class="Box-row row-x my-row">Row 1</div>
-             <div class="Box-row row-x">Row 2</div>
-             </div>
-             <div class="Box-footer footer-x my-footer">Footer</div>
-             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
              </div>
              </div>

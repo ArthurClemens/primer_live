@@ -6811,7 +6811,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.toggle_slot()
+  PromptDeclarationHelpers.toggle_slot("the dropdown component")
 
   DeclarationHelpers.class()
 
@@ -6996,9 +6996,10 @@ defmodule PrimerLive.Component do
       AttributeHelpers.prompt_attrs(assigns, %{
         form: form,
         field: field,
-        toggle_options: toggle_slot[:options],
+        toggle_slot: toggle_slot,
         toggle_class: classes.toggle,
-        menu_class: classes.dropdown
+        menu_class: classes.dropdown,
+        is_menu: true
       })
 
     item_attrs = fn item, is_divider ->
@@ -7269,7 +7270,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.toggle_slot()
+  PromptDeclarationHelpers.toggle_slot("the select menu component")
 
   DeclarationHelpers.class()
 
@@ -7660,9 +7661,10 @@ defmodule PrimerLive.Component do
       AttributeHelpers.prompt_attrs(assigns, %{
         form: form,
         field: field,
-        toggle_options: toggle_slot[:options],
+        toggle_slot: toggle_slot,
         toggle_class: classes.toggle,
-        menu_class: classes.select_menu
+        menu_class: classes.select_menu,
+        is_menu: true
       })
 
     item_attrs = fn item ->
@@ -7947,7 +7949,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.toggle_slot()
+  PromptDeclarationHelpers.toggle_slot("the menu component")
 
   attr :is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right."
 
@@ -8089,9 +8091,10 @@ defmodule PrimerLive.Component do
       AttributeHelpers.prompt_attrs(assigns, %{
         form: form,
         field: field,
-        toggle_options: toggle_slot[:options],
+        toggle_slot: toggle_slot,
         toggle_class: classes.toggle,
-        menu_class: classes.action_menu
+        menu_class: classes.action_menu,
+        is_menu: true
       })
 
     menu_container_attrs =
@@ -11472,7 +11475,21 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  PromptDeclarationHelpers.id("Dialog element id")
+  PromptDeclarationHelpers.form("the dialog element")
+  PromptDeclarationHelpers.field("the dialog")
+  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.is_backdrop()
+  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_fast(false)
+  PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.is_modal("the dialog")
+  PromptDeclarationHelpers.is_escapable()
+  PromptDeclarationHelpers.focus_first("the dialog")
+
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -11509,53 +11526,6 @@ defmodule PrimerLive.Component do
     ```
     """
   )
-
-  attr :is_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a medium backdrop background color.
-    """
-
-  attr :is_dark_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a darker backdrop background color.
-    """
-
-  attr :is_medium_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a medium backdrop background color (default).
-    """
-
-  attr :is_light_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a lighter backdrop background color.
-    """
-
-  attr :is_fast, :boolean,
-    default: false,
-    doc: """
-    Generates fast fade transitions for backdrop and content.
-    """
-
-  attr :is_modal, :boolean,
-    default: false,
-    doc: """
-    Generates a modal dialog; clicking the backdrop (if used) or outside of the dialog will not close the dialog.
-    """
-
-  attr :is_escapable, :boolean,
-    default: false,
-    doc: """
-    Closes the content when pressing the Escape key.
-    """
-
-  attr :focus_first, :string,
-    doc: """
-    Focus the first element after opening the dialog. Pass a selector to match the element.
-    """
 
   attr :is_narrow, :boolean,
     default: false,
@@ -11689,6 +11659,11 @@ defmodule PrimerLive.Component do
   @default_dialog_max_width_css "90vw"
 
   def dialog(assigns) do
+    %{
+      form: form,
+      field: field
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
+
     classes = %{
       dialog_wrapper:
         AttributeHelpers.classnames([
@@ -11704,20 +11679,21 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    # Assign an id for focus wrap
-    dialog_id = assigns.rest[:id] || AttributeHelpers.random_string()
-    focus_wrap_id = "focus-wrap-#{dialog_id}"
-
-    wrapper_attrs =
-      AttributeHelpers.append_attributes(assigns.rest |> Map.drop([:id]), [
-        [class: classes.dialog_wrapper],
-        [id: dialog_id],
-        ["data-prompt": ""],
-        assigns.is_modal && ["data-ismodal": ""],
-        assigns.is_escapable && ["data-isescapable": ""],
-        assigns.is_fast && ["data-isfast": ""],
-        assigns[:focus_first] && ["data-focusfirst": assigns[:focus_first]]
-      ])
+    %{
+      checkbox_attrs: checkbox_attrs,
+      menu_attrs: wrapper_attrs,
+      backdrop_attrs: backdrop_attrs,
+      touch_layer_attrs: touch_layer_attrs,
+      focus_wrap_id: focus_wrap_id
+    } =
+      AttributeHelpers.prompt_attrs(assigns, %{
+        form: form,
+        field: field,
+        toggle_slot: nil,
+        toggle_class: nil,
+        menu_class: classes.dialog_wrapper,
+        is_menu: false
+      })
 
     close_button_attrs =
       AttributeHelpers.append_attributes([
@@ -11752,21 +11728,11 @@ defmodule PrimerLive.Component do
         [inner_block: assigns.inner_block]
       ])
 
-    touch_layer_attrs = ["data-touch": ""]
-
-    backdrop_attrs =
-      AttributeHelpers.append_attributes([
-        cond do
-          assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
-          assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
-          assigns.is_light_backdrop -> ["data-backdrop": "", "data-islight": ""]
-          assigns.is_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
-          true -> []
-        end
-      ])
-
     assigns =
       assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
+      |> assign(:checkbox_attrs, checkbox_attrs)
       |> assign(:wrapper_attrs, wrapper_attrs)
       |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
@@ -11776,23 +11742,26 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@wrapper_attrs}>
-      <div {@touch_layer_attrs}>
-        <%= if @backdrop_attrs !== [] do %>
-          <div {@backdrop_attrs} />
-        <% end %>
-        <.focus_wrap id={@focus_wrap_id}>
-          <.box {@box_attrs}>
-            <:header
-              :if={@header_title && @header_title !== []}
-              class="d-flex flex-justify-between flex-items-start"
-            >
-              <.button {@close_button_attrs}>
-                <.octicon name="x-16" />
-              </.button>
-            </:header>
-            <%= render_slot(@inner_block) %>
-          </.box>
-        </.focus_wrap>
+      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <div data-prompt-content>
+        <div {@touch_layer_attrs}>
+          <%= if @backdrop_attrs !== [] do %>
+            <div {@backdrop_attrs} />
+          <% end %>
+          <.focus_wrap id={@focus_wrap_id}>
+            <.box {@box_attrs}>
+              <:header
+                :if={@header_title && @header_title !== []}
+                class="d-flex flex-justify-between flex-items-start"
+              >
+                <.button {@close_button_attrs}>
+                  <.octicon name="x-16" />
+                </.button>
+              </:header>
+              <%= render_slot(@inner_block) %>
+            </.box>
+          </.focus_wrap>
+        </div>
       </div>
     </div>
     """

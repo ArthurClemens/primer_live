@@ -42,11 +42,11 @@ GENERAL
 
 /* -- The touch layer is not transitioning, so display none/block is sufficient. */
 [data-prompt]>input[type="checkbox"]+[data-prompt-content] [data-touch] {
-  display: none;
+  pointer-events: none;
 }
 
 [data-prompt]>input[type="checkbox"]:checked+[data-prompt-content] [data-touch] {
-  display: block;
+  pointer-events: initial;
 }
 
 /* Hide checkbox element */

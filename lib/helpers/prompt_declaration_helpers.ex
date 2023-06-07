@@ -78,7 +78,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
       attr :is_light_backdrop, :boolean,
         default: false,
         doc: """
-        Generates a lighter backdrop background color (default).
+        Generates a lighter backdrop background color. Default for menus.
         """
     end
   end
@@ -112,7 +112,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro toggle_slot() do
+  defmacro toggle_slot(the_element) do
     quote do
       slot :toggle,
         required: true,
@@ -122,9 +122,11 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
         Any custom class will override the default class "btn".
         """ do
         attr(:options, :string,
-          doc: """
-          Deprecated: pass the attrs to the action_menu as `prompt_options`.
-          """
+          doc:
+            """
+            Deprecated: pass the attrs to {the_element} as `prompt_options`.
+            """
+            |> String.replace("{the_element}", unquote(the_element))
         )
 
         attr(:class, :string,
@@ -145,6 +147,41 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
           """
         )
       end
+    end
+  end
+
+  # Dialog and drawer specific
+
+  defmacro is_modal(the_element) do
+    quote do
+      attr :is_modal, :boolean,
+        default: false,
+        doc:
+          """
+          Generates a modal {the_element}; clicking the backdrop (if used) or outside of {the_element} will not close {the_element}.
+          """
+          |> String.replace("{the_element}", unquote(the_element))
+    end
+  end
+
+  defmacro is_escapable() do
+    quote do
+      attr :is_escapable, :boolean,
+        default: false,
+        doc: """
+        Closes the content when pressing the Escape key.
+        """
+    end
+  end
+
+  defmacro focus_first(the_element) do
+    quote do
+      attr :focus_first, :string,
+        doc:
+          """
+          Focus the first element after opening {the_element}. Pass a selector to match the element.
+          """
+          |> String.replace("{the_element}", unquote(the_element))
     end
   end
 end

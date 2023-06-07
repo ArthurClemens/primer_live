@@ -106,7 +106,7 @@ defmodule PrimerLive.Components.SubnavTest do
              </label><input aria-hidden="true" id="querty-toggle" name="[]"
                 onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-                <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+                <div data-touch=""></div>
                 <div class="SelectMenu">
                     <div class="SelectMenu-modal" data-content="" aria-role="menu">
                         <div class="SelectMenu-list">
@@ -171,7 +171,7 @@ defmodule PrimerLive.Components.SubnavTest do
                 id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
                 value="true" />
              <div data-prompt-content>
-                <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+                <div data-touch=""></div>
                 <div class="SelectMenu">
                     <div class="SelectMenu-modal" data-content="" aria-role="menu">
                         <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item
