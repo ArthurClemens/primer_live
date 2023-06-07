@@ -25,26 +25,74 @@ defmodule PrimerLive do
 
   ### Install primer_live
 
-  Add PrimerLive as a dependency in your Phoenix application's `mix.exs`
+  <p>Add PrimerLive as a dependency in your Phoenix application's <code>mix.exs</code></p>
 
   ```
   {:primer_live, "~> 0.2"}
   ```
 
-  Run `mix.deps get`
+  <p>Run <code>mix.deps get</code></p>
 
   ### Add CSS and JavaScript dependencies
 
-  <p>You can either use `npm`, or add the dependencies to the HTML file.</p>
+  <p>You can either serve the dependencies as static resources, or use <code>npm</code> to bundle all assets.</p>
   <p>
     If you plan to use menus, dialogs, or drawers in your project, you will need to include JavaScript dependencies. If not, you may skip the JavaScript imports and hooks.
   </p>
 
   <h3>
-    Option A: Adding dependencies using npm
+    Option A: Serve the dependencies as static resources
   </h3>
 
-  Add npm library `primer-live` to your `assets/package.json`. For a regular project, do:
+  <p>Create a new static plug entry to <code>endpoint.ex</code>:</p>
+
+  ```
+  # PrimerLive resources
+  plug Plug.Static, at: "/primer_live", from: "deps/primer_live/priv/static"
+  ```
+
+
+  <h4>CSS only</h4>
+
+  <p>Add to <code>root.html.heex</code>:</p>
+
+  ```
+  <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/primer_live/primer-live.min.css")}/>
+  ```
+
+  <h4>CSS and JavaScript</h4>
+
+  <p>Add to <code>root.html.heex</code>:</p>
+
+  ```
+  <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/primer_live/primer-live.min.css")}/>
+  <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/primer_live/primer-live.min.js")}></script>
+  ```
+
+  <p>
+    In <code>assets/js/app.js</code>, add global <code>Prompt</code>
+    and <code>Session</code>
+    to the hooks:
+  </p>
+
+  ```
+  let liveSocket = new LiveSocket("/live", Socket, {
+    params: { _csrf_token: csrfToken },
+    hooks: {
+      Prompt: window.Prompt,
+      Session: window.Session,
+      // existing hooks ...
+    },
+  });
+  ```
+
+  <h3>
+    Option B: Adding dependencies using npm
+  </h3>
+
+  <p>This process will bundle all of the app's dependencies together with PrimerLive assets into <code>app.js</code> and <code>app.css</code> inside <code>priv/static/assets</code>.</p>
+
+  <p>Add npm library <code>primer-live</code> to your <code>assets/package.json</code>. For a regular project, do:</p>
   ```
   {
     "dependencies": {
@@ -53,7 +101,7 @@ defmodule PrimerLive do
   }
   ```
 
-  If you're adding `primer-live` to an umbrella project, change the paths accordingly:
+  <p>If you're adding <code>primer-live</code> to an umbrella project, change the paths accordingly:</p>
 
   ```
   {
@@ -69,7 +117,7 @@ defmodule PrimerLive do
   npm install --prefix assets
   ```
 
-  If you had previously installed `primer-live` and want to get the latest JavaScript, then force an install with:
+  <p>If you had previously installed <code>primer-live</code> and want to get the latest JavaScript, then force an install with:</p>
 
   ```
   npm install --force primer-live --prefix assets
@@ -116,49 +164,10 @@ defmodule PrimerLive do
   });
   ```
 
-  <h3>
-    Option B: Adding dependencies to the HTML file
-  </h3>
-
-  <p>Load the dependencies from a content delivery service such as unpkg.</p>
-
-  <h4>CSS only</h4>
-
-  <p>Add to <code>root.html.heex</code>:</p>
-
-  ```
-  <link rel="stylesheet" href="https://unpkg.com/primer-live/priv/static/primer-live.min.css" media="all">
-  ```
-
-  <h4>CSS and JavaScript</h4>
-
-  <p>Add to <code>root.html.heex</code>:</p>
-
-  ```
-  <link rel="stylesheet" href="https://unpkg.com/primer-live/priv/static/primer-live.min.css" media="all">
-  <script src="https://unpkg.com/primer-live/priv/static/primer-live.min.js"></script>
-  ```
-
-  <p>
-    In <code>assets/js/app.js</code>, add global <code>Prompt</code>
-    and <code>Session</code>
-    to the hooks:
-  </p>
-
-  ```
-  let liveSocket = new LiveSocket("/live", Socket, {
-    params: { _csrf_token: csrfToken },
-    hooks: {
-      Prompt,
-      Session,
-      // existing hooks ...
-    },
-  });
-  ```
 
   ## Usage in LiveView pages
 
-  To use components, `use` module `PrimerLive`:
+  <p>To use components, <code>use</code> module <code>PrimerLive</code>:</p>
 
   ```
   defmodule MyAppWeb.MyLiveView do
@@ -176,7 +185,7 @@ defmodule PrimerLive do
 
   ## Usage in regular views
 
-  In view files, for example in `page_view.ex`, `use` module `PrimerLive`:
+  <p>In view files, for example in <code>page_view.ex</code>, <code>use</code> module <code>PrimerLive</code>:</p>
 
   ```
   defmodule MyAppWeb.PageView do
@@ -185,7 +194,7 @@ defmodule PrimerLive do
   end
   ```
 
-  Then call the component on a page, for example in `templates/page/index.html.heex`:
+  <p>Then call the component on a page, for example in <code>templates/page/index.html.heex</code>:</p>
   ```
   <.button>Click me</.button>
   ```
