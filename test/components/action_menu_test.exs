@@ -31,7 +31,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              for="qwerty-toggle">Menu</label>
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">
@@ -84,7 +84,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              </label>
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">
@@ -164,7 +164,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              </label>
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">
@@ -217,7 +217,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <label class="btn" aria-haspopup="true" for="qwerty-toggle">Menu</label>
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="ActionMenu right-0">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">LIST</div>
@@ -247,7 +247,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
              <div data-backdrop="" data-islight=""></div>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">LIST</div>
@@ -277,7 +277,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
              <div data-backdrop="" data-isdark=""></div>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">LIST</div>
@@ -306,7 +306,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <label class="btn" aria-haspopup="true" for="qwerty-toggle">Menu</label>
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="ActionMenu">
                  <div class="ActionMenu-modal" data-content="" aria-role="menu">
                      <div class="SelectMenu-list">LIST</div>
@@ -342,7 +342,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true"
              />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="ActionMenu right-0">
              <div
              class="ActionMenu-modal"
@@ -392,7 +392,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <label class="toggle-x my-toggle" aria-haspopup="true" for="qwerty-toggle">Menu<div class="dropdown-caret caret-x"></div></label>
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="ActionMenu menu-x">
              <div class="ActionMenu-modal menu_container-x" data-content="" aria-role="menu">
              <div class="SelectMenu-list menu_list-x">LIST</div>
@@ -426,7 +426,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this, { didHide: function() { document.querySelector(&#39;#role-form&#39;).dispatchEvent(new Event(&#39;submit&#39;, {bubbles: true, cancelable: true})); } })" type="checkbox" value="true" />
              <div data-prompt-content>
              <div data-backdrop="" data-islight=""></div>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">LIST</div>
@@ -446,10 +446,10 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              is_backdrop
              id="qwerty"
              prompt_options="{
-             didHide: function() {
-               document.querySelector('#role-form').dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
-             }
-           }"
+              didHide: function() {
+                document.querySelector('#role-form').dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
+              }
+             }"
            >
              <:toggle>
                Menu
@@ -464,7 +464,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              <input aria-hidden="true" id="qwerty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this, { didHide: function() { document.querySelector(&#39;#role-form&#39;).dispatchEvent(new Event(&#39;submit&#39;, {bubbles: true, cancelable: true})); } })" type="checkbox" value="true" />
              <div data-prompt-content>
              <div data-backdrop="" data-islight=""></div>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="ActionMenu">
              <div class="ActionMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">LIST</div>

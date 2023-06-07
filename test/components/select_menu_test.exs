@@ -39,7 +39,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu">
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Button</button>
@@ -77,7 +77,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu">
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem"
@@ -118,7 +118,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu">
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitemcheckbox"
@@ -162,7 +162,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              for="my-menu-id-toggle">Menu</label><input aria-hidden="true" id="my-menu-id-toggle" name="[]"
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu">
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
                 <header class="SelectMenu-header">
@@ -201,7 +201,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu">
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
@@ -240,7 +240,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter">
                  <div class="SelectMenu-modal" data-content="" aria-role="menu">
                      <div class="SelectMenu-filter">
@@ -283,7 +283,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu">
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-tabs"><button class="SelectMenu-tab" role="tab" aria-selected="true">Selected
@@ -313,7 +313,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu">
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-loading"><svg class="octicon anim-pulse" xmlns="http://www.w3.org/2000/svg"
@@ -342,7 +342,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu">
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list">
@@ -371,7 +371,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu">
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-message color-bg-danger color-fg-danger">Message</div>
@@ -404,7 +404,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu">
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list SelectMenu-list--borderless"><button class="SelectMenu-item"
@@ -438,8 +438,49 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu right-0">
+             <div class="SelectMenu-modal" data-content="" aria-role="menu">
+                <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
+                        class="SelectMenu-item" role="menuitem">Item 2</button></div>
+             </div>
+             </div>
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: prompt_options" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.select_menu
+             id="querty"
+             prompt_options="{
+            didHide: function() {
+              document.querySelector('#role-form').dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
+            }
+           }"
+           >
+             <:toggle>Menu</:toggle>
+             <:item>
+               Item 1
+             </:item>
+             <:item>
+               Item 2
+             </:item>
+           </.select_menu>
+           """)
+           |> format_html() ==
+             """
+             <div data-prompt="" id="querty" phx-hook="Prompt" data-isfast=""><label class="btn" aria-haspopup="true"
+             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this, { didHide: function() { document.querySelector(&#39;#role-form&#39;).dispatchEvent(new Event(&#39;submit&#39;, {bubbles: true, cancelable: true})); } })"
+             type="checkbox" value="true" />
+             <div data-prompt-content>
+             <div data-touch=""></div>
+             <div class="SelectMenu">
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
                         class="SelectMenu-item" role="menuitem">Item 2</button></div>
@@ -512,7 +553,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              </div></label><input aria-hidden="true" id="my-menu-id-toggle" name="[]"
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu SelectMenu--hasFilter menu-x">
              <div class="SelectMenu-modal menu_container-x" data-content="" aria-role="menu">
                 <header class="SelectMenu-header header-x">
@@ -563,7 +604,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              <label class="btn" aria-haspopup="true" for="querty-toggle">Menu</label>
              <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-             <div data-touch="" onclick="window.Prompt &amp;&amp; Prompt.hide(this)"></div>
+             <div data-touch=""></div>
              <div class="SelectMenu">
              <div class="SelectMenu-modal" data-content="" aria-role="menu">
                 <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button

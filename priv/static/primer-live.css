@@ -26330,10 +26330,10 @@ a.branch-name .octicon {
   visibility: visible;
 }
 [data-prompt] > input[type=checkbox] + [data-prompt-content] [data-touch] {
-  display: none;
+  pointer-events: none;
 }
 [data-prompt] > input[type=checkbox]:checked + [data-prompt-content] [data-touch] {
-  display: block;
+  pointer-events: initial;
 }
 [data-prompt] input[type=checkbox][aria-hidden=true] {
   visibility: hidden;
