@@ -34,7 +34,7 @@ plug Plug.Static, at: "/primer_live", from: "deps/primer_live/priv/static"
 <p>Add to <code>root.html.heex</code>:</p>
 
 ```
-<link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/primer_live/primer-live.min.css")}/>
+<link phx-track-static rel="stylesheet" href="/primer_live/primer-live.min.css">
 ```
 
 <h4>CSS and JavaScript</h4>
@@ -42,8 +42,8 @@ plug Plug.Static, at: "/primer_live", from: "deps/primer_live/priv/static"
 <p>Add to <code>root.html.heex</code>:</p>
 
 ```
-<link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/primer_live/primer-live.min.css")}/>
-<script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/primer_live/primer-live.min.js")}></script>
+<link phx-track-static rel="stylesheet" href="/primer_live/primer-live.min.css">
+<script defer phx-track-static type="text/javascript" src="/primer_live/primer-live.min.js"></script>
 ```
 
 <p>
