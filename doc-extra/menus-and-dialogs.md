@@ -226,7 +226,7 @@ This feels a bit ad hoc and can improved with a custom and reusable replacement 
 ```
 # Model
 
-def update_with_ui(%User{} = user, attrs, ui_values \\\\ %{}) do
+def update_with_ui(%User{} = user, attrs, ui_values \\ %{}) do
   result =
     user
     |> User.changeset(attrs)
