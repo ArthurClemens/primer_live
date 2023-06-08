@@ -17,7 +17,9 @@
   /* z-index */
   --prompt-z-index-backdrop: 98;
   --prompt-z-index-touch: 99;
-  --prompt-z-index-content: 100;
+  --prompt-z-index-menu-content: 100;
+  --prompt-z-index-drawer-content: 200;
+  --prompt-z-index-dialog-content: 300;
 }
 
 /* -----------------------------------------------------
@@ -34,6 +36,11 @@ GENERAL
 [data-prompt]>input[type="checkbox"][data-ismounted]+[data-prompt-content] {
   display: block;
   visibility: hidden;
+}
+
+/* -- Push drawers should be visible, because the pushed content should be visible at all times. */
+[data-prompt][data-ispush]>input[type=checkbox][data-ismounted]+[data-prompt-content] {
+  visibility: visible;
 }
 
 [data-prompt]>input[type=checkbox]:checked+[data-prompt-content] {
@@ -80,8 +87,8 @@ GENERAL
   opacity: 0;
 }
 
-/* Ensure correct absolute positioning within content container. */
-[data-prompt]>input[type="checkbox"]+[data-prompt-content] {
+/* Ensure correct absolute positioning of the menu within content container. */
+[data-prompt]:not([data-isdrawer]):not([data-islocal]) {
   position: relative;
 }
 
@@ -99,10 +106,19 @@ GENERAL
 
 /* Set content size and set up fade */
 [data-prompt]:not([data-isdrawer]) [data-content] {
-  z-index: var(--prompt-z-index-content);
   transition-property: opacity, visibility;
   transition-timing-function: var(--prompt-transition-timing-function-content);
   opacity: 0;
+}
+
+[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
+  z-index: var(--prompt-z-index-dialog-content);
+}
+[data-prompt][data-isdrawer] [data-content]:not([aria-role="menu"]) {
+  z-index: var(--prompt-z-index-drawer-content);
+}
+[data-prompt] [data-content][aria-role="menu"] {
+  z-index: var(--prompt-z-index-menu-content);
 }
 
 /* -----------------------------------------------------
@@ -203,7 +219,6 @@ DRAWER
 
 /* Drawer content */
 [data-prompt][data-isdrawer] [data-content] {
-  z-index: var(--prompt-z-index-content);
   transition-property: transform, visibility;
   transition-timing-function: var(--prompt-transition-timing-function-content);
   position: fixed;
@@ -317,7 +332,7 @@ DRAWER
   top: 0;
   overflow-y: auto;
   height: inherit;
-  z-index: 1;
+  z-index: var(--prompt-z-index-drawer-content);
   width: 100%;
   max-width: var(--drawer-width);
 }

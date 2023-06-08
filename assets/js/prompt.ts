@@ -99,13 +99,13 @@ function setCheckboxState({
   state,
   elements,
   options,
-  onEndShowing,
+  onDidShow,
 }: {
   checkbox: HTMLInputElement;
   state: PromptState;
   elements: PromptElements;
   options: PromptOptions;
-  onEndShowing?: (elements: PromptElements) => void;
+  onDidShow?: (elements: PromptElements) => void;
 }) {
   switch (state) {
     case "showing":
@@ -115,8 +115,8 @@ function setCheckboxState({
       }
       break;
     case "endShowing":
-      if (onEndShowing) {
-        onEndShowing(elements);
+      if (onDidShow) {
+        onDidShow(elements);
       }
       if (options.didShow) {
         options.didShow(elements);
@@ -174,7 +174,7 @@ function closeFromEscapeKey(evt: KeyboardEvent) {
   }
 }
 
-function onShow({ root }: PromptElements) {
+function onEndShowing({ root }: PromptElements) {
   const content: MaybeHTMLElement = root.querySelector(CONTENT_SELECTOR);
   if (!content) {
     return;
@@ -193,13 +193,20 @@ function handleFocus(root: HTMLElement, content: HTMLElement) {
   }
 }
 
-function onClick(
+function onToggle(
   selectorOrElement: string | HTMLElement,
+  mode: 'show' | 'hide' | 'toggle',
   options?: PromptOptions
 ) {
   const checkbox: MaybePromptCheckbox =
     getCheckboxFromSelectorOrElement(selectorOrElement);
   if (checkbox) {
+    if (checkbox.checked && mode === "show") {
+      return;
+    }
+    if (!checkbox.checked && mode === "hide") {
+      return;
+    }
     if (options) {
       checkbox.options = options;
     }
@@ -216,6 +223,7 @@ type TPrompt = {
   updated: () => void;
   hide: (selectorOrElement: string | HTMLElement) => void;
   show: (selectorOrElement: string | HTMLElement) => void;
+  toggle: (selectorOrElement: string | HTMLElement) => void;
   change: (selectorOrElement: string | HTMLElement, options?: PromptOptions) => void;
 };
 
@@ -259,7 +267,7 @@ export const Prompt: TPrompt = {
           state: checkbox.checked ? "endShowing" : "endHiding",
           elements,
           options,
-          onEndShowing: onShow,
+          onDidShow: onEndShowing,
         });
       },
       { once: true }
@@ -287,9 +295,18 @@ export const Prompt: TPrompt = {
         }
       }
     }
-    onClick(selectorOrElement)
+    onToggle(selectorOrElement, 'hide')
   },
-  show: onClick
+  show: function (
+    selectorOrElement: string | HTMLElement
+  ) {
+    onToggle(selectorOrElement, 'show');
+  },
+  toggle: function (
+    selectorOrElement: string | HTMLElement
+  ) {
+    onToggle(selectorOrElement, 'toggle');
+  },
 };
 
 declare global {

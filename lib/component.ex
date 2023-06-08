@@ -11892,54 +11892,26 @@ defmodule PrimerLive.Component do
   Neither Primer CSS nor Primer React provide a drawer component. However, a drawer is used on their documentation site (mobile view).
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  PromptDeclarationHelpers.id("Drawer element id")
+  PromptDeclarationHelpers.form("the drawer element")
+  PromptDeclarationHelpers.field("the drawer")
+  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.is_backdrop()
+  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_fast(false)
+  PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.is_modal("the drawer")
+  PromptDeclarationHelpers.is_escapable()
+  PromptDeclarationHelpers.focus_first("the drawer")
+
+  DeclarationHelpers.class()
 
   attr :is_far_side, :boolean,
     default: false,
     doc: """
     Opens the drawer at the far end of the reading direction.
-    """
-
-  attr :is_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a medium backdrop background color.
-    """
-
-  attr :is_dark_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a darker backdrop background color.
-    """
-
-  attr :is_medium_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a medium backdrop background color (default).
-    """
-
-  attr :is_light_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a lighter backdrop background color.
-    """
-
-  attr :is_fast, :boolean,
-    default: false,
-    doc: """
-    Generates fast fade transitions for backdrop and content.
-    """
-
-  attr :is_modal, :boolean,
-    default: false,
-    doc: """
-    Generates a modal drawer; clicking the backdrop (if used) or outside of the drawer will not close the drawer.
-    """
-
-  attr :is_escapable, :boolean,
-    default: false,
-    doc: """
-    Closes the content when pressing the Escape key.
     """
 
   attr :is_local, :boolean,
@@ -11954,11 +11926,6 @@ defmodule PrimerLive.Component do
     Adds styles for a push drawer inside a a container.
     """
 
-  attr :focus_first, :string,
-    doc: """
-    Focus the first element after opening the drawer. Pass a selector to match the element.
-    """
-
   attr(:rest, :global,
     doc: """
     Additional HTML attributes added to the outer element.
@@ -11971,63 +11938,70 @@ defmodule PrimerLive.Component do
   )
 
   def drawer(assigns) do
-    drawer_id = assigns.rest[:id] || AttributeHelpers.random_string()
+    %{
+      form: form,
+      field: field
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
+
+    %{
+      checkbox_attrs: checkbox_attrs,
+      menu_attrs: wrapper_attrs,
+      backdrop_attrs: backdrop_attrs,
+      touch_layer_attrs: touch_layer_attrs,
+      focus_wrap_id: focus_wrap_id
+    } =
+      AttributeHelpers.prompt_attrs(assigns, %{
+        form: form,
+        field: field,
+        toggle_slot: nil,
+        toggle_class: nil,
+        menu_class: nil,
+        is_menu: false
+      })
 
     wrapper_attrs =
-      AttributeHelpers.append_attributes(assigns.rest |> Map.drop([:id]), [
+      AttributeHelpers.append_attributes(wrapper_attrs, [
         assigns[:class] && [class: assigns[:class]],
-        [id: drawer_id],
-        ["data-prompt": ""],
         ["data-isdrawer": ""],
         if assigns.is_far_side do
           ["data-isfarside": ""]
         end,
-        assigns.is_modal && ["data-ismodal": ""],
         assigns.is_local && ["data-islocal": ""],
-        assigns.is_push && ["data-ispush": ""],
-        assigns.is_escapable && ["data-isescapable": ""],
-        assigns.is_fast && ["data-isfast": ""],
-        assigns[:focus_first] && ["data-focusfirst": assigns[:focus_first]]
-      ])
-
-    touch_layer_attrs = ["data-touch": ""]
-
-    backdrop_attrs =
-      AttributeHelpers.append_attributes([
-        cond do
-          assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
-          assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
-          assigns.is_light_backdrop -> ["data-backdrop": "", "data-islight": ""]
-          assigns.is_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
-          true -> []
-        end
+        assigns.is_push && ["data-ispush": ""]
       ])
 
     content_attrs = ["data-content": ""]
 
     assigns =
       assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
+      |> assign(:checkbox_attrs, checkbox_attrs)
       |> assign(:wrapper_attrs, wrapper_attrs)
       |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:content_attrs, content_attrs)
+      |> assign(:focus_wrap_id, focus_wrap_id)
 
     ~H"""
     <div {@wrapper_attrs}>
-      <%= if !@is_push do %>
-        <%= if @backdrop_attrs !== [] do %>
-          <div {@backdrop_attrs}></div>
-        <% end %>
-        <div {@touch_layer_attrs}></div>
-      <% end %>
-      <div {@content_attrs}>
-        <%= if @is_push do %>
+      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <div data-prompt-content>
+        <%= if !@is_push do %>
           <%= if @backdrop_attrs !== [] do %>
             <div {@backdrop_attrs}></div>
           <% end %>
           <div {@touch_layer_attrs}></div>
         <% end %>
-        <%= render_slot(@inner_block) %>
+        <div {@content_attrs}>
+          <%= if @is_push do %>
+            <%= if @backdrop_attrs !== [] do %>
+              <div {@backdrop_attrs}></div>
+            <% end %>
+            <div {@touch_layer_attrs}></div>
+          <% end %>
+          <%= render_slot(@inner_block) %>
+        </div>
       </div>
     </div>
     """

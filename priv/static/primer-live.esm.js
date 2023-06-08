@@ -76,7 +76,7 @@ function setCheckboxState({
   state,
   elements,
   options,
-  onEndShowing
+  onDidShow
 }) {
   switch (state) {
     case "showing":
@@ -86,8 +86,8 @@ function setCheckboxState({
       }
       break;
     case "endShowing":
-      if (onEndShowing) {
-        onEndShowing(elements);
+      if (onDidShow) {
+        onDidShow(elements);
       }
       if (options.didShow) {
         options.didShow(elements);
@@ -141,7 +141,7 @@ function closeFromEscapeKey(evt) {
     }
   }
 }
-function onShow({ root }) {
+function onEndShowing({ root }) {
   const content = root.querySelector(CONTENT_SELECTOR);
   if (!content) {
     return;
@@ -157,9 +157,15 @@ function handleFocus(root, content) {
     }
   }
 }
-function onClick(selectorOrElement, options) {
+function onToggle(selectorOrElement, mode, options) {
   const checkbox = getCheckboxFromSelectorOrElement(selectorOrElement);
   if (checkbox) {
+    if (checkbox.checked && mode === "show") {
+      return;
+    }
+    if (!checkbox.checked && mode === "hide") {
+      return;
+    }
     if (options) {
       checkbox.options = options;
     }
@@ -204,7 +210,7 @@ var Prompt = {
           state: checkbox.checked ? "endShowing" : "endHiding",
           elements,
           options,
-          onEndShowing: onShow
+          onDidShow: onEndShowing
         });
       },
       { once: true }
@@ -226,9 +232,14 @@ var Prompt = {
         }
       }
     }
-    onClick(selectorOrElement);
+    onToggle(selectorOrElement, "hide");
   },
-  show: onClick
+  show: function(selectorOrElement) {
+    onToggle(selectorOrElement, "show");
+  },
+  toggle: function(selectorOrElement) {
+    onToggle(selectorOrElement, "toggle");
+  }
 };
 if (typeof window !== "undefined") {
   window.Prompt = Prompt;
