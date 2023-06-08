@@ -24,6 +24,7 @@ type TPrompt = {
     updated: () => void;
     hide: (selectorOrElement: string | HTMLElement) => void;
     show: (selectorOrElement: string | HTMLElement) => void;
+    toggle: (selectorOrElement: string | HTMLElement) => void;
     change: (selectorOrElement: string | HTMLElement, options?: PromptOptions) => void;
 };
 export declare const Prompt: TPrompt;

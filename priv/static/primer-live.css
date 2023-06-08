@@ -26317,7 +26317,9 @@ a.branch-name .octicon {
   --drawer-width: 320px;
   --prompt-z-index-backdrop: 98;
   --prompt-z-index-touch: 99;
-  --prompt-z-index-content: 100;
+  --prompt-z-index-menu-content: 100;
+  --prompt-z-index-drawer-content: 200;
+  --prompt-z-index-dialog-content: 300;
 }
 [data-prompt] > input[type=checkbox]:not([data-ismounted]) + [data-prompt-content] {
   display: none;
@@ -26325,6 +26327,9 @@ a.branch-name .octicon {
 [data-prompt] > input[type=checkbox][data-ismounted] + [data-prompt-content] {
   display: block;
   visibility: hidden;
+}
+[data-prompt][data-ispush] > input[type=checkbox][data-ismounted] + [data-prompt-content] {
+  visibility: visible;
 }
 [data-prompt] > input[type=checkbox]:checked + [data-prompt-content] {
   visibility: visible;
@@ -26358,7 +26363,7 @@ a.branch-name .octicon {
 [data-prompt] > input[type=checkbox][data-ishiding] {
   opacity: 0;
 }
-[data-prompt] > input[type=checkbox] + [data-prompt-content] {
+[data-prompt]:not([data-isdrawer]):not([data-islocal]) {
   position: relative;
 }
 [data-prompt] [data-backdrop] {
@@ -26370,10 +26375,18 @@ a.branch-name .octicon {
   animation-timing-function: unset;
 }
 [data-prompt]:not([data-isdrawer]) [data-content] {
-  z-index: var(--prompt-z-index-content);
   transition-property: opacity, visibility;
   transition-timing-function: var(--prompt-transition-timing-function-content);
   opacity: 0;
+}
+[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
+  z-index: var(--prompt-z-index-dialog-content);
+}
+[data-prompt][data-isdrawer] [data-content]:not([aria-role="menu"]) {
+  z-index: var(--prompt-z-index-drawer-content);
+}
+[data-prompt] [data-content][aria-role=menu] {
+  z-index: var(--prompt-z-index-menu-content);
 }
 [data-prompt] [data-touch],
 [data-prompt] [data-backdrop] {
@@ -26431,7 +26444,6 @@ a.branch-name .octicon {
   opacity: 1;
 }
 [data-prompt][data-isdrawer] [data-content] {
-  z-index: var(--prompt-z-index-content);
   transition-property: transform, visibility;
   transition-timing-function: var(--prompt-transition-timing-function-content);
   position: fixed;
@@ -26515,7 +26527,7 @@ a.branch-name .octicon {
   top: 0;
   overflow-y: auto;
   height: inherit;
-  z-index: 1;
+  z-index: var(--prompt-z-index-drawer-content);
   width: 100%;
   max-width: var(--drawer-width);
 }
@@ -26993,7 +27005,7 @@ span.ActionList-content[aria-expanded] {
 [data-prompt][data-isdrawer] [data-drawer-content].Box--overlay {
   width: initial;
 }
-[data-prompt][data-isdrawer]:not(:checked) [data-drawer-content].Box--overlay {
+[data-prompt][data-isdrawer] input[type=checkbox]:not(:checked) + [data-prompt-content] [data-drawer-content] {
   box-shadow: none;
 }
 .tabnav-tab--small {
