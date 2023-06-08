@@ -26,16 +26,16 @@
 GENERAL
 ----------------------------------------------------- */
 
-/* Hide inner elements as long as prompt is not open */
-
-/* -- Hide completely until mounted to prevent flashes of transitioning content and background. */
-[data-prompt]>input[type="checkbox"]:not([data-ismounted])+[data-prompt-content] {
-  display: none;
+/* Hide inner elements as long as prompt is not open. */
+[data-prompt] [data-prompt-content] {
+  visibility: hidden;
 }
 
-[data-prompt]>input[type="checkbox"][data-ismounted]+[data-prompt-content] {
-  display: block;
-  visibility: hidden;
+/* -- Prevent hiding transitions at first drawing. */
+[data-prompt] [data-backdrop],
+[data-prompt] [data-content],
+[data-prompt] [data-drawer-content] {
+  transition-duration: 0;
 }
 
 /* -- Push drawers should be visible, because the pushed content should be visible at all times. */
@@ -47,8 +47,8 @@ GENERAL
   visibility: visible;
 }
 
-/* -- The touch layer is not transitioning, so display none/block is sufficient. */
-[data-prompt]>input[type="checkbox"]+[data-prompt-content] [data-touch] {
+/* -- Only catch pointer events when active. */
+[data-prompt] [data-touch] {
   pointer-events: none;
 }
 
@@ -154,12 +154,12 @@ TOUCH AND BACKDROP
 }
 
 /* Backdrop regular fade */
-[data-prompt]:not([data-isfast]) [data-backdrop] {
+[data-prompt]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-backdrop] {
   transition-duration: var(--prompt-transition-duration-backdrop);
 }
 
 /* Backdrop fast fade */
-[data-prompt][data-isfast] [data-backdrop] {
+[data-prompt][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-backdrop] {
   transition-duration: var(--prompt-fast-transition-duration-backdrop);
 }
 
@@ -199,12 +199,12 @@ DIALOG
 }
 
 /* Transition: regular */
-[data-prompt]:not([data-isfast]) [data-content] {
+[data-prompt]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content] {
   transition-duration: var(--prompt-transition-duration-content);
 }
 
 /* Transition: fast */
-[data-prompt][data-isfast] [data-content] {
+[data-prompt][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content] {
   transition-duration: var(--prompt-fast-transition-duration-content);
 }
 
@@ -235,13 +235,13 @@ DRAWER
   transition-timing-function: var(--prompt-transition-timing-function-content);
 }
 
-[data-prompt][data-isdrawer]:not([data-isfast]) [data-content],
-[data-prompt][data-isdrawer]:not([data-isfast]) [data-drawer-content] {
+[data-prompt][data-isdrawer]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content],
+[data-prompt][data-isdrawer]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-drawer-content] {
   transition-duration: var(--prompt-transition-duration-content);
 }
 
-[data-prompt][data-isdrawer][data-isfast] [data-content],
-[data-prompt][data-isdrawer][data-isfast] [data-drawer-content] {
+[data-prompt][data-isdrawer][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content],
+[data-prompt][data-isdrawer][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-drawer-content] {
   transition-duration: var(--prompt-fast-transition-duration-content);
 }
 
