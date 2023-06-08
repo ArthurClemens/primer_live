@@ -226,7 +226,7 @@ This feels a bit ad hoc and can improved with a custom and reusable replacement 
 ```
 # Model
 
-def update_with_ui(%User{} = user, attrs, ui_values \\ %{}) do
+def update_with_ui(%User{} = user, attrs, ui_attrs \\ %{}, types \\ %{}) do
   result =
     user
     |> User.changeset(attrs)
@@ -234,13 +234,22 @@ def update_with_ui(%User{} = user, attrs, ui_values \\ %{}) do
 
   case result do
     {:ok, user} ->
-      changeset = change(user, ui_values)
+      changeset = changeset_with_ui_attrs(user, ui_attrs, types)
       {:ok, user, changeset}
 
     {:error, changeset} ->
-      changeset = changeset |> Map.merge(ui_values)
+      changeset = changeset_with_ui_attrs(changeset.data, ui_attrs, types)
       {:error, nil, changeset}
   end
+end
+
+defp changeset_with_ui_attrs(user, ui_attrs \\ %{}, types \\ %{}) do
+  changeset =
+    {user, types}
+    |> Ecto.Changeset.cast(
+      ui_attrs,
+      Map.keys(ui_attrs |> Map.new(fn {k, v} -> {String.to_atom(k), v} end))
+    )
 end
 ```
 
@@ -252,8 +261,9 @@ And now the event handler becomes:
 def handle_event("save", %{"user" => params}, socket) do
   case User.update_with_ui(
     socket.assigns.user,
-    params,                                 # Model params
-    params |> Map.take(["user_job_toggle"]) # UI params
+    params,                                  # Model params
+    params |> Map.take(["user_job_toggle"]), # UI params
+    %{user_job_toggle: :string},             # UI param types
   ) do
     {:ok, user, changeset} ->
       socket =

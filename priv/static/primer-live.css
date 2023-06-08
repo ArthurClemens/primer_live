@@ -26321,12 +26321,13 @@ a.branch-name .octicon {
   --prompt-z-index-drawer-content: 200;
   --prompt-z-index-dialog-content: 300;
 }
-[data-prompt] > input[type=checkbox]:not([data-ismounted]) + [data-prompt-content] {
-  display: none;
-}
-[data-prompt] > input[type=checkbox][data-ismounted] + [data-prompt-content] {
-  display: block;
+[data-prompt] [data-prompt-content] {
   visibility: hidden;
+}
+[data-prompt] [data-backdrop],
+[data-prompt] [data-content],
+[data-prompt] [data-drawer-content] {
+  transition-duration: 0;
 }
 [data-prompt][data-ispush] > input[type=checkbox][data-ismounted] + [data-prompt-content] {
   visibility: visible;
@@ -26334,7 +26335,7 @@ a.branch-name .octicon {
 [data-prompt] > input[type=checkbox]:checked + [data-prompt-content] {
   visibility: visible;
 }
-[data-prompt] > input[type=checkbox] + [data-prompt-content] [data-touch] {
+[data-prompt] [data-touch] {
   pointer-events: none;
 }
 [data-prompt] > input[type=checkbox]:checked + [data-prompt-content] [data-touch] {
@@ -26408,10 +26409,10 @@ a.branch-name .octicon {
   transition-property: opacity, visibility;
   transition-timing-function: var(--prompt-transition-timing-function-backdrop);
 }
-[data-prompt]:not([data-isfast]) [data-backdrop] {
+[data-prompt]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-backdrop] {
   transition-duration: var(--prompt-transition-duration-backdrop);
 }
-[data-prompt][data-isfast] [data-backdrop] {
+[data-prompt][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-backdrop] {
   transition-duration: var(--prompt-fast-transition-duration-backdrop);
 }
 [data-prompt] > input[type=checkbox]:checked + [data-prompt-content] [data-backdrop] {
@@ -26434,10 +26435,10 @@ a.branch-name .octicon {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-[data-prompt]:not([data-isfast]) [data-content] {
+[data-prompt]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content] {
   transition-duration: var(--prompt-transition-duration-content);
 }
-[data-prompt][data-isfast] [data-content] {
+[data-prompt][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content] {
   transition-duration: var(--prompt-fast-transition-duration-content);
 }
 [data-prompt]:not([data-isdrawer]) input[type=checkbox]:checked + [data-prompt-content] [data-content] {
@@ -26457,12 +26458,12 @@ a.branch-name .octicon {
   transition-property: all;
   transition-timing-function: var(--prompt-transition-timing-function-content);
 }
-[data-prompt][data-isdrawer]:not([data-isfast]) [data-content],
-[data-prompt][data-isdrawer]:not([data-isfast]) [data-drawer-content] {
+[data-prompt][data-isdrawer]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content],
+[data-prompt][data-isdrawer]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-drawer-content] {
   transition-duration: var(--prompt-transition-duration-content);
 }
-[data-prompt][data-isdrawer][data-isfast] [data-content],
-[data-prompt][data-isdrawer][data-isfast] [data-drawer-content] {
+[data-prompt][data-isdrawer][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content],
+[data-prompt][data-isdrawer][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-drawer-content] {
   transition-duration: var(--prompt-fast-transition-duration-content);
 }
 [data-prompt][data-isdrawer] [data-content] {
