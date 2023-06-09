@@ -24,6 +24,12 @@ const optsFromArgs: OptsFromArgs = args.reduce((acc, arg) => {
   return acc;
 }, {});
 
+if (!optsFromArgs.outfile) {
+  throw new Error(
+    'Missing outfile. Are you running the build script outside of the mix command "assets.build"?'
+  );
+}
+
 const entryPoints: string[] = [];
 if (optsFromArgs.format === 'esm' || optsFromArgs.format === 'cjs') {
   entryPoints.push('index-js-only.ts');
