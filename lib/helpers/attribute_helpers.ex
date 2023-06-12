@@ -503,59 +503,22 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   def common_input_attrs(assigns, input_type) do
     common_shared_attrs = common_shared_attrs(assigns)
 
-    %{
-      rest: rest,
-      form: form,
-      field: field
-    } = common_shared_attrs
-
     # ID and label
-    %{
-      derived_label: derived_label,
-      input_id: input_id,
-      input_name: input_name,
-      phx_feedback_for_id: phx_feedback_for_id,
-      value: value
-    } = common_id_attrs(assigns, input_type, common_shared_attrs)
+    id_attrs = common_id_attrs(assigns, input_type, common_shared_attrs)
 
     # Form group
-    %{
-      form_group_attrs: form_group_attrs,
-      has_form_group: has_form_group
-    } = common_form_group_attrs(assigns, input_id, common_shared_attrs)
+    form_group_attrs = common_form_group_attrs(assigns, id_attrs.input_id, common_shared_attrs)
 
     # Field state
-    %{
-      message: message,
-      valid?: valid?,
-      ignore_errors?: ignore_errors?,
-      show_message?: show_message?,
-      validation_message_id: validation_message_id,
-      validation_marker_attrs: validation_marker_attrs
-    } = common_field_state_attrs(assigns, input_id, common_shared_attrs)
+    field_state_attrs = common_field_state_attrs(assigns, id_attrs.input_id, common_shared_attrs)
 
-    %{
-      # Common
-      rest: rest,
-      form: form,
-      field: field,
-      # ID and label
-      input_name: input_name,
-      input_id: input_id,
-      phx_feedback_for_id: phx_feedback_for_id,
-      value: value,
-      derived_label: derived_label,
-      # Form group
-      has_form_group: has_form_group,
-      form_group_attrs: form_group_attrs,
-      # Field state
-      message: message,
-      valid?: valid?,
-      validation_message_id: validation_message_id,
-      ignore_errors?: ignore_errors?,
-      show_message?: show_message?,
-      validation_marker_attrs: validation_marker_attrs
-    }
+    [
+      common_shared_attrs,
+      id_attrs,
+      form_group_attrs,
+      field_state_attrs
+    ]
+    |> Enum.reduce(&Map.merge/2)
   end
 
   defp common_shared_attrs(assigns) do
