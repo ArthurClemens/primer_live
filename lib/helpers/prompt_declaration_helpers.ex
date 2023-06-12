@@ -1,12 +1,21 @@
 defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
-  defmacro id(name_element_id) do
+  defmacro id(name_element_id, is_required) do
     quote do
       attr(:id, :string,
+        required: unquote(is_required),
         doc:
-          """
-          {name_element_id}. Use to toggle from the outside, and to get consistent IDs in tests. If not set, an id is generated, either based on `form` and `field`, or otherwise randomly.
-          """
-          |> String.replace("{name_element_id}", unquote(name_element_id))
+          if unquote(is_required) do
+            """
+            {name_element_id}. Use to toggle from the outside. Required in order to derive a consistent focus wrap ID.
+            """
+            |> String.replace("{name_element_id}", unquote(name_element_id))
+          else
+            """
+            {name_element_id}. Use to toggle from the outside, and to get consistent IDs in tests.
+            If not set, an id is generated, either based on `form` and `field`, or otherwise randomly.
+            """
+            |> String.replace("{name_element_id}", unquote(name_element_id))
+          end
       )
     end
   end
