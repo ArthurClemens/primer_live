@@ -358,23 +358,26 @@ defmodule PrimerLive.Component do
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
-  attr :is_divided, :boolean,
+  attr(:is_divided, :boolean,
     default: false,
     doc: """
     Show dividers between items.
     """
+  )
 
-  attr :is_full_bleed, :boolean,
+  attr(:is_full_bleed, :boolean,
     default: false,
     doc: """
     Removes the default padding.
     """
+  )
 
-  attr :is_multiple_select, :boolean,
+  attr(:is_multiple_select, :boolean,
     default: false,
     doc: """
     Sets ARIA attribute and classes for multi select checkmarks.
     """
+  )
 
   attr(:rest, :global)
 
@@ -444,11 +447,12 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_filled, :boolean,
+  attr(:is_filled, :boolean,
     default: false,
     doc: """
     Creates a higher horizontal line. When used with the `title` slot, the title is placed inside the line.
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -624,11 +628,12 @@ defmodule PrimerLive.Component do
   [INSERT LVATTRDOCS]
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
+  attr(:field, :any, doc: "Field name (atom or string).")
 
-  attr :form, :any,
+  attr(:form, :any,
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  )
 
   attr(:checked_value, :string, default: nil, doc: "Checkbox `checked_value`, see `checkbox/1`.")
 
@@ -690,29 +695,33 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_height_medium, :boolean,
+  attr(:is_height_medium, :boolean,
     default: false,
     doc: """
     Sets the row height to at least 40px. The default row height is 32px (on touch devices this is 48px).
     """
+  )
 
-  attr :is_height_large, :boolean,
+  attr(:is_height_large, :boolean,
     default: false,
     doc: """
     Sets the row height to at least 48px. The default row height is 32px (on touch devices this is 48px as well).
     """
+  )
 
-  attr :is_single_select, :boolean,
+  attr(:is_single_select, :boolean,
     default: false,
     doc: """
     Creates a checkbox group, visualized as checkmark icons, and sets ARIA attributes. The icons can be replaced with the `leading_visual` slot.
     """
+  )
 
-  attr :is_multiple_select, :boolean,
+  attr(:is_multiple_select, :boolean,
     default: false,
     doc: """
     Creates a checkbox group, using smaller sized checkboxes, and sets ARIA attributes. The icons can be replaced with the `leading_visual` slot.
     """
+  )
 
   attr(:is_checkmark_icon, :boolean,
     default: false,
@@ -721,58 +730,66 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_button, :boolean,
+  attr(:is_button, :boolean,
     default: false,
     doc: """
     Renders the content element with a `button` tag.
     """
+  )
 
-  attr :is_collapsible, :boolean,
+  attr(:is_collapsible, :boolean,
     default: false,
     doc: """
     Inserts a collapse icon as trailing visual (override the visual by using `trailing_visual` slot). Use with `is_expanded` and sets ARIA attributes. Uses a `button` element instead of `span`.
 
     When using slot `sub_group`, a false value of `is_expanded` will hide the sub group items.
     """
+  )
 
-  attr :is_expanded, :boolean,
+  attr(:is_expanded, :boolean,
     default: false,
     doc: """
     Use with `is_collapsible`. Sets the state of the collapsible by setting ARIA attributes.
 
     When using slot `sub_group`, a false value of `is_expanded` will hide the sub group items; a true value will show the items and make the current item bold.
     """
+  )
 
-  attr :is_danger, :boolean,
+  attr(:is_danger, :boolean,
     default: false,
     doc: """
     Adds a "danger" style to show that the item is descrucive.
     """
+  )
 
-  attr :is_disabled, :boolean,
+  attr(:is_disabled, :boolean,
     default: false,
     doc: """
     Shows the item is disabled.
     """
+  )
 
-  attr :is_truncated, :boolean,
+  attr(:is_truncated, :boolean,
     default: false,
     doc: """
     Shortens the item label with ellipsis.
     """
+  )
 
-  attr :is_sub_item, :boolean,
+  attr(:is_sub_item, :boolean,
     default: false,
     doc: """
     For items within a `sub_group`. Renders the item smaller.
     """
+  )
 
-  attr :leading_visual_width, :any,
+  attr(:leading_visual_width, :any,
     doc: """
     Use with the item that contains slots `sub_group` and `leading_visual`. Indents the items within the sub group to match the leading visual.
 
     Supported sizes: 16, 20, 24.
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -3129,18 +3146,19 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
+  attr(:field, :any, doc: "Field name (atom or string).")
 
-  attr :form, :any,
+  attr(:form, :any,
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  )
 
   attr(:label, :string,
     default: nil,
     doc: "Custom label. Note that a label is automatically generated when using `field`."
   )
 
-  attr :is_hide_label, :boolean, default: false, doc: "Omits the label when using `field`."
+  attr(:is_hide_label, :boolean, default: false, doc: "Omits the label when using `field`.")
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
@@ -3351,11 +3369,12 @@ defmodule PrimerLive.Component do
 
   attr(:class, :string, default: nil, doc: "Classname.")
 
-  attr :field, :any, doc: "Field name (atom or string)."
+  attr(:field, :any, doc: "Field name (atom or string).")
 
-  attr :form, :any,
+  attr(:form, :any,
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  )
 
   attr(:validation_message, :any,
     doc: """
@@ -3576,11 +3595,12 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
+  attr(:field, :any, doc: "Field name (atom or string).")
 
-  attr :form, :any,
+  attr(:form, :any,
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  )
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
@@ -4093,20 +4113,22 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
+  attr(:field, :any, doc: "Field name (atom or string).")
 
-  attr :form, :any,
+  attr(:form, :any,
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  )
 
   attr(:name, :string, doc: "Select name attribute (when not using `form` and `field`).")
 
-  attr :options, :any, required: true, doc: "Selectable options (list, map or keyword list)."
+  attr(:options, :any, required: true, doc: "Selectable options (list, map or keyword list).")
 
-  attr :selected, :any,
+  attr(:selected, :any,
     doc: "Selected option or options (string for single select, list when using `is_multiple`)."
+  )
 
-  attr :class, :string, doc: "Additional classname."
+  attr(:class, :string, doc: "Additional classname.")
 
   attr(:classes, :map,
     default: %{
@@ -4168,15 +4190,16 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_small, :boolean, default: false, doc: "Creates a small select."
-  attr :is_large, :boolean, default: false, doc: "Creates a large select."
-  attr :is_short, :boolean, default: false, doc: "Creates a short select."
-  attr :is_shorter, :boolean, default: false, doc: "Creates a shorter select."
-  attr :is_full_width, :boolean, default: false, doc: "Full width select."
+  attr(:is_small, :boolean, default: false, doc: "Creates a small select.")
+  attr(:is_large, :boolean, default: false, doc: "Creates a large select.")
+  attr(:is_short, :boolean, default: false, doc: "Creates a short select.")
+  attr(:is_shorter, :boolean, default: false, doc: "Creates a shorter select.")
+  attr(:is_full_width, :boolean, default: false, doc: "Full width select.")
 
-  attr :is_auto_height, :boolean,
+  attr(:is_auto_height, :boolean,
     default: false,
     doc: "When using `is_multiple`: sets the size to the number of options."
+  )
 
   attr(:is_monospace, :boolean,
     default: false,
@@ -4425,33 +4448,37 @@ defmodule PrimerLive.Component do
   Feature complete.
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
+  attr(:field, :any, doc: "Field name (atom or string).")
 
-  attr :form, :any,
+  attr(:form, :any,
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  )
 
   attr(:name, :string, doc: "Input name attribute (when not using `form` and `field`).")
 
-  attr :checked, :boolean, doc: "The state of the checkbox (when not using `form` and `field`)."
+  attr(:checked, :boolean, doc: "The state of the checkbox (when not using `form` and `field`).")
 
-  attr :checked_value, :string,
+  attr(:checked_value, :string,
     default: nil,
     doc:
       "The value to be sent when the checkbox is checked. If `checked_value` equals `value`, the checkbox is marked checked. Defaults to \"true\"."
+  )
 
-  attr :hidden_input, :string,
+  attr(:hidden_input, :string,
     default: "true",
     doc: """
     Controls if the component will generate a hidden input to submit the unchecked checkbox value or not. Defaults to "true". Uses `Phoenix.HTML.Form.hidden_input/3`.
     """
+  )
 
   attr(:value, :string, doc: "Checkbox value attribute (when not using `form` and `field`).")
 
-  attr :is_multiple, :boolean,
+  attr(:is_multiple, :boolean,
     default: false,
     doc:
       "When creating a list of checkboxes. Appends `[]` to the input name so that a list of values is passed to the form events."
+  )
 
   attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
 
@@ -4894,18 +4921,20 @@ defmodule PrimerLive.Component do
   Feature complete.
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
+  attr(:field, :any, doc: "Field name (atom or string).")
 
-  attr :form, :any,
+  attr(:form, :any,
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  )
 
   attr(:name, :string, doc: "Input name attribute (when not using `form` and `field`).")
 
   attr(:value, :string, default: nil, doc: "Input value.")
 
-  attr :checked, :boolean,
+  attr(:checked, :boolean,
     doc: "The state of the radio button (when not using `form` and `field`)."
+  )
 
   attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
 
@@ -4937,10 +4966,11 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :checked_value, :string,
+  attr(:checked_value, :string,
     default: nil,
     doc:
       "For internal use to ensure compatibility with \"single select\" radio buttons in `action_list/1`."
+  )
 
   attr(:rest, :global,
     doc: """
@@ -5124,11 +5154,12 @@ defmodule PrimerLive.Component do
   Feature complete.
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
+  attr(:field, :any, doc: "Field name (atom or string).")
 
-  attr :form, :any,
+  attr(:form, :any,
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  )
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
@@ -5830,7 +5861,7 @@ defmodule PrimerLive.Component do
   slot :sidebar,
     doc:
       "Generates a sidebar element. Widths: md: 256px, lg: 296px (change with `is_narrow_sidebar` and `is_wide_sidebar`)." do
-    attr :order, :any, values: [1, 2, "1", "2"], doc: "See `main` slot. Default value: 1."
+    attr(:order, :any, values: [1, 2, "1", "2"], doc: "See `main` slot. Default value: 1.")
   end
 
   def layout(assigns) do
@@ -6237,32 +6268,34 @@ defmodule PrimerLive.Component do
 
   slot :header,
     doc: "Generates a header row element." do
-    attr :class, :string, doc: "Additional classname."
-    attr :is_blue, :boolean, doc: "Change the header border and background to blue."
+    attr(:class, :string, doc: "Additional classname.")
+    attr(:is_blue, :boolean, doc: "Change the header border and background to blue.")
   end
 
   slot :header_title,
     doc:
       "Generates a title within the header. If no header slot is passed, the header title will be wrapped inside a header element." do
-    attr :class, :string, doc: "Additional classname."
+    attr(:class, :string, doc: "Additional classname.")
   end
 
   slot :row,
     doc:
       "Generates a content row element. To create a link element, pass attribute `href`, `navigate` or `patch`." do
-    attr :is_blue, :boolean, doc: "Blue row theme."
-    attr :is_gray, :boolean, doc: "Gray row theme."
-    attr :is_yellow, :boolean, doc: "Yellow row theme."
-    attr :is_hover_blue, :boolean, doc: "Changes to blue row theme on hover."
-    attr :is_hover_gray, :boolean, doc: "Changes to gray row theme on hover."
-    attr :is_focus_blue, :boolean, doc: "Changes to blue row theme on focus."
-    attr :is_focus_gray, :boolean, doc: "Changes to gray row theme on focus."
+    attr(:is_blue, :boolean, doc: "Blue row theme.")
+    attr(:is_gray, :boolean, doc: "Gray row theme.")
+    attr(:is_yellow, :boolean, doc: "Yellow row theme.")
+    attr(:is_hover_blue, :boolean, doc: "Changes to blue row theme on hover.")
+    attr(:is_hover_gray, :boolean, doc: "Changes to gray row theme on hover.")
+    attr(:is_focus_blue, :boolean, doc: "Changes to blue row theme on focus.")
+    attr(:is_focus_gray, :boolean, doc: "Changes to gray row theme on focus.")
 
-    attr :is_navigation_focus, :boolean,
+    attr(:is_navigation_focus, :boolean,
       doc: "Combine with a theme color to highlight the row when using keyboard commands."
+    )
 
-    attr :is_unread, :boolean,
+    attr(:is_unread, :boolean,
       doc: "Apply a blue vertical line highlight for indicating a row contains unread items."
+    )
 
     attr(:href, :any,
       doc: """
@@ -6303,12 +6336,12 @@ defmodule PrimerLive.Component do
 
   slot :body,
     doc: "Generates a body element." do
-    attr :class, :string, doc: "Additional classname."
+    attr(:class, :string, doc: "Additional classname.")
   end
 
   slot :footer,
     doc: "Generates a footer row element." do
-    attr :class, :string, doc: "Additional classname."
+    attr(:class, :string, doc: "Additional classname.")
   end
 
   slot(:inner_block, required: true, doc: "Unstructured content.")
@@ -6600,7 +6633,7 @@ defmodule PrimerLive.Component do
 
   attr(:class, :string, doc: "Additional classname.")
 
-  attr :classes, :map,
+  attr(:classes, :map,
     default: %{
       header: nil,
       item: nil,
@@ -6621,6 +6654,7 @@ defmodule PrimerLive.Component do
     }
     ```
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -6632,7 +6666,7 @@ defmodule PrimerLive.Component do
     doc: """
     Header item.
     """ do
-    attr :is_full, :boolean, doc: "Stretches the item to maximum."
+    attr(:is_full, :boolean, doc: "Stretches the item to maximum.")
 
     attr(:class, :string,
       doc: """
@@ -6801,7 +6835,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.id("Dropdown element id")
+  PromptDeclarationHelpers.id("Dropdown element id", false)
   PromptDeclarationHelpers.form("the dropdown element")
   PromptDeclarationHelpers.field("the dropdown")
   PromptDeclarationHelpers.is_dropdown_caret(true)
@@ -6815,7 +6849,7 @@ defmodule PrimerLive.Component do
 
   DeclarationHelpers.class()
 
-  attr :classes, :map,
+  attr(:classes, :map,
     default: %{
       caret: nil,
       divider: nil,
@@ -6843,6 +6877,7 @@ defmodule PrimerLive.Component do
     }
     ```
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -7260,7 +7295,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.id("Select menu element id")
+  PromptDeclarationHelpers.id("Select menu element id", false)
   PromptDeclarationHelpers.form("the menu element")
   PromptDeclarationHelpers.field("the menu")
   PromptDeclarationHelpers.is_dropdown_caret(false)
@@ -7274,10 +7309,10 @@ defmodule PrimerLive.Component do
 
   DeclarationHelpers.class()
 
-  attr :is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right."
-  attr :is_borderless, :boolean, default: false, doc: "Removes the borders between list items."
+  attr(:is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right.")
+  attr(:is_borderless, :boolean, default: false, doc: "Removes the borders between list items.")
 
-  attr :classes, :map,
+  attr(:classes, :map,
     default: %{
       blankslate: nil,
       caret: nil,
@@ -7328,6 +7363,7 @@ defmodule PrimerLive.Component do
     }
     ```
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -7939,7 +7975,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.id("Menu element id")
+  PromptDeclarationHelpers.id("Menu element id", false)
   PromptDeclarationHelpers.form("the menu element")
   PromptDeclarationHelpers.field("the menu")
   PromptDeclarationHelpers.is_dropdown_caret(false)
@@ -7951,11 +7987,11 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.toggle_slot("the menu component")
 
-  attr :is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right."
+  attr(:is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right.")
 
   DeclarationHelpers.class()
 
-  attr :classes, :map,
+  attr(:classes, :map,
     default: %{
       action_menu: nil,
       caret: nil,
@@ -7982,8 +8018,9 @@ defmodule PrimerLive.Component do
     }
     ```
     """
+  )
 
-  attr :menu_theme, :map,
+  attr(:menu_theme, :map,
     default: nil,
     doc: """
     Sets the theme of the menu, including the dropdown shadow, but excluding the toggle button. This is useful when the button resides in a part with a different theme, such as a dark header.
@@ -8005,6 +8042,7 @@ defmodule PrimerLive.Component do
     <./header>
     ```
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -8037,7 +8075,7 @@ defmodule PrimerLive.Component do
         assigns.classes
       )
 
-    # Get the toggle menu slot, if any
+    # Get the toggle slot, if any
     toggle_slot = if assigns.toggle && assigns.toggle !== [], do: hd(assigns.toggle), else: []
 
     classes = %{
@@ -8238,44 +8276,50 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, doc: "Additional classname."
-  attr :is_full_width, :boolean, default: false, doc: "Generates a full-width button."
+  attr(:class, :string, doc: "Additional classname.")
+  attr(:is_full_width, :boolean, default: false, doc: "Generates a full-width button.")
 
-  attr :is_close_button, :boolean,
+  attr(:is_close_button, :boolean,
     default: false,
     doc: "Use when enclosing icon \"x-16\". This setting removes the default padding."
+  )
 
-  attr :is_dropdown_caret, :boolean,
+  attr(:is_dropdown_caret, :boolean,
     default: false,
     doc: "Adds a dropdown caret icon."
+  )
 
-  attr :is_danger, :boolean,
+  attr(:is_danger, :boolean,
     default: false,
     doc: "Generates a danger button (red label, turns the button red on hover)."
+  )
 
-  attr :is_disabled, :boolean, default: false, doc: "Generates a disabled button."
+  attr(:is_disabled, :boolean, default: false, doc: "Generates a disabled button.")
 
-  attr :is_icon_button, :boolean,
+  attr(:is_icon_button, :boolean,
     default: false,
     doc:
       "Generates an icon button without a label (similar to Primer React's IconButton). Add `is_danger` to create a danger icon (turns the icon red on hover)."
+  )
 
-  attr :is_icon_only, :boolean,
+  attr(:is_icon_only, :boolean,
     default: false,
     doc:
       "Generates an icon that functions as a button. Add `is_danger` to create a danger icon (turns the icon red on hover)."
+  )
 
-  attr :is_invisible, :boolean,
+  attr(:is_invisible, :boolean,
     default: false,
     doc: "Create a button that looks like a link, maintaining the paddings of a regular button."
+  )
 
-  attr :is_large, :boolean, default: false, doc: "Generates a large button."
-  attr :is_link, :boolean, default: false, doc: "Create a button that looks like a link."
-  attr :is_outline, :boolean, default: false, doc: "Generates an outline button."
-  attr :is_primary, :boolean, default: false, doc: "Generates a primary colored button."
-  attr :is_selected, :boolean, default: false, doc: "Generates a selected button."
-  attr :is_small, :boolean, default: false, doc: "Generates a small button."
-  attr :is_submit, :boolean, default: false, doc: "Generates a button with type=\"submit\"."
+  attr(:is_large, :boolean, default: false, doc: "Generates a large button.")
+  attr(:is_link, :boolean, default: false, doc: "Create a button that looks like a link.")
+  attr(:is_outline, :boolean, default: false, doc: "Generates an outline button.")
+  attr(:is_primary, :boolean, default: false, doc: "Generates a primary colored button.")
+  attr(:is_selected, :boolean, default: false, doc: "Generates a selected button.")
+  attr(:is_small, :boolean, default: false, doc: "Generates a small button.")
+  attr(:is_submit, :boolean, default: false, doc: "Generates a button with type=\"submit\".")
 
   attr(:href, :any,
     doc: """
@@ -8407,7 +8451,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, doc: "Additional classname."
+  attr(:class, :string, doc: "Additional classname.")
 
   attr(:rest, :global,
     doc: """
@@ -8420,25 +8464,25 @@ defmodule PrimerLive.Component do
     doc: """
     Button. Use `button/1` attributes to configure the button appearance and behaviour.
     """ do
-    attr :class, :boolean, doc: "Additional classname."
-    attr :href, :boolean, doc: "See `button/1`."
-    attr :is_close_button, :boolean, doc: "See `button/1`."
-    attr :is_danger, :boolean, doc: "See `button/1`."
-    attr :is_disabled, :boolean, doc: "See `button/1`."
-    attr :is_dropdown_caret, :boolean, doc: "See `button/1`."
-    attr :is_full_width, :boolean, doc: "See `button/1`."
-    attr :is_icon_button, :boolean, doc: "See `button/1`."
-    attr :is_icon_only, :boolean, doc: "See `button/1`."
-    attr :is_invisible, :boolean, doc: "See `button/1`."
-    attr :is_large, :boolean, doc: "See `button/1`."
-    attr :is_link, :boolean, doc: "See `button/1`."
-    attr :is_outline, :boolean, doc: "See `button/1`."
-    attr :is_primary, :boolean, doc: "See `button/1`."
-    attr :is_selected, :boolean, doc: "See `button/1`."
-    attr :is_small, :boolean, doc: "See `button/1`."
-    attr :is_submit, :boolean, doc: "See `button/1`."
-    attr :navigate, :boolean, doc: "See `button/1`."
-    attr :patch, :boolean, doc: "See `button/1`."
+    attr(:class, :boolean, doc: "Additional classname.")
+    attr(:href, :boolean, doc: "See `button/1`.")
+    attr(:is_close_button, :boolean, doc: "See `button/1`.")
+    attr(:is_danger, :boolean, doc: "See `button/1`.")
+    attr(:is_disabled, :boolean, doc: "See `button/1`.")
+    attr(:is_dropdown_caret, :boolean, doc: "See `button/1`.")
+    attr(:is_full_width, :boolean, doc: "See `button/1`.")
+    attr(:is_icon_button, :boolean, doc: "See `button/1`.")
+    attr(:is_icon_only, :boolean, doc: "See `button/1`.")
+    attr(:is_invisible, :boolean, doc: "See `button/1`.")
+    attr(:is_large, :boolean, doc: "See `button/1`.")
+    attr(:is_link, :boolean, doc: "See `button/1`.")
+    attr(:is_outline, :boolean, doc: "See `button/1`.")
+    attr(:is_primary, :boolean, doc: "See `button/1`.")
+    attr(:is_selected, :boolean, doc: "See `button/1`.")
+    attr(:is_small, :boolean, doc: "See `button/1`.")
+    attr(:is_submit, :boolean, doc: "See `button/1`.")
+    attr(:navigate, :boolean, doc: "See `button/1`.")
+    attr(:patch, :boolean, doc: "See `button/1`.")
   end
 
   def button_group(assigns) do
@@ -8542,27 +8586,29 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :page_count, :integer, required: true, doc: "Result page count."
-  attr :current_page, :integer, required: true, doc: "Current page number."
+  attr(:page_count, :integer, required: true, doc: "Result page count.")
+  attr(:current_page, :integer, required: true, doc: "Current page number.")
 
-  attr :link_path, :any,
+  attr(:link_path, :any,
     required: true,
     doc: """
     Function that returns a path for the given page number. The link builder uses `Phoenix.Component.link/1` with attribute `navigate`. Extra options can be passed with `link_options`.
 
     Function signature: `(page_number) -> path`
     """
+  )
 
-  attr :side_count, :integer, default: 1, doc: "Number of page links at both ends."
+  attr(:side_count, :integer, default: 1, doc: "Number of page links at both ends.")
 
-  attr :sibling_count, :integer,
+  attr(:sibling_count, :integer,
     default: 2,
     doc: "Number of page links at each side of the current page number element."
+  )
 
-  attr :is_numbered, :any, default: true, doc: "Boolean atom or string. Showing page numbers."
-  attr :class, :string, doc: "Additional classname."
+  attr(:is_numbered, :any, default: true, doc: "Boolean atom or string. Showing page numbers.")
+  attr(:class, :string, doc: "Additional classname.")
 
-  attr :classes, :map,
+  attr(:classes, :map,
     default: %{
       gap: nil,
       pagination_container: nil,
@@ -8586,6 +8632,7 @@ defmodule PrimerLive.Component do
     }
     ```
     """
+  )
 
   @default_pagination_labels %{
     aria_label_container: "Navigation",
@@ -8597,15 +8644,16 @@ defmodule PrimerLive.Component do
     previous_page: "Previous"
   }
 
-  attr :labels, :map,
+  attr(:labels, :map,
     default: @default_pagination_labels,
     doc: "Textual labels. Any provided value will override the default text."
+  )
 
   @default_pagination_link_options %{
     replace: false
   }
 
-  attr :link_options, :map, default: @default_pagination_link_options, doc: "Link options."
+  attr(:link_options, :map, default: @default_pagination_link_options, doc: "Link options.")
 
   attr(:rest, :global,
     doc: """
@@ -8902,12 +8950,13 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :name, :string,
+  attr(:name, :string,
     required: true,
     doc:
       "Icon name, e.g. \"arrow-left-24\". See [available icons](https://primer.style/octicons/)."
+  )
 
-  attr :class, :string, doc: "Additional classname."
+  attr(:class, :string, doc: "Additional classname.")
 
   attr(:rest, :global,
     doc: """
@@ -8959,9 +9008,10 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :name, :string,
+  attr(:name, :string,
     required: true,
     doc: "Icon name, e.g. \"single-select-16\"."
+  )
 
   attr(:rest, :global,
     doc: """
@@ -9038,85 +9088,98 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, doc: "Additional classname."
+  attr(:class, :string, doc: "Additional classname.")
 
-  attr :is_primary, :boolean,
+  attr(:is_primary, :boolean,
     default: false,
     doc: """
     Generates a label with a stronger border.
     """
+  )
 
-  attr :is_secondary, :boolean,
+  attr(:is_secondary, :boolean,
     default: false,
     doc: """
     Generates a label with a subtler text color.
     """
+  )
 
-  attr :is_accent, :boolean,
+  attr(:is_accent, :boolean,
     default: false,
     doc: """
     Accent color.
     """
+  )
 
-  attr :is_success, :boolean,
+  attr(:is_success, :boolean,
     default: false,
     doc: """
     Success color.
     """
+  )
 
-  attr :is_attention, :boolean,
+  attr(:is_attention, :boolean,
     default: false,
     doc: """
     Attention color.
     """
+  )
 
-  attr :is_severe, :boolean,
+  attr(:is_severe, :boolean,
     default: false,
     doc: """
     Severe color.
     """
+  )
 
-  attr :is_danger, :boolean,
+  attr(:is_danger, :boolean,
     default: false,
     doc: """
     Danger color.
     """
+  )
 
-  attr :is_open, :boolean,
+  attr(:is_open, :boolean,
     default: false,
     doc: """
     Open color.
     """
+  )
 
-  attr :is_closed, :boolean,
+  attr(:is_closed, :boolean,
     default: false,
     doc: """
     Closed color.
     """
+  )
 
-  attr :is_done, :boolean,
+  attr(:is_done, :boolean,
     default: false,
     doc: """
     Done color.
     """
+  )
 
-  attr :is_sponsors, :boolean,
+  attr(:is_sponsors, :boolean,
     default: false,
     doc: """
     Sponsors color.
     """
+  )
 
-  attr :is_large, :boolean,
+  attr(:is_large, :boolean,
     default: false,
     doc: """
     Larger label.
     """
+  )
 
-  attr :is_inline, :boolean,
+  attr(:is_inline, :boolean,
     default: false,
     doc: """
     For use in running text. Adapts line height and font size to text.
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -9195,13 +9258,14 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, doc: "Additional classname."
+  attr(:class, :string, doc: "Additional classname.")
 
-  attr :is_big, :boolean,
+  attr(:is_big, :boolean,
     default: false,
     doc: """
     Larger issue label.
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -9274,37 +9338,42 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, doc: "Additional classname."
+  attr(:class, :string, doc: "Additional classname.")
 
-  attr :is_draft, :boolean,
+  attr(:is_draft, :boolean,
     default: false,
     doc: """
     Draft state color.
     """
+  )
 
-  attr :is_open, :boolean,
+  attr(:is_open, :boolean,
     default: false,
     doc: """
     Open state color.
     """
+  )
 
-  attr :is_merged, :boolean,
+  attr(:is_merged, :boolean,
     default: false,
     doc: """
     Merged state color.
     """
+  )
 
-  attr :is_closed, :boolean,
+  attr(:is_closed, :boolean,
     default: false,
     doc: """
     Closed state color.
     """
+  )
 
-  attr :is_small, :boolean,
+  attr(:is_small, :boolean,
     default: false,
     doc: """
     Smaller state label.
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -9379,19 +9448,21 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, doc: "Additional classname."
+  attr(:class, :string, doc: "Additional classname.")
 
-  attr :is_primary, :boolean,
+  attr(:is_primary, :boolean,
     default: false,
     doc: """
     Primary color.
     """
+  )
 
-  attr :is_secondary, :boolean,
+  attr(:is_secondary, :boolean,
     default: false,
     doc: """
     Secondary color.
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -9505,17 +9576,19 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_spacious, :boolean,
+  attr(:is_spacious, :boolean,
     default: false,
     doc: """
     Add a top margin.
     """
+  )
 
-  attr :is_danger, :boolean,
+  attr(:is_danger, :boolean,
     default: false,
     doc: """
     Makes the text bold and red. This is useful for warning users.
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -9857,35 +9930,40 @@ defmodule PrimerLive.Component do
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
-  attr :is_primary, :boolean,
+  attr(:is_primary, :boolean,
     default: false,
     doc: """
     Turns the link color to blue only on hover.
     """
+  )
 
-  attr :is_secondary, :boolean,
+  attr(:is_secondary, :boolean,
     default: false,
     doc: """
     Turns the link color to blue only on hover, using a darker color.
     """
+  )
 
-  attr :is_muted, :boolean,
+  attr(:is_muted, :boolean,
     default: false,
     doc: """
     Turns the link to muted gray, also on hover.
     """
+  )
 
-  attr :is_no_underline, :boolean,
+  attr(:is_no_underline, :boolean,
     default: false,
     doc: """
     Removes the underline on hover.
     """
+  )
 
-  attr :is_on_hover, :boolean,
+  attr(:is_on_hover, :boolean,
     default: false,
     doc: """
     Makes any text color used with links to turn blue on hover. This is useful when you want only part of a link to turn blue on hover.
     """
+  )
 
   attr(:href, :any,
     doc: """
@@ -9997,7 +10075,7 @@ defmodule PrimerLive.Component do
   attr(:height, :string, default: nil, doc: "Image height attribute.")
   attr(:alt, :string, default: nil, doc: "Image alt attribute.")
 
-  attr :size, :any,
+  attr(:size, :any,
     values: [1, 2, 3, 4, 5, 6, 7, 8, "1", "2", "3", "4", "5", "6", "7", "8"],
     default: 3,
     doc: """
@@ -10013,6 +10091,7 @@ defmodule PrimerLive.Component do
     - 7: `48px`
     - 8: `64px`
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -10276,7 +10355,7 @@ defmodule PrimerLive.Component do
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
-  attr :size, :string,
+  attr(:size, :string,
     default: "small",
     doc: """
     Badge size: "small", "medium" or "large".
@@ -10286,6 +10365,7 @@ defmodule PrimerLive.Component do
     - medium: `96px`
     - large: `128px`
     """
+  )
 
   attr(:href, :any,
     doc: """
@@ -10754,23 +10834,26 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_narrow, :boolean,
+  attr(:is_narrow, :boolean,
     default: false,
     doc: """
     Narrows the blankslate container to not occupy the entire available width.
     """
+  )
 
-  attr :is_large, :boolean,
+  attr(:is_large, :boolean,
     default: false,
     doc: """
     Increases the size of the text in the blankslate.
     """
+  )
 
-  attr :is_spacious, :boolean,
+  attr(:is_spacious, :boolean,
     default: false,
     doc: """
     Significantly increases the vertical padding.
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -11210,15 +11293,17 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr :is_primary, :boolean,
+    attr(:is_primary, :boolean,
       doc: """
       When using multiple items. Delays the truncating of the item.
       """
+    )
 
-    attr :is_expandable, :boolean,
+    attr(:is_expandable, :boolean,
       doc: """
       When using multiple items. Will expand the text on `hover` and `focus`.
       """
+    )
 
     attr(:class, :string,
       doc: """
@@ -11451,7 +11536,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Dialog are wrapped inside a `Phoenix.Compoennt.focus_wrap/1` so that navigating with Tab won't leave the dialog.
+  Dialog content is wrapped inside a `Phoenix.Component.focus_wrap/1` so that navigating with Tab won't leave the dialog.
 
   ```
   <.dialog is_backdrop is_modal>
@@ -11475,7 +11560,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.id("Dialog element id")
+  PromptDeclarationHelpers.id("Dialog element id", true)
   PromptDeclarationHelpers.form("the dialog element")
   PromptDeclarationHelpers.field("the dialog")
   PromptDeclarationHelpers.is_dropdown_caret(false)
@@ -11527,29 +11612,33 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_narrow, :boolean,
+  attr(:is_narrow, :boolean,
     default: false,
     doc: """
     Generates a smaller dialog, width: `320px` (default: `440px`).
     """
+  )
 
-  attr :is_wide, :boolean,
+  attr(:is_wide, :boolean,
     default: false,
     doc: """
     Generates a wider dialog, width: `640px` (default: `440px`).
     """
+  )
 
-  attr :max_height, :string,
+  attr(:max_height, :string,
     default: "80vh",
     doc: """
     Maximum height of the dialog as CSS value. Use unit `vh` or `%`.
     """
+  )
 
-  attr :max_width, :string,
+  attr(:max_width, :string,
     default: "90vw",
     doc: """
     Maximum width of the dialog as CSS value. Use unit `vh` or `%`.
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -11778,9 +11867,9 @@ defmodule PrimerLive.Component do
 
   ```
   <.drawer>
-    <.drawer_content>
+    <:body>
       Content
-    </.drawer_content>
+    </:body>
   </.drawer>
   ```
 
@@ -11789,10 +11878,10 @@ defmodule PrimerLive.Component do
 
   ```
   <.drawer id="my-drawer">
-    <.drawer_content>
+    <:body>
       <.button onclick="Prompt.hide(this)">Close</.button>
       Content
-    </.drawer_content>
+    </:body>
   </.drawer>
 
   <.button onclick="Prompt.show('#my-drawer')">Open drawer</.button>
@@ -11804,9 +11893,9 @@ defmodule PrimerLive.Component do
 
   ```
   <.drawer>
-    <.drawer_content width="300px">
+    <:body width="300px">
       ...
-    </.drawer_content>
+    </:body>
   </.drawer>
   ```
 
@@ -11865,9 +11954,9 @@ defmodule PrimerLive.Component do
   <div style="position: relative; overflow-x: hidden;">
     Page content
     <.drawer is_local>
-      <.drawer_content>
+      <:body>
         Content
-      </.drawer_content>
+      </:body>
     </.drawer>
   </div>
   ```
@@ -11878,9 +11967,9 @@ defmodule PrimerLive.Component do
   <div style="position: relative; overflow-x: hidden;">
     <.drawer is_push>
       Page content
-      <.drawer_content>
+      <:body>
         Content
-      </.drawer_content>
+      </:body>
     </.drawer>
   </div>
   ```
@@ -11892,7 +11981,7 @@ defmodule PrimerLive.Component do
   Neither Primer CSS nor Primer React provide a drawer component. However, a drawer is used on their documentation site (mobile view).
   """
 
-  PromptDeclarationHelpers.id("Drawer element id")
+  PromptDeclarationHelpers.id("Drawer element id", true)
   PromptDeclarationHelpers.form("the drawer element")
   PromptDeclarationHelpers.field("the drawer")
   PromptDeclarationHelpers.is_dropdown_caret(false)
@@ -11908,23 +11997,48 @@ defmodule PrimerLive.Component do
 
   DeclarationHelpers.class()
 
-  attr :is_far_side, :boolean,
+  attr(:classes, :map,
+    default: %{
+      drawer_wrapper: nil,
+      drawer: nil,
+      body: nil
+    },
+    doc: """
+    Additional classnames for drawer elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      drawer_wrapper: "",  # The outer element
+      drawer: "",          # Drawer element
+      body: "",            # Drawer content element
+    }
+    ```
+    """
+  )
+
+  attr(:is_far_side, :boolean,
     default: false,
     doc: """
     Opens the drawer at the far end of the reading direction.
     """
+  )
 
-  attr :is_local, :boolean,
+  attr(:is_local, :boolean,
     default: false,
     doc: """
     Adds styles for a drawer inside a a container.
     """
+  )
 
-  attr :is_push, :boolean,
+  attr(:is_push, :boolean,
     default: false,
     doc: """
     Adds styles for a push drawer inside a a container.
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -11932,9 +12046,34 @@ defmodule PrimerLive.Component do
     """
   )
 
+  slot :body,
+    doc: """
+    Drawer body.
+    """ do
+    attr(:class, :string,
+      doc: """
+      Additional classname.
+      """
+    )
+
+    attr(:width, :string,
+      doc: """
+      Sets the width of the drawer as CSS value. Add unit `px` or `rem` or other size unit.
+
+      By default the drawer width is defined by its content.
+      """
+    )
+
+    attr(:rest, :any,
+      doc: """
+      Additional attributes.
+      """
+    )
+  end
+
   slot(:inner_block,
     doc:
-      "Drawer content and any adjacent elements. Use `drawer_content/1` for the content to be displayed inside the drawer."
+      "Drawer content and any adjacent elements. Use slot `body` for the content to be displayed inside the drawer."
   )
 
   def drawer(assigns) do
@@ -11942,6 +12081,31 @@ defmodule PrimerLive.Component do
       form: form,
       field: field
     } = AttributeHelpers.common_input_attrs(assigns, nil)
+
+    # Get the body slot, if any
+    body_slot = if assigns.body && assigns.body !== [], do: hd(assigns.body), else: []
+
+    classes = %{
+      drawer_wrapper:
+        AttributeHelpers.classnames([
+          assigns[:classes][:drawer_wrapper],
+          assigns[:class]
+        ]),
+      drawer:
+        AttributeHelpers.classnames([
+          assigns[:classes][:drawer]
+        ]),
+      body:
+        AttributeHelpers.classnames([
+          "Box--overlay",
+          if assigns.classes[:body] || body_slot[:class] do
+            AttributeHelpers.classnames([
+              assigns.classes[:body],
+              body_slot[:class]
+            ])
+          end
+        ])
+    }
 
     %{
       checkbox_attrs: checkbox_attrs,
@@ -11961,8 +12125,8 @@ defmodule PrimerLive.Component do
 
     wrapper_attrs =
       AttributeHelpers.append_attributes(wrapper_attrs, [
-        assigns[:class] && [class: assigns[:class]],
         ["data-isdrawer": ""],
+        classes.drawer_wrapper && [class: classes.drawer_wrapper],
         if assigns.is_far_side do
           ["data-isfarside": ""]
         end,
@@ -11970,7 +12134,29 @@ defmodule PrimerLive.Component do
         assigns.is_push && ["data-ispush": ""]
       ])
 
-    content_attrs = ["data-content": ""]
+    content_attrs =
+      AttributeHelpers.append_attributes([
+        ["data-content": ""],
+        classes.drawer && [class: classes.drawer]
+      ])
+
+    body_attrs =
+      AttributeHelpers.append_attributes(
+        assigns_to_attributes(body_slot, [
+          :inner_block,
+          :__slot__,
+          :class,
+          :width
+        ]),
+        [
+          ["data-drawer-content": ""],
+          classes.body && [class: classes.body],
+          body_slot[:width] &&
+            [
+              style: "width: #{body_slot[:width]}"
+            ]
+        ]
+      )
 
     assigns =
       assigns
@@ -11981,6 +12167,8 @@ defmodule PrimerLive.Component do
       |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:content_attrs, content_attrs)
+      |> assign(:body_slot, body_slot)
+      |> assign(:body_attrs, body_attrs)
       |> assign(:focus_wrap_id, focus_wrap_id)
 
     ~H"""
@@ -12000,7 +12188,16 @@ defmodule PrimerLive.Component do
             <% end %>
             <div {@touch_layer_attrs}></div>
           <% end %>
+          <% # START DEPRECATED %>
           <%= render_slot(@inner_block) %>
+          <% # END DEPRECATED %>
+          <%= if @body && @body !== [] do %>
+            <div {@body_attrs}>
+              <.focus_wrap id={@focus_wrap_id}>
+                <%= render_slot(@body) %>
+              </.focus_wrap>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
@@ -12014,20 +12211,23 @@ defmodule PrimerLive.Component do
   @doc section: :drawer
 
   @doc ~S"""
-  Drawer content. See `drawer/1`.
+  Drawer content (DEPRECATED).
+
+  Use `:body` slot with `drawer/1`.
 
   [INSERT LVATTRDOCS]
   """
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
-  attr :width, :string,
+  attr(:width, :string,
     default: nil,
     doc: """
     Sets the width of the drawer as CSS value. Add unit `px` or `rem` or other size unit.
 
     By default the drawer width is defined by its content.
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -12040,15 +12240,27 @@ defmodule PrimerLive.Component do
   )
 
   def drawer_content(assigns) do
+    if Application.get_env(:primer_live, :env) !== :test do
+      IO.puts("Deprecated drawer_content: use drawer's 'body' slot. Since 0.4.0.")
+    end
+
+    %{
+      focus_wrap_id: focus_wrap_id
+    } =
+      AttributeHelpers.prompt_attrs(assigns, %{
+        form: nil,
+        field: nil,
+        toggle_slot: nil,
+        toggle_class: nil,
+        menu_class: nil,
+        is_menu: nil
+      })
+
     class =
       AttributeHelpers.classnames([
         "Box--overlay",
         assigns[:class]
       ])
-
-    # Assign an id for focus wrap
-    drawer_content_id = assigns.rest[:id] || AttributeHelpers.random_string()
-    focus_wrap_id = "focus-wrap-#{drawer_content_id}"
 
     content_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
@@ -12293,19 +12505,21 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_large, :boolean,
+  attr(:is_large, :boolean,
     default: false,
     doc: """
     Creates a large progress bar.
     """
+  )
 
-  attr :is_small, :boolean,
+  attr(:is_small, :boolean,
     default: false,
     doc: """
     Creates a small progress bar.
     """
+  )
 
-  attr :is_inline, :boolean,
+  attr(:is_inline, :boolean,
     default: false,
     doc: """
     Creates an inline progress bar, to be used next to other elements.
@@ -12318,6 +12532,7 @@ defmodule PrimerLive.Component do
     </.progress>
     ```
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -12612,17 +12827,19 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_condensed, :boolean,
+  attr(:is_condensed, :boolean,
     default: false,
     doc: """
     Creates a condensed item, reducing the vertical padding and removing the background from the badge item.
     """
+  )
 
-  attr :is_break, :boolean,
+  attr(:is_break, :boolean,
     default: false,
     doc: """
     Creates a visual break in the timeline. This adds a horizontal bar across the timeline to show that something has disrupted it. Ignores any slots.
     """
+  )
 
   attr(:rest, :global,
     doc: """
@@ -13194,10 +13411,10 @@ defmodule PrimerLive.Component do
     """
   end
 
-  attr :menu_items, :map, required: true
-  attr :key, :atom, required: true, values: [:color_mode, :light_theme, :dark_theme]
-  attr :is_show_group_labels, :boolean, required: true
-  attr :is_click_disabled, :boolean, required: true
+  attr(:menu_items, :map, required: true)
+  attr(:key, :atom, required: true, values: [:color_mode, :light_theme, :dark_theme])
+  attr(:is_show_group_labels, :boolean, required: true)
+  attr(:is_click_disabled, :boolean, required: true)
 
   defp theme_menu_option_items(assigns) do
     group = assigns.menu_items[assigns.key]

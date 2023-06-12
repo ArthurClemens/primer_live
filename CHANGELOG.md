@@ -5,9 +5,11 @@
 The open state of menus and dialogs can now be maintained when used inside forms.
 
 Deprecated:
-- Passing prompt options to the `toggle` slot. The options should now be passed to the main component as `prompt_options`.
+- For all menu components, including 'dialog' and 'drawer': passing prompt options to the `toggle` slot is replaced by passing `prompt_options` to the main component.
+- In the `drawer` component, replace the subcomponent `drawer_content` with the slot `body`.
+  - This allows the focus wrap ID to be derived from the drawer's 'id' attribute, similar to how it is done for 'dialog'.
 
-Breaking changes:
+Other changes:
 - The HTML structure and some of the CSS classes of `action_menu`, `dropdown_menu` and `select_menu` have changed. Instead of `<details>` and `<summary>` elements, the open state is now controlled with `<input type="checkbox">` and `<label>`.
 
 ## 0.3.1

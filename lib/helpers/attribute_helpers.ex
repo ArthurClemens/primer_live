@@ -840,18 +840,21 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       }) do
     id = assigns[:id] || assigns.rest[:id]
 
-    input_name = if field, do: Phoenix.HTML.Form.input_name(form, field), else: nil
-
     prompt_options = assigns[:prompt_options] || toggle_slot[:options]
 
     if !is_nil(toggle_slot[:options]) && Application.get_env(:primer_live, :env) !== :test do
-      IO.puts("Deprecated toggle options: pass prompt_options to the main component.")
+      IO.puts(
+        "Deprecated toggle options: pass prompt_options to the main component. Since 0.4.0."
+      )
     end
+
+    input_name = if field, do: Phoenix.HTML.Form.input_name(form, field), else: nil
+    generated_id = id || input_name || random_string()
 
     toggle_id =
       if id,
         do: "#{id}-toggle",
-        else: input_name || random_string()
+        else: generated_id
 
     toggle_rest = assigns_to_attributes(toggle_slot || [], [:class, :for, :options])
 
@@ -893,7 +896,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
           id: menu_id,
           "phx-hook": "Prompt"
         ],
-        assigns.is_fast && ["data-isfast": ""],
+        assigns[:is_fast] && ["data-isfast": ""],
         # Dialog and drawer specific:
         assigns[:is_modal] && ["data-ismodal": ""],
         assigns[:is_escapable] && ["data-isescapable": ""],
@@ -903,16 +906,16 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     backdrop_attrs =
       append_attributes([
         cond do
-          assigns.is_dark_backdrop ->
+          assigns[:is_dark_backdrop] ->
             ["data-backdrop": "", "data-isdark": ""]
 
-          assigns.is_medium_backdrop ->
+          assigns[:is_medium_backdrop] ->
             ["data-backdrop": "", "data-ismedium": ""]
 
-          assigns.is_light_backdrop ->
+          assigns[:is_light_backdrop] ->
             ["data-backdrop": "", "data-islight": ""]
 
-          assigns.is_backdrop ->
+          assigns[:is_backdrop] ->
             if is_menu, do: ["data-backdrop": "", "data-islight": ""], else: ["data-backdrop": ""]
 
           true ->
@@ -924,7 +927,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       "data-touch": ""
     ]
 
-    focus_wrap_id = "focus-wrap-#{id || toggle_id}"
+    focus_wrap_id = "focus-wrap-#{id || generated_id}"
 
     %{
       toggle_attrs: toggle_attrs,
