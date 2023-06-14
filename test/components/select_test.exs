@@ -221,7 +221,6 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user[role]" class="pl-valid"></span>
              <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
              <option value="admin">admin</option>
              <option value="editor">editor</option>
@@ -242,7 +241,6 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user[role]" class="pl-valid"></span>
              <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
              <option value="admin">Admin</option>
              <option value="user">User</option>
@@ -267,7 +265,6 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user[role]" class="pl-valid"></span>
              <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
              <option disabled value="admin">Admin</option>
              <option value="user">User</option>
@@ -293,7 +290,6 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user[role]" class="pl-valid"></span>
              <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
              <option value="">Choose your role</option>
              <option value="admin">Admin</option>
@@ -320,11 +316,10 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user[role]" class="pl-valid"></span>
              <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
-             <option disabled value="">Choose your role</option>
-             <option value="admin">Admin</option>
-             <option value="user">User</option>
+               <option disabled value="">Choose your role</option>
+               <option value="admin">Admin</option>
+               <option value="user">User</option>
              </select>
              </div>
              """
@@ -346,13 +341,18 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap"><span phx-feedback-for="user[role]" class="pl-invalid"></span><select aria-describedby="user[role]-validation" class="FormControl-select FormControl-medium" id="user[role]" invalid="" name="user[role]">
+             <div phx-feedback-for="user[role]" class="FormControl-select-wrap pl-invalid">
+             <select aria-describedby="user[role]-validation" class="FormControl-select FormControl-medium"
+             id="user[role]" invalid="" name="user[role]">
              <option disabled value="">Choose your role</option>
              <option value="admin">Admin</option>
              <option value="user">User</option>
-             </select></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user[role]-validation" phx-feedback-for="user[role]">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
+             </select>
+             </div>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error"
+             id="user[role]-validation" phx-feedback-for="user[role]">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+             STRIPPED_SVG_PATHS</svg>
              <span>can&#39;t be blank</span>
              </div>
              """
@@ -385,8 +385,8 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl-select-wrap pl-multiple-select">
-             <span phx-feedback-for="user[role]" class="pl-valid"></span>
-             <select class="FormControl-select FormControl-medium" id="user[role]" multiple="" name="user[role][]" size="7">
+             <select class="FormControl-select FormControl-medium" id="user[role]" multiple=""
+             name="user[role][]" size="7">
              <option value="admin">Admin</option>
              <option value="user">User</option>
              <option value="editor">Editor</option>
@@ -431,7 +431,10 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap select_container-x my-select-container"><span phx-feedback-for="user[role]" class="pl-invalid"></span><select aria-describedby="user[role]-validation" aria-label="Role" class="FormControl-select FormControl-medium select-x" id="user[role]" invalid=""
+             <div phx-feedback-for="user[role]"
+             class="FormControl-select-wrap pl-invalid select_container-x my-select-container">
+             <select aria-describedby="user[role]-validation" aria-label="Role"
+             class="FormControl-select FormControl-medium select-x" id="user[role]" invalid=""
              name="user[role]">
              <option value="admin">Admin</option>
              <option value="user">User</option>
@@ -440,10 +443,14 @@ defmodule PrimerLive.TestComponents.SelectTest do
              <option value="tester">Tester</option>
              <option value="project_owner">Project owner</option>
              <option value="developer">Developer</option>
-             </select></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x" id="user[role]-validation" phx-feedback-for="user[role]">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
-             <span>can&#39;t be blank</span></div>
+             </select>
+             </div>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x"
+             id="user[role]-validation" phx-feedback-for="user[role]">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+             STRIPPED_SVG_PATHS</svg>
+             <span>can&#39;t be blank</span>
+             </div>
              """
              |> format_html()
   end

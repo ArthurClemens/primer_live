@@ -113,17 +113,17 @@ defmodule PrimerLive.TestComponents.InputValidationMessageTest do
              |> format_html()
   end
 
-  test "Attribute: input_id" do
+  test "Attribute: validation_message_id" do
     assigns = %{
       form: %{@default_form | source: @error_changeset}
     }
 
     assert rendered_to_string(~H"""
-           <.input_validation_message form={@form} field={:first_name} input_id="xxx" />
+           <.input_validation_message form={@form} field={:first_name} validation_message_id="xxx" />
            """)
            |> format_html() ==
              """
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="xxx-validation" phx-feedback-for="user[first_name]">
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="xxx" phx-feedback-for="user[first_name]">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
              <span>can&#39;t be blank</span>
              </div>

@@ -215,11 +215,14 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <span class="FormControl-checkbox-wrap container-x my-checkbox">
-             <span phx-feedback-for="user[available_for_hire]" class="pl-valid"></span>
              <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input checked class="form-checkbox-details-trigger FormControl-checkbox input-x" id="user[available_for_hire]" name="user[available_for_hire]" type="checkbox" value="true" />
-             <span class="FormControl-checkbox-labelWrap label_container-x"><label class="FormControl-label label-x my-label" aria-live="polite" for="user[available_for_hire]">Some label</label>
-             <p class="FormControl-caption hint-x my-hint">Some hint</p><span class="form-checkbox-details text-normal disclosure-x my-disclosure">Some hint</span>
+             <input checked class="form-checkbox-details-trigger FormControl-checkbox input-x"
+             id="user[available_for_hire]" name="user[available_for_hire]" type="checkbox" value="true" />
+             <span class="FormControl-checkbox-labelWrap label_container-x">
+             <label class="FormControl-label label-x my-label" aria-live="polite"
+             for="user[available_for_hire]">Some label</label>
+             <span class="FormControl-caption hint-x my-hint">Some hint</span>
+             <span class="form-checkbox-details text-normal disclosure-x my-disclosure">Some hint</span>
              </span>
              </span>
              """
@@ -362,7 +365,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <input name="available_for_hire" type="hidden" value="false" />
              <input class="FormControl-checkbox" id="available_for_hire" name="available_for_hire" type="checkbox" value="true" />
              <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available_for_hire">Some label</label>
-             <p class="FormControl-caption">Add your<strong>resume</strong>below</p>
+             <span class="FormControl-caption">Add your<strong>resume</strong>below</span>
              </span>
              </span>
              """

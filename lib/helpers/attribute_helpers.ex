@@ -101,6 +101,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     append_attributes(attr_list, input_attributes)
   end
 
+  def append_attributes(attributes, input_attributes) when is_nil(attributes),
+    do: append_attributes([], input_attributes)
+
   def append_attributes(attributes, input_attributes) do
     input_attributes
     |> Enum.reject(&(&1 == false || is_nil(&1)))
@@ -510,7 +513,12 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     form_group_attrs = common_form_group_attrs(assigns, id_attrs.input_id, common_shared_attrs)
 
     # Field state
-    field_state_attrs = common_field_state_attrs(assigns, id_attrs.input_id, common_shared_attrs)
+    field_state_attrs =
+      common_field_state_attrs(
+        assigns,
+        id_attrs,
+        common_shared_attrs
+      )
 
     [
       common_shared_attrs,
@@ -542,7 +550,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
          input_type,
          %{form: form, field: field, rest: rest, name: name}
        ) do
-    id = rest[:id]
+    id = assigns[:id] || rest[:id]
     is_multiple = !!assigns[:is_multiple]
     checked_value = assigns[:checked_value]
 
@@ -568,6 +576,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     %{
       derived_label: derived_label,
       input_id: input_id,
+      id: id,
       input_name: input_name,
       phx_feedback_for_id: phx_feedback_for_id,
       value: value
@@ -595,7 +604,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     }
   end
 
-  defp common_field_state_attrs(assigns, input_id, %{
+  defp common_field_state_attrs(assigns, %{input_name: input_name, input_id: input_id}, %{
          form: form,
          field_or_name: field_or_name
        }) do
@@ -610,22 +619,34 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     has_changeset = !is_nil(field_state.changeset)
     show_message? = !!message && !ignore_errors? && assigns[:type] !== "hidden"
-    validation_message_id = if !is_nil(field_state.message), do: "#{input_id}-validation"
+
+    validation_message_id =
+      if !is_nil(field_state.message),
+        do:
+          assigns[:validation_message_id] ||
+            "#{input_id}-validation"
+
+    validation_marker_class =
+      case has_changeset && show_message? do
+        true ->
+          if valid? do
+            "pl-valid"
+          else
+            "pl-invalid"
+          end
+
+        false ->
+          nil
+      end
 
     ## Phoenix uses phx_feedback_for to hide form field errors that are untouched.
     ## However, this attribute can't be set on the element itself (the JS DOM library stalls).
     ## Element "validation_marker" is used as stopgap: a separate element placed just before the input element.
     validation_marker_attrs =
-      case has_changeset do
+      case has_changeset && show_message? do
         true ->
           [
-            "phx-feedback-for": input_id,
-            class:
-              if valid? do
-                "pl-valid"
-              else
-                "pl-invalid"
-              end
+            "phx-feedback-for": input_name
           ]
 
         false ->
@@ -638,7 +659,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ignore_errors?: ignore_errors?,
       show_message?: show_message?,
       validation_message_id: validation_message_id,
-      validation_marker_attrs: validation_marker_attrs
+      validation_marker_attrs: validation_marker_attrs,
+      validation_marker_class: validation_marker_class
     }
   end
 
