@@ -150,13 +150,13 @@
 }
 
 /* Support input-group with group button when using FormControl-x elements. */
-.input-group .FormControl-input:first-child {
+.input-group .FormControl-input[type="text"] {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
 /* -- idem */
-.input-group .FormControl-input:last-child {
+.input-group .FormControl-input[type="text"]:last-child {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -221,9 +221,12 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
   fill: var(--color-success-fg);
 }
 
-/* Reset error state to initial if element has class phx-no-feedback. */
+/* Reset error state to initial if element has class phx-no-feedback (but show success message when shown in form group with valid state). */
 .FormControl-inlineValidation.phx-no-feedback {
   display: none;
+}
+.pl-valid+.FormControl-inlineValidation--success.phx-no-feedback {
+  display: block;
 }
 
 /* Copy checkbox emphasis style to FormControl checkbox and radio button.*/
@@ -244,13 +247,6 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
   height: 13px;
 }
 
-/* Conditionally hide the radio button leading visual instead of using aria-checked on the parent li element. */
-input[type=radio].FormControl-radio + .FormControl-radio-labelWrap {
-  visibility: hidden;
-}
-input[type=radio].FormControl-radio:checked + .FormControl-radio-labelWrap {
-  visibility: visible;
-}
 /* Remove checkbox animation dururation because the effect appears to lag compared to other page updates. */
 @media screen and (prefers-reduced-motion: no-preference) {
   input.FormControl-checkbox[type=checkbox]:checked:before {
@@ -369,37 +365,44 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 }
 
 /* Reset error state to initial if preceding marker element has class phx-no-feedback. */
-.pl-invalid.phx-no-feedback+.FormControl-input[invalid]:not(:focus),
-.pl-invalid.phx-no-feedback+.FormControl-select[invalid]:not(:focus),
-.pl-invalid.phx-no-feedback+.FormControl-textarea[invalid]:not(:focus) {
+.phx-no-feedback .FormControl-input[invalid]:not(:focus),
+.phx-no-feedback .FormControl-select[invalid]:not(:focus),
+.phx-no-feedback .FormControl-textarea[invalid]:not(:focus) {
   border-color: var(--color-border-default);
 }
 
 /* -- idem */
-.pl-invalid.phx-no-feedback+input.FormControl-checkbox[type=checkbox][invalid]:not(:focus),
-.pl-invalid.phx-no-feedback+input.FormControl-radio[type=radio][invalid]:not(:focus) {
+.phx-no-feedback input.FormControl-checkbox[type=checkbox][invalid]:not(:focus),
+.phx-no-feedback input.FormControl-radio[type=radio][invalid]:not(:focus) {
   border-color: var(--color-border-default);
 }
 
 /* -- idem */
-.pl-invalid.phx-no-feedback+.form-control:not(:focus)[invalid],
-.pl-invalid.phx-no-feedback+.FormControl-input:not(:focus)[invalid],
-.pl-invalid.phx-no-feedback+.form-select:not(:focus)[invalid],
-.pl-invalid.phx-no-feedback+.FormControl-select:not(:focus)[invalid] {
+.phx-no-feedback .form-control:not(:focus)[invalid],
+.phx-no-feedback .FormControl-input:not(:focus)[invalid],
+.phx-no-feedback .form-select:not(:focus)[invalid],
+.phx-no-feedback .FormControl-select:not(:focus)[invalid] {
   border-color: var(--color-border-default);
 }
 
-/* -- idem - no need to take up space */
-.pl-valid,
-.pl-invalid {
+/* -- idem */
+.phx-no-feedback .FormControl-inlineValidation--error,
+.pl-valid+.FormControl-inlineValidation--error {
+  display: none;
+}
+.pl-invalid+.FormControl-inlineValidation--success {
+  display: none;
+}
+.phx-no-feedback:empty,
+[phx-feedback-for]:empty {
   display: none;
 }
 
 /* Set error state to success if preceding marker element has class pl-valid. */
-.pl-valid+.form-control:not(:focus)[invalid],
-.pl-valid+.FormControl-input:not(:focus)[invalid],
-.pl-valid+.form-select:not(:focus)[invalid],
-.pl-valid+.FormControl-select:not(:focus)[invalid] {
+.pl-valid .form-control:not(:focus)[invalid],
+.pl-valid .FormControl-input:not(:focus)[invalid],
+.pl-valid .form-select:not(:focus)[invalid],
+.pl-valid .FormControl-select:not(:focus)[invalid] {
   border-color: var(--color-success-emphasis);
 }
 
@@ -629,4 +632,9 @@ span.ActionList-content[aria-expanded] {
 /* Theming: prevent setting a background on inline elements. */
 span[data-color-mode] {
   background: none;
+}
+
+/* Restore text selection. */
+*::selection {
+  background-color: var(--color-accent-subtle);
 }

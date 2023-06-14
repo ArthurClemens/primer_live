@@ -3376,15 +3376,15 @@ defmodule PrimerLive.Component do
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
   )
 
-  attr(:validation_message, :any,
+  attr(:validation_message_id, :string,
     doc: """
-    Function to write a custom validation message (in case of error or success). See `text_input/1`.
+    Message ID that is usually passed from the form element component to `input_validation_message`. If not used, the ID will be generated.
     """
   )
 
-  attr(:input_id, :string,
+  attr(:validation_message, :any,
     doc: """
-    If the associated input has an id, pass it here as "input_id".
+    Function to write a custom validation message (in case of error or success). See `text_input/1`.
     """
   )
 
@@ -3631,7 +3631,11 @@ defmodule PrimerLive.Component do
   )
 
   attr(:name, :string, doc: "Text input name attribute (when not using `form` and `field`).")
-  attr(:value, :string, doc: "Text input value attribute (when not using `form` and `field`).")
+
+  attr(:value, :string,
+    doc: "Text input value attribute (overrides field value when using `form` and `field`)."
+  )
+
   attr(:type, :string, default: "text", doc: "Text input type.")
   attr(:size, :any, doc: "Defines the width of the input (number or number as string).")
 
@@ -3798,6 +3802,7 @@ defmodule PrimerLive.Component do
       rest: rest,
       show_message?: show_message?,
       validation_marker_attrs: validation_marker_attrs,
+      validation_marker_class: validation_marker_class,
       validation_message_id: validation_message_id,
       value: value
     } = AttributeHelpers.common_input_attrs(assigns, nil)
@@ -3899,7 +3904,7 @@ defmodule PrimerLive.Component do
             [id: input_id],
             [name: input_name],
             [size: assigns[:size]],
-            (is_nil(form) || is_nil(field)) && !is_nil(value) && [value: value],
+            !is_nil(value) && [value: value],
             show_message? && [invalid: ""]
           ]
         )
@@ -3916,12 +3921,16 @@ defmodule PrimerLive.Component do
           assigns
           |> assign(:input, input)
           |> assign(:validation_marker_attrs, validation_marker_attrs)
+          |> assign(:validation_marker_class, validation_marker_class)
 
         ~H"""
         <%= if @validation_marker_attrs do %>
-          <span {@validation_marker_attrs}></span>
+          <div {@validation_marker_attrs} class={@validation_marker_class}>
+            <%= @input %>
+          </div>
+        <% else %>
+          <%= @input %>
         <% end %>
-        <%= @input %>
         """
       end
 
@@ -3937,6 +3946,7 @@ defmodule PrimerLive.Component do
         |> assign(:show_message?, show_message?)
         |> assign(:validation_message_class, classes.validation_message)
         |> assign(:validation_message, assigns[:validation_message])
+        |> assign(:validation_message_id, validation_message_id)
         |> assign(:render_trailing_action, render_trailing_action)
 
       ~H"""
@@ -3968,8 +3978,8 @@ defmodule PrimerLive.Component do
         <.input_validation_message
           form={@form}
           field={@field}
-          input_id={@input_id}
           validation_message={@validation_message}
+          validation_message_id={@validation_message_id}
           class={@validation_message_class}
         />
       <% end %>
@@ -4254,13 +4264,14 @@ defmodule PrimerLive.Component do
       rest: rest,
       form: form,
       field: field,
-      validation_marker_attrs: validation_marker_attrs,
       input_id: input_id,
       input_name: input_name,
       has_form_group: has_form_group,
       form_group_attrs: form_group_attrs,
       show_message?: show_message?,
-      validation_message_id: validation_message_id
+      validation_message_id: validation_message_id,
+      validation_marker_attrs: validation_marker_attrs,
+      validation_marker_class: validation_marker_class
     } = AttributeHelpers.common_input_attrs(assigns, :select)
 
     is_multiple = assigns.is_multiple
@@ -4273,6 +4284,7 @@ defmodule PrimerLive.Component do
           assigns.is_short and "FormControl--short",
           assigns.is_shorter and "FormControl--shorter",
           assigns.is_full_width and "FormControl--fullWidth",
+          validation_marker_class,
           assigns.classes[:select_container],
           assigns[:class]
         ]),
@@ -4292,7 +4304,10 @@ defmodule PrimerLive.Component do
       options = assigns.options
       is_auto_height = assigns.is_auto_height
 
-      container_attrs = [class: classes.select_container]
+      container_attrs =
+        AttributeHelpers.append_attributes(validation_marker_attrs, [
+          [class: classes.select_container]
+        ])
 
       input_attrs =
         AttributeHelpers.append_attributes(
@@ -4333,19 +4348,17 @@ defmodule PrimerLive.Component do
         |> assign(:field, field)
         |> assign(:validation_message_class, classes.validation_message)
         |> assign(:validation_message, assigns[:validation_message])
+        |> assign(:validation_message_id, validation_message_id)
 
       ~H"""
       <div {@container_attrs}>
-        <%= if @validation_marker_attrs do %>
-          <span {@validation_marker_attrs}></span>
-        <% end %>
         <%= @input %>
       </div>
       <.input_validation_message
         form={@form}
         field={@field}
-        input_id={@input_id}
         validation_message={@validation_message}
+        validation_message_id={@validation_message_id}
         class={@validation_message_class}
       />
       """
@@ -4472,7 +4485,9 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:value, :string, doc: "Checkbox value attribute (when not using `form` and `field`).")
+  attr(:value, :string,
+    doc: "Checkbox value attribute (overrides field value when using `form` and `field`)."
+  )
 
   attr(:is_multiple, :boolean,
     default: false,
@@ -4634,7 +4649,8 @@ defmodule PrimerLive.Component do
       rest: rest,
       show_message?: show_message?,
       value: value,
-      validation_marker_attrs: validation_marker_attrs
+      validation_marker_attrs: validation_marker_attrs,
+      validation_marker_class: validation_marker_class
     } = AttributeHelpers.common_input_attrs(assigns, input_type)
 
     classes = %{
@@ -4645,6 +4661,7 @@ defmodule PrimerLive.Component do
           else
             "FormControl-checkbox-wrap"
           end,
+          validation_marker_class,
           assigns[:classes][:container],
           assigns[:class]
         ]),
@@ -4705,8 +4722,8 @@ defmodule PrimerLive.Component do
     has_label_slot = label_slot !== []
     has_label = !assigns[:is_omit_label] && (has_label_slot || derived_label !== "Nil")
 
-    container_attributes =
-      AttributeHelpers.append_attributes([
+    container_attrs =
+      AttributeHelpers.append_attributes(validation_marker_attrs, [
         [class: classes.container]
       ])
 
@@ -4765,7 +4782,7 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:container_attributes, container_attributes)
+      |> assign(:container_attrs, container_attrs)
       |> assign(:label_container_attributes, label_container_attributes)
       |> assign(:input, input)
       |> assign(:classes, classes)
@@ -4778,9 +4795,9 @@ defmodule PrimerLive.Component do
     render_hint = fn ->
       ~H"""
       <%= for slot <- @hint do %>
-        <p class={@classes.hint.(slot)}>
+        <span class={@classes.hint.(slot)}>
           <%= render_slot(slot, @classes) %>
-        </p>
+        </span>
       <% end %>
       """
     end
@@ -4816,10 +4833,7 @@ defmodule PrimerLive.Component do
       |> assign(:validation_marker_attrs, validation_marker_attrs)
 
     ~H"""
-    <span {@container_attributes}>
-      <%= if @validation_marker_attrs do %>
-        <span {@validation_marker_attrs}></span>
-      <% end %>
+    <span {@container_attrs}>
       <%= @input %>
       <%= if @has_label do %>
         <span {@label_container_attributes}>
@@ -4921,16 +4935,19 @@ defmodule PrimerLive.Component do
   Feature complete.
   """
 
-  attr(:field, :any, doc: "Field name (atom or string).")
-
   attr(:form, :any,
     doc:
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
   )
 
+  attr(:field, :any, doc: "Field name (atom or string).")
+
   attr(:name, :string, doc: "Input name attribute (when not using `form` and `field`).")
 
-  attr(:value, :string, default: nil, doc: "Input value.")
+  attr(:value, :string,
+    default: nil,
+    doc: "Input value (overrides field value when using `form` and `field`)."
+  )
 
   attr(:checked, :boolean,
     doc: "The state of the radio button (when not using `form` and `field`)."

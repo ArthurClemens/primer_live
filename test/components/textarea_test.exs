@@ -140,10 +140,17 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             <span phx-feedback-for="user[first_name]" class="pl-invalid"></span>
-             <textarea aria-describedby="user[first_name]-validation" class="FormControl-textarea FormControl-medium" id="user[first_name]" invalid="" name="user[first_name]"></textarea>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user[first_name]-validation" phx-feedback-for="user[first_name]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>Please enter your first
-             name</span></div>
+             <div phx-feedback-for="user[first_name]" class="pl-invalid">
+             <textarea aria-describedby="user[first_name]-validation"
+             class="FormControl-textarea FormControl-medium" id="user[first_name]" invalid=""
+             name="user[first_name]"></textarea>
+             </div>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error"
+             id="user[first_name]-validation" phx-feedback-for="user[first_name]">
+             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+             viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
+             <span>Please enter your first name</span>
+             </div>
              """
              |> format_html()
   end

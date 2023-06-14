@@ -157,20 +157,22 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
            |> format_html() ==
              """
              <div class="form-group">
-             <div class="form-group-header"><label>Available for hire</label></div>
+             <div class="form-group-header">
+             <label>Available for hire</label>
+             </div>
              <div class="form-group-body">
-             <span class="FormControl-checkbox-wrap">
-             <span phx-feedback-for="user[available_for_hire][admin]" class="pl-invalid"></span>
+             <span phx-feedback-for="user[available_for_hire]" class="FormControl-checkbox-wrap pl-invalid">
              <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="user[available_for_hire][admin]" invalid="" name="user[available_for_hire]" type="checkbox" value="admin" />
+             <input class="FormControl-checkbox" id="user[available_for_hire][admin]" invalid=""
+             name="user[available_for_hire]" type="checkbox" value="admin" />
              <span class="FormControl-checkbox-labelWrap">
              <label class="FormControl-label" for="user[available_for_hire][admin]">Admin</label>
              </span>
              </span>
-             <span class="FormControl-checkbox-wrap">
-             <span phx-feedback-for="user[available_for_hire][editor]" class="pl-invalid"></span>
+             <span phx-feedback-for="user[available_for_hire]" class="FormControl-checkbox-wrap pl-invalid">
              <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="user[available_for_hire][editor]" invalid="" name="user[available_for_hire]" type="checkbox" value="editor" />
+             <input class="FormControl-checkbox" id="user[available_for_hire][editor]" invalid=""
+             name="user[available_for_hire]" type="checkbox" value="editor" />
              <span class="FormControl-checkbox-labelWrap">
              <label class="FormControl-label" for="user[available_for_hire][editor]">Editor</label>
              </span>
