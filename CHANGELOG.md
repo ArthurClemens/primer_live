@@ -5,6 +5,7 @@
 ### Improvements
 
 - The open state of menus and dialogs can now be maintained when used inside forms.
+- Improved validation message logic.
 
 ### Breaking changes
 - Renamed hook `Session` (which was erroneously documented as "ThemeMenu") to `Theme`
