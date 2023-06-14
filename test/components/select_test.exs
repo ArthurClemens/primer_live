@@ -220,7 +220,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap">
+             <div class="FormControl-select-wrap pl-neutral">
              <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
              <option value="admin">admin</option>
              <option value="editor">editor</option>
@@ -240,7 +240,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap">
+             <div class="FormControl-select-wrap pl-neutral">
              <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
              <option value="admin">Admin</option>
              <option value="user">User</option>
@@ -264,7 +264,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap">
+             <div class="FormControl-select-wrap pl-neutral">
              <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
              <option disabled value="admin">Admin</option>
              <option value="user">User</option>
@@ -289,7 +289,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap">
+             <div class="FormControl-select-wrap pl-neutral">
              <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
              <option value="">Choose your role</option>
              <option value="admin">Admin</option>
@@ -315,7 +315,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap">
+             <div class="FormControl-select-wrap pl-neutral">
              <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
                <option disabled value="">Choose your role</option>
                <option value="admin">Admin</option>
@@ -384,7 +384,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap pl-multiple-select">
+             <div class="FormControl-select-wrap pl-multiple-select pl-neutral">
              <select class="FormControl-select FormControl-medium" id="user[role]" multiple=""
              name="user[role][]" size="7">
              <option value="admin">Admin</option>

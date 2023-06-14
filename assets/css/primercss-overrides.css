@@ -391,23 +391,28 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 
 /* -- idem */
 .phx-no-feedback .FormControl-inlineValidation--error,
-.pl-valid+.FormControl-inlineValidation--error {
+.pl-valid+.FormControl-inlineValidation--error,
+.pl-neutral+.FormControl-inlineValidation--error {
   display: none;
 }
 .pl-invalid+.FormControl-inlineValidation--success {
-  display: none;
-}
-.phx-no-feedback:empty,
-[phx-feedback-for]:empty {
   display: none;
 }
 
 /* Set visual error state to neutral if preceding marker element has class pl-valid. */
 .pl-valid .form-control:not(:focus)[invalid],
 .pl-valid .FormControl-input:not(:focus)[invalid],
+.pl-valid .form-select:not(:focus),
 .pl-valid .form-select:not(:focus)[invalid],
+.pl-valid .FormControl-select:not(:focus),
 .pl-valid .FormControl-select:not(:focus)[invalid] {
   border-color: var(--color-success-emphasis);
+}
+.pl-neutral .form-control:not(:focus)[invalid],
+.pl-neutral .FormControl-input:not(:focus)[invalid],
+.pl-neutral .form-select:not(:focus)[invalid],
+.pl-neutral .FormControl-select:not(:focus)[invalid] {
+  border-color: var(--color-border-default);
 }
 
 /* Center SVG within leading visual. */

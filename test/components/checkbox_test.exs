@@ -214,7 +214,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap container-x my-checkbox">
+             <span class="FormControl-checkbox-wrap pl-neutral container-x my-checkbox">
              <input name="user[available_for_hire]" type="hidden" value="false" />
              <input checked class="form-checkbox-details-trigger FormControl-checkbox input-x"
              id="user[available_for_hire]" name="user[available_for_hire]" type="checkbox" value="true" />

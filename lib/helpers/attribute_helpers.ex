@@ -627,16 +627,12 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
             "#{input_id}-validation"
 
     validation_marker_class =
-      case has_changeset? && show_message? do
-        true ->
-          if valid? do
-            "pl-valid"
-          else
-            "pl-invalid"
-          end
-
-        false ->
-          nil
+      if has_changeset? do
+        cond do
+          valid? == false -> "pl-invalid"
+          valid? && show_message? -> "pl-valid"
+          valid? && !show_message? -> "pl-neutral"
+        end
       end
 
     ## Phoenix uses phx_feedback_for to hide form field errors that are untouched.
