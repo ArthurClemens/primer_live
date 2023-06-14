@@ -1,5 +1,5 @@
-// js/session.ts
-var Session = {
+// js/theme.ts
+var Theme = {
   mounted() {
     window.addEventListener(
       "phx:pl-session",
@@ -9,7 +9,7 @@ var Session = {
     );
   }
 };
-window.Session = Session;
+window.Theme = Theme;
 
 // js/prompt.ts
 var ROOT_SELECTOR = "[data-prompt]";
@@ -246,6 +246,6 @@ if (typeof window !== "undefined") {
 }
 export {
   Prompt,
-  Session
+  Theme
 };
 //# sourceMappingURL=primer-live.esm.js.map

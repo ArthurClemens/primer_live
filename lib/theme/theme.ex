@@ -48,16 +48,16 @@ defmodule PrimerLive.Theme do
   ]
   ```
 
-  ### 3. Add ThemeMenu hook
+  ### 3. Add the Theme hook
 
-  In `app.js`, import `ThemeMenu` and add it to the `liveSocket` hooks:
+  In `app.js`, import `Theme` and add it to the `liveSocket` hooks:
 
   ```
-  import { Prompt, ThemeMenu } from 'primer-live';
+  import { Prompt, Theme } from 'primer-live';
 
   const hooks = {};
   hooks.Prompt = Prompt;
-  hooks.ThemeMenu = ThemeMenu;
+  hooks.Theme = Theme;
 
   let liveSocket = new LiveSocket('/live', Socket, {
     params: { _csrf_token: csrfToken },
@@ -68,7 +68,7 @@ defmodule PrimerLive.Theme do
   You may the hook anywhere, but only once for the entire application. If you have a single theme menu, add it there:
 
   ```
-  <.action_menu phx-hook="ThemeMenu" id="theme_menu">
+  <.action_menu phx-hook="Theme" id="theme_menu">
   ...
   </.action_menu>
   ```
@@ -108,7 +108,7 @@ defmodule PrimerLive.Theme do
   ```
 
   This implements function `handle_event` for "update_theme" (which is called by clicks on the menu's `action_list` items).
-  The function updates the socket and sends the event that is picked by by JavaScript (via the `ThemeMenu` hook).
+  The function updates the socket and sends the event that is picked by by JavaScript (via the `Theme` hook).
   """
 
   use Phoenix.Component
@@ -176,7 +176,7 @@ defmodule PrimerLive.Theme do
   end
   ```
   """
-  def session_route(), do: "/#{@session_key}"
+  def session_route(), do: "/#{session_key()}"
 
   @doc ~S"""
   Theme data stored in the session.
@@ -273,7 +273,7 @@ defmodule PrimerLive.Theme do
   end
 
   defp add_labels({key, item_group}, menu_labels) do
-    merged_labels = Map.merge(@default_menu_labels[key], menu_labels[key] || %{})
+    merged_labels = Map.merge(default_menu_labels()[key], menu_labels[key] || %{})
 
     {key,
      item_group
@@ -332,10 +332,11 @@ defmodule PrimerLive.Theme do
     |> assign(:default_theme_state, default_theme_state)
   end
 
+  @spec add_to_socket(map, map) :: map
   @doc """
   See `add_to_socket/3`.
   """
-  def add_to_socket(socket, session), do: add_to_socket(socket, session, @default_theme_state)
+  def add_to_socket(socket, session), do: add_to_socket(socket, session, default_theme_state())
 
   defp theme_state_from_session(data, default_theme_state)
        when not is_map_key(data, @session_theme_key),
@@ -435,5 +436,5 @@ defmodule PrimerLive.Theme do
   @doc """
   See `html_attributes/2`.
   """
-  def html_attributes(theme_state), do: html_attributes(theme_state, @default_theme_state)
+  def html_attributes(theme_state), do: html_attributes(theme_state, default_theme_state())
 end

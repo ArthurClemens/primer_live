@@ -1,13 +1,13 @@
 type PhxEvent = Record<string, unknown>;
 
-export type TSession = {
+export type TTheme = {
   /**
    * Phoenix LiveView callback.
    */
   mounted: () => void;
 };
 
-export const Session = {
+export const Theme: TTheme = {
   mounted() {
     window.addEventListener('phx:pl-session', (e: CustomEvent<PhxEvent>) =>
       fetch(`/api/pl-session?payload=${JSON.stringify(e.detail)}`, {
@@ -19,8 +19,8 @@ export const Session = {
 
 declare global {
   interface Window {
-    Session?: TSession;
+    Theme?: TTheme;
   }
 }
 
-window.Session = Session;
+window.Theme = Theme;

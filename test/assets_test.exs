@@ -12,7 +12,7 @@ defmodule PrimerLiveAssetsTest do
       "primer-live.js",
       "primer-live.min.css",
       "primer-live.min.js",
-      "session.d.ts"
+      "theme.d.ts"
     ]
 
     filenames
