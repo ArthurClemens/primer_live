@@ -617,7 +617,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ignore_errors?: ignore_errors?
     } = field_state
 
-    has_changeset = !is_nil(field_state.changeset)
+    has_changeset? = !is_nil(field_state.changeset)
     show_message? = !!message && !ignore_errors? && assigns[:type] !== "hidden"
 
     validation_message_id =
@@ -627,7 +627,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
             "#{input_id}-validation"
 
     validation_marker_class =
-      case has_changeset && show_message? do
+      case has_changeset? && show_message? do
         true ->
           if valid? do
             "pl-valid"
@@ -643,7 +643,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     ## However, this attribute can't be set on the element itself (the JS DOM library stalls).
     ## Element "validation_marker" is used as stopgap: a separate element placed just before the input element.
     validation_marker_attrs =
-      case has_changeset && show_message? do
+      case has_changeset? && show_message? do
         true ->
           [
             "phx-feedback-for": input_name
