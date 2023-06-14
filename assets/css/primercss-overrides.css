@@ -402,7 +402,7 @@ fieldset[disabled] .FormControl-textarea::placeholder {
   display: none;
 }
 
-/* Set error state to success if preceding marker element has class pl-valid. */
+/* Set visual error state to neutral if preceding marker element has class pl-valid. */
 .pl-valid .form-control:not(:focus)[invalid],
 .pl-valid .FormControl-input:not(:focus)[invalid],
 .pl-valid .form-select:not(:focus)[invalid],
