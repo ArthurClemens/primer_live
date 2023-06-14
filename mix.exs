@@ -97,7 +97,7 @@ defmodule PrimerLive.MixProject do
 
   defp aliases do
     [
-      setup: ["deps.get", "cmd --cd assets npm install"],
+      setup: ["deps.get", "cmd --cd assets npm install --legacy-peer-deps"],
       "assets.build": [
         "cmd npm --prefix assets run build:clear -- ../priv/static/*",
         "cmd npm --prefix assets run build -- --format=esm --sourcemap --outfile=../priv/static/primer-live.esm.js",
