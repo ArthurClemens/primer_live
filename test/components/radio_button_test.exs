@@ -247,7 +247,7 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-radio-wrap my-radio-button">
+             <span class="FormControl-radio-wrap pl-neutral my-radio-button">
              <input class="form-checkbox-details-trigger FormControl-radio input-x" id="user[role]"
              name="user[role]" type="radio" value="" />
              <span class="FormControl-radio-labelWrap">
