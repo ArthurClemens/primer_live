@@ -256,6 +256,10 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
 }
 
 /* Disable form elements when wrapping fieldset is disabled. */
+fieldset[disabled] * {
+  pointer-events: none;
+}
+
 fieldset[disabled] input.FormControl-radio[type=radio],
 fieldset[disabled] input.FormControl-checkbox[type=checkbox] {
   -webkit-text-fill-color: var(--color-primer-fg-disabled);
