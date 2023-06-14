@@ -27253,6 +27253,9 @@ input:not(:placeholder-shown) + .FormControl-input-trailingAction.pl-trailingAct
     animation-delay: 0ms;
   }
 }
+fieldset[disabled] * {
+  pointer-events: none;
+}
 fieldset[disabled] input.FormControl-radio[type=radio],
 fieldset[disabled] input.FormControl-checkbox[type=checkbox] {
   -webkit-text-fill-color: var(--color-primer-fg-disabled);

@@ -2,14 +2,23 @@
 
 ## 0.4.0
 
-The open state of menus and dialogs can now be maintained when used inside forms.
+### Improvements
 
-Deprecated:
+- The open state of menus and dialogs can now be maintained when used inside forms.
+
+### Breaking changes
+- Renamed hook `Session` (which was erroneously documented as "ThemeMenu") to `Theme`
+
+### Deprecated
+
 - For all menu components, including 'dialog' and 'drawer': passing prompt options to the `toggle` slot is replaced by passing `prompt_options` to the main component.
 - In the `drawer` component, replace the subcomponent `drawer_content` with the slot `body`.
   - This allows the focus wrap ID to be derived from the drawer's 'id' attribute, similar to how it is done for 'dialog'.
 
-Other changes:
+When using the original code, a warning message will be shown in the shell.
+
+### Other changes
+
 - The HTML structure and some of the CSS classes of `action_menu`, `dropdown_menu` and `select_menu` have changed. Instead of `<details>` and `<summary>` elements, the open state is now controlled with `<input type="checkbox">` and `<label>`.
 
 ## 0.3.1

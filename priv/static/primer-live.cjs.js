@@ -21,12 +21,12 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var index_js_only_exports = {};
 __export(index_js_only_exports, {
   Prompt: () => Prompt,
-  Session: () => Session
+  Theme: () => Theme
 });
 module.exports = __toCommonJS(index_js_only_exports);
 
-// js/session.ts
-var Session = {
+// js/theme.ts
+var Theme = {
   mounted() {
     window.addEventListener(
       "phx:pl-session",
@@ -36,7 +36,7 @@ var Session = {
     );
   }
 };
-window.Session = Session;
+window.Theme = Theme;
 
 // js/prompt.ts
 var ROOT_SELECTOR = "[data-prompt]";

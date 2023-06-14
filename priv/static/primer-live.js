@@ -1,7 +1,7 @@
 "use strict";
 (() => {
-  // js/session.ts
-  var Session = {
+  // js/theme.ts
+  var Theme = {
     mounted() {
       window.addEventListener(
         "phx:pl-session",
@@ -11,7 +11,7 @@
       );
     }
   };
-  window.Session = Session;
+  window.Theme = Theme;
 
   // js/prompt.ts
   var ROOT_SELECTOR = "[data-prompt]";
