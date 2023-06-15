@@ -58,7 +58,7 @@ The toggle slot is required for menus.
 
 The menu `toggle` is an HTML label element that is connected to the checkbox that holds the state; clicking will toggle the checkbox state.
 
-To control the open state from the outside, use either:
+To control the open state from the outside, use the `Prompt` hook with either of these functions:
 - `Prompt.show(selectorOrElement)`
 - `Prompt.hide(selectorOrElement)`
 - `Prompt.toggle(selectorOrElement)`
@@ -100,7 +100,6 @@ Use attr `prompt_options` to pass JavaScript state callback functions.
   ...
 </.action_menu>
 ```
-
 
 ## CSS
 
@@ -149,136 +148,69 @@ Normally after an update to the LiveView state, the menu/dialog/drawer is redraw
 
 To preserve the open state of the menu, you can pass the form along with a *fictitious and unique field name* (not used in the data model). This field name is then used in event handlers.
 
-For example:
+Here we are adding field `status_toggle` to the form:
 
 ```
-<.form :let={f} for={@changeset} phx-change="save">
-  <.action_menu
-    form={f}
-    field={:user_job_toggle}>
-    ...
+<.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
+  <.action_menu form={f} field={:status_toggle}>
+    <:toggle>Menu</:toggle>
+    <.action_list is_multiple_select>
+      <%= for {label, value} <- @options do %>
+        <.action_list_item
+          form={f}
+          field={:statuses}
+          checked_value={value}
+          is_multiple_select
+          is_selected={value in @values}
+        >
+          <%= label %>
+        </.action_list_item>
+      <% end %>
+    </.action_list>
+  </.action_menu>
+</.form>
 ```
+
+The same method can be used for dialogs and drawers:
+
+```
+<.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
+  <.dialog form={f} field={:status_toggle} id="status-dialog">
+    <:body>
+      <.action_list is_multiple_select>
+        # See above
+      </.action_list>
+    </:body>
+  </.dialog>
+</.form>
+```
+
+### Menu behavior: when to update
 
 The implementation of menu behavior from a user's perspective is determined by the event handler, where you have two options for updating the model state:
 
-1. Update the model state after closing the menu.
-2. Update the model state after each selection.
+1. Update the model state after each selection.
+2. Update the model state after closing the menu.
 
-### Approach 1: Update after closing the menu
+#### Approach 1: Update with each selection
+
+This approach is usually preferred, because it allows for direct validation feedback.
+
+Process the event as usual.
+
+#### Approach 2: Update after closing the menu
 
 Ignore the event while the the menu is open (the toggle checkbox value is "true"):
 
 ```
-def handle_event("save", %{"user" => %{"user_job_toggle" => "true"}}, socket) do
+def handle_event("save", %{"user" => %{"status_toggle" => "true"}}, socket) do
   # Ignore
   {:noreply, socket}
 end
 
 def handle_event("save", %{"user" => params}, socket) do
-  # user_job_toggle is "false", so process normally
+  # status_toggle is "false", so process normally
   case User.update(socket.assigns.user, params) do
     ...
 ```
 
-### Approach 2: Update with each selection
-
-Process the event as usual and re-insert the fictitious field value:
-
-```
-# First iteration, unoptimised
-# LiveView 
-
-def handle_event("save", %{"user" => params}, socket) do
-  case User.update(socket.assigns.user, params) do
-    {:ok, user} ->
-      # Re-insert user_job_toggle value
-      changeset =
-        User.changeset(
-          user,
-          params |> Map.take(["user_job_toggle"])
-        )
-
-      socket =
-        socket
-        |> assign(:user, user)
-        |> assign(:changeset, changeset)
-
-      {:noreply, socket}
-
-    {:error, %Ecto.Changeset{} = changeset} ->
-      # Re-insert user_job_toggle value
-      changeset =
-        User.changeset(
-          changeset.data,
-          params |> Map.take(["user_job_toggle"])
-        )
-
-      socket =
-        socket
-        |> assign(:changeset, changeset)
-
-      {:noreply, socket}
-  end
-end
-```
-
-This feels a bit ad hoc and can improved with a custom and reusable replacement for the model `update` function:
-```
-# Model
-
-def update_with_ui(%User{} = user, attrs, ui_attrs \\ %{}, types \\ %{}) do
-  result =
-    user
-    |> User.changeset(attrs)
-    |> Repo.update()
-
-  case result do
-    {:ok, user} ->
-      changeset = changeset_with_ui_attrs(user, ui_attrs, types)
-      {:ok, user, changeset}
-
-    {:error, changeset} ->
-      changeset = changeset_with_ui_attrs(changeset.data, ui_attrs, types)
-      {:error, nil, changeset}
-  end
-end
-
-defp changeset_with_ui_attrs(user, ui_attrs \\ %{}, types \\ %{}) do
-  changeset =
-    {user, types}
-    |> Ecto.Changeset.cast(
-      ui_attrs,
-      Map.keys(ui_attrs |> Map.new(fn {k, v} -> {String.to_atom(k), v} end))
-    )
-end
-```
-
-And now the event handler becomes:
-```
-# Second iteration
-# LiveView 
-
-def handle_event("save", %{"user" => params}, socket) do
-  case User.update_with_ui(
-    socket.assigns.user,
-    params,                                  # Model params
-    params |> Map.take(["user_job_toggle"]), # UI params
-    %{user_job_toggle: :string},             # UI param types
-  ) do
-    {:ok, user, changeset} ->
-      socket =
-        socket
-        |> assign(:user, user)
-        |> assign(:changeset, changeset)
-
-      {:noreply, socket}
-
-    {:error, nil, %Ecto.Changeset{} = changeset} ->
-      socket =
-        socket
-        |> assign(:changeset, changeset)
-
-      {:noreply, socket}
-  end
-end
-```

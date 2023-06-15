@@ -31,7 +31,14 @@ plug Plug.Static, at: "/primer_live", from: "deps/primer_live/priv/static"
 
 <h4>CSS only</h4>
 
-<p>Add to <code>root.html.heex</code>:</p>
+<p>Add the import link to <code>root.html.heex</code>.</p>
+<p>If you are using verified routes:</p>
+
+```
+<link phx-track-static rel="stylesheet" href={~p"/primer_live/primer-live.min.css"}>
+```
+
+Otherwise:
 
 ```
 <link phx-track-static rel="stylesheet" href="/primer_live/primer-live.min.css">
@@ -39,7 +46,15 @@ plug Plug.Static, at: "/primer_live", from: "deps/primer_live/priv/static"
 
 <h4>CSS and JavaScript</h4>
 
-<p>Add to <code>root.html.heex</code>:</p>
+<p>Add both import links to <code>root.html.heex</code>.</p>
+<p>If you are using verified routes:</p>
+
+```
+<link phx-track-static rel="stylesheet" href={~p"/primer_live/primer-live.min.css"}>
+<script defer phx-track-static type="text/javascript" src={~p"/primer_live/primer-live.min.js"}></script>
+```
+
+Otherwise:
 
 ```
 <link phx-track-static rel="stylesheet" href="/primer_live/primer-live.min.css">
@@ -48,7 +63,7 @@ plug Plug.Static, at: "/primer_live", from: "deps/primer_live/priv/static"
 
 <p>
   In <code>assets/js/app.js</code>, add global <code>Prompt</code>
-  and <code>Session</code>
+  and <code>Theme</code>
   to the hooks:
 </p>
 
@@ -57,7 +72,7 @@ let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
   hooks: {
     Prompt: window.Prompt,
-    Session: window.Session,
+    Theme: window.Theme,
     // existing hooks ...
   },
 });
@@ -125,17 +140,17 @@ end
 
 ```
 import "primer-live/primer-live.min.css";
-import { Prompt, Session } from "primer-live";
+import { Prompt, Theme } from "primer-live";
 ```
 
-<p>Also in <code>assets/js/app.js</code>, add <code>Prompt</code> and <code>Session</code> to the hooks:</p>
+<p>Also in <code>assets/js/app.js</code>, add <code>Prompt</code> and <code>Theme</code> to the hooks:</p>
 
 ```
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
   hooks: {
     Prompt,
-    Session,
+    Theme,
     // existing hooks ...
   },
 });
