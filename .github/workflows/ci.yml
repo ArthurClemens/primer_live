@@ -14,6 +14,7 @@ jobs:
         with:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
+      - run: cd apps/primer_live
       - run: mix deps.get
       - run: mix test
       - run: npm --prefix assets install --legacy-peer-deps
