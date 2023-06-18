@@ -101,7 +101,7 @@ defmodule PrimerLive.Components.FilterListTest do
              |> format_html()
   end
 
-  test "Extra atttributes" do
+  test "Extra attributes" do
     assigns = %{}
 
     assert rendered_to_string(~H"""

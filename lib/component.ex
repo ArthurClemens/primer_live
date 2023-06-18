@@ -4488,7 +4488,7 @@ defmodule PrimerLive.Component do
 
   slot :label,
     doc: """
-    Custom checkbox label. Overides the derived label when using a `form` and `field`.
+    Custom checkbox label. Overrides the derived label when using a `form` and `field`.
     """ do
     attr(:class, :string,
       doc: """
@@ -4939,7 +4939,7 @@ defmodule PrimerLive.Component do
 
   slot :label,
     doc: """
-    Custom radio button label. Overides the derived label when using a `form` and `field`.
+    Custom radio button label. Overrides the derived label when using a `form` and `field`.
     """ do
     attr(:class, :string,
       doc: """
@@ -9983,7 +9983,7 @@ defmodule PrimerLive.Component do
   <.as_link href="/home" is_primary>link</.as_link>
   ```
 
-  Rmove the underline:
+  Remove the underline:
 
   ```
   <.as_link href="/home" is_no_underline>link</.as_link>
@@ -11587,7 +11587,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Long content will automatically show a scrollbar. To change the maxium height of the dialog, use a CSS value. Use unit `vh` or `%`.
+  Long content will automatically show a scrollbar. To change the maximum height of the dialog, use a CSS value. Use unit `vh` or `%`.
 
   ```
   <.dialog max_height="50vh">
@@ -11620,7 +11620,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Dialog are wrapped inside a `Phoenix.Compoennt.focus_wrap/1` so that navigating with Tab won't leave the dialog.
+  Dialog are wrapped inside a `Phoenix.Component.focus_wrap/1` so that navigating with Tab won't leave the dialog.
 
   ```
   <.dialog is_backdrop is_modal>

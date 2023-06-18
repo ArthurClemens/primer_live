@@ -280,7 +280,7 @@ fieldset[disabled] .FormControl-textarea::placeholder {
   color: var(--color-primer-fg-disabled);
 }
 
-/* Align checkox styles with action list select icons. */
+/* Align checkbox styles with action list select icons. */
 /* Multiple select: use smaller checkboxes when shown in an action list (mimic ui icon "multiple-select-16") */
 .ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type=checkbox],
 .ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type=checkbox] {

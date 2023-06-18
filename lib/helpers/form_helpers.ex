@@ -202,7 +202,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
     changeset.errors
     |> Enum.filter(fn {error_field, _content} -> error_field == field end)
     |> Enum.map(fn {_error_field, {content, details}} ->
-      interpolate_error_detials(content, details)
+      interpolate_error_details(content, details)
     end)
   end
 
@@ -227,7 +227,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
     if is_nil(input_type), do: :text_input, else: input_type
   end
 
-  defp interpolate_error_detials(content, details) do
+  defp interpolate_error_details(content, details) do
     Enum.reduce(details, content, fn {key, value}, content ->
       String.replace(content, "%{#{key}}", "#{inspect(value)}")
     end)
