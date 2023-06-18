@@ -25,9 +25,11 @@ Run `mix.deps get`
 
 ```
 # PrimerLive resources
-plug Plug.Static, at: "/primer_live", from: "deps/primer_live/priv/static"
+plug(Plug.Static,
+  at: "/primer_live",
+  from: {:primer_live, "priv/static"}
+)
 ```
-
 
 <h4>CSS only</h4>
 
