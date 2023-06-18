@@ -24,6 +24,7 @@ defmodule PrimerLiveUmbrella.MixProject do
     [
       test: [
         "cmd mix setup",
+        "cmd mix assets.build",
         "cmd mix test"
       ]
     ]

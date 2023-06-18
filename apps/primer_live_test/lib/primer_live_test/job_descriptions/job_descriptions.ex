@@ -121,7 +121,7 @@ defmodule PrimerLiveTest.JobDescriptions do
     :roles
   ]
 
-  defp changeset(job_description, attrs \\ %{}) do
+  defp changeset(job_description, attrs) do
     job_description
     |> Ecto.Changeset.cast(attrs, @allowed_fields)
     |> clean_and_validate_array(:roles, @valid_roles, "false")

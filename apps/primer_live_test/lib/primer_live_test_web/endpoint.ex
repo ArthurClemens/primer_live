@@ -25,7 +25,11 @@ defmodule PrimerLiveTestWeb.Endpoint do
   )
 
   # PrimerLive resources
-  plug(Plug.Static, at: "/primer_live", from: "../../../primer_live/priv/static")
+  plug(Plug.Static,
+    at: "/primer_live",
+    from: "../../../primer_live/priv/static",
+    only: PrimerLiveTestWeb.static_paths()
+  )
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

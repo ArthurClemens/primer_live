@@ -27476,14 +27476,11 @@ fieldset[disabled] .FormControl-textarea::placeholder {
   border-color: var(--color-border-default);
 }
 .phx-no-feedback .FormControl-inlineValidation--error,
-.pl-valid + .FormControl-inlineValidation--error {
+.pl-valid + .FormControl-inlineValidation--error,
+.pl-neutral + .FormControl-inlineValidation--error {
   display: none;
 }
 .pl-invalid + .FormControl-inlineValidation--success {
-  display: none;
-}
-.phx-no-feedback:empty,
-[phx-feedback-for]:empty {
   display: none;
 }
 .pl-valid .form-control:not(:focus)[invalid],
