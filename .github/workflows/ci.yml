@@ -19,3 +19,6 @@ jobs:
       - run: mix test
       - run: npm --prefix assets install --legacy-peer-deps
       - run: npm --prefix assets run test
+      - run: cd ../primer_live_test
+      - run: mix deps.get
+      - run: mix test
