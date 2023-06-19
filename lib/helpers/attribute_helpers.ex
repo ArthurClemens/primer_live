@@ -229,7 +229,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   def as_boolean(_input, default_value), do: default_value
 
   @doc """
-  Takes 2 lists and pads the shortest list with placeholder values.
+  Takes 2 lists and padds the shortest list with placeholder values.
 
   ## Tests
 

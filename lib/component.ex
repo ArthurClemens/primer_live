@@ -294,43 +294,69 @@ defmodule PrimerLive.Component do
   Example of using a form and event handler to submit a "single select" selection:
 
   ```
-  options = [
-    %{id: "1", is_selected: true, label: "Writer"},
-    %{id: "2", is_selected: false, label: "Programmer"},
-    %{id: "3", is_selected: false, label: "Activist"}
-  ]
+  # Component logic
 
-  ...
+  values = assigns.changeset.changes |> Map.get(:roles) || []
+  current_role = List.first(values) || ""
+  options = Repo.role_options()
+  label_lookup = options |> Enum.map(fn {label, value} -> {value, label} end) |> Enum.into(%{})
+  selected_labels = values |> Enum.map(&Map.get(label_lookup, &1))
 
-  <.form :let={f} for={@changeset} phx-change="save_user_job">
-    <.action_list>
-      <%= for %{id: id, label: label, is_selected: is_selected} <- @options do %>
-        <.action_list_item
-          is_single_select
-          form={f}
-          field={:job_id}
-          checked_value={id}
-          is_selected={is_selected}
-        >
-          <%= label %>
-        </.action_list_item>
-      <% end %>
-    </.action_list>
-  </.form>
+  selected_text =
+    if Enum.count(selected_labels) > 0,
+      do: selected_labels |> Enum.join(", "),
+      else: "-"
 
-  ...
+  assigns =
+    assigns
+    |> assign(:options, options)
+    |> assign(:values, values)
+    |> assign(:current_role, current_role)
+    |> assign(:selected_text, selected_text)
 
-  def handle_event("save_user_job", %{"user" => params}, socket) do
-    %{user: user} = socket.assigns
-    current_job_id = get_in(user.job, [Access.key!(:id)])
+  # Component heex
 
-    selected_job_ids = params["job_id"] |> Enum.filter(&(&1 !== "false" && &1 !== current_job_id))
-    job_id = if Enum.count(selected_job_ids) > 0, do: hd(selected_job_ids), else: nil
+  <div class="my-3" data-testid="test-single-select-selected">
+    Selected: <%= @selected_text %>
+  </div>
+  <div class="col-12 col-md-6">
+    <.form :let={f} for={@changeset} phx-change="validate" phx-submit="save" phx-value-role={@current_role}>
+      <.action_list>
+        <%= for {label, value} <- @options do %>
+          <.action_list_item
+            form={f}
+            field={:roles}
+            checked_value={value}
+            is_single_select
+            is_selected={value in @values}
+          >
+            <%= label %>
+          </.action_list_item>
+        <% end %>
+      </.action_list>
+    </.form>
+  </div>
 
-    changeset = User.changeset(socket.assigns.user, %{"job_id" => job_id})
+  # Live view
 
-    # apply changeset and assign user to socket
-    ...
+  def handle_event(
+        "validate",
+        %{"role" => role, "job_description" => params},
+        socket
+      ) do
+    valid_roles = params |> Map.get("roles") |> Enum.reject(&(&1 === role))
+    new_params = params |> Map.put("roles", valid_roles)
+
+    changeset =
+      Repo.empty_job_description()
+      |> Repo.change_job_description(new_params)
+      |> Map.put(:action, :validate)
+
+    socket =
+      socket
+      |> assign(:changeset, changeset)
+
+    {:noreply, socket}
   end
   ```
 
@@ -636,6 +662,8 @@ defmodule PrimerLive.Component do
   )
 
   attr(:checked_value, :string, default: nil, doc: "Checkbox `checked_value`, see `checkbox/1`.")
+
+  DeclarationHelpers.input_id()
 
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
@@ -1028,6 +1056,7 @@ defmodule PrimerLive.Component do
                   do: @classes.leading_visual_single_select_checkmark,
                   else: @classes.leading_visual_multiple_select_checkmark
               }
+              input_id={@input_id}
             />
           </span>
         <% end %>
@@ -3376,6 +3405,8 @@ defmodule PrimerLive.Component do
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
   )
 
+  DeclarationHelpers.input_id()
+
   attr(:validation_message_id, :string,
     doc: """
     Message ID that is usually passed from the form element component to `input_validation_message`. If not used, the ID will be generated.
@@ -4469,6 +4500,8 @@ defmodule PrimerLive.Component do
   )
 
   attr(:name, :string, doc: "Input name attribute (when not using `form` and `field`).")
+
+  DeclarationHelpers.input_id()
 
   attr(:checked, :boolean, doc: "The state of the checkbox (when not using `form` and `field`).")
 
@@ -8356,11 +8389,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the button element.
-    """
-  )
+  attr :rest, :global, include: ~w(name)
 
   slot(:inner_block, required: true, doc: "Button content.")
 
