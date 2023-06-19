@@ -87,6 +87,25 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              |> format_html()
   end
 
+  test "Attribute: input_id" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.checkbox form={:user} field={:available_for_hire} input_id="xyz" />
+           """)
+           |> format_html() ==
+             """
+             <span class="FormControl-checkbox-wrap">
+             <input name="user[available_for_hire]" type="hidden" value="false" />
+             <input class="FormControl-checkbox" id="xyz" name="user[available_for_hire]" type="checkbox" value="true" />
+             <span class="FormControl-checkbox-labelWrap">
+             <label class="FormControl-label" for="xyz">Available for hire</label>
+             </span>
+             </span>
+             """
+             |> format_html()
+  end
+
   test "Attribute: name only" do
     assigns = %{}
 

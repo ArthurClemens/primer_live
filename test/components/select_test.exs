@@ -274,6 +274,31 @@ defmodule PrimerLive.TestComponents.SelectTest do
              |> format_html()
   end
 
+  test "Attribute: input_id" do
+    assigns = %{
+      form: @default_form
+    }
+
+    assert rendered_to_string(~H"""
+           <.select
+             form={@form}
+             field={:role}
+             options={[Admin: "admin", User: "user"]}
+             input_id="xyz"
+           />
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl-select-wrap pl-neutral">
+             <select class="FormControl-select FormControl-medium" id="xyz" name="user[role]">
+             <option value="admin">Admin</option>
+             <option value="user">User</option>
+             </select>
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Attribute: prompt" do
     assigns = %{
       form: @default_form

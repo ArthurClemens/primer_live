@@ -3633,6 +3633,8 @@ defmodule PrimerLive.Component do
       "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
   )
 
+  DeclarationHelpers.input_id()
+
   attr(:class, :string, default: nil, doc: "Additional classname.")
 
   attr(:classes, :map,
@@ -4154,12 +4156,14 @@ defmodule PrimerLive.Component do
 
   """
 
+  attr(:form, :any,
+  doc:
+  "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  )
+
   attr(:field, :any, doc: "Field name (atom or string).")
 
-  attr(:form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-  )
+  DeclarationHelpers.input_id()
 
   attr(:name, :string, doc: "Select name attribute (when not using `form` and `field`).")
 
