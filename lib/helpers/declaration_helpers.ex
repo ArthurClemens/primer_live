@@ -91,4 +91,22 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
       )
     end
   end
+
+  defmacro rest(opts) do
+    quote do
+      attr(:rest, :global, unquote(opts))
+    end
+  end
+
+  defmacro rest() do
+    quote do
+      attr(:rest, :global)
+    end
+  end
+
+  defmacro slot_rest() do
+    quote do
+      attr(:rest, :any)
+    end
+  end
 end

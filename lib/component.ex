@@ -405,7 +405,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global)
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Action list components.")
 
@@ -480,11 +480,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the section divider element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :title,
     required: false,
@@ -493,12 +489,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the action list element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :description,
@@ -508,12 +499,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the action list element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def action_list_section_divider(assigns) do
@@ -796,11 +782,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the action list element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Label.")
 
@@ -821,12 +803,7 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the link element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:description, required: false, doc: "Description.")
@@ -855,12 +832,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the nested action list element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def action_list_item(assigns) do
@@ -1322,12 +1294,7 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :position_end,
@@ -1342,19 +1309,10 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the far end container.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def tabnav(assigns) do
     classes = %{
@@ -1628,11 +1586,7 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `aria-label` to the outer element."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
@@ -1652,12 +1606,7 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :position_end,
@@ -1666,12 +1615,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the far end container.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def underline_nav(assigns) do
@@ -1936,11 +1880,7 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `aria-label` to the outer element."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
@@ -1958,12 +1898,7 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:heading,
@@ -2241,11 +2176,7 @@ defmodule PrimerLive.Component do
       "Sets the menu style to \"sub navigation\": a lightweight version without borders and more condensed."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
@@ -2263,12 +2194,7 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def side_nav(assigns) do
@@ -2444,11 +2370,7 @@ defmodule PrimerLive.Component do
     doc: "Allows child elements to wrap, for example a link row followed by a search field."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the subnav element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Subnav components.")
 
@@ -2508,11 +2430,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the subnav links element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
@@ -2530,12 +2448,7 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def subnav_links(assigns) do
@@ -2620,12 +2533,7 @@ defmodule PrimerLive.Component do
   """
 
   DeclarationHelpers.class()
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the subnav search element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Contents.")
 
@@ -2660,12 +2568,7 @@ defmodule PrimerLive.Component do
   """
 
   DeclarationHelpers.class()
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the subnav search context element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Contents.")
 
@@ -2778,11 +2681,7 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `aria-label` to the outer element."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the subnav links element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
@@ -2806,12 +2705,7 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def filter_list(assigns) do
@@ -3001,11 +2895,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the input element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Form group content.")
 
@@ -3192,11 +3082,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the input element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def input_validation_message(assigns) do
     %{
@@ -3521,11 +3407,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the input element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:group_button,
     doc: """
@@ -4029,11 +3911,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the select input.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def select(assigns) do
     case SchemaHelpers.validate_is_form(assigns) do
@@ -4317,11 +4195,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the input element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :label,
     doc: """
@@ -4329,12 +4203,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the label element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :hint,
@@ -4343,12 +4212,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the hint element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :disclosure,
@@ -4359,12 +4223,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the disclosure wrapper element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def checkbox(assigns) do
@@ -4745,11 +4604,7 @@ defmodule PrimerLive.Component do
       "For internal use to ensure compatibility with \"single select\" radio buttons in `action_list/1`."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the input element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :label,
     doc: """
@@ -4757,12 +4612,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the label element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :hint,
@@ -4771,12 +4621,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the hint element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :disclosure,
@@ -4787,12 +4632,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the disclosure wrapper element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def radio_button(assigns) do
@@ -4928,11 +4768,7 @@ defmodule PrimerLive.Component do
 
   attr(:id_prefix, :string, default: nil, doc: "Attribute `id` prefix to create unique ids.")
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the wrapper element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :radio_button,
     doc: "Generates a radio button." do
@@ -5156,11 +4992,7 @@ defmodule PrimerLive.Component do
     doc: "Renders the alert full width, with border and border radius removed."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Alert content.")
 
@@ -5249,11 +5081,7 @@ defmodule PrimerLive.Component do
 
   DeclarationHelpers.class()
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Alert messages content.")
 
@@ -5306,11 +5134,7 @@ defmodule PrimerLive.Component do
 
   DeclarationHelpers.class()
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Content to be formatted.")
 
@@ -5577,11 +5401,7 @@ defmodule PrimerLive.Component do
     doc: "On a small screen (up to 544px). Generates a filled 8px horizontal divider."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :main,
     doc:
@@ -6001,11 +5821,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :header,
     doc: "Generates a header row element." do
@@ -6043,12 +5859,7 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the row element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :body,
@@ -6373,11 +6184,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     doc: """
@@ -6387,12 +6194,7 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def header(assigns) do
@@ -6587,11 +6389,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :menu,
     doc: """
@@ -6636,12 +6434,7 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def dropdown(assigns) do
@@ -7050,11 +6843,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :menu,
     doc: """
@@ -7085,12 +6874,7 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the tab element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:footer,
@@ -7170,12 +6954,7 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def select_menu(assigns) do
@@ -7693,11 +7472,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block,
     doc: """
@@ -7974,8 +7749,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.href()
   DeclarationHelpers.patch()
   DeclarationHelpers.navigate()
-
-  attr :rest, :global, include: ~w(name)
+  DeclarationHelpers.rest(include: ~w(name type))
 
   slot(:inner_block, required: true, doc: "Button content.")
 
@@ -8084,12 +7858,7 @@ defmodule PrimerLive.Component do
   """
 
   DeclarationHelpers.class()
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :button,
     required: true,
@@ -8287,11 +8056,7 @@ defmodule PrimerLive.Component do
 
   attr(:link_options, :map, default: @default_pagination_link_options, doc: "Link options.")
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def pagination(assigns) do
     assigns =
@@ -8590,11 +8355,7 @@ defmodule PrimerLive.Component do
 
   DeclarationHelpers.class()
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the icon svg element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def octicon(assigns) do
     assigns =
@@ -8645,11 +8406,7 @@ defmodule PrimerLive.Component do
     doc: "Icon name, e.g. \"single-select-16\"."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the icon svg element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def ui_icon(assigns) do
     assigns =
@@ -8813,11 +8570,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the label.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Label content.")
 
@@ -8899,11 +8652,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the label.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Label content.")
 
@@ -9007,11 +8756,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the label.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Label content.")
 
@@ -9096,11 +8841,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the label.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Label content.")
 
@@ -9222,11 +8963,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Heading content.")
   slot(:description, doc: "Description content.")
@@ -9349,11 +9086,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
@@ -9365,12 +9098,7 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def breadcrumb(assigns) do
@@ -9576,12 +9304,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.href()
   DeclarationHelpers.patch()
   DeclarationHelpers.navigate()
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the link or span.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Link content.")
 
@@ -9687,11 +9410,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the `img` element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   @avatar_default_size 3
 
@@ -9773,11 +9492,7 @@ defmodule PrimerLive.Component do
 
   DeclarationHelpers.class()
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :parent,
     doc: "Generates a parent avatar." do
@@ -9786,12 +9501,7 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the parent avatar.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :child,
@@ -9801,12 +9511,7 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the child avatar.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def parent_child_avatar(assigns) do
@@ -9946,12 +9651,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.href()
   DeclarationHelpers.patch()
   DeclarationHelpers.navigate()
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :octicon,
     doc: "Generates a badge icon with `octicon/1`." do
@@ -9963,12 +9663,7 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Attributes supplied to the `octicon` component.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :img,
@@ -9981,12 +9676,7 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      HTML attributes supplied to the `img` element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   def circle_badge(assigns) do
@@ -10140,12 +9830,7 @@ defmodule PrimerLive.Component do
   """
 
   DeclarationHelpers.class()
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def animated_ellipsis(assigns) do
     class =
@@ -10218,11 +9903,7 @@ defmodule PrimerLive.Component do
 
   attr(:gap_color, :string, default: "#ffffff", doc: "Spinner gap color as SVG fill color.")
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def spinner(assigns) do
     class =
@@ -10399,11 +10080,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the blankslate.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :heading,
     doc: "Heading." do
@@ -10417,12 +10094,7 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Attributes supplied to the heading.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :octicon,
@@ -10435,12 +10107,7 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Attributes supplied to the `octicon` component.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :img,
@@ -10471,24 +10138,14 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      HTML attributes supplied to the `img` element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :action,
     doc: "Adds a wrapper for a button or link." do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      HTML attributes supplied to the action wrapper element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:inner_block, required: false, doc: "Regular content.")
@@ -10801,19 +10458,10 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Attributes supplied to the item.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the truncate element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def truncate(assigns) do
     classes = %{
@@ -11125,11 +10773,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :header_title,
     doc: """
@@ -11139,12 +10783,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional attributes.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :body,
@@ -11153,12 +10792,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional attributes.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :row,
@@ -11167,12 +10801,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional attributes.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot :footer,
@@ -11181,12 +10810,7 @@ defmodule PrimerLive.Component do
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional attributes.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:inner_block,
@@ -11489,11 +11113,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :body,
     doc: """
@@ -11509,11 +11129,7 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:rest, :any,
-      doc: """
-      Additional attributes.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:inner_block,
@@ -11674,11 +11290,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block,
     doc: "Drawer content."
@@ -11779,12 +11391,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.href()
   DeclarationHelpers.patch()
   DeclarationHelpers.navigate()
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "The branch name text and optionally an icon.")
 
@@ -11965,11 +11572,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
@@ -12272,11 +11875,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :badge,
     doc: """
@@ -12287,12 +11886,7 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the badge element.
-      """
-    )
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:avatar, doc: "Avatar container.")
@@ -12589,11 +12183,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Content.")
 
@@ -12768,11 +12358,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def theme_menu_options(assigns) do
     menu_items =
