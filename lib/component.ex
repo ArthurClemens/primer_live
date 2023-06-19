@@ -809,23 +809,9 @@ defmodule PrimerLive.Component do
     doc: """
     Creates a link. Pass attribute `href`, `navigate` or `patch`.
     """ do
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
 
     attr(:target, :string,
       doc: """
@@ -1331,24 +1317,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
 
@@ -1676,24 +1647,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
 
@@ -1997,24 +1953,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
 
@@ -2317,24 +2258,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
 
@@ -2599,24 +2525,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
 
@@ -2890,24 +2801,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
 
@@ -6142,24 +6038,9 @@ defmodule PrimerLive.Component do
       doc: "Apply a blue vertical line highlight for indicating a row contains unread items."
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
 
@@ -6743,23 +6624,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
 
     attr(:phx_click, :string,
       doc: """
@@ -7291,23 +7158,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
 
     attr(:phx_click, :string,
       doc: """
@@ -8073,6 +7926,7 @@ defmodule PrimerLive.Component do
   """
 
   DeclarationHelpers.class()
+
   attr(:is_full_width, :boolean, default: false, doc: "Generates a full-width button.")
 
   attr(:is_close_button, :boolean,
@@ -8117,23 +7971,9 @@ defmodule PrimerLive.Component do
   attr(:is_small, :boolean, default: false, doc: "Generates a small button.")
   attr(:is_submit, :boolean, default: false, doc: "Generates a button with type=\"submit\".")
 
-  attr(:href, :any,
-    doc: """
-    Creates an anchor link using `Phoenix.Component.link/1`, passing all other attributes to the link.
-    """
-  )
-
-  attr(:patch, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
-
-  attr(:navigate, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
+  DeclarationHelpers.href()
+  DeclarationHelpers.patch()
+  DeclarationHelpers.navigate()
 
   attr :rest, :global, include: ~w(name)
 
@@ -8257,7 +8097,9 @@ defmodule PrimerLive.Component do
     Button. Use `button/1` attributes to configure the button appearance and behaviour.
     """ do
     DeclarationHelpers.slot_class()
-    attr(:href, :boolean, doc: "See `button/1`.")
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.patch()
     attr(:is_close_button, :boolean, doc: "See `button/1`.")
     attr(:is_danger, :boolean, doc: "See `button/1`.")
     attr(:is_disabled, :boolean, doc: "See `button/1`.")
@@ -8273,8 +8115,6 @@ defmodule PrimerLive.Component do
     attr(:is_selected, :boolean, doc: "See `button/1`.")
     attr(:is_small, :boolean, doc: "See `button/1`.")
     attr(:is_submit, :boolean, doc: "See `button/1`.")
-    attr(:navigate, :boolean, doc: "See `button/1`.")
-    attr(:patch, :boolean, doc: "See `button/1`.")
   end
 
   def button_group(assigns) do
@@ -9520,24 +9360,9 @@ defmodule PrimerLive.Component do
     doc: """
     Breadcrumb item content. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
 
@@ -9748,23 +9573,9 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:href, :any,
-    doc: """
-    Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other attributes to the link.
-    """
-  )
-
-  attr(:patch, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
-
-  attr(:navigate, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
+  DeclarationHelpers.href()
+  DeclarationHelpers.patch()
+  DeclarationHelpers.navigate()
 
   attr(:rest, :global,
     doc: """
@@ -10132,23 +9943,9 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:href, :any,
-    doc: """
-    Link attribute. If used, the badge will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
-    """
-  )
-
-  attr(:patch, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
-
-  attr(:navigate, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
+  DeclarationHelpers.href()
+  DeclarationHelpers.patch()
+  DeclarationHelpers.navigate()
 
   attr(:rest, :global,
     doc: """
@@ -10986,23 +10783,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
 
     attr(:is_primary, :boolean,
       doc: """
@@ -11993,23 +11776,9 @@ defmodule PrimerLive.Component do
 
   DeclarationHelpers.class()
 
-  attr(:href, :any,
-    doc: """
-    Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other attributes to the link.
-    """
-  )
-
-  attr(:patch, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
-
-  attr(:navigate, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
+  DeclarationHelpers.href()
+  DeclarationHelpers.patch()
+  DeclarationHelpers.navigate()
 
   attr(:rest, :global,
     doc: """
@@ -12513,24 +12282,9 @@ defmodule PrimerLive.Component do
     doc: """
     Badge content. Pass an `octicon/1` to display an icon. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
 

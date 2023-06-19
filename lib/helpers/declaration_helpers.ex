@@ -51,4 +51,44 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
       attr(:name, :string, doc: "Input name attribute (when not using `form` and `field`).")
     end
   end
+
+  defmacro href() do
+    quote do
+      attr(:href, :any,
+        doc: """
+        Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other attributes to the link.
+        """
+      )
+    end
+  end
+
+  defmacro slot_href() do
+    quote do
+      attr(:href, :any,
+        doc: """
+        Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
+        """
+      )
+    end
+  end
+
+  defmacro patch() do
+    quote do
+      attr(:patch, :string,
+        doc: """
+        Link attribute - see `href`.
+        """
+      )
+    end
+  end
+
+  defmacro navigate() do
+    quote do
+      attr(:navigate, :string,
+        doc: """
+        Link attribute - see `href`.
+        """
+      )
+    end
+  end
 end
