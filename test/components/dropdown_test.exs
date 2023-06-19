@@ -74,7 +74,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
            <.dropdown
              id="querty"
              prompt_options="{
-            didHide: function() {
+              didHide: function() {
               document.querySelector('#role-form').dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
             }
            }"
@@ -129,7 +129,7 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              </label>
              <input aria-hidden="true" id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-              <div data-touch=""></div>
+             <div data-touch=""></div>
              <ul class="dropdown-menu dropdown-menu-se" data-content="" aria-role="menu">
              <li><a href="#url" class="dropdown-item">href link</a></li>
              <li><a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="dropdown-item">navigate link</a></li>

@@ -382,7 +382,7 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `role` to the outer element."
   )
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:is_divided, :boolean,
     default: false,
@@ -449,7 +449,7 @@ defmodule PrimerLive.Component do
   [INSERT LVATTRDOCS]
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -491,17 +491,8 @@ defmodule PrimerLive.Component do
     doc: """
     Title separator. The input text is wrapped in a `<h3>` element. Omit to create a horizontal line only.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -515,17 +506,8 @@ defmodule PrimerLive.Component do
     doc: """
     Optional extra text. Requires `title` slot.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -654,18 +636,13 @@ defmodule PrimerLive.Component do
   [INSERT LVATTRDOCS]
   """
 
-  attr(:field, :any, doc: "Field name (atom or string).")
-
-  attr(:form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-  )
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
 
   attr(:checked_value, :string, default: nil, doc: "Checkbox `checked_value`, see `checkbox/1`.")
 
   DeclarationHelpers.input_id()
-
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -856,17 +833,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -899,17 +867,8 @@ defmodule PrimerLive.Component do
 
     Use `is_sub_item` for child items to render them smaller.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -1324,7 +1283,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -1390,17 +1349,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -1419,17 +1369,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -1662,7 +1603,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -1753,17 +1694,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -1776,17 +1708,8 @@ defmodule PrimerLive.Component do
     doc: """
     Container for elements positions at the far end.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -2028,7 +1951,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -2092,17 +2015,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -2346,7 +2260,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -2421,17 +2335,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -2606,7 +2511,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:is_wrap, :boolean,
     default: false,
@@ -2655,7 +2560,7 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `aria-label` to the subnav links element."
   )
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -2712,17 +2617,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -2812,7 +2708,7 @@ defmodule PrimerLive.Component do
   [INSERT LVATTRDOCS]
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:rest, :global,
     doc: """
@@ -2852,7 +2748,7 @@ defmodule PrimerLive.Component do
   [INSERT LVATTRDOCS]
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:rest, :global,
     doc: """
@@ -2942,7 +2838,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -3012,17 +2908,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -3175,12 +3062,8 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:field, :any, doc: "Field name (atom or string).")
-
-  attr(:form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-  )
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
 
   attr(:label, :string,
     default: nil,
@@ -3189,7 +3072,7 @@ defmodule PrimerLive.Component do
 
   attr(:is_hide_label, :boolean, default: false, doc: "Omits the label when using `field`.")
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:for, :string,
     default: nil,
@@ -3396,16 +3279,10 @@ defmodule PrimerLive.Component do
   ```
   """
 
-  attr(:class, :string, default: nil, doc: "Classname.")
-
-  attr(:field, :any, doc: "Field name (atom or string).")
-
-  attr(:form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-  )
-
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
   DeclarationHelpers.input_id()
+  DeclarationHelpers.class()
 
   attr(:validation_message_id, :string,
     doc: """
@@ -3626,16 +3503,10 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:field, :any, doc: "Field name (atom or string).")
-
-  attr(:form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-  )
-
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
   DeclarationHelpers.input_id()
-
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -3663,7 +3534,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:name, :string, doc: "Text input name attribute (when not using `form` and `field`).")
+  DeclarationHelpers.name()
 
   attr(:value, :string,
     doc: "Text input value attribute (overrides field value when using `form` and `field`)."
@@ -3801,11 +3672,7 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
+    DeclarationHelpers.slot_class()
   end
 
   def text_input(assigns) do
@@ -4156,16 +4023,10 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:form, :any,
-  doc:
-  "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-  )
-
-  attr(:field, :any, doc: "Field name (atom or string).")
-
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.name()
   DeclarationHelpers.input_id()
-
-  attr(:name, :string, doc: "Select name attribute (when not using `form` and `field`).")
 
   attr(:options, :any, required: true, doc: "Selectable options (list, map or keyword list).")
 
@@ -4173,7 +4034,7 @@ defmodule PrimerLive.Component do
     doc: "Selected option or options (string for single select, list when using `is_multiple`)."
   )
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -4496,15 +4357,9 @@ defmodule PrimerLive.Component do
   Feature complete.
   """
 
-  attr(:field, :any, doc: "Field name (atom or string).")
-
-  attr(:form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-  )
-
-  attr(:name, :string, doc: "Input name attribute (when not using `form` and `field`).")
-
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.name()
   DeclarationHelpers.input_id()
 
   attr(:checked, :boolean, doc: "The state of the checkbox (when not using `form` and `field`).")
@@ -4536,7 +4391,7 @@ defmodule PrimerLive.Component do
 
   attr(:is_omit_label, :boolean, default: false, doc: "Omits any label.")
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -4576,17 +4431,8 @@ defmodule PrimerLive.Component do
     doc: """
     Custom checkbox label. Overides the derived label when using a `form` and `field`.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -4599,17 +4445,8 @@ defmodule PrimerLive.Component do
     doc: """
     Adds text below the checkbox label. Enabled when a label is displayed.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -4624,17 +4461,8 @@ defmodule PrimerLive.Component do
 
     Note that the label element can only contain inline child elements.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -4972,14 +4800,9 @@ defmodule PrimerLive.Component do
   Feature complete.
   """
 
-  attr(:form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-  )
-
-  attr(:field, :any, doc: "Field name (atom or string).")
-
-  attr(:name, :string, doc: "Input name attribute (when not using `form` and `field`).")
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.name()
 
   attr(:value, :string,
     default: nil,
@@ -4994,7 +4817,7 @@ defmodule PrimerLive.Component do
 
   attr(:is_omit_label, :boolean, default: false, doc: "Omits any label.")
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -5036,17 +4859,8 @@ defmodule PrimerLive.Component do
     doc: """
     Custom radio button label. Overides the derived label when using a `form` and `field`.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -5059,17 +4873,8 @@ defmodule PrimerLive.Component do
     doc: """
     Adds text below the radio button label. Enabled when a label is displayed.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -5084,17 +4889,8 @@ defmodule PrimerLive.Component do
 
     Note that the label element can only contain inline child elements.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -5208,14 +5004,9 @@ defmodule PrimerLive.Component do
   Feature complete.
   """
 
-  attr(:field, :any, doc: "Field name (atom or string).")
-
-  attr(:form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-  )
-
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -5252,7 +5043,7 @@ defmodule PrimerLive.Component do
     attr(:value, :string, doc: "See `radio_button/1`.")
     attr(:name, :string, doc: "See `radio_button/1`.")
     attr(:checked, :boolean, doc: "See `radio_button/1`.")
-    attr(:class, :string, doc: "Additional classname.")
+    DeclarationHelpers.slot_class()
   end
 
   def radio_group(assigns) do
@@ -5420,7 +5211,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -5560,7 +5351,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:rest, :global,
     doc: """
@@ -5617,7 +5408,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:rest, :global,
     doc: """
@@ -5785,7 +5576,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -6249,7 +6040,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -6322,14 +6113,14 @@ defmodule PrimerLive.Component do
 
   slot :header,
     doc: "Generates a header row element." do
-    attr(:class, :string, doc: "Additional classname.")
+    DeclarationHelpers.slot_class()
     attr(:is_blue, :boolean, doc: "Change the header border and background to blue.")
   end
 
   slot :header_title,
     doc:
       "Generates a title within the header. If no header slot is passed, the header title will be wrapped inside a header element." do
-    attr(:class, :string, doc: "Additional classname.")
+    DeclarationHelpers.slot_class()
   end
 
   slot :row,
@@ -6369,17 +6160,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -6390,12 +6172,12 @@ defmodule PrimerLive.Component do
 
   slot :body,
     doc: "Generates a body element." do
-    attr(:class, :string, doc: "Additional classname.")
+    DeclarationHelpers.slot_class()
   end
 
   slot :footer,
     doc: "Generates a footer row element." do
-    attr(:class, :string, doc: "Additional classname.")
+    DeclarationHelpers.slot_class()
   end
 
   slot(:inner_block, required: true, doc: "Unstructured content.")
@@ -6685,7 +6467,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -6722,17 +6504,8 @@ defmodule PrimerLive.Component do
     """ do
     attr(:is_full, :boolean, doc: "Stretches the item to maximum.")
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -6994,17 +6767,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -7452,17 +7216,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -7486,11 +7241,7 @@ defmodule PrimerLive.Component do
     <:message class="color-bg-danger color-fg-danger">Message</:message>
     ```
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
+    DeclarationHelpers.slot_class()
   end
 
   slot(:loading,
@@ -7564,17 +7315,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -8330,7 +8072,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
   attr(:is_full_width, :boolean, default: false, doc: "Generates a full-width button.")
 
   attr(:is_close_button, :boolean,
@@ -8501,7 +8243,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:rest, :global,
     doc: """
@@ -8514,7 +8256,7 @@ defmodule PrimerLive.Component do
     doc: """
     Button. Use `button/1` attributes to configure the button appearance and behaviour.
     """ do
-    attr(:class, :boolean, doc: "Additional classname.")
+    DeclarationHelpers.slot_class()
     attr(:href, :boolean, doc: "See `button/1`.")
     attr(:is_close_button, :boolean, doc: "See `button/1`.")
     attr(:is_danger, :boolean, doc: "See `button/1`.")
@@ -8656,7 +8398,7 @@ defmodule PrimerLive.Component do
   )
 
   attr(:is_numbered, :any, default: true, doc: "Boolean atom or string. Showing page numbers.")
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -9006,7 +8748,7 @@ defmodule PrimerLive.Component do
       "Icon name, e.g. \"arrow-left-24\". See [available icons](https://primer.style/octicons/)."
   )
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:rest, :global,
     doc: """
@@ -9138,7 +8880,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:is_primary, :boolean,
     default: false,
@@ -9308,7 +9050,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:is_big, :boolean,
     default: false,
@@ -9388,7 +9130,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:is_draft, :boolean,
     default: false,
@@ -9498,7 +9240,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:is_primary, :boolean,
     default: false,
@@ -9600,7 +9342,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -9741,7 +9483,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -9796,17 +9538,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -9978,7 +9711,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:is_primary, :boolean,
     default: false,
@@ -10118,7 +9851,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:src, :string, default: nil, doc: "Image source attribute.")
   attr(:width, :string, default: nil, doc: "Image width attribute.")
@@ -10227,7 +9960,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:rest, :global,
     doc: """
@@ -10240,17 +9973,8 @@ defmodule PrimerLive.Component do
     attr(:size, :any, doc: "Avatar image size - see `avatar/1`.")
     attr(:src, :any, doc: "Avatar image source - see `avatar/1`.")
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -10264,17 +9988,8 @@ defmodule PrimerLive.Component do
     attr(:size, :any, doc: "Avatar size - see `avatar/1`.")
     attr(:src, :any, doc: "Avatar image source - see `avatar/1`.")
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -10403,7 +10118,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:size, :string,
     default: "small",
@@ -10449,17 +10164,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -10476,17 +10182,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -10645,7 +10342,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:rest, :global,
     doc: """
@@ -10716,7 +10413,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:size, :any, default: 18, doc: "Spinner size (number or number as string).")
 
@@ -10856,7 +10553,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -10921,17 +10618,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -10948,17 +10636,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -10993,17 +10672,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -11014,17 +10684,8 @@ defmodule PrimerLive.Component do
 
   slot :action,
     doc: "Adds a wrapper for a button or link." do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -11290,7 +10951,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -11355,17 +11016,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -11702,17 +11354,8 @@ defmodule PrimerLive.Component do
 
     Note that slot `header` is automatically created to ensure the correct close button.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -11725,17 +11368,8 @@ defmodule PrimerLive.Component do
     doc: """
     Dialog body. Uses `box/1` `body` slot.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -11748,17 +11382,8 @@ defmodule PrimerLive.Component do
     doc: """
     Dialog row. Uses `box/1` `row` slot.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -11771,17 +11396,8 @@ defmodule PrimerLive.Component do
     doc: """
     Dialog footer. Uses `box/1` `footer` slot.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
@@ -12100,11 +11716,7 @@ defmodule PrimerLive.Component do
     doc: """
     Drawer body.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
+    DeclarationHelpers.slot_class()
 
     attr(:width, :string,
       doc: """
@@ -12268,7 +11880,7 @@ defmodule PrimerLive.Component do
   [INSERT LVATTRDOCS]
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:width, :string,
     default: nil,
@@ -12379,7 +11991,7 @@ defmodule PrimerLive.Component do
   Feature complete.
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:href, :any,
     doc: """
@@ -12525,7 +12137,7 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `aria-label` to the outer element."
   )
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -12827,7 +12439,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -12919,17 +12531,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
 
     attr(:rest, :any,
       doc: """
