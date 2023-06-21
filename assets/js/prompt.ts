@@ -107,6 +107,7 @@ function setCheckboxState({
   options: PromptOptions;
   onDidShow?: (elements: PromptElements) => void;
 }) {
+  checkbox.dataset[IS_MOUNTED_DATA] = "true";
   switch (state) {
     case "showing":
       delete checkbox.dataset.ishiding;
@@ -229,11 +230,7 @@ type TPrompt = {
 
 export const Prompt: TPrompt = {
   isInited: false,
-  init: function () {
-    const checkbox = getCheckboxFromPromptContent(this.el || undefined);
-    if (checkbox) {
-      checkbox.dataset[IS_MOUNTED_DATA] = "true";
-    }
+  init: function () { 
     if (!Prompt.isInited) {
       window.addEventListener("keydown", closeFromEscapeKey);
       Prompt.isInited = true;

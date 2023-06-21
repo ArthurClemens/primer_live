@@ -35,7 +35,7 @@ GENERAL
 [data-prompt] [data-backdrop],
 [data-prompt] [data-content],
 [data-prompt] [data-drawer-content] {
-  transition-duration: 0;
+  transition-duration: 0ms;
 }
 
 /* -- Push drawers should be visible, because the pushed content should be visible at all times. */

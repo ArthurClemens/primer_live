@@ -26948,7 +26948,7 @@ a.branch-name .octicon {
 [data-prompt] [data-backdrop],
 [data-prompt] [data-content],
 [data-prompt] [data-drawer-content] {
-  transition-duration: 0;
+  transition-duration: 0ms;
 }
 [data-prompt][data-ispush] > input[type=checkbox][data-ismounted] + [data-prompt-content] {
   visibility: visible;
@@ -27476,14 +27476,11 @@ fieldset[disabled] .FormControl-textarea::placeholder {
   border-color: var(--color-border-default);
 }
 .phx-no-feedback .FormControl-inlineValidation--error,
-.pl-valid + .FormControl-inlineValidation--error {
+.pl-valid + .FormControl-inlineValidation--error,
+.pl-neutral + .FormControl-inlineValidation--error {
   display: none;
 }
 .pl-invalid + .FormControl-inlineValidation--success {
-  display: none;
-}
-.phx-no-feedback:empty,
-[phx-feedback-for]:empty {
   display: none;
 }
 .pl-valid .form-control:not(:focus)[invalid],

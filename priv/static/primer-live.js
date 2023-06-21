@@ -80,6 +80,7 @@
     options,
     onDidShow
   }) {
+    checkbox.dataset[IS_MOUNTED_DATA] = "true";
     switch (state) {
       case "showing":
         delete checkbox.dataset.ishiding;
@@ -177,10 +178,6 @@
   var Prompt = {
     isInited: false,
     init: function() {
-      const checkbox = getCheckboxFromPromptContent(this.el || void 0);
-      if (checkbox) {
-        checkbox.dataset[IS_MOUNTED_DATA] = "true";
-      }
       if (!Prompt.isInited) {
         window.addEventListener("keydown", closeFromEscapeKey);
         Prompt.isInited = true;
