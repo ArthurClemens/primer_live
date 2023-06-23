@@ -146,19 +146,19 @@ By using a checkbox, we are able to preserve the open state when they are used w
 
 Normally after an update to the LiveView state, the menu/dialog/drawer is redrawn, resulting in it being rendered closed.
 
-To preserve the open state of the menu, you can pass the form along with a *fictitious and unique field name* (not used in the data model). This field name is then used in event handlers.
+To preserve the open state of the menu, you can pass the form along with a *fictitious and unique field name* (not used in the data model). To differentiate its name from regular fields, you may add a prefix like "ui_". We'll read this field value in event handlers.
 
-Here we are adding field `status_toggle` to the form:
+Here we are adding field `ui_prompt_user_job` to the form:
 
 ```
 <.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
-  <.action_menu form={f} field={:status_toggle}>
+  <.action_menu form={f} field={:ui_prompt_user_job}>
     <:toggle>Menu</:toggle>
     <.action_list is_multiple_select>
       <%= for {label, value} <- @options do %>
         <.action_list_item
           form={f}
-          field={:statuses}
+          field={:jobs}
           checked_value={value}
           is_multiple_select
           is_selected={value in @values}
@@ -175,7 +175,7 @@ The same method can be used for dialogs and drawers:
 
 ```
 <.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
-  <.dialog form={f} field={:status_toggle} id="status-dialog">
+  <.dialog form={f} field={:ui_prompt_user_job} id="user-job-dialog">
     <:body>
       <.action_list is_multiple_select>
         # See above
@@ -189,28 +189,118 @@ The same method can be used for dialogs and drawers:
 
 The implementation of menu behavior from a user's perspective is determined by the event handler, where you have two options for updating the model state:
 
-1. Update the model state after each selection.
-2. Update the model state after closing the menu.
+1. Update with each selection
+2. Update only after closing the menu.
 
 #### Approach 1: Update with each selection
 
 This approach is usually preferred, because it allows for direct validation feedback.
 
-Process the event as usual.
+Process the event as usual and re-insert the fictitious field value:
 
-#### Approach 2: Update after closing the menu
+```
+# First iteration, unoptimised
+# user_live/show.ex
+
+def handle_event("save", %{"user" => params}, socket) do
+  case User.update(socket.assigns.user, params) do
+    {:ok, user} ->
+      # Re-insert ui_prompt_user_job value
+      changeset =
+        User.changeset(
+          user,
+          params |> Map.take(["ui_prompt_user_job"])
+        )
+
+      socket =
+        socket
+        |> assign(:user, user)
+        |> assign(:changeset, changeset)
+
+      {:noreply, socket}
+
+    {:error, %Ecto.Changeset{} = changeset} ->
+      # Re-insert ui_prompt_user_job value
+      changeset =
+        User.changeset(
+          changeset.data,
+          params |> Map.take(["ui_prompt_user_job"])
+        )
+
+      socket =
+        socket
+        |> assign(:changeset, changeset)
+
+      {:noreply, socket}
+  end
+end
+```
+
+This idea can be improved with a custom function that creates a changeset with UI params:
+```
+# repo.ex
+
+@doc """
+Creates a changeset containing the values of the UI params.
+Use to maintain UI state when model changes would otherwise cause the UI to clear state.
+"""
+def ui_changeset(struct, ui_params \\ %{}) do
+ permitted = Map.keys(ui_params |> Map.new(fn {k, v} -> {String.to_atom(k), v} end))
+ types = permitted |> Map.new(&{&1, :string})
+
+ Ecto.Changeset.cast(
+   {struct, types},
+   ui_params,
+   permitted
+ )
+end
+```
+
+Now the event handler becomes:
+```
+# Second iteration
+# user_live/show.ex
+
+def handle_event("save", %{"user" => params}, socket) do
+  result = User.update(socket.assigns.user, params)
+
+  ui_changeset =
+    Repo.ui_changeset(
+      socket.assigns.user,
+      params |> Map.take(["ui_prompt_user_job"])
+    )
+ 
+  case result do
+    {:ok, user} ->
+      socket =
+        socket
+        |> assign(:user, user)
+        |> assign(:changeset, ui_changeset)
+ 
+      {:noreply, socket}
+ 
+    {:error, changeset} ->
+      socket =
+        socket
+        |> assign(:changeset, changeset |> Map.merge(ui_changeset))
+ 
+      {:noreply, socket}
+end
+```
+
+#### Approach 2: Update only after closing the menu
 
 Ignore the event while the the menu is open (the toggle checkbox value is "true"):
 
 ```
-def handle_event("save", %{"user" => %{"status_toggle" => "true"}}, socket) do
+def handle_event("save", %{"user" => %{"ui_prompt_user_job" => "true"}}, socket) do
   # Ignore
   {:noreply, socket}
 end
 
 def handle_event("save", %{"user" => params}, socket) do
-  # status_toggle is "false", so process normally
-  case User.update(socket.assigns.user, params) do
-    ...
+  # ui_prompt_user_job is "false", so process normally
+  ...
+end
 ```
 
