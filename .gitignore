@@ -30,3 +30,4 @@ priv/octicon_builder/story_list.ex
 
 node_modules
 .DS_Store
+.elixir-tools
