@@ -12295,6 +12295,13 @@ defmodule PrimerLive.Component do
     """
   )
 
+  attr(:update_theme_event, :string,
+    default: Theme.update_theme_event_key(),
+    doc: """
+    Event name to be called for updating the theme.
+    """
+  )
+
   attr(:options, :map,
     required: false,
     default: Theme.default_menu_options(),
@@ -12375,6 +12382,7 @@ defmodule PrimerLive.Component do
       |> assign(:menu_items, menu_items)
       |> assign(:is_default_theme, is_default_theme)
       |> assign(:is_reset_enabled, !is_default_theme && !assigns.is_click_disabled)
+      |> assign(:update_theme_event, assigns.update_theme_event || Theme.update_theme_event_key())
 
     ~H"""
     <.action_list {@rest}>
@@ -12387,12 +12395,13 @@ defmodule PrimerLive.Component do
           menu_items={@menu_items}
           is_show_group_labels={@is_show_group_labels}
           is_click_disabled={@is_click_disabled}
+          update_theme_event={@update_theme_event}
         />
       <% end %>
       <%= if @is_show_reset_link && assigns.labels[:reset] do %>
         <.action_list_section_divider />
         <.action_list_item
-          phx-click={@is_reset_enabled && Theme.update_theme_event_key()}
+          phx-click={@is_reset_enabled && @update_theme_event}
           phx-value-key={Theme.reset_key()}
           phx-value-data=""
           is_disabled={!@is_reset_enabled}
@@ -12408,6 +12417,7 @@ defmodule PrimerLive.Component do
   attr(:key, :atom, required: true, values: [:color_mode, :light_theme, :dark_theme])
   attr(:is_show_group_labels, :boolean, required: true)
   attr(:is_click_disabled, :boolean, required: true)
+  attr(:update_theme_event, :string, required: true)
 
   defp theme_menu_option_items(assigns) do
     group = assigns.menu_items[assigns.key]
@@ -12426,7 +12436,7 @@ defmodule PrimerLive.Component do
       <.action_list_item
         is_single_select
         is_selected={@group.selected && value === @group.selected}
-        phx-click={!@is_click_disabled && Theme.update_theme_event_key()}
+        phx-click={!@is_click_disabled && @update_theme_event}
         phx-value-key={@key}
         phx-value-data={value}
       >

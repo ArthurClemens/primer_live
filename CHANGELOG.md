@@ -6,6 +6,8 @@
 
 - The open state of menus and dialogs can now be maintained when used inside forms.
 - Improved validation message logic.
+- Updated components:
+  - `theme_menu_options`: added attr `update_theme_event`: the event name to be called for updating the theme
 
 ### Breaking changes
 - Renamed hook `Session` (which was erroneously documented as "ThemeMenu") to `Theme`
