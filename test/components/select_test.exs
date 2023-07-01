@@ -280,12 +280,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
     }
 
     assert rendered_to_string(~H"""
-           <.select
-             form={@form}
-             field={:role}
-             options={[Admin: "admin", User: "user"]}
-             input_id="xyz"
-           />
+           <.select form={@form} field={:role} options={[Admin: "admin", User: "user"]} input_id="xyz" />
            """)
            |> format_html() ==
              """
