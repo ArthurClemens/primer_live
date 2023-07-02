@@ -485,16 +485,22 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
   def input_id(_input_id, _id, input_type, input_name, value_for_derived_label)
       when (input_type === :checkbox or input_type === :radio_button) and is_binary(input_name) do
-    cond do
-      String.match?(input_name, ~r/\[\]$/) ->
-        String.replace(input_name, ~r/(\[\]$)/, "[#{value_for_derived_label}]")
+    id =
+      cond do
+        String.match?(input_name, ~r/\[\]$/) ->
+          String.replace(input_name, ~r/(\[\]$)/, "[#{value_for_derived_label}]")
 
-      !is_nil(value_for_derived_label) ->
-        "#{input_name}[#{value_for_derived_label}]"
+        !is_nil(value_for_derived_label) ->
+          "#{input_name}[#{value_for_derived_label}]"
 
-      true ->
-        input_name
-    end
+        true ->
+          input_name
+      end
+
+    # Remove brackets
+    id
+    |> String.replace(~r/(\]\[)|(\[\])|\[|\]/, "_")
+    |> String.replace(~r/\_$/, "")
   end
 
   def input_id(_input_id, _id, _input_type, "", _value_for_derived_label), do: nil
