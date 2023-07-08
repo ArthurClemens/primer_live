@@ -32,7 +32,7 @@ defmodule PrimerLive.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.9"},
       {:esbuild, "~> 0.7", only: :dev},
-      {:ex_doc, "~> 0.29", only: :dev},
+      {:ex_doc, "~> 0.30", only: :dev},
       {:phoenix_html, "~> 3.3"},
       {:phoenix_live_view, ">= 0.18.3"},
       {:jason, "~> 1.4"}
