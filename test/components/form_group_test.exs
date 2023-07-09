@@ -163,18 +163,18 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
              <div class="form-group-body">
              <span phx-feedback-for="user[available_for_hire]" class="FormControl-checkbox-wrap pl-invalid">
              <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="user[available_for_hire][admin]" invalid=""
+             <input class="FormControl-checkbox" id="user_available_for_hire_admin" invalid=""
              name="user[available_for_hire]" type="checkbox" value="admin" />
              <span class="FormControl-checkbox-labelWrap">
-             <label class="FormControl-label" for="user[available_for_hire][admin]">Admin</label>
+             <label class="FormControl-label" for="user_available_for_hire_admin">Admin</label>
              </span>
              </span>
              <span phx-feedback-for="user[available_for_hire]" class="FormControl-checkbox-wrap pl-invalid">
              <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="user[available_for_hire][editor]" invalid=""
+             <input class="FormControl-checkbox" id="user_available_for_hire_editor" invalid=""
              name="user[available_for_hire]" type="checkbox" value="editor" />
              <span class="FormControl-checkbox-labelWrap">
-             <label class="FormControl-label" for="user[available_for_hire][editor]">Editor</label>
+             <label class="FormControl-label" for="user_available_for_hire_editor">Editor</label>
              </span>
              </span>
              </div>

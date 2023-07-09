@@ -97,7 +97,7 @@ defmodule PrimerLive.TestComponents.HeaderTest do
              """
              <div class="Header">
              <div class="Header-item">
-             <input class="FormControl-input FormControl-medium Header-input" id="user[first_name]" name="user[first_name]" type="search" />
+             <input class="FormControl-input FormControl-medium Header-input" id="user_first_name" name="user[first_name]" type="search" />
              </div>
              </div>
              """
