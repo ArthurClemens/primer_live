@@ -485,26 +485,29 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
   def input_id(_input_id, _id, input_type, input_name, value_for_derived_label)
       when (input_type === :checkbox or input_type === :radio_button) and is_binary(input_name) do
-    id =
-      cond do
-        String.match?(input_name, ~r/\[\]$/) ->
-          String.replace(input_name, ~r/(\[\]$)/, "[#{value_for_derived_label}]")
+    cond do
+      String.match?(input_name, ~r/\[\]$/) ->
+        String.replace(input_name, ~r/(\[\]$)/, "[#{value_for_derived_label}]")
 
-        !is_nil(value_for_derived_label) ->
-          "#{input_name}[#{value_for_derived_label}]"
+      !is_nil(value_for_derived_label) ->
+        "#{input_name}[#{value_for_derived_label}]"
 
-        true ->
-          input_name
-      end
-
-    # Remove brackets
-    id
-    |> String.replace(~r/(\]\[)|(\[\])|\[|\]/, "_")
-    |> String.replace(~r/\_$/, "")
+      true ->
+        input_name
+    end
   end
 
   def input_id(_input_id, _id, _input_type, "", _value_for_derived_label), do: nil
   def input_id(_input_id, _id, _input_type, input_name, _value_for_derived_label), do: input_name
+
+  def cleanup_id(id) when is_nil(id), do: nil
+
+  def cleanup_id(id) do
+    id
+    |> String.replace(~r/(\]\[)|(\[\])|\[|\]/, "_")
+    |> String.replace(~r/^(\_)*/, "")
+    |> String.replace(~r/(\_)*$/, "")
+  end
 
   @doc ~S"""
   Extracts common attributes for form inputs. Shared for consistency.
@@ -556,7 +559,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
          input_type,
          %{form: form, field: field, rest: rest, name: name}
        ) do
-    id = assigns[:id] || rest[:id]
+    id = cleanup_id(assigns[:id] || rest[:id])
     is_multiple = !!assigns[:is_multiple]
     checked_value = assigns[:checked_value]
 
@@ -570,7 +573,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     value = assigns[:value] || rest[:value]
     value_for_derived_label = checked_value || value
 
-    input_id = input_id(assigns[:input_id], id, input_type, input_name, value_for_derived_label)
+    input_id =
+      input_id(assigns[:input_id], id, input_type, input_name, value_for_derived_label)
+      |> cleanup_id()
 
     derived_label =
       case input_type do

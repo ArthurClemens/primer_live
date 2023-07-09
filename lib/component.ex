@@ -2953,7 +2953,7 @@ defmodule PrimerLive.Component do
     # else use the default generated label
     header_label_attributes =
       AttributeHelpers.append_attributes([
-        [class: assigns.classes.label],
+        [class: assigns.classes[:label]],
         [for: assigns[:for] || nil]
       ])
 
@@ -3082,6 +3082,13 @@ defmodule PrimerLive.Component do
     """
   )
 
+  attr(:is_multiple, :boolean,
+    default: false,
+    doc: """
+    Set to true when the validation message refers to a "multiple" field, to that the generated ID will include suffix `[]`.
+    """
+  )
+
   DeclarationHelpers.rest()
 
   def input_validation_message(assigns) do
@@ -3105,10 +3112,10 @@ defmodule PrimerLive.Component do
       ])
 
     attributes =
-      AttributeHelpers.append_attributes([
+      AttributeHelpers.append_attributes(assigns.rest, [
         [class: class],
         [id: validation_message_id],
-        ["phx-feedback-for": phx_feedback_for_id]
+        ["phx-feedback-for": assigns.rest["phx-feedback-for"] || phx_feedback_for_id]
       ])
 
     assigns =
@@ -4030,6 +4037,7 @@ defmodule PrimerLive.Component do
         validation_message={@validation_message}
         validation_message_id={@validation_message_id}
         class={@validation_message_class}
+        is_multiple={@is_multiple}
       />
       """
     end
