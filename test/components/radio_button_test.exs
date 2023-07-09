@@ -19,6 +19,7 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
       valid?: true
     }
   }
+
   test "Called without options or inner_block: should render the component" do
     assigns = %{}
 

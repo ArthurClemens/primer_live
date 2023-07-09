@@ -836,6 +836,10 @@ defmodule PrimerLive.Component do
   end
 
   def action_list_item(assigns) do
+    %{
+      input_id: input_id
+    } = AttributeHelpers.common_input_attrs(assigns, :checkbox)
+
     is_selected = assigns.is_selected
     is_form_input = assigns[:form] || assigns[:field]
     # Get the first link slot, if any
@@ -1043,7 +1047,7 @@ defmodule PrimerLive.Component do
 
       attributes =
         AttributeHelpers.append_attributes([
-          [class: classes.content],
+          [class: classes.content, for: input_id],
           !is_nil(is_expanded) &&
             ["aria-expanded": is_expanded |> Atom.to_string()]
         ])

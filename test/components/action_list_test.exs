@@ -1,10 +1,13 @@
 defmodule PrimerLive.TestComponents.ActionListTest do
   use ExUnit.Case
   use PrimerLive
+
   import PrimerLive.Helpers.TestHelpers
 
   import Phoenix.Component
   import Phoenix.LiveViewTest
+
+  alias PrimerLive.TestHelpers.Repo.Todos
 
   test "Content slot" do
     assigns = %{}
@@ -110,6 +113,108 @@ defmodule PrimerLive.TestComponents.ActionListTest do
              </li>
              <li class="ActionList-item"><span class="ActionList-content"><span class="ActionList-item-label">Item</span></span></li>
              </ul>
+             """
+             |> format_html()
+  end
+
+  test "With form" do
+    changeset = Todos.init()
+    options = Todos.status_options()
+    values = changeset.changes |> Map.get(:statuses) || []
+
+    assigns = %{
+      changeset: changeset,
+      options: options,
+      values: values
+    }
+
+    assert rendered_to_string(~H"""
+           <.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
+             <.action_list is_multiple_select>
+               <%= for {label, value} <- @options do %>
+                 <.action_list_item
+                   form={f}
+                   field={:statuses}
+                   checked_value={value}
+                   is_selected={value in @values}
+                 >
+                   <%= label %>
+                 </.action_list_item>
+               <% end %>
+             </.action_list>
+           </.form>
+           """)
+           |> format_html() ==
+             """
+             <form method="post" phx-change="validate" phx-submit="save">
+             <ul class="ActionList" role="listbox" aria-multiselectable="true">
+             <li class="ActionList-item"><label class="ActionList-content" for="todo_statuses_in-progress"><span
+             class="ActionList-item-label">In progress</span></label></li>
+             <li class="ActionList-item"><label class="ActionList-content" for="todo_statuses_needs-review"><span
+             class="ActionList-item-label">Needs review</span></label></li>
+             <li class="ActionList-item"><label class="ActionList-content" for="todo_statuses_complete"><span
+             class="ActionList-item-label">Complete</span></label></li>
+             </ul>
+             </form>
+             """
+             |> format_html()
+  end
+
+  test "With form, is_multiple_select" do
+    changeset = Todos.init()
+    options = Todos.status_options()
+    values = changeset.changes |> Map.get(:statuses) || []
+
+    assigns = %{
+      changeset: changeset,
+      options: options,
+      values: values
+    }
+
+    assert rendered_to_string(~H"""
+           <.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
+             <.action_list is_multiple_select>
+               <%= for {label, value} <- @options do %>
+                 <.action_list_item
+                   form={f}
+                   field={:statuses}
+                   checked_value={value}
+                   is_multiple_select
+                   is_selected={value in @values}
+                 >
+                   <%= label %>
+                 </.action_list_item>
+               <% end %>
+             </.action_list>
+           </.form>
+           """)
+           |> format_html() ==
+             """
+             <form method="post" phx-change="validate" phx-submit="save">
+             <ul class="ActionList" role="listbox" aria-multiselectable="true">
+             <li class="ActionList-item" role="option"><label class="ActionList-content" for="todo_statuses_in-progress"><span
+             class="ActionList-item-visual ActionList-item-visual--leading"><span
+             class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input name="todo[statuses][]"
+              type="hidden" value="false" /><input class="FormControl-checkbox" id="todo_statuses_in-progress"
+              name="todo[statuses][]" type="checkbox" value="in-progress" /></span></span><span
+             class="ActionList-item-label">In
+             progress</span></label></li>
+             <li class="ActionList-item" role="option"><label class="ActionList-content" for="todo_statuses_needs-review"><span
+             class="ActionList-item-visual ActionList-item-visual--leading"><span
+             class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input name="todo[statuses][]"
+              type="hidden" value="false" /><input class="FormControl-checkbox" id="todo_statuses_needs-review"
+              name="todo[statuses][]" type="checkbox" value="needs-review" /></span></span><span
+             class="ActionList-item-label">Needs
+             review</span></label></li>
+             <li class="ActionList-item" role="option"><label class="ActionList-content" for="todo_statuses_complete"><span
+             class="ActionList-item-visual ActionList-item-visual--leading"><span
+             class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input name="todo[statuses][]"
+              type="hidden" value="false" /><input class="FormControl-checkbox" id="todo_statuses_complete"
+              name="todo[statuses][]" type="checkbox" value="complete" /></span></span><span
+             class="ActionList-item-label">Complete</span></label>
+             </li>
+             </ul>
+             </form>
              """
              |> format_html()
   end

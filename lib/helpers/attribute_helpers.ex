@@ -500,6 +500,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   def input_id(_input_id, _id, _input_type, "", _value_for_derived_label), do: nil
   def input_id(_input_id, _id, _input_type, input_name, _value_for_derived_label), do: input_name
 
+  @spec cleanup_id(nil | binary) :: nil | binary
   def cleanup_id(id) when is_nil(id), do: nil
 
   def cleanup_id(id) do
