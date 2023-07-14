@@ -26942,16 +26942,13 @@ a.branch-name .octicon {
   --prompt-z-index-drawer-content: 200;
   --prompt-z-index-dialog-content: 300;
 }
-[data-prompt] [data-prompt-content] {
+[data-prompt]:not([data-ispush]) [data-prompt-content] {
   visibility: hidden;
 }
 [data-prompt] [data-backdrop],
 [data-prompt] [data-content],
 [data-prompt] [data-drawer-content] {
   transition-duration: 0ms;
-}
-[data-prompt][data-ispush] > input[type=checkbox][data-ismounted] + [data-prompt-content] {
-  visibility: visible;
 }
 [data-prompt] > input[type=checkbox]:checked + [data-prompt-content] {
   visibility: visible;
