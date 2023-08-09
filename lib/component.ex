@@ -4732,12 +4732,12 @@ defmodule PrimerLive.Component do
   </form>
   ```
 
-  Use custom label with the `radio_button` slot `inner_block`:
+  Use custom label with the `radio_button` slot attr `label`:
 
   ```
   <.radio_group>
-    <:radio_button name="role" value="admin">My role is Admin</:radio_button>
-    <:radio_button name="role" value="editor">My role is Editor</:radio_button>
+    <:radio_button name="role" value="admin" label="My role is Admin"></:radio_button>
+    <:radio_button name="role" value="editor" label="My role is Editor"></:radio_button>
   </.radio_group>
   ```
 
@@ -4786,6 +4786,7 @@ defmodule PrimerLive.Component do
     doc: "Generates a radio button." do
     attr(:value, :string, doc: "See `radio_button/1`.")
     attr(:name, :string, doc: "See `radio_button/1`.")
+    attr(:label, :string, doc: "Custom radio button label.")
     attr(:checked, :boolean, doc: "See `radio_button/1`.")
     DeclarationHelpers.slot_class()
   end
@@ -4837,6 +4838,7 @@ defmodule PrimerLive.Component do
           :__slot__,
           :value,
           :class,
+          :label,
           :id
         ])
 
@@ -4874,12 +4876,13 @@ defmodule PrimerLive.Component do
         |> assign(:input, input)
         |> assign(:label_opts, label_opts)
         |> assign(:derived_label, derived_label)
+        |> assign(:label, slot[:label])
         |> assign(:slot, slot)
 
       ~H"""
       <%= @input %>
       <label {@label_opts}>
-        <%= render_slot(@slot) |> ComponentHelpers.maybe_slot_content() || @derived_label %>
+        <%= @label || render_slot(@slot) |> ComponentHelpers.maybe_slot_content() || @derived_label %>
       </label>
       """
     end

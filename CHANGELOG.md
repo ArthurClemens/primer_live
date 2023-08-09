@@ -8,6 +8,7 @@
 - Improved validation message logic.
 - Updated components:
   - `theme_menu_options`: added attr `update_theme_event`: the event name to be called for updating the theme.
+  - `radio_group`: added to slot `radio_button` the attr `label` to set a custom label
 
 ### Breaking changes
 - Renamed hook `Session` (which was erroneously documented as "ThemeMenu") to `Theme`.
