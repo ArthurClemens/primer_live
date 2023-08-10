@@ -19,6 +19,23 @@ defmodule PrimerLive.TestComponents.ButtonTest do
              |> format_html()
   end
 
+  test "Attribute: type" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.button type="reset">Reset</.button>
+           <.button type="submit">Submit</.button>
+           <.button type="button">Button</.button>
+           """)
+           |> format_html() ==
+             """
+             <button class="btn" type="reset"> Reset </button>
+             <button class="btn" type="submit"> Submit </button>
+             <button class="btn" type="button"> Button </button>
+             """
+             |> format_html()
+  end
+
   test "Anchor link button" do
     assigns = %{}
 

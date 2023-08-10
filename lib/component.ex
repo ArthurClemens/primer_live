@@ -7862,12 +7862,19 @@ defmodule PrimerLive.Component do
 
     is_link = AttributeHelpers.is_link?(assigns)
 
+    type = assigns.rest[:type]
+
+    rest =
+      AttributeHelpers.assigns_to_attributes_sorted(assigns.rest, [
+        :type
+      ])
+
     attributes =
-      AttributeHelpers.append_attributes(assigns.rest, [
+      AttributeHelpers.append_attributes(rest, [
         assigns.is_selected && ["aria-selected": "true"],
         assigns.is_disabled && ["aria-disabled": "true"],
         [class: class],
-        !is_link && [type: if(assigns.is_submit, do: "submit", else: "button")],
+        !is_link && [type: type || if(assigns.is_submit, do: "submit", else: "button")],
         [href: assigns[:href], navigate: assigns[:navigate], patch: assigns[:patch]]
       ])
 
