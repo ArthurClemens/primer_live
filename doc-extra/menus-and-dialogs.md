@@ -199,14 +199,13 @@ This approach is usually preferred, because it allows for direct validation feed
 Process the event as usual and re-insert the fictitious field value:
 
 ```
-# First iteration, unoptimised
 # user_live/show.ex
 
 def handle_event("save", %{"user" => params}, socket) do
   case User.update(socket.assigns.user, params) do
     {:ok, user} ->
       # Re-insert ui_prompt_user_job value
-      changeset =
+      ui_changeset =
         User.changeset(
           user,
           params |> Map.take(["ui_prompt_user_job"])
@@ -215,13 +214,13 @@ def handle_event("save", %{"user" => params}, socket) do
       socket =
         socket
         |> assign(:user, user)
-        |> assign(:changeset, changeset)
+        |> assign(:changeset, ui_changeset)
 
       {:noreply, socket}
 
     {:error, %Ecto.Changeset{} = changeset} ->
       # Re-insert ui_prompt_user_job value
-      changeset =
+      ui_changeset =
         User.changeset(
           changeset.data,
           params |> Map.take(["ui_prompt_user_job"])
@@ -229,64 +228,13 @@ def handle_event("save", %{"user" => params}, socket) do
 
       socket =
         socket
-        |> assign(:changeset, changeset)
+        |> assign(:changeset, changeset |> Map.merge(ui_changeset))
 
       {:noreply, socket}
   end
 end
 ```
 
-This idea can be improved with a custom function that creates a changeset with UI params:
-```
-# repo.ex
-
-@doc """
-Creates a changeset containing the values of the UI params.
-Use to maintain UI state when model changes would otherwise cause the UI to clear state.
-"""
-def ui_changeset(struct, ui_params \\ %{}) do
- permitted = Map.keys(ui_params |> Map.new(fn {k, v} -> {String.to_atom(k), v} end))
- types = permitted |> Map.new(&{&1, :string})
-
- Ecto.Changeset.cast(
-   {struct, types},
-   ui_params,
-   permitted
- )
-end
-```
-
-Now the event handler becomes:
-```
-# Second iteration
-# user_live/show.ex
-
-def handle_event("save", %{"user" => params}, socket) do
-  result = User.update(socket.assigns.user, params)
-
-  ui_changeset =
-    Repo.ui_changeset(
-      socket.assigns.user,
-      params |> Map.take(["ui_prompt_user_job"])
-    )
- 
-  case result do
-    {:ok, user} ->
-      socket =
-        socket
-        |> assign(:user, user)
-        |> assign(:changeset, ui_changeset)
- 
-      {:noreply, socket}
- 
-    {:error, changeset} ->
-      socket =
-        socket
-        |> assign(:changeset, changeset |> Map.merge(ui_changeset))
- 
-      {:noreply, socket}
-end
-```
 
 #### Approach 2: Update only after closing the menu
 
