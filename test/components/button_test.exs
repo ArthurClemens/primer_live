@@ -156,7 +156,7 @@ defmodule PrimerLive.TestComponents.ButtonTest do
            """)
            |> format_html() ==
              """
-             <button dir="rtl" phx-click="remove" class="btn" type="button"> Button </button>
+             <button class="btn" dir="rtl" phx-click="remove" type="button">Button</button>
              """
              |> format_html()
   end

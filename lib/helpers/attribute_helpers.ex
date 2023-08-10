@@ -111,9 +111,17 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     |> Enum.reduce(attributes, fn kw, acc ->
       acc ++ kw
     end)
+    |> Enum.sort()
   end
 
   def append_attributes(input_attributes), do: append_attributes([], input_attributes)
+
+  @doc ~S"""
+  Passes arguments to Phoenix.LiveView.Helpers.assigns_to_attributes and sorts the result.
+  """
+  def assigns_to_attributes_sorted(assigns, exclude \\ []) do
+    assigns_to_attributes(assigns, exclude) |> Enum.sort()
+  end
 
   @doc ~S"""
   Converts user input to an integer, with optionally a default value
@@ -700,25 +708,11 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>   })
       %{
         backdrop_attrs: [],
-        checkbox_attrs: [
-          id: "some-id-toggle",
-          "aria-hidden": "true",
-          hidden_input: false,
-          onchange: "window.Prompt && Prompt.change(this)"
-        ],
-        menu_attrs: [
-          class: "",
-          "data-prompt": "",
-          id: "some-id",
-          "phx-hook": "Prompt"
-        ],
-        toggle_attrs: [
-          class: "btn",
-          "aria-haspopup": "true",
-          for: "some-id-toggle"
-        ],
-        touch_layer_attrs: ["data-touch": ""],
+        checkbox_attrs: [{:"aria-hidden", "true"}, {:hidden_input, false}, {:id, "some-id-toggle"}, {:onchange, "window.Prompt && Prompt.change(this)"}],
         focus_wrap_id: "focus-wrap-some-id",
+        menu_attrs: [class: "", "data-prompt": "", id: "some-id", "phx-hook": "Prompt"],
+        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}],
+        touch_layer_attrs: ["data-touch": ""]
       }
 
       Backdrop settings:
@@ -743,30 +737,12 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_menu: true
       ...>   })
       %{
-        backdrop_attrs: [
-          "data-backdrop": "",
-          "data-ismedium": "",
-        ],
-        checkbox_attrs: [
-          id: "some-id-toggle",
-          "aria-hidden": "true",
-          hidden_input: false,
-          onchange: "window.Prompt && Prompt.change(this)"
-        ],
-        menu_attrs: [
-          class: "",
-          "data-prompt": "",
-          id: "some-id",
-          "phx-hook": "Prompt",
-          "data-isfast": ""
-        ],
-        toggle_attrs: [
-          class: "btn",
-          "aria-haspopup": "true",
-          for: "some-id-toggle"
-        ],
-        touch_layer_attrs: ["data-touch": ""],
+        backdrop_attrs: ["data-backdrop": "", "data-ismedium": ""],
+        checkbox_attrs: [{:"aria-hidden", "true"}, {:hidden_input, false}, {:id, "some-id-toggle"}, {:onchange, "window.Prompt && Prompt.change(this)"}],
         focus_wrap_id: "focus-wrap-some-id",
+        menu_attrs: [{:class, ""}, {:"data-isfast", ""}, {:"data-prompt", ""}, {:id, "some-id"}, {:"phx-hook", "Prompt"}],
+        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}],
+        touch_layer_attrs: ["data-touch": ""]
       }
 
       With form:
@@ -797,30 +773,12 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_menu: true
       ...>   })
       %{
-        backdrop_attrs: [
-          "data-backdrop": "",
-          "data-isdark": "",
-        ],
-        checkbox_attrs: [
-          id: "job",
-          "aria-hidden": "true",
-          hidden_input: true,
-          onchange: "window.Prompt && Prompt.change(this)"
-        ],
-        menu_attrs: [
-          class: "my-menu",
-          "data-prompt": "",
-          id: "menu-job",
-          "phx-hook": "Prompt",
-          "data-isfast": ""
-        ],
-        toggle_attrs: [
-          class: "btn",
-          "aria-haspopup": "true",
-          for: "job"
-        ],
-        touch_layer_attrs: ["data-touch": ""],
-        focus_wrap_id: "focus-wrap-job"
+        backdrop_attrs: ["data-backdrop": "", "data-isdark": ""],
+        checkbox_attrs: [{:"aria-hidden", "true"}, {:hidden_input, true}, {:id, "job"}, {:onchange, "window.Prompt && Prompt.change(this)"}],
+        focus_wrap_id: "focus-wrap-job",
+        menu_attrs: [{:class, "my-menu"}, {:"data-isfast", ""}, {:"data-prompt", ""}, {:id, "menu-job"}, {:"phx-hook", "Prompt"}],
+        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "job"}],
+        touch_layer_attrs: ["data-touch": ""]
       }
   """
   def prompt_attrs(assigns, %{
@@ -849,7 +807,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         do: "#{id}-toggle",
         else: generated_id
 
-    toggle_rest = assigns_to_attributes(toggle_slot || [], [:class, :for, :options])
+    toggle_rest = assigns_to_attributes_sorted(toggle_slot || [], [:class, :for, :options])
 
     toggle_attrs =
       append_attributes(toggle_rest, [

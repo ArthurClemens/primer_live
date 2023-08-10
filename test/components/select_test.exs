@@ -403,7 +403,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div phx-feedback-for="user[role][]" class="FormControl-select-wrap pl-multiple-select pl-invalid"><select
+             <div class="FormControl-select-wrap pl-multiple-select pl-invalid" phx-feedback-for="user[role][]"><select
              aria-describedby="user_role-validation" class="FormControl-select FormControl-medium" id="user_role" invalid=""
              multiple="" name="user[role][]">
              <option value="admin">Admin</option>
@@ -447,11 +447,9 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div phx-feedback-for="user[role]"
-             class="FormControl-select-wrap pl-invalid select_container-x my-select-container">
+             <div class="FormControl-select-wrap pl-invalid select_container-x my-select-container" phx-feedback-for="user[role]">
              <select aria-describedby="user_role-validation" aria-label="Role"
-             class="FormControl-select FormControl-medium select-x" id="user_role" invalid=""
-             name="user[role]">
+             class="FormControl-select FormControl-medium select-x" id="user_role" invalid="" name="user[role]">
              <option value="admin">Admin</option>
              <option value="user">User</option>
              <option value="editor">Editor</option>
@@ -459,14 +457,10 @@ defmodule PrimerLive.TestComponents.SelectTest do
              <option value="tester">Tester</option>
              <option value="project_owner">Project owner</option>
              <option value="developer">Developer</option>
-             </select>
-             </div>
+             </select></div>
              <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x"
-             id="user_role-validation" phx-feedback-for="user[role]">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
-             STRIPPED_SVG_PATHS</svg>
-             <span>can&#39;t be blank</span>
-             </div>
+             id="user_role-validation" phx-feedback-for="user[role]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg"
+             width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>can&#39;t be blank</span></div>
              """
              |> format_html()
   end

@@ -81,8 +81,8 @@ defmodule PrimerLive.TestComponents.AsLinkTest do
            """)
            |> format_html() ==
              """
-             <span rel="next" class="Link">label</span>
-             <a href="/home" class="Link" rel="next">label</a>
+             <span class="Link" rel="next">label</span>
+             <a href="/home" rel="next" class="Link">label</a>
              """
              |> format_html()
   end

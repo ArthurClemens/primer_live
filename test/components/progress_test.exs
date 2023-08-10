@@ -50,9 +50,8 @@ defmodule PrimerLive.TestComponents.ProgressTest do
            """)
            |> format_html() ==
              """
-             <span class="Progress" aria-label="5 tasks completed">
-               <span class="Progress-item color-bg-success-emphasis" style="width:50%;"></span>
-             </span>
+             <span aria-label="5 tasks completed" class="Progress"><span class="Progress-item color-bg-success-emphasis"
+             style="width:50%;"></span></span>
              """
              |> format_html()
   end
@@ -143,9 +142,12 @@ defmodule PrimerLive.TestComponents.ProgressTest do
            """)
            |> format_html() ==
              """
-             <div class="my-3"><span class="Progress Progress--large"><span class="Progress-item color-bg-success-emphasis" style="width:50%;"></span></span></div>
-             <div class="my-3"><span class="Progress Progress--small"><span class="Progress-item color-bg-success-emphasis" style="width:50%;"></span></span></div>
-             <div class="my-3"><span style="width: 160px;" class="Progress d-inline-flex"><span class="Progress-item color-bg-success-emphasis" style="width:50%;"></span></span></div>
+             <div class="my-3"><span class="Progress Progress--large"><span class="Progress-item color-bg-success-emphasis"
+             style="width:50%;"></span></span></div>
+             <div class="my-3"><span class="Progress Progress--small"><span class="Progress-item color-bg-success-emphasis"
+             style="width:50%;"></span></span></div>
+             <div class="my-3"><span class="Progress d-inline-flex" style="width: 160px;"><span
+             class="Progress-item color-bg-success-emphasis" style="width:50%;"></span></span></div>
              """
              |> format_html()
   end

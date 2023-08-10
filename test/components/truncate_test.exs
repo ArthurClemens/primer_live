@@ -67,11 +67,9 @@ defmodule PrimerLive.Components.TruncateTest do
            """)
            |> format_html() ==
              """
-             <span class="Truncate">
-             <a href="/" class="Truncate-text" name="span">branch-name</a>
-             <a href="/" data-phx-link="redirect" data-phx-link-state="push" class="Truncate-text" name="span">branch-name</a>
-             <a href="/" data-phx-link="patch" data-phx-link-state="push" class="Truncate-text" name="span">branch-name</a>
-             </span>
+             <span class="Truncate"><a href="/" name="span" class="Truncate-text">branch-name</a><a href="/" data-phx-link="redirect"
+             data-phx-link-state="push" name="span" class="Truncate-text">branch-name</a><a href="/" data-phx-link="patch"
+             data-phx-link-state="push" name="span" class="Truncate-text">branch-name</a></span>
              """
              |> format_html()
   end

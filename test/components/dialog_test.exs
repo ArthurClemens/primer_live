@@ -97,9 +97,9 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt" data-isfast="">
-             <input aria-hidden="true" id="my-dialog-id-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-isfast="" data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true"
+             id="my-dialog-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
              <div data-prompt-content>
              <div data-touch="">
              <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
@@ -125,8 +125,9 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt" data-isescapable="">
-             <input aria-hidden="true" id="my-dialog-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-isescapable="" data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true"
+             id="my-dialog-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
              <div data-prompt-content>
              <div data-touch="">
              <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
@@ -152,8 +153,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt" data-focusfirst="[name=first_name]">
-             <input aria-hidden="true"
+             <div data-focusfirst="[name=first_name]" data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true"
              id="my-dialog-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
              value="true" />
              <div data-prompt-content>
@@ -265,7 +265,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
            """)
            |> format_html() ==
              """
-             <div data-prompt="" id="my-dialog-id" phx-hook="Prompt" data-ismodal=""><input aria-hidden="true"
+             <div data-ismodal="" data-prompt="" id="my-dialog-id" phx-hook="Prompt"><input aria-hidden="true"
              id="my-dialog-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
              value="true" />
              <div data-prompt-content>
@@ -298,11 +298,10 @@ defmodule PrimerLive.TestComponents.DialogTest do
              <div data-prompt-content>
              <div data-touch="">
              <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
-                    tabindex="0" aria-hidden="true"></span>
-                <div class="Box d-flex flex-column Box--overlay" data-content=""
-                    style="max-height: 50%; max-width: 90%">
-                    <div class="overflow-auto">Message</div>
-                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             tabindex="0" aria-hidden="true"></span>
+             <div class="Box d-flex flex-column Box--overlay" data-content="" style="max-height: 50%; max-width: 90%">
+             <div class="overflow-auto">Message</div>
+             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
              </div>
              </div>
@@ -326,11 +325,10 @@ defmodule PrimerLive.TestComponents.DialogTest do
              <div data-prompt-content>
              <div data-touch="">
              <div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-dialog-id-start"
-                    tabindex="0" aria-hidden="true"></span>
-                <div class="Box d-flex flex-column Box--overlay" data-content=""
-                    style="max-height: 50vh; max-width: 80vw">
-                    <div class="overflow-auto">Message</div>
-                </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
+             tabindex="0" aria-hidden="true"></span>
+             <div class="Box d-flex flex-column Box--overlay" data-content="" style="max-height: 50vh; max-width: 80vw">
+             <div class="overflow-auto">Message</div>
+             </div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span>
              </div>
              </div>
              </div>
@@ -397,9 +395,9 @@ defmodule PrimerLive.TestComponents.DialogTest do
                     tabindex="0" aria-hidden="true"></span>
                 <div class="Box d-flex flex-column Box--overlay" data-content="">
                     <div class="Box-header d-flex flex-justify-between flex-items-start">
-                        <h3 class="Box-title">Dialog title</h3><button aria-label="Close" onclick="Prompt.hide(this)"
-                            class="close-button Box-btn-octicon btn-octicon flex-shrink-0" type="button"><svg
-                                class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        <h3 class="Box-title">Dialog title</h3><button aria-label="Close"
+                            class="close-button Box-btn-octicon btn-octicon flex-shrink-0" onclick="Prompt.hide(this)"
+                            type="button"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                 viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></button>
                     </div>
                     <div class="overflow-auto">Message<div class="Box-body">Body message</div>
@@ -458,7 +456,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
                 <div class="Box d-flex flex-column box-x Box--overlay dialog-x" data-content="">
                     <div class="Box-header header-x d-flex flex-justify-between flex-items-start">
                         <h3 class="Box-title header_title-x my-header-title">Dialog title</h3><button aria-label="Close"
-                            onclick="Prompt.hide(this)" class="close-button Box-btn-octicon btn-octicon flex-shrink-0"
+                            class="close-button Box-btn-octicon btn-octicon flex-shrink-0" onclick="Prompt.hide(this)"
                             type="button"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                 viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></button>
                     </div>

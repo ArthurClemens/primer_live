@@ -148,7 +148,7 @@ defmodule PrimerLive.TestComponents.HeaderTest do
            |> format_html() ==
              """
              <div class="Header" dir="rtl">
-             <div class="Header-item" aria-disabled>Item</div>
+             <div aria-disabled class="Header-item">Item</div>
              </div>
              """
              |> format_html()

@@ -18,16 +18,17 @@ defmodule PrimerLive.TestComponents.DrawerTest do
            """)
            |> format_html() ==
              """
-             <div data-prompt="" id="my-drawer-id" phx-hook="Prompt" data-isdrawer="">
-             <input aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-isdrawer="" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><input aria-hidden="true"
+             id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
              <div data-prompt-content>
              <div data-touch=""></div>
              <div data-content="">
-             <div id="my-drawer-content-id" data-drawer-content="" class="Box--overlay">
-                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span
-                        id="focus-wrap-my-drawer-id-start" tabindex="0" aria-hidden="true"></span>Content<span
-                        id="focus-wrap-my-drawer-id-end" tabindex="0" aria-hidden="true"></span></div>
-             </div>
+                 <div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id">
+                     <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-drawer-id-start"
+                             tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-id-end"
+                             tabindex="0" aria-hidden="true"></span></div>
+                 </div>
              </div>
              </div>
              </div>
@@ -47,14 +48,16 @@ defmodule PrimerLive.TestComponents.DrawerTest do
            """)
            |> format_html() ==
              """
-             <div data-prompt="" id="my-drawer-id" phx-hook="Prompt" data-isdrawer="" data-isfarside=""><input aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-isdrawer="" data-isfarside="" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><input aria-hidden="true"
+             id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
              <div data-prompt-content>
              <div data-touch=""></div>
              <div data-content="">
-             <div id="my-drawer-content-id" data-drawer-content="" class="Box--overlay">
-                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span
-                        id="focus-wrap-my-drawer-id-start" tabindex="0" aria-hidden="true"></span>Content<span
-                        id="focus-wrap-my-drawer-id-end" tabindex="0" aria-hidden="true"></span></div>
+             <div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id">
+                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-drawer-id-start"
+                        tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-id-end"
+                        tabindex="0" aria-hidden="true"></span></div>
              </div>
              </div>
              </div>
@@ -75,16 +78,17 @@ defmodule PrimerLive.TestComponents.DrawerTest do
            """)
            |> format_html() ==
              """
-             <div width="10em" data-prompt="" id="my-drawer-id" phx-hook="Prompt" data-isdrawer="">
-             <input aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-isdrawer="" data-prompt="" id="my-drawer-id" phx-hook="Prompt" width="10em"><input aria-hidden="true"
+             id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
              <div data-prompt-content>
              <div data-touch=""></div>
              <div data-content="">
-                 <div id="my-drawer-content-id" data-drawer-content="" class="Box--overlay">
-                     <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span
-                             id="focus-wrap-my-drawer-id-start" tabindex="0" aria-hidden="true"></span>Content<span
-                             id="focus-wrap-my-drawer-id-end" tabindex="0" aria-hidden="true"></span></div>
-                 </div>
+             <div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id">
+                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-drawer-id-start"
+                        tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-id-end"
+                        tabindex="0" aria-hidden="true"></span></div>
+             </div>
              </div>
              </div>
              </div>
@@ -104,15 +108,16 @@ defmodule PrimerLive.TestComponents.DrawerTest do
            """)
            |> format_html() ==
              """
-             <div data-prompt="" id="my-drawer-id" phx-hook="Prompt" data-isfast="" data-isdrawer="">
-             <input aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-isdrawer="" data-isfast="" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><input aria-hidden="true"
+             id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
              <div data-prompt-content>
              <div data-touch=""></div>
              <div data-content="">
-             <div id="my-drawer-content-id" data-drawer-content="" class="Box--overlay">
-                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span
-                        id="focus-wrap-my-drawer-id-start" tabindex="0" aria-hidden="true"></span>Content<span
-                        id="focus-wrap-my-drawer-id-end" tabindex="0" aria-hidden="true"></span></div>
+             <div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id">
+                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-drawer-id-start"
+                        tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-id-end"
+                        tabindex="0" aria-hidden="true"></span></div>
              </div>
              </div>
              </div>
@@ -133,15 +138,16 @@ defmodule PrimerLive.TestComponents.DrawerTest do
            """)
            |> format_html() ==
              """
-             <div data-prompt="" id="my-drawer-id" phx-hook="Prompt" data-isescapable="" data-isdrawer="">
-             <input aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-isdrawer="" data-isescapable="" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><input aria-hidden="true"
+             id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
              <div data-prompt-content>
              <div data-touch=""></div>
              <div data-content="">
-             <div id="my-drawer-content-id" data-drawer-content="" class="Box--overlay">
-                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span
-                        id="focus-wrap-my-drawer-id-start" tabindex="0" aria-hidden="true"></span>Content<span
-                        id="focus-wrap-my-drawer-id-end" tabindex="0" aria-hidden="true"></span></div>
+             <div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id">
+                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-drawer-id-start"
+                        tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-id-end"
+                        tabindex="0" aria-hidden="true"></span></div>
              </div>
              </div>
              </div>
@@ -162,15 +168,16 @@ defmodule PrimerLive.TestComponents.DrawerTest do
            """)
            |> format_html() ==
              """
-             <div data-prompt="" id="my-drawer-id" phx-hook="Prompt" data-focusfirst="[name=first_name]" data-isdrawer="">
-             <input aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-focusfirst="[name=first_name]" data-isdrawer="" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><input
+             aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)"
+             type="checkbox" value="true" />
              <div data-prompt-content>
              <div data-touch=""></div>
              <div data-content="">
-             <div id="my-drawer-content-id" data-drawer-content="" class="Box--overlay">
-                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span
-                        id="focus-wrap-my-drawer-id-start" tabindex="0" aria-hidden="true"></span>Content<span
-                        id="focus-wrap-my-drawer-id-end" tabindex="0" aria-hidden="true"></span></div>
+             <div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id">
+                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-drawer-id-start"
+                        tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-id-end"
+                        tabindex="0" aria-hidden="true"></span></div>
              </div>
              </div>
              </div>
@@ -191,16 +198,17 @@ defmodule PrimerLive.TestComponents.DrawerTest do
            """)
            |> format_html() ==
              """
-             <div data-prompt="" id="my-drawer-id" phx-hook="Prompt" data-isdrawer="">
-             <input aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-isdrawer="" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><input aria-hidden="true"
+             id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
              <div data-prompt-content>
              <div data-backdrop=""></div>
              <div data-touch=""></div>
              <div data-content="">
-             <div id="my-drawer-content-id" data-drawer-content="" class="Box--overlay">
-                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span
-                        id="focus-wrap-my-drawer-id-start" tabindex="0" aria-hidden="true"></span>Content<span
-                        id="focus-wrap-my-drawer-id-end" tabindex="0" aria-hidden="true"></span></div>
+             <div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id">
+                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-drawer-id-start"
+                        tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-id-end"
+                        tabindex="0" aria-hidden="true"></span></div>
              </div>
              </div>
              </div>
@@ -221,16 +229,17 @@ defmodule PrimerLive.TestComponents.DrawerTest do
            """)
            |> format_html() ==
              """
-             <div data-prompt="" id="my-drawer-id" phx-hook="Prompt" data-isdrawer="">
-             <input aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-isdrawer="" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><input aria-hidden="true"
+             id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
              <div data-prompt-content>
              <div data-backdrop="" data-isdark=""></div>
              <div data-touch=""></div>
              <div data-content="">
-             <div id="my-drawer-content-id" data-drawer-content="" class="Box--overlay">
-                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span
-                        id="focus-wrap-my-drawer-id-start" tabindex="0" aria-hidden="true"></span>Content<span
-                        id="focus-wrap-my-drawer-id-end" tabindex="0" aria-hidden="true"></span></div>
+             <div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id">
+                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-drawer-id-start"
+                        tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-id-end"
+                        tabindex="0" aria-hidden="true"></span></div>
              </div>
              </div>
              </div>
@@ -251,16 +260,17 @@ defmodule PrimerLive.TestComponents.DrawerTest do
            """)
            |> format_html() ==
              """
-             <div data-prompt="" id="my-drawer-id" phx-hook="Prompt" data-isdrawer="">
-             <input aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-isdrawer="" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><input aria-hidden="true"
+             id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
              <div data-prompt-content>
              <div data-backdrop="" data-islight=""></div>
              <div data-touch=""></div>
              <div data-content="">
-             <div id="my-drawer-content-id" data-drawer-content="" class="Box--overlay">
-                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span
-                        id="focus-wrap-my-drawer-id-start" tabindex="0" aria-hidden="true"></span>Content<span
-                        id="focus-wrap-my-drawer-id-end" tabindex="0" aria-hidden="true"></span></div>
+             <div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id">
+                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-drawer-id-start"
+                        tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-id-end"
+                        tabindex="0" aria-hidden="true"></span></div>
              </div>
              </div>
              </div>
@@ -281,15 +291,16 @@ defmodule PrimerLive.TestComponents.DrawerTest do
            """)
            |> format_html() ==
              """
-             <div data-prompt="" id="my-drawer-id" phx-hook="Prompt" data-ismodal="" data-isdrawer="">
-             <input aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-isdrawer="" data-ismodal="" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><input aria-hidden="true"
+             id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
              <div data-prompt-content>
              <div data-touch=""></div>
              <div data-content="">
-             <div id="my-drawer-content-id" data-drawer-content="" class="Box--overlay">
-                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span
-                        id="focus-wrap-my-drawer-id-start" tabindex="0" aria-hidden="true"></span>Content<span
-                        id="focus-wrap-my-drawer-id-end" tabindex="0" aria-hidden="true"></span></div>
+             <div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id">
+                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-drawer-id-start"
+                        tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-id-end"
+                        tabindex="0" aria-hidden="true"></span></div>
              </div>
              </div>
              </div>
@@ -313,17 +324,16 @@ defmodule PrimerLive.TestComponents.DrawerTest do
            """)
            |> format_html() ==
              """
-             <div style="position: relative; overflow-x: hidden;">Page content<div data-prompt="" id="my-drawer-id"
-             phx-hook="Prompt" data-isdrawer="" data-islocal="">
-             <input aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div style="position: relative; overflow-x: hidden;">Page content<div data-isdrawer="" data-islocal="" data-prompt=""
+             id="my-drawer-id" phx-hook="Prompt"><input aria-hidden="true" id="my-drawer-id-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
              <div data-touch=""></div>
              <div data-content="">
-                <div id="my-drawer-content-id" data-drawer-content="" class="Box--overlay">
+                <div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id">
                     <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span
-                            id="focus-wrap-my-drawer-id-start" tabindex="0"
-                            aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-id-end" tabindex="0"
-                            aria-hidden="true"></span></div>
+                            id="focus-wrap-my-drawer-id-start" tabindex="0" aria-hidden="true"></span>Content<span
+                            id="focus-wrap-my-drawer-id-end" tabindex="0" aria-hidden="true"></span></div>
                 </div>
              </div>
              </div>
@@ -349,15 +359,16 @@ defmodule PrimerLive.TestComponents.DrawerTest do
            |> format_html() ==
              """
              <div style="position: relative; overflow-x: hidden;">
-             <div data-prompt="" id="my-drawer-id" phx-hook="Prompt" data-isdrawer="" data-ispush=""><input aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-isdrawer="" data-ispush="" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><input aria-hidden="true"
+             id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
+             value="true" />
              <div data-prompt-content>
              <div data-content="">
-                <div data-touch=""></div>Page content<div id="my-drawer-content-id" data-drawer-content=""
-                    class="Box--overlay">
+                <div data-touch=""></div>Page content<div class="Box--overlay" data-drawer-content=""
+                    id="my-drawer-content-id">
                     <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span
-                            id="focus-wrap-my-drawer-id-start" tabindex="0"
-                            aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-id-end" tabindex="0"
-                            aria-hidden="true"></span></div>
+                            id="focus-wrap-my-drawer-id-start" tabindex="0" aria-hidden="true"></span>Content<span
+                            id="focus-wrap-my-drawer-id-end" tabindex="0" aria-hidden="true"></span></div>
                 </div>
              </div>
              </div>
@@ -379,16 +390,17 @@ defmodule PrimerLive.TestComponents.DrawerTest do
            """)
            |> format_html() ==
              """
-             <div dir="rtl" data-prompt="" id="my-drawer-id" phx-hook="Prompt" data-isdrawer="" class="my-drawer">
-             <input aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div class="my-drawer" data-isdrawer="" data-prompt="" dir="rtl" id="my-drawer-id" phx-hook="Prompt"><input
+             aria-hidden="true" id="my-drawer-id-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)"
+             type="checkbox" value="true" />
              <div data-prompt-content>
              <div data-touch=""></div>
              <div data-content="">
-             <div aria-role="menu" id="my-drawer-content-id" data-drawer-content=""
-                class="Box--overlay my-drawer-content">
-                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span
-                        id="focus-wrap-my-drawer-id-start" tabindex="0" aria-hidden="true"></span>Content<span
-                        id="focus-wrap-my-drawer-id-end" tabindex="0" aria-hidden="true"></span></div>
+             <div aria-role="menu" class="Box--overlay my-drawer-content" data-drawer-content=""
+                id="my-drawer-content-id">
+                <div id="focus-wrap-my-drawer-id" phx-hook="Phoenix.FocusWrap"><span id="focus-wrap-my-drawer-id-start"
+                        tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-id-end"
+                        tabindex="0" aria-hidden="true"></span></div>
              </div>
              </div>
              </div>

@@ -531,7 +531,7 @@ defmodule PrimerLive.Component do
 
     render_title = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
         ])
 
@@ -554,7 +554,7 @@ defmodule PrimerLive.Component do
 
     render_description = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
         ])
 
@@ -1011,7 +1011,7 @@ defmodule PrimerLive.Component do
 
     render_sub_group = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
         ])
 
@@ -1053,26 +1053,29 @@ defmodule PrimerLive.Component do
         ])
 
       link_attributes =
-        AttributeHelpers.append_attributes(assigns_to_attributes(link_slot), [
+        AttributeHelpers.append_attributes(
+          AttributeHelpers.assigns_to_attributes_sorted(link_slot),
           [
-            class:
-              AttributeHelpers.classnames([
-                classes.content,
-                link_slot[:class]
-              ])
-          ],
-          !is_nil(is_expanded) &&
-            ["aria-expanded": is_expanded |> Atom.to_string()],
-          [role: "menuitem"],
-          is_selected && ["aria-selected": "true"],
-          if is_selected do
-            if is_anchor_link do
-              ["aria-current": "location"]
-            else
-              ["aria-current": "page"]
+            [
+              class:
+                AttributeHelpers.classnames([
+                  classes.content,
+                  link_slot[:class]
+                ])
+            ],
+            !is_nil(is_expanded) &&
+              ["aria-expanded": is_expanded |> Atom.to_string()],
+            [role: "menuitem"],
+            is_selected && ["aria-selected": "true"],
+            if is_selected do
+              if is_anchor_link do
+                ["aria-current": "location"]
+              else
+                ["aria-current": "page"]
+              end
             end
-          end
-        ])
+          ]
+        )
 
       assigns =
         assigns
@@ -1353,7 +1356,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected,
           :is_small
@@ -1388,7 +1391,7 @@ defmodule PrimerLive.Component do
 
     render_position_end = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_extra
         ])
@@ -1414,15 +1417,20 @@ defmodule PrimerLive.Component do
         assigns[:aria_label] && ["aria-label": assigns[:aria_label]]
       ])
 
+    tabnav_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.tabnav]
+      ])
+
     assigns =
       assigns
-      |> assign(:classes, classes)
+      |> assign(:tabnav_attrs, tabnav_attrs)
       |> assign(:render_tab, render_tab)
       |> assign(:render_position_end, render_position_end)
       |> assign(:nav_attributes, nav_attributes)
 
     ~H"""
-    <div class={@classes.tabnav} {@rest}>
+    <div {@tabnav_attrs}>
       <%= if @position_end && @position_end !== [] do %>
         <%= for slot <- @position_end do %>
           <%= @render_position_end.(slot) %>
@@ -1668,7 +1676,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected
         ])
@@ -1702,7 +1710,7 @@ defmodule PrimerLive.Component do
 
     render_position_end = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_extra
         ])
@@ -1762,13 +1770,19 @@ defmodule PrimerLive.Component do
       """
     end
 
+    underline_nav_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.underline_nav]
+      ])
+
     assigns =
       assigns
+      |> assign(:underline_nav_attrs, underline_nav_attrs)
       |> assign(:classes, classes)
       |> assign(:render_items, render_items)
 
     ~H"""
-    <nav class={@classes.underline_nav} {@rest}>
+    <nav {@underline_nav_attrs}>
       <%= if @is_container_width do %>
         <div class={@classes.container}>
           <%= @render_items.(@item) %>
@@ -1951,7 +1965,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected
         ])
@@ -1981,7 +1995,7 @@ defmodule PrimerLive.Component do
 
     render_heading = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
         ])
 
@@ -2232,7 +2246,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected
         ])
@@ -2386,10 +2400,15 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    subnav_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:subnav_attrs, subnav_attrs)
 
     ~H"""
-    <div class={@class} {@rest}>
+    <div {@subnav_attrs}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -2474,7 +2493,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected
         ])
@@ -2549,10 +2568,15 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    subnav_search_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:subnav_search_attrs, subnav_search_attrs)
 
     ~H"""
-    <div class={@class} {@rest}>
+    <div {@subnav_search_attrs}>
       <%= render_slot(@inner_block) %>
       <.octicon name="search-16" class="subnav-search-icon" />
     </div>
@@ -2584,10 +2608,15 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    subnav_search_context_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:subnav_search_context_attrs, subnav_search_context_attrs)
 
     ~H"""
-    <div class={@class} {@rest}>
+    <div {@subnav_search_context_attrs}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -2738,7 +2767,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected,
           :count
@@ -3580,7 +3609,7 @@ defmodule PrimerLive.Component do
 
       input_attrs =
         AttributeHelpers.append_attributes(
-          assigns_to_attributes(rest, [
+          AttributeHelpers.assigns_to_attributes_sorted(rest, [
             :id,
             :placeholder
           ]),
@@ -3606,15 +3635,20 @@ defmodule PrimerLive.Component do
         ])
 
       render_input_with_validation_marker = fn ->
+        wrapper_attrs =
+          AttributeHelpers.append_attributes(validation_marker_attrs, [
+            [class: validation_marker_class]
+          ])
+
         assigns =
           assigns
           |> assign(:input, input)
           |> assign(:validation_marker_attrs, validation_marker_attrs)
-          |> assign(:validation_marker_class, validation_marker_class)
+          |> assign(:wrapper_attrs, wrapper_attrs)
 
         ~H"""
         <%= if @validation_marker_attrs do %>
-          <div {@validation_marker_attrs} class={@validation_marker_class}>
+          <div {@wrapper_attrs}>
             <%= @input %>
           </div>
         <% else %>
@@ -3992,7 +4026,7 @@ defmodule PrimerLive.Component do
 
       input_attrs =
         AttributeHelpers.append_attributes(
-          assigns_to_attributes(rest, [
+          AttributeHelpers.assigns_to_attributes_sorted(rest, [
             :id,
             :name
           ]),
@@ -4257,7 +4291,7 @@ defmodule PrimerLive.Component do
   defp render_checkbox(assigns) do
     # Remove type from rest, we'll set it on the input
     rest =
-      assigns_to_attributes(assigns.rest, [
+      AttributeHelpers.assigns_to_attributes_sorted(assigns.rest, [
         :type
       ])
 
@@ -4369,7 +4403,7 @@ defmodule PrimerLive.Component do
 
     input_opts =
       AttributeHelpers.append_attributes(
-        assigns_to_attributes(rest, [
+        AttributeHelpers.assigns_to_attributes_sorted(rest, [
           :id,
           :name
         ]),
@@ -4402,7 +4436,7 @@ defmodule PrimerLive.Component do
 
     label_attributes =
       AttributeHelpers.append_attributes(
-        assigns_to_attributes(label_slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(label_slot, [
           :class
         ]),
         [
@@ -4670,7 +4704,7 @@ defmodule PrimerLive.Component do
 
     # Remove type from rest, we'll set it on the input
     rest =
-      assigns_to_attributes(assigns.rest, [
+      AttributeHelpers.assigns_to_attributes_sorted(assigns.rest, [
         :type,
         :is_omit_label
       ])
@@ -4833,7 +4867,7 @@ defmodule PrimerLive.Component do
 
     render_radio_button = fn slot ->
       initial_opts =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :inner_block,
           :__slot__,
           :value,
@@ -4887,13 +4921,18 @@ defmodule PrimerLive.Component do
       """
     end
 
+    radio_group_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.radio_group]
+      ])
+
     assigns =
       assigns
-      |> assign(:radio_group_class, classes.radio_group)
+      |> assign(:radio_group_attrs, radio_group_attrs)
       |> assign(:render_radio_button, render_radio_button)
 
     ~H"""
-    <div class={@radio_group_class} {@rest}>
+    <div {@radio_group_attrs}>
       <%= for slot <- @radio_button do %>
         <%= @render_radio_button.(slot) %>
       <% end %>
@@ -5050,12 +5089,17 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    alert_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
     assigns =
       assigns
-      |> assign(:class, class)
+      |> assign(:alert_attrs, alert_attrs)
 
     ~H"""
-    <div class={@class} {@rest}>
+    <div {@alert_attrs}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -5107,12 +5151,17 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    alert_messages_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
     assigns =
       assigns
-      |> assign(:class, class)
+      |> assign(:alert_messages_attrs, alert_messages_attrs)
 
     ~H"""
-    <div class={@class} {@rest}>
+    <div {@alert_messages_attrs}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -5160,12 +5209,17 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    styled_html_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
     assigns =
       assigns
-      |> assign(:class, class)
+      |> assign(:styled_html_attrs, styled_html_attrs)
 
     ~H"""
-    <div class={@class} {@rest}>
+    <div {@styled_html_attrs}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -5522,13 +5576,19 @@ defmodule PrimerLive.Component do
         false -> sorted_slots
       end
 
+    layout_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.layout]
+      ])
+
     assigns =
       assigns
+      |> assign(:layout_attrs, layout_attrs)
       |> assign(:classes, classes)
       |> assign(:slots, slots)
 
     ~H"""
-    <div class={@classes.layout} {@rest}>
+    <div {@layout_attrs}>
       <%= for {key, slot} <- @slots do %>
         <%= if key == :main && slot !== [] do %>
           <%= if @is_centered_md || @is_centered_lg || @is_centered_xl do %>
@@ -5983,7 +6043,7 @@ defmodule PrimerLive.Component do
       class = classes.row.(slot, is_link)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_blue,
           :is_gray,
@@ -6061,14 +6121,17 @@ defmodule PrimerLive.Component do
       """
     end
 
+    box_attrs = AttributeHelpers.append_attributes(assigns.rest, [[class: assigns.classes.box]])
+
     assigns =
       assigns
+      |> assign(:box_attrs, box_attrs)
       |> assign(:render_header, render_header)
       |> assign(:render_inner_content, render_inner_content)
       |> assign(:render_footer, render_footer)
 
     ~H"""
-    <div class={@classes.box} {@rest}>
+    <div {@box_attrs}>
       <%= if @header_slots && @header_slots !== [] do %>
         <%= @render_header.() %>
       <% end %>
@@ -6236,7 +6299,7 @@ defmodule PrimerLive.Component do
     item_attrs = fn item ->
       # Don't pass item attributes to the HTML
       item_rest =
-        assigns_to_attributes(item, [
+        AttributeHelpers.assigns_to_attributes_sorted(item, [
           :is_full,
           :class
         ])
@@ -6254,22 +6317,22 @@ defmodule PrimerLive.Component do
       {item_rest, item_class, item_classes}
     end
 
-    assigns =
-      assigns
-      |> assign(:classes, classes)
-
     render_item = fn item ->
       {item_rest, item_class, item_classes} = item_attrs.(item)
 
+      item_container_attrs =
+        AttributeHelpers.append_attributes(item_rest, [
+          [class: item_class]
+        ])
+
       assigns =
         assigns
-        |> assign(:item_rest, item_rest)
         |> assign(:item, item)
+        |> assign(:item_container_attrs, item_container_attrs)
         |> assign(:item_classes, item_classes)
-        |> assign(:item_class, item_class)
 
       ~H"""
-      <div class={@item_class} {@item_rest}>
+      <div {@item_container_attrs}>
         <%= if not is_nil(@item.inner_block) do %>
           <%= render_slot(@item, @item_classes) %>
         <% end %>
@@ -6277,12 +6340,18 @@ defmodule PrimerLive.Component do
       """
     end
 
+    header_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.header]
+      ])
+
     assigns =
       assigns
+      |> assign(:header_attrs, header_attrs)
       |> assign(:render_item, render_item)
 
     ~H"""
-    <div class={@classes.header} {@rest}>
+    <div {@header_attrs}>
       <%= for item <- @item do %>
         <%= @render_item.(item) %>
       <% end %>
@@ -6540,7 +6609,7 @@ defmodule PrimerLive.Component do
 
       # Don't pass item attributes to the HTML to prevent duplicates
       item_rest =
-        assigns_to_attributes(item, [
+        AttributeHelpers.assigns_to_attributes_sorted(item, [
           :is_divider,
           :class
         ])
@@ -7014,7 +7083,7 @@ defmodule PrimerLive.Component do
         &Map.put(
           &1,
           :rest,
-          assigns_to_attributes(&1, [
+          AttributeHelpers.assigns_to_attributes_sorted(&1, [
             :is_divider,
             :class,
             :disabled
@@ -7153,7 +7222,7 @@ defmodule PrimerLive.Component do
 
       # Don't pass item attributes to the HTML
       item_rest =
-        assigns_to_attributes(item.rest, [
+        AttributeHelpers.assigns_to_attributes_sorted(item.rest, [
           :is_disabled,
           :is_selected,
           :is_divider,
@@ -7235,7 +7304,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected
         ])
@@ -7916,10 +7985,18 @@ defmodule PrimerLive.Component do
       end
     }
 
-    assigns = assigns |> assign(:classes, classes)
+    button_group_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.button_group]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:button_group_attrs, button_group_attrs)
 
     ~H"""
-    <div class={@classes.button_group} {@rest}>
+    <div {@button_group_attrs}>
       <%= for slot <- @button do %>
         <.button {slot} class={@classes.button.(slot)}>
           <%= render_slot(slot) %>
@@ -8151,8 +8228,15 @@ defmodule PrimerLive.Component do
         sibling_count
       )
 
+    pagination_container_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        ["aria-label": assigns.labels.aria_label_container],
+        [class: classes.pagination_container]
+      ])
+
     assigns =
       assigns
+      |> assign(:pagination_container_attrs, pagination_container_attrs)
       |> assign(:classes, classes)
       |> assign(:show_prev_next, show_prev_next)
       |> assign(:has_previous_page, has_previous_page)
@@ -8163,7 +8247,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <%= if @page_count > 1 do %>
-      <nav class={@classes.pagination_container} {@rest} aria-label={@labels.aria_label_container}>
+      <nav {@pagination_container_attrs}>
         <div class={@classes.pagination}>
           <%= if @show_prev_next do %>
             <%= if @has_previous_page do %>
@@ -8609,11 +8693,16 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    label_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:label_attrs, label_attrs)
 
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
+    <span {@label_attrs}><%= render_slot(@inner_block) %></span>
     """
   end
 
@@ -8679,11 +8768,16 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    issue_label_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:issue_label_attrs, issue_label_attrs)
 
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
+    <span {@issue_label_attrs}><%= render_slot(@inner_block) %></span>
     """
   end
 
@@ -8787,11 +8881,16 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    state_label_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:state_label_attrs, state_label_attrs)
 
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
+    <span {@state_label_attrs}><%= render_slot(@inner_block) %></span>
     """
   end
 
@@ -8869,11 +8968,16 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    counter_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:counter_attrs, counter_attrs)
 
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
+    <span {@counter_attrs}><%= render_slot(@inner_block) %></span>
     """
   end
 
@@ -9011,10 +9115,18 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    assigns = assigns |> assign(:classes, classes)
+    subhead_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.subhead]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:subhead_attrs, subhead_attrs)
+      |> assign(:classes, classes)
 
     ~H"""
-    <div class={@classes.subhead} {@rest}>
+    <div {@subhead_attrs}>
       <h2 class={@classes.heading}><%= render_slot(@inner_block) %></h2>
       <%= if @description do %>
         <%= for description <- @description do %>
@@ -9156,7 +9268,7 @@ defmodule PrimerLive.Component do
 
     link_attributes = fn link ->
       link_rest =
-        assigns_to_attributes(link, [
+        AttributeHelpers.assigns_to_attributes_sorted(link, [
           :class
         ])
 
@@ -9171,15 +9283,20 @@ defmodule PrimerLive.Component do
       ])
     end
 
+    breadcrumb_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.breadcrumb]
+      ])
+
     assigns =
       assigns
-      |> assign(:classes, classes)
+      |> assign(:breadcrumb_attrs, breadcrumb_attrs)
       |> assign(:items_data, items_data)
       |> assign(:item_attrs, item_attrs)
       |> assign(:link_attributes, link_attributes)
 
     ~H"""
-    <div class={@classes.breadcrumb} {@rest}>
+    <div {@breadcrumb_attrs}>
       <%= if @items_data !== [] do %>
         <ol>
           <%= for {item, is_last} <- @items_data do %>
@@ -9444,8 +9561,8 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    img_attributes =
-      AttributeHelpers.append_attributes([
+    avatar_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
         [class: class],
         [src: assigns.src],
         [width: assigns.width],
@@ -9453,10 +9570,10 @@ defmodule PrimerLive.Component do
         [alt: assigns.alt]
       ])
 
-    assigns = assigns |> assign(:img_attributes, img_attributes)
+    assigns = assigns |> assign(:avatar_attrs, avatar_attrs)
 
     ~H"""
-    <img {@img_attributes} {@rest} />
+    <img {@avatar_attrs} />
     """
   end
 
@@ -9553,27 +9670,36 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
+        ])
+
+      avatar_attrs =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
         ])
 
       assigns =
         assigns
-        |> assign(:class, class)
-        |> assign(:rest, rest)
+        |> assign(:avatar_attrs, avatar_attrs)
 
       ~H"""
-      <.avatar class={@class} {@rest} />
+      <.avatar {@avatar_attrs} />
       """
     end
 
+    parent_child_avatar_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.parent_child]
+      ])
+
     assigns =
       assigns
-      |> assign(:classes, classes)
+      |> assign(:parent_child_avatar_attrs, parent_child_avatar_attrs)
       |> assign(:render_avatar, render_avatar)
 
     ~H"""
-    <div class={@classes.parent_child} {@rest}>
+    <div {@parent_child_avatar_attrs}>
       <%= if @parent && @parent !== [] do %>
         <%= for parent <- @parent do %>
           <%= @render_avatar.(parent, false) %>
@@ -9716,17 +9842,21 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
+        ])
+
+      octicon_attrs =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
         ])
 
       assigns =
         assigns
-        |> assign(:class, class)
-        |> assign(:rest, rest)
+        |> assign(:octicon_attrs, octicon_attrs)
 
       ~H"""
-      <.octicon class={@class} {@rest} />
+      <.octicon {@octicon_attrs} />
       """
     end
 
@@ -9738,17 +9868,21 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
+        ])
+
+      img_attrs =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
         ])
 
       assigns =
         assigns
-        |> assign(:class, class)
-        |> assign(:rest, rest)
+        |> assign(:img_attrs, img_attrs)
 
       ~H"""
-      <img class={@class} {@rest} />
+      <img {@img_attrs} />
       """
     end
 
@@ -9854,10 +9988,15 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    animated_ellipsis_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:animated_ellipsis_attrs, animated_ellipsis_attrs)
 
     ~H"""
-    <span class={@class} {@rest} />
+    <span {@animated_ellipsis_attrs} />
     """
   end
 
@@ -9927,10 +10066,18 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    spinner_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class],
+        [viewBox: "0 0 32 32"],
+        [width: assigns.size],
+        [height: assigns.size]
+      ])
+
+    assigns = assigns |> assign(:spinner_attrs, spinner_attrs)
 
     ~H"""
-    <svg class={@class} viewBox="0 0 32 32" width={@size} height={@size} {@rest}>
+    <svg {@spinner_attrs}>
       <path
         fill={@color}
         d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"
@@ -10206,17 +10353,21 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
+        ])
+
+      octicon_attrs =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
         ])
 
       assigns =
         assigns
-        |> assign(:class, class)
-        |> assign(:rest, rest)
+        |> assign(:octicon_attrs, octicon_attrs)
 
       ~H"""
-      <.octicon class={@class} {@rest} />
+      <.octicon {@octicon_attrs} />
       """
     end
 
@@ -10228,17 +10379,21 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
+        ])
+
+      img_attrs =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
         ])
 
       assigns =
         assigns
-        |> assign(:class, class)
-        |> assign(:rest, rest)
+        |> assign(:img_attrs, img_attrs)
 
       ~H"""
-      <img class={@class} {@rest} />
+      <img {@img_attrs} />
       """
     end
 
@@ -10250,18 +10405,22 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
+        ])
+
+      action_attrs =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
         ])
 
       assigns =
         assigns
-        |> assign(:class, class)
-        |> assign(:rest, rest)
+        |> assign(:action_attrs, action_attrs)
         |> assign(:slot, slot)
 
       ~H"""
-      <div class={@class} {@rest}>
+      <div {@action_attrs}>
         <%= render_slot(@slot) %>
       </div>
       """
@@ -10277,7 +10436,7 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :tag
         ])
@@ -10300,16 +10459,21 @@ defmodule PrimerLive.Component do
       """
     end
 
+    blankslate_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.blankslate]
+      ])
+
     assigns =
       assigns
-      |> assign(:classes, classes)
+      |> assign(:blankslate_attrs, blankslate_attrs)
       |> assign(:render_heading, render_heading)
       |> assign(:render_action, render_action)
       |> assign(:render_img, render_img)
       |> assign(:render_octicon, render_octicon)
 
     ~H"""
-    <div class={@classes.blankslate} {@rest}>
+    <div {@blankslate_attrs}>
       <%= if @octicon && @octicon !== [] do %>
         <%= for slot <- @octicon do %>
           <%= @render_octicon.(slot) %>
@@ -10503,7 +10667,7 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :tag,
           :is_expandable,
@@ -10535,13 +10699,19 @@ defmodule PrimerLive.Component do
       """
     end
 
+    truncate_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.truncate],
+        [name: assigns.tag]
+      ])
+
     assigns =
       assigns
-      |> assign(:classes, classes)
+      |> assign(:truncate_attrs, truncate_attrs)
       |> assign(:render_item, render_item)
 
     ~H"""
-    <.dynamic_tag name={@tag || "span"} class={@classes.truncate} {@rest}>
+    <.dynamic_tag {@truncate_attrs}>
       <%= if @item && @item !== [] do %>
         <%= for slot <- @item do %>
           <%= @render_item.(slot) %>
@@ -11218,7 +11388,7 @@ defmodule PrimerLive.Component do
 
     body_attrs =
       AttributeHelpers.append_attributes(
-        assigns_to_attributes(body_slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(body_slot, [
           :inner_block,
           :__slot__,
           :class,
@@ -11675,7 +11845,7 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :state,
           :width,
@@ -11966,7 +12136,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
         ])
 
@@ -12009,7 +12179,7 @@ defmodule PrimerLive.Component do
 
     render_avatar = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
         ])
 

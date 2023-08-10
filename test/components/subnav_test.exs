@@ -44,13 +44,10 @@ defmodule PrimerLive.Components.SubnavTest do
            """)
            |> format_html() ==
              """
-             <div class="subnav" aria-label="Menu">
-             <nav class="subnav-links">
-             <a href="#url" aria-current="page" class="subnav-item">href link</a>
-             <a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="subnav-item">navigate link</a>
-             <a href="#url" data-phx-link="patch" data-phx-link-state="push" class="subnav-item">patch link</a>
-             Other content
-             </nav>
+             <div aria-label="Menu" class="subnav">
+             <nav class="subnav-links"><a href="#url" class="subnav-item" aria-current="page">href link</a><a href="#url"
+             data-phx-link="redirect" data-phx-link-state="push" class="subnav-item">navigate link</a><a href="#url"
+             data-phx-link="patch" data-phx-link-state="push" class="subnav-item">patch link</a>Other content</nav>
              </div>
              """
              |> format_html()
@@ -100,31 +97,24 @@ defmodule PrimerLive.Components.SubnavTest do
              """
              <div class="subnav">
              <div class="subnav-search-context float-left">
-             <div data-prompt="" id="querty" phx-hook="Prompt" data-isfast="">
-             <label class="btn" aria-haspopup="true" for="querty-toggle">Menu
-                <div class="dropdown-caret"></div>
-             </label><input aria-hidden="true" id="querty-toggle" name="[]"
-                onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
+             for="querty-toggle">Menu<div class="dropdown-caret"></div></label><input aria-hidden="true" id="querty-toggle"
+             name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-                <div data-touch=""></div>
-                <div class="SelectMenu">
-                    <div class="SelectMenu-modal" data-content="" aria-role="menu">
-                        <div class="SelectMenu-list">
-                            <button class="SelectMenu-item" role="menuitem">Item 1</button><button
-                                class="SelectMenu-item" role="menuitem">Item 2</button><button class="SelectMenu-item"
-                                role="menuitem">Item 3</button>
-                        </div>
-                    </div>
-                </div>
+             <div data-touch=""></div>
+             <div class="SelectMenu">
+             <div aria-role="menu" class="SelectMenu-modal" data-content="">
+             <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
+                class="SelectMenu-item" role="menuitem">Item 2</button><button class="SelectMenu-item"
+                role="menuitem">Item 3</button></div>
              </div>
              </div>
              </div>
-             <div class="subnav-search float-left">
-             <input class="FormControl-input FormControl-medium" type="search" /><svg class="octicon subnav-search-icon"
-             xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-             STRIPPED_SVG_PATHS
-             </svg>
              </div>
+             </div>
+             <div class="subnav-search float-left"><input class="FormControl-input FormControl-medium" type="search" /><svg
+             class="octicon subnav-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></div>
              </div>
              """
              |> format_html()
@@ -161,24 +151,23 @@ defmodule PrimerLive.Components.SubnavTest do
            |> format_html() ==
              """
              <div class="subnav my-links-subnav">
-             <nav class="subnav-links my-subnav-links"><a href="#url" aria-current="page" class="subnav-item">Link 1</a><a
+             <nav class="subnav-links my-subnav-links"><a href="#url" class="subnav-item" aria-current="page">Link 1</a><a
              href="#url" data-phx-link="redirect" data-phx-link-state="push" class="subnav-item">Link 2</a></nav>
              </div>
              <div class="subnav my-search-subnav">
              <div class="subnav-search-context float-left my-subnav-search-context">
-             <div data-prompt="" id="querty" phx-hook="Prompt" data-isfast=""><label class="btn" aria-haspopup="true"
-                for="querty-toggle">Menu<div class="dropdown-caret"></div></label><input aria-hidden="true"
-                id="querty-toggle" name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox"
-                value="true" />
+             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
+             for="querty-toggle">Menu<div class="dropdown-caret"></div></label><input aria-hidden="true" id="querty-toggle"
+             name="[]" onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
-                <div data-touch=""></div>
-                <div class="SelectMenu">
-                    <div class="SelectMenu-modal" data-content="" aria-role="menu">
-                        <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item
-                                1</button><button class="SelectMenu-item" role="menuitem">Item 2</button><button
-                                class="SelectMenu-item" role="menuitem">Item 3</button></div>
-                    </div>
-                </div>
+             <div data-touch=""></div>
+             <div class="SelectMenu">
+             <div aria-role="menu" class="SelectMenu-modal" data-content="">
+             <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
+                class="SelectMenu-item" role="menuitem">Item 2</button><button class="SelectMenu-item"
+                role="menuitem">Item 3</button></div>
+             </div>
+             </div>
              </div>
              </div>
              </div>

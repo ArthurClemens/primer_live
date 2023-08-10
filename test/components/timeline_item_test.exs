@@ -259,7 +259,7 @@ defmodule PrimerLive.TestComponents.TimelineItemTest do
            """)
            |> format_html() ==
              """
-             <div dir="rtl" class="TimelineItem">
+             <div class="TimelineItem" dir="rtl">
              <div aria-label="Avatar" class="TimelineItem-avatar">avatar</div>
              <div aria-label="Badge" class="TimelineItem-badge">icon</div>
              <div class="TimelineItem-body"></div>

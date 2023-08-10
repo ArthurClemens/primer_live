@@ -237,7 +237,7 @@ defmodule PrimerLive.Theme do
       ...> PrimerLive.Theme.default_menu_options(),
       ...> PrimerLive.Theme.default_menu_labels()
       ...> )
-      [color_mode: %{labeled_options: [{"light", "Light"}, {"dark", "Dark"}, {"auto", "System"}], options: ["light", "dark", "auto"], selected: "light", title: "Theme"}, dark_theme: %{labeled_options: [{"dark", "Dark"}, {"dark_dimmed", "Dark dimmed"}, {"dark_high_contrast", "Dark high contrast"}, {"dark_colorblind", "Dark colorblind"}, {"dark_tritanopia", "Dark Tritanopia"}], options: ["dark", "dark_dimmed", "dark_high_contrast", "dark_colorblind", "dark_tritanopia"], selected: "dark_high_contrast", title: "Dark tone"}, light_theme: %{labeled_options: [{"light", "Light"}, {"light_high_contrast", "Light high contrast"}, {"light_colorblind", "Light colorblind"}, {"light_tritanopia", "Light Tritanopia"}], options: ["light", "light_high_contrast", "light_colorblind", "light_tritanopia"], selected: "light_high_contrast", title: "Light tone"}]
+      [{:color_mode, %{labeled_options: [{"light", "Light"}, {"dark", "Dark"}, {"auto", "System"}], options: ["light", "dark", "auto"], selected: "light", title: "Theme"}},{:light_theme, %{options: ["light", "light_high_contrast", "light_colorblind", "light_tritanopia"], selected: "light_high_contrast", title: "Light tone", labeled_options: [{"light", "Light"}, {"light_high_contrast", "Light high contrast"}, {"light_colorblind", "Light colorblind"}, {"light_tritanopia", "Light Tritanopia"}]}},{ :dark_theme, %{ labeled_options: [{"dark", "Dark"}, {"dark_dimmed", "Dark dimmed"}, {"dark_high_contrast", "Dark high contrast"}, {"dark_colorblind", "Dark colorblind"}, {"dark_tritanopia", "Dark Tritanopia"}], options: ["dark", "dark_dimmed", "dark_high_contrast", "dark_colorblind", "dark_tritanopia"], selected: "dark_high_contrast", title: "Dark tone" }}]
 
       iex> PrimerLive.Theme.create_menu_items(
       ...> %{
@@ -386,7 +386,7 @@ defmodule PrimerLive.Theme do
       ...>   dark_theme: "dark_high_contrast"
       ...> }
       ...> )
-      ["data-color-mode": "light", "data-light-theme": "light_high_contrast", "data-dark-theme": "dark_high_contrast"]
+      [{:"data-color-mode", "light"}, {:"data-dark-theme", "dark_high_contrast"}, {:"data-light-theme", "light_high_contrast"}]
 
       iex> PrimerLive.Theme.html_attributes(
       ...> %{
@@ -397,7 +397,7 @@ defmodule PrimerLive.Theme do
       ...>   dark_theme: "dark"
       ...> }
       ...> )
-      ["data-color-mode": "auto", "data-light-theme": "light", "data-dark-theme": "dark"]
+      [{:"data-color-mode", "auto"}, {:"data-dark-theme", "dark"}, {:"data-light-theme", "light"}]
 
       iex> PrimerLive.Theme.html_attributes(
       ...> %{
@@ -409,7 +409,7 @@ defmodule PrimerLive.Theme do
       ...>   dark_theme: "dark"
       ...> }
       ...> )
-      ["data-color-mode": "auto", "data-light-theme": "light_high_contrast", "data-dark-theme": "dark"]
+      [{:"data-color-mode", "auto"}, {:"data-dark-theme", "dark"}, {:"data-light-theme", "light_high_contrast"}]
 
       iex> PrimerLive.Theme.html_attributes(
       ...> %{

@@ -38,9 +38,8 @@ defmodule PrimerLive.TestComponents.CircleBadgeTest do
            """)
            |> format_html() ==
              """
-             <div class="CircleBadge CircleBadge--small">
-             <img class="CircleBadge-icon" alt="" src="https://github.com/travis-ci.png" />
-             </div>
+             <div class="CircleBadge CircleBadge--small"><img alt="" class="CircleBadge-icon"
+             src="https://github.com/travis-ci.png" /></div>
              """
              |> format_html()
   end

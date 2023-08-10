@@ -114,13 +114,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav class="paginate-container" aria-label="Navigation">
-             <div class="pagination">
-             <span class="previous_page" aria-disabled="true">Previous</span>
-             <em aria-current="page">1</em>
-             <a href="/page/2" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 2">2</a>
-             <a href="/page/2" data-phx-link="redirect" data-phx-link-state="push" aria-label="Next page" class="next_page" rel="next">Next</a>
-             </div>
+             <nav aria-label="Navigation" class="paginate-container">
+             <div class="pagination"><span class="previous_page" aria-disabled="true">Previous</span><em
+             aria-current="page">1</em><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push"
+             aria-label="Page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push" rel="next"
+             class="next_page" aria-label="Next page">Next</a></div>
              </nav>
              """
              |> format_html()
@@ -134,19 +132,16 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav class="paginate-container" aria-label="Navigation">
-             <div class="pagination">
-             <a href="/page/8" data-phx-link="redirect" data-phx-link-state="push" aria-label="Previous page" class="previous_page" rel="previous">Previous</a>
-             <a href="/page/1" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 1">1</a>
-             <span class="gap">…</span>
-             <a href="/page/7" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 7">7</a>
-             <a href="/page/8" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 8">8</a>
-             <em aria-current="page">9</em>
-             <a href="/page/10" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 10">10</a>
-             <a href="/page/11" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 11">11</a>
-             <span class="gap">…</span>
-             <a href="/page/99" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 99">99</a>
-             <a href="/page/10" data-phx-link="redirect" data-phx-link-state="push" aria-label="Next page" class="next_page" rel="next">Next</a>
+             <nav aria-label="Navigation" class="paginate-container">
+             <div class="pagination"><a href="/page/8" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
+             class="previous_page" aria-label="Previous page">Previous</a><a href="/page/1" data-phx-link="redirect"
+             data-phx-link-state="push" aria-label="Page 1">1</a><span class="gap">…</span><a href="/page/7"
+             data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 7">7</a><a href="/page/8"
+             data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 8">8</a><em aria-current="page">9</em><a
+             href="/page/10" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 10">10</a><a href="/page/11"
+             data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 11">11</a><span class="gap">…</span><a
+             href="/page/99" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 99">99</a><a href="/page/10"
+             data-phx-link="redirect" data-phx-link-state="push" rel="next" class="next_page" aria-label="Next page">Next</a>
              </div>
              </nav>
              """
@@ -166,18 +161,16 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav class="paginate-container" aria-label="Navigation">
-             <div class="pagination">
-             <a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" aria-label="Previous page" class="previous_page" rel="previous">Previous</a>
-             <a href="/page/1" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 1">1</a>
-             <span class="gap">…</span>
-             <a href="/page/3" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 3">3</a>
-             <a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 4">4</a>
-             <em aria-current="page">5</em>
-             <a href="/page/6" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 6">6</a>
-             <a href="/page/7" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 7">7</a><span class="gap">…</span>
-             <a href="/page/10" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 10">10</a>
-             <a href="/page/6" data-phx-link="redirect" data-phx-link-state="push" aria-label="Next page" class="next_page" rel="next">Next</a>
+             <nav aria-label="Navigation" class="paginate-container">
+             <div class="pagination"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
+             class="previous_page" aria-label="Previous page">Previous</a><a href="/page/1" data-phx-link="redirect"
+             data-phx-link-state="push" aria-label="Page 1">1</a><span class="gap">…</span><a href="/page/3"
+             data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 3">3</a><a href="/page/4"
+             data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 4">4</a><em aria-current="page">5</em><a
+             href="/page/6" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 6">6</a><a href="/page/7"
+             data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 7">7</a><span class="gap">…</span><a
+             href="/page/10" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 10">10</a><a href="/page/6"
+             data-phx-link="redirect" data-phx-link-state="push" rel="next" class="next_page" aria-label="Next page">Next</a>
              </div>
              </nav>
              """
@@ -197,16 +190,15 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav class="paginate-container" aria-label="Navigation">
-             <div class="pagination"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" aria-label="Previous page" class="previous_page" rel="previous">Previous</a>
-             <a href="/page/1" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 1">1</a>
-             <span class="gap">…</span>
-             <a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 4">4</a>
-             <em aria-current="page">5</em>
-             <a href="/page/6" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 6">6</a>
-             <span class="gap">…</span>
-             <a href="/page/10" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 10">10</a>
-             <a href="/page/6" data-phx-link="redirect" data-phx-link-state="push" aria-label="Next page" class="next_page" rel="next">Next</a></div>
+             <nav aria-label="Navigation" class="paginate-container">
+             <div class="pagination"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
+             class="previous_page" aria-label="Previous page">Previous</a><a href="/page/1" data-phx-link="redirect"
+             data-phx-link-state="push" aria-label="Page 1">1</a><span class="gap">…</span><a href="/page/4"
+             data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 4">4</a><em aria-current="page">5</em><a
+             href="/page/6" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 6">6</a><span
+             class="gap">…</span><a href="/page/10" data-phx-link="redirect" data-phx-link-state="push"
+             aria-label="Page 10">10</a><a href="/page/6" data-phx-link="redirect" data-phx-link-state="push" rel="next"
+             class="next_page" aria-label="Next page">Next</a></div>
              </nav>
              """
              |> format_html()
@@ -225,11 +217,10 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav class="paginate-container" aria-label="Navigation">
-             <div class="pagination">
-             <a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" aria-label="Previous page" class="previous_page" rel="previous">Previous</a>
-             <a href="/page/6" data-phx-link="redirect" data-phx-link-state="push" aria-label="Next page" class="next_page" rel="next">Next</a>
-             </div>
+             <nav aria-label="Navigation" class="paginate-container">
+             <div class="pagination"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
+             class="previous_page" aria-label="Previous page">Previous</a><a href="/page/6" data-phx-link="redirect"
+             data-phx-link-state="push" rel="next" class="next_page" aria-label="Next page">Next</a></div>
              </nav>
              """
              |> format_html()
@@ -248,11 +239,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav class="paginate-container nav" aria-label="Navigation">
+             <nav aria-label="Navigation" class="paginate-container nav">
              <div class="pagination"><span class="previous_page" aria-disabled="true">Previous</span><em
              aria-current="page">1</em><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push"
-             aria-label="Page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push"
-             aria-label="Next page" class="next_page" rel="next">Next</a></div>
+             aria-label="Page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push" rel="next"
+             class="next_page" aria-label="Next page">Next</a></div>
              </nav>
              """
              |> format_html()
@@ -280,20 +271,18 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav class="paginate-container pagination_container-x" aria-label="Navigation">
-             <div class="pagination pagination-x">
-             <a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" aria-label="Previous page" class="previous_page previous_page-x" rel="previous">Previous</a>
-             <a href="/page/1" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 1" class="page-x">1</a>
-             <span class="gap gap-x">…</span>
-             <a href="/page/3" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 3" class="page-x">3</a>
-             <a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 4" class="page-x">4</a>
-             <em aria-current="page">5</em>
-             <a href="/page/6" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 6" class="page-x">6</a>
-             <a href="/page/7" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 7" class="page-x">7</a>
-             <span class="gap gap-x">…</span>
-             <a href="/page/10" data-phx-link="redirect" data-phx-link-state="push" aria-label="Page 10" class="page-x">10</a>
-             <a href="/page/6" data-phx-link="redirect" data-phx-link-state="push" aria-label="Next page" class="next_page next_page-x" rel="next">Next</a>
-             </div>
+             <nav aria-label="Navigation" class="paginate-container pagination_container-x">
+             <div class="pagination pagination-x"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push"
+             rel="previous" class="previous_page previous_page-x" aria-label="Previous page">Previous</a><a href="/page/1"
+             data-phx-link="redirect" data-phx-link-state="push" class="page-x" aria-label="Page 1">1</a><span
+             class="gap gap-x">…</span><a href="/page/3" data-phx-link="redirect" data-phx-link-state="push" class="page-x"
+             aria-label="Page 3">3</a><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" class="page-x"
+             aria-label="Page 4">4</a><em aria-current="page">5</em><a href="/page/6" data-phx-link="redirect"
+             data-phx-link-state="push" class="page-x" aria-label="Page 6">6</a><a href="/page/7" data-phx-link="redirect"
+             data-phx-link-state="push" class="page-x" aria-label="Page 7">7</a><span class="gap gap-x">…</span><a
+             href="/page/10" data-phx-link="redirect" data-phx-link-state="push" class="page-x" aria-label="Page 10">10</a><a
+             href="/page/6" data-phx-link="redirect" data-phx-link-state="push" rel="next" class="next_page next_page-x"
+             aria-label="Next page">Next</a></div>
              </nav>
              """
              |> format_html()
@@ -322,19 +311,17 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav class="paginate-container" aria-label="A"><div class="pagination">
-             <a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" aria-label="D" class="previous_page" rel="previous">G</a>
-             <a href="/page/1" data-phx-link="redirect" data-phx-link-state="push" aria-label="C">1</a>
-             <span class="gap">E</span>
-             <a href="/page/3" data-phx-link="redirect" data-phx-link-state="push" aria-label="C">3</a>
-             <a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" aria-label="C">4</a>
-             <em aria-current="page">5</em>
-             <a href="/page/6" data-phx-link="redirect" data-phx-link-state="push" aria-label="C">6</a>
-             <a href="/page/7" data-phx-link="redirect" data-phx-link-state="push" aria-label="C">7</a>
-             <span class="gap">E</span>
-             <a href="/page/10" data-phx-link="redirect" data-phx-link-state="push" aria-label="C">10</a>
-             <a href="/page/6" data-phx-link="redirect" data-phx-link-state="push" aria-label="B" class="next_page" rel="next">F</a>
-             </div></nav>
+             <nav aria-label="A" class="paginate-container">
+             <div class="pagination"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
+             class="previous_page" aria-label="D">G</a><a href="/page/1" data-phx-link="redirect" data-phx-link-state="push"
+             aria-label="C">1</a><span class="gap">E</span><a href="/page/3" data-phx-link="redirect"
+             data-phx-link-state="push" aria-label="C">3</a><a href="/page/4" data-phx-link="redirect"
+             data-phx-link-state="push" aria-label="C">4</a><em aria-current="page">5</em><a href="/page/6"
+             data-phx-link="redirect" data-phx-link-state="push" aria-label="C">6</a><a href="/page/7" data-phx-link="redirect"
+             data-phx-link-state="push" aria-label="C">7</a><span class="gap">E</span><a href="/page/10"
+             data-phx-link="redirect" data-phx-link-state="push" aria-label="C">10</a><a href="/page/6"
+             data-phx-link="redirect" data-phx-link-state="push" rel="next" class="next_page" aria-label="B">F</a></div>
+             </nav>
              """
              |> format_html()
   end
@@ -356,11 +343,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav class="paginate-container" aria-label="Navigation">
+             <nav aria-label="Navigation" class="paginate-container">
              <div class="pagination"><span class="previous_page" aria-disabled="true">Previous</span><em
              aria-current="page">1</em><a href="/page/2" data-phx-link="redirect" data-phx-link-state="replace"
-             aria-label="Page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="replace"
-             aria-label="Next page" class="next_page" rel="next">Next</a></div>
+             aria-label="Page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="replace" rel="next"
+             class="next_page" aria-label="Next page">Next</a></div>
              </nav>
              """
              |> format_html()
@@ -379,11 +366,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav class="paginate-container" dir="rtl" aria-label="Navigation">
+             <nav aria-label="Navigation" class="paginate-container" dir="rtl">
              <div class="pagination"><span class="previous_page" aria-disabled="true">Previous</span><em
              aria-current="page">1</em><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push"
-             aria-label="Page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push"
-             aria-label="Next page" class="next_page" rel="next">Next</a></div>
+             aria-label="Page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push" rel="next"
+             class="next_page" aria-label="Next page">Next</a></div>
              </nav>
              """
              |> format_html()

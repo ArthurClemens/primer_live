@@ -14,7 +14,7 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
+             <li aria-hidden="true" class="ActionList-sectionDivider" role="separator"></li>
              """
              |> format_html()
   end
@@ -27,7 +27,7 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-sectionDivider ActionList-sectionDivider--filled" role="separator" aria-hidden="true"></li>
+             <li aria-hidden="true" class="ActionList-sectionDivider ActionList-sectionDivider--filled" role="separator"></li>
              """
              |> format_html()
   end
@@ -95,7 +95,7 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
+             <li aria-hidden="true" class="ActionList-sectionDivider" role="separator"></li>
              """
              |> format_html()
   end
