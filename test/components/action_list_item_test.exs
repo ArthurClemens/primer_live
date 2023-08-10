@@ -624,7 +624,7 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            |> format_html() ==
              """
              <li class="ActionList-item ActionList-item--hasSubItem action_list_item-x my-action-list-item" role="none"><a
-             href="/url" role="menuitem" class="my-link" aria-expanded="true"><span
+             href="/url" role="menuitem" class="ActionList-content content-x my-link" aria-expanded="true"><span
              class="ActionList-item-visual ActionList-item-visual--leading leading_visual-x">Leading visual</span><span
              class="ActionList-item-descriptionWrap ActionList-item-blockDescription description_container-x"><span
                 class="ActionList-item-label label-x">Content</span><span

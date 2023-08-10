@@ -1054,7 +1054,7 @@ defmodule PrimerLive.Component do
 
       link_attributes =
         AttributeHelpers.append_attributes(
-          AttributeHelpers.assigns_to_attributes_sorted(link_slot),
+          AttributeHelpers.assigns_to_attributes_sorted(link_slot, [:class]),
           [
             [
               class:
