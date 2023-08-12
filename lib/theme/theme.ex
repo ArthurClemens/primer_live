@@ -9,114 +9,63 @@ defmodule PrimerLive.Theme do
 
   ## Persistency
 
-  There is no easy way to save persistent session data in LiveView because LiveView's state is stored in a process that ends when the page is left. The solution is to use an Ajax request to our Phoenix app, which updates the session.
+  There is no easy way to save persistent session data in LiveView because LiveView's state is stored in a process that ends when the page is left.
 
-  This setup involves 5 steps, but the provided helper functions make it a bit easier.
+  ### Session for theme state has been removed
 
+  Using the session to store the theme state (for example [using a AJAX call roundtrip](https://thepugautomatic.com/2020/05/persistent-session-data-in-phoenix-liveview/)) does not work as expected: when navigating to another LiveView page, the updated session data is not refetched and only becomes available after a page refresh. This means that the previous offered solution with `PrimerLive.ThemeSessionController` is no longer recommended and in fact removed.
 
-  ### 1. Create a SessionController
+  ### Alternatives: database or cache
 
-  Create file `controllers/session_controller.ex`:
+  If you already have a database set up for storing data by session ID, it's a small step to integrate the theme state with it.
 
-  ```
-  defmodule MyAppWeb.SessionController do
-    use MyAppWeb, :controller
-    use PrimerLive.ThemeSessionController
-  end
-  ```
+  - [Database Session Store with Elixir and Plug (2021)](https://kimlindholm.medium.com/database-session-store-with-elixir-and-plug-4354740e2f58)
 
-  `PrimerLive.ThemeSessionController` will add the received theme request data to the session.
+  On the other hand, for a lightweight solution you may find caching simpler to start with. For example [Cachex](https://github.com/whitfin/cachex) (which I've selected for [primer-live.org](https://primer-live.org)).
 
+  - [Cachex with Phoenix (2020)](https://www.alenm.com/code/phoenix-cachex)
+  - [Use caching to speed up data loading in Phoenix LiveView](https://fullstackphoenix.com/quick_tips/liveview-caching)
 
-  ### 2. Add SessionController to the router's api
+  ## Handling user selection
 
-  ```
-  scope "/api", MyAppWeb do
-    pipe_through :api
+  Assuming you are providing a [theme menu](`PrimerLive.Component.theme_menu_options/1`) on the website, the option the user selects must be stored in persistent storage.
 
-    post PrimerLive.Theme.session_route(), SessionController, :set
-  end
-  ```
-
-  Optionally set the `max_age` in `endpoint.ex`:
+  Here we're setting event callback "store_theme" in the theme menu:
 
   ```
-  @session_options [
-    ...
-    # Over 300 years.
-    max_age: 9_999_999_999
-  ]
-  ```
+  # Some app component
 
-  ### 3. Add the Theme hook
-
-  In `app.js`, import `Theme` and add it to the `liveSocket` hooks:
-
-  ```
-  import { Prompt, Theme } from 'primer-live';
-
-  const hooks = {};
-  hooks.Prompt = Prompt;
-  hooks.Theme = Theme;
-
-  let liveSocket = new LiveSocket('/live', Socket, {
-    params: { _csrf_token: csrfToken },
-    hooks,
-  });
-  ```
-
-  You may the hook anywhere, but only once for the entire application. If you have a single theme menu, add it there:
-
-  ```
-  <.action_menu phx-hook="Theme" id="theme_menu">
-  ...
+  <.action_menu>
+    <:toggle class="btn btn-invisible">
+      <.octicon name="sun-16" />
+    </:toggle>
+    <.theme_menu_options
+      theme_state={@theme_state}
+      update_theme_event="store_theme"
+    />
   </.action_menu>
   ```
 
-  ### 4. Initialise the theme from session data
-
-  In the LiveView's `mount`, call `add_to_socket`:
+  The callback is invoked whenever a theme menu option is clicked. See attr [`update_theme_event`](`PrimerLive.Component.theme_menu_options/1`) for documentation of the arguments.
 
   ```
-  def mount(_params, session, socket) do
-    socket =
-      socket
-      |> PrimerLive.Theme.add_to_socket(session)
+  # App LiveView
 
-    {:ok, socket}
+  def handle_event(
+    "store_theme",
+    %{"data" => data, "key" => key, "value" => _},
+    socket
+  ) do
+    # Persist new theme state ...
+
+    {:noreply, socket}
   end
   ```
 
-  This reads the theme state and adds it to the socket assigns.
 
-  Optionally set the default theme in the seconds argument:
-
-  ```
-  PrimerLive.Theme.add_to_socket(session, %{
-    color_mode: "light",
-    light_theme: "light",
-    dark_theme: "dark"
-  })
-  ```
-
-  ### 5. Handle update events
-
-  In the LiveView where the action menu resides, add:
-
-  ```
-  use PrimerLive.ThemeEvent
-  ```
-
-  This implements function `handle_event` for "update_theme" (which is called by clicks on the menu's `action_list` items).
-  The function updates the socket and sends the event that is picked by by JavaScript (via the `Theme` hook).
   """
 
   use Phoenix.Component
-
-  @session_key "pl-session"
-  @session_theme_key "theme"
-  @reset_key "reset"
-  @update_theme_event_key "update_theme"
 
   @default_theme_state %{
     color_mode: "auto",
@@ -155,45 +104,8 @@ defmodule PrimerLive.Theme do
     reset: "Reset to default"
   }
 
-  @doc ~S"""
-  Generic key.
-
-  Used for:
-  - session route
-  - JS event name ("phx:" prefix is assigned automatically)
-  """
-  def session_key(), do: @session_key
-
-  @doc ~S"""
-  Route for session api calls.
-
-  For example:
-  ```
-  scope "/api", MyAppWeb do
-    pipe_through :api
-
-    post PrimerLive.Theme.session_route(), SessionController, :set
-  end
-  ```
-  """
-  def session_route(), do: "/#{session_key()}"
-
-  @doc ~S"""
-  Theme data stored in the session.
-  """
-  def session_theme_key(), do: @session_theme_key
-
-  @doc ~S"""
-  Internal use.
-  Reset link identifier to distinguish in update.
-  """
-  def reset_key(), do: @reset_key
-
-  @doc ~S"""
-  Internal use.
-  Update link identifier.
-  """
-  def update_theme_event_key(), do: @update_theme_event_key
+  @update_theme_event_key "update_theme"
+  @reset_key "reset"
 
   @doc ~S"""
   Initial theme state.
@@ -209,6 +121,24 @@ defmodule PrimerLive.Theme do
   Default label for a theme menu.
   """
   def default_menu_labels(), do: @default_menu_labels
+
+  @doc ~S"""
+  Default event name for the `handle_event` update callback.
+
+  This value can be overridden in `theme_menu_options` with `update_theme_event`:
+  ```
+  <.theme_menu_options
+    theme_state={@theme_state}
+    update_theme_event="store_theme"
+  />
+  ```
+  """
+  def update_theme_event_key(), do: @update_theme_event_key
+
+  @doc ~S"""
+  Default reset link identifier for the `handle_event` update callback.
+  """
+  def reset_key(), do: @reset_key
 
   @doc ~S"""
   Configures menu options from supplied params:
@@ -324,48 +254,7 @@ defmodule PrimerLive.Theme do
   end
 
   @doc ~S"""
-  Adds `theme_state` and `default_theme_state` to `socket.assigns`.
-  """
-  def add_to_socket(socket, session, default_theme_state) do
-    socket
-    |> assign(:theme_state, theme_state_from_session(session, default_theme_state))
-    |> assign(:default_theme_state, default_theme_state)
-  end
-
-  @spec add_to_socket(map, map) :: map
-  @doc """
-  See `add_to_socket/3`.
-  """
-  def add_to_socket(socket, session), do: add_to_socket(socket, session, default_theme_state())
-
-  defp theme_state_from_session(data, default_theme_state)
-       when not is_map_key(data, @session_theme_key),
-       do: default_theme_state
-
-  defp theme_state_from_session(%{@session_theme_key => json}, default_theme_state) do
-    case Jason.decode(json) do
-      {:ok, theme} -> theme |> Map.new(fn {k, v} -> {String.to_existing_atom(k), v} end)
-      _ -> default_theme_state
-    end
-  end
-
-  @doc ~S"""
-  Returns an updated theme state by putting the supplied data in the theme state.
-  If key is the reset key, returns the default theme state.
-  """
-  def update(
-        _theme_state,
-        %{"key" => @reset_key, "data" => _data},
-        default_theme_state
-      ),
-      do: default_theme_state
-
-  def update(theme_state, %{"key" => key, "data" => data}, _default_theme_state) do
-    Map.put(theme_state, String.to_existing_atom(key), data)
-  end
-
-  @doc ~S"""
-  Creates HTML (data) attributes from the supplied theme state to set a theme on a component or element directly:
+  Creates HTML (data) attributes from the supplied theme state to set a theme on a component or element directly. This is useful to "theme" specific page parts regardless of the user selected theme, for example a dark page header.
 
   ```
   <.button
