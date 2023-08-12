@@ -1529,7 +1529,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Navigation](https://primer.style/design/components/underline-nav)
+  [Primer Underline nav](https://primer.style/design/components/underline-nav)
 
   """
 
@@ -1850,7 +1850,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer provided on https://primer.style/design/components
+  No longer mentioned on https://primer.style/design/components
 
   """
 
@@ -2131,7 +2131,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Navigation](https://primer.style/design/components/navigation)
+  No longer mentioned on https://primer.style/design/components
 
   """
 
@@ -2354,7 +2354,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Navigation](https://primer.style/design/components/navigation)
+  [Primer Sub nav](https://primer.style/design/components/sub-nav)
 
   """
 
@@ -2654,7 +2654,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer provided on https://primer.style/design/components
+  No longer mentioned on https://primer.style/design/components
 
   """
 
@@ -9848,7 +9848,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer provided on https://primer.style/design/components
+  No longer mentioned on https://primer.style/design/components
 
   """
 
@@ -12171,7 +12171,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer provided on https://primer.style/design/components
+  No longer mentioned on https://primer.style/design/components
 
   """
 

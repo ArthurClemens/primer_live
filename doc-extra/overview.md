@@ -1,7 +1,7 @@
 # Overview
 
 <p>
-An implementation of GitHub's <a href="https://primer.style/design/" target="blank">Primer Design System</a> using Phoenix LiveView.
+An implementation of GitHub's <a href="https://primer.style/design/" target="blank">Primer Design System</a> for Phoenix LiveView.
 </p>
 
 <p>
