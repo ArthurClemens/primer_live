@@ -1,11 +1,28 @@
 # PrimerLive
 
-PrimerLive is a collection of function components that implements <a href="https://primer.style/" target="_blank">GitHub's Primer Design System</a>. It is intended for usage in <a href="https://github.com/phoenixframework/phoenix_live_view" target="_blank">Phoenix LiveView pages</a> and regular (non-LiveView) views in Phoenix applications.
+<p>
+An implementation of GitHub's <a href="https://primer.style/design/" target="blank">Primer Design System</a> using Phoenix LiveView.
+</p>
 
-PrimerLive components can be used in Phoenix LiveView pages and regular (non-LiveView) views in Phoenix applications.
-
+<p>
 The Primer Design System provides a strong base for creating data driven applications such as rich CRUD applications with interactive forms.
+</p>
+
+<p>
+All PrimerLive components accept the <code>class</code> attribute for customisations (and often the <code>classes</code> struct to address inner elements). <a href="https://primer.style/design/foundations/css-utilities/getting-started" target="blank">Primer's utility classes</a> allow a wide range of customisations without having to write custom styles.
+</p>
+
+<p>
+PrimerLive components can be used in <a href="https://github.com/phoenixframework/phoenix_live_view" target="_blank">Phoenix LiveView pages</a> and regular (non-LiveView) views in Phoenix applications.
+</p>
+
+## Documentation
 
 - [Documentation at Hexdocs](https://hexdocs.pm/primer_live/)
-- [Storybook and examples](https://primer-live.org/)
+- [Installation](doc-extra/installation.md)
+- [Usage](doc-extra/usage.md)
+
+## Resources
+
+- [PrimerLive Storybook and Demo](https://primer-live.org)
 - [Source code](https://github.com/ArthurClemens/primer_live)
