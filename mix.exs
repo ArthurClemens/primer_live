@@ -30,11 +30,13 @@ defmodule PrimerLive.MixProject do
   defp deps do
     [
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:ecto_sql, "~> 3.9"},
+      {:ecto, "~> 3.10", only: [:dev, :test], runtime: false},
+      {:ecto_sql, "~> 3.10", only: [:dev, :test], runtime: false},
       {:esbuild, "~> 0.7", only: :dev},
       {:ex_doc, "~> 0.30", only: :dev},
+      {:phoenix_ecto, "~> 4.4", only: [:dev, :test], runtime: false},
       {:phoenix_html, "~> 3.3"},
-      {:phoenix_live_view, ">= 0.18.3"},
+      {:phoenix_live_view, "~> 0.19"},
       {:jason, "~> 1.4"}
     ]
   end
