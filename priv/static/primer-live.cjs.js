@@ -20,23 +20,9 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // index-js-only.ts
 var index_js_only_exports = {};
 __export(index_js_only_exports, {
-  Prompt: () => Prompt,
-  Theme: () => Theme
+  Prompt: () => Prompt
 });
 module.exports = __toCommonJS(index_js_only_exports);
-
-// js/theme.ts
-var Theme = {
-  mounted() {
-    window.addEventListener(
-      "phx:pl-session",
-      (e) => fetch(`/api/pl-session?payload=${JSON.stringify(e.detail)}`, {
-        method: "post"
-      })
-    );
-  }
-};
-window.Theme = Theme;
 
 // js/prompt.ts
 var ROOT_SELECTOR = "[data-prompt]";

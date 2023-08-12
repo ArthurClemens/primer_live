@@ -1,16 +1,3 @@
-// js/theme.ts
-var Theme = {
-  mounted() {
-    window.addEventListener(
-      "phx:pl-session",
-      (e) => fetch(`/api/pl-session?payload=${JSON.stringify(e.detail)}`, {
-        method: "post"
-      })
-    );
-  }
-};
-window.Theme = Theme;
-
 // js/prompt.ts
 var ROOT_SELECTOR = "[data-prompt]";
 var WRAPPER_SELECTOR = "[data-prompt-content]";
@@ -242,7 +229,6 @@ if (typeof window !== "undefined") {
   window.Prompt = Prompt;
 }
 export {
-  Prompt,
-  Theme
+  Prompt
 };
 //# sourceMappingURL=primer-live.esm.js.map
