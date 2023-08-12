@@ -1,4 +1,6 @@
 defmodule PrimerLive.TestHelpers.Repo.Todo do
+  @moduledoc false
+
   use Ecto.Schema
 
   schema "todos" do
