@@ -1,4 +1,6 @@
 defmodule PrimerLive.TestHelpers.Repo.Todos do
+  @moduledoc false
+
   import Ecto.Changeset, except: [change: 1]
   alias PrimerLive.TestHelpers.Repo.Todo
 

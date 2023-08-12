@@ -1,18 +1,5 @@
 "use strict";
 (() => {
-  // js/theme.ts
-  var Theme = {
-    mounted() {
-      window.addEventListener(
-        "phx:pl-session",
-        (e) => fetch(`/api/pl-session?payload=${JSON.stringify(e.detail)}`, {
-          method: "post"
-        })
-      );
-    }
-  };
-  window.Theme = Theme;
-
   // js/prompt.ts
   var ROOT_SELECTOR = "[data-prompt]";
   var WRAPPER_SELECTOR = "[data-prompt-content]";

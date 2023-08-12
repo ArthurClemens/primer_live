@@ -1,4 +1,4 @@
-# PrimerLive
+# Overview
 
 <p>
 An implementation of GitHub's <a href="https://primer.style/design/" target="blank">Primer Design System</a> for Phoenix LiveView.
@@ -18,7 +18,7 @@ PrimerLive components can be used in <a href="https://github.com/phoenixframewor
 
 ## Documentation
 
-- [Documentation at Hexdocs](https://hexdocs.pm/primer_live/)
+- [Component documentation](`PrimerLive.Component`)
 - [Installation](doc-extra/installation.md)
 - [Usage](doc-extra/usage.md)
 

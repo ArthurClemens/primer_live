@@ -11,7 +11,10 @@
   - `radio_group`: added to slot `radio_button` the attr `label` to set a custom label
 
 ### Breaking changes
-- Renamed hook `Session` (which was erroneously documented as "ThemeMenu") to `Theme`.
+- Removed functions related to session for theme state - see `PrimerLive.Theme` for alternatives:
+  - `ThemeSessionController`
+  - `ThemeEvent`
+  - Theme hook
 - IDs of checkboxes and radio buttons have been updated to only include valid characters.
 
 ### Deprecated

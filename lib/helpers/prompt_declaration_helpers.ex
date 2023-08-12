@@ -1,4 +1,6 @@
 defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
+  @moduledoc false
+
   defmacro id(name_element_id, is_required) do
     quote do
       attr(:id, :string,
@@ -118,6 +120,17 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
         ```
         """
       )
+    end
+  end
+
+  defmacro phx_click_touch() do
+    quote do
+      attr :phx_click_touch, :any,
+        required: false,
+        doc: """
+        `phx-click` event binding to assign an event callback on clicking the touch layer.
+        Ignored if `is_modal` is true.
+        """
     end
   end
 

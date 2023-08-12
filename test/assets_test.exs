@@ -11,8 +11,7 @@ defmodule PrimerLiveAssetsTest do
       "primer-live.esm.js.map",
       "primer-live.js",
       "primer-live.min.css",
-      "primer-live.min.js",
-      "theme.d.ts"
+      "primer-live.min.js"
     ]
 
     filenames
