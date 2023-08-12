@@ -26988,7 +26988,7 @@ a.branch-name .octicon {
 [data-prompt] [data-backdrop] {
   pointer-events: none;
 }
-[data-prompt] [data-content]:not([aria-role="menu"]) {
+[data-prompt] [data-content]:not([aria-role=menu]) {
   animation-name: unset;
   animation-duration: unset;
   animation-timing-function: unset;
@@ -26998,10 +26998,10 @@ a.branch-name .octicon {
   transition-timing-function: var(--prompt-transition-timing-function-content);
   opacity: 0;
 }
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
+[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]) {
   z-index: var(--prompt-z-index-dialog-content);
 }
-[data-prompt][data-isdrawer] [data-content]:not([aria-role="menu"]) {
+[data-prompt][data-isdrawer] [data-content]:not([aria-role=menu]) {
   z-index: var(--prompt-z-index-drawer-content);
 }
 [data-prompt] [data-content][aria-role=menu] {
@@ -27042,14 +27042,14 @@ a.branch-name .octicon {
 [data-prompt] > input[type=checkbox]:checked + [data-prompt-content] [data-backdrop][data-islight] {
   opacity: var(--prompt-background-opacity-backdrop-light);
 }
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
+[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]) {
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
   overflow: auto;
   margin: 0 auto;
 }
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]):not(dialog) {
+[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]):not(dialog) {
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -27204,7 +27204,7 @@ a.branch-name .octicon {
     monospace;
   --prompt-max-height-content: 80vh;
 }
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
+[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]) {
   max-height: var(--prompt-max-height-content);
 }
 [data-color-mode=dark] [data-prompt] {
