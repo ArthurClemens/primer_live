@@ -48,16 +48,16 @@ defmodule PrimerLive.Theme do
   ]
   ```
 
-  ### 3. Add ThemeMenu hook
+  ### 3. Add the Theme hook
 
-  In `app.js`, import `ThemeMenu` and add it to the `liveSocket` hooks:
+  In `app.js`, import `Theme` and add it to the `liveSocket` hooks:
 
   ```
-  import { Prompt, ThemeMenu } from 'primer-live';
+  import { Prompt, Theme } from 'primer-live';
 
   const hooks = {};
   hooks.Prompt = Prompt;
-  hooks.ThemeMenu = ThemeMenu;
+  hooks.Theme = Theme;
 
   let liveSocket = new LiveSocket('/live', Socket, {
     params: { _csrf_token: csrfToken },
@@ -68,7 +68,7 @@ defmodule PrimerLive.Theme do
   You may the hook anywhere, but only once for the entire application. If you have a single theme menu, add it there:
 
   ```
-  <.action_menu phx-hook="ThemeMenu" id="theme_menu">
+  <.action_menu phx-hook="Theme" id="theme_menu">
   ...
   </.action_menu>
   ```
@@ -107,8 +107,8 @@ defmodule PrimerLive.Theme do
   use PrimerLive.ThemeEvent
   ```
 
-  This implements function `handle_event` for "update_theme" (which is called by clicks on the menu's `action_list` items). The function updates the socket and sends the event that is picked by by JavaScript (via the `ThemeMenu` hook).
-
+  This implements function `handle_event` for "update_theme" (which is called by clicks on the menu's `action_list` items).
+  The function updates the socket and sends the event that is picked by by JavaScript (via the `Theme` hook).
   """
 
   use Phoenix.Component
@@ -156,7 +156,9 @@ defmodule PrimerLive.Theme do
   }
 
   @doc ~S"""
-  Generic key used for:
+  Generic key.
+
+  Used for:
   - session route
   - JS event name ("phx:" prefix is assigned automatically)
   """
@@ -174,7 +176,7 @@ defmodule PrimerLive.Theme do
   end
   ```
   """
-  def session_route(), do: "/#{@session_key}"
+  def session_route(), do: "/#{session_key()}"
 
   @doc ~S"""
   Theme data stored in the session.
@@ -235,7 +237,7 @@ defmodule PrimerLive.Theme do
       ...> PrimerLive.Theme.default_menu_options(),
       ...> PrimerLive.Theme.default_menu_labels()
       ...> )
-      [color_mode: %{labeled_options: [{"light", "Light"}, {"dark", "Dark"}, {"auto", "System"}], options: ["light", "dark", "auto"], selected: "light", title: "Theme"}, dark_theme: %{labeled_options: [{"dark", "Dark"}, {"dark_dimmed", "Dark dimmed"}, {"dark_high_contrast", "Dark high contrast"}, {"dark_colorblind", "Dark colorblind"}, {"dark_tritanopia", "Dark Tritanopia"}], options: ["dark", "dark_dimmed", "dark_high_contrast", "dark_colorblind", "dark_tritanopia"], selected: "dark_high_contrast", title: "Dark tone"}, light_theme: %{labeled_options: [{"light", "Light"}, {"light_high_contrast", "Light high contrast"}, {"light_colorblind", "Light colorblind"}, {"light_tritanopia", "Light Tritanopia"}], options: ["light", "light_high_contrast", "light_colorblind", "light_tritanopia"], selected: "light_high_contrast", title: "Light tone"}]
+      [{:color_mode, %{labeled_options: [{"light", "Light"}, {"dark", "Dark"}, {"auto", "System"}], options: ["light", "dark", "auto"], selected: "light", title: "Theme"}},{:light_theme, %{options: ["light", "light_high_contrast", "light_colorblind", "light_tritanopia"], selected: "light_high_contrast", title: "Light tone", labeled_options: [{"light", "Light"}, {"light_high_contrast", "Light high contrast"}, {"light_colorblind", "Light colorblind"}, {"light_tritanopia", "Light Tritanopia"}]}},{ :dark_theme, %{ labeled_options: [{"dark", "Dark"}, {"dark_dimmed", "Dark dimmed"}, {"dark_high_contrast", "Dark high contrast"}, {"dark_colorblind", "Dark colorblind"}, {"dark_tritanopia", "Dark Tritanopia"}], options: ["dark", "dark_dimmed", "dark_high_contrast", "dark_colorblind", "dark_tritanopia"], selected: "dark_high_contrast", title: "Dark tone" }}]
 
       iex> PrimerLive.Theme.create_menu_items(
       ...> %{
@@ -271,7 +273,7 @@ defmodule PrimerLive.Theme do
   end
 
   defp add_labels({key, item_group}, menu_labels) do
-    merged_labels = Map.merge(@default_menu_labels[key], menu_labels[key] || %{})
+    merged_labels = Map.merge(default_menu_labels()[key], menu_labels[key] || %{})
 
     {key,
      item_group
@@ -330,10 +332,11 @@ defmodule PrimerLive.Theme do
     |> assign(:default_theme_state, default_theme_state)
   end
 
+  @spec add_to_socket(map, map) :: map
   @doc """
   See `add_to_socket/3`.
   """
-  def add_to_socket(socket, session), do: add_to_socket(socket, session, @default_theme_state)
+  def add_to_socket(socket, session), do: add_to_socket(socket, session, default_theme_state())
 
   defp theme_state_from_session(data, default_theme_state)
        when not is_map_key(data, @session_theme_key),
@@ -383,7 +386,7 @@ defmodule PrimerLive.Theme do
       ...>   dark_theme: "dark_high_contrast"
       ...> }
       ...> )
-      ["data-color-mode": "light", "data-light-theme": "light_high_contrast", "data-dark-theme": "dark_high_contrast"]
+      [{:"data-color-mode", "light"}, {:"data-dark-theme", "dark_high_contrast"}, {:"data-light-theme", "light_high_contrast"}]
 
       iex> PrimerLive.Theme.html_attributes(
       ...> %{
@@ -394,7 +397,7 @@ defmodule PrimerLive.Theme do
       ...>   dark_theme: "dark"
       ...> }
       ...> )
-      ["data-color-mode": "auto", "data-light-theme": "light", "data-dark-theme": "dark"]
+      [{:"data-color-mode", "auto"}, {:"data-dark-theme", "dark"}, {:"data-light-theme", "light"}]
 
       iex> PrimerLive.Theme.html_attributes(
       ...> %{
@@ -406,7 +409,7 @@ defmodule PrimerLive.Theme do
       ...>   dark_theme: "dark"
       ...> }
       ...> )
-      ["data-color-mode": "auto", "data-light-theme": "light_high_contrast", "data-dark-theme": "dark"]
+      [{:"data-color-mode", "auto"}, {:"data-dark-theme", "dark"}, {:"data-light-theme", "light_high_contrast"}]
 
       iex> PrimerLive.Theme.html_attributes(
       ...> %{
@@ -433,5 +436,5 @@ defmodule PrimerLive.Theme do
   @doc """
   See `html_attributes/2`.
   """
-  def html_attributes(theme_state), do: html_attributes(theme_state, @default_theme_state)
+  def html_attributes(theme_state), do: html_attributes(theme_state, default_theme_state())
 end

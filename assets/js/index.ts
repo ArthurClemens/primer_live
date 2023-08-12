@@ -1,2 +1,2 @@
-export * from 'dialogic-js';
-export * from './session';
+export * from './theme';
+export * from './prompt';

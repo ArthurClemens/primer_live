@@ -16,7 +16,6 @@ const optsFromArgs: OptsFromArgs = args.reduce((acc, arg) => {
   if (parts !== null && parts.groups) {
     const key = parts.groups?.key;
     const value = parts.groups?.value !== '' ? parts.groups.value : true;
-    console.log(key, value);
     return {
       ...acc,
       [key]: value,
@@ -24,6 +23,12 @@ const optsFromArgs: OptsFromArgs = args.reduce((acc, arg) => {
   }
   return acc;
 }, {});
+
+if (!optsFromArgs.outfile) {
+  throw new Error(
+    'Missing outfile. Are you running the build script outside of the mix command "assets.build"?'
+  );
+}
 
 const entryPoints: string[] = [];
 if (optsFromArgs.format === 'esm' || optsFromArgs.format === 'cjs') {

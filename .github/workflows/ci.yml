@@ -6,8 +6,8 @@ jobs:
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:
       matrix:
-        otp: ['25']
-        elixir: ['1.14.2']
+        otp: ['26']
+        elixir: ['1.15.4']
     steps:
       - uses: actions/checkout@v3
       - uses: erlef/setup-beam@v1
@@ -16,5 +16,5 @@ jobs:
           elixir-version: ${{matrix.elixir}}
       - run: mix deps.get
       - run: mix test
-      - run: npm --prefix assets install
+      - run: npm --prefix assets install --legacy-peer-deps
       - run: npm --prefix assets run test

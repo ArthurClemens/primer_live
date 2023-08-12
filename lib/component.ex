@@ -1,13 +1,25 @@
 defmodule PrimerLive.Component do
   @moduledoc """
-  PrimerLive components.
+  Component documentation.
   """
 
   use Phoenix.Component
   use Phoenix.HTML
 
-  alias PrimerLive.Helpers.{AttributeHelpers, FormHelpers, SchemaHelpers, ComponentHelpers}
+  require PrimerLive.Helpers.DeclarationHelpers
+  require PrimerLive.Helpers.PromptDeclarationHelpers
+
+  alias PrimerLive.Helpers.{
+    AttributeHelpers,
+    FormHelpers,
+    SchemaHelpers,
+    ComponentHelpers,
+    PromptDeclarationHelpers,
+    DeclarationHelpers
+  }
+
   alias PrimerLive.Theme
+  alias Phoenix.HTML.Form
 
   # ------------------------------------------------------------------------------------
   # action_list
@@ -282,43 +294,69 @@ defmodule PrimerLive.Component do
   Example of using a form and event handler to submit a "single select" selection:
 
   ```
-  options = [
-    %{id: "1", is_selected: true, label: "Writer"},
-    %{id: "2", is_selected: false, label: "Programmer"},
-    %{id: "3", is_selected: false, label: "Activist"}
-  ]
+  # Component logic
 
-  ...
+  values = assigns.changeset.changes |> Map.get(:roles) || []
+  current_role = List.first(values) || ""
+  options = Repo.role_options()
+  label_lookup = options |> Enum.map(fn {label, value} -> {value, label} end) |> Enum.into(%{})
+  selected_labels = values |> Enum.map(&Map.get(label_lookup, &1))
 
-  <.form :let={f} for={@changeset} phx-change="save_user_job">
-    <.action_list>
-      <%= for %{id: id, label: label, is_selected: is_selected} <- @options do %>
-        <.action_list_item
-          is_single_select
-          form={f}
-          field={:job_id}
-          checked_value={id}
-          is_selected={is_selected}
-        >
-          <%= label %>
-        </.action_list_item>
-      <% end %>
-    </.action_list>
-  </.form>
+  selected_text =
+    if Enum.count(selected_labels) > 0,
+      do: selected_labels |> Enum.join(", "),
+      else: "-"
 
-  ...
+  assigns =
+    assigns
+    |> assign(:options, options)
+    |> assign(:values, values)
+    |> assign(:current_role, current_role)
+    |> assign(:selected_text, selected_text)
 
-  def handle_event("save_user_job", %{"user" => params}, socket) do
-    %{user: user} = socket.assigns
-    current_job_id = get_in(user.job, [Access.key!(:id)])
+  # Component heex
 
-    selected_job_ids = params["job_id"] |> Enum.filter(&(&1 !== "false" && &1 !== current_job_id))
-    job_id = if Enum.count(selected_job_ids) > 0, do: hd(selected_job_ids), else: nil
+  <div class="my-3" data-testid="test-single-select-selected">
+    Selected: <%= @selected_text %>
+  </div>
+  <div class="col-12 col-md-6">
+    <.form :let={f} for={@changeset} phx-change="validate" phx-submit="save" phx-value-role={@current_role}>
+      <.action_list>
+        <%= for {label, value} <- @options do %>
+          <.action_list_item
+            form={f}
+            field={:roles}
+            checked_value={value}
+            is_single_select
+            is_selected={value in @values}
+          >
+            <%= label %>
+          </.action_list_item>
+        <% end %>
+      </.action_list>
+    </.form>
+  </div>
 
-    changeset = User.changeset(socket.assigns.user, %{"job_id" => job_id})
+  # Live view
 
-    # apply changeset and assign user to socket
-    ...
+  def handle_event(
+        "validate",
+        %{"role" => role, "job_description" => params},
+        socket
+      ) do
+    valid_roles = params |> Map.get("roles") |> Enum.reject(&(&1 === role))
+    new_params = params |> Map.put("roles", valid_roles)
+
+    changeset =
+      Repo.empty_job_description()
+      |> Repo.change_job_description(new_params)
+      |> Map.put(:action, :validate)
+
+    socket =
+      socket
+      |> assign(:changeset, changeset)
+
+    {:noreply, socket}
   end
   ```
 
@@ -344,31 +382,30 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `role` to the outer element."
   )
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
-  attr :is_divided, :boolean,
+  attr(:is_divided, :boolean,
     default: false,
     doc: """
     Show dividers between items.
     """
+  )
 
-  attr :is_full_bleed, :boolean,
+  attr(:is_full_bleed, :boolean,
     default: false,
     doc: """
     Removes the default padding.
     """
+  )
 
-  attr :is_multiple_select, :boolean,
+  attr(:is_multiple_select, :boolean,
     default: false,
     doc: """
     Sets ARIA attribute and classes for multi select checkmarks.
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the action list element.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Action list components.")
 
@@ -412,7 +449,7 @@ defmodule PrimerLive.Component do
   [INSERT LVATTRDOCS]
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -436,40 +473,23 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_filled, :boolean,
+  attr(:is_filled, :boolean,
     default: false,
     doc: """
     Creates a higher horizontal line. When used with the `title` slot, the title is placed inside the line.
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the section divider element.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot :title,
     required: false,
     doc: """
     Title separator. The input text is wrapped in a `<h3>` element. Omit to create a horizontal line only.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the action list element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :description,
@@ -477,23 +497,9 @@ defmodule PrimerLive.Component do
     doc: """
     Optional extra text. Requires `title` slot.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the action list element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def action_list_section_divider(assigns) do
@@ -525,7 +531,7 @@ defmodule PrimerLive.Component do
 
     render_title = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
         ])
 
@@ -548,7 +554,7 @@ defmodule PrimerLive.Component do
 
     render_description = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
         ])
 
@@ -616,15 +622,13 @@ defmodule PrimerLive.Component do
   [INSERT LVATTRDOCS]
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
-
-  attr :form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
 
   attr(:checked_value, :string, default: nil, doc: "Checkbox `checked_value`, see `checkbox/1`.")
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.input_id()
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -682,29 +686,33 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_height_medium, :boolean,
+  attr(:is_height_medium, :boolean,
     default: false,
     doc: """
     Sets the row height to at least 40px. The default row height is 32px (on touch devices this is 48px).
     """
+  )
 
-  attr :is_height_large, :boolean,
+  attr(:is_height_large, :boolean,
     default: false,
     doc: """
     Sets the row height to at least 48px. The default row height is 32px (on touch devices this is 48px as well).
     """
+  )
 
-  attr :is_single_select, :boolean,
+  attr(:is_single_select, :boolean,
     default: false,
     doc: """
     Creates a checkbox group, visualized as checkmark icons, and sets ARIA attributes. The icons can be replaced with the `leading_visual` slot.
     """
+  )
 
-  attr :is_multiple_select, :boolean,
+  attr(:is_multiple_select, :boolean,
     default: false,
     doc: """
     Creates a checkbox group, using smaller sized checkboxes, and sets ARIA attributes. The icons can be replaced with the `leading_visual` slot.
     """
+  )
 
   attr(:is_checkmark_icon, :boolean,
     default: false,
@@ -713,64 +721,68 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_button, :boolean,
+  attr(:is_button, :boolean,
     default: false,
     doc: """
     Renders the content element with a `button` tag.
     """
+  )
 
-  attr :is_collapsible, :boolean,
+  attr(:is_collapsible, :boolean,
     default: false,
     doc: """
     Inserts a collapse icon as trailing visual (override the visual by using `trailing_visual` slot). Use with `is_expanded` and sets ARIA attributes. Uses a `button` element instead of `span`.
 
     When using slot `sub_group`, a false value of `is_expanded` will hide the sub group items.
     """
+  )
 
-  attr :is_expanded, :boolean,
+  attr(:is_expanded, :boolean,
     default: false,
     doc: """
     Use with `is_collapsible`. Sets the state of the collapsible by setting ARIA attributes.
 
     When using slot `sub_group`, a false value of `is_expanded` will hide the sub group items; a true value will show the items and make the current item bold.
     """
+  )
 
-  attr :is_danger, :boolean,
+  attr(:is_danger, :boolean,
     default: false,
     doc: """
     Adds a "danger" style to show that the item is descrucive.
     """
+  )
 
-  attr :is_disabled, :boolean,
+  attr(:is_disabled, :boolean,
     default: false,
     doc: """
     Shows the item is disabled.
     """
+  )
 
-  attr :is_truncated, :boolean,
+  attr(:is_truncated, :boolean,
     default: false,
     doc: """
     Shortens the item label with ellipsis.
     """
+  )
 
-  attr :is_sub_item, :boolean,
+  attr(:is_sub_item, :boolean,
     default: false,
     doc: """
     For items within a `sub_group`. Renders the item smaller.
     """
+  )
 
-  attr :leading_visual_width, :any,
+  attr(:leading_visual_width, :any,
     doc: """
     Use with the item that contains slots `sub_group` and `leading_visual`. Indents the items within the sub group to match the leading visual.
 
     Supported sizes: 16, 20, 24.
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the action list element.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Label.")
 
@@ -779,23 +791,9 @@ defmodule PrimerLive.Component do
     doc: """
     Creates a link. Pass attribute `href`, `navigate` or `patch`.
     """ do
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
 
     attr(:target, :string,
       doc: """
@@ -803,23 +801,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the link element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:description, required: false, doc: "Description.")
@@ -846,26 +830,16 @@ defmodule PrimerLive.Component do
 
     Use `is_sub_item` for child items to render them smaller.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the action list element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def action_list_item(assigns) do
+    %{
+      input_id: input_id
+    } = AttributeHelpers.common_input_attrs(assigns, :checkbox)
+
     is_selected = assigns.is_selected
     is_form_input = assigns[:form] || assigns[:field]
     # Get the first link slot, if any
@@ -1003,6 +977,7 @@ defmodule PrimerLive.Component do
                   do: @classes.leading_visual_single_select_checkmark,
                   else: @classes.leading_visual_multiple_select_checkmark
               }
+              input_id={@input_id}
             />
           </span>
         <% end %>
@@ -1036,7 +1011,7 @@ defmodule PrimerLive.Component do
 
     render_sub_group = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
         ])
 
@@ -1071,33 +1046,36 @@ defmodule PrimerLive.Component do
         end
 
       attributes =
-        AttributeHelpers.append_attributes([], [
-          [class: classes.content],
+        AttributeHelpers.append_attributes([
+          [class: classes.content, for: input_id],
           !is_nil(is_expanded) &&
             ["aria-expanded": is_expanded |> Atom.to_string()]
         ])
 
       link_attributes =
-        AttributeHelpers.append_attributes(assigns_to_attributes(link_slot), [
+        AttributeHelpers.append_attributes(
+          AttributeHelpers.assigns_to_attributes_sorted(link_slot, [:class]),
           [
-            class:
-              AttributeHelpers.classnames([
-                classes.content,
-                link_slot[:class]
-              ])
-          ],
-          !is_nil(is_expanded) &&
-            ["aria-expanded": is_expanded |> Atom.to_string()],
-          [role: "menuitem"],
-          is_selected && ["aria-selected": "true"],
-          if is_selected do
-            if is_anchor_link do
-              ["aria-current": "location"]
-            else
-              ["aria-current": "page"]
+            [
+              class:
+                AttributeHelpers.classnames([
+                  classes.content,
+                  link_slot[:class]
+                ])
+            ],
+            !is_nil(is_expanded) &&
+              ["aria-expanded": is_expanded |> Atom.to_string()],
+            [role: "menuitem"],
+            is_selected && ["aria-selected": "true"],
+            if is_selected do
+              if is_anchor_link do
+                ["aria-current": "location"]
+              else
+                ["aria-current": "page"]
+              end
             end
-          end
-        ])
+          ]
+        )
 
       assigns =
         assigns
@@ -1145,10 +1123,9 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.action_list_item],
         is_link && [role: "none"],
-        !is_link && is_selected && ["aria-selected": "true"],
-        is_select && !is_selected && ["aria-selected": "false"],
         !is_link && is_select && [role: "option"],
         assigns.is_disabled && ["aria-disabled": "true"]
+        # Don't use aria-selected on the list item, because the associated CSS prevents visual updates then updating the checkbox (see git history)
       ])
 
     assigns =
@@ -1271,7 +1248,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -1319,41 +1296,12 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :position_end,
@@ -1366,30 +1314,12 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the far end container.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def tabnav(assigns) do
     classes = %{
@@ -1426,7 +1356,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected,
           :is_small
@@ -1461,7 +1391,7 @@ defmodule PrimerLive.Component do
 
     render_position_end = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_extra
         ])
@@ -1482,20 +1412,25 @@ defmodule PrimerLive.Component do
     end
 
     nav_attributes =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: classes.nav],
         assigns[:aria_label] && ["aria-label": assigns[:aria_label]]
       ])
 
+    tabnav_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.tabnav]
+      ])
+
     assigns =
       assigns
-      |> assign(:classes, classes)
+      |> assign(:tabnav_attrs, tabnav_attrs)
       |> assign(:render_tab, render_tab)
       |> assign(:render_position_end, render_position_end)
       |> assign(:nav_attributes, nav_attributes)
 
     ~H"""
-    <div class={@classes.tabnav} {@rest}>
+    <div {@tabnav_attrs}>
       <%= if @position_end && @position_end !== [] do %>
         <%= for slot <- @position_end do %>
           <%= @render_position_end.(slot) %>
@@ -1609,7 +1544,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -1663,11 +1598,7 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `aria-label` to the outer element."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
@@ -1682,64 +1613,21 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :position_end,
     doc: """
     Container for elements positions at the far end.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the far end container.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def underline_nav(assigns) do
@@ -1779,7 +1667,7 @@ defmodule PrimerLive.Component do
     }
 
     body_attributes =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: classes.body],
         [role: "tablist"]
       ])
@@ -1788,7 +1676,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected
         ])
@@ -1822,7 +1710,7 @@ defmodule PrimerLive.Component do
 
     render_position_end = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_extra
         ])
@@ -1882,13 +1770,19 @@ defmodule PrimerLive.Component do
       """
     end
 
+    underline_nav_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.underline_nav]
+      ])
+
     assigns =
       assigns
+      |> assign(:underline_nav_attrs, underline_nav_attrs)
       |> assign(:classes, classes)
       |> assign(:render_items, render_items)
 
     ~H"""
-    <nav class={@classes.underline_nav} {@rest}>
+    <nav {@underline_nav_attrs}>
       <%= if @is_container_width do %>
         <div class={@classes.container}>
           <%= @render_items.(@item) %>
@@ -1975,7 +1869,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -2004,11 +1898,7 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `aria-label` to the outer element."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
@@ -2021,41 +1911,12 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:heading,
@@ -2104,7 +1965,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected
         ])
@@ -2134,7 +1995,7 @@ defmodule PrimerLive.Component do
 
     render_heading = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
         ])
 
@@ -2156,7 +2017,7 @@ defmodule PrimerLive.Component do
       """
     end
 
-    menu_attributes =
+    menu_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.menu],
         ["aria-label": assigns.aria_label],
@@ -2168,10 +2029,10 @@ defmodule PrimerLive.Component do
       |> assign(:classes, classes)
       |> assign(:render_item, render_item)
       |> assign(:render_heading, render_heading)
-      |> assign(:menu_attributes, menu_attributes)
+      |> assign(:menu_attrs, menu_attrs)
 
     ~H"""
-    <nav {@menu_attributes}>
+    <nav {@menu_attrs}>
       <%= if @heading && @heading !== [] do %>
         <%= for slot <- @heading do %>
           <%= @render_heading.(slot) %>
@@ -2293,7 +2154,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -2333,11 +2194,7 @@ defmodule PrimerLive.Component do
       "Sets the menu style to \"sub navigation\": a lightweight version without borders and more condensed."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
@@ -2350,41 +2207,12 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def side_nav(assigns) do
@@ -2418,7 +2246,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected
         ])
@@ -2553,18 +2381,14 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:is_wrap, :boolean,
     default: false,
     doc: "Allows child elements to wrap, for example a link row followed by a search field."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the subnav element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Subnav components.")
 
@@ -2576,10 +2400,15 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    subnav_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:subnav_attrs, subnav_attrs)
 
     ~H"""
-    <div class={@class} {@rest}>
+    <div {@subnav_attrs}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -2602,7 +2431,7 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `aria-label` to the subnav links element."
   )
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -2624,11 +2453,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the subnav links element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
@@ -2641,41 +2466,12 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def subnav_links(assigns) do
@@ -2697,7 +2493,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected
         ])
@@ -2759,13 +2555,8 @@ defmodule PrimerLive.Component do
   [INSERT LVATTRDOCS]
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the subnav search element.
-    """
-  )
+  DeclarationHelpers.class()
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Contents.")
 
@@ -2777,10 +2568,15 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    subnav_search_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:subnav_search_attrs, subnav_search_attrs)
 
     ~H"""
-    <div class={@class} {@rest}>
+    <div {@subnav_search_attrs}>
       <%= render_slot(@inner_block) %>
       <.octicon name="search-16" class="subnav-search-icon" />
     </div>
@@ -2799,13 +2595,8 @@ defmodule PrimerLive.Component do
   [INSERT LVATTRDOCS]
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the subnav search context element.
-    """
-  )
+  DeclarationHelpers.class()
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Contents.")
 
@@ -2817,10 +2608,15 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    subnav_search_context_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:subnav_search_context_attrs, subnav_search_context_attrs)
 
     ~H"""
-    <div class={@class} {@rest}>
+    <div {@subnav_search_context_attrs}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -2889,7 +2685,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -2918,11 +2714,7 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `aria-label` to the outer element."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the subnav links element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
@@ -2941,41 +2733,12 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def filter_list(assigns) do
@@ -3004,7 +2767,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected,
           :count
@@ -3122,20 +2885,17 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
-
-  attr :form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
 
   attr(:label, :string,
     default: nil,
     doc: "Custom label. Note that a label is automatically generated when using `field`."
   )
 
-  attr :is_hide_label, :boolean, default: false, doc: "Omits the label when using `field`."
+  attr(:is_hide_label, :boolean, default: false, doc: "Omits the label when using `field`.")
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:for, :string,
     default: nil,
@@ -3168,11 +2928,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the input element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Form group content.")
 
@@ -3229,8 +2985,8 @@ defmodule PrimerLive.Component do
     # If label is supplied, wrap it inside a label element
     # else use the default generated label
     header_label_attributes =
-      AttributeHelpers.append_attributes([], [
-        [class: assigns.classes.label],
+      AttributeHelpers.append_attributes([
+        [class: assigns.classes[:label]],
         [for: assigns[:for] || nil]
       ])
 
@@ -3240,7 +2996,7 @@ defmodule PrimerLive.Component do
           nil
 
         assigns[:label] ->
-          Phoenix.HTML.Form.label(
+          Form.label(
             form,
             field,
             assigns[:label],
@@ -3248,11 +3004,11 @@ defmodule PrimerLive.Component do
           )
 
         true ->
-          humanize_label = Phoenix.HTML.Form.humanize(field)
+          humanize_label = Form.humanize(field)
 
           case humanize_label === "Nil" do
             true -> nil
-            false -> Phoenix.HTML.Form.label(form, field, header_label_attributes)
+            false -> Form.label(form, field, header_label_attributes)
           end
       end
 
@@ -3342,13 +3098,16 @@ defmodule PrimerLive.Component do
   ```
   """
 
-  attr(:class, :string, default: nil, doc: "Classname.")
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.input_id()
+  DeclarationHelpers.class()
 
-  attr :field, :any, doc: "Field name (atom or string)."
-
-  attr :form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  attr(:validation_message_id, :string,
+    doc: """
+    Message ID that is usually passed from the form element component to `input_validation_message`. If not used, the ID will be generated.
+    """
+  )
 
   attr(:validation_message, :any,
     doc: """
@@ -3356,17 +3115,14 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:input_id, :string,
+  attr(:is_multiple, :boolean,
+    default: false,
     doc: """
-    If the associated input has an id, pass it here as "input_id".
+    Set to true when the validation message refers to a "multiple" field, to that the generated ID will include suffix `[]`.
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the input element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def input_validation_message(assigns) do
     %{
@@ -3389,10 +3145,10 @@ defmodule PrimerLive.Component do
       ])
 
     attributes =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes(assigns.rest, [
         [class: class],
         [id: validation_message_id],
-        ["phx-feedback-for": phx_feedback_for_id]
+        ["phx-feedback-for": assigns.rest["phx-feedback-for"] || phx_feedback_for_id]
       ])
 
     assigns =
@@ -3569,13 +3325,10 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
-
-  attr :form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.input_id()
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -3603,8 +3356,12 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:name, :string, doc: "Text input name attribute (when not using `form` and `field`).")
-  attr(:value, :string, doc: "Text input value attribute (when not using `form` and `field`).")
+  DeclarationHelpers.name()
+
+  attr(:value, :string,
+    doc: "Text input value attribute (overrides field value when using `form` and `field`)."
+  )
+
   attr(:type, :string, default: "text", doc: "Text input type.")
   attr(:size, :any, doc: "Defines the width of the input (number or number as string).")
 
@@ -3690,11 +3447,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the input element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:group_button,
     doc: """
@@ -3737,11 +3490,7 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
+    DeclarationHelpers.slot_class()
   end
 
   def text_input(assigns) do
@@ -3771,6 +3520,7 @@ defmodule PrimerLive.Component do
       rest: rest,
       show_message?: show_message?,
       validation_marker_attrs: validation_marker_attrs,
+      validation_marker_class: validation_marker_class,
       validation_message_id: validation_message_id,
       value: value
     } = AttributeHelpers.common_input_attrs(assigns, nil)
@@ -3859,7 +3609,7 @@ defmodule PrimerLive.Component do
 
       input_attrs =
         AttributeHelpers.append_attributes(
-          assigns_to_attributes(rest, [
+          AttributeHelpers.assigns_to_attributes_sorted(rest, [
             :id,
             :placeholder
           ]),
@@ -3872,7 +3622,7 @@ defmodule PrimerLive.Component do
             [id: input_id],
             [name: input_name],
             [size: assigns[:size]],
-            (is_nil(form) || is_nil(field)) && !is_nil(value) && [value: value],
+            !is_nil(value) && [value: value],
             show_message? && [invalid: ""]
           ]
         )
@@ -3885,16 +3635,25 @@ defmodule PrimerLive.Component do
         ])
 
       render_input_with_validation_marker = fn ->
+        wrapper_attrs =
+          AttributeHelpers.append_attributes(validation_marker_attrs, [
+            [class: validation_marker_class]
+          ])
+
         assigns =
           assigns
           |> assign(:input, input)
           |> assign(:validation_marker_attrs, validation_marker_attrs)
+          |> assign(:wrapper_attrs, wrapper_attrs)
 
         ~H"""
         <%= if @validation_marker_attrs do %>
-          <span {@validation_marker_attrs}></span>
+          <div {@wrapper_attrs}>
+            <%= @input %>
+          </div>
+        <% else %>
+          <%= @input %>
         <% end %>
-        <%= @input %>
         """
       end
 
@@ -3910,6 +3669,7 @@ defmodule PrimerLive.Component do
         |> assign(:show_message?, show_message?)
         |> assign(:validation_message_class, classes.validation_message)
         |> assign(:validation_message, assigns[:validation_message])
+        |> assign(:validation_message_id, validation_message_id)
         |> assign(:render_trailing_action, render_trailing_action)
 
       ~H"""
@@ -3941,8 +3701,8 @@ defmodule PrimerLive.Component do
         <.input_validation_message
           form={@form}
           field={@field}
-          input_id={@input_id}
           validation_message={@validation_message}
+          validation_message_id={@validation_message_id}
           class={@validation_message_class}
         />
       <% end %>
@@ -4086,20 +3846,18 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.name()
+  DeclarationHelpers.input_id()
 
-  attr :form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  attr(:options, :any, required: true, doc: "Selectable options (list, map or keyword list).")
 
-  attr(:name, :string, doc: "Select name attribute (when not using `form` and `field`).")
-
-  attr :options, :any, required: true, doc: "Selectable options (list, map or keyword list)."
-
-  attr :selected, :any,
+  attr(:selected, :any,
     doc: "Selected option or options (string for single select, list when using `is_multiple`)."
+  )
 
-  attr :class, :string, doc: "Additional classname."
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -4161,15 +3919,16 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_small, :boolean, default: false, doc: "Creates a small select."
-  attr :is_large, :boolean, default: false, doc: "Creates a large select."
-  attr :is_short, :boolean, default: false, doc: "Creates a short select."
-  attr :is_shorter, :boolean, default: false, doc: "Creates a shorter select."
-  attr :is_full_width, :boolean, default: false, doc: "Full width select."
+  attr(:is_small, :boolean, default: false, doc: "Creates a small select.")
+  attr(:is_large, :boolean, default: false, doc: "Creates a large select.")
+  attr(:is_short, :boolean, default: false, doc: "Creates a short select.")
+  attr(:is_shorter, :boolean, default: false, doc: "Creates a shorter select.")
+  attr(:is_full_width, :boolean, default: false, doc: "Full width select.")
 
-  attr :is_auto_height, :boolean,
+  attr(:is_auto_height, :boolean,
     default: false,
     doc: "When using `is_multiple`: sets the size to the number of options."
+  )
 
   attr(:is_monospace, :boolean,
     default: false,
@@ -4197,11 +3956,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the select input.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def select(assigns) do
     case SchemaHelpers.validate_is_form(assigns) do
@@ -4224,13 +3979,14 @@ defmodule PrimerLive.Component do
       rest: rest,
       form: form,
       field: field,
-      validation_marker_attrs: validation_marker_attrs,
       input_id: input_id,
       input_name: input_name,
       has_form_group: has_form_group,
       form_group_attrs: form_group_attrs,
       show_message?: show_message?,
-      validation_message_id: validation_message_id
+      validation_message_id: validation_message_id,
+      validation_marker_attrs: validation_marker_attrs,
+      validation_marker_class: validation_marker_class
     } = AttributeHelpers.common_input_attrs(assigns, :select)
 
     is_multiple = assigns.is_multiple
@@ -4243,6 +3999,7 @@ defmodule PrimerLive.Component do
           assigns.is_short and "FormControl--short",
           assigns.is_shorter and "FormControl--shorter",
           assigns.is_full_width and "FormControl--fullWidth",
+          validation_marker_class,
           assigns.classes[:select_container],
           assigns[:class]
         ]),
@@ -4262,11 +4019,14 @@ defmodule PrimerLive.Component do
       options = assigns.options
       is_auto_height = assigns.is_auto_height
 
-      container_attrs = [class: classes.select_container]
+      container_attrs =
+        AttributeHelpers.append_attributes(validation_marker_attrs, [
+          [class: classes.select_container]
+        ])
 
       input_attrs =
         AttributeHelpers.append_attributes(
-          assigns_to_attributes(rest, [
+          AttributeHelpers.assigns_to_attributes_sorted(rest, [
             :id,
             :name
           ]),
@@ -4303,20 +4063,19 @@ defmodule PrimerLive.Component do
         |> assign(:field, field)
         |> assign(:validation_message_class, classes.validation_message)
         |> assign(:validation_message, assigns[:validation_message])
+        |> assign(:validation_message_id, validation_message_id)
 
       ~H"""
       <div {@container_attrs}>
-        <%= if @validation_marker_attrs do %>
-          <span {@validation_marker_attrs}></span>
-        <% end %>
         <%= @input %>
       </div>
       <.input_validation_message
         form={@form}
         field={@field}
-        input_id={@input_id}
         validation_message={@validation_message}
+        validation_message_id={@validation_message_id}
         class={@validation_message_class}
+        is_multiple={@is_multiple}
       />
       """
     end
@@ -4418,39 +4177,41 @@ defmodule PrimerLive.Component do
   Feature complete.
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.name()
+  DeclarationHelpers.input_id()
 
-  attr :form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  attr(:checked, :boolean, doc: "The state of the checkbox (when not using `form` and `field`).")
 
-  attr(:name, :string, doc: "Input name attribute (when not using `form` and `field`).")
-
-  attr :checked, :boolean, doc: "The state of the checkbox (when not using `form` and `field`)."
-
-  attr :checked_value, :string,
+  attr(:checked_value, :string,
     default: nil,
     doc:
       "The value to be sent when the checkbox is checked. If `checked_value` equals `value`, the checkbox is marked checked. Defaults to \"true\"."
+  )
 
-  attr :hidden_input, :string,
+  attr(:hidden_input, :string,
     default: "true",
     doc: """
     Controls if the component will generate a hidden input to submit the unchecked checkbox value or not. Defaults to "true". Uses `Phoenix.HTML.Form.hidden_input/3`.
     """
+  )
 
-  attr(:value, :string, doc: "Checkbox value attribute (when not using `form` and `field`).")
+  attr(:value, :string,
+    doc: "Checkbox value attribute (overrides field value when using `form` and `field`)."
+  )
 
-  attr :is_multiple, :boolean,
+  attr(:is_multiple, :boolean,
     default: false,
     doc:
       "When creating a list of checkboxes. Appends `[]` to the input name so that a list of values is passed to the form events."
+  )
 
   attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
 
   attr(:is_omit_label, :boolean, default: false, doc: "Omits any label.")
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -4480,56 +4241,24 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the input element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :label,
     doc: """
-    Custom checkbox label. Overrides the derived label when using a `form` and `field`.
+    Custom checkbox label. Overides the derived label when using a `form` and `field`.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the label element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :hint,
     doc: """
     Adds text below the checkbox label. Enabled when a label is displayed.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the hint element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :disclosure,
@@ -4538,23 +4267,9 @@ defmodule PrimerLive.Component do
 
     Note that the label element can only contain inline child elements.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the disclosure wrapper element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def checkbox(assigns) do
@@ -4576,7 +4291,7 @@ defmodule PrimerLive.Component do
   defp render_checkbox(assigns) do
     # Remove type from rest, we'll set it on the input
     rest =
-      assigns_to_attributes(assigns.rest, [
+      AttributeHelpers.assigns_to_attributes_sorted(assigns.rest, [
         :type
       ])
 
@@ -4600,7 +4315,8 @@ defmodule PrimerLive.Component do
       rest: rest,
       show_message?: show_message?,
       value: value,
-      validation_marker_attrs: validation_marker_attrs
+      validation_marker_attrs: validation_marker_attrs,
+      validation_marker_class: validation_marker_class
     } = AttributeHelpers.common_input_attrs(assigns, input_type)
 
     classes = %{
@@ -4611,6 +4327,7 @@ defmodule PrimerLive.Component do
           else
             "FormControl-checkbox-wrap"
           end,
+          validation_marker_class,
           assigns[:classes][:container],
           assigns[:class]
         ]),
@@ -4671,8 +4388,8 @@ defmodule PrimerLive.Component do
     has_label_slot = label_slot !== []
     has_label = !assigns[:is_omit_label] && (has_label_slot || derived_label !== "Nil")
 
-    container_attributes =
-      AttributeHelpers.append_attributes([
+    container_attrs =
+      AttributeHelpers.append_attributes(validation_marker_attrs, [
         [class: classes.container]
       ])
 
@@ -4686,13 +4403,12 @@ defmodule PrimerLive.Component do
 
     input_opts =
       AttributeHelpers.append_attributes(
-        assigns_to_attributes(rest, [
+        AttributeHelpers.assigns_to_attributes_sorted(rest, [
           :id,
           :name
         ]),
         [
-          [id: input_id],
-          [name: input_name],
+          [id: input_id, name: input_name],
           !is_nil(assigns[:checked]) && [checked: assigns[:checked]],
           assigns.input_type === :checkbox &&
             [hidden_input: assigns.hidden_input],
@@ -4708,10 +4424,10 @@ defmodule PrimerLive.Component do
     input =
       case assigns.input_type do
         :checkbox ->
-          Phoenix.HTML.Form.checkbox(form, field, input_opts)
+          Form.checkbox(form, field, input_opts)
 
         :radio_button ->
-          Phoenix.HTML.Form.radio_button(form, field, value, input_opts)
+          Form.radio_button(form, field, value, input_opts)
       end
 
     label_container_attributes = [
@@ -4720,7 +4436,7 @@ defmodule PrimerLive.Component do
 
     label_attributes =
       AttributeHelpers.append_attributes(
-        assigns_to_attributes(label_slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(label_slot, [
           :class
         ]),
         [
@@ -4732,7 +4448,7 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:container_attributes, container_attributes)
+      |> assign(:container_attrs, container_attrs)
       |> assign(:label_container_attributes, label_container_attributes)
       |> assign(:input, input)
       |> assign(:classes, classes)
@@ -4745,9 +4461,9 @@ defmodule PrimerLive.Component do
     render_hint = fn ->
       ~H"""
       <%= for slot <- @hint do %>
-        <p class={@classes.hint.(slot)}>
+        <span class={@classes.hint.(slot)}>
           <%= render_slot(slot, @classes) %>
-        </p>
+        </span>
       <% end %>
       """
     end
@@ -4783,10 +4499,7 @@ defmodule PrimerLive.Component do
       |> assign(:validation_marker_attrs, validation_marker_attrs)
 
     ~H"""
-    <span {@container_attributes}>
-      <%= if @validation_marker_attrs do %>
-        <span {@validation_marker_attrs}></span>
-      <% end %>
+    <span {@container_attrs}>
       <%= @input %>
       <%= if @has_label do %>
         <span {@label_container_attributes}>
@@ -4888,24 +4601,24 @@ defmodule PrimerLive.Component do
   Feature complete.
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.name()
 
-  attr :form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
+  attr(:value, :string,
+    default: nil,
+    doc: "Input value (overrides field value when using `form` and `field`)."
+  )
 
-  attr(:name, :string, doc: "Input name attribute (when not using `form` and `field`).")
-
-  attr(:value, :string, default: nil, doc: "Input value.")
-
-  attr :checked, :boolean,
+  attr(:checked, :boolean,
     doc: "The state of the radio button (when not using `form` and `field`)."
+  )
 
   attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
 
   attr(:is_omit_label, :boolean, default: false, doc: "Omits any label.")
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -4931,56 +4644,30 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the input element.
-    """
+  attr(:checked_value, :string,
+    default: nil,
+    doc:
+      "For internal use to ensure compatibility with \"single select\" radio buttons in `action_list/1`."
   )
+
+  DeclarationHelpers.rest()
 
   slot :label,
     doc: """
-    Custom radio button label. Overrides the derived label when using a `form` and `field`.
+    Custom radio button label. Overides the derived label when using a `form` and `field`.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the label element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :hint,
     doc: """
     Adds text below the radio button label. Enabled when a label is displayed.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the hint element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :disclosure,
@@ -4989,23 +4676,9 @@ defmodule PrimerLive.Component do
 
     Note that the label element can only contain inline child elements.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the disclosure wrapper element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def radio_button(assigns) do
@@ -5031,7 +4704,7 @@ defmodule PrimerLive.Component do
 
     # Remove type from rest, we'll set it on the input
     rest =
-      assigns_to_attributes(assigns.rest, [
+      AttributeHelpers.assigns_to_attributes_sorted(assigns.rest, [
         :type,
         :is_omit_label
       ])
@@ -5093,12 +4766,12 @@ defmodule PrimerLive.Component do
   </form>
   ```
 
-  Use custom label with the `radio_button` slot `inner_block`:
+  Use custom label with the `radio_button` slot attr `label`:
 
   ```
   <.radio_group>
-    <:radio_button name="role" value="admin">My role is Admin</:radio_button>
-    <:radio_button name="role" value="editor">My role is Editor</:radio_button>
+    <:radio_button name="role" value="admin" label="My role is Admin"></:radio_button>
+    <:radio_button name="role" value="editor" label="My role is Editor"></:radio_button>
   </.radio_group>
   ```
 
@@ -5113,13 +4786,9 @@ defmodule PrimerLive.Component do
   Feature complete.
   """
 
-  attr :field, :any, doc: "Field name (atom or string)."
-
-  attr :form, :any,
-    doc:
-      "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
-
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -5145,18 +4814,15 @@ defmodule PrimerLive.Component do
 
   attr(:id_prefix, :string, default: nil, doc: "Attribute `id` prefix to create unique ids.")
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the wrapper element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :radio_button,
     doc: "Generates a radio button." do
     attr(:value, :string, doc: "See `radio_button/1`.")
     attr(:name, :string, doc: "See `radio_button/1`.")
+    attr(:label, :string, doc: "Custom radio button label.")
     attr(:checked, :boolean, doc: "See `radio_button/1`.")
-    attr(:class, :string, doc: "Additional classname.")
+    DeclarationHelpers.slot_class()
   end
 
   def radio_group(assigns) do
@@ -5201,18 +4867,19 @@ defmodule PrimerLive.Component do
 
     render_radio_button = fn slot ->
       initial_opts =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :inner_block,
           :__slot__,
           :value,
           :class,
+          :label,
           :id
         ])
 
       value = slot[:value]
       escaped_value = Phoenix.HTML.html_escape(value)
       id_prefix = if is_nil(assigns.id_prefix), do: "", else: assigns.id_prefix <> "-"
-      id = slot[:id] || id_prefix <> Phoenix.HTML.Form.input_id(form, field, escaped_value)
+      id = slot[:id] || id_prefix <> Form.input_id(form, field, escaped_value)
 
       input_opts =
         AttributeHelpers.append_attributes(initial_opts, [
@@ -5227,39 +4894,45 @@ defmodule PrimerLive.Component do
         ])
 
       label_opts =
-        AttributeHelpers.append_attributes([], [
+        AttributeHelpers.append_attributes([
           [
             class: classes.label
           ],
           [for: id]
         ])
 
-      derived_label = Phoenix.HTML.Form.humanize(value)
+      derived_label = Form.humanize(value)
 
-      input = Phoenix.HTML.Form.radio_button(form, field, value, input_opts)
+      input = Form.radio_button(form, field, value, input_opts)
 
       assigns =
         assigns
         |> assign(:input, input)
         |> assign(:label_opts, label_opts)
         |> assign(:derived_label, derived_label)
+        |> assign(:label, slot[:label])
         |> assign(:slot, slot)
 
       ~H"""
       <%= @input %>
       <label {@label_opts}>
-        <%= render_slot(@slot) |> ComponentHelpers.maybe_slot_content() || @derived_label %>
+        <%= @label || render_slot(@slot) |> ComponentHelpers.maybe_slot_content() || @derived_label %>
       </label>
       """
     end
 
+    radio_group_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.radio_group]
+      ])
+
     assigns =
       assigns
-      |> assign(:radio_group_class, classes.radio_group)
+      |> assign(:radio_group_attrs, radio_group_attrs)
       |> assign(:render_radio_button, render_radio_button)
 
     ~H"""
-    <div class={@radio_group_class} {@rest}>
+    <div {@radio_group_attrs}>
       <%= for slot <- @radio_button do %>
         <%= @render_radio_button.(slot) %>
       <% end %>
@@ -5324,7 +4997,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -5373,11 +5046,7 @@ defmodule PrimerLive.Component do
     doc: "Renders the alert full width, with border and border radius removed."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Alert content.")
 
@@ -5420,12 +5089,17 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    alert_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
     assigns =
       assigns
-      |> assign(:class, class)
+      |> assign(:alert_attrs, alert_attrs)
 
     ~H"""
-    <div class={@class} {@rest}>
+    <div {@alert_attrs}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -5464,13 +5138,9 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Alert messages content.")
 
@@ -5481,12 +5151,17 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    alert_messages_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
     assigns =
       assigns
-      |> assign(:class, class)
+      |> assign(:alert_messages_attrs, alert_messages_attrs)
 
     ~H"""
-    <div class={@class} {@rest}>
+    <div {@alert_messages_attrs}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -5521,13 +5196,9 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Content to be formatted.")
 
@@ -5538,12 +5209,17 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
+    styled_html_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
     assigns =
       assigns
-      |> assign(:class, class)
+      |> assign(:styled_html_attrs, styled_html_attrs)
 
     ~H"""
-    <div class={@class} {@rest}>
+    <div {@styled_html_attrs}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -5689,7 +5365,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -5794,11 +5470,7 @@ defmodule PrimerLive.Component do
     doc: "On a small screen (up to 544px). Generates a filled 8px horizontal divider."
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :main,
     doc:
@@ -5819,7 +5491,7 @@ defmodule PrimerLive.Component do
   slot :sidebar,
     doc:
       "Generates a sidebar element. Widths: md: 256px, lg: 296px (change with `is_narrow_sidebar` and `is_wide_sidebar`)." do
-    attr :order, :any, values: [1, 2, "1", "2"], doc: "See `main` slot. Default value: 1."
+    attr(:order, :any, values: [1, 2, "1", "2"], doc: "See `main` slot. Default value: 1.")
   end
 
   def layout(assigns) do
@@ -5904,13 +5576,19 @@ defmodule PrimerLive.Component do
         false -> sorted_slots
       end
 
+    layout_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.layout]
+      ])
+
     assigns =
       assigns
+      |> assign(:layout_attrs, layout_attrs)
       |> assign(:classes, classes)
       |> assign(:slots, slots)
 
     ~H"""
-    <div class={@classes.layout} {@rest}>
+    <div {@layout_attrs}>
       <%= for {key, slot} <- @slots do %>
         <%= if key == :main && slot !== [] do %>
           <%= if @is_centered_md || @is_centered_lg || @is_centered_xl do %>
@@ -6153,7 +5831,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -6218,86 +5896,55 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :header,
     doc: "Generates a header row element." do
-    attr :class, :string, doc: "Additional classname."
-    attr :is_blue, :boolean, doc: "Change the header border and background to blue."
+    DeclarationHelpers.slot_class()
+    attr(:is_blue, :boolean, doc: "Change the header border and background to blue.")
   end
 
   slot :header_title,
     doc:
       "Generates a title within the header. If no header slot is passed, the header title will be wrapped inside a header element." do
-    attr :class, :string, doc: "Additional classname."
+    DeclarationHelpers.slot_class()
   end
 
   slot :row,
     doc:
       "Generates a content row element. To create a link element, pass attribute `href`, `navigate` or `patch`." do
-    attr :is_blue, :boolean, doc: "Blue row theme."
-    attr :is_gray, :boolean, doc: "Gray row theme."
-    attr :is_yellow, :boolean, doc: "Yellow row theme."
-    attr :is_hover_blue, :boolean, doc: "Changes to blue row theme on hover."
-    attr :is_hover_gray, :boolean, doc: "Changes to gray row theme on hover."
-    attr :is_focus_blue, :boolean, doc: "Changes to blue row theme on focus."
-    attr :is_focus_gray, :boolean, doc: "Changes to gray row theme on focus."
+    attr(:is_blue, :boolean, doc: "Blue row theme.")
+    attr(:is_gray, :boolean, doc: "Gray row theme.")
+    attr(:is_yellow, :boolean, doc: "Yellow row theme.")
+    attr(:is_hover_blue, :boolean, doc: "Changes to blue row theme on hover.")
+    attr(:is_hover_gray, :boolean, doc: "Changes to gray row theme on hover.")
+    attr(:is_focus_blue, :boolean, doc: "Changes to blue row theme on focus.")
+    attr(:is_focus_gray, :boolean, doc: "Changes to gray row theme on focus.")
 
-    attr :is_navigation_focus, :boolean,
+    attr(:is_navigation_focus, :boolean,
       doc: "Combine with a theme color to highlight the row when using keyboard commands."
+    )
 
-    attr :is_unread, :boolean,
+    attr(:is_unread, :boolean,
       doc: "Apply a blue vertical line highlight for indicating a row contains unread items."
-
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
     )
 
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the row element.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :body,
     doc: "Generates a body element." do
-    attr :class, :string, doc: "Additional classname."
+    DeclarationHelpers.slot_class()
   end
 
   slot :footer,
     doc: "Generates a footer row element." do
-    attr :class, :string, doc: "Additional classname."
+    DeclarationHelpers.slot_class()
   end
 
   slot(:inner_block, required: true, doc: "Unstructured content.")
@@ -6396,7 +6043,7 @@ defmodule PrimerLive.Component do
       class = classes.row.(slot, is_link)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_blue,
           :is_gray,
@@ -6474,14 +6121,17 @@ defmodule PrimerLive.Component do
       """
     end
 
+    box_attrs = AttributeHelpers.append_attributes(assigns.rest, [[class: assigns.classes.box]])
+
     assigns =
       assigns
+      |> assign(:box_attrs, box_attrs)
       |> assign(:render_header, render_header)
       |> assign(:render_inner_content, render_inner_content)
       |> assign(:render_footer, render_footer)
 
     ~H"""
-    <div class={@classes.box} {@rest}>
+    <div {@box_attrs}>
       <%= if @header_slots && @header_slots !== [] do %>
         <%= @render_header.() %>
       <% end %>
@@ -6587,9 +6237,9 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
-  attr :classes, :map,
+  attr(:classes, :map,
     default: %{
       header: nil,
       item: nil,
@@ -6610,36 +6260,19 @@ defmodule PrimerLive.Component do
     }
     ```
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot :item,
     doc: """
     Header item.
     """ do
-    attr :is_full, :boolean, doc: "Stretches the item to maximum."
+    attr(:is_full, :boolean, doc: "Stretches the item to maximum.")
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def header(assigns) do
@@ -6650,7 +6283,7 @@ defmodule PrimerLive.Component do
           assigns.classes[:header],
           assigns[:class]
         ]),
-      # item: # Set in item_attributes/1
+      # item: # Set in item_attrs/1
       link:
         AttributeHelpers.classnames([
           "Header-link",
@@ -6663,10 +6296,10 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    item_attributes = fn item ->
+    item_attrs = fn item ->
       # Don't pass item attributes to the HTML
       item_rest =
-        assigns_to_attributes(item, [
+        AttributeHelpers.assigns_to_attributes_sorted(item, [
           :is_full,
           :class
         ])
@@ -6684,22 +6317,22 @@ defmodule PrimerLive.Component do
       {item_rest, item_class, item_classes}
     end
 
-    assigns =
-      assigns
-      |> assign(:classes, classes)
-
     render_item = fn item ->
-      {item_rest, item_class, item_classes} = item_attributes.(item)
+      {item_rest, item_class, item_classes} = item_attrs.(item)
+
+      item_container_attrs =
+        AttributeHelpers.append_attributes(item_rest, [
+          [class: item_class]
+        ])
 
       assigns =
         assigns
-        |> assign(:item_rest, item_rest)
         |> assign(:item, item)
+        |> assign(:item_container_attrs, item_container_attrs)
         |> assign(:item_classes, item_classes)
-        |> assign(:item_class, item_class)
 
       ~H"""
-      <div class={@item_class} {@item_rest}>
+      <div {@item_container_attrs}>
         <%= if not is_nil(@item.inner_block) do %>
           <%= render_slot(@item, @item_classes) %>
         <% end %>
@@ -6707,12 +6340,18 @@ defmodule PrimerLive.Component do
       """
     end
 
+    header_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.header]
+      ])
+
     assigns =
       assigns
+      |> assign(:header_attrs, header_attrs)
       |> assign(:render_item, render_item)
 
     ~H"""
-    <div class={@classes.header} {@rest}>
+    <div {@header_attrs}>
       <%= for item <- @item do %>
         <%= @render_item.(item) %>
       <% end %>
@@ -6729,7 +6368,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a dropdown menu.
 
-  Dropdowns are small context menus that can be used for navigation and actions. They are a simple alternative to [select menus](`select_menu/1`).
+  A dropdown is a small context menu that can be used for navigation and actions. It is a simple alternative to [`select menus`](`select_menu/1`).
 
   Menu items are rendered as link element.
 
@@ -6790,9 +6429,21 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, default: nil, doc: "Additional classname."
+  PromptDeclarationHelpers.id("Dropdown element id", false)
+  PromptDeclarationHelpers.form("the dropdown element")
+  PromptDeclarationHelpers.field("the dropdown")
+  PromptDeclarationHelpers.is_dropdown_caret(true)
+  PromptDeclarationHelpers.is_backdrop()
+  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_fast(true)
+  PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.toggle_slot("the dropdown component")
 
-  attr :classes, :map,
+  DeclarationHelpers.class()
+
+  attr(:classes, :map,
     default: %{
       caret: nil,
       divider: nil,
@@ -6820,38 +6471,9 @@ defmodule PrimerLive.Component do
     }
     ```
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
   )
 
-  slot :toggle,
-    required: true,
-    doc: """
-    Generates a toggle element (default with button appearance) using the slot content as label.
-
-    Any custom class will override the default class "btn".
-    """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the toggle element.
-      """
-    )
-  end
+  DeclarationHelpers.rest()
 
   slot :menu,
     doc: """
@@ -6884,23 +6506,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
 
     attr(:phx_click, :string,
       doc: """
@@ -6908,26 +6516,17 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def dropdown(assigns) do
+    %{
+      form: form,
+      field: field
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
+
     # Get the first menu slot, if any
     menu_slot = if assigns[:menu] && assigns[:menu] !== [], do: hd(assigns[:menu]), else: []
 
@@ -6940,8 +6539,6 @@ defmodule PrimerLive.Component do
       dropdown:
         AttributeHelpers.classnames([
           "dropdown",
-          "details-reset",
-          "details-overlay",
           "d-inline-block",
           assigns.classes[:dropdown],
           assigns.class
@@ -6972,12 +6569,12 @@ defmodule PrimerLive.Component do
       item:
         AttributeHelpers.classnames([
           "dropdown-item"
-          # assigns.classes[:item] is conditionally set in item_attributes/2
+          # assigns.classes[:item] is conditionally set in item_attrs/2
         ]),
       divider:
         AttributeHelpers.classnames([
           "dropdown-divider"
-          # assigns.classes[:divider] is conditionally set in item_attributes/2
+          # assigns.classes[:divider] is conditionally set in item_attrs/2
         ]),
       header:
         AttributeHelpers.classnames([
@@ -6986,18 +6583,23 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    toggle_attrs =
-      AttributeHelpers.append_attributes(
-        assigns_to_attributes(toggle_slot, [
-          :class
-        ]),
-        [
-          [class: classes[:toggle]],
-          ["aria-haspopup": "true"]
-        ]
-      )
+    %{
+      toggle_attrs: toggle_attrs,
+      checkbox_attrs: checkbox_attrs,
+      menu_attrs: dropdown_menu_attrs,
+      backdrop_attrs: backdrop_attrs,
+      touch_layer_attrs: touch_layer_attrs
+    } =
+      AttributeHelpers.prompt_attrs(assigns, %{
+        form: form,
+        field: field,
+        toggle_slot: toggle_slot,
+        toggle_class: classes.toggle,
+        menu_class: classes.dropdown,
+        is_menu: true
+      })
 
-    item_attributes = fn item, is_divider ->
+    item_attrs = fn item, is_divider ->
       # Distinguish between link items and divider items:
       # - 'regular' item: is in fact a link element inside an li
       # - divider item: an li with "divider" class
@@ -7007,7 +6609,7 @@ defmodule PrimerLive.Component do
 
       # Don't pass item attributes to the HTML to prevent duplicates
       item_rest =
-        assigns_to_attributes(item, [
+        AttributeHelpers.assigns_to_attributes_sorted(item, [
           :is_divider,
           :class
         ])
@@ -7021,23 +6623,18 @@ defmodule PrimerLive.Component do
           item[:class]
         ])
 
-      item_attributes =
+      item_attrs =
         AttributeHelpers.append_attributes(item_rest, [
           [class: item_class],
           is_divider && [role: "separator"]
         ])
 
-      item_attributes
+      item_attrs
     end
-
-    menu_attributes =
-      AttributeHelpers.append_attributes([], [
-        [class: classes[:menu]]
-      ])
 
     assigns =
       assigns
-      |> assign(:menu_attributes, menu_attributes)
+      |> assign(:dropdown_menu_attrs, dropdown_menu_attrs)
       |> assign(:toggle_attrs, toggle_attrs)
       |> assign(:classes, classes)
       |> assign(:toggle_slot, toggle_slot)
@@ -7050,14 +6647,14 @@ defmodule PrimerLive.Component do
         assigns
         |> assign(:item, item)
         |> assign(:is_divider, is_divider)
-        |> assign(:item_attributes, item_attributes.(item, is_divider))
+        |> assign(:item_attrs, item_attrs.(item, is_divider))
 
       ~H"""
       <%= if @is_divider do %>
-        <li {@item_attributes}></li>
+        <li {@item_attrs}></li>
       <% else %>
         <li>
-          <Phoenix.Component.link {@item_attributes}>
+          <Phoenix.Component.link {@item_attrs}>
             <%= render_slot(@item) %>
           </Phoenix.Component.link>
         </li>
@@ -7069,13 +6666,13 @@ defmodule PrimerLive.Component do
       assigns
       |> assign(:render_item, render_item)
 
-    render_menu = fn menu_attributes ->
+    render_menu = fn menu_attrs ->
       assigns =
         assigns
-        |> assign(:menu_attributes, menu_attributes)
+        |> assign(:menu_attrs, menu_attrs)
 
       ~H"""
-      <ul {@menu_attributes}>
+      <ul {@menu_attrs}>
         <%= for item <- @item do %>
           <%= @render_item.(item) %>
         <% end %>
@@ -7083,27 +6680,50 @@ defmodule PrimerLive.Component do
       """
     end
 
+    menu_container_attrs =
+      AttributeHelpers.append_attributes([
+        [class: classes.menu],
+        ["data-content": ""],
+        ["aria-role": "menu"],
+        !is_nil(assigns[:menu_theme]) && Theme.html_attributes(assigns[:menu_theme])
+      ])
+
     assigns =
       assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
+      |> assign(:menu_container_attrs, menu_container_attrs)
       |> assign(:render_menu, render_menu)
+      |> assign(:checkbox_attrs, checkbox_attrs)
+      |> assign(:backdrop_attrs, backdrop_attrs)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
 
     ~H"""
-    <details class={@classes.dropdown} {@rest}>
-      <summary {@toggle_attrs}>
+    <div {@dropdown_menu_attrs}>
+      <label {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
-        <div class={@classes.caret}></div>
-      </summary>
-      <%= if not is_nil(@menu_title) do %>
-        <div {@menu_attributes}>
-          <div class={@classes.header}>
-            <%= @menu_title %>
+        <%= if @is_dropdown_caret do %>
+          <div class={@classes.caret}></div>
+        <% end %>
+      </label>
+      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <div data-prompt-content>
+        <%= if @backdrop_attrs !== [] do %>
+          <div {@backdrop_attrs}></div>
+        <% end %>
+        <div {@touch_layer_attrs}></div>
+        <%= if not is_nil(@menu_title) do %>
+          <div {@menu_container_attrs}>
+            <div class={@classes.header}>
+              <%= @menu_title %>
+            </div>
+            <%= @render_menu.([]) %>
           </div>
-          <%= @render_menu.([]) %>
-        </div>
-      <% else %>
-        <%= @render_menu.(@menu_attributes) %>
-      <% end %>
-    </details>
+        <% else %>
+          <%= @render_menu.(@menu_container_attrs) %>
+        <% end %>
+      </div>
+    </div>
     """
   end
 
@@ -7237,13 +6857,24 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :is_dropdown_caret, :boolean, default: false, doc: "Adds a dropdown caret to the button."
-  attr :is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right."
-  attr :is_borderless, :boolean, default: false, doc: "Removes the borders between list items."
+  PromptDeclarationHelpers.id("Select menu element id", false)
+  PromptDeclarationHelpers.form("the menu element")
+  PromptDeclarationHelpers.field("the menu")
+  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.is_backdrop()
+  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_fast(true)
+  PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.toggle_slot("the select menu component")
 
-  attr :class, :string, doc: "Additional classname."
+  DeclarationHelpers.class()
 
-  attr :classes, :map,
+  attr(:is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right.")
+  attr(:is_borderless, :boolean, default: false, doc: "Removes the borders between list items.")
+
+  attr(:classes, :map,
     default: %{
       blankslate: nil,
       caret: nil,
@@ -7294,86 +6925,9 @@ defmodule PrimerLive.Component do
     }
     ```
     """
-
-  attr :is_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a light backdrop background color.
-    """
-
-  attr :is_dark_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a darker backdrop background color.
-    """
-
-  attr :is_medium_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a medium backdrop background color.
-    """
-
-  attr :is_light_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a lighter backdrop background color (default).
-    """
-
-  attr :is_fast, :boolean,
-    default: true,
-    doc: """
-    Generates fast fade transitions for backdrop and content.
-    """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
   )
 
-  slot :toggle,
-    required: true,
-    doc: """
-    Generates a toggle element (default with button appearance) using the slot content as label.
-
-    Any custom class will override the default class "btn".
-    """ do
-    attr(:options, :string,
-      doc: """
-      Toggle options as string. For example:
-
-      ```
-      <:toggle options="{
-        willShow: function(elements) { /* */ }
-        didShow: function(elements) { /* */ }
-        willHide: function(elements) { /* */ }
-        didHide: function(elements) { /* */ }
-        getStatus: function(status) { /* */ }
-      }">Menu</:toggle>
-      ```
-
-      See also: https://github.com/ArthurClemens/dialogic-js#prompttoggle
-      """
-    )
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
-  end
+  DeclarationHelpers.rest()
 
   slot :menu,
     doc: """
@@ -7402,23 +6956,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the tab element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:footer,
@@ -7436,11 +6976,7 @@ defmodule PrimerLive.Component do
     <:message class="color-bg-danger color-fg-danger">Message</:message>
     ```
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
+    DeclarationHelpers.slot_class()
   end
 
   slot(:loading,
@@ -7490,23 +7026,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
 
     attr(:phx_click, :string,
       doc: """
@@ -7514,26 +7036,17 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def select_menu(assigns) do
+    %{
+      form: form,
+      field: field
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
+
     assigns_classes =
       Map.merge(
         %{
@@ -7570,7 +7083,7 @@ defmodule PrimerLive.Component do
         &Map.put(
           &1,
           :rest,
-          assigns_to_attributes(&1, [
+          AttributeHelpers.assigns_to_attributes_sorted(&1, [
             :is_divider,
             :class,
             :disabled
@@ -7580,13 +7093,10 @@ defmodule PrimerLive.Component do
 
     is_any_item_selected = item_slots |> Enum.any?(& &1[:is_selected])
     menu_title = menu_slot[:title]
-    has_header = !!menu_title
 
     classes = %{
       select_menu:
         AttributeHelpers.classnames([
-          "details-reset",
-          "details-overlay",
           assigns_classes[:select_menu],
           assigns[:class]
         ]),
@@ -7689,20 +7199,30 @@ defmodule PrimerLive.Component do
       end
     }
 
-    toggle_attrs =
-      AttributeHelpers.append_attributes([], [
-        [class: classes.toggle],
-        ["aria-haspopup": "true"]
-      ])
+    %{
+      toggle_attrs: toggle_attrs,
+      checkbox_attrs: checkbox_attrs,
+      menu_attrs: select_menu_attrs,
+      backdrop_attrs: backdrop_attrs,
+      touch_layer_attrs: touch_layer_attrs
+    } =
+      AttributeHelpers.prompt_attrs(assigns, %{
+        form: form,
+        field: field,
+        toggle_slot: toggle_slot,
+        toggle_class: classes.toggle,
+        menu_class: classes.select_menu,
+        is_menu: true
+      })
 
-    item_attributes = fn item ->
+    item_attrs = fn item ->
       is_selected = item[:is_selected]
       is_disabled = item[:is_disabled]
       is_link = AttributeHelpers.is_link?(item)
 
       # Don't pass item attributes to the HTML
       item_rest =
-        assigns_to_attributes(item.rest, [
+        AttributeHelpers.assigns_to_attributes_sorted(item.rest, [
           :is_disabled,
           :is_selected,
           :is_divider,
@@ -7725,61 +7245,11 @@ defmodule PrimerLive.Component do
       ])
     end
 
-    # Use an id as close button target
-    menu_id =
-      case has_header do
-        true ->
-          assigns.rest[:id] || AttributeHelpers.random_string()
-
-        false ->
-          nil
-      end
-
-    select_menu_attrs =
-      AttributeHelpers.append_attributes(
-        assigns_to_attributes(assigns.rest, [
-          :open
-        ]),
-        [
-          [class: classes.select_menu],
-          # Add the menu id when we will show a header with close button
-          not is_nil(menu_id) and ["data-menuid": menu_id],
-          ["data-prompt": ""],
-          [
-            ontoggle:
-              [
-                "window.Prompt && Prompt.init(this",
-                if toggle_slot[:options] do
-                  ", #{toggle_slot[:options]}"
-                end,
-                ")"
-              ]
-              |> Enum.join("")
-          ],
-          assigns.is_fast &&
-            (assigns.is_dark_backdrop ||
-               assigns.is_medium_backdrop ||
-               assigns.is_light_backdrop ||
-               assigns.is_backdrop) && ["data-isfast": ""]
-        ]
-      )
-
     menu_container_attrs =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: classes.menu_container],
         ["data-content": ""],
         ["aria-role": "menu"]
-      ])
-
-    backdrop_attrs =
-      AttributeHelpers.append_attributes([], [
-        cond do
-          assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
-          assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
-          assigns.is_light_backdrop -> ["data-backdrop": "", "data-islight": ""]
-          assigns.is_backdrop -> ["data-backdrop": "", "data-islight": ""]
-          true -> []
-        end
       ])
 
     render_item = fn item ->
@@ -7796,7 +7266,7 @@ defmodule PrimerLive.Component do
         |> assign(:is_divider_content, is_divider_content)
         |> assign(:divider_attributes, divider_attributes)
         |> assign(:is_button, is_button)
-        |> assign(:item_attributes, item_attributes)
+        |> assign(:item_attrs, item_attrs)
         |> assign(:selected_octicon_name, selected_octicon_name)
         |> assign(:is_any_item_selected, is_any_item_selected)
         |> assign(:is_link, is_link)
@@ -7812,7 +7282,7 @@ defmodule PrimerLive.Component do
         <% end %>
       <% end %>
       <%= if @is_button do %>
-        <button {@item_attributes.(@item)}>
+        <button {@item_attrs.(@item)}>
           <%= if @is_any_item_selected do %>
             <.octicon name={@selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
           <% end %>
@@ -7820,7 +7290,7 @@ defmodule PrimerLive.Component do
         </button>
       <% end %>
       <%= if @is_link do %>
-        <Phoenix.Component.link {@item_attributes.(@item)}>
+        <Phoenix.Component.link {@item_attrs.(@item)}>
           <%= if @is_any_item_selected do %>
             <.octicon name={@selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
           <% end %>
@@ -7834,7 +7304,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :is_selected
         ])
@@ -7867,11 +7337,15 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
       |> assign(:classes, classes)
       |> assign(:select_menu_attrs, select_menu_attrs)
+      |> assign(:checkbox_attrs, checkbox_attrs)
+      |> assign(:backdrop_attrs, backdrop_attrs)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:toggle_attrs, toggle_attrs)
       |> assign(:toggle_slot, toggle_slot)
-      |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:menu_container_attrs, menu_container_attrs)
       |> assign(:menu_title, menu_title)
       |> assign(:item_slots, item_slots)
@@ -7879,76 +7353,79 @@ defmodule PrimerLive.Component do
       |> assign(:render_tab, render_tab)
 
     ~H"""
-    <details {@select_menu_attrs}>
-      <summary {@toggle_attrs}>
+    <div {@select_menu_attrs}>
+      <label {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
-      </summary>
-      <%= if @backdrop_attrs !== [] do %>
-        <div {@backdrop_attrs}></div>
-      <% end %>
-      <div data-touch=""></div>
-      <div class={@classes.menu}>
-        <div {@menu_container_attrs}>
-          <%= if not is_nil(@menu_title) do %>
-            <header class={@classes.header}>
-              <h3 class={@classes.menu_title}><%= @menu_title %></h3>
-              <button class={@classes.header_close_button} type="button" onclick="Prompt.hide(this)">
-                <.octicon name="x-16" />
-              </button>
-            </header>
-          <% end %>
-          <%= if @message do %>
-            <%= for message <- @message do %>
-              <div class={AttributeHelpers.classnames([@classes.message, message[:class]])}>
-                <%= render_slot(message) %>
-              </div>
+      </label>
+      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <div data-prompt-content>
+        <%= if @backdrop_attrs !== [] do %>
+          <div {@backdrop_attrs}></div>
+        <% end %>
+        <div {@touch_layer_attrs}></div>
+        <div class={@classes.menu}>
+          <div {@menu_container_attrs}>
+            <%= if not is_nil(@menu_title) do %>
+              <header class={@classes.header}>
+                <h3 class={@classes.menu_title}><%= @menu_title %></h3>
+                <button class={@classes.header_close_button} type="button" onclick="Prompt.hide(this)">
+                  <.octicon name="x-16" />
+                </button>
+              </header>
             <% end %>
-          <% end %>
-          <%= if @filter && @filter !== [] do %>
-            <div class={@classes.filter}>
-              <%= render_slot(@filter) %>
-            </div>
-          <% end %>
-          <%= if @tab && @tab !== [] do %>
-            <div class={@classes.tabs}>
-              <%= for slot <- @tab do %>
-                <%= @render_tab.(slot) %>
-              <% end %>
-            </div>
-          <% end %>
-          <%= if @loading do %>
-            <%= for loading <- @loading do %>
-              <div class={AttributeHelpers.classnames([@classes.loading, loading[:class]])}>
-                <%= render_slot(loading) %>
-              </div>
-            <% end %>
-          <% end %>
-          <div class={@classes.menu_list}>
-            <%= if @blankslate do %>
-              <%= for blankslate <- @blankslate do %>
-                <div class={AttributeHelpers.classnames([@classes.blankslate, blankslate[:class]])}>
-                  <%= render_slot(blankslate) %>
+            <%= if @message do %>
+              <%= for message <- @message do %>
+                <div class={AttributeHelpers.classnames([@classes.message, message[:class]])}>
+                  <%= render_slot(message) %>
                 </div>
               <% end %>
             <% end %>
-
-            <%= for item <- @item_slots do %>
-              <%= @render_item.(item) %>
-            <% end %>
-          </div>
-          <%= if @footer do %>
-            <%= for footer <- @footer do %>
-              <div class={AttributeHelpers.classnames([@classes.footer, footer[:class]])}>
-                <%= render_slot(footer) %>
+            <%= if @filter && @filter !== [] do %>
+              <div class={@classes.filter}>
+                <%= render_slot(@filter) %>
               </div>
             <% end %>
-          <% end %>
+            <%= if @tab && @tab !== [] do %>
+              <div class={@classes.tabs}>
+                <%= for slot <- @tab do %>
+                  <%= @render_tab.(slot) %>
+                <% end %>
+              </div>
+            <% end %>
+            <%= if @loading do %>
+              <%= for loading <- @loading do %>
+                <div class={AttributeHelpers.classnames([@classes.loading, loading[:class]])}>
+                  <%= render_slot(loading) %>
+                </div>
+              <% end %>
+            <% end %>
+            <div class={@classes.menu_list}>
+              <%= if @blankslate do %>
+                <%= for blankslate <- @blankslate do %>
+                  <div class={AttributeHelpers.classnames([@classes.blankslate, blankslate[:class]])}>
+                    <%= render_slot(blankslate) %>
+                  </div>
+                <% end %>
+              <% end %>
+
+              <%= for item <- @item_slots do %>
+                <%= @render_item.(item) %>
+              <% end %>
+            </div>
+            <%= if @footer do %>
+              <%= for footer <- @footer do %>
+                <div class={AttributeHelpers.classnames([@classes.footer, footer[:class]])}>
+                  <%= render_slot(footer) %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
-    </details>
+    </div>
     """
   end
 
@@ -8010,12 +7487,23 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :is_dropdown_caret, :boolean, default: false, doc: "Adds a dropdown caret to the button."
-  attr :is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right."
+  PromptDeclarationHelpers.id("Menu element id", false)
+  PromptDeclarationHelpers.form("the menu element")
+  PromptDeclarationHelpers.field("the menu")
+  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.is_backdrop()
+  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_fast(true)
+  PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.toggle_slot("the menu component")
 
-  attr :class, :string, doc: "Additional classname."
+  attr(:is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right.")
 
-  attr :classes, :map,
+  DeclarationHelpers.class()
+
+  attr(:classes, :map,
     default: %{
       action_menu: nil,
       caret: nil,
@@ -8042,43 +7530,14 @@ defmodule PrimerLive.Component do
     }
     ```
     """
+  )
 
-  attr :is_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a light backdrop background color.
-    """
-
-  attr :is_dark_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a darker backdrop background color.
-    """
-
-  attr :is_medium_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a medium backdrop background color.
-    """
-
-  attr :is_light_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a lighter backdrop background color (default).
-    """
-
-  attr :is_fast, :boolean,
-    default: true,
-    doc: """
-    Generates fast fade transitions for backdrop and content.
-    """
-
-  attr :menu_theme, :map,
+  attr(:menu_theme, :map,
     default: nil,
     doc: """
     Sets the theme of the menu, including the dropdown shadow, but excluding the toggle button. This is useful when the button resides in a part with a different theme, such as a dark header.
 
-    Pass a a map with all theme state keys. See `theme/1`.
+    Pass a map with all theme state keys. See `theme/1`.
 
     Example:
     ```
@@ -8095,73 +7554,9 @@ defmodule PrimerLive.Component do
     <./header>
     ```
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
   )
 
-  slot :toggle,
-    required: true,
-    doc: """
-    Generates a toggle element (default with button appearance) using the slot content as label.
-
-    Any custom class will override the default class "btn".
-
-    """ do
-    attr(:options, :string,
-      doc: """
-      Toggle options as string. For example:
-
-      ```
-      <:toggle options="{
-        willShow: function(elements) { /* */ }
-        didShow: function(elements) { /* */ }
-        willHide: function(elements) { /* */ }
-        didHide: function(elements) { /* */ }
-        getStatus: function(status) { /* */ }
-      }">Menu</:toggle>
-      ```
-
-      See also: See: https://github.com/ArthurClemens/dialogic-js#prompttoggle
-
-      To keep the action menu open while interacting with its content, you can use `willHide` or `didHide` to initiate a form submit:
-
-      ```
-      <.action_menu>
-        <:toggle options="{
-          willHide: function(elements) {
-            elements.root.querySelector('form')
-              .dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
-          }
-        }">Menu</:toggle>
-        <.form :let={f} for={@changeset} phx-submit="save_user">
-          ...
-        </.form>
-      </.action_menu>
-      ```
-      """
-    )
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
-  end
+  DeclarationHelpers.rest()
 
   slot(:inner_block,
     doc: """
@@ -8170,6 +7565,11 @@ defmodule PrimerLive.Component do
   )
 
   def action_menu(assigns) do
+    %{
+      form: form,
+      field: field
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
+
     assigns_classes =
       Map.merge(
         %{
@@ -8183,14 +7583,12 @@ defmodule PrimerLive.Component do
         assigns.classes
       )
 
-    # Get the toggle menu slot, if any
+    # Get the toggle slot, if any
     toggle_slot = if assigns.toggle && assigns.toggle !== [], do: hd(assigns.toggle), else: []
 
     classes = %{
       action_menu:
         AttributeHelpers.classnames([
-          "details-reset",
-          "details-overlay",
           assigns_classes[:action_menu],
           assigns[:class]
         ]),
@@ -8229,52 +7627,24 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    toggle_attrs =
-      AttributeHelpers.append_attributes([], [
-        [class: classes.toggle],
-        ["aria-haspopup": "true"]
-      ])
-
-    action_menu_attrs =
-      AttributeHelpers.append_attributes(
-        assigns_to_attributes(assigns.rest, [
-          :open
-        ]),
-        [
-          [class: classes.action_menu],
-          ["data-prompt": ""],
-          [
-            ontoggle:
-              [
-                "window.Prompt && Prompt.init(this",
-                if toggle_slot[:options] do
-                  ", #{toggle_slot[:options]}"
-                end,
-                ")"
-              ]
-              |> Enum.join("")
-          ],
-          assigns.is_fast &&
-            (assigns.is_dark_backdrop ||
-               assigns.is_medium_backdrop ||
-               assigns.is_light_backdrop ||
-               assigns.is_backdrop) && ["data-isfast": ""]
-        ]
-      )
-
-    backdrop_attrs =
-      AttributeHelpers.append_attributes([], [
-        cond do
-          assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
-          assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
-          assigns.is_light_backdrop -> ["data-backdrop": "", "data-islight": ""]
-          assigns.is_backdrop -> ["data-backdrop": "", "data-islight": ""]
-          true -> []
-        end
-      ])
+    %{
+      toggle_attrs: toggle_attrs,
+      checkbox_attrs: checkbox_attrs,
+      menu_attrs: action_menu_attrs,
+      backdrop_attrs: backdrop_attrs,
+      touch_layer_attrs: touch_layer_attrs
+    } =
+      AttributeHelpers.prompt_attrs(assigns, %{
+        form: form,
+        field: field,
+        toggle_slot: toggle_slot,
+        toggle_class: classes.toggle,
+        menu_class: classes.action_menu,
+        is_menu: true
+      })
 
     menu_container_attrs =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: classes.menu_container],
         ["data-content": ""],
         ["aria-role": "menu"],
@@ -8283,33 +7653,40 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
       |> assign(:classes, classes)
       |> assign(:action_menu_attrs, action_menu_attrs)
+      |> assign(:checkbox_attrs, checkbox_attrs)
       |> assign(:toggle_attrs, toggle_attrs)
       |> assign(:toggle_slot, toggle_slot)
       |> assign(:backdrop_attrs, backdrop_attrs)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:menu_container_attrs, menu_container_attrs)
 
     ~H"""
-    <details {@action_menu_attrs}>
-      <summary {@toggle_attrs}>
+    <div {@action_menu_attrs}>
+      <label {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
-      </summary>
-      <%= if @backdrop_attrs !== [] do %>
-        <div {@backdrop_attrs}></div>
-      <% end %>
-      <div data-touch=""></div>
-      <div class={@classes.menu}>
-        <div {@menu_container_attrs}>
-          <div class={@classes.menu_list}>
-            <%= render_slot(@inner_block) %>
+      </label>
+      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <div data-prompt-content>
+        <%= if @backdrop_attrs !== [] do %>
+          <div {@backdrop_attrs}></div>
+        <% end %>
+        <div {@touch_layer_attrs}></div>
+        <div class={@classes.menu}>
+          <div {@menu_container_attrs}>
+            <div class={@classes.menu_list}>
+              <%= render_slot(@inner_block) %>
+            </div>
           </div>
         </div>
       </div>
-    </details>
+    </div>
     """
   end
 
@@ -8407,68 +7784,56 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, doc: "Additional classname."
-  attr :is_full_width, :boolean, default: false, doc: "Generates a full-width button."
+  DeclarationHelpers.class()
 
-  attr :is_close_button, :boolean,
+  attr(:is_full_width, :boolean, default: false, doc: "Generates a full-width button.")
+
+  attr(:is_close_button, :boolean,
     default: false,
     doc: "Use when enclosing icon \"x-16\". This setting removes the default padding."
+  )
 
-  attr :is_dropdown_caret, :boolean,
+  attr(:is_dropdown_caret, :boolean,
     default: false,
     doc: "Adds a dropdown caret icon."
+  )
 
-  attr :is_danger, :boolean,
+  attr(:is_danger, :boolean,
     default: false,
     doc: "Generates a danger button (red label, turns the button red on hover)."
+  )
 
-  attr :is_disabled, :boolean, default: false, doc: "Generates a disabled button."
+  attr(:is_disabled, :boolean, default: false, doc: "Generates a disabled button.")
 
-  attr :is_icon_button, :boolean,
+  attr(:is_icon_button, :boolean,
     default: false,
     doc:
       "Generates an icon button without a label (similar to Primer React's IconButton). Add `is_danger` to create a danger icon (turns the icon red on hover)."
+  )
 
-  attr :is_icon_only, :boolean,
+  attr(:is_icon_only, :boolean,
     default: false,
     doc:
       "Generates an icon that functions as a button. Add `is_danger` to create a danger icon (turns the icon red on hover)."
+  )
 
-  attr :is_invisible, :boolean,
+  attr(:is_invisible, :boolean,
     default: false,
     doc: "Create a button that looks like a link, maintaining the paddings of a regular button."
-
-  attr :is_large, :boolean, default: false, doc: "Generates a large button."
-  attr :is_link, :boolean, default: false, doc: "Create a button that looks like a link."
-  attr :is_outline, :boolean, default: false, doc: "Generates an outline button."
-  attr :is_primary, :boolean, default: false, doc: "Generates a primary colored button."
-  attr :is_selected, :boolean, default: false, doc: "Generates a selected button."
-  attr :is_small, :boolean, default: false, doc: "Generates a small button."
-  attr :is_submit, :boolean, default: false, doc: "Generates a button with type=\"submit\"."
-
-  attr(:href, :any,
-    doc: """
-    Creates an anchor link using `Phoenix.Component.link/1`, passing all other attributes to the link.
-    """
   )
 
-  attr(:patch, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
+  attr(:is_large, :boolean, default: false, doc: "Generates a large button.")
+  attr(:is_link, :boolean, default: false, doc: "Create a button that looks like a link.")
+  attr(:is_outline, :boolean, default: false, doc: "Generates an outline button.")
+  attr(:is_primary, :boolean, default: false, doc: "Generates a primary colored button.")
+  attr(:is_selected, :boolean, default: false, doc: "Generates a selected button.")
+  attr(:is_small, :boolean, default: false, doc: "Generates a small button.")
+  attr(:is_submit, :boolean, default: false, doc: "Generates a button with type=\"submit\".")
 
-  attr(:navigate, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the button element.
-    """
-  )
+  DeclarationHelpers.href()
+  DeclarationHelpers.patch()
+  DeclarationHelpers.navigate()
+  DeclarationHelpers.rest(include: ~w(name type))
 
   slot(:inner_block, required: true, doc: "Button content.")
 
@@ -8497,12 +7862,19 @@ defmodule PrimerLive.Component do
 
     is_link = AttributeHelpers.is_link?(assigns)
 
+    type = assigns.rest[:type]
+
+    rest =
+      AttributeHelpers.assigns_to_attributes_sorted(assigns.rest, [
+        :type
+      ])
+
     attributes =
-      AttributeHelpers.append_attributes(assigns.rest, [
+      AttributeHelpers.append_attributes(rest, [
         assigns.is_selected && ["aria-selected": "true"],
         assigns.is_disabled && ["aria-disabled": "true"],
         [class: class],
-        !is_link && [type: if(assigns.is_submit, do: "submit", else: "button")],
+        !is_link && [type: type || if(assigns.is_submit, do: "submit", else: "button")],
         [href: assigns[:href], navigate: assigns[:navigate], patch: assigns[:patch]]
       ])
 
@@ -8576,38 +7948,33 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, doc: "Additional classname."
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.class()
+  DeclarationHelpers.rest()
 
   slot :button,
     required: true,
     doc: """
     Button. Use `button/1` attributes to configure the button appearance and behaviour.
     """ do
-    attr :class, :boolean, doc: "Additional classname."
-    attr :href, :boolean, doc: "See `button/1`."
-    attr :is_close_button, :boolean, doc: "See `button/1`."
-    attr :is_danger, :boolean, doc: "See `button/1`."
-    attr :is_disabled, :boolean, doc: "See `button/1`."
-    attr :is_dropdown_caret, :boolean, doc: "See `button/1`."
-    attr :is_full_width, :boolean, doc: "See `button/1`."
-    attr :is_icon_button, :boolean, doc: "See `button/1`."
-    attr :is_icon_only, :boolean, doc: "See `button/1`."
-    attr :is_invisible, :boolean, doc: "See `button/1`."
-    attr :is_large, :boolean, doc: "See `button/1`."
-    attr :is_link, :boolean, doc: "See `button/1`."
-    attr :is_outline, :boolean, doc: "See `button/1`."
-    attr :is_primary, :boolean, doc: "See `button/1`."
-    attr :is_selected, :boolean, doc: "See `button/1`."
-    attr :is_small, :boolean, doc: "See `button/1`."
-    attr :is_submit, :boolean, doc: "See `button/1`."
-    attr :navigate, :boolean, doc: "See `button/1`."
-    attr :patch, :boolean, doc: "See `button/1`."
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.patch()
+    attr(:is_close_button, :boolean, doc: "See `button/1`.")
+    attr(:is_danger, :boolean, doc: "See `button/1`.")
+    attr(:is_disabled, :boolean, doc: "See `button/1`.")
+    attr(:is_dropdown_caret, :boolean, doc: "See `button/1`.")
+    attr(:is_full_width, :boolean, doc: "See `button/1`.")
+    attr(:is_icon_button, :boolean, doc: "See `button/1`.")
+    attr(:is_icon_only, :boolean, doc: "See `button/1`.")
+    attr(:is_invisible, :boolean, doc: "See `button/1`.")
+    attr(:is_large, :boolean, doc: "See `button/1`.")
+    attr(:is_link, :boolean, doc: "See `button/1`.")
+    attr(:is_outline, :boolean, doc: "See `button/1`.")
+    attr(:is_primary, :boolean, doc: "See `button/1`.")
+    attr(:is_selected, :boolean, doc: "See `button/1`.")
+    attr(:is_small, :boolean, doc: "See `button/1`.")
+    attr(:is_submit, :boolean, doc: "See `button/1`.")
   end
 
   def button_group(assigns) do
@@ -8625,10 +7992,18 @@ defmodule PrimerLive.Component do
       end
     }
 
-    assigns = assigns |> assign(:classes, classes)
+    button_group_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.button_group]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:classes, classes)
+      |> assign(:button_group_attrs, button_group_attrs)
 
     ~H"""
-    <div class={@classes.button_group} {@rest}>
+    <div {@button_group_attrs}>
       <%= for slot <- @button do %>
         <.button {slot} class={@classes.button.(slot)}>
           <%= render_slot(slot) %>
@@ -8711,27 +8086,29 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :page_count, :integer, required: true, doc: "Result page count."
-  attr :current_page, :integer, required: true, doc: "Current page number."
+  attr(:page_count, :integer, required: true, doc: "Result page count.")
+  attr(:current_page, :integer, required: true, doc: "Current page number.")
 
-  attr :link_path, :any,
+  attr(:link_path, :any,
     required: true,
     doc: """
     Function that returns a path for the given page number. The link builder uses `Phoenix.Component.link/1` with attribute `navigate`. Extra options can be passed with `link_options`.
 
     Function signature: `(page_number) -> path`
     """
+  )
 
-  attr :side_count, :integer, default: 1, doc: "Number of page links at both ends."
+  attr(:side_count, :integer, default: 1, doc: "Number of page links at both ends.")
 
-  attr :sibling_count, :integer,
+  attr(:sibling_count, :integer,
     default: 2,
     doc: "Number of page links at each side of the current page number element."
+  )
 
-  attr :is_numbered, :any, default: true, doc: "Boolean atom or string. Showing page numbers."
-  attr :class, :string, doc: "Additional classname."
+  attr(:is_numbered, :any, default: true, doc: "Boolean atom or string. Showing page numbers.")
+  DeclarationHelpers.class()
 
-  attr :classes, :map,
+  attr(:classes, :map,
     default: %{
       gap: nil,
       pagination_container: nil,
@@ -8755,6 +8132,7 @@ defmodule PrimerLive.Component do
     }
     ```
     """
+  )
 
   @default_pagination_labels %{
     aria_label_container: "Navigation",
@@ -8766,21 +8144,18 @@ defmodule PrimerLive.Component do
     previous_page: "Previous"
   }
 
-  attr :labels, :map,
+  attr(:labels, :map,
     default: @default_pagination_labels,
     doc: "Textual labels. Any provided value will override the default text."
+  )
 
   @default_pagination_link_options %{
     replace: false
   }
 
-  attr :link_options, :map, default: @default_pagination_link_options, doc: "Link options."
+  attr(:link_options, :map, default: @default_pagination_link_options, doc: "Link options.")
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def pagination(assigns) do
     assigns =
@@ -8860,8 +8235,15 @@ defmodule PrimerLive.Component do
         sibling_count
       )
 
+    pagination_container_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        ["aria-label": assigns.labels.aria_label_container],
+        [class: classes.pagination_container]
+      ])
+
     assigns =
       assigns
+      |> assign(:pagination_container_attrs, pagination_container_attrs)
       |> assign(:classes, classes)
       |> assign(:show_prev_next, show_prev_next)
       |> assign(:has_previous_page, has_previous_page)
@@ -8872,7 +8254,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <%= if @page_count > 1 do %>
-      <nav class={@classes.pagination_container} {@rest} aria-label={@labels.aria_label_container}>
+      <nav {@pagination_container_attrs}>
         <div class={@classes.pagination}>
           <%= if @show_prev_next do %>
             <%= if @has_previous_page do %>
@@ -9071,18 +8453,15 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :name, :string,
+  attr(:name, :string,
     required: true,
     doc:
       "Icon name, e.g. \"arrow-left-24\". See [available icons](https://primer.style/octicons/)."
-
-  attr :class, :string, doc: "Additional classname."
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the icon svg element.
-    """
   )
+
+  DeclarationHelpers.class()
+
+  DeclarationHelpers.rest()
 
   def octicon(assigns) do
     assigns =
@@ -9128,15 +8507,12 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :name, :string,
+  attr(:name, :string,
     required: true,
     doc: "Icon name, e.g. \"single-select-16\"."
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the icon svg element.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   def ui_icon(assigns) do
     assigns =
@@ -9207,91 +8583,100 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, doc: "Additional classname."
+  DeclarationHelpers.class()
 
-  attr :is_primary, :boolean,
+  attr(:is_primary, :boolean,
     default: false,
     doc: """
     Generates a label with a stronger border.
     """
+  )
 
-  attr :is_secondary, :boolean,
+  attr(:is_secondary, :boolean,
     default: false,
     doc: """
     Generates a label with a subtler text color.
     """
+  )
 
-  attr :is_accent, :boolean,
+  attr(:is_accent, :boolean,
     default: false,
     doc: """
     Accent color.
     """
+  )
 
-  attr :is_success, :boolean,
+  attr(:is_success, :boolean,
     default: false,
     doc: """
     Success color.
     """
+  )
 
-  attr :is_attention, :boolean,
+  attr(:is_attention, :boolean,
     default: false,
     doc: """
     Attention color.
     """
+  )
 
-  attr :is_severe, :boolean,
+  attr(:is_severe, :boolean,
     default: false,
     doc: """
     Severe color.
     """
+  )
 
-  attr :is_danger, :boolean,
+  attr(:is_danger, :boolean,
     default: false,
     doc: """
     Danger color.
     """
+  )
 
-  attr :is_open, :boolean,
+  attr(:is_open, :boolean,
     default: false,
     doc: """
     Open color.
     """
+  )
 
-  attr :is_closed, :boolean,
+  attr(:is_closed, :boolean,
     default: false,
     doc: """
     Closed color.
     """
+  )
 
-  attr :is_done, :boolean,
+  attr(:is_done, :boolean,
     default: false,
     doc: """
     Done color.
     """
+  )
 
-  attr :is_sponsors, :boolean,
+  attr(:is_sponsors, :boolean,
     default: false,
     doc: """
     Sponsors color.
     """
+  )
 
-  attr :is_large, :boolean,
+  attr(:is_large, :boolean,
     default: false,
     doc: """
     Larger label.
     """
+  )
 
-  attr :is_inline, :boolean,
+  attr(:is_inline, :boolean,
     default: false,
     doc: """
     For use in running text. Adapts line height and font size to text.
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the label.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Label content.")
 
@@ -9315,11 +8700,16 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    label_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:label_attrs, label_attrs)
 
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
+    <span {@label_attrs}><%= render_slot(@inner_block) %></span>
     """
   end
 
@@ -9364,19 +8754,16 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, doc: "Additional classname."
+  DeclarationHelpers.class()
 
-  attr :is_big, :boolean,
+  attr(:is_big, :boolean,
     default: false,
     doc: """
     Larger issue label.
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the label.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Label content.")
 
@@ -9388,11 +8775,16 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    issue_label_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:issue_label_attrs, issue_label_attrs)
 
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
+    <span {@issue_label_attrs}><%= render_slot(@inner_block) %></span>
     """
   end
 
@@ -9443,43 +8835,44 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, doc: "Additional classname."
+  DeclarationHelpers.class()
 
-  attr :is_draft, :boolean,
+  attr(:is_draft, :boolean,
     default: false,
     doc: """
     Draft state color.
     """
+  )
 
-  attr :is_open, :boolean,
+  attr(:is_open, :boolean,
     default: false,
     doc: """
     Open state color.
     """
+  )
 
-  attr :is_merged, :boolean,
+  attr(:is_merged, :boolean,
     default: false,
     doc: """
     Merged state color.
     """
+  )
 
-  attr :is_closed, :boolean,
+  attr(:is_closed, :boolean,
     default: false,
     doc: """
     Closed state color.
     """
+  )
 
-  attr :is_small, :boolean,
+  attr(:is_small, :boolean,
     default: false,
     doc: """
     Smaller state label.
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the label.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Label content.")
 
@@ -9495,11 +8888,16 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    state_label_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:state_label_attrs, state_label_attrs)
 
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
+    <span {@state_label_attrs}><%= render_slot(@inner_block) %></span>
     """
   end
 
@@ -9548,25 +8946,23 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :class, :string, doc: "Additional classname."
+  DeclarationHelpers.class()
 
-  attr :is_primary, :boolean,
+  attr(:is_primary, :boolean,
     default: false,
     doc: """
     Primary color.
     """
+  )
 
-  attr :is_secondary, :boolean,
+  attr(:is_secondary, :boolean,
     default: false,
     doc: """
     Secondary color.
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the label.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Label content.")
 
@@ -9579,11 +8975,16 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    counter_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:counter_attrs, counter_attrs)
 
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span class={@class} {@rest}><%= render_slot(@inner_block) %></span>
+    <span {@counter_attrs}><%= render_slot(@inner_block) %></span>
     """
   end
 
@@ -9648,7 +9049,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -9674,23 +9075,21 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_spacious, :boolean,
+  attr(:is_spacious, :boolean,
     default: false,
     doc: """
     Add a top margin.
     """
+  )
 
-  attr :is_danger, :boolean,
+  attr(:is_danger, :boolean,
     default: false,
     doc: """
     Makes the text bold and red. This is useful for warning users.
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Heading content.")
   slot(:description, doc: "Description content.")
@@ -9723,10 +9122,18 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    assigns = assigns |> assign(:classes, classes)
+    subhead_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.subhead]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:subhead_attrs, subhead_attrs)
+      |> assign(:classes, classes)
 
     ~H"""
-    <div class={@classes.subhead} {@rest}>
+    <div {@subhead_attrs}>
       <h2 class={@classes.heading}><%= render_slot(@inner_block) %></h2>
       <%= if @description do %>
         <%= for description <- @description do %>
@@ -9787,7 +9194,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -9813,52 +9220,19 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
     doc: """
     Breadcrumb item content. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the item element.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def breadcrumb(assigns) do
@@ -9887,8 +9261,8 @@ defmodule PrimerLive.Component do
       link: assigns.classes[:link]
     }
 
-    item_attributes = fn is_last ->
-      AttributeHelpers.append_attributes([], [
+    item_attrs = fn is_last ->
+      AttributeHelpers.append_attributes([
         [
           class:
             AttributeHelpers.classnames([
@@ -9901,7 +9275,7 @@ defmodule PrimerLive.Component do
 
     link_attributes = fn link ->
       link_rest =
-        assigns_to_attributes(link, [
+        AttributeHelpers.assigns_to_attributes_sorted(link, [
           :class
         ])
 
@@ -9916,19 +9290,24 @@ defmodule PrimerLive.Component do
       ])
     end
 
+    breadcrumb_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.breadcrumb]
+      ])
+
     assigns =
       assigns
-      |> assign(:classes, classes)
+      |> assign(:breadcrumb_attrs, breadcrumb_attrs)
       |> assign(:items_data, items_data)
-      |> assign(:item_attributes, item_attributes)
+      |> assign(:item_attrs, item_attrs)
       |> assign(:link_attributes, link_attributes)
 
     ~H"""
-    <div class={@classes.breadcrumb} {@rest}>
+    <div {@breadcrumb_attrs}>
       <%= if @items_data !== [] do %>
         <ol>
           <%= for {item, is_last} <- @items_data do %>
-            <li {@item_attributes.(is_last)}>
+            <li {@item_attrs.(is_last)}>
               <Phoenix.Component.link {@link_attributes.(item)}>
                 <%= render_slot(item) %>
               </Phoenix.Component.link>
@@ -9983,7 +9362,7 @@ defmodule PrimerLive.Component do
   <.as_link href="/home" is_primary>link</.as_link>
   ```
 
-  Remove the underline:
+  Rmove the underline:
 
   ```
   <.as_link href="/home" is_no_underline>link</.as_link>
@@ -10024,61 +9403,47 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
-  attr :is_primary, :boolean,
+  attr(:is_primary, :boolean,
     default: false,
     doc: """
     Turns the link color to blue only on hover.
     """
+  )
 
-  attr :is_secondary, :boolean,
+  attr(:is_secondary, :boolean,
     default: false,
     doc: """
     Turns the link color to blue only on hover, using a darker color.
     """
+  )
 
-  attr :is_muted, :boolean,
+  attr(:is_muted, :boolean,
     default: false,
     doc: """
     Turns the link to muted gray, also on hover.
     """
+  )
 
-  attr :is_no_underline, :boolean,
+  attr(:is_no_underline, :boolean,
     default: false,
     doc: """
     Removes the underline on hover.
     """
+  )
 
-  attr :is_on_hover, :boolean,
+  attr(:is_on_hover, :boolean,
     default: false,
     doc: """
     Makes any text color used with links to turn blue on hover. This is useful when you want only part of a link to turn blue on hover.
     """
-
-  attr(:href, :any,
-    doc: """
-    Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other attributes to the link.
-    """
   )
 
-  attr(:patch, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
-
-  attr(:navigate, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the link or span.
-    """
-  )
+  DeclarationHelpers.href()
+  DeclarationHelpers.patch()
+  DeclarationHelpers.navigate()
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Link content.")
 
@@ -10159,14 +9524,14 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:src, :string, default: nil, doc: "Image source attribute.")
   attr(:width, :string, default: nil, doc: "Image width attribute.")
   attr(:height, :string, default: nil, doc: "Image height attribute.")
   attr(:alt, :string, default: nil, doc: "Image alt attribute.")
 
-  attr :size, :any,
+  attr(:size, :any,
     values: [1, 2, 3, 4, 5, 6, 7, 8, "1", "2", "3", "4", "5", "6", "7", "8"],
     default: 3,
     doc: """
@@ -10182,12 +9547,9 @@ defmodule PrimerLive.Component do
     - 7: `48px`
     - 8: `64px`
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the `img` element.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   @avatar_default_size 3
 
@@ -10206,8 +9568,8 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    img_attributes =
-      AttributeHelpers.append_attributes([], [
+    avatar_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
         [class: class],
         [src: assigns.src],
         [width: assigns.width],
@@ -10215,10 +9577,10 @@ defmodule PrimerLive.Component do
         [alt: assigns.alt]
       ])
 
-    assigns = assigns |> assign(:img_attributes, img_attributes)
+    assigns = assigns |> assign(:avatar_attrs, avatar_attrs)
 
     ~H"""
-    <img {@img_attributes} {@rest} />
+    <img {@avatar_attrs} />
     """
   end
 
@@ -10267,36 +9629,18 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot :parent,
     doc: "Generates a parent avatar." do
     attr(:size, :any, doc: "Avatar image size - see `avatar/1`.")
     attr(:src, :any, doc: "Avatar image source - see `avatar/1`.")
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the parent avatar.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :child,
@@ -10304,23 +9648,9 @@ defmodule PrimerLive.Component do
     attr(:size, :any, doc: "Avatar size - see `avatar/1`.")
     attr(:src, :any, doc: "Avatar image source - see `avatar/1`.")
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the child avatar.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def parent_child_avatar(assigns) do
@@ -10347,27 +9677,36 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
+        ])
+
+      avatar_attrs =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
         ])
 
       assigns =
         assigns
-        |> assign(:class, class)
-        |> assign(:rest, rest)
+        |> assign(:avatar_attrs, avatar_attrs)
 
       ~H"""
-      <.avatar class={@class} {@rest} />
+      <.avatar {@avatar_attrs} />
       """
     end
 
+    parent_child_avatar_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.parent_child]
+      ])
+
     assigns =
       assigns
-      |> assign(:classes, classes)
+      |> assign(:parent_child_avatar_attrs, parent_child_avatar_attrs)
       |> assign(:render_avatar, render_avatar)
 
     ~H"""
-    <div class={@classes.parent_child} {@rest}>
+    <div {@parent_child_avatar_attrs}>
       <%= if @parent && @parent !== [] do %>
         <%= for parent <- @parent do %>
           <%= @render_avatar.(parent, false) %>
@@ -10443,9 +9782,9 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
-  attr :size, :string,
+  attr(:size, :string,
     default: "small",
     doc: """
     Badge size: "small", "medium" or "large".
@@ -10455,30 +9794,12 @@ defmodule PrimerLive.Component do
     - medium: `96px`
     - large: `128px`
     """
-
-  attr(:href, :any,
-    doc: """
-    Link attribute. If used, the badge will be created with `Phoenix.Component.link/1`, passing all other attributes to the link.
-    """
   )
 
-  attr(:patch, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
-
-  attr(:navigate, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.href()
+  DeclarationHelpers.patch()
+  DeclarationHelpers.navigate()
+  DeclarationHelpers.rest()
 
   slot :octicon,
     doc: "Generates a badge icon with `octicon/1`." do
@@ -10488,23 +9809,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Attributes supplied to the `octicon` component.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :img,
@@ -10515,23 +9822,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      HTML attributes supplied to the `img` element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   def circle_badge(assigns) do
@@ -10556,17 +9849,21 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
+        ])
+
+      octicon_attrs =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
         ])
 
       assigns =
         assigns
-        |> assign(:class, class)
-        |> assign(:rest, rest)
+        |> assign(:octicon_attrs, octicon_attrs)
 
       ~H"""
-      <.octicon class={@class} {@rest} />
+      <.octicon {@octicon_attrs} />
       """
     end
 
@@ -10578,17 +9875,21 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
+        ])
+
+      img_attrs =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
         ])
 
       assigns =
         assigns
-        |> assign(:class, class)
-        |> assign(:rest, rest)
+        |> assign(:img_attrs, img_attrs)
 
       ~H"""
-      <img class={@class} {@rest} />
+      <img {@img_attrs} />
       """
     end
 
@@ -10684,13 +9985,8 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the element.
-    """
-  )
+  DeclarationHelpers.class()
+  DeclarationHelpers.rest()
 
   def animated_ellipsis(assigns) do
     class =
@@ -10699,10 +9995,15 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    animated_ellipsis_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class]
+      ])
+
+    assigns = assigns |> assign(:animated_ellipsis_attrs, animated_ellipsis_attrs)
 
     ~H"""
-    <span class={@class} {@rest} />
+    <span {@animated_ellipsis_attrs} />
     """
   end
 
@@ -10755,7 +10056,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:size, :any, default: 18, doc: "Spinner size (number or number as string).")
 
@@ -10763,11 +10064,7 @@ defmodule PrimerLive.Component do
 
   attr(:gap_color, :string, default: "#ffffff", doc: "Spinner gap color as SVG fill color.")
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def spinner(assigns) do
     class =
@@ -10776,10 +10073,18 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    assigns = assigns |> assign(:class, class)
+    spinner_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class],
+        [viewBox: "0 0 32 32"],
+        [width: assigns.size],
+        [height: assigns.size]
+      ])
+
+    assigns = assigns |> assign(:spinner_attrs, spinner_attrs)
 
     ~H"""
-    <svg class={@class} viewBox="0 0 32 32" width={@size} height={@size} {@rest}>
+    <svg {@spinner_attrs}>
       <path
         fill={@color}
         d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"
@@ -10895,7 +10200,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -10923,29 +10228,28 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_narrow, :boolean,
+  attr(:is_narrow, :boolean,
     default: false,
     doc: """
     Narrows the blankslate container to not occupy the entire available width.
     """
+  )
 
-  attr :is_large, :boolean,
+  attr(:is_large, :boolean,
     default: false,
     doc: """
     Increases the size of the text in the blankslate.
     """
+  )
 
-  attr :is_spacious, :boolean,
+  attr(:is_spacious, :boolean,
     default: false,
     doc: """
     Significantly increases the vertical padding.
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the blankslate.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot :heading,
     doc: "Heading." do
@@ -10957,23 +10261,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Attributes supplied to the heading.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :octicon,
@@ -10984,23 +10274,9 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Attributes supplied to the `octicon` component.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :img,
@@ -11029,44 +10305,16 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      HTML attributes supplied to the `img` element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :action,
     doc: "Adds a wrapper for a button or link." do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      HTML attributes supplied to the action wrapper element.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:inner_block, required: false, doc: "Regular content.")
@@ -11112,17 +10360,21 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
+        ])
+
+      octicon_attrs =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
         ])
 
       assigns =
         assigns
-        |> assign(:class, class)
-        |> assign(:rest, rest)
+        |> assign(:octicon_attrs, octicon_attrs)
 
       ~H"""
-      <.octicon class={@class} {@rest} />
+      <.octicon {@octicon_attrs} />
       """
     end
 
@@ -11134,17 +10386,21 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
+        ])
+
+      img_attrs =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
         ])
 
       assigns =
         assigns
-        |> assign(:class, class)
-        |> assign(:rest, rest)
+        |> assign(:img_attrs, img_attrs)
 
       ~H"""
-      <img class={@class} {@rest} />
+      <img {@img_attrs} />
       """
     end
 
@@ -11156,18 +10412,22 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
+        ])
+
+      action_attrs =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
         ])
 
       assigns =
         assigns
-        |> assign(:class, class)
-        |> assign(:rest, rest)
+        |> assign(:action_attrs, action_attrs)
         |> assign(:slot, slot)
 
       ~H"""
-      <div class={@class} {@rest}>
+      <div {@action_attrs}>
         <%= render_slot(@slot) %>
       </div>
       """
@@ -11183,7 +10443,7 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :tag
         ])
@@ -11206,16 +10466,21 @@ defmodule PrimerLive.Component do
       """
     end
 
+    blankslate_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.blankslate]
+      ])
+
     assigns =
       assigns
-      |> assign(:classes, classes)
+      |> assign(:blankslate_attrs, blankslate_attrs)
       |> assign(:render_heading, render_heading)
       |> assign(:render_action, render_action)
       |> assign(:render_img, render_img)
       |> assign(:render_octicon, render_octicon)
 
     ~H"""
-    <div class={@classes.blankslate} {@rest}>
+    <div {@blankslate_attrs}>
       <%= if @octicon && @octicon !== [] do %>
         <%= for slot <- @octicon do %>
           <%= @render_octicon.(slot) %>
@@ -11326,7 +10591,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -11361,58 +10626,28 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
 
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr :is_primary, :boolean,
+    attr(:is_primary, :boolean,
       doc: """
       When using multiple items. Delays the truncating of the item.
       """
+    )
 
-    attr :is_expandable, :boolean,
+    attr(:is_expandable, :boolean,
       doc: """
       When using multiple items. Will expand the text on `hover` and `focus`.
       """
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
     )
 
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Attributes supplied to the item.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the truncate element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def truncate(assigns) do
     classes = %{
@@ -11439,7 +10674,7 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :tag,
           :is_expandable,
@@ -11471,13 +10706,19 @@ defmodule PrimerLive.Component do
       """
     end
 
+    truncate_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: classes.truncate],
+        [name: assigns.tag]
+      ])
+
     assigns =
       assigns
-      |> assign(:classes, classes)
+      |> assign(:truncate_attrs, truncate_attrs)
       |> assign(:render_item, render_item)
 
     ~H"""
-    <.dynamic_tag name={@tag || "span"} class={@classes.truncate} {@rest}>
+    <.dynamic_tag {@truncate_attrs}>
       <%= if @item && @item !== [] do %>
         <%= for slot <- @item do %>
           <%= @render_item.(slot) %>
@@ -11507,7 +10748,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in PrimerLive.
+  Showing and hiding is done with JS function `Prompt`, included in PrimerLive.
   Function `Prompt.show` requires a selector. When placed inside the dialog component, the selector can be replaced with `this`:
 
   ```
@@ -11587,7 +10828,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Long content will automatically show a scrollbar. To change the maximum height of the dialog, use a CSS value. Use unit `vh` or `%`.
+  Long content will automatically show a scrollbar. To change the maxium height of the dialog, use a CSS value. Use unit `vh` or `%`.
 
   ```
   <.dialog max_height="50vh">
@@ -11620,7 +10861,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Dialog are wrapped inside a `Phoenix.Component.focus_wrap/1` so that navigating with Tab won't leave the dialog.
+  Dialog content is wrapped inside a `Phoenix.Component.focus_wrap/1` so that navigating with Tab won't leave the dialog.
 
   ```
   <.dialog is_backdrop is_modal>
@@ -11644,7 +10885,21 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  PromptDeclarationHelpers.id("Dialog element id", true)
+  PromptDeclarationHelpers.form("the dialog element")
+  PromptDeclarationHelpers.field("the dialog")
+  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.is_backdrop()
+  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_fast(false)
+  PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.is_modal("the dialog")
+  PromptDeclarationHelpers.is_escapable()
+  PromptDeclarationHelpers.focus_first("the dialog")
+
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -11682,82 +10937,35 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a medium backdrop background color.
-    """
-
-  attr :is_dark_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a darker backdrop background color.
-    """
-
-  attr :is_medium_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a medium backdrop background color (default).
-    """
-
-  attr :is_light_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a lighter backdrop background color.
-    """
-
-  attr :is_fast, :boolean,
-    default: false,
-    doc: """
-    Generates fast fade transitions for backdrop and content.
-    """
-
-  attr :is_modal, :boolean,
-    default: false,
-    doc: """
-    Generates a modal dialog; clicking the backdrop (if used) or outside of the dialog will not close the dialog.
-    """
-
-  attr :is_escapable, :boolean,
-    default: false,
-    doc: """
-    Closes the content when pressing the Escape key.
-    """
-
-  attr :focus_first, :string,
-    doc: """
-    Focus the first element after opening the dialog. Pass a selector to match the element.
-    """
-
-  attr :is_narrow, :boolean,
+  attr(:is_narrow, :boolean,
     default: false,
     doc: """
     Generates a smaller dialog, width: `320px` (default: `440px`).
     """
+  )
 
-  attr :is_wide, :boolean,
+  attr(:is_wide, :boolean,
     default: false,
     doc: """
     Generates a wider dialog, width: `640px` (default: `440px`).
     """
+  )
 
-  attr :max_height, :string,
+  attr(:max_height, :string,
     default: "80vh",
     doc: """
     Maximum height of the dialog as CSS value. Use unit `vh` or `%`.
     """
+  )
 
-  attr :max_width, :string,
+  attr(:max_width, :string,
     default: "90vw",
     doc: """
     Maximum width of the dialog as CSS value. Use unit `vh` or `%`.
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot :header_title,
     doc: """
@@ -11765,92 +10973,36 @@ defmodule PrimerLive.Component do
 
     Note that slot `header` is automatically created to ensure the correct close button.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional attributes.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :body,
     doc: """
     Dialog body. Uses `box/1` `body` slot.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional attributes.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :row,
     doc: """
     Dialog row. Uses `box/1` `row` slot.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional attributes.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :footer,
     doc: """
     Dialog footer. Uses `box/1` `footer` slot.
     """ do
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional attributes.
-      """
-    )
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:inner_block,
@@ -11861,6 +11013,11 @@ defmodule PrimerLive.Component do
   @default_dialog_max_width_css "90vw"
 
   def dialog(assigns) do
+    %{
+      form: form,
+      field: field
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
+
     classes = %{
       dialog_wrapper:
         AttributeHelpers.classnames([
@@ -11876,23 +11033,24 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    # Assign an id for focus wrap
-    dialog_id = assigns.rest[:id] || AttributeHelpers.random_string()
-    focus_wrap_id = "focus-wrap-#{dialog_id}"
-
-    wrapper_attrs =
-      AttributeHelpers.append_attributes(assigns.rest |> Map.drop([:id]), [
-        [class: classes.dialog_wrapper],
-        [id: dialog_id],
-        ["data-prompt": ""],
-        assigns.is_modal && ["data-ismodal": ""],
-        assigns.is_escapable && ["data-isescapable": ""],
-        assigns.is_fast && ["data-isfast": ""],
-        assigns[:focus_first] && ["data-focusfirst": assigns[:focus_first]]
-      ])
+    %{
+      checkbox_attrs: checkbox_attrs,
+      menu_attrs: wrapper_attrs,
+      backdrop_attrs: backdrop_attrs,
+      touch_layer_attrs: touch_layer_attrs,
+      focus_wrap_id: focus_wrap_id
+    } =
+      AttributeHelpers.prompt_attrs(assigns, %{
+        form: form,
+        field: field,
+        toggle_slot: nil,
+        toggle_class: nil,
+        menu_class: classes.dialog_wrapper,
+        is_menu: false
+      })
 
     close_button_attrs =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [is_close_button: true],
         ["aria-label": "Close"],
         [class: "Box-btn-octicon btn-octicon flex-shrink-0"],
@@ -11903,7 +11061,7 @@ defmodule PrimerLive.Component do
     max_width_css = assigns.max_width || @default_dialog_max_width_css
 
     box_attrs =
-      AttributeHelpers.append_attributes([], [
+      AttributeHelpers.append_attributes([
         [class: classes.dialog],
         [classes: assigns.classes |> Map.drop([:dialog_wrapper, :dialog])],
         [is_scrollable: true],
@@ -11924,24 +11082,11 @@ defmodule PrimerLive.Component do
         [inner_block: assigns.inner_block]
       ])
 
-    touch_layer_attrs =
-      AttributeHelpers.append_attributes([], [
-        ["data-touch": ""]
-      ])
-
-    backdrop_attrs =
-      AttributeHelpers.append_attributes([], [
-        cond do
-          assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
-          assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
-          assigns.is_light_backdrop -> ["data-backdrop": "", "data-islight": ""]
-          assigns.is_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
-          true -> []
-        end
-      ])
-
     assigns =
       assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
+      |> assign(:checkbox_attrs, checkbox_attrs)
       |> assign(:wrapper_attrs, wrapper_attrs)
       |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
@@ -11951,23 +11096,26 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@wrapper_attrs}>
-      <div {@touch_layer_attrs}>
-        <%= if @backdrop_attrs !== [] do %>
-          <div {@backdrop_attrs} />
-        <% end %>
-        <.focus_wrap id={@focus_wrap_id}>
-          <.box {@box_attrs}>
-            <:header
-              :if={@header_title && @header_title !== []}
-              class="d-flex flex-justify-between flex-items-start"
-            >
-              <.button {@close_button_attrs}>
-                <.octicon name="x-16" />
-              </.button>
-            </:header>
-            <%= render_slot(@inner_block) %>
-          </.box>
-        </.focus_wrap>
+      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <div data-prompt-content>
+        <div {@touch_layer_attrs}>
+          <%= if @backdrop_attrs !== [] do %>
+            <div {@backdrop_attrs} />
+          <% end %>
+          <.focus_wrap id={@focus_wrap_id}>
+            <.box {@box_attrs}>
+              <:header
+                :if={@header_title && @header_title !== []}
+                class="d-flex flex-justify-between flex-items-start"
+              >
+                <.button {@close_button_attrs}>
+                  <.octicon name="x-16" />
+                </.button>
+              </:header>
+              <%= render_slot(@inner_block) %>
+            </.box>
+          </.focus_wrap>
+        </div>
       </div>
     </div>
     """
@@ -11984,21 +11132,21 @@ defmodule PrimerLive.Component do
 
   ```
   <.drawer>
-    <.drawer_content>
+    <:body>
       Content
-    </.drawer_content>
+    </:body>
   </.drawer>
   ```
 
-  Showing and hiding is done with JS function `Prompt` from [dialogic-js](https://github.com/ArthurClemens/dialogic-js), included in PrimerLive.
+  Showing and hiding is done with JS function `Prompt`, included in PrimerLive.
   Function `Prompt.show` requires a selector. When placed inside the drawer component, the selector can be replaced with `this`:
 
   ```
   <.drawer id="my-drawer">
-    <.drawer_content>
+    <:body>
       <.button onclick="Prompt.hide(this)">Close</.button>
       Content
-    </.drawer_content>
+    </:body>
   </.drawer>
 
   <.button onclick="Prompt.show('#my-drawer')">Open drawer</.button>
@@ -12010,9 +11158,9 @@ defmodule PrimerLive.Component do
 
   ```
   <.drawer>
-    <.drawer_content width="300px">
+    <:body width="300px">
       ...
-    </.drawer_content>
+    </:body>
   </.drawer>
   ```
 
@@ -12071,9 +11219,9 @@ defmodule PrimerLive.Component do
   <div style="position: relative; overflow-x: hidden;">
     Page content
     <.drawer is_local>
-      <.drawer_content>
+      <:body>
         Content
-      </.drawer_content>
+      </:body>
     </.drawer>
   </div>
   ```
@@ -12084,9 +11232,9 @@ defmodule PrimerLive.Component do
   <div style="position: relative; overflow-x: hidden;">
     <.drawer is_push>
       Page content
-      <.drawer_content>
+      <:body>
         Content
-      </.drawer_content>
+      </:body>
     </.drawer>
   </div>
   ```
@@ -12098,148 +11246,212 @@ defmodule PrimerLive.Component do
   Neither Primer CSS nor Primer React provide a drawer component. However, a drawer is used on their documentation site (mobile view).
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  PromptDeclarationHelpers.id("Drawer element id", true)
+  PromptDeclarationHelpers.form("the drawer element")
+  PromptDeclarationHelpers.field("the drawer")
+  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.is_backdrop()
+  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_fast(false)
+  PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.is_modal("the drawer")
+  PromptDeclarationHelpers.is_escapable()
+  PromptDeclarationHelpers.focus_first("the drawer")
 
-  attr :is_far_side, :boolean,
+  DeclarationHelpers.class()
+
+  attr(:classes, :map,
+    default: %{
+      drawer_wrapper: nil,
+      drawer: nil,
+      body: nil
+    },
+    doc: """
+    Additional classnames for drawer elements.
+
+    Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      drawer_wrapper: "",  # The outer element
+      drawer: "",          # Drawer element
+      body: "",            # Drawer content element
+    }
+    ```
+    """
+  )
+
+  attr(:is_far_side, :boolean,
     default: false,
     doc: """
     Opens the drawer at the far end of the reading direction.
     """
+  )
 
-  attr :is_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a medium backdrop background color.
-    """
-
-  attr :is_dark_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a darker backdrop background color.
-    """
-
-  attr :is_medium_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a medium backdrop background color (default).
-    """
-
-  attr :is_light_backdrop, :boolean,
-    default: false,
-    doc: """
-    Generates a lighter backdrop background color.
-    """
-
-  attr :is_fast, :boolean,
-    default: false,
-    doc: """
-    Generates fast fade transitions for backdrop and content.
-    """
-
-  attr :is_modal, :boolean,
-    default: false,
-    doc: """
-    Generates a modal drawer; clicking the backdrop (if used) or outside of the drawer will not close the drawer.
-    """
-
-  attr :is_escapable, :boolean,
-    default: false,
-    doc: """
-    Closes the content when pressing the Escape key.
-    """
-
-  attr :is_local, :boolean,
+  attr(:is_local, :boolean,
     default: false,
     doc: """
     Adds styles for a drawer inside a a container.
     """
+  )
 
-  attr :is_push, :boolean,
+  attr(:is_push, :boolean,
     default: false,
     doc: """
     Adds styles for a push drawer inside a a container.
     """
-
-  attr :focus_first, :string,
-    doc: """
-    Focus the first element after opening the drawer. Pass a selector to match the element.
-    """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
   )
+
+  DeclarationHelpers.rest()
+
+  slot :body,
+    doc: """
+    Drawer body.
+    """ do
+    DeclarationHelpers.slot_class()
+
+    attr(:width, :string,
+      doc: """
+      Sets the width of the drawer as CSS value. Add unit `px` or `rem` or other size unit.
+
+      By default the drawer width is defined by its content.
+      """
+    )
+
+    DeclarationHelpers.slot_rest()
+  end
 
   slot(:inner_block,
     doc:
-      "Drawer content and any adjacent elements. Use `drawer_content/1` for the content to be displayed inside the drawer."
+      "Drawer content and any adjacent elements. Use slot `body` for the content to be displayed inside the drawer."
   )
 
   def drawer(assigns) do
-    drawer_id = assigns.rest[:id] || AttributeHelpers.random_string()
+    %{
+      form: form,
+      field: field
+    } = AttributeHelpers.common_input_attrs(assigns, nil)
+
+    # Get the body slot, if any
+    body_slot = if assigns.body && assigns.body !== [], do: hd(assigns.body), else: []
+
+    classes = %{
+      drawer_wrapper:
+        AttributeHelpers.classnames([
+          assigns[:classes][:drawer_wrapper],
+          assigns[:class]
+        ]),
+      drawer:
+        AttributeHelpers.classnames([
+          assigns[:classes][:drawer]
+        ]),
+      body:
+        AttributeHelpers.classnames([
+          "Box--overlay",
+          if assigns.classes[:body] || body_slot[:class] do
+            AttributeHelpers.classnames([
+              assigns.classes[:body],
+              body_slot[:class]
+            ])
+          end
+        ])
+    }
+
+    %{
+      checkbox_attrs: checkbox_attrs,
+      menu_attrs: wrapper_attrs,
+      backdrop_attrs: backdrop_attrs,
+      touch_layer_attrs: touch_layer_attrs,
+      focus_wrap_id: focus_wrap_id
+    } =
+      AttributeHelpers.prompt_attrs(assigns, %{
+        form: form,
+        field: field,
+        toggle_slot: nil,
+        toggle_class: nil,
+        menu_class: nil,
+        is_menu: false
+      })
 
     wrapper_attrs =
-      AttributeHelpers.append_attributes(assigns.rest |> Map.drop([:id]), [
-        assigns[:class] && [class: assigns[:class]],
-        [id: drawer_id],
-        ["data-prompt": ""],
+      AttributeHelpers.append_attributes(wrapper_attrs, [
         ["data-isdrawer": ""],
+        classes.drawer_wrapper && [class: classes.drawer_wrapper],
         if assigns.is_far_side do
           ["data-isfarside": ""]
         end,
-        assigns.is_modal && ["data-ismodal": ""],
         assigns.is_local && ["data-islocal": ""],
-        assigns.is_push && ["data-ispush": ""],
-        assigns.is_escapable && ["data-isescapable": ""],
-        assigns.is_fast && ["data-isfast": ""],
-        assigns[:focus_first] && ["data-focusfirst": assigns[:focus_first]]
-      ])
-
-    touch_layer_attrs =
-      AttributeHelpers.append_attributes([], [
-        ["data-touch": ""]
-      ])
-
-    backdrop_attrs =
-      AttributeHelpers.append_attributes([], [
-        cond do
-          assigns.is_dark_backdrop -> ["data-backdrop": "", "data-isdark": ""]
-          assigns.is_medium_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
-          assigns.is_light_backdrop -> ["data-backdrop": "", "data-islight": ""]
-          assigns.is_backdrop -> ["data-backdrop": "", "data-ismedium": ""]
-          true -> []
-        end
+        assigns.is_push && ["data-ispush": ""]
       ])
 
     content_attrs =
-      AttributeHelpers.append_attributes([], [
-        ["data-content": ""]
+      AttributeHelpers.append_attributes([
+        ["data-content": ""],
+        classes.drawer && [class: classes.drawer]
       ])
+
+    body_attrs =
+      AttributeHelpers.append_attributes(
+        AttributeHelpers.assigns_to_attributes_sorted(body_slot, [
+          :inner_block,
+          :__slot__,
+          :class,
+          :width
+        ]),
+        [
+          ["data-drawer-content": ""],
+          classes.body && [class: classes.body],
+          body_slot[:width] &&
+            [
+              style: "width: #{body_slot[:width]}"
+            ]
+        ]
+      )
 
     assigns =
       assigns
+      |> assign(:form, form)
+      |> assign(:field, field)
+      |> assign(:checkbox_attrs, checkbox_attrs)
       |> assign(:wrapper_attrs, wrapper_attrs)
       |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:content_attrs, content_attrs)
+      |> assign(:body_slot, body_slot)
+      |> assign(:body_attrs, body_attrs)
+      |> assign(:focus_wrap_id, focus_wrap_id)
 
     ~H"""
     <div {@wrapper_attrs}>
-      <%= if !@is_push do %>
-        <%= if @backdrop_attrs !== [] do %>
-          <div {@backdrop_attrs}></div>
-        <% end %>
-        <div {@touch_layer_attrs}></div>
-      <% end %>
-      <div {@content_attrs}>
-        <%= if @is_push do %>
+      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <div data-prompt-content>
+        <%= if !@is_push do %>
           <%= if @backdrop_attrs !== [] do %>
             <div {@backdrop_attrs}></div>
           <% end %>
           <div {@touch_layer_attrs}></div>
         <% end %>
-        <%= render_slot(@inner_block) %>
+        <div {@content_attrs}>
+          <%= if @is_push do %>
+            <%= if @backdrop_attrs !== [] do %>
+              <div {@backdrop_attrs}></div>
+            <% end %>
+            <div {@touch_layer_attrs}></div>
+          <% end %>
+          <% # START DEPRECATED %>
+          <%= render_slot(@inner_block) %>
+          <% # END DEPRECATED %>
+          <%= if @body && @body !== [] do %>
+            <div {@body_attrs}>
+              <.focus_wrap id={@focus_wrap_id}>
+                <%= render_slot(@body) %>
+              </.focus_wrap>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
     """
@@ -12252,41 +11464,52 @@ defmodule PrimerLive.Component do
   @doc section: :drawer
 
   @doc ~S"""
-  Drawer content. See `drawer/1`.
+  Drawer content (DEPRECATED).
+
+  Use `:body` slot with `drawer/1`.
 
   [INSERT LVATTRDOCS]
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
-  attr :width, :string,
+  attr(:width, :string,
     default: nil,
     doc: """
     Sets the width of the drawer as CSS value. Add unit `px` or `rem` or other size unit.
 
     By default the drawer width is defined by its content.
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot(:inner_block,
     doc: "Drawer content."
   )
 
   def drawer_content(assigns) do
+    if Application.get_env(:primer_live, :env) !== :test do
+      IO.puts("Deprecated drawer_content: use drawer's 'body' slot. Since 0.4.0.")
+    end
+
+    %{
+      focus_wrap_id: focus_wrap_id
+    } =
+      AttributeHelpers.prompt_attrs(assigns, %{
+        form: nil,
+        field: nil,
+        toggle_slot: nil,
+        toggle_class: nil,
+        menu_class: nil,
+        is_menu: nil
+      })
+
     class =
       AttributeHelpers.classnames([
         "Box--overlay",
         assigns[:class]
       ])
-
-    # Assign an id for focus wrap
-    drawer_content_id = assigns.rest[:id] || AttributeHelpers.random_string()
-    focus_wrap_id = "focus-wrap-#{drawer_content_id}"
 
     content_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
@@ -12355,31 +11578,12 @@ defmodule PrimerLive.Component do
   Feature complete.
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
-  attr(:href, :any,
-    doc: """
-    Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other attributes to the link.
-    """
-  )
-
-  attr(:patch, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
-
-  attr(:navigate, :string,
-    doc: """
-    Link attribute - see `href`.
-    """
-  )
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.href()
+  DeclarationHelpers.patch()
+  DeclarationHelpers.navigate()
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "The branch name text and optionally an icon.")
 
@@ -12501,7 +11705,7 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `aria-label` to the outer element."
   )
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -12531,19 +11735,21 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_large, :boolean,
+  attr(:is_large, :boolean,
     default: false,
     doc: """
     Creates a large progress bar.
     """
+  )
 
-  attr :is_small, :boolean,
+  attr(:is_small, :boolean,
     default: false,
     doc: """
     Creates a small progress bar.
     """
+  )
 
-  attr :is_inline, :boolean,
+  attr(:is_inline, :boolean,
     default: false,
     doc: """
     Creates an inline progress bar, to be used next to other elements.
@@ -12556,12 +11762,9 @@ defmodule PrimerLive.Component do
     </.progress>
     ```
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot :item,
     required: true,
@@ -12649,7 +11852,7 @@ defmodule PrimerLive.Component do
         ])
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class,
           :state,
           :width,
@@ -12800,7 +12003,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:class, :string, default: nil, doc: "Additional classname.")
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -12850,63 +12053,32 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr :is_condensed, :boolean,
+  attr(:is_condensed, :boolean,
     default: false,
     doc: """
     Creates a condensed item, reducing the vertical padding and removing the background from the badge item.
     """
+  )
 
-  attr :is_break, :boolean,
+  attr(:is_break, :boolean,
     default: false,
     doc: """
     Creates a visual break in the timeline. This adds a horizontal bar across the timeline to show that something has disrupted it. Ignores any slots.
     """
-
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
   )
+
+  DeclarationHelpers.rest()
 
   slot :badge,
     doc: """
     Badge content. Pass an `octicon/1` to display an icon. To create a link element, pass attribute `href`, `navigate` or `patch`.
     """ do
-    attr(:href, :any,
-      doc: """
-      Link attribute. The link is created with `Phoenix.Component.link/1`, passing all other slot attributes to the link.
-      """
-    )
-
-    attr(:patch, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:navigate, :string,
-      doc: """
-      Link attribute - see `href`.
-      """
-    )
-
-    attr(:class, :string,
-      doc: """
-      Additional classname.
-      """
-    )
-
-    attr(:style, :string,
-      doc: """
-      Additional CSS styles.
-      """
-    )
-
-    attr(:rest, :any,
-      doc: """
-      Additional HTML attributes added to the badge element.
-      """
-    )
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:avatar, doc: "Avatar container.")
@@ -12971,7 +12143,7 @@ defmodule PrimerLive.Component do
       is_link = AttributeHelpers.is_link?(slot)
 
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
         ])
 
@@ -13014,7 +12186,7 @@ defmodule PrimerLive.Component do
 
     render_avatar = fn slot ->
       rest =
-        assigns_to_attributes(slot, [
+        AttributeHelpers.assigns_to_attributes_sorted(slot, [
           :class
         ])
 
@@ -13203,11 +12375,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Content.")
 
@@ -13319,6 +12487,13 @@ defmodule PrimerLive.Component do
     """
   )
 
+  attr(:update_theme_event, :string,
+    default: Theme.update_theme_event_key(),
+    doc: """
+    Event name to be called for updating the theme.
+    """
+  )
+
   attr(:options, :map,
     required: false,
     default: Theme.default_menu_options(),
@@ -13382,11 +12557,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:rest, :global,
-    doc: """
-    Additional HTML attributes added to the outer element.
-    """
-  )
+  DeclarationHelpers.rest()
 
   def theme_menu_options(assigns) do
     menu_items =
@@ -13403,6 +12574,7 @@ defmodule PrimerLive.Component do
       |> assign(:menu_items, menu_items)
       |> assign(:is_default_theme, is_default_theme)
       |> assign(:is_reset_enabled, !is_default_theme && !assigns.is_click_disabled)
+      |> assign(:update_theme_event, assigns.update_theme_event || Theme.update_theme_event_key())
 
     ~H"""
     <.action_list {@rest}>
@@ -13415,12 +12587,13 @@ defmodule PrimerLive.Component do
           menu_items={@menu_items}
           is_show_group_labels={@is_show_group_labels}
           is_click_disabled={@is_click_disabled}
+          update_theme_event={@update_theme_event}
         />
       <% end %>
       <%= if @is_show_reset_link && assigns.labels[:reset] do %>
         <.action_list_section_divider />
         <.action_list_item
-          phx-click={@is_reset_enabled && Theme.update_theme_event_key()}
+          phx-click={@is_reset_enabled && @update_theme_event}
           phx-value-key={Theme.reset_key()}
           phx-value-data=""
           is_disabled={!@is_reset_enabled}
@@ -13432,10 +12605,11 @@ defmodule PrimerLive.Component do
     """
   end
 
-  attr :menu_items, :map, required: true
-  attr :key, :atom, required: true, values: [:color_mode, :light_theme, :dark_theme]
-  attr :is_show_group_labels, :boolean, required: true
-  attr :is_click_disabled, :boolean, required: true
+  attr(:menu_items, :map, required: true)
+  attr(:key, :atom, required: true, values: [:color_mode, :light_theme, :dark_theme])
+  attr(:is_show_group_labels, :boolean, required: true)
+  attr(:is_click_disabled, :boolean, required: true)
+  attr(:update_theme_event, :string, required: true)
 
   defp theme_menu_option_items(assigns) do
     group = assigns.menu_items[assigns.key]
@@ -13454,7 +12628,7 @@ defmodule PrimerLive.Component do
       <.action_list_item
         is_single_select
         is_selected={@group.selected && value === @group.selected}
-        phx-click={!@is_click_disabled && Theme.update_theme_event_key()}
+        phx-click={!@is_click_disabled && @update_theme_event}
         phx-value-key={@key}
         phx-value-data={value}
       >

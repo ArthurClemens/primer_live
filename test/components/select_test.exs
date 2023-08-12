@@ -220,9 +220,8 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user[role]" class="pl-valid"></span>
-             <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
+             <div class="FormControl-select-wrap pl-neutral">
+             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
              <option value="admin">admin</option>
              <option value="editor">editor</option>
              </select>
@@ -241,9 +240,8 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user[role]" class="pl-valid"></span>
-             <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
+             <div class="FormControl-select-wrap pl-neutral">
+             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
              <option value="admin">Admin</option>
              <option value="user">User</option>
              </select>
@@ -266,10 +264,29 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user[role]" class="pl-valid"></span>
-             <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
+             <div class="FormControl-select-wrap pl-neutral">
+             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
              <option disabled value="admin">Admin</option>
+             <option value="user">User</option>
+             </select>
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: input_id" do
+    assigns = %{
+      form: @default_form
+    }
+
+    assert rendered_to_string(~H"""
+           <.select form={@form} field={:role} options={[Admin: "admin", User: "user"]} input_id="xyz" />
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl-select-wrap pl-neutral">
+             <select class="FormControl-select FormControl-medium" id="xyz" name="user[role]">
+             <option value="admin">Admin</option>
              <option value="user">User</option>
              </select>
              </div>
@@ -292,9 +309,8 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user[role]" class="pl-valid"></span>
-             <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
+             <div class="FormControl-select-wrap pl-neutral">
+             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
              <option value="">Choose your role</option>
              <option value="admin">Admin</option>
              <option value="user">User</option>
@@ -319,41 +335,12 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap">
-             <span phx-feedback-for="user[role]" class="pl-valid"></span>
-             <select class="FormControl-select FormControl-medium" id="user[role]" name="user[role]">
-             <option disabled value="">Choose your role</option>
-             <option value="admin">Admin</option>
-             <option value="user">User</option>
+             <div class="FormControl-select-wrap pl-neutral">
+             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
+               <option disabled value="">Choose your role</option>
+               <option value="admin">Admin</option>
+               <option value="user">User</option>
              </select>
-             </div>
-             """
-             |> format_html()
-  end
-
-  test "Default validation" do
-    assigns = %{
-      form: %{@default_form | source: @error_changeset}
-    }
-
-    assert rendered_to_string(~H"""
-           <.select
-             form={@form}
-             field={:role}
-             options={[Admin: "admin", User: "user"]}
-             prompt={[key: "Choose your role", disabled: true]}
-           />
-           """)
-           |> format_html() ==
-             """
-             <div class="FormControl-select-wrap"><span phx-feedback-for="user[role]" class="pl-invalid"></span><select aria-describedby="user[role]-validation" class="FormControl-select FormControl-medium" id="user[role]" invalid="" name="user[role]">
-             <option disabled value="">Choose your role</option>
-             <option value="admin">Admin</option>
-             <option value="user">User</option>
-             </select></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user[role]-validation" phx-feedback-for="user[role]">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
-             <span>can&#39;t be blank</span>
              </div>
              """
              |> format_html()
@@ -384,9 +371,9 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap pl-multiple-select">
-             <span phx-feedback-for="user[role]" class="pl-valid"></span>
-             <select class="FormControl-select FormControl-medium" id="user[role]" multiple="" name="user[role][]" size="7">
+             <div class="FormControl-select-wrap pl-multiple-select pl-neutral">
+             <select class="FormControl-select FormControl-medium" id="user_role" multiple=""
+             name="user[role][]" size="7">
              <option value="admin">Admin</option>
              <option value="user">User</option>
              <option value="editor">Editor</option>
@@ -396,6 +383,35 @@ defmodule PrimerLive.TestComponents.SelectTest do
              <option value="developer">Developer</option>
              </select>
              </div>
+             """
+             |> format_html()
+  end
+
+  test "Default validation" do
+    assigns = %{
+      form: %{@default_form | source: @error_changeset}
+    }
+
+    assert rendered_to_string(~H"""
+           <.select
+             form={@form}
+             field={:role}
+             options={[Admin: "admin", User: "user"]}
+             prompt={[key: "Choose your role", disabled: true]}
+             is_multiple
+           />
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl-select-wrap pl-multiple-select pl-invalid" phx-feedback-for="user[role][]"><select
+             aria-describedby="user_role-validation" class="FormControl-select FormControl-medium" id="user_role" invalid=""
+             multiple="" name="user[role][]">
+             <option value="admin">Admin</option>
+             <option value="user">User</option>
+             </select></div>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_role-validation"
+             phx-feedback-for="user[role][]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+             viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>can&#39;t be blank</span></div>
              """
              |> format_html()
   end
@@ -431,8 +447,9 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap select_container-x my-select-container"><span phx-feedback-for="user[role]" class="pl-invalid"></span><select aria-describedby="user[role]-validation" aria-label="Role" class="FormControl-select FormControl-medium select-x" id="user[role]" invalid=""
-             name="user[role]">
+             <div class="FormControl-select-wrap pl-invalid select_container-x my-select-container" phx-feedback-for="user[role]">
+             <select aria-describedby="user_role-validation" aria-label="Role"
+             class="FormControl-select FormControl-medium select-x" id="user_role" invalid="" name="user[role]">
              <option value="admin">Admin</option>
              <option value="user">User</option>
              <option value="editor">Editor</option>
@@ -441,9 +458,9 @@ defmodule PrimerLive.TestComponents.SelectTest do
              <option value="project_owner">Project owner</option>
              <option value="developer">Developer</option>
              </select></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x" id="user[role]-validation" phx-feedback-for="user[role]">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg>
-             <span>can&#39;t be blank</span></div>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x"
+             id="user_role-validation" phx-feedback-for="user[role]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg"
+             width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>can&#39;t be blank</span></div>
              """
              |> format_html()
   end

@@ -14,10 +14,7 @@ defmodule PrimerLive.Components.SpinnerTest do
            """)
            |> format_html() ==
              """
-             <svg class="Toast--spinner" viewBox="0 0 32 32" width="18" height="18">
-             <path fill="#959da5" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"></path>
-             <path fill="#ffffff" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"></path>
-             </svg>
+             <svg class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
   end
@@ -31,14 +28,8 @@ defmodule PrimerLive.Components.SpinnerTest do
            """)
            |> format_html() ==
              """
-             <svg class="Toast--spinner" viewBox="0 0 32 32" width="40" height="40">
-             <path fill="#959da5" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"></path>
-             <path fill="#ffffff" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"></path>
-             </svg>
-             <svg class="Toast--spinner" viewBox="0 0 32 32" width="40" height="40">
-             <path fill="#959da5" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"></path>
-             <path fill="#ffffff" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"></path>
-             </svg>
+             <svg class="Toast--spinner" height="40" viewBox="0 0 32 32" width="40">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg><svg
+             class="Toast--spinner" height="40" viewBox="0 0 32 32" width="40">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
   end
@@ -53,19 +44,9 @@ defmodule PrimerLive.Components.SpinnerTest do
            """)
            |> format_html() ==
              """
-             <svg class="Toast--spinner" viewBox="0 0 32 32" width="18" height="18">
-             <path fill="red" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"></path>
-             <path fill="#ffffff" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"></path>
-             </svg>
-             <svg class="Toast--spinner" viewBox="0 0 32 32" width="18" height="18">
-             <path fill="#ff0000" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"></path>
-             <path fill="#ffffff" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"></path>
-             </svg>
-             <svg class="Toast--spinner" viewBox="0 0 32 32" width="18" height="18">
-             <path fill="rgba(250, 50, 150, 0.5)"
-             d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"></path>
-             <path fill="#ffffff" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"></path>
-             </svg>
+             <svg class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg><svg
+             class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg><svg
+             class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
   end
@@ -80,18 +61,9 @@ defmodule PrimerLive.Components.SpinnerTest do
            """)
            |> format_html() ==
              """
-             <svg class="Toast--spinner" viewBox="0 0 32 32" width="18" height="18">
-             <path fill="#959da5" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"></path>
-             <path fill="black" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"></path>
-             </svg>
-             <svg class="Toast--spinner" viewBox="0 0 32 32" width="18" height="18">
-             <path fill="#959da5" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"></path>
-             <path fill="#000000" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"></path>
-             </svg>
-             <svg class="Toast--spinner" viewBox="0 0 32 32" width="18" height="18">
-             <path fill="#959da5" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"></path>
-             <path fill="rgba(0, 0, 0, 1)" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"></path>
-             </svg>
+             <svg class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg><svg
+             class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg><svg
+             class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
   end
@@ -104,10 +76,8 @@ defmodule PrimerLive.Components.SpinnerTest do
            """)
            |> format_html() ==
              """
-             <svg class="Toast--spinner my-spinner" viewBox="0 0 32 32" width="18" height="18" dir="rtl">
-             <path fill="#959da5" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"></path>
-             <path fill="#ffffff" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"></path>
-             </svg>
+             <svg class="Toast--spinner my-spinner" dir="rtl" height="18" viewBox="0 0 32 32"
+             width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
   end

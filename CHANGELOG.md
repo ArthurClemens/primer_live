@@ -1,8 +1,30 @@
 # Changelog
 
-## 0.3.2
+## 0.4.0
 
-Replaced a couple more underscores.
+### Improvements
+
+- The open state of menus and dialogs can now be maintained when used inside forms.
+- Improved validation message logic.
+- Updated components:
+  - `theme_menu_options`: added attr `update_theme_event`: the event name to be called for updating the theme.
+  - `radio_group`: added to slot `radio_button` the attr `label` to set a custom label
+
+### Breaking changes
+- Renamed hook `Session` (which was erroneously documented as "ThemeMenu") to `Theme`.
+- IDs of checkboxes and radio buttons have been updated to only include valid characters.
+
+### Deprecated
+
+- For all menu components, including 'dialog' and 'drawer': passing prompt options to the `toggle` slot is replaced by passing `prompt_options` to the main component.
+- In the `drawer` component, replace the subcomponent `drawer_content` with the slot `body`.
+  - This allows the focus wrap ID to be derived from the drawer's 'id' attribute, similar to how it is done for 'dialog'.
+
+When using the original code, a warning message will be shown in the shell.
+
+### Other changes
+
+- The HTML structure and some of the CSS classes of `action_menu`, `dropdown_menu` and `select_menu` have changed. Instead of `<details>` and `<summary>` elements, the open state is now controlled with `<input type="checkbox">` and `<label>`.
 
 ## 0.3.1
 

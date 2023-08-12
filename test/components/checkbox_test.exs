@@ -59,9 +59,9 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              """
              <span class="FormControl-checkbox-wrap">
              <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="user[available_for_hire]" name="user[available_for_hire]" type="checkbox" value="true" />
+             <input class="FormControl-checkbox" id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
              <span class="FormControl-checkbox-labelWrap">
-             <label class="FormControl-label" for="user[available_for_hire]">Available for hire</label>
+             <label class="FormControl-label" for="user_available_for_hire">Available for hire</label>
              </span>
              </span>
              """
@@ -78,9 +78,28 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              """
              <span class="FormControl-checkbox-wrap">
              <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="user[available_for_hire]" name="user[available_for_hire]" type="checkbox" value="true" />
+             <input class="FormControl-checkbox" id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
              <span class="FormControl-checkbox-labelWrap">
-             <label class="FormControl-label" for="user[available_for_hire]">Available for hire</label>
+             <label class="FormControl-label" for="user_available_for_hire">Available for hire</label>
+             </span>
+             </span>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: input_id" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.checkbox form={:user} field={:available_for_hire} input_id="xyz" />
+           """)
+           |> format_html() ==
+             """
+             <span class="FormControl-checkbox-wrap">
+             <input name="user[available_for_hire]" type="hidden" value="false" />
+             <input class="FormControl-checkbox" id="xyz" name="user[available_for_hire]" type="checkbox" value="true" />
+             <span class="FormControl-checkbox-labelWrap">
+             <label class="FormControl-label" for="xyz">Available for hire</label>
              </span>
              </span>
              """
@@ -113,12 +132,14 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            |> format_html() ==
              """
              <span class="FormControl-checkbox-wrap">
-             <input name="user[interest]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user[interest][coding]" name="user[interest]" type="checkbox" value="coding" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user[interest][coding]">Coding</label></span>
+             <input name="user[interest]" type="hidden" value="false" />
+             <input class="FormControl-checkbox" id="user_interest_coding" name="user[interest]" type="checkbox" value="coding" />
+             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user_interest_coding">Coding</label></span>
              </span>
              <span class="FormControl-checkbox-wrap">
-             <input name="user[interest]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user[interest][music]" name="user[interest]" type="checkbox" value="music" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user[interest][music]">Music</label></span>
+             <input name="user[interest]" type="hidden" value="false" />
+             <input class="FormControl-checkbox" id="user_interest_music" name="user[interest]" type="checkbox" value="music" />
+             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user_interest_music">Music</label></span>
              </span>
 
              """
@@ -212,14 +233,13 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap container-x my-checkbox">
-             <span phx-feedback-for="user[available_for_hire]" class="pl-valid"></span>
-             <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input checked class="form-checkbox-details-trigger FormControl-checkbox input-x" id="user[available_for_hire]" name="user[available_for_hire]" type="checkbox" value="true" />
-             <span class="FormControl-checkbox-labelWrap label_container-x"><label class="FormControl-label label-x my-label" aria-live="polite" for="user[available_for_hire]">Some label</label>
-             <p class="FormControl-caption hint-x my-hint">Some hint</p><span class="form-checkbox-details text-normal disclosure-x my-disclosure">Some hint</span>
-             </span>
-             </span>
+             <span class="FormControl-checkbox-wrap pl-neutral container-x my-checkbox"><input name="user[available_for_hire]"
+             type="hidden" value="false" /><input checked class="form-checkbox-details-trigger FormControl-checkbox input-x"
+             id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" /><span
+             class="FormControl-checkbox-labelWrap label_container-x"><label aria-live="polite"
+             class="FormControl-label label-x my-label" for="user_available_for_hire">Some label</label><span
+             class="FormControl-caption hint-x my-hint">Some hint</span><span
+             class="form-checkbox-details text-normal disclosure-x my-disclosure">Some hint</span></span></span>
              """
              |> format_html()
   end
@@ -234,8 +254,8 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              """
              <span class="FormControl-checkbox-wrap">
              <input name="role" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="role[editor]" name="role" type="checkbox" value="true" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role[editor]">Editor</label></span>
+             <input class="FormControl-checkbox" id="role_editor" name="role" type="checkbox" value="true" />
+             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role_editor">Editor</label></span>
              </span>
              """
              |> format_html()
@@ -252,14 +272,14 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              """
              <span class="FormControl-checkbox-wrap">
              <input name="role" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="role[editor]" name="role" type="checkbox" value="editor" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role[editor]">Editor</label></span>
+             <input class="FormControl-checkbox" id="role_editor" name="role" type="checkbox" value="editor" />
+             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role_editor">Editor</label></span>
              </span>
 
              <span class="FormControl-checkbox-wrap">
              <input name="role" type="hidden" value="false" />
-             <input checked class="FormControl-checkbox" id="role[editor]" name="role" type="checkbox" value="editor" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role[editor]">Editor</label></span>
+             <input checked class="FormControl-checkbox" id="role_editor" name="role" type="checkbox" value="editor" />
+             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role_editor">Editor</label></span>
              </span>
              """
              |> format_html()
@@ -291,11 +311,10 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="available_for_hire" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="available_for_hire" name="available_for_hire" type="checkbox" value="true" />
-             <span class="FormControl-checkbox-labelWrap"><label dir="rtl" class="FormControl-label" for="available_for_hire">Some label</label></span>
-             </span>
+             <span class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input
+             class="FormControl-checkbox" id="available_for_hire" name="available_for_hire" type="checkbox"
+             value="true" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" dir="rtl"
+             for="available_for_hire">Some label</label></span></span>
              """
              |> format_html()
   end
@@ -332,11 +351,11 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="available_for_hire" type="hidden" value="false" />
-             <input class="form-checkbox-details-trigger FormControl-checkbox" id="available_for_hire" name="available_for_hire" type="checkbox" value="true" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" aria-live="polite" for="available_for_hire">Some label</label><span class="form-checkbox-details text-normal"><span>disclosure content</span></span></span>
-             </span>
+             <span class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input
+             class="form-checkbox-details-trigger FormControl-checkbox" id="available_for_hire" name="available_for_hire"
+             type="checkbox" value="true" /><span class="FormControl-checkbox-labelWrap"><label aria-live="polite"
+             class="FormControl-label" for="available_for_hire">Some label</label><span
+             class="form-checkbox-details text-normal"><span>disclosure content</span></span></span></span>
              """
              |> format_html()
   end
@@ -360,7 +379,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <input name="available_for_hire" type="hidden" value="false" />
              <input class="FormControl-checkbox" id="available_for_hire" name="available_for_hire" type="checkbox" value="true" />
              <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available_for_hire">Some label</label>
-             <p class="FormControl-caption">Add your<strong>resume</strong>below</p>
+             <span class="FormControl-caption">Add your<strong>resume</strong>below</span>
              </span>
              </span>
              """

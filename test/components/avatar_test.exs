@@ -78,8 +78,8 @@ defmodule PrimerLive.TestComponents.AvatarTest do
            |> format_html() ==
              """
              <img class="avatar" src="user.jpg" width="40" />
-             <img class="avatar" src="user.jpg" height="40" />
-             <img class="avatar" src="user.jpg" width="40" height="40" />
+             <img class="avatar" height="40" src="user.jpg" />
+             <img class="avatar" height="40" src="user.jpg" width="40" />
              """
              |> format_html()
   end

@@ -80,6 +80,36 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
              |> format_html()
   end
 
+  test "With radio_button label" do
+    assigns = %{
+      options: [
+        {"Admin", "admin"},
+        {"Editor", "editor"}
+      ]
+    }
+
+    assert rendered_to_string(~H"""
+           <.radio_group>
+             <:radio_button
+               :for={{label, value} <- @options}
+               name="role"
+               value={value}
+               label={label |> String.upcase()}
+             >
+             </:radio_button>
+           </.radio_group>
+           """)
+           |> format_html() ==
+             """
+             <div class="radio-group">
+             <input class="radio-input FormControl-radio" id="__admin" name="role" type="radio" value="admin" />
+             <label class="radio-label" for="__admin">ADMIN</label>
+             <input class="radio-input FormControl-radio" id="__editor" name="role" type="radio" value="editor" />
+             <label class="radio-label" for="__editor">EDITOR</label></div>
+             """
+             |> format_html()
+  end
+
   test "Attribute: form and field (atoms)" do
     assigns = %{}
 

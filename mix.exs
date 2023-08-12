@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.3.2",
+      version: "0.4.0",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: description(),
       package: package(),
@@ -30,11 +30,13 @@ defmodule PrimerLive.MixProject do
   defp deps do
     [
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:ecto_sql, "~> 3.9"},
+      {:ecto, "~> 3.10", only: [:dev, :test], runtime: false},
+      {:ecto_sql, "~> 3.10", only: [:dev, :test], runtime: false},
       {:esbuild, "~> 0.7", only: :dev},
       {:ex_doc, "~> 0.30", only: :dev},
+      {:phoenix_ecto, "~> 4.4", only: [:dev, :test], runtime: false},
       {:phoenix_html, "~> 3.3"},
-      {:phoenix_live_view, ">= 0.18.3"},
+      {:phoenix_live_view, "~> 0.19"},
       {:jason, "~> 1.4"}
     ]
   end
@@ -74,6 +76,9 @@ defmodule PrimerLive.MixProject do
         Truncate: &(&1[:section] == :truncate)
       ],
       extras: [
+        "doc-extra/installation.md",
+        "doc-extra/usage.md",
+        "doc-extra/menus-and-dialogs.md",
         "LICENSE.md"
       ]
     ]
@@ -94,7 +99,7 @@ defmodule PrimerLive.MixProject do
 
   defp aliases do
     [
-      setup: ["deps.get", "cmd --cd assets npm install"],
+      setup: ["deps.get", "cmd --cd assets npm install --legacy-peer-deps"],
       "assets.build": [
         "cmd npm --prefix assets run build:clear -- ../priv/static/*",
         "cmd npm --prefix assets run build -- --format=esm --sourcemap --outfile=../priv/static/primer-live.esm.js",

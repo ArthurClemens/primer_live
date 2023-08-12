@@ -91,7 +91,7 @@ defmodule PrimerLive.TestComponents.BranchNameTest do
            """)
            |> format_html() ==
              """
-             <span aria-label="Current branch" dir="rtl" class="branch-name">some-name</span>
+             <span aria-label="Current branch" class="branch-name" dir="rtl">some-name</span>
              """
              |> format_html()
   end

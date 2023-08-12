@@ -16,7 +16,7 @@ defmodule PrimerLive.TestComponents.ThemeTest do
            """)
            |> format_html() ==
              """
-             <div data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">Content</div>
+             <div data-color-mode="auto" data-dark-theme="dark" data-light-theme="light">Content</div>
              """
              |> format_html()
   end
@@ -37,7 +37,7 @@ defmodule PrimerLive.TestComponents.ThemeTest do
            """)
            |> format_html() ==
              """
-             <div data-color-mode="dark" data-light-theme="light_colorblind" data-dark-theme="dark_high_contrast">Content</div>
+             <div data-color-mode="dark" data-dark-theme="dark_high_contrast" data-light-theme="light_colorblind">Content</div>
              """
              |> format_html()
   end
@@ -58,9 +58,9 @@ defmodule PrimerLive.TestComponents.ThemeTest do
            """)
            |> format_html() ==
              """
-             <div data-color-mode="dark" data-light-theme="light" data-dark-theme="dark">Content</div>
-             <div data-color-mode="light" data-light-theme="light" data-dark-theme="dark">Content</div>
-             <div data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">Content</div>
+             <div data-color-mode="dark" data-dark-theme="dark" data-light-theme="light">Content</div>
+             <div data-color-mode="light" data-dark-theme="dark" data-light-theme="light">Content</div>
+             <div data-color-mode="auto" data-dark-theme="dark" data-light-theme="light">Content</div>
              """
              |> format_html()
   end
@@ -102,16 +102,16 @@ defmodule PrimerLive.TestComponents.ThemeTest do
            """)
            |> format_html() ==
              """
-             <div data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">default</div>
-             <div data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">light</div>
-             <div data-color-mode="auto" data-light-theme="light_high_contrast" data-dark-theme="dark">light_high_contrast</div>
-             <div data-color-mode="auto" data-light-theme="light_colorblind" data-dark-theme="dark">light_colorblind</div>
-             <div data-color-mode="auto" data-light-theme="light_tritanopia" data-dark-theme="dark">light_tritanopia</div>
-             <div data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">dark</div>
-             <div data-color-mode="auto" data-light-theme="light" data-dark-theme="dark_dimmed">dark_dimmed</div>
-             <div data-color-mode="auto" data-light-theme="light" data-dark-theme="dark_high_contrast">dark_high_contrast</div>
-             <div data-color-mode="auto" data-light-theme="light" data-dark-theme="dark_colorblind">dark_colorblind</div>
-             <div data-color-mode="auto" data-light-theme="light" data-dark-theme="dark_tritanopia">dark_tritanopia</div>
+             <div data-color-mode="auto" data-dark-theme="dark" data-light-theme="light">default</div>
+             <div data-color-mode="auto" data-dark-theme="dark" data-light-theme="light">light</div>
+             <div data-color-mode="auto" data-dark-theme="dark" data-light-theme="light_high_contrast">light_high_contrast</div>
+             <div data-color-mode="auto" data-dark-theme="dark" data-light-theme="light_colorblind">light_colorblind</div>
+             <div data-color-mode="auto" data-dark-theme="dark" data-light-theme="light_tritanopia">light_tritanopia</div>
+             <div data-color-mode="auto" data-dark-theme="dark" data-light-theme="light">dark</div>
+             <div data-color-mode="auto" data-dark-theme="dark_dimmed" data-light-theme="light">dark_dimmed</div>
+             <div data-color-mode="auto" data-dark-theme="dark_high_contrast" data-light-theme="light">dark_high_contrast</div>
+             <div data-color-mode="auto" data-dark-theme="dark_colorblind" data-light-theme="light">dark_colorblind</div>
+             <div data-color-mode="auto" data-dark-theme="dark_tritanopia" data-light-theme="light">dark_tritanopia</div>
              """
              |> format_html()
   end
@@ -126,7 +126,7 @@ defmodule PrimerLive.TestComponents.ThemeTest do
            """)
            |> format_html() ==
              """
-             <span data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">Content</span>
+             <span data-color-mode="auto" data-dark-theme="dark" data-light-theme="light">Content</span>
              """
              |> format_html()
   end
@@ -141,7 +141,7 @@ defmodule PrimerLive.TestComponents.ThemeTest do
            """)
            |> format_html() ==
              """
-             <div class="my-theme" dir="rtl" data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">Content</div>
+             <div class="my-theme" data-color-mode="auto" data-dark-theme="dark" data-light-theme="light" dir="rtl">Content</div>
              """
              |> format_html()
   end

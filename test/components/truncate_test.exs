@@ -67,11 +67,9 @@ defmodule PrimerLive.Components.TruncateTest do
            """)
            |> format_html() ==
              """
-             <span class="Truncate">
-             <a href="/" class="Truncate-text" name="span">branch-name</a>
-             <a href="/" data-phx-link="redirect" data-phx-link-state="push" class="Truncate-text" name="span">branch-name</a>
-             <a href="/" data-phx-link="patch" data-phx-link-state="push" class="Truncate-text" name="span">branch-name</a>
-             </span>
+             <span class="Truncate"><a href="/" name="span" class="Truncate-text">branch-name</a><a href="/" data-phx-link="redirect"
+             data-phx-link-state="push" name="span" class="Truncate-text">branch-name</a><a href="/" data-phx-link="patch"
+             data-phx-link-state="push" name="span" class="Truncate-text">branch-name</a></span>
              """
              |> format_html()
   end
@@ -156,20 +154,19 @@ defmodule PrimerLive.Components.TruncateTest do
   test "Attribute: style" do
     assigns = %{}
 
-    assert rendered_to_string(~H"""
-           <.truncate>
-             <:item is_expandable style="max-width: 300px;">
-               really-long-text
-             </:item>
-           </.truncate>
-           """)
-           |> format_html() ==
-             """
-             <span class="Truncate">
-             <span class="Truncate-text Truncate-text--expandable"
-             style="max-width: 300px;">really-long-text</span>
-             </span>
-             """
-             |> format_html()
+    # Assert with rendered fragments because .dynamic_tag shuffles the order of attributes
+    result =
+      rendered_to_string(~H"""
+      <.truncate>
+        <:item is_expandable style="max-width: 300px;">
+          really-long-text
+        </:item>
+      </.truncate>
+      """)
+      |> format_html()
+
+    assert String.contains?(result, "<span class=\"Truncate\">")
+    assert String.contains?(result, "style=\"max-width: 300px;\"")
+    assert String.contains?(result, "class=\"Truncate-text Truncate-text--expandable\"")
   end
 end

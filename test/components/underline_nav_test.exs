@@ -25,11 +25,10 @@ defmodule PrimerLive.Components.UnderlineNavTest do
            |> format_html() ==
              """
              <nav class="UnderlineNav">
-             <div class="UnderlineNav-body" role="tablist">
-             <a href="#url" aria-current="page" aria-selected="true" class="UnderlineNav-item" role="tab">href link</a>
-             <a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="UnderlineNav-item" role="tab">navigate link</a>
-             <a href="#url" data-phx-link="patch" data-phx-link-state="push" class="UnderlineNav-item" role="tab">patch link</a>
-             </div>
+             <div class="UnderlineNav-body" role="tablist"><a href="#url" role="tab" class="UnderlineNav-item" aria-selected="true"
+             aria-current="page">href link</a><a href="#url" data-phx-link="redirect" data-phx-link-state="push" role="tab"
+             class="UnderlineNav-item">navigate link</a><a href="#url" data-phx-link="patch" data-phx-link-state="push"
+             role="tab" class="UnderlineNav-item">patch link</a></div>
              </nav>
              """
              |> format_html()
@@ -55,18 +54,12 @@ defmodule PrimerLive.Components.UnderlineNavTest do
            |> format_html() ==
              """
              <nav class="UnderlineNav">
-             <div class="UnderlineNav-body" role="tablist">
-             <a href="#url" aria-current="page" aria-selected="true" class="UnderlineNav-item" role="tab">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.5 2.75a.25.25 0 01.25-.25h8.5a.25.25 0 01.25.25v5.5a.25.25 0 01-.25.25h-3.5a.75.75 0 00-.53.22L3.5 11.44V9.25a.75.75 0 00-.75-.75h-1a.25.25 0 01-.25-.25v-5.5zM1.75 1A1.75 1.75 0 000 2.75v5.5C0 9.216.784 10 1.75 10H2v1.543a1.457 1.457 0 002.487 1.03L7.061 10h3.189A1.75 1.75 0 0012 8.25v-5.5A1.75 1.75 0 0010.25 1h-8.5zM14.5 4.75a.25.25 0 00-.25-.25h-.5a.75.75 0 110-1.5h.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0114.25 12H14v1.543a1.457 1.457 0 01-2.487 1.03L9.22 12.28a.75.75 0 111.06-1.06l2.22 2.22v-2.19a.75.75 0 01.75-.75h1a.25.25 0 00.25-.25v-5.5z"></path></svg>
-             <span>Conversation</span>
-             <span class="Counter">2</span>
-             </a>
-             <a href="#url" class="UnderlineNav-item" role="tab">
-             <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0zM0 8a8 8 0 1116 0A8 8 0 010 8zm11.78-1.72a.75.75 0 00-1.06-1.06L6.75 9.19 5.28 7.72a.75.75 0 00-1.06 1.06l2 2a.75.75 0 001.06 0l4.5-4.5z"></path></svg>
-             <span>Done</span>
-             <span class="Counter">99</span>
-             </a>
-             </div>
+             <div class="UnderlineNav-body" role="tablist"><a href="#url" role="tab" class="UnderlineNav-item" aria-selected="true"
+             aria-current="page"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Conversation</span><span class="Counter">2</span></a><a
+             href="#url" role="tab" class="UnderlineNav-item"><svg class="octicon" xmlns="http://www.w3.org/2000/svg"
+             width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Done</span><span
+             class="Counter">99</span></a></div>
              </nav>
              """
              |> format_html()
@@ -88,10 +81,9 @@ defmodule PrimerLive.Components.UnderlineNavTest do
            |> format_html() ==
              """
              <nav class="UnderlineNav">
-             <div class="UnderlineNav-body" role="tablist">
-             <button class="UnderlineNav-item" role="tab" aria-selected="true" aria-current="page">Button 1</button>
-             <button class="UnderlineNav-item" role="tab">Button 2</button>
-             </div>
+             <div class="UnderlineNav-body" role="tablist"><button aria-current="page" aria-selected="true"
+             class="UnderlineNav-item" role="tab">Button 1</button><button class="UnderlineNav-item" role="tab">Button
+             2</button></div>
              </nav>
              """
              |> format_html()
@@ -116,10 +108,8 @@ defmodule PrimerLive.Components.UnderlineNavTest do
            |> format_html() ==
              """
              <nav class="UnderlineNav">
-             <div class="UnderlineNav-body" role="tablist">
-             <a href="#url" aria-current="page" aria-selected="true" class="UnderlineNav-item" role="tab">One</a>
-             <a href="#url" class="UnderlineNav-item" role="tab">Two</a>
-             </div>
+             <div class="UnderlineNav-body" role="tablist"><a href="#url" role="tab" class="UnderlineNav-item" aria-selected="true"
+             aria-current="page">One</a><a href="#url" role="tab" class="UnderlineNav-item">Two</a></div>
              <div class="UnderlineNav-actions"><a class="btn btn-sm" href="#url" role="button">Button</a></div>
              </nav>
              """
@@ -151,8 +141,8 @@ defmodule PrimerLive.Components.UnderlineNavTest do
              <nav class="UnderlineNav UnderlineNav--full">
              <div class="UnderlineNav-container container-sm">
              <div class="UnderlineNav-body" role="tablist">
-             <a href="#url" aria-current="page" aria-selected="true" class="UnderlineNav-item" role="tab">One</a>
-             <a href="#url" class="UnderlineNav-item" role="tab">Two</a>
+             <a href="#url" role="tab" class="UnderlineNav-item" aria-selected="true" aria-current="page">One</a>
+             <a href="#url" role="tab" class="UnderlineNav-item">Two</a>
              </div>
              </div>
              </nav>
@@ -179,13 +169,9 @@ defmodule PrimerLive.Components.UnderlineNavTest do
            |> format_html() ==
              """
              <nav class="UnderlineNav UnderlineNav--right">
-             <div class="UnderlineNav-actions">
-             <a class="btn btn-sm" href="#url" role="button">Button</a>
-             </div>
-             <div class="UnderlineNav-body" role="tablist">
-             <a href="#url" aria-current="page" aria-selected="true" class="UnderlineNav-item" role="tab">One</a>
-             <a href="#url" class="UnderlineNav-item" role="tab">Two</a>
-             </div>
+             <div class="UnderlineNav-actions"><a class="btn btn-sm" href="#url" role="button">Button</a></div>
+             <div class="UnderlineNav-body" role="tablist"><a href="#url" role="tab" class="UnderlineNav-item" aria-selected="true"
+             aria-current="page">One</a><a href="#url" role="tab" class="UnderlineNav-item">Two</a></div>
              </nav>
              """
              |> format_html()
@@ -224,8 +210,8 @@ defmodule PrimerLive.Components.UnderlineNavTest do
              <nav class="UnderlineNav UnderlineNav--full underline_nav-x my-underline_nav">
              <div class="UnderlineNav-container container-x">
              <div class="UnderlineNav-body body-x" role="tablist">
-             <a href="#url" aria-current="page" aria-selected="true" class="UnderlineNav-item tab-x my-tab" role="tab">One</a>
-             <a href="#url" class="UnderlineNav-item tab-x" role="tab">Two</a>
+             <a href="#url" role="tab" class="UnderlineNav-item tab-x my-tab" aria-selected="true" aria-current="page">One</a>
+             <a href="#url" role="tab" class="UnderlineNav-item tab-x">Two</a>
              </div>
              <div class="UnderlineNav-actions position_end-x my-position-end">Actions here</div>
              </div>
@@ -254,8 +240,8 @@ defmodule PrimerLive.Components.UnderlineNavTest do
              """
              <nav class="UnderlineNav" dir="rtl">
              <div class="UnderlineNav-body" role="tablist">
-             <a href="#url" aria-current="page" aria-label="View One" aria-selected="true" class="UnderlineNav-item" role="tab">One</a>
-             <a href="#url" class="UnderlineNav-item" role="tab">Two</a>
+             <a href="#url" role="tab" class="UnderlineNav-item" aria-label="View One" aria-selected="true" aria-current="page">One</a>
+             <a href="#url" role="tab" class="UnderlineNav-item">Two</a>
              </div>
              <div aria-label="Actions" class="UnderlineNav-actions">Actions here</div>
              </nav>
