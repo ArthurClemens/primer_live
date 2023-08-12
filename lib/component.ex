@@ -1,6 +1,6 @@
 defmodule PrimerLive.Component do
   @moduledoc """
-  Component documentation.
+  PrimerLive component documentation.
   """
 
   use Phoenix.Component
@@ -6439,6 +6439,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the dropdown component")
 
   DeclarationHelpers.class()
@@ -6867,6 +6868,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the select menu component")
 
   DeclarationHelpers.class()
@@ -7497,6 +7499,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the menu component")
 
   attr(:is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right.")
@@ -10895,6 +10898,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(false)
   PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.is_modal("the dialog")
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.focus_first("the dialog")
@@ -11256,6 +11260,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(false)
   PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.is_modal("the drawer")
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.focus_first("the drawer")
@@ -12490,7 +12495,23 @@ defmodule PrimerLive.Component do
   attr(:update_theme_event, :string,
     default: Theme.update_theme_event_key(),
     doc: """
-    Event name to be called for updating the theme.
+    Event name for the `handle_event` update callback.
+    The callback will be called with arguments:
+    - `key`: "color_mode", "light_theme", "dark_theme" or "reset"
+    - `data`: any value from `color_mode`, `light_theme` or `dark_theme`; or "" (when `key` is "reset")
+
+    If `update_theme_event` has value `store_theme`, the update theme event handler would be set up like this:
+    ```
+    def handle_event(
+      "store_theme",
+      %{"data" => data, "key" => key, "value" => _},
+      socket
+    ) do
+      # Persist new theme state ...
+
+      {:noreply, socket}
+    end
+    ```
     """
   )
 
@@ -12574,7 +12595,7 @@ defmodule PrimerLive.Component do
       |> assign(:menu_items, menu_items)
       |> assign(:is_default_theme, is_default_theme)
       |> assign(:is_reset_enabled, !is_default_theme && !assigns.is_click_disabled)
-      |> assign(:update_theme_event, assigns.update_theme_event || Theme.update_theme_event_key())
+      |> assign(:update_theme_event, assigns.update_theme_event)
 
     ~H"""
     <.action_list {@rest}>

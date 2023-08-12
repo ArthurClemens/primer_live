@@ -463,4 +463,33 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              """
              |> format_html()
   end
+
+  test "Attribute: phx_click_touch" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.action_menu phx_click_touch="handle_close" id="some-id">
+             <:toggle>
+               Menu
+             </:toggle>
+             LIST
+           </.action_menu>
+           """)
+           |> format_html() ==
+             """
+             <div data-isfast="" data-prompt="" id="some-id" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
+             for="some-id-toggle">Menu</label><input aria-hidden="true" id="some-id-toggle" name="[]"
+             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
+             <div data-prompt-content>
+             <div data-touch="" phx-click="handle_close"></div>
+             <div class="ActionMenu">
+             <div aria-role="menu" class="ActionMenu-modal" data-content="">
+                <div class="SelectMenu-list">LIST</div>
+             </div>
+             </div>
+             </div>
+             </div>
+             """
+             |> format_html()
+  end
 end
