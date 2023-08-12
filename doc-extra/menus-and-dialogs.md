@@ -31,16 +31,17 @@ With dialogs and drawers, the toggle element is omitted - they are usually opene
 
 The following (optional) attributes are common for all menus and dialogs.
 
+- `form` - The surrounding form, if any.
+- `field` - See below at [Maintaining state in forms](#maintaining-state-in-forms).
+- `id` - Element id. Use to toggle from the outside, and to get consistent IDs in tests.
 - `is_backdrop` - Generates a backdrop background (default with medium darkness).
-- `is_light_backdrop` - Generates a light backdrop background color.
-- `is_medium_backdrop` - Generates a medium backdrop background color.
 - `is_dark_backdrop` - Generates a dark backdrop background color.
 - `is_dropdown_caret` - Adds a dropdown caret to the prompt button.
 - `is_fast` - Generates fast fade transitions for backdrop and content.
+- `is_light_backdrop` - Generates a light backdrop background color.
+- `is_medium_backdrop` - Generates a medium backdrop background color.
+- `phx_click_touch` - `phx-click` event binding to assign an event callback on clicking the touch layer.
 - `prompt_options` - JavaScript state callback functions.
-- `id` - Element id. Use to toggle from the outside, and to get consistent IDs in tests.
-- `form` - The surrounding form, if any.
-- `field` - See below at [Maintaining state in forms](#maintaining-state-in-forms).
 
 Dialog and drawer specific:
 
