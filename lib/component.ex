@@ -28,13 +28,13 @@ defmodule PrimerLive.Component do
   @doc section: :menus
 
   @doc ~S"""
-  Generates a vertical list of interactive actions or options. It’s composed of items presented in a consistent single-column format, with room for icons, descriptions, side information, and other rich visuals.
+  Action list is a vertical list of interactive actions or options. It's composed of items presented in a consistent. single-column format, with room for icons, descriptions, side information, and other rich visuals.
 
   Action list is composed of one or more child components:
   - `action_list_section_divider/1` - a divider with optional title
   - `action_list_item/1` - versatile list item
 
-  See the [Primer Action List interface guidelines](https://primer.style/design/components/action-list) for more examples.
+  See the [Primer Action list interface guidelines](https://primer.style/design/components/action-list) for more examples.
 
   ## Examples
 
@@ -364,11 +364,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Action List](https://primer.style/css/components/action-list)
-
-  ## Status
-
-  Feature complete.
+  [Primer Action list](https://primer.style/design/components/action-list)
+  [Primer Nav list](https://primer.style/design/components/nav-list)
 
   """
 
@@ -1147,7 +1144,7 @@ defmodule PrimerLive.Component do
   @doc section: :navigation
 
   @doc ~S"""
-  Generates a tab navigation.
+  Tab nav contains a set of links that let users navigate between different views in the same context.
 
   Tabs are by default rendered as buttons. To create link elements, pass attribute `href`, `navigate` or `patch`.
 
@@ -1240,11 +1237,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Navigation](https://primer.style/css/components/navigation)
-
-  ## Status
-
-  Feature complete.
+  [Primer Tab nav](https://primer.style/design/components/tab-nav)
 
   """
 
@@ -1536,11 +1529,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Navigation](https://primer.style/css/components/navigation)
-
-  ## Status
-
-  Feature complete.
+  [Primer Navigation](https://primer.style/design/components/underline-nav)
 
   """
 
@@ -1861,11 +1850,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Navigation](https://primer.style/css/components/navigation)
-
-  ## Status
-
-  Feature complete.
+  No longer provided on https://primer.style/design/components
 
   """
 
@@ -2146,11 +2131,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Navigation](https://primer.style/css/components/navigation)
-
-  ## Status
-
-  Feature complete.
+  [Primer Navigation](https://primer.style/design/components/navigation)
 
   """
 
@@ -2373,11 +2354,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Navigation](https://primer.style/css/components/navigation)
-
-  ## Status
-
-  Feature complete.
+  [Primer Navigation](https://primer.style/design/components/navigation)
 
   """
 
@@ -2677,11 +2654,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Navigation](https://primer.style/css/components/navigation)
-
-  ## Status
-
-  Feature complete.
+  No longer provided on https://primer.style/design/components
 
   """
 
@@ -2877,11 +2850,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Forms](https://primer.style/css/components/forms)
-
-  ## Status
-
-  Feature complete.
+  [Primer Form control](https://primer.style/design/components/form-control)
 
   """
 
@@ -3096,6 +3065,10 @@ defmodule PrimerLive.Component do
     />
   </.form>
   ```
+
+  ## Reference
+
+  [Primer Form control](https://primer.style/design/components/form-control)
   """
 
   DeclarationHelpers.form()
@@ -3317,11 +3290,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Forms](https://primer.style/css/components/forms)
-
-  ## Status
-
-  Feature complete.
+  - [Primer Text input](https://primer.style/design/components/text-input)
+  - [Primer Form control](https://primer.style/design/components/form-control)
 
   """
 
@@ -3745,11 +3715,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Forms](https://primer.style/css/components/forms)
-
-  ## Status
-
-  Feature complete.
+  - [Primer Textarea](https://primer.style/design/components/textarea)
+  - [Primer Form control](https://primer.style/design/components/form-control)
 
   """
 
@@ -3838,11 +3805,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Forms](https://primer.style/css/components/forms)
-
-  ## Status
-
-  Feature complete.
+  - [Primer Select](https://primer.style/design/components/select)
+  - [Primer Form control](https://primer.style/design/components/form-control)
 
   """
 
@@ -4170,11 +4134,9 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Forms](https://primer.style/css/components/forms)
-
-  ## Status
-
-  Feature complete.
+  - [Primer Checkbox](https://primer.style/design/components/checkbox)
+  - [Primer Checkbox group](https://primer.style/design/components/checkbox-group)
+  - [Primer Form control](https://primer.style/design/components/form-control)
   """
 
   DeclarationHelpers.form()
@@ -4594,11 +4556,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Forms](https://primer.style/css/components/forms)
-
-  ## Status
-
-  Feature complete.
+  - [Primer Radio](https://primer.style/design/components/radio)
+  - [Primer Form control](https://primer.style/design/components/form-control)
   """
 
   DeclarationHelpers.form()
@@ -4779,11 +4738,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Forms](https://primer.style/css/components/forms)
-
-  ## Status
-
-  Feature complete.
+  - [Primer Radio group](https://primer.style/design/components/radio-group)
+  - [Primer Form control](https://primer.style/design/components/form-control)
   """
 
   DeclarationHelpers.form()
@@ -4947,7 +4903,7 @@ defmodule PrimerLive.Component do
   @doc section: :alerts
 
   @doc ~S"""
-  Generates an alert message.
+  Flash alert informs users of successful or pending actions.
 
   ```
   <.alert>
@@ -4988,12 +4944,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Alerts](https://primer.style/css/components/alerts/)
-
-  ## Status
-
-  To do:
-  - Flash (page) banner
+  [Primer Flash](https://primer.style/design/components/flash)
 
   """
 
@@ -5130,11 +5081,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Alerts](https://primer.style/css/components/alerts/)
-
-  ## Status
-
-  Feature complete.
+  [Primer Alert](https://primer.style/design/components/alert)
 
   """
 
@@ -5188,11 +5135,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Markdown](https://primer.style/css/components/markdown/)
-
-  ## Status
-
-  Feature complete.
+  [Primer Markdown](https://primer.style/design/components/markdown)
 
   """
 
@@ -5232,7 +5175,7 @@ defmodule PrimerLive.Component do
   @doc section: :layout
 
   @doc ~S"""
-  Generates a responsive-friendly page layout with 2 columns.
+  Layout provides foundational patterns for responsive pages.
 
   ```
   <.layout>
@@ -5357,11 +5300,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Layout](https://primer.style/css/components/layout/)
-
-  ## Status
-
-  Feature complete.
+  [Primer Layout](https://primer.style/design/components/layout)
 
   """
 
@@ -5625,7 +5564,7 @@ defmodule PrimerLive.Component do
   @doc section: :box
 
   @doc ~S"""
-  Generates a content container.
+  Box is a basic wrapper component for most layout related needs.
 
   A `box` is a container with rounded corners, a white background, and a light gray border.
   By default, there are no other styles, such as padding; however, these can be introduced
@@ -5823,11 +5762,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Box](https://primer.style/css/components/box/)
-
-  ## Status
-
-  Feature complete.
+  [Primer Box](https://primer.style/design/components/box)
+  [Primer Border box](https://primer.style/design/components/border-box)
 
   """
 
@@ -6229,11 +6165,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Header](https://primer.style/css/components/header/)
-
-  ## Status
-
-  Feature complete.
+  [Primer Header](https://primer.style/design/components/header)
 
   """
 
@@ -6421,11 +6353,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Dropdown](https://primer.style/css/components/dropdown/)
-
-  ## Status
-
-  Feature complete.
+  [Primer Dropdown](https://primer.style/design/components/dropdown)
 
   """
 
@@ -6850,11 +6778,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Select menu](https://primer.style/css/components/select-menu/)
-
-  ## Status
-
-  Feature complete.
+  [Primer Select menu](https://primer.style/design/components/select-menu)
 
   """
 
@@ -7438,7 +7362,7 @@ defmodule PrimerLive.Component do
   @doc section: :menus
 
   @doc ~S"""
-  Generates an action menu.
+  Action menu is composed of action list and overlay patterns used for quick actions and selections.
 
   The action menu functions similarly to a `select_menu/1`, but with an `action_list/1` as content.
 
@@ -7480,12 +7404,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  - [Primer/CSS Select menu](https://primer.style/css/components/select-menu/)
-  - [Primer/CSS Action List](https://primer.style/css/components/action-list/)
-
-  ## Status
-
-  Feature complete.
+  - [Primer Action menu](https://primer.style/design/components/action-menu)
+  - [Primer Action list](https://primer.style/design/components/action-list)
 
   """
 
@@ -7779,11 +7699,9 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Buttons](https://primer.style/css/components/buttons/)
-
-  ## Status
-
-  Feature complete.
+  [Primer Button](https://primer.style/design/components/button)
+  [Primer Button group](https://primer.style/design/components/button-group)
+  [Primer Icon button](https://primer.style/design/components/icon-button)
 
   """
 
@@ -7943,11 +7861,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Button groups](https://primer.style/css/components/buttons#button-groups)
-
-  ## Status
-
-  Feature complete.
+  [Primer Button group](https://primer.style/design/components/button-group)
 
   """
 
@@ -8023,7 +7937,7 @@ defmodule PrimerLive.Component do
   @doc section: :pagination
 
   @doc ~S"""
-  Generates a control to navigate search results.
+  Pagination is a horizontal set of links to navigate paginated content.
 
   ```
   <.pagination
@@ -8079,13 +7993,9 @@ defmodule PrimerLive.Component do
 
   [INSERT LVATTRDOCS]
 
-  ### Reference
+  ## Reference
 
-  [Primer/CSS Pagination](https://primer.style/css/components/pagination/)
-
-  ## Status
-
-  Feature complete.
+  [Primer Pagination](https://primer.style/design/components/pagination)
 
   """
 
@@ -8445,14 +8355,11 @@ defmodule PrimerLive.Component do
 
   [INSERT LVATTRDOCS]
 
-  ### Reference
+  ## Reference
 
+  - [Primer Icon](https://primer.style/design/components/icon)
   - [List of Primer icons](https://primer.style/octicons/)
   - [Primer/Octicons Usage](https://primer.style/octicons/guidelines/usage)
-
-  ## Status
-
-  Feature complete.
 
   """
 
@@ -8578,11 +8485,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Labels](https://primer.style/css/components/labels)
-
-  ## Status
-
-  Feature complete.
+  [Primer Label](https://primer.style/design/components/label)
 
   """
 
@@ -8749,11 +8652,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Labels](https://primer.style/css/components/labels)
-
-  ## Status
-
-  Feature complete.
+  [Primer Labels](https://primer.style/design/components/labels)
 
   """
 
@@ -8830,11 +8729,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Labels](https://primer.style/css/components/labels)
-
-  ## Status
-
-  Feature complete.
+  [Primer State label](https://primer.style/design/components/state-label)
 
   """
 
@@ -8941,11 +8836,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Labels](https://primer.style/css/components/labels)
-
-  ## Status
-
-  Feature complete.
+  [Primer Counter label](https://primer.style/design/components/counter-label)
 
   """
 
@@ -9044,11 +8935,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Subhead](https://primer.style/css/components/subhead)
-
-  ## Status
-
-  Feature complete.
+  [Primer Pagehead](https://primer.style/design/components/pagehead)
 
   """
 
@@ -9189,11 +9076,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Breadcrumbs](https://primer.style/css/components/breadcrumb)
-
-  ## Status
-
-  Feature complete.
+  [Primer Breadcrumbs](https://primer.style/design/components/breadcrumbs)
 
   """
 
@@ -9398,11 +9281,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Links](https://primer.style/css/components/links)
-
-  ## Status
-
-  Feature complete.
+  [Primer Link](https://primer.style/design/components/link)
 
   """
 
@@ -9490,7 +9369,7 @@ defmodule PrimerLive.Component do
   # avatar
   # ------------------------------------------------------------------------------------
 
-  @doc section: :avatars
+  @doc section: :avatar
 
   @doc ~S"""
   User profile image.
@@ -9519,11 +9398,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Avatars](https://primer.style/css/components/avatars)
-
-  ## Status
-
-  Feature complete.
+  [Primer Avatar](https://primer.style/design/components/avatar)
 
   """
 
@@ -9604,7 +9479,7 @@ defmodule PrimerLive.Component do
   # parent_child_avatar
   # ------------------------------------------------------------------------------------
 
-  @doc section: :avatars
+  @doc section: :avatar
 
   @doc ~S"""
   Generates a larger "parent" avatar with a smaller "child" overlaid on top.
@@ -9624,11 +9499,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Avatars](https://primer.style/css/components/avatars)
-
-  ## Status
-
-  Feature complete.
+  [Primer Avatar](https://primer.style/design/components/avatars)
+  [Primer Avatar pair](https://primer.style/design/components/avatar-pair)
 
   """
 
@@ -9777,11 +9649,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Avatars](https://primer.style/css/components/avatars)
-
-  ## Status
-
-  Feature complete.
+  [Primer Circle badge](https://primer.style/design/components/circle-badge)
 
   """
 
@@ -9980,11 +9848,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Loaders](https://primer.style/css/components/loaders)
-
-  ## Status
-
-  Feature complete.
+  No longer provided on https://primer.style/design/components
 
   """
 
@@ -10057,6 +9921,10 @@ defmodule PrimerLive.Component do
 
   [INSERT LVATTRDOCS]
 
+  ## Reference
+
+  [Primer Spinner](https://primer.style/design/components/spinner)
+
   """
 
   DeclarationHelpers.class()
@@ -10104,7 +9972,7 @@ defmodule PrimerLive.Component do
   @doc section: :blankslate
 
   @doc ~S"""
-  Generates fallback content if the actual content does not yet exist or if the user needs to perform an action.
+  Blankslate is used as placeholder to tell users why content is missing.
 
   ```
   <.blankslate>
@@ -10195,11 +10063,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Blankslate](https://primer.style/css/components/blankslate)
-
-  ## Status
-
-  Feature complete.
+  [Primer Blankslate](https://primer.style/design/components/blankslate)
 
   """
 
@@ -10586,11 +10450,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Truncate](https://primer.style/css/components/truncate)
-
-  ## Status
-
-  Feature complete.
+  [Primer Truncate](https://primer.style/design/components/truncate)
 
   """
 
@@ -10880,11 +10740,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Box overlay](https://primer.style/css/components/box-overlay)
-
-  ## Status
-
-  Feature complete.
+  [Primer Dialog](https://primer.style/design/components/dialog)
 
   """
 
@@ -11167,7 +11023,6 @@ defmodule PrimerLive.Component do
     </:body>
   </.drawer>
   ```
-
 
   Add a backdrop. Optionally add `is_light_backdrop` or `is_dark_backdrop`:
 
@@ -11547,7 +11402,7 @@ defmodule PrimerLive.Component do
   @doc section: :branch_name
 
   @doc ~S"""
-  Formats a branch name.
+  Branch name is a label-type component rendered as an <code>&lt;a></code> tag by default that displays the name of a branch.
 
   ```
   <.branch_name>development</.branch_name>
@@ -11576,11 +11431,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Branch name](https://primer.style/css/components/branch-name)
-
-  ## Status
-
-  Feature complete.
+  [Primer Branch name](https://primer.style/design/components/branch-name)
   """
 
   DeclarationHelpers.class()
@@ -11697,11 +11548,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Progress](https://primer.style/css/components/progress)
-
-  ## Status
-
-  Feature complete.
+  [Primer Progress bar](https://primer.style/design/components/progress-bar)
 
   """
 
@@ -12000,11 +11847,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Timeline](https://primer.style/css/components/timeline)
-
-  ## Status
-
-  Feature complete.
+  [Primer Timeline](https://primer.style/design/components/timeline)
 
   """
 
@@ -12328,11 +12171,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer/CSS Theming](https://primer.style/css/support/theming)
-
-  ## Status
-
-  Feature complete.
+  No longer provided on https://primer.style/design/components
 
   """
 
