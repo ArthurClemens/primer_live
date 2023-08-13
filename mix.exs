@@ -12,7 +12,7 @@ defmodule PrimerLive.MixProject do
       name: "PrimerLive",
       deps: deps(),
       docs: docs(),
-      elixirc_paths: elixirc_paths(Mix.env())
+      elixirc_paths: elixirc_paths(Application.get_env(:primer_live, :env))
     ]
   end
 
