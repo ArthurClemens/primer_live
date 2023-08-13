@@ -203,7 +203,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              """
              <div class="form-group">
              <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body"><input class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" /></div>
+             <div><input class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" /></div>
              </div>
              """
              |> format_html()
@@ -219,7 +219,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              """
              <div class="form-group">
              <div class="form-group-header"><label for="xyz">First name</label></div>
-             <div class="form-group-body"><input class="FormControl-input FormControl-medium" id="xyz" name="user[first_name]" type="text" /></div>
+             <div><input class="FormControl-input FormControl-medium" id="xyz" name="user[first_name]" type="text" /></div>
              </div>
              """
              |> format_html()
@@ -243,7 +243,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              """
              <div class="form-group">
              <div class="form-group-header"><label for="user_first_name">Some label</label></div>
-             <div class="form-group-body"><input class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" /></div>
+             <div><input class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" /></div>
              </div>
              """
              |> format_html()

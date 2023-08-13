@@ -2946,7 +2946,6 @@ defmodule PrimerLive.Component do
         ]),
       body:
         AttributeHelpers.classnames([
-          "form-group-body",
           assigns.classes[:body]
         ])
     }
@@ -2988,12 +2987,16 @@ defmodule PrimerLive.Component do
         [class: classes.group]
       ])
 
+    body_attrs = AttributeHelpers.append_attributes([
+      classes.body && [class: classes.body]
+    ])
     assigns =
       assigns
       |> assign(:classes, classes)
       |> assign(:group_attributes, group_attributes)
       |> assign(:has_header_label, has_header_label)
       |> assign(:header_label, header_label)
+      |> assign(:body_attrs, body_attrs)
 
     ~H"""
     <div {@group_attributes}>
@@ -3002,7 +3005,7 @@ defmodule PrimerLive.Component do
           <%= @header_label %>
         </div>
       <% end %>
-      <div class={@classes.body}>
+      <div {@body_attrs}>
         <%= render_slot(@inner_block) %>
       </div>
     </div>
