@@ -642,8 +642,3 @@ span.ActionList-content[aria-expanded] {
 span[data-color-mode] {
   background: none;
 }
-
-/* Restore text selection. */
-*::selection {
-  background-color: var(--color-accent-subtle);
-}
