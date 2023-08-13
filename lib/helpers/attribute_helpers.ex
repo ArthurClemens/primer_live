@@ -317,7 +317,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   uppercase letters, digits, etc...
   """
   def random_string(len \\ 12) when is_integer(len) and len > 0 do
-    (for _ <- 1..len, do: rand_uniform(32, 126))
+    for(_ <- 1..len, do: rand_uniform(32, 126))
     |> List.to_string()
   end
 
@@ -329,8 +329,10 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   # distributed in the range `n <= Y <= m`.
   # (Because we just shift X to the right).
   defp rand_uniform(n, m) do
-    :rand.uniform(m - n + 1) # random X
-    |> Kernel.+(n - 1)       # shift X to the right to get Y
+    # random X
+    :rand.uniform(m - n + 1)
+    # shift X to the right to get Y
+    |> Kernel.+(n - 1)
   end
 
   @doc """
@@ -960,7 +962,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     touch_layer_attrs =
       append_attributes([
         ["data-touch": ""],
-        !is_nil(assigns[:phx_click_touch]) && !is_modal && ["phx-click": assigns[:phx_click_touch]]
+        !is_nil(assigns[:phx_click_touch]) && !is_modal &&
+          ["phx-click": assigns[:phx_click_touch]]
       ])
 
     focus_wrap_id = "focus-wrap-#{id || generated_id}"
