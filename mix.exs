@@ -16,7 +16,7 @@ defmodule PrimerLive.MixProject do
   end
 
   defp description() do
-    "A collection of function components that implements GitHub's Primer Design System."
+    "An implementation of GitHub's Primer Design System for Phoenix LiveView."
   end
 
   # Run "mix help compile.app" to learn about applications.
