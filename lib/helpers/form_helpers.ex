@@ -140,7 +140,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...> })
       %Ecto.Changeset{action: nil, changes: %{}, errors: [], data: nil, valid?: false}
   """
-  def form_changeset(%Phoenix.HTML.Form{source: %Ecto.Changeset{}} = form) do
+  def form_changeset(%Phoenix.HTML.Form{source: _} = form) do
     form.source
   end
 

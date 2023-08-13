@@ -191,6 +191,16 @@ defmodule PrimerLive.Theme do
     |> Enum.map(&move_options_to_field/1)
     |> Enum.map(&add_selected_state(&1, theme))
     |> Enum.map(&add_labels(&1, menu_labels))
+    |> Enum.sort_by(fn {key, _item} ->
+      order =
+        case key do
+          :color_mode -> 0
+          :light_theme -> 1
+          :dark_theme -> 2
+        end
+
+      order
+    end)
   end
 
   defp move_options_to_field({key, options}) do
