@@ -4,14 +4,15 @@
 
 ### Improvements
 
-- The open state of menus and dialogs can now be maintained when used inside forms.
+- The open state of menus and dialogs can now be maintained when used inside forms - see [Menus and dialogs](doc-extra/menus-and-dialogs.md).
 - Improved validation message logic.
 - Updated components:
   - `theme_menu_options`: added attr `update_theme_event`: the event name to be called for updating the theme.
-  - `radio_group`: added to slot `radio_button` the attr `label` to set a custom label
+  - `radio_group`: added to slot `radio_button` the attr `label` to set a custom label.
+- Updated `@primer/css` to `21.0.7`.
 
 ### Breaking changes
-- Removed functions related to session for theme state - see `PrimerLive.Theme` for alternatives:
+- Removed functions related to using session for theme state - see `PrimerLive.Theme` for alternatives. Removed:
   - `ThemeSessionController`
   - `ThemeEvent`
   - Theme hook
@@ -22,12 +23,12 @@
 - For all menu components, including 'dialog' and 'drawer': passing prompt options to the `toggle` slot is replaced by passing `prompt_options` to the main component.
 - In the `drawer` component, replace the subcomponent `drawer_content` with the slot `body`.
   - This allows the focus wrap ID to be derived from the drawer's 'id' attribute, similar to how it is done for 'dialog'.
-
-When using the original code, a warning message will be shown in the shell.
+  - When using the previous syntax, a warning message will be shown in the shell.
 
 ### Other changes
 
 - The HTML structure and some of the CSS classes of `action_menu`, `dropdown_menu` and `select_menu` have changed. Instead of `<details>` and `<summary>` elements, the open state is now controlled with `<input type="checkbox">` and `<label>`.
+- HTML attributes are sorted alphabetically.
 
 ## 0.3.1
 
