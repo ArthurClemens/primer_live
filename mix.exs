@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.4.0",
+      version: "0.4.1",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: description(),
       package: package(),
@@ -12,13 +12,8 @@ defmodule PrimerLive.MixProject do
       name: "PrimerLive",
       deps: deps(),
       docs: docs(),
-      elixirc_paths: elixirc_paths(Mix.env())
     ]
   end
-
-  # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_), do: ["lib"]
 
   defp description() do
     "A collection of function components that implements GitHub's Primer Design System."
@@ -35,7 +30,7 @@ defmodule PrimerLive.MixProject do
   defp deps do
     [
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:ecto, "~> 3.10", only: :test, runtime: false},
+      {:ecto, "~> 3.10", runtime: false},
       {:ecto_sql, "~> 3.10", only: :test, runtime: false},
       {:esbuild, "~> 0.7", only: :dev},
       {:ex_doc, "~> 0.30", only: :dev},
