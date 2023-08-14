@@ -54,6 +54,52 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
+  defmacro validation_message() do
+    quote do
+      attr(:validation_message, :any,
+        doc: """
+        Function to write a custom validation message (in case of error or success).
+
+        The function receives a `PrimerLive.FieldState` struct and returns a validation message.
+
+        A validation message is shown:
+        - If form is a `Phoenix.HTML.Form`, containing a `changeset`
+        - And either:
+          - `changeset.action` is `:validate`
+          - `validation_message` returns a string
+
+        Function signature: `fun field_state -> string | nil`.
+
+        Example error message:
+
+        ```
+        fn field_state ->
+          if !field_state.valid?, do: "Please enter your first name"
+        end
+        ```
+
+        Example success message, only shown when `changeset.action` is `:validate`:
+
+        ```
+        fn field_state ->
+          if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
+        end
+        ```
+        """
+      )
+    end
+  end
+
+  defmacro validation_message_id() do
+    quote do
+      attr(:validation_message_id, :any,
+        doc: """
+        Message ID that is usually passed from the form element component to `input_validation_message`. If not used, the ID will be generated.
+        """
+      )
+    end
+  end
+
   defmacro href() do
     quote do
       attr(:href, :any,

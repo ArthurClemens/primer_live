@@ -2940,10 +2940,6 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           assigns.classes[:label]
         ]),
-      input:
-        AttributeHelpers.classnames([
-          assigns.classes[:input]
-        ]),
       body:
         AttributeHelpers.classnames([
           assigns.classes[:body]
@@ -3078,18 +3074,8 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.field()
   DeclarationHelpers.input_id()
   DeclarationHelpers.class()
-
-  attr(:validation_message_id, :string,
-    doc: """
-    Message ID that is usually passed from the form element component to `input_validation_message`. If not used, the ID will be generated.
-    """
-  )
-
-  attr(:validation_message, :any,
-    doc: """
-    Function to write a custom validation message (in case of error or success). See `text_input/1`.
-    """
-  )
+  DeclarationHelpers.validation_message()
+  DeclarationHelpers.validation_message_id()
 
   attr(:is_multiple, :boolean,
     default: false,
@@ -3382,44 +3368,14 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:form_group, :any,
+  attr(:form_group, :map,
     doc: """
     Form group attributes. Inserts the input inside a `form_group/1` with given attributes, alongside `form` and `field` to generate a group label.
     """
   )
 
-  attr(:validation_message, :any,
-    doc: """
-    Function to write a custom validation message (in case of error or success).
-
-    The function receives a `PrimerLive.FieldState` struct and returns a validation message.
-
-    A validation message is shown:
-    - If form is a `Phoenix.HTML.Form`, containing a `changeset`
-    - And either:
-      - `changeset.action` is `:validate`
-      - `validation_message` returns a string
-
-    Function signature: `fun field_state -> string | nil`.
-
-    Example error message:
-
-    ```
-    fn field_state ->
-      if !field_state.valid?, do: "Please enter your first name"
-    end
-    ```
-
-    Example success message, only shown when `changeset.action` is `:validate`:
-
-    ```
-    fn field_state ->
-      if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
-    end
-    ```
-    """
-  )
-
+  DeclarationHelpers.validation_message()
+  DeclarationHelpers.validation_message_id()
   DeclarationHelpers.rest()
 
   slot(:group_button,
@@ -3817,6 +3773,8 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.field()
   DeclarationHelpers.name()
   DeclarationHelpers.input_id()
+  DeclarationHelpers.validation_message()
+  DeclarationHelpers.validation_message_id()
 
   attr(:options, :any, required: true, doc: "Selectable options (list, map or keyword list).")
 
@@ -3911,15 +3869,9 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:form_group, :any,
+  attr(:form_group, :map,
     doc: """
     Form group attributes. Inserts the select inside a `form_group/1` with given attributes, alongside `form` and `field` to generate a group label.
-    """
-  )
-
-  attr(:validation_message, :any,
-    doc: """
-    Function to write a custom validation message (in case of error or success). See `text_input/1`.
     """
   )
 
