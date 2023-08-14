@@ -394,6 +394,43 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
+  test "Attribute: classes" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input
+             classes={
+               %{
+                 form_control: "form_control-x",
+                 input: "input-x",
+                 input_group: "input_group-x",
+                 input_group_button: "input_group_button-x",
+                 validation_message: "validation_message-x",
+                 input_wrap: "input_wrap-x"
+               }
+             }
+             class="my-text-input"
+           >
+             <:group_button>
+               <.button>Send</.button>
+             </:group_button>
+             <:leading_visual class="my-leading-visual">
+               <.octicon name="mail-16" />
+             </:leading_visual>
+           </.text_input>
+           """)
+           |> format_html() ==
+             """
+             <div class="input-group input_group-x">
+             <input class="FormControl-input FormControl-medium input-x my-text-input" type="text" />
+             <span class="input-group-button input_group_button-x">
+             <button class="btn" type="button">Send</button>
+             </span>
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Attribute: style" do
     assigns = %{}
 
