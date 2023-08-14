@@ -2820,7 +2820,7 @@ defmodule PrimerLive.Component do
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.form_group form={f} field={:first_name} autocomplete="off">
+    <.form_group form={f} field={:first_name}>
       <.text_input
         form={f}
         field={:first_name}
