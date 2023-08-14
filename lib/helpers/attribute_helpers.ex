@@ -75,6 +75,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([dir: "rtl"], [[placeholder: "hello"]])
       [dir: "rtl", placeholder: "hello"]
 
+      iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([dir: "rtl"], %{"placeholder" => "hello"})
+      [dir: "rtl", placeholder: "hello"]
+
       iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([dir: "rtl"], [false, [placeholder: "hello"], [placeholder: "hello"], nil])
       [dir: "rtl", placeholder: "hello"]
 
@@ -97,20 +100,29 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       [class: "x", foo: "foo"]
   """
   def append_attributes(attributes, input_attributes) when is_map(attributes) do
-    attr_list = Keyword.new(attributes)
+    attr_list = convert_map_to_keyword_list(attributes)
     append_attributes(attr_list, input_attributes)
+  end
+
+  def append_attributes(attributes, input_attributes) when is_map(input_attributes) do
+    input_attributes_list = convert_map_to_keyword_list(input_attributes)
+    append_attributes(attributes, input_attributes_list)
   end
 
   def append_attributes(attributes, input_attributes) when is_nil(attributes),
     do: append_attributes([], input_attributes)
 
   def append_attributes(attributes, input_attributes) do
-    input_attributes
-    |> Enum.reject(&(&1 == false || is_nil(&1)))
+    flat_input_attributes =
+      input_attributes
+      |> Enum.reject(&(&1 == false || is_nil(&1)))
+      |> List.flatten()
+
+    flat_attributes = attributes |> List.flatten()
+
+    flat_attributes
+    |> Keyword.merge(flat_input_attributes)
     |> Enum.uniq()
-    |> Enum.reduce(attributes, fn kw, acc ->
-      acc ++ kw
-    end)
     |> Enum.sort()
   end
 
@@ -122,6 +134,18 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   def assigns_to_attributes_sorted(assigns, exclude \\ []) do
     assigns_to_attributes(assigns, exclude) |> Enum.sort()
   end
+
+  defp convert_map_to_keyword_list(map) when map == %{}, do: nil
+
+  defp convert_map_to_keyword_list(map) do
+    Keyword.new(map, fn {k, v} ->
+      {to_atom(k), v}
+    end)
+  end
+
+  defp to_atom(key) when is_atom(key), do: key
+  defp to_atom(key) when is_binary(key), do: String.to_existing_atom(key)
+  defp to_atom(key), do: key
 
   @doc ~S"""
   Converts user input to an integer, with optionally a default value
