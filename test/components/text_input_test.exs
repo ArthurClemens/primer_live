@@ -166,7 +166,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Attributes: is_monospace, is_contrast, is_full_width, is_hide_webkit_autofill, is_large, is_small, is_short, is_shorter" do
+  test "Attributes: is_monospace, is_contrast, is_full_width, is_hide_webkit_autofill, is_large, is_small" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
@@ -176,8 +176,6 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            <.text_input is_hide_webkit_autofill />
            <.text_input is_large />
            <.text_input is_small />
-           <.text_input is_short />
-           <.text_input is_shorter />
            """)
            |> format_html() ==
              """
@@ -187,8 +185,6 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <input class="FormControl-input input-hide-webkit-autofill FormControl-medium" type="text" />
              <input class="FormControl-input FormControl-large" type="text" />
              <input class="FormControl-input FormControl-small" type="text" />
-             <input class="FormControl-input FormControl-medium FormControl--short" type="text" />
-             <input class="FormControl-input FormControl-medium FormControl--shorter" type="text" />
              """
              |> format_html()
   end

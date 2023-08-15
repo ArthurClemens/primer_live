@@ -131,44 +131,6 @@ defmodule PrimerLive.TestComponents.SelectTest do
              |> format_html()
   end
 
-  test "Attribute: is_short" do
-    assigns = %{}
-
-    assert rendered_to_string(~H"""
-           <.select name="age" options={25..27} is_short />
-           """)
-           |> format_html() ==
-             """
-             <div class="FormControl-select-wrap FormControl--short">
-             <select class="FormControl-select FormControl-medium" id="age" name="age">
-             <option value="25">25</option>
-             <option value="26">26</option>
-             <option value="27">27</option>
-             </select>
-             </div>
-             """
-             |> format_html()
-  end
-
-  test "Attribute: is_shorter" do
-    assigns = %{}
-
-    assert rendered_to_string(~H"""
-           <.select name="age" options={25..27} is_shorter />
-           """)
-           |> format_html() ==
-             """
-             <div class="FormControl-select-wrap FormControl--shorter">
-             <select class="FormControl-select FormControl-medium" id="age" name="age">
-             <option value="25">25</option>
-             <option value="26">26</option>
-             <option value="27">27</option>
-             </select>
-             </div>
-             """
-             |> format_html()
-  end
-
   test "Attribute: is_full_width" do
     assigns = %{}
 
