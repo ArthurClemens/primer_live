@@ -2,17 +2,22 @@
 
 ## 0.5.0
 
-### Improvements
-
-Form elements have been revamped and aligned with the most recent [form element documentation at Primer Style](https://primer.style/design/ui-patterns/forms/overview).
-
-- Added `caption` attribute to show a hint message below form fields. The attribute is a function that takes `field_state`, similar to `validation_message`. This way the caption can be configured (or hidden) based on the field state.
-
 
 ### Deprecated
 
 - `form_group` is replaced by `form_control` (no functional changes)
 - `is_form_group` is replaced by `is_form_control` (no functional changes)
+
+
+### Improvements
+
+Form elements have been revamped and aligned with the most recent [form element documentation at Primer Style](https://primer.style/design/ui-patterns/forms/overview).
+
+- Added `caption` attribute to show a hint message below form fields. The attribute is a function that takes `field_state`, similar to `validation_message`. This way the caption can be configured (or hidden) based on the field state.
+- Added disabled state to `form_group`:
+  - On `select`, `text_input` and `textarea`: the attribute `disabled` is automatically passed to `form_group`.
+  - Using `form_group` standalone: with attr `is_disabled`.
+
 
 
 ### Removed

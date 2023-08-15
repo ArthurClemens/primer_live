@@ -366,6 +366,22 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
+  test "Extra attributes: disabled with is_form_group" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input name="first_name" disabled is_form_group />
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl form-group pl-FormControl-disabled">
+             <div class="form-group-header"><label class="FormControl-label" for="first_name">First name</label></div><input
+               class="FormControl-input FormControl-medium" disabled id="first_name" name="first_name" type="text" />
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Extra attributes: placeholder (and implicit aria-label)" do
     assigns = %{}
 

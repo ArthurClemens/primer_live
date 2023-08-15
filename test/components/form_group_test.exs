@@ -76,6 +76,19 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
              |> format_html()
   end
 
+  test "Attribute: is_disabled" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.form_group is_disabled>inputs</.form_group>
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl form-group pl-FormControl-disabled">inputs</div>
+             """
+             |> format_html()
+  end
+
   test "Extra attributes" do
     assigns = %{}
 

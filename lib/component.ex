@@ -2864,6 +2864,11 @@ defmodule PrimerLive.Component do
 
   attr(:is_hide_label, :boolean, default: false, doc: "Omits the label when using `field`.")
 
+  attr(:is_disabled, :boolean,
+    default: false,
+    doc: "Adjusts the styling to indicate disabled state."
+  )
+
   attr(:deprecated_has_form_group, :boolean,
     default: true,
     doc:
@@ -2933,6 +2938,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "FormControl",
           assigns.deprecated_has_form_group && "form-group",
+          assigns.is_disabled && "pl-FormControl-disabled",
           assigns[:class],
           assigns.classes[:group]
         ]),
@@ -3352,7 +3358,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.is_form_group("the input")
   DeclarationHelpers.validation_message()
   DeclarationHelpers.validation_message_id()
-  DeclarationHelpers.rest()
+  DeclarationHelpers.rest(include: ~w(name type disabled))
 
   slot(:group_button,
     doc: """
@@ -3629,10 +3635,11 @@ defmodule PrimerLive.Component do
       |> assign(:has_form_group, has_form_group)
       |> assign(:form_group_attrs, form_group_attrs)
       |> assign(:render, render)
+      |> assign(:is_disabled, rest[:disabled])
 
     ~H"""
     <%= if @has_form_group do %>
-      <.form_group {@form_group_attrs}>
+      <.form_group {@form_group_attrs} is_disabled={@is_disabled}>
         <%= @render.() %>
       </.form_group>
     <% else %>
@@ -3974,10 +3981,11 @@ defmodule PrimerLive.Component do
       |> assign(:has_form_group, has_form_group)
       |> assign(:form_group_attrs, form_group_attrs)
       |> assign(:render, render)
+      |> assign(:is_disabled, rest[:disabled])
 
     ~H"""
     <%= if @has_form_group do %>
-      <.form_group {@form_group_attrs}>
+      <.form_group {@form_group_attrs} is_disabled={@is_disabled}>
         <%= @render.() %>
       </.form_group>
     <% else %>

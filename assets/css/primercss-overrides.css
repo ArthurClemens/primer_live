@@ -123,6 +123,13 @@
   width: 100%;
 }
 
+/* Set disabled state to FormControl. */
+.FormControl.pl-FormControl-disabled,
+.FormControl.pl-FormControl-disabled .FormControl-label {
+  color: var(--color-primer-fg-disabled);
+  cursor: not-allowed;
+}
+
 /* Allow inputs without FormControl to set full width. */
 .FormControl-input.FormControl--fullWidth {
   width: 100%;
