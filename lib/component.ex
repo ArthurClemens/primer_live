@@ -2864,6 +2864,12 @@ defmodule PrimerLive.Component do
 
   attr(:is_hide_label, :boolean, default: false, doc: "Omits the label when using `field`.")
 
+  attr(:deprecated_has_form_group, :boolean,
+    default: true,
+    doc:
+      "Internal use: detects if deprecated `form_group` or `is_form_group` is used. Used to maintain consistent styling."
+  )
+
   DeclarationHelpers.class()
 
   attr(:for, :string,
@@ -2876,9 +2882,7 @@ defmodule PrimerLive.Component do
     default: %{
       group: nil,
       header: nil,
-      body: nil,
-      label: nil,
-      validation_message: nil
+      label: nil
     },
     doc: """
     Additional classnames for form group elements.
@@ -2890,7 +2894,6 @@ defmodule PrimerLive.Component do
     %{
       group: "",              # Form group element
       header: "",             # Header element containing the group label
-      body: "",               # Input wrapper
       label: "",              # Form group label
     }
     ```
@@ -2922,12 +2925,13 @@ defmodule PrimerLive.Component do
       rest: rest,
       form: form,
       field: field
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     classes = %{
       group:
         AttributeHelpers.classnames([
-          "form-group",
+          "FormControl",
+          assigns.deprecated_has_form_group && "form-group",
           assigns[:class],
           assigns.classes[:group]
         ]),
@@ -2938,11 +2942,8 @@ defmodule PrimerLive.Component do
         ]),
       label:
         AttributeHelpers.classnames([
+          "FormControl-label",
           assigns.classes[:label]
-        ]),
-      body:
-        AttributeHelpers.classnames([
-          assigns.classes[:body]
         ])
     }
 
@@ -2950,7 +2951,7 @@ defmodule PrimerLive.Component do
     # else use the default generated label
     header_label_attributes =
       AttributeHelpers.append_attributes([
-        [class: assigns.classes[:label]],
+        [class: classes[:label]],
         [for: assigns[:for] || nil]
       ])
 
@@ -2983,18 +2984,12 @@ defmodule PrimerLive.Component do
         [class: classes.group]
       ])
 
-    body_attrs =
-      AttributeHelpers.append_attributes([
-        classes.body && [class: classes.body]
-      ])
-
     assigns =
       assigns
       |> assign(:classes, classes)
       |> assign(:group_attributes, group_attributes)
       |> assign(:has_header_label, has_header_label)
       |> assign(:header_label, header_label)
-      |> assign(:body_attrs, body_attrs)
 
     ~H"""
     <div {@group_attributes}>
@@ -3003,9 +2998,7 @@ defmodule PrimerLive.Component do
           <%= @header_label %>
         </div>
       <% end %>
-      <div {@body_attrs}>
-        <%= render_slot(@inner_block) %>
-      </div>
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
@@ -3095,7 +3088,7 @@ defmodule PrimerLive.Component do
       phx_feedback_for_id: phx_feedback_for_id,
       message: message,
       valid?: valid?
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     class =
       AttributeHelpers.classnames([
@@ -6426,7 +6419,7 @@ defmodule PrimerLive.Component do
     %{
       form: form,
       field: field
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     # Get the first menu slot, if any
     menu_slot = if assigns[:menu] && assigns[:menu] !== [], do: hd(assigns[:menu]), else: []
@@ -6943,7 +6936,7 @@ defmodule PrimerLive.Component do
     %{
       form: form,
       field: field
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     assigns_classes =
       Map.merge(
@@ -7463,7 +7456,7 @@ defmodule PrimerLive.Component do
     %{
       form: form,
       field: field
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     assigns_classes =
       Map.merge(
@@ -10848,7 +10841,7 @@ defmodule PrimerLive.Component do
     %{
       form: form,
       field: field
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     classes = %{
       dialog_wrapper:
@@ -11165,7 +11158,7 @@ defmodule PrimerLive.Component do
     %{
       form: form,
       field: field
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     # Get the body slot, if any
     body_slot = if assigns.body && assigns.body !== [], do: hd(assigns.body), else: []

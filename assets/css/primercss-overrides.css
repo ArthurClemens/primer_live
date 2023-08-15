@@ -82,47 +82,50 @@
   padding-bottom: 0;
 }
 
-/* Bring input sizes used for form-control to FormControl-* elements. Default to auto size. */
+/* Deprecaton support (0.5.0). Make deprecated .form-group co-exist with FormControl to keep the layout (remove inline-flex). */
+.form-group.FormControl {
+  display: flex;
+}
+
+/* Deprecaton support (0.5.0). Give validation message and caption not inside a .FormControl a default top margin. */
+.FormControl-inlineValidation,
+.FormControl-caption {
+  margin-top: 4px;
+}
+/* -- and reset it when inside a .FormControl. */
+.FormControl .FormControl-inlineValidation {
+  margin-top: 0;
+}
+/* -- idem for caption */
+.FormControl .FormControl-caption {
+  margin-top: 0;
+}
+/* -- idem for form group header and bottom margin. */
+.FormControl.form-group .form-group-header {
+  margin: 0;
+}
+
+/* Prevent that FormControl each child element grows with the widest */
+.FormControl {
+  align-items: flex-start;
+}
+/* -- idem */
 .FormControl-input,
 .FormControl-select,
 .FormControl-textarea {
   width: auto;
 }
-
-/* -- idem */
-.form-group .FormControl-input,
-.form-group .FormControl-select-wrap,
-.form-group .FormControl-textarea {
+/* -- idem (restore full width) */
+.FormControl--fullWidth .FormControl-input,
+.FormControl--fullWidth .FormControl-select-wrap,
+.FormControl--fullWidth .FormControl-select,
+.FormControl--fullWidth .FormControl-textarea {
   width: 100%;
-  max-width: 440px;
 }
 
-/* -- idem for short inputs. */
-.form-group .FormControl-input.FormControl--short,
-.form-group .FormControl-select-wrap.FormControl--short,
-.form-group .FormControl-textarea.FormControl--short {
+/* Allow inputs without FormControl to set full width. */
+.FormControl-input.FormControl--fullWidth {
   width: 100%;
-  max-width: 250px;
-}
-
-/* -- idem for even shorter inputs. */
-.form-group .FormControl-input.FormControl--shorter,
-.form-group .FormControl-select-wrap.FormControl--shorter,
-.form-group .FormControl-textarea.FormControl--shorter {
-  width: 100%;
-  max-width: 130px;
-}
-
-/* -- idem - restore full width. */
-.FormControl-input.SelectMenu-input,
-.FormControl-input.FormControl--fullWidth,
-.FormControl-select-wrap.FormControl--fullWidth,
-.FormControl-textarea.FormControl--fullWidth,
-.form-group .FormControl-input.FormControl--fullWidth,
-.form-group .FormControl-select.FormControl--fullWidth,
-.form-group .FormControl-textarea.FormControl--fullWidth {
-  width: 100%;
-  max-width: unset;
 }
 
 /* Don't set height on textareas. */
@@ -153,12 +156,6 @@
 .input-group .FormControl-input[type="text"] {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-}
-
-/* -- idem */
-.input-group .FormControl-input[type="text"]:last-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
 }
 
 /* -- idem */
@@ -194,27 +191,6 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
   visibility: visible;
 }
 
-/* Form validation styles that conform to https://primer.style/view-components/components/alpha/textfield#with-a-validation-message */
-.form-control:not(:focus)[invalid],
-.form-select:not(:focus)[invalid] {
-  border-color: var(--color-danger-emphasis);
-}
-
-/* -- idem */
-.form-group.errored label {
-  color: inherit;
-}
-
-/* -- idem */
-.form-group .form-group-header {
-  margin-bottom: 4px;
-}
-
-/* -- idem */
-.FormControl-inlineValidation {
-  margin-top: 4px;
-}
-
 /* -- idem */
 .FormControl-inlineValidation--success {
   color: var(--color-success-fg);
@@ -227,6 +203,58 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
 }
 .pl-valid+.FormControl-inlineValidation--success.phx-no-feedback {
   display: block;
+}
+
+/* Style links inside validation messages. */
+.FormControl-inlineValidation a[href] {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* Style links inside caption messages. */
+.FormControl-caption a[href] {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* Reset error state to initial if preceding marker element has class phx-no-feedback. */
+.phx-no-feedback .FormControl-input[invalid]:not(:focus),
+.phx-no-feedback .FormControl-select[invalid]:not(:focus),
+.phx-no-feedback .FormControl-textarea[invalid]:not(:focus) {
+  border-color: var(--color-border-default);
+}
+
+/* -- idem */
+.phx-no-feedback input.FormControl-checkbox[type=checkbox][invalid]:not(:focus),
+.phx-no-feedback input.FormControl-radio[type=radio][invalid]:not(:focus) {
+  border-color: var(--color-border-default);
+}
+
+/* -- idem */
+.phx-no-feedback .FormControl-input:not(:focus)[invalid],
+.phx-no-feedback .FormControl-select:not(:focus)[invalid] {
+  border-color: var(--color-border-default);
+}
+
+/* -- idem */
+.phx-no-feedback .FormControl-inlineValidation--error,
+.pl-valid+.FormControl-inlineValidation--error,
+.pl-neutral+.FormControl-inlineValidation--error {
+  display: none;
+}
+.pl-invalid+.FormControl-inlineValidation--success {
+  display: none;
+}
+
+/* Set visual error state to neutral if preceding marker element has class pl-valid. */
+.pl-valid .FormControl-input:not(:focus)[invalid],
+.pl-valid .FormControl-select:not(:focus),
+.pl-valid .FormControl-select:not(:focus)[invalid] {
+  border-color: var(--color-success-emphasis);
+}
+.pl-neutral .FormControl-input:not(:focus)[invalid],
+.pl-neutral .FormControl-select:not(:focus)[invalid] {
+  border-color: var(--color-border-default);
 }
 
 /* Copy checkbox emphasis style to FormControl checkbox and radio button.*/
@@ -271,6 +299,7 @@ fieldset[disabled] input.FormControl-checkbox[type=checkbox] {
 }
 
 /* -- idem */
+fieldset[disabled] legend.FormControl-label,
 fieldset[disabled] .FormControl-checkbox-labelWrap .FormControl-label,
 fieldset[disabled] .FormControl-radio-labelWrap .FormControl-label {
   color: var(--color-primer-fg-disabled);
@@ -359,60 +388,12 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 
 /* -- idem - shorten animation duration. */
 @media screen and (prefers-reduced-motion: no-preference) {
-
   .ActionList-item[aria-checked=false] .ActionList-item-singleSelectCheckmark,
   .ActionList-item[aria-selected=false] .ActionList-item-singleSelectCheckmark,
   .ActionList-item[aria-checked=true] .ActionList-item-singleSelectCheckmark,
   .ActionList-item[aria-selected=true] .ActionList-item-singleSelectCheckmark {
     animation-duration: 80ms;
   }
-}
-
-/* Reset error state to initial if preceding marker element has class phx-no-feedback. */
-.phx-no-feedback .FormControl-input[invalid]:not(:focus),
-.phx-no-feedback .FormControl-select[invalid]:not(:focus),
-.phx-no-feedback .FormControl-textarea[invalid]:not(:focus) {
-  border-color: var(--color-border-default);
-}
-
-/* -- idem */
-.phx-no-feedback input.FormControl-checkbox[type=checkbox][invalid]:not(:focus),
-.phx-no-feedback input.FormControl-radio[type=radio][invalid]:not(:focus) {
-  border-color: var(--color-border-default);
-}
-
-/* -- idem */
-.phx-no-feedback .form-control:not(:focus)[invalid],
-.phx-no-feedback .FormControl-input:not(:focus)[invalid],
-.phx-no-feedback .form-select:not(:focus)[invalid],
-.phx-no-feedback .FormControl-select:not(:focus)[invalid] {
-  border-color: var(--color-border-default);
-}
-
-/* -- idem */
-.phx-no-feedback .FormControl-inlineValidation--error,
-.pl-valid+.FormControl-inlineValidation--error,
-.pl-neutral+.FormControl-inlineValidation--error {
-  display: none;
-}
-.pl-invalid+.FormControl-inlineValidation--success {
-  display: none;
-}
-
-/* Set visual error state to neutral if preceding marker element has class pl-valid. */
-.pl-valid .form-control:not(:focus)[invalid],
-.pl-valid .FormControl-input:not(:focus)[invalid],
-.pl-valid .form-select:not(:focus),
-.pl-valid .form-select:not(:focus)[invalid],
-.pl-valid .FormControl-select:not(:focus),
-.pl-valid .FormControl-select:not(:focus)[invalid] {
-  border-color: var(--color-success-emphasis);
-}
-.pl-neutral .form-control:not(:focus)[invalid],
-.pl-neutral .FormControl-input:not(:focus)[invalid],
-.pl-neutral .form-select:not(:focus)[invalid],
-.pl-neutral .FormControl-select:not(:focus)[invalid] {
-  border-color: var(--color-border-default);
 }
 
 /* Center SVG within leading visual. */
