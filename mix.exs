@@ -11,7 +11,7 @@ defmodule PrimerLive.MixProject do
       aliases: aliases(),
       name: "PrimerLive",
       deps: deps(),
-      docs: docs(),
+      docs: docs()
     ]
   end
 

@@ -28,8 +28,8 @@ defmodule PrimerLive.Helpers.FormHelpers do
   @doc """
   Returns a `PrimerLive.FieldState` struct to facilitate display logic in component rendering functions.
 
-      iex> PrimerLive.Helpers.FormHelpers.field_state(:f, :first_name, nil)
-      %PrimerLive.FieldState{valid?: false, changeset: nil, message: nil, field_errors: []}
+      iex> PrimerLive.Helpers.FormHelpers.field_state(:f, :first_name, nil, nil)
+      %PrimerLive.FieldState{valid?: false, changeset: nil, message: nil, field_errors: [], caption: nil}
 
       # If validation_message_fn returns a string it will be added to FieldState, regardless of the changeset action value:
       iex> PrimerLive.Helpers.FormHelpers.field_state(
@@ -42,7 +42,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>       valid?: true
       ...>     },
       ...>   },
-      ...>   :first_name, fn _field_state -> "always" end)
+      ...>   :first_name, fn _field_state -> "always" end, nil)
       %PrimerLive.FieldState{valid?: true, changeset: %Ecto.Changeset{action: :update, changes: %{first_name: "annette"}, data: nil, errors: [], valid?: true}, message: "always", field_errors: []}
 
       # If changeset action is :validate and no validation_message_fn is provided, the default field error is added to FieldState:
@@ -56,7 +56,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>       valid?: true
       ...>     },
       ...>   },
-      ...>   :first_name, nil)
+      ...>   :first_name, nil, nil)
       %PrimerLive.FieldState{valid?: false, changeset: %Ecto.Changeset{action: :validate, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
 
       # If changeset action is :update and no validation_message_fn is provided, no message is added to FieldState:
@@ -70,25 +70,93 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>       valid?: true
       ...>     },
       ...>   },
-      ...>   :first_name, nil)
+      ...>   :first_name, nil, nil)
       %PrimerLive.FieldState{valid?: false, changeset: %Ecto.Changeset{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
+
+      # Custom error message: if changeset action is :update and a validation_message_fn is provided, the resulting message is added to FieldState:
+      iex> PrimerLive.Helpers.FormHelpers.field_state(
+      ...>   %Phoenix.HTML.Form{
+      ...>     source: %Ecto.Changeset{
+      ...>       action: :update,
+      ...>       changes: %{},
+      ...>       errors: [first_name: {"can't be blank", [validation: :required]}],
+      ...>       data: nil,
+      ...>       valid?: true
+      ...>     },
+      ...>   },
+      ...>   :first_name, fn field_state -> if !field_state.valid?, do: "Please select your availability" end, nil)
+      %PrimerLive.FieldState{valid?: false, changeset: %Ecto.Changeset{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "Please select your availability", field_errors: ["can't be blank"]}
+
+      # Custom success message: if changeset action is :update and a validation_message_fn is provided, the resulting message is added to FieldState:
+      iex> PrimerLive.Helpers.FormHelpers.field_state(
+      ...>   %Phoenix.HTML.Form{
+      ...>     source: %Ecto.Changeset{
+      ...>       action: :update,
+      ...>       changes: %{first_name: "annette"},
+      ...>       errors: [],
+      ...>       data: nil,
+      ...>       valid?: true
+      ...>     },
+      ...>   },
+      ...>   :first_name, fn field_state -> if field_state.valid?, do: "Great!" end, nil)
+      %PrimerLive.FieldState{valid?: true, changeset: %Ecto.Changeset{action: :update, changes: %{first_name: "annette"}, data: nil, errors: [], valid?: true}, message: "Great!", field_errors: []}
+
+      # Caption: return a caption if changeset is nil
+      iex> PrimerLive.Helpers.FormHelpers.field_state(nil, nil, nil, fn _field_state -> "Caption" end)
+      %PrimerLive.FieldState{valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Caption"}
+
+      # Caption: return a caption regardless the state
+      iex> PrimerLive.Helpers.FormHelpers.field_state(:f, :first_name, nil, fn _field_state -> "Caption" end)
+      %PrimerLive.FieldState{valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Caption"}
+
+      # Caption: return a caption dependent on the state
+      iex> PrimerLive.Helpers.FormHelpers.field_state(
+      ...>   %Phoenix.HTML.Form{
+      ...>     source: %Ecto.Changeset{
+      ...>       action: :validate,
+      ...>       changes: %{},
+      ...>       errors: [first_name: {"can't be blank", [validation: :required]}],
+      ...>       data: nil,
+      ...>       valid?: true
+      ...>     },
+      ...>   },
+      ...>   :first_name, nil, fn _field_state -> "Caption" end)
+
+      iex> PrimerLive.Helpers.FormHelpers.field_state(:f, :first_name, nil, fn field_state -> if !field_state.valid?, do: "Please select your availability" end)
+      %PrimerLive.FieldState{valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Please select your availability"}
+
   """
-  def field_state(form, field, validation_message_fn) do
+  def field_state(form, field, validation_message_fn, caption_fn) do
     changeset = form_changeset(form)
 
     get_field_state_for_changeset(
       changeset,
       %PrimerLive.FieldState{},
       field,
-      validation_message_fn
+      validation_message_fn,
+      caption_fn
     )
   end
 
-  defp get_field_state_for_changeset(changeset, field_state, _field, _validation_message_fn)
-       when is_nil(changeset),
-       do: field_state
+  defp get_field_state_for_changeset(
+         changeset,
+         field_state,
+         _field,
+         _validation_message_fn,
+         caption_fn
+       )
+       when is_nil(changeset) do
+    caption = get_caption(field_state, caption_fn)
+    %{field_state | caption: caption}
+  end
 
-  defp get_field_state_for_changeset(changeset, field_state, field, validation_message_fn) do
+  defp get_field_state_for_changeset(
+         changeset,
+         field_state,
+         field,
+         validation_message_fn,
+         caption_fn
+       ) do
     with field_errors <- get_field_errors(changeset, field),
          valid? <- field_errors == [],
          field_state <- %{
@@ -99,8 +167,10 @@ defmodule PrimerLive.Helpers.FormHelpers do
              changeset: changeset
          },
          message <-
-           get_message(changeset.action, field_errors, field_state, validation_message_fn) do
-      %{field_state | message: message}
+           get_message(changeset.action, field_errors, field_state, validation_message_fn),
+         caption <-
+           get_caption(field_state, caption_fn) do
+      %{field_state | message: message, caption: caption}
     end
   end
 
@@ -119,7 +189,21 @@ defmodule PrimerLive.Helpers.FormHelpers do
 
   # validation_message_fn exists
   defp get_message(_changeset_action, _field_errors, field_state, validation_message_fn) do
-    validation_message_fn.(field_state)
+    case :erlang.fun_info(validation_message_fn)[:arity] do
+      0 -> validation_message_fn.()
+      1 -> validation_message_fn.(field_state)
+      _ -> nil
+    end
+  end
+
+  defp get_caption(_field_state, nil), do: nil
+
+  defp get_caption(field_state, caption_fn) do
+    case :erlang.fun_info(caption_fn)[:arity] do
+      0 -> caption_fn.()
+      1 -> caption_fn.(field_state)
+      _ -> nil
+    end
   end
 
   @doc """

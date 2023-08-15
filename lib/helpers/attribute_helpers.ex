@@ -566,7 +566,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   @doc ~S"""
   Extracts common attributes for form inputs. Shared for consistency.
   """
-  def common_input_attrs(assigns, input_type) do
+  def common_input_attrs(assigns, input_type \\ nil) do
     common_shared_attrs = common_shared_attrs(assigns)
 
     # ID and label
@@ -652,15 +652,19 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
          form: form,
          field_or_name: field_or_name
        }) do
-    form_group = assigns[:form_group]
-    is_form_group = assigns[:is_form_group]
-    has_form_group = is_form_group || form_group
+    deprecated_form_group = assigns[:form_group]
+    deprecated_is_form_group = assigns[:is_form_group]
+    deprecated_has_form_group = deprecated_is_form_group || deprecated_form_group
+
+    form_group = deprecated_form_group
+    has_form_group = deprecated_has_form_group
 
     form_group_attrs =
       Map.merge(form_group || %{}, %{
         form: form,
         field: field_or_name,
-        for: input_id
+        for: input_id,
+        deprecated_has_form_group: deprecated_has_form_group
       })
 
     %{
@@ -674,12 +678,14 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
          field_or_name: field_or_name
        }) do
     validation_message = assigns[:validation_message]
-    field_state = FormHelpers.field_state(form, field_or_name, validation_message)
+    caption = assigns[:caption]
+    field_state = FormHelpers.field_state(form, field_or_name, validation_message, caption)
 
     %{
       message: message,
       valid?: valid?,
-      ignore_errors?: ignore_errors?
+      ignore_errors?: ignore_errors?,
+      caption: caption
     } = field_state
 
     has_changeset? = !is_nil(field_state.changeset)
@@ -721,7 +727,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       show_message?: show_message?,
       validation_message_id: validation_message_id,
       validation_marker_attrs: validation_marker_attrs,
-      validation_marker_class: validation_marker_class
+      validation_marker_class: validation_marker_class,
+      caption: caption
     }
   end
 

@@ -60,26 +60,24 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
         doc: """
         Function to write a custom validation message (in case of error or success).
 
-        The function receives a `PrimerLive.FieldState` struct and returns a validation message.
+        The function receives a `PrimerLive.FieldState` struct and returns a validation message or nil.
 
         A validation message is shown:
         - If form is a `Phoenix.HTML.Form`, containing a `changeset`
-        - And either:
-          - `changeset.action` is `:validate`
-          - `validation_message` returns a string
+        - The `validation_message` function does not return nil
 
-        Function signature: `fun field_state -> string | nil`.
+        Function signatures:
+        - `fun () -> string | nil`
+        - `fun (field_state) -> string | nil`
 
-        Example error message:
-
+        Conditional error message:
         ```
         fn field_state ->
           if !field_state.valid?, do: "Please enter your first name"
         end
         ```
 
-        Example success message, only shown when `changeset.action` is `:validate`:
-
+        Conditional success message, only shown when `changeset.action` is `:validate`:
         ```
         fn field_state ->
           if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
@@ -95,6 +93,40 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
       attr(:validation_message_id, :any,
         doc: """
         Message ID that is usually passed from the form element component to `input_validation_message`. If not used, the ID will be generated.
+        """
+      )
+    end
+  end
+
+  defmacro caption() do
+    quote do
+      attr(:caption, :any,
+        default: nil,
+        doc: """
+        Function to write an info message below the input element.
+
+        The function receives a `PrimerLive.FieldState` struct and returns a message or nil.
+
+        A message is shown:
+        - The `caption` function does not return nil
+
+        Function signatures:
+        - `fun () -> string | nil`
+        - `fun (field_state) -> string | nil`
+
+        Always show a hint:
+        ```
+        fn ->
+          "This will be publicly visible"
+        end
+        ```
+
+        Conditional hint, only shown when the field state is not invalid:
+        ```
+        fn field_state ->
+          if !field_state.valid?, do: nil, else: "This will be publicly visible"
+        end
+        ```
         """
       )
     end
