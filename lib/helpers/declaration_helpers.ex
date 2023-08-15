@@ -36,6 +36,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
   defmacro form() do
     quote do
       attr(:form, :any,
+        default: nil,
         doc:
           "Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom."
       )
@@ -44,7 +45,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
 
   defmacro field() do
     quote do
-      attr(:field, :any, doc: "Field name (atom or string).")
+      attr(:field, :any, default: nil, doc: "Field name (atom or string).")
     end
   end
 

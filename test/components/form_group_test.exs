@@ -112,7 +112,7 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl form-group my-form-group group-x">
+             <div class="FormControl form-group my-form-group group-x pl-neutral">
              <div class="form-group-header header-x"><label class="FormControl-label label-x">First name</label></div>inputs
              </div>
              """
@@ -148,7 +148,7 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl form-group">
+             <div class="FormControl form-group pl-invalid">
              <div class="form-group-header"><label class="FormControl-label">Available for hire</label></div><span
              class="FormControl-checkbox-wrap pl-invalid" phx-feedback-for="user[available_for_hire]"><input
              name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox"

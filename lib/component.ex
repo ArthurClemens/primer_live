@@ -2924,7 +2924,8 @@ defmodule PrimerLive.Component do
     %{
       rest: rest,
       form: form,
-      field: field
+      field: field,
+      validation_marker_class: validation_marker_class
     } = AttributeHelpers.common_input_attrs(assigns)
 
     classes = %{
@@ -2981,7 +2982,7 @@ defmodule PrimerLive.Component do
 
     group_attributes =
       AttributeHelpers.append_attributes(rest, [
-        [class: classes.group]
+        [class: AttributeHelpers.classnames([classes.group, validation_marker_class])]
       ])
 
     assigns =
