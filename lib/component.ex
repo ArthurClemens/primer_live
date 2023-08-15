@@ -2983,9 +2983,11 @@ defmodule PrimerLive.Component do
         [class: classes.group]
       ])
 
-    body_attrs = AttributeHelpers.append_attributes([
-      classes.body && [class: classes.body]
-    ])
+    body_attrs =
+      AttributeHelpers.append_attributes([
+        classes.body && [class: classes.body]
+      ])
+
     assigns =
       assigns
       |> assign(:classes, classes)
@@ -3288,10 +3290,12 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.field()
   DeclarationHelpers.input_id()
   DeclarationHelpers.class()
+  DeclarationHelpers.caption()
 
   attr(:classes, :map,
     default: %{
       input: nil,
+      caption: nil,
       input_group: nil,
       input_group_button: nil,
       validation_message: nil,
@@ -3306,6 +3310,7 @@ defmodule PrimerLive.Component do
     ```
     %{
       input: "",              # Input element
+      caption: "",            # Caption element
       input_group: "",        # Wrapper around the grouped input and group button
       input_group_button: "", # Wrapper around slot group_button
       validation_message: "", # Validation message
@@ -3451,8 +3456,9 @@ defmodule PrimerLive.Component do
       validation_marker_attrs: validation_marker_attrs,
       validation_marker_class: validation_marker_class,
       validation_message_id: validation_message_id,
-      value: value
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+      value: value,
+      caption: caption
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     type = assigns.type
 
@@ -3487,6 +3493,11 @@ defmodule PrimerLive.Component do
           assigns.is_monospace and "FormControl-monospace",
           assigns.classes[:input],
           assigns.class
+        ]),
+      caption:
+        AttributeHelpers.classnames([
+          "FormControl-caption",
+          assigns.classes[:caption]
         ]),
       input_group:
         AttributeHelpers.classnames([
@@ -3600,6 +3611,7 @@ defmodule PrimerLive.Component do
         |> assign(:validation_message, assigns[:validation_message])
         |> assign(:validation_message_id, validation_message_id)
         |> assign(:render_trailing_action, render_trailing_action)
+        |> assign(:caption, caption)
 
       ~H"""
       <%= if @has_group_button do %>
@@ -3634,6 +3646,11 @@ defmodule PrimerLive.Component do
           validation_message_id={@validation_message_id}
           class={@validation_message_class}
         />
+      <% end %>
+      <%= if @caption do %>
+        <div class={@classes.caption}>
+          <%= @caption %>
+        </div>
       <% end %>
       """
     end
