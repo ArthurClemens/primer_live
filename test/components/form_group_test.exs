@@ -28,9 +28,7 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group">
-             <div>inputs</div>
-             </div>
+             <div class="FormControl form-group">inputs</div>
              """
              |> format_html()
   end
@@ -43,9 +41,8 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group">
-             <div class="form-group-header"><label>First name</label></div>
-             <div>inputs</div>
+             <div class="FormControl form-group">
+             <div class="form-group-header"><label class="FormControl-label">First name</label></div>inputs
              </div>
              """
              |> format_html()
@@ -59,11 +56,8 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group">
-             <div class="form-group-header">
-             <label>First name</label>
-             </div>
-             <div>inputs</div>
+             <div class="FormControl form-group">
+             <div class="form-group-header"><label class="FormControl-label">First name</label></div>inputs
              </div>
              """
              |> format_html()
@@ -77,7 +71,7 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group"><div>inputs</div></div>
+             <div class="FormControl form-group">inputs</div>
              """
              |> format_html()
   end
@@ -90,9 +84,7 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group" dir="rtl">
-             <div>inputs</div>
-             </div>
+             <div class="FormControl form-group" dir="rtl">inputs</div>
              """
              |> format_html()
   end
@@ -109,7 +101,6 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
                %{
                  group: "group-x",
                  header: "header-x",
-                 body: "body-x",
                  label: "label-x"
                }
              }
@@ -121,9 +112,8 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group my-form-group group-x">
-             <div class="form-group-header header-x"><label class="label-x">First name</label></div>
-             <div class="body-x">inputs</div>
+             <div class="FormControl form-group my-form-group group-x">
+             <div class="form-group-header header-x"><label class="FormControl-label label-x">First name</label></div>inputs
              </div>
              """
              |> format_html()
@@ -158,19 +148,18 @@ defmodule PrimerLive.TestComponents.FormGroupTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group">
-             <div class="form-group-header"><label>Available for hire</label></div>
-             <div><span class="FormControl-checkbox-wrap pl-invalid"
-             phx-feedback-for="user[available_for_hire]"><input name="user[available_for_hire]" type="hidden"
-                value="false" /><input class="FormControl-checkbox" id="user_available_for_hire_admin" invalid=""
-                name="user[available_for_hire]" type="checkbox" value="admin" /><span
-                class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-                    for="user_available_for_hire_admin">Admin</label></span></span><span
+             <div class="FormControl form-group">
+             <div class="form-group-header"><label class="FormControl-label">Available for hire</label></div><span
              class="FormControl-checkbox-wrap pl-invalid" phx-feedback-for="user[available_for_hire]"><input
-                name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox"
-                id="user_available_for_hire_editor" invalid="" name="user[available_for_hire]" type="checkbox"
-                value="editor" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-                    for="user_available_for_hire_editor">Editor</label></span></span></div>
+             name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox"
+             id="user_available_for_hire_admin" invalid="" name="user[available_for_hire]" type="checkbox"
+             value="admin" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
+             for="user_available_for_hire_admin">Admin</label></span></span><span
+             class="FormControl-checkbox-wrap pl-invalid" phx-feedback-for="user[available_for_hire]"><input
+             name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox"
+             id="user_available_for_hire_editor" invalid="" name="user[available_for_hire]" type="checkbox"
+             value="editor" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
+             for="user_available_for_hire_editor">Editor</label></span></span>
              </div>
              """
              |> format_html()

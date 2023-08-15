@@ -90,9 +90,9 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group">
-             <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div><textarea class="FormControl-textarea FormControl-medium" id="user_first_name" name="user[first_name]"></textarea></div>
+             <div class="FormControl form-group">
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label></div>
+             <textarea class="FormControl-textarea FormControl-medium" id="user_first_name" name="user[first_name]"></textarea>
              </div>
              """
              |> format_html()
@@ -114,9 +114,9 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group">
-             <div class="form-group-header"><label for="user_first_name">Some label</label></div>
-             <div><textarea class="FormControl-textarea FormControl-medium" id="user_first_name" name="user[first_name]"></textarea></div>
+             <div class="FormControl form-group">
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label></div>
+             <textarea class="FormControl-textarea FormControl-medium" id="user_first_name" name="user[first_name]"></textarea>
              </div>
              """
              |> format_html()

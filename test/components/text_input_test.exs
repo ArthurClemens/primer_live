@@ -193,6 +193,34 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
+  test "Attribute: caption" do
+    assigns = %{
+      form: %{@default_form | source: @error_changeset}
+    }
+
+    assert rendered_to_string(~H"""
+           <.text_input caption={
+             fn ->
+               "This will be publicly visible"
+             end
+           } />
+           <.text_input caption={
+             fn field_state ->
+               if !field_state.valid?,
+                 # Hide this text because the error validation message will show similar content
+                 do: nil
+             end
+           } />
+           """)
+           |> format_html() ==
+             """
+             <input class="FormControl-input FormControl-medium" type="text" />
+             <div class="FormControl-caption">This will be publicly visible</div>
+             <input class="FormControl-input FormControl-medium" type="text" />
+             """
+             |> format_html()
+  end
+
   test "Attribute: is_form_group" do
     assigns = %{}
 
@@ -201,9 +229,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group">
-             <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div><input class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" /></div>
+             <div class="FormControl form-group">
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label></div><input
+             class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
              </div>
              """
              |> format_html()
@@ -217,9 +245,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group">
-             <div class="form-group-header"><label for="xyz">First name</label></div>
-             <div><input class="FormControl-input FormControl-medium" id="xyz" name="user[first_name]" type="text" /></div>
+             <div class="FormControl form-group">
+             <div class="form-group-header"><label class="FormControl-label" for="xyz">First name</label></div><input
+             class="FormControl-input FormControl-medium" id="xyz" name="user[first_name]" type="text" />
              </div>
              """
              |> format_html()
@@ -241,9 +269,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group">
-             <div class="form-group-header"><label for="user_first_name">Some label</label></div>
-             <div><input class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" /></div>
+             <div class="FormControl form-group">
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label></div><input
+             class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
              </div>
              """
              |> format_html()
