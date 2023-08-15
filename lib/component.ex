@@ -3342,36 +3342,13 @@ defmodule PrimerLive.Component do
     doc: "Smaller (less high) input with smaller text size."
   )
 
-  attr(:is_short, :boolean,
-    default: false,
-    doc: "Inside a form group. Generates an input with a reduced width."
-  )
-
-  attr(:is_shorter, :boolean,
-    default: false,
-    doc: "Inside a form group. Generates an input with a even more reduced width."
-  )
-
   attr(:is_monospace, :boolean,
     default: false,
     doc: "Uses a monospace font."
   )
 
-  attr(:is_form_group, :boolean,
-    default: false,
-    doc: """
-    Inserts the input inside a `form_group/1`. Attributes `form` and `field` are passed to the form group to generate a group label.
-
-    To configure the form group and label, use attr `form_group`.
-    """
-  )
-
-  attr(:form_group, :map,
-    doc: """
-    Form group attributes. Inserts the input inside a `form_group/1` with given attributes, alongside `form` and `field` to generate a group label.
-    """
-  )
-
+  DeclarationHelpers.form_group("the input")
+  DeclarationHelpers.is_form_group("the input")
   DeclarationHelpers.validation_message()
   DeclarationHelpers.validation_message_id()
   DeclarationHelpers.rest()
@@ -3481,8 +3458,6 @@ defmodule PrimerLive.Component do
           assigns.is_large and "FormControl-large",
           assigns.is_small and "FormControl-small",
           assigns.is_full_width and "FormControl--fullWidth",
-          assigns.is_short and "FormControl--short",
-          assigns.is_shorter and "FormControl--shorter",
           assigns.is_monospace and "FormControl-monospace",
           assigns.classes[:input],
           assigns.class
@@ -3856,8 +3831,6 @@ defmodule PrimerLive.Component do
 
   attr(:is_small, :boolean, default: false, doc: "Creates a small select.")
   attr(:is_large, :boolean, default: false, doc: "Creates a large select.")
-  attr(:is_short, :boolean, default: false, doc: "Creates a short select.")
-  attr(:is_shorter, :boolean, default: false, doc: "Creates a shorter select.")
   attr(:is_full_width, :boolean, default: false, doc: "Full width select.")
 
   attr(:is_auto_height, :boolean,
@@ -3870,20 +3843,8 @@ defmodule PrimerLive.Component do
     doc: "Uses a monospace font."
   )
 
-  attr(:is_form_group, :boolean,
-    default: false,
-    doc: """
-    Inserts the select inside a `form_group/1`. Attributes `form` and `field` are passed to the form group to generate a group label.
-
-    To configure the form group and label, use attr `form_group`.
-    """
-  )
-
-  attr(:form_group, :map,
-    doc: """
-    Form group attributes. Inserts the select inside a `form_group/1` with given attributes, alongside `form` and `field` to generate a group label.
-    """
-  )
+  DeclarationHelpers.form_group("the select input")
+  DeclarationHelpers.is_form_group("the select input")
 
   DeclarationHelpers.rest()
 
@@ -3925,8 +3886,6 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "FormControl-select-wrap",
           is_multiple and "pl-multiple-select",
-          assigns.is_short and "FormControl--short",
-          assigns.is_shorter and "FormControl--shorter",
           assigns.is_full_width and "FormControl--fullWidth",
           validation_marker_class,
           assigns.classes[:select_container],

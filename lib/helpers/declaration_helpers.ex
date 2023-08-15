@@ -98,6 +98,35 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
+  defmacro form_group(the_input_name) do
+    quote do
+      attr(:form_group, :map,
+        doc:
+          """
+          Form group attributes. Places {the_input_name} inside a `form_group/1` component with given attributes, alongside `form` and `field` to generate an input label.
+
+          If only a automatically generated label is required, use convenience attr `is_form_group` instead.
+          """
+          |> String.replace("{the_input_name}", unquote(the_input_name))
+      )
+    end
+  end
+
+  defmacro is_form_group(the_input_name) do
+    quote do
+      attr(:is_form_group, :boolean,
+        default: false,
+        doc:
+          """
+          Places {the_input_name} inside a `form_group/1` component. Attributes `form` and `field` are automatically passed to `form_group` to generate an input label.
+
+          To configure the form group and label, use attr `form_group`.
+          """
+          |> String.replace("{the_input_name}", unquote(the_input_name))
+      )
+    end
+  end
+
   defmacro caption() do
     quote do
       attr(:caption, :any,
