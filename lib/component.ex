@@ -3635,11 +3635,11 @@ defmodule PrimerLive.Component do
       |> assign(:has_form_group, has_form_group)
       |> assign(:form_group_attrs, form_group_attrs)
       |> assign(:render, render)
-      |> assign(:is_disabled, rest[:disabled])
+      |> assign(:is_form_group_disabled, rest[:disabled])
 
     ~H"""
     <%= if @has_form_group do %>
-      <.form_group {@form_group_attrs} is_disabled={@is_disabled}>
+      <.form_group {@form_group_attrs} is_disabled={@is_form_group_disabled}>
         <%= @render.() %>
       </.form_group>
     <% else %>
@@ -3981,11 +3981,11 @@ defmodule PrimerLive.Component do
       |> assign(:has_form_group, has_form_group)
       |> assign(:form_group_attrs, form_group_attrs)
       |> assign(:render, render)
-      |> assign(:is_disabled, rest[:disabled])
+      |> assign(:is_form_group_disabled, rest[:disabled])
 
     ~H"""
     <%= if @has_form_group do %>
-      <.form_group {@form_group_attrs} is_disabled={@is_disabled}>
+      <.form_group {@form_group_attrs} is_disabled={@is_form_group_disabled}>
         <%= @render.() %>
       </.form_group>
     <% else %>
