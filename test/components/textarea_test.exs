@@ -82,15 +82,15 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              |> format_html()
   end
 
-  test "Attribute: is_form_group" do
+  test "Attribute: is_form_control" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.textarea form={:user} name="first_name" is_form_group />
+           <.textarea form={:user} name="first_name" is_form_control />
            """)
            |> format_html() ==
              """
-             <div class="FormControl form-group">
+             <div class="FormControl">
              <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label></div>
              <textarea class="FormControl-textarea FormControl-medium" id="user_first_name" name="user[first_name]"></textarea>
              </div>
@@ -98,14 +98,14 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              |> format_html()
   end
 
-  test "Attribute: form_group (label)" do
+  test "Attribute: form_control (label)" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
            <.textarea
              form={:user}
              field="first_name"
-             form_group={
+             form_control={
                %{
                  label: "Some label"
                }
@@ -114,7 +114,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl form-group">
+             <div class="FormControl">
              <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label></div>
              <textarea class="FormControl-textarea FormControl-medium" id="user_first_name" name="user[first_name]"></textarea>
              </div>

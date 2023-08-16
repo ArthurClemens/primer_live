@@ -197,7 +197,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     assert rendered_to_string(~H"""
            <.text_input caption={
              fn ->
-               "This will be publicly visible"
+               "Caption"
              end
            } />
            <.text_input caption={
@@ -211,13 +211,29 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <input class="FormControl-input FormControl-medium" type="text" />
-             <div class="FormControl-caption">This will be publicly visible</div>
+             <div class="FormControl-caption">Caption</div>
              <input class="FormControl-input FormControl-medium" type="text" />
              """
              |> format_html()
   end
 
-  test "Attribute: is_form_group" do
+  test "Attribute: is_form_control" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input form={:user} name="first_name" is_form_control />
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl">
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label></div><input
+             class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: is_form_group (deprecatd)" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
@@ -249,7 +265,31 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Attribute: form_group (label)" do
+  test "Attribute: form_control (label)" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input
+             form={:user}
+             field="first_name"
+             form_control={
+               %{
+                 label: "Some label"
+               }
+             }
+           />
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl">
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label></div><input
+             class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: form_group (label) (deprecated)" do
     assigns = %{}
 
     assert rendered_to_string(~H"""

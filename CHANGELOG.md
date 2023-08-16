@@ -6,7 +6,9 @@ Form elements have been revamped and aligned with the most recent [form element 
 
 ### Deprecated
 
-- `form_group` is replaced by `form_control` and `is_form_group` is replaced by `is_form_control` (no functional changes, existing syntax will keep working, but warnings will appear in the log).
+- `form_group` is replaced by `form_control` and `is_form_group` is replaced by `is_form_control`.
+  - Existing syntax will keep working, but warnings will appear in the log.
+  - Note that the class "form-group" (added for `form_group` and `is_form_group`) contains a top and bottom margin. When updating your code, you may need to add styling to correct the missing whitespace.
 
 ### Improvements
 
