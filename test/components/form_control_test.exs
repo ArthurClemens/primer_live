@@ -109,9 +109,10 @@ defmodule PrimerLive.TestComponents.FormControlTest do
 
     assert rendered_to_string(~H"""
            <.form_control
-             class="my-form-group"
+             class="my-form-control"
              classes={
                %{
+                 control: "control-x",
                  group: "group-x",
                  header: "header-x",
                  label: "label-x"
@@ -125,7 +126,7 @@ defmodule PrimerLive.TestComponents.FormControlTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl my-form-group group-x pl-neutral">
+             <div class="FormControl my-form-control group-x control-x pl-neutral">
              <div class="form-group-header header-x"><label class="FormControl-label label-x">First name</label></div>inputs
              </div>
              """

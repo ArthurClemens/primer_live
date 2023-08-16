@@ -112,6 +112,7 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
              class="my-form-group"
              classes={
                %{
+                 control: "control-x",
                  group: "group-x",
                  header: "header-x",
                  label: "label-x"
@@ -125,7 +126,7 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl form-group my-form-group group-x pl-neutral">
+             <div class="FormControl form-group my-form-group group-x control-x pl-neutral">
              <div class="form-group-header header-x"><label class="FormControl-label label-x">First name</label></div>inputs
              </div>
              """

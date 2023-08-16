@@ -2806,7 +2806,9 @@ defmodule PrimerLive.Component do
   @doc section: :forms
 
   @doc ~S"""
-  Generates a form group: a wrapper around one or more inputs. Automatically adds a label based on supplied form and field, with the option to set a custom label.
+  Generates a form control: a wrapper around one or more inputs. Automatically adds a label based on supplied form and field, with the option to set a custom label.
+
+  Used with `text_input/1`, `textarea/1` and `select/1`.
 
   ```
   <.form_control field="first_name">
@@ -2885,6 +2887,7 @@ defmodule PrimerLive.Component do
 
   attr(:classes, :map,
     default: %{
+      control: nil,
       group: nil,
       header: nil,
       label: nil
@@ -2897,7 +2900,8 @@ defmodule PrimerLive.Component do
     Default map:
     ```
     %{
-      group: "",              # Form control element
+      control: "",            # Form control element
+      group: "",              # Depreciation support: identical to "control"
       header: "",             # Header element containing the group label
       label: "",              # Form control label
     }
@@ -2934,13 +2938,14 @@ defmodule PrimerLive.Component do
     } = AttributeHelpers.common_input_attrs(assigns)
 
     classes = %{
-      group:
+      control:
         AttributeHelpers.classnames([
           "FormControl",
           assigns.deprecated_has_form_group && "form-group",
           assigns.is_disabled && "pl-FormControl-disabled",
           assigns[:class],
-          assigns.classes[:group]
+          assigns.classes[:group],
+          assigns.classes[:control]
         ]),
       header:
         AttributeHelpers.classnames([
@@ -2956,13 +2961,13 @@ defmodule PrimerLive.Component do
 
     # If label is supplied, wrap it inside a label element
     # else use the default generated label
-    header_label_attributes =
+    label_attributes =
       AttributeHelpers.append_attributes([
         [class: classes[:label]],
         [for: assigns[:for] || nil]
       ])
 
-    header_label =
+    label =
       cond do
         assigns.is_hide_label ->
           nil
@@ -2972,7 +2977,7 @@ defmodule PrimerLive.Component do
             form,
             field,
             assigns[:label],
-            header_label_attributes
+            label_attributes
           )
 
         true ->
@@ -2980,29 +2985,29 @@ defmodule PrimerLive.Component do
 
           case humanize_label === "Nil" do
             true -> nil
-            false -> Form.label(form, field, header_label_attributes)
+            false -> Form.label(form, field, label_attributes)
           end
       end
 
-    has_header_label = header_label && header_label !== "Nil"
+    has_header_label = label && label !== "Nil"
 
-    group_attributes =
+    control_attributes =
       AttributeHelpers.append_attributes(rest, [
-        [class: AttributeHelpers.classnames([classes.group, validation_marker_class])]
+        [class: AttributeHelpers.classnames([classes.control, validation_marker_class])]
       ])
 
     assigns =
       assigns
       |> assign(:classes, classes)
-      |> assign(:group_attributes, group_attributes)
+      |> assign(:control_attributes, control_attributes)
       |> assign(:has_header_label, has_header_label)
-      |> assign(:header_label, header_label)
+      |> assign(:label, label)
 
     ~H"""
-    <div {@group_attributes}>
+    <div {@control_attributes}>
       <%= if @has_header_label do %>
         <div class={@classes.header}>
-          <%= @header_label %>
+          <%= @label %>
         </div>
       <% end %>
       <%= render_slot(@inner_block) %>
@@ -3155,7 +3160,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a text input field.
 
-  Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group" to add a field label.
+  Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form control" to add a field label.
 
   ```
   <.text_input field="first_name" />
@@ -3242,7 +3247,7 @@ defmodule PrimerLive.Component do
   </.text_input>
   ```
 
-  Place the input inside a `form_control/1` with `is_form_control`. Attributes `form` and `field` are passed to the form group to generate a group label.
+  Place the input inside a `form_control/1` with `is_form_control`. Attributes `form` and `field` are passed to the form control to generate a control label.
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
@@ -3250,7 +3255,7 @@ defmodule PrimerLive.Component do
   </.form>
   ```
 
-  To configure the form group and label, use attr `form_control`. See `form_control/1` for supported attributes.
+  To configure the form control and label, use attr `form_control`. See `form_control/1` for supported attributes.
 
   A validation error message is automatically added when using a changeset with an error state. The message text is taken from the changeset errors.
   To show a custom validation error message, supply function `validation_message`:
@@ -3365,9 +3370,9 @@ defmodule PrimerLive.Component do
   )
 
   DeclarationHelpers.form_control("the input")
-  DeclarationHelpers.form_group("the input")
+  DeclarationHelpers.deprecated_form_group("the input")
   DeclarationHelpers.is_form_control("the input")
-  DeclarationHelpers.is_form_group("the input")
+  DeclarationHelpers.deprecated_is_form_group("the input")
   DeclarationHelpers.validation_message()
   DeclarationHelpers.validation_message_id()
   DeclarationHelpers.rest(include: ~w(name type disabled))
@@ -3849,9 +3854,17 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:is_small, :boolean, default: false, doc: "Creates a small select.")
-  attr(:is_large, :boolean, default: false, doc: "Creates a large select.")
-  attr(:is_full_width, :boolean, default: false, doc: "Full width select.")
+  attr(:is_small, :boolean, default: false, doc: "Creates a small (less high) select.")
+  attr(:is_large, :boolean, default: false, doc: "Creates a large (higher) select.")
+
+  attr(:is_full_width, :boolean,
+    default: false,
+    doc: """
+    Full width select.
+
+    Deprecated: to make the select full width, set the parent width.
+    """
+  )
 
   attr(:is_auto_height, :boolean,
     default: false,
@@ -3864,11 +3877,11 @@ defmodule PrimerLive.Component do
   )
 
   DeclarationHelpers.form_control("the select input")
-  DeclarationHelpers.form_group("the select input")
+  DeclarationHelpers.deprecated_form_group("the select input")
   DeclarationHelpers.is_form_control("the select input")
-  DeclarationHelpers.is_form_group("the select input")
+  DeclarationHelpers.deprecated_is_form_group("the select input")
 
-  DeclarationHelpers.rest()
+  DeclarationHelpers.rest(include: ~w(name type disabled))
 
   def select(assigns) do
     case SchemaHelpers.validate_is_form(assigns) do
@@ -4128,6 +4141,7 @@ defmodule PrimerLive.Component do
       label_container: nil,
       label: nil,
       input: nil,
+      caption: nil,
       hint: nil,
       disclosure: nil
     },
@@ -4143,7 +4157,8 @@ defmodule PrimerLive.Component do
       label_container: "", # Input label container
       label: "",           # Input label
       input: "",           # Checkbox input element
-      hint: "",            # Hint message container
+      caption: "",         # Hint message container
+      hint: "",            # Depreciation support: identical to "caption"
       disclosure: ""       # Disclosure container (inline)
     }
     ```
@@ -7701,7 +7716,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.href()
   DeclarationHelpers.patch()
   DeclarationHelpers.navigate()
-  DeclarationHelpers.rest(include: ~w(name type))
+  DeclarationHelpers.rest(include: ~w(name type disabled))
 
   slot(:inner_block, required: true, doc: "Button content.")
 
@@ -10677,8 +10692,8 @@ defmodule PrimerLive.Component do
   <.dialog is_backdrop is_modal>
     <:header_title>Title</:header_title>
     <:body>
-    <.text_input form={:user} field={:first_name} is_group />
-    <.text_input form={:user} field={:last_name} is_group />
+    <.text_input form={:user} field={:first_name} is_form_control />
+    <.text_input form={:user} field={:last_name} is_form_control />
     </:body>
   </.dialog>
   ```

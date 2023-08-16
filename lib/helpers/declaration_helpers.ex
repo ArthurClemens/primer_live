@@ -113,7 +113,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro form_group(_the_input_name) do
+  defmacro deprecated_form_group(_the_input_name) do
     quote do
       attr(:form_group, :map,
         doc: """
@@ -138,7 +138,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro is_form_group(_the_input_name) do
+  defmacro deprecated_is_form_group(_the_input_name) do
     quote do
       attr(:is_form_group, :boolean,
         default: false,
