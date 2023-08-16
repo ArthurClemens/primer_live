@@ -3305,7 +3305,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.field()
   DeclarationHelpers.input_id()
   DeclarationHelpers.class()
-  DeclarationHelpers.caption()
+  DeclarationHelpers.caption("the input element")
 
   attr(:classes, :map,
     default: %{
@@ -3785,6 +3785,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.input_id()
   DeclarationHelpers.validation_message()
   DeclarationHelpers.validation_message_id()
+  DeclarationHelpers.caption("the select input")
 
   attr(:options, :any, required: true, doc: "Selectable options (list, map or keyword list).")
 
@@ -3798,7 +3799,8 @@ defmodule PrimerLive.Component do
     default: %{
       select_container: nil,
       select: nil,
-      validation_message: nil
+      validation_message: nil,
+      caption: nil
     },
     doc: """
     Additional classnames for select elements.
@@ -3810,7 +3812,8 @@ defmodule PrimerLive.Component do
     %{
       select_container: "",   # Select container element
       select: "",             # Select element
-      validation_message: "", # Validation message
+      validation_message: "", # Validation message,
+      caption: "",            # Hint message element
     }
     ```
     """
@@ -3911,7 +3914,8 @@ defmodule PrimerLive.Component do
       show_message?: show_message?,
       validation_message_id: validation_message_id,
       validation_marker_attrs: validation_marker_attrs,
-      validation_marker_class: validation_marker_class
+      validation_marker_class: validation_marker_class,
+      caption: caption
     } = AttributeHelpers.common_input_attrs(assigns, :select)
 
     is_multiple = assigns.is_multiple
@@ -3935,7 +3939,12 @@ defmodule PrimerLive.Component do
           assigns.is_monospace and "FormControl-monospace",
           assigns.classes[:select]
         ]),
-      validation_message: assigns.classes[:validation_message]
+      validation_message: assigns.classes[:validation_message],
+      caption:
+        AttributeHelpers.classnames([
+          "FormControl-caption",
+          assigns.classes[:caption]
+        ])
     }
 
     render = fn ->
@@ -3987,6 +3996,7 @@ defmodule PrimerLive.Component do
         |> assign(:validation_message_class, classes.validation_message)
         |> assign(:validation_message, assigns[:validation_message])
         |> assign(:validation_message_id, validation_message_id)
+        |> assign(:caption, caption)
 
       ~H"""
       <div {@container_attrs}>
@@ -4000,6 +4010,11 @@ defmodule PrimerLive.Component do
         class={@validation_message_class}
         is_multiple={@is_multiple}
       />
+      <%= if @caption do %>
+        <div class={@classes.caption}>
+          <%= @caption %>
+        </div>
+      <% end %>
       """
     end
 
@@ -4157,7 +4172,7 @@ defmodule PrimerLive.Component do
       label_container: "", # Input label container
       label: "",           # Input label
       input: "",           # Checkbox input element
-      caption: "",         # Hint message container
+      caption: "",         # Hint message element
       hint: "",            # Depreciation support: identical to "caption"
       disclosure: ""       # Disclosure container (inline)
     }

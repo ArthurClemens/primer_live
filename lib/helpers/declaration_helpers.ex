@@ -149,36 +149,47 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro caption() do
+  defmacro caption(the_input_name) do
     quote do
       attr(:caption, :any,
         default: nil,
-        doc: """
-        Function to write an info message below the input element.
+        doc:
+          """
+          Function to write an info message below {the_input_name}.
 
-        The function receives a `PrimerLive.FieldState` struct and returns a message or nil.
+          The function receives a `PrimerLive.FieldState` struct and returns a message or nil.
 
-        A message is shown:
-        - The `caption` function does not return nil
+          A message is shown:
+          - The `caption` function does not return nil
 
-        Function signatures:
-        - `fun () -> string | nil`
-        - `fun (field_state) -> string | nil`
+          Function signatures:
+          - `fun () -> string | nil`
+          - `fun (field_state) -> string | nil`
 
-        Always show a hint:
-        ```
-        fn ->
-          "This will be publicly visible"
-        end
-        ```
+          Always show a hint:
+          ```
+          fn ->
+            "Caption"
+          end
+          ```
 
-        Conditional hint, only shown when the field state is not invalid:
-        ```
-        fn field_state ->
-          if !field_state.valid?, do: nil, else: "This will be publicly visible"
-        end
-        ```
-        """
+          Conditional hint, only shown when the field state is valid:
+          ```
+          fn field_state ->
+            if !field_state.valid?, do: nil, else: "Caption"
+          end
+          ```
+
+          For additional markup, use the `H` sigil:
+          ```
+          fn ->
+            ~H'''
+            Caption with <a href="/">link</a>
+            '''
+          end
+          ```
+          """
+          |> String.replace("{the_input_name}", unquote(the_input_name))
       )
     end
   end

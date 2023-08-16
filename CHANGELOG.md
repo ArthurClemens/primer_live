@@ -12,7 +12,9 @@ Form elements have been revamped and aligned with the most recent [form element 
 
 ### Improvements
 
-- Added `caption` attribute to show a hint message below form fields. The attribute is a function that takes `field_state`, similar to `validation_message`. This way the caption can be configured (or hidden) based on the field state.
+- Added `caption` attribute to show a hint message below form fields.
+    - The attribute is a function that takes `field_state`, similar to `validation_message`. This way the caption can be configured (or hidden) based on the field state.
+    - Implemented for `select`, `text_input` and `textarea`.
 - Added disabled state to `form_control`:
   - With components `select`, `text_input` and `textarea`: the attribute `disabled` is automatically passed to `form_control`.
   - With component `form_control`: set explicitly with attr `is_disabled`.
