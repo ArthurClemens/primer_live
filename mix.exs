@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.4.1",
+      version: "0.5.0",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: description(),
       package: package(),

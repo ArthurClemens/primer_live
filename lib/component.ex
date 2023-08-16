@@ -2800,7 +2800,7 @@ defmodule PrimerLive.Component do
   end
 
   # ------------------------------------------------------------------------------------
-  # form_group
+  # form_control
   # ------------------------------------------------------------------------------------
 
   @doc section: :forms
@@ -2809,9 +2809,9 @@ defmodule PrimerLive.Component do
   Generates a form group: a wrapper around one or more inputs. Automatically adds a label based on supplied form and field, with the option to set a custom label.
 
   ```
-  <.form_group field="first_name">
+  <.form_control field="first_name">
     <.text_input field="first_name" />
-  </.form_group>
+  </.form_control>
   ```
 
   ## Examples
@@ -2820,30 +2820,30 @@ defmodule PrimerLive.Component do
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.form_group form={f} field={:first_name}>
+    <.form_control form={f} field={:first_name}>
       <.text_input
         form={f}
         field={:first_name}
         phx_debounce="blur"
       />
-    </.form_group>
+    </.form_control>
   </.form>
   ```
 
   Custom label:
 
   ```
-  <.form_group form={f} field={:first_name} label="Enter your first name">
+  <.form_control form={f} field={:first_name} label="Enter your first name">
   ...
-  </.form_group>
+  </.form_control>
   ```
 
   Hide the label:
 
   ```
-  <.form_group form={f} field={:first_name} is_hide_label>
+  <.form_control form={f} field={:first_name} is_hide_label>
   ...
-  </.form_group>
+  </.form_control>
   ```
 
   [INSERT LVATTRDOCS]
@@ -2870,7 +2870,7 @@ defmodule PrimerLive.Component do
   )
 
   attr(:deprecated_has_form_group, :boolean,
-    default: true,
+    default: false,
     doc:
       "Internal use: detects if deprecated `form_group` or `is_form_group` is used. Used to maintain consistent styling."
   )
@@ -2880,7 +2880,7 @@ defmodule PrimerLive.Component do
   attr(:for, :string,
     default: nil,
     doc:
-      "Internally used by `text_input/1` and `textarea/1` when using `is_form_group` or `form_group`. Label attribute to associate the label with the input. `for` should be the same as the input's `id`."
+      "Internally used by `text_input/1` and `textarea/1` when using `is_form_control` or `form_control`. Label attribute to associate the label with the input. `for` should be the same as the input's `id`."
   )
 
   attr(:classes, :map,
@@ -2890,16 +2890,16 @@ defmodule PrimerLive.Component do
       label: nil
     },
     doc: """
-    Additional classnames for form group elements.
+    Additional classnames for form control elements.
 
     Any provided value will be appended to the default classname.
 
     Default map:
     ```
     %{
-      group: "",              # Form group element
+      group: "",              # Form control element
       header: "",             # Header element containing the group label
-      label: "",              # Form group label
+      label: "",              # Form control label
     }
     ```
     """
@@ -2907,9 +2907,9 @@ defmodule PrimerLive.Component do
 
   DeclarationHelpers.rest()
 
-  slot(:inner_block, required: true, doc: "Form group content.")
+  slot(:inner_block, required: true, doc: "Form control content.")
 
-  def form_group(assigns) do
+  def form_control(assigns) do
     case SchemaHelpers.validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
@@ -2921,11 +2921,11 @@ defmodule PrimerLive.Component do
         """
 
       _ ->
-        render_form_group(assigns)
+        render_form_control(assigns)
     end
   end
 
-  defp render_form_group(assigns) do
+  defp render_form_control(assigns) do
     %{
       rest: rest,
       form: form,
@@ -3008,6 +3008,16 @@ defmodule PrimerLive.Component do
       <%= render_slot(@inner_block) %>
     </div>
     """
+  end
+
+  def form_group(assigns) do
+    ComponentHelpers.deprecated_message(
+      "Deprecated component form_group: use form_control. Since 0.5.0."
+    )
+
+    assigns = assigns |> assign(:deprecated_has_form_group, true)
+
+    form_control(assigns)
   end
 
   # ------------------------------------------------------------------------------------
@@ -3232,15 +3242,15 @@ defmodule PrimerLive.Component do
   </.text_input>
   ```
 
-  Place the input inside a `form_group/1` with `is_form_group`. Attributes `form` and `field` are passed to the form group to generate a group label.
+  Place the input inside a `form_control/1` with `is_form_control`. Attributes `form` and `field` are passed to the form group to generate a group label.
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.text_input form={f} field={:first_name} is_form_group />
+    <.text_input form={f} field={:first_name} is_form_control />
   </.form>
   ```
 
-  To configure the form group and label, use attr `form_group`. See `form_group/1` for supported attributes.
+  To configure the form group and label, use attr `form_control`. See `form_control/1` for supported attributes.
 
   A validation error message is automatically added when using a changeset with an error state. The message text is taken from the changeset errors.
   To show a custom validation error message, supply function `validation_message`:
@@ -3250,7 +3260,7 @@ defmodule PrimerLive.Component do
     <.text_input
       form={f}
       field={:first_name}
-      form_group={%{
+      form_control={%{
         label: "Custom label",
         validation_message:
           fn field_state ->
@@ -3354,7 +3364,9 @@ defmodule PrimerLive.Component do
     doc: "Uses a monospace font."
   )
 
+  DeclarationHelpers.form_control("the input")
   DeclarationHelpers.form_group("the input")
+  DeclarationHelpers.is_form_control("the input")
   DeclarationHelpers.is_form_group("the input")
   DeclarationHelpers.validation_message()
   DeclarationHelpers.validation_message_id()
@@ -3423,9 +3435,9 @@ defmodule PrimerLive.Component do
   defp render_text_input(assigns) do
     %{
       field: field,
-      form_group_attrs: form_group_attrs,
+      form_control_attrs: form_control_attrs,
       form: form,
-      has_form_group: has_form_group,
+      has_form_control: has_form_control,
       input_id: input_id,
       input_name: input_name,
       rest: rest,
@@ -3632,16 +3644,16 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:has_form_group, has_form_group)
-      |> assign(:form_group_attrs, form_group_attrs)
+      |> assign(:has_form_control, has_form_control)
+      |> assign(:form_control_attrs, form_control_attrs)
       |> assign(:render, render)
-      |> assign(:is_form_group_disabled, rest[:disabled])
+      |> assign(:is_form_control_disabled, rest[:disabled])
 
     ~H"""
-    <%= if @has_form_group do %>
-      <.form_group {@form_group_attrs} is_disabled={@is_form_group_disabled}>
+    <%= if @has_form_control do %>
+      <.form_control {@form_control_attrs} is_disabled={@is_form_control_disabled}>
         <%= @render.() %>
-      </.form_group>
+      </.form_control>
     <% else %>
       <%= @render.() %>
     <% end %>
@@ -3749,7 +3761,7 @@ defmodule PrimerLive.Component do
   </.form>
   ```
 
-  Place the select inside a `form_group/1` with `is_form_group`. See `text_input/1` for examples.
+  Place the select inside a `form_control/1` with `is_form_control`. See `text_input/1` for examples.
 
   A validation error message is automatically added when using a changeset with an error state. See `text_input/1` how to customise the validation messages.
 
@@ -3851,7 +3863,9 @@ defmodule PrimerLive.Component do
     doc: "Uses a monospace font."
   )
 
+  DeclarationHelpers.form_control("the select input")
   DeclarationHelpers.form_group("the select input")
+  DeclarationHelpers.is_form_control("the select input")
   DeclarationHelpers.is_form_group("the select input")
 
   DeclarationHelpers.rest()
@@ -3879,8 +3893,8 @@ defmodule PrimerLive.Component do
       field: field,
       input_id: input_id,
       input_name: input_name,
-      has_form_group: has_form_group,
-      form_group_attrs: form_group_attrs,
+      has_form_control: has_form_control,
+      form_control_attrs: form_control_attrs,
       show_message?: show_message?,
       validation_message_id: validation_message_id,
       validation_marker_attrs: validation_marker_attrs,
@@ -3978,16 +3992,16 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:has_form_group, has_form_group)
-      |> assign(:form_group_attrs, form_group_attrs)
+      |> assign(:has_form_control, has_form_control)
+      |> assign(:form_control_attrs, form_control_attrs)
       |> assign(:render, render)
-      |> assign(:is_form_group_disabled, rest[:disabled])
+      |> assign(:is_form_control_disabled, rest[:disabled])
 
     ~H"""
-    <%= if @has_form_group do %>
-      <.form_group {@form_group_attrs} is_disabled={@is_form_group_disabled}>
+    <%= if @has_form_control do %>
+      <.form_control {@form_control_attrs} is_disabled={@is_form_control_disabled}>
         <%= @render.() %>
-      </.form_group>
+      </.form_control>
     <% else %>
       <%= @render.() %>
     <% end %>
@@ -11282,9 +11296,9 @@ defmodule PrimerLive.Component do
   )
 
   def drawer_content(assigns) do
-    if Application.get_env(:primer_live, :env) !== :test do
-      IO.puts("Deprecated drawer_content: use drawer's 'body' slot. Since 0.4.0.")
-    end
+    ComponentHelpers.deprecated_message(
+      "Deprecated component drawer_content: use drawer's 'body' slot. Since 0.4.0."
+    )
 
     %{
       focus_wrap_id: focus_wrap_id

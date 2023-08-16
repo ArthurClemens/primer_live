@@ -46,4 +46,12 @@ defmodule PrimerLive.Helpers.ComponentHelpers do
       true -> false
     end
   end
+
+  def deprecated_message(message), do: deprecated_message(message, true)
+
+  def deprecated_message(message, condition) do
+    if condition && Application.get_env(:primer_live, :env) !== :test do
+      IO.puts(message)
+    end
+  end
 end

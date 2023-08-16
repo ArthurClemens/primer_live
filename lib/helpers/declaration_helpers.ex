@@ -99,31 +99,52 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro form_group(the_input_name) do
+  defmacro form_control(the_input_name) do
     quote do
-      attr(:form_group, :map,
+      attr(:form_control, :map,
         doc:
           """
-          Form group attributes. Places {the_input_name} inside a `form_group/1` component with given attributes, alongside `form` and `field` to generate an input label.
+          Form control attributes. Places {the_input_name} inside a `form_control/1` component with given attributes, alongside `form` and `field` to generate a form control label.
 
-          If only a automatically generated label is required, use convenience attr `is_form_group` instead.
+          If only a automatically generated label is required, use convenience attr `is_form_control` instead.
           """
           |> String.replace("{the_input_name}", unquote(the_input_name))
       )
     end
   end
 
-  defmacro is_form_group(the_input_name) do
+  defmacro form_group(_the_input_name) do
     quote do
-      attr(:is_form_group, :boolean,
+      attr(:form_group, :map,
+        doc: """
+        Deprecated: use `form_control`. Since `0.5.0`.
+        """
+      )
+    end
+  end
+
+  defmacro is_form_control(the_input_name) do
+    quote do
+      attr(:is_form_control, :boolean,
         default: false,
         doc:
           """
-          Places {the_input_name} inside a `form_group/1` component. Attributes `form` and `field` are automatically passed to `form_group` to generate an input label.
+          Places {the_input_name} inside a `form_control/1` component. Attributes `form` and `field` are automatically passed to `form_control` to generate a form control label.
 
-          To configure the form group and label, use attr `form_group`.
+          To configure the form control and label, use attr `form_control`.
           """
           |> String.replace("{the_input_name}", unquote(the_input_name))
+      )
+    end
+  end
+
+  defmacro is_form_group(_the_input_name) do
+    quote do
+      attr(:is_form_group, :boolean,
+        default: false,
+        doc: """
+        Deprecated: use `is_form_control`. Since `0.5.0`.
+        """
       )
     end
   end

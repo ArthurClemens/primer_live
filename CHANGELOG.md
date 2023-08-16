@@ -2,28 +2,23 @@
 
 ## 0.5.0
 
+Form elements have been revamped and aligned with the most recent [form element documentation at Primer Style](https://primer.style/design/ui-patterns/forms/overview).
 
 ### Deprecated
 
-- `form_group` is replaced by `form_control` (no functional changes)
-- `is_form_group` is replaced by `is_form_control` (no functional changes)
-
+- `form_group` is replaced by `form_control` and `is_form_group` is replaced by `is_form_control` (no functional changes, existing syntax will keep working, but warnings will appear in the log).
 
 ### Improvements
 
-Form elements have been revamped and aligned with the most recent [form element documentation at Primer Style](https://primer.style/design/ui-patterns/forms/overview).
-
 - Added `caption` attribute to show a hint message below form fields. The attribute is a function that takes `field_state`, similar to `validation_message`. This way the caption can be configured (or hidden) based on the field state.
-- Added disabled state to `form_group`:
-  - On `select`, `text_input` and `textarea`: the attribute `disabled` is automatically passed to `form_group`.
-  - Using `form_group` standalone: with attr `is_disabled`.
-
-
+- Added disabled state to `form_control`:
+  - With components `select`, `text_input` and `textarea`: the attribute `disabled` is automatically passed to `form_control`.
+  - With component `form_control`: set explicitly with attr `is_disabled`.
 
 ### Removed
 
-- Form element width variation attrs `is_short` and `is_shorter`.
-- `form_group` class `body` (div is removed)
+- Form element width variation attrs `is_short` and `is_shorter`. These are no longer supported by Primer System.
+- `form_control` class `body`: this extra div is removed to simplify the styling of validation states.
 
 
 ## 0.4.0

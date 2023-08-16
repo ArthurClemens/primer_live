@@ -2,7 +2,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   @moduledoc false
 
   use Phoenix.Component
-  alias PrimerLive.Helpers.FormHelpers
+  alias PrimerLive.Helpers.{ComponentHelpers, FormHelpers}
 
   @doc ~S"""
   Concatenates a list of classnames to a single string.
@@ -573,7 +573,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     id_attrs = common_id_attrs(assigns, input_type, common_shared_attrs)
 
     # Form group
-    form_group_attrs = common_form_group_attrs(assigns, id_attrs.input_id, common_shared_attrs)
+    form_control_attrs =
+      common_form_control_attrs(assigns, id_attrs.input_id, common_shared_attrs)
 
     # Field state
     field_state_attrs =
@@ -586,7 +587,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     [
       common_shared_attrs,
       id_attrs,
-      form_group_attrs,
+      form_control_attrs,
       field_state_attrs
     ]
     |> Enum.reduce(&Map.merge/2)
@@ -648,19 +649,31 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     }
   end
 
-  defp common_form_group_attrs(assigns, input_id, %{
+  defp common_form_control_attrs(assigns, input_id, %{
          form: form,
          field_or_name: field_or_name
        }) do
     deprecated_form_group = assigns[:form_group]
-    deprecated_is_form_group = assigns[:is_form_group]
-    deprecated_has_form_group = deprecated_is_form_group || deprecated_form_group
+    deprecated_is_form_group = !!assigns[:is_form_group]
+    deprecated_has_form_group = deprecated_is_form_group || !!deprecated_form_group
 
-    form_group = deprecated_form_group
-    has_form_group = deprecated_has_form_group
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr form_group: use form_control. Since 0.5.0.",
+      !is_nil(assigns[:form_group])
+    )
 
-    form_group_attrs =
-      Map.merge(form_group || %{}, %{
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr is_form_group: use is_form_control. Since 0.5.0.",
+      assigns[:is_form_group] == true
+    )
+
+    form_control = assigns[:form_control] || deprecated_form_group
+    is_form_control = assigns[:is_form_control] || !!form_control || deprecated_is_form_group
+
+    has_form_control = is_form_control || deprecated_has_form_group
+
+    form_control_attrs =
+      Map.merge(form_control || %{}, %{
         form: form,
         field: field_or_name,
         for: input_id,
@@ -668,8 +681,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       })
 
     %{
-      form_group_attrs: form_group_attrs,
-      has_form_group: has_form_group
+      form_control_attrs: form_control_attrs,
+      has_form_control: has_form_control
     }
   end
 
@@ -908,11 +921,10 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     prompt_options = assigns[:prompt_options] || toggle_slot[:options]
 
-    if !is_nil(toggle_slot[:options]) && Application.get_env(:primer_live, :env) !== :test do
-      IO.puts(
-        "Deprecated toggle options: pass prompt_options to the main component. Since 0.4.0."
-      )
-    end
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr options passed to slot toggle_slot: pass prompt_options to the main component. Since 0.4.0.",
+      !is_nil(toggle_slot[:options])
+    )
 
     input_name = if field, do: Phoenix.HTML.Form.input_name(form, field), else: nil
     generated_id = id || input_name || random_string()

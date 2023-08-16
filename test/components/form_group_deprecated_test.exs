@@ -1,4 +1,4 @@
-defmodule PrimerLive.TestComponents.FormGroupTest do
+defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
   use ExUnit.Case
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers
