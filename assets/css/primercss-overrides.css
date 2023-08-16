@@ -131,7 +131,10 @@
 }
 
 /* Allow inputs without FormControl to set full width. */
-.FormControl-input.FormControl--fullWidth {
+.FormControl-input.FormControl--fullWidth,
+.FormControl-select-wrap.FormControl--fullWidth,
+.FormControl-select.FormControl--fullWidth,
+.FormControl-textarea.FormControl--fullWidth {
   width: 100%;
 }
 

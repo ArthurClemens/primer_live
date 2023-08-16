@@ -27324,7 +27324,10 @@ a.branch-name .octicon {
   color: var(--color-primer-fg-disabled);
   cursor: not-allowed;
 }
-.FormControl-input.FormControl--fullWidth {
+.FormControl-input.FormControl--fullWidth,
+.FormControl-select-wrap.FormControl--fullWidth,
+.FormControl-select.FormControl--fullWidth,
+.FormControl-textarea.FormControl--fullWidth {
   width: 100%;
 }
 .FormControl-textarea.FormControl-small,
