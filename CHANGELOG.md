@@ -6,16 +6,19 @@ Form elements have been revamped and aligned with the most recent [form element 
 
 ### Deprecated
 
-- `form_group` is replaced by `form_control` and `is_form_group` is replaced by `is_form_control`.
-  - Existing syntax will keep working, but warnings will appear in the log.
+- `form_group` is replaced by `form_control` (and `is_form_group` is replaced by `is_form_control`).
+  - Existing syntax will keep working, but log warnings will inform about the deprecation.
   - Note that the class "form-group" (added for `form_group` and `is_form_group`) contains a top and bottom margin. When updating your code, you may need to add styling to correct the missing whitespace.
 
 ### Improvements
 
-- Added `caption` attribute to show a hint message below form fields.
-    - The attribute is a function that takes `field_state`, similar to `validation_message`. This way the caption can be configured (or hidden) based on the field state.
+
+- Added a **hint message** to show below form fields.
+    - Attr `caption` is a callback function that takes `field_state`, similar to `validation_message`. This way the caption can be configured (or hidden) based on the field state.
     - Implemented for `select`, `text_input` and `textarea`.
-- Added disabled state to `form_control`:
+- Added a **required marker** to `form_control`. The form control label will show a required marker if the field is required.
+  - Added `is_required?` to `FieldState`, so it can also be queried in `validation_message` and `caption` callbacks.
+- Added **disabled state** to `form_control`:
   - With components `select`, `text_input` and `textarea`: the attribute `disabled` is automatically passed to `form_control`.
   - With component `form_control`: set explicitly with attr `is_disabled`.
 

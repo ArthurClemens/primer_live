@@ -82,12 +82,12 @@
   padding-bottom: 0;
 }
 
-/* Depreciation support (0.5.0). Make deprecated .form-group co-exist with FormControl to keep the layout (remove inline-flex). */
+/* Deprecation support (0.5.0). Make deprecated .form-group co-exist with FormControl to keep the layout (remove inline-flex). */
 .form-group.FormControl {
   display: flex;
 }
 
-/* Depreciation support (0.5.0). Give validation message and caption not inside a .FormControl a default top margin. */
+/* Deprecation support (0.5.0). Give validation message and caption not inside a .FormControl a default top margin. */
 .FormControl-inlineValidation,
 .FormControl-caption {
   margin-top: 4px;

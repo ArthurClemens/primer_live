@@ -42,7 +42,7 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
            |> format_html() ==
              """
              <div class="FormControl form-group">
-             <div class="form-group-header"><label class="FormControl-label">First name</label></div>inputs
+             <div class="form-group-header"><label class="FormControl-label">First name</label><span aria-hidden="true">*</span></div>inputs
              </div>
              """
              |> format_html()
@@ -57,7 +57,7 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
            |> format_html() ==
              """
              <div class="FormControl form-group">
-             <div class="form-group-header"><label class="FormControl-label">First name</label></div>inputs
+             <div class="form-group-header"><label class="FormControl-label">First name</label><span aria-hidden="true">*</span></div>inputs
              </div>
              """
              |> format_html()
@@ -127,7 +127,7 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
            |> format_html() ==
              """
              <div class="FormControl form-group my-form-group group-x control-x pl-neutral">
-             <div class="form-group-header header-x"><label class="FormControl-label label-x">First name</label></div>inputs
+             <div class="form-group-header header-x"><label class="FormControl-label label-x">First name</label><span aria-hidden="true">*</span></div>inputs
              </div>
              """
              |> format_html()
@@ -163,7 +163,7 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
            |> format_html() ==
              """
              <div class="FormControl form-group pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label">Available for hire</label></div><span
+             <div class="form-group-header"><label class="FormControl-label">Available for hire</label><span aria-hidden="true">*</span></div><span
              class="FormControl-checkbox-wrap pl-invalid" phx-feedback-for="user[available_for_hire]"><input
              name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox"
              id="user_available_for_hire_admin" invalid="" name="user[available_for_hire]" type="checkbox"

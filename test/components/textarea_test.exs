@@ -103,7 +103,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              <textarea class="FormControl-textarea FormControl-medium"></textarea>
              <div class="FormControl-caption">Caption</div>
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label"></label></div><textarea
+             <div class="form-group-header"><label class="FormControl-label"></label><span aria-hidden="true">*</span></div><textarea
              class="FormControl-textarea FormControl-medium"></textarea>
              <div class="FormControl-caption">Caption</div>
              </div>
@@ -121,7 +121,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            |> format_html() ==
              """
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label></div>
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label><span aria-hidden="true">*</span></div>
              <textarea class="FormControl-textarea FormControl-medium" id="user_first_name" name="user[first_name]"></textarea>
              </div>
              """
@@ -145,7 +145,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            |> format_html() ==
              """
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label></div>
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label><span aria-hidden="true">*</span></div>
              <textarea class="FormControl-textarea FormControl-medium" id="user_first_name" name="user[first_name]"></textarea>
              </div>
              """
@@ -213,7 +213,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              """
              <div class="FormControl group-x control-x pl-invalid">
              <div class="form-group-header header-x"><label class="FormControl-label label-x" for="user_first_name">First
-             name</label></div>
+             name</label><span aria-hidden="true">*</span></div>
              <div class="pl-invalid" phx-feedback-for="user[first_name]"><textarea aria-describedby="user_first_name-validation"
              class="FormControl-textarea FormControl-medium input-x my-text-input" id="user_first_name" invalid=""
              name="user[first_name]"></textarea></div>

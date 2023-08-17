@@ -129,7 +129,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
         default: false,
         doc:
           """
-          Places {the_input_name} inside a `form_control/1` component. Attributes `form` and `field` are automatically passed to `form_control` to generate a form control label.
+          Places {the_input_name} inside a `form_control/1` component. Attributes `form` and `field` are automatically passed to `form_control` to generate a form control label. If the field is required, its label will show a required marker.
 
           To configure the form control and label, use attr `form_control`.
           """

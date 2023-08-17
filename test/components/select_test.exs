@@ -350,7 +350,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
              </select></div>
              <div class="FormControl-caption">Caption</div>
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label" for="count">Count</label></div>
+             <div class="form-group-header"><label class="FormControl-label" for="count">Count</label><span aria-hidden="true">*</span></div>
              <div class="FormControl-select-wrap"><select class="FormControl-select FormControl-medium" id="count" name="count">
              <option value="One">One</option>
              <option value="Two">Two</option>
@@ -480,7 +480,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
            |> format_html() ==
              """
              <div class="FormControl group-x control-x pl-invalid">
-             <div class="form-group-header header-x"><label class="FormControl-label label-x" for="user_role">Role</label></div>
+             <div class="form-group-header header-x"><label class="FormControl-label label-x" for="user_role">Role</label><span aria-hidden="true">*</span></div>
              <div class="FormControl-select-wrap pl-invalid select_container-x my-select-container" phx-feedback-for="user[role]">
              <select aria-describedby="user_role-validation" aria-label="Role"
              class="FormControl-select FormControl-medium select-x" id="user_role" invalid="" name="user[role]">

@@ -2806,14 +2806,24 @@ defmodule PrimerLive.Component do
   @doc section: :forms
 
   @doc ~S"""
-  Generates a form control: a wrapper around one or more inputs. Automatically adds a label based on supplied form and field, with the option to set a custom label.
+  Helper component that generates a form control: a wrapper around a form input that maintains consistent layout and a field label. Form control is used by other components, and you probably won't need to use it standalone.
 
   Used with `text_input/1`, `textarea/1` and `select/1`.
 
+  Automatically adds a label based on supplied form and field (with the option to set a custom label) and a required mark if the field is required.
+
+  Unlike Primer Style, the form control component does not provide validation messages and captions - these can also be added to the input element without a form control.
+
+  Using `form_control` standalone:
   ```
   <.form_control field="first_name">
     <.text_input field="first_name" />
   </.form_control>
+  ```
+
+  This is equivalent to:
+  ```
+  <.text_input field="first_name" is_form_control />
   ```
 
   ## Examples
@@ -2879,6 +2889,12 @@ defmodule PrimerLive.Component do
 
   DeclarationHelpers.class()
 
+  attr(:required_marker, :string,
+    default: "*",
+    doc:
+      "Required field marking. This will be shown for all required fields (when using `Phoenix.HTML.Form`). Pass an empty string to remove the indicator."
+  )
+
   attr(:for, :string,
     default: nil,
     doc:
@@ -2901,7 +2917,7 @@ defmodule PrimerLive.Component do
     ```
     %{
       control: "",            # Form control element
-      group: "",              # Depreciation support: identical to "control"
+      group: "",              # Deprecation support: identical to "control"
       header: "",             # Header element containing the group label
       label: "",              # Form control label
     }
@@ -2990,6 +3006,7 @@ defmodule PrimerLive.Component do
       end
 
     has_header_label = label && label !== "Nil"
+    has_required_marker = !is_nil(assigns.required_marker) && assigns.required_marker !== ""
 
     control_attributes =
       AttributeHelpers.append_attributes(rest, [
@@ -3001,6 +3018,7 @@ defmodule PrimerLive.Component do
       |> assign(:classes, classes)
       |> assign(:control_attributes, control_attributes)
       |> assign(:has_header_label, has_header_label)
+      |> assign(:has_required_marker, has_required_marker)
       |> assign(:label, label)
 
     ~H"""
@@ -3008,6 +3026,9 @@ defmodule PrimerLive.Component do
       <%= if @has_header_label do %>
         <div class={@classes.header}>
           <%= @label %>
+          <%= if @has_required_marker do %>
+            <span aria-hidden="true"><%= @required_marker %></span>
+          <% end %>
         </div>
       <% end %>
       <%= render_slot(@inner_block) %>
@@ -3247,7 +3268,7 @@ defmodule PrimerLive.Component do
   </.text_input>
   ```
 
-  Place the input inside a `form_control/1` with `is_form_control`. Attributes `form` and `field` are passed to the form control to generate a control label.
+  Place the input inside a `form_control/1` with `is_form_control`. Attributes `form` and `field` are passed to the form control to generate a control label. If the field is required, its label will show a required marker.
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
@@ -4173,7 +4194,7 @@ defmodule PrimerLive.Component do
       label: "",           # Input label
       input: "",           # Checkbox input element
       caption: "",         # Hint message element
-      hint: "",            # Depreciation support: identical to "caption"
+      hint: "",            # Deprecation support: identical to "caption"
       disclosure: ""       # Disclosure container (inline)
     }
     ```

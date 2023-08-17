@@ -20,6 +20,16 @@ defmodule PrimerLive.TestComponents.FormControlTest do
     }
   }
 
+  @error_changeset %Ecto.Changeset{
+    action: :validate,
+    changes: %{},
+    errors: [
+      first_name: {"can't be blank", [validation: :required]}
+    ],
+    data: nil,
+    valid?: false
+  }
+
   test "Called without options : should render the component" do
     assigns = %{}
 
@@ -42,7 +52,7 @@ defmodule PrimerLive.TestComponents.FormControlTest do
            |> format_html() ==
              """
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label">First name</label></div>inputs
+             <div class="form-group-header"><label class="FormControl-label">First name</label><span aria-hidden="true">*</span></div>inputs
              </div>
              """
              |> format_html()
@@ -57,7 +67,7 @@ defmodule PrimerLive.TestComponents.FormControlTest do
            |> format_html() ==
              """
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label">First name</label></div>inputs
+             <div class="form-group-header"><label class="FormControl-label">First name</label><span aria-hidden="true">*</span></div>inputs
              </div>
              """
              |> format_html()
@@ -85,6 +95,36 @@ defmodule PrimerLive.TestComponents.FormControlTest do
            |> format_html() ==
              """
              <div class="FormControl pl-FormControl-disabled">inputs</div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: required_marker" do
+    assigns = %{
+      form: %{@default_form | source: @error_changeset}
+    }
+
+    assert rendered_to_string(~H"""
+           <.form_control form={@form} field={:first_name}>inputs</.form_control>
+           <.form_control form={@form} field={:first_name} required_marker="">inputs</.form_control>
+           <.form_control form={@form} field={:first_name} required_marker="required">inputs</.form_control>
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl pl-invalid">
+             <div class="form-group-header"><label class="FormControl-label">First name</label><span aria-hidden="true">*</span>
+             </div>
+             inputs
+             </div>
+             <div class="FormControl pl-invalid">
+             <div class="form-group-header"><label class="FormControl-label">First name</label></div>
+             inputs
+             </div>
+             <div class="FormControl pl-invalid">
+             <div class="form-group-header"><label class="FormControl-label">First name</label><span
+             aria-hidden="true">required</span></div>
+             inputs
+             </div>
              """
              |> format_html()
   end
@@ -127,7 +167,7 @@ defmodule PrimerLive.TestComponents.FormControlTest do
            |> format_html() ==
              """
              <div class="FormControl my-form-control group-x control-x pl-neutral">
-             <div class="form-group-header header-x"><label class="FormControl-label label-x">First name</label></div>inputs
+             <div class="form-group-header header-x"><label class="FormControl-label label-x">First name</label><span aria-hidden="true">*</span></div>inputs
              </div>
              """
              |> format_html()
@@ -163,7 +203,7 @@ defmodule PrimerLive.TestComponents.FormControlTest do
            |> format_html() ==
              """
              <div class="FormControl pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label">Available for hire</label></div><span
+             <div class="form-group-header"><label class="FormControl-label">Available for hire</label><span aria-hidden="true">*</span></div><span
              class="FormControl-checkbox-wrap pl-invalid" phx-feedback-for="user[available_for_hire]"><input
              name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox"
              id="user_available_for_hire_admin" invalid="" name="user[available_for_hire]" type="checkbox"
