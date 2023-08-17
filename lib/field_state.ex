@@ -12,6 +12,7 @@ defmodule PrimerLive.FieldState do
   - `caption` - Field hint message that may be rendered dependent on the field state.
   """
   defstruct valid?: false,
+            required?: false,
             ignore_errors?: false,
             changeset: nil,
             message: nil,

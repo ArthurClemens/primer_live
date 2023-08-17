@@ -57,7 +57,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>     },
       ...>   },
       ...>   :first_name, nil, nil)
-      %PrimerLive.FieldState{valid?: false, changeset: %Ecto.Changeset{action: :validate, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
+      %PrimerLive.FieldState{required?: true, valid?: false, changeset: %Ecto.Changeset{action: :validate, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
 
       # If changeset action is :update and no validation_message_fn is provided, no message is added to FieldState:
       iex> PrimerLive.Helpers.FormHelpers.field_state(
@@ -67,11 +67,11 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>       changes: %{},
       ...>       errors: [first_name: {"can't be blank", [validation: :required]}],
       ...>       data: nil,
-      ...>       valid?: true
+      ...>       valid?: true,
       ...>     },
       ...>   },
       ...>   :first_name, nil, nil)
-      %PrimerLive.FieldState{valid?: false, changeset: %Ecto.Changeset{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
+      %PrimerLive.FieldState{required?: true, valid?: false, changeset: %Ecto.Changeset{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
 
       # Custom error message: if changeset action is :update and a validation_message_fn is provided, the resulting message is added to FieldState:
       iex> PrimerLive.Helpers.FormHelpers.field_state(
@@ -81,11 +81,11 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>       changes: %{},
       ...>       errors: [first_name: {"can't be blank", [validation: :required]}],
       ...>       data: nil,
-      ...>       valid?: true
+      ...>       valid?: true,
       ...>     },
       ...>   },
       ...>   :first_name, fn field_state -> if !field_state.valid?, do: "Please select your availability" end, nil)
-      %PrimerLive.FieldState{valid?: false, changeset: %Ecto.Changeset{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "Please select your availability", field_errors: ["can't be blank"]}
+      %PrimerLive.FieldState{required?: true, valid?: false, changeset: %Ecto.Changeset{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "Please select your availability", field_errors: ["can't be blank"]}
 
       # Custom success message: if changeset action is :update and a validation_message_fn is provided, the resulting message is added to FieldState:
       iex> PrimerLive.Helpers.FormHelpers.field_state(
@@ -95,19 +95,19 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>       changes: %{first_name: "annette"},
       ...>       errors: [],
       ...>       data: nil,
-      ...>       valid?: true
+      ...>       valid?: true,
       ...>     },
       ...>   },
       ...>   :first_name, fn field_state -> if field_state.valid?, do: "Great!" end, nil)
-      %PrimerLive.FieldState{valid?: true, changeset: %Ecto.Changeset{action: :update, changes: %{first_name: "annette"}, data: nil, errors: [], valid?: true}, message: "Great!", field_errors: []}
+      %PrimerLive.FieldState{required?: false, valid?: true, changeset: %Ecto.Changeset{action: :update, changes: %{first_name: "annette"}, data: nil, errors: [], valid?: true}, message: "Great!", field_errors: []}
 
       # Caption: return a caption if changeset is nil
       iex> PrimerLive.Helpers.FormHelpers.field_state(nil, nil, nil, fn _field_state -> "Caption" end)
-      %PrimerLive.FieldState{valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Caption"}
+      %PrimerLive.FieldState{required?: false, valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Caption"}
 
       # Caption: return a caption regardless the state
       iex> PrimerLive.Helpers.FormHelpers.field_state(:f, :first_name, nil, fn _field_state -> "Caption" end)
-      %PrimerLive.FieldState{valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Caption"}
+      %PrimerLive.FieldState{required?: false, valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Caption"}
 
       # Caption: return a caption dependent on the state
       iex> PrimerLive.Helpers.FormHelpers.field_state(
@@ -117,13 +117,14 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>       changes: %{},
       ...>       errors: [first_name: {"can't be blank", [validation: :required]}],
       ...>       data: nil,
-      ...>       valid?: true
+      ...>       valid?: true,
       ...>     },
       ...>   },
       ...>   :first_name, nil, fn _field_state -> "Caption" end)
+      %PrimerLive.FieldState{caption: "Caption", changeset: %Ecto.Changeset{action: :validate, changes: %{}, errors: [first_name: {"can't be blank", [validation: :required]}], data: nil, valid?: true}, field_errors: ["can't be blank"], ignore_errors?: false, message: "can't be blank", message_id: nil, required?: true, valid?: false}
 
       iex> PrimerLive.Helpers.FormHelpers.field_state(:f, :first_name, nil, fn field_state -> if !field_state.valid?, do: "Please select your availability" end)
-      %PrimerLive.FieldState{valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Please select your availability"}
+      %PrimerLive.FieldState{required?: false, valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Please select your availability"}
 
   """
   def field_state(form, field, validation_message_fn, caption_fn) do
@@ -158,13 +159,15 @@ defmodule PrimerLive.Helpers.FormHelpers do
          caption_fn
        ) do
     with field_errors <- get_field_errors(changeset, field),
+         required? <- get_field_required(changeset, field),
          valid? <- field_errors == [],
          field_state <- %{
            field_state
            | valid?: valid?,
              ignore_errors?: is_nil(changeset.action) && !valid?,
              field_errors: field_errors,
-             changeset: changeset
+             changeset: changeset,
+             required?: required?
          },
          message <-
            get_message(changeset.action, field_errors, field_state, validation_message_fn),
@@ -288,6 +291,56 @@ defmodule PrimerLive.Helpers.FormHelpers do
     |> Enum.map(fn {_error_field, {content, details}} ->
       interpolate_error_details(content, details)
     end)
+  end
+
+  @doc """
+  Returns the required state for a given field from a changeset.
+
+      iex> PrimerLive.Helpers.FormHelpers.get_field_required(
+      ...>   %{
+      ...>     action: :update,
+      ...>     changes: %{},
+      ...>     errors: [],
+      ...>     data: nil,
+      ...>     valid?: true
+      ...>   }, :first_name)
+      false
+
+      iex> PrimerLive.Helpers.FormHelpers.get_field_required(
+      ...>   %{
+      ...>     action: :update,
+      ...>     changes: %{},
+      ...>     errors: [
+      ...>       first_name: {"can't be blank", [validation: :required]},
+      ...>       work_experience: {"invalid value", [validation: :required]}
+      ...>     ],
+      ...>     data: nil,
+      ...>     valid?: true
+      ...>   }, :first_name)
+      true
+
+      iex> PrimerLive.Helpers.FormHelpers.get_field_required(
+      ...>   %{
+      ...>     action: :update,
+      ...>     changes: %{},
+      ...>     errors: [
+      ...>       first_name: {"should be at most %{count} character(s)",
+      ...>         [count: 255, validation: :length, kind: :max, type: :string]}
+      ...>     ],
+      ...>     data: nil,
+      ...>     valid?: true
+      ...>   }, :first_name)
+      false
+  """
+  def get_field_required(changeset, field) do
+    changeset.errors
+    |> Enum.filter(fn {error_field, _content} -> error_field == field end)
+    |> Enum.map(fn {_error_field, {_content, details}} -> details end)
+    |> Enum.map(fn
+      [validation: :required] -> true
+      _ -> false
+    end)
+    |> Enum.any?(fn value -> !!value end)
   end
 
   @doc """
