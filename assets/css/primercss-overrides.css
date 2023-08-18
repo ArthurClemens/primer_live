@@ -125,7 +125,9 @@
 
 /* Set disabled state to FormControl. */
 .FormControl.pl-FormControl-disabled,
-.FormControl.pl-FormControl-disabled .FormControl-label {
+.FormControl.pl-FormControl-disabled .FormControl-label,
+fieldset[disabled] .form-group-header,
+fieldset[disabled] .FormControl-label {
   color: var(--color-primer-fg-disabled);
   cursor: not-allowed;
 }
@@ -235,12 +237,6 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
 }
 
 /* -- idem */
-.phx-no-feedback input.FormControl-checkbox[type=checkbox][invalid]:not(:focus),
-.phx-no-feedback input.FormControl-radio[type=radio][invalid]:not(:focus) {
-  border-color: var(--color-border-default);
-}
-
-/* -- idem */
 .phx-no-feedback .FormControl-input:not(:focus)[invalid],
 .phx-no-feedback .FormControl-select:not(:focus)[invalid] {
   border-color: var(--color-border-default);
@@ -254,6 +250,12 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
 }
 .pl-invalid+.FormControl-inlineValidation--success {
   display: none;
+}
+
+/* Remove error color from radios and checkboxes. */
+input.FormControl-checkbox[type=checkbox][invalid]:not(:focus),
+input.FormControl-radio[type=radio][invalid]:not(:focus) {
+  border-color: var(--color-neutral-emphasis);
 }
 
 /* Set visual error state to neutral if preceding marker element has class pl-valid. */
@@ -298,8 +300,8 @@ fieldset[disabled] * {
   pointer-events: none;
 }
 
-fieldset[disabled] input.FormControl-radio[type=radio],
-fieldset[disabled] input.FormControl-checkbox[type=checkbox] {
+fieldset[disabled] input.FormControl-radio[type=radio]:not(:focus),
+fieldset[disabled] input.FormControl-checkbox[type=checkbox]:not(:focus) {
   -webkit-text-fill-color: var(--color-primer-fg-disabled);
   background-color: var(--color-input-disabled-bg);
   border-color: var(--color-border-default);
