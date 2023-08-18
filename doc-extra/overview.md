@@ -5,7 +5,7 @@ An implementation of GitHub's <a href="https://primer.style/design/" target="bla
 </p>
 
 <p>
-The Primer Design System provides a strong base for creating data driven applications such as rich CRUD applications with interactive forms.
+Primer Design provides a strong base for creating data driven applications such as rich CRUD applications with interactive forms.
 </p>
 
 <p>
