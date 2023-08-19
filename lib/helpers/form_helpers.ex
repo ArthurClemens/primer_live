@@ -105,6 +105,10 @@ defmodule PrimerLive.Helpers.FormHelpers do
       iex> PrimerLive.Helpers.FormHelpers.field_state(nil, nil, nil, fn _field_state -> "Caption" end)
       %PrimerLive.FieldState{required?: false, valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Caption"}
 
+      # Caption: return a static caption
+      iex> PrimerLive.Helpers.FormHelpers.field_state(:f, :first_name, nil, "Caption")
+      %PrimerLive.FieldState{required?: false, valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Caption"}
+
       # Caption: return a caption regardless the state
       iex> PrimerLive.Helpers.FormHelpers.field_state(:f, :first_name, nil, fn _field_state -> "Caption" end)
       %PrimerLive.FieldState{required?: false, valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Caption"}
@@ -120,12 +124,8 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>       valid?: true,
       ...>     },
       ...>   },
-      ...>   :first_name, nil, fn _field_state -> "Caption" end)
-      %PrimerLive.FieldState{caption: "Caption", changeset: %Ecto.Changeset{action: :validate, changes: %{}, errors: [first_name: {"can't be blank", [validation: :required]}], data: nil, valid?: true}, field_errors: ["can't be blank"], ignore_errors?: false, message: "can't be blank", message_id: nil, required?: true, valid?: false}
-
-      iex> PrimerLive.Helpers.FormHelpers.field_state(:f, :first_name, nil, fn field_state -> if !field_state.valid?, do: "Please select your availability" end)
-      %PrimerLive.FieldState{required?: false, valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Please select your availability"}
-
+      ...>   :first_name, nil, fn field_state -> if !field_state.valid?, do: "Please select your availability" end)
+      %PrimerLive.FieldState{caption: "Please select your availability", changeset: %Ecto.Changeset{action: :validate, changes: %{}, errors: [first_name: {"can't be blank", [validation: :required]}], data: nil, valid?: true}, field_errors: ["can't be blank"], ignore_errors?: false, message: "can't be blank", message_id: nil, required?: true, valid?: false}
   """
   def field_state(form, field, validation_message_fn, caption_fn) do
     changeset = form_changeset(form)
@@ -200,6 +200,9 @@ defmodule PrimerLive.Helpers.FormHelpers do
   end
 
   defp get_caption(_field_state, nil), do: nil
+  defp get_caption(_field_state, []), do: nil
+  defp get_caption(_field_state, caption_str) when is_binary(caption_str), do: caption_str
+  defp get_caption(_field_state, caption_slot) when is_list(caption_slot), do: nil
 
   defp get_caption(field_state, caption_fn) do
     case :erlang.fun_info(caption_fn)[:arity] do

@@ -9,18 +9,26 @@ Form elements have been revamped and aligned with the most recent [form element 
 - `form_group` is replaced by `form_control` (and `is_form_group` is replaced by `is_form_control`).
   - Existing syntax will keep working, but log warnings will inform about the deprecation.
   - Note that the class "form-group" (added for `form_group` and `is_form_group`) contains a top and bottom margin. When updating your code, you may need to add styling to correct the missing whitespace.
-
+- The horizontal "tab-row" layout of `radio_group` is not mentioned in the Primer Design specification, while "Radio group" is (with vertical layout).
+  - The current `radio_group` has been renamed to `radio_tabs`.
+  - The new component `radio_group` uses vertical layout.
+- `checkbox` and `radio_button` slot `hint` has been renamed to `caption`.
+  - Existing syntax will keep working, but log warnings will inform about the deprecation.
+- `button_group` slot `button` is replaced by `button` components as children.
+ 
 ### Improvements
 
-
-- Added a **hint message** to show below form fields.
-    - Attr `caption` is a callback function that takes `field_state`, similar to `validation_message`. This way the caption can be configured (or hidden) based on the field state.
-    - Implemented for `select`, `text_input` and `textarea`.
-- Added a **required marker** to `form_control`. The form control label will show a required marker if the field is required.
+- Added component `checkbox_group`.
+- Added convenience component `checkbox_in_group` for checkboxes inside a `checkbox_group`.
+- Added component `radio_group` (with vertical layout).
+- Added attr `caption` to show **hint message** below the form fields.
+  - Implemented for `select`, `text_input` and `textarea`.
+  - Implemented for `checkbox_group` and `radio_group` to show a hint below the group label.
+- Added a **required marker** to `form_control`, `checkbox_group` and `radio_group`. The form control label will show a required marker if the field is required.
   - Added `is_required?` to `FieldState`, so it can also be queried in `validation_message` and `caption` callbacks.
 - Added **disabled state** to `form_control`:
   - With components `select`, `text_input` and `textarea`: the attribute `disabled` is automatically passed to `form_control`.
-  - With component `form_control`: set explicitly with attr `is_disabled`.
+  - When using component `form_control` on its own: set explicitly with attr `is_disabled`.
 
 ### Removed
 

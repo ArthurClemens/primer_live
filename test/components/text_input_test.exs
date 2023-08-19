@@ -195,8 +195,17 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     }
 
     assert rendered_to_string(~H"""
-           <.text_input caption={fn -> "Caption" end} />
-           <.text_input caption={fn -> "Caption" end} is_form_control />
+           <.text_input caption="Caption" />
+           <.text_input
+             caption={
+               fn ->
+                 ~H'''
+                 Caption
+                 '''
+               end
+             }
+             is_form_control
+           />
            <.text_input caption={
              fn field_state ->
                if !field_state.valid?,

@@ -58,6 +58,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
   defmacro validation_message() do
     quote do
       attr(:validation_message, :any,
+        default: nil,
         doc: """
         Function to write a custom validation message (in case of error or success).
 
@@ -149,31 +150,23 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro caption(the_input_name) do
+  defmacro caption(the_element) do
     quote do
       attr(:caption, :any,
         default: nil,
         doc:
           """
-          Function to write an info message below {the_input_name}.
+          Hint message below {the_element}.
 
-          The function receives a `PrimerLive.FieldState` struct and returns a message or nil.
+          Pass a string, or a function that returns a string.
 
-          A message is shown:
-          - The `caption` function does not return nil
+          The function receives a `PrimerLive.FieldState` struct and returns a message or nil (which omits the caption element).
 
           Function signatures:
           - `fun () -> string | nil`
           - `fun (field_state) -> string | nil`
 
-          Always show a hint:
-          ```
-          fn ->
-            "Caption"
-          end
-          ```
-
-          Conditional hint, only shown when the field state is valid:
+          To conditionally show a caption, use `field_state`. To show the caption when field state is valid:
           ```
           fn field_state ->
             if !field_state.valid?, do: nil, else: "Caption"
@@ -189,10 +182,12 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
           end
           ```
           """
-          |> String.replace("{the_input_name}", unquote(the_input_name))
+          |> String.replace("{the_element}", unquote(the_element))
       )
     end
   end
+
+  # link attr
 
   defmacro href() do
     quote do
@@ -234,6 +229,8 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
+  # rest attr
+
   defmacro rest(opts) do
     quote do
       attr(:rest, :global, unquote(opts))
@@ -249,6 +246,310 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
   defmacro slot_rest() do
     quote do
       attr(:rest, :any)
+    end
+  end
+
+  # form_control attrs
+
+  defmacro form_control_label() do
+    quote do
+      attr(:label, :string,
+        default: nil,
+        doc: "Custom label. Note that a label is automatically generated when using `field`."
+      )
+    end
+  end
+
+  defmacro form_control_is_hide_label() do
+    quote do
+      attr(:is_hide_label, :boolean,
+        default: false,
+        doc: "Omits the automatically generated label (when using `field`)."
+      )
+    end
+  end
+
+  defmacro form_control_is_disabled() do
+    quote do
+      attr(:is_disabled, :boolean,
+        default: false,
+        doc: "Adjusts the styling to indicate disabled state."
+      )
+    end
+  end
+
+  defmacro form_control_deprecated_has_form_group() do
+    quote do
+      attr(:deprecated_has_form_group, :boolean,
+        default: false,
+        doc:
+          "Internal use: detects if deprecated `form_group` or `is_form_group` is used. Used to maintain consistent styling."
+      )
+    end
+  end
+
+  defmacro form_control_required_marker() do
+    quote do
+      attr(:required_marker, :string,
+        default: "*",
+        doc:
+          "Required field marking. This will be shown for all required fields (when using `Phoenix.HTML.Form`). Pass an empty string to remove the indicator."
+      )
+    end
+  end
+
+  defmacro form_control_for() do
+    quote do
+      attr(:for, :string,
+        default: nil,
+        doc:
+          "Internally used by `text_input/1` and `textarea/1` when using `is_form_control` or `form_control`. Label attribute to associate the label with the input. `for` should be the same as the input's `id`."
+      )
+    end
+  end
+
+  defmacro form_control_is_input_group() do
+    quote do
+      attr(:is_input_group, :boolean,
+        default: false,
+        doc: "Creates styling for `checkbox_group/1` and `radio_group/1`."
+      )
+    end
+  end
+
+  defmacro form_control_classes(component_name) do
+    quote do
+      attr(:classes, :map,
+        default: %{
+          control: nil,
+          group: nil,
+          header: nil,
+          label: nil,
+          input_group_container: nil,
+          caption: nil
+        },
+        doc:
+          """
+          Additional classnames for {component_name} elements.
+
+          Any provided value will be appended to the default classname.
+
+          Default map:
+          ```
+          %{
+            control: "",               # {component_name_title} wrapper
+            group: "",                 # Deprecation support: identical to "control"
+            header: "",                # Header element containing the group label
+            label: "",                 # {component_name_title} label
+            input_group_container: "", # Input group container (for checkbox_group and radio_group)
+            caption: "",               # {component_name_title} caption
+          }
+          ```
+          """
+          |> String.replace(
+            "{component_name_title}",
+            unquote(component_name) |> Macro.camelize()
+          )
+          |> String.replace("{component_name}", unquote(component_name |> String.downcase()))
+      )
+    end
+  end
+
+  defmacro form_control_slot_inner_block(component_name) do
+    quote do
+      slot(:inner_block,
+        required: true,
+        doc:
+          """
+          {component_name} content.
+          """
+          |> String.replace("{component_name}", unquote(component_name))
+          |> Macro.camelize()
+      )
+    end
+  end
+
+  # checkbox attrs
+
+  defmacro checkbox_checked(the_component) do
+    quote do
+      attr(:checked, :boolean,
+        doc:
+          """
+          The state of {the_component} (when not using `form` and `field`).
+          """
+          |> String.replace("{the_component}", unquote(the_component))
+      )
+    end
+  end
+
+  defmacro checkbox_checked_value(the_component) do
+    quote do
+      attr(:checked_value, :string,
+        default: nil,
+        doc:
+          """
+          The value to be sent when {the_component} is checked. If `checked_value` equals `value`, {the_component} is marked checked. Defaults to "true".
+          """
+          |> String.replace("{the_component}", unquote(the_component))
+      )
+    end
+  end
+
+  defmacro checkbox_hidden_input() do
+    quote do
+      attr(:hidden_input, :string,
+        default: "true",
+        doc: """
+        Controls if the component will generate a hidden input to submit the unchecked checkbox value or not. Defaults to "true". Uses `Phoenix.HTML.Form.hidden_input/3`.
+        """
+      )
+    end
+  end
+
+  defmacro checkbox_value(component_name) do
+    quote do
+      attr(:value, :string,
+        doc:
+          """
+          {component_name} value attribute (overrides field value when using `form` and `field`).
+          """
+          |> String.replace("{component_name}", unquote(component_name))
+          |> Macro.camelize()
+      )
+    end
+  end
+
+  defmacro checkbox_is_multiple() do
+    quote do
+      attr(:is_multiple, :boolean,
+        default: false,
+        doc: """
+        When creating a list of checkboxes. Appends `[]` to the input name so that a list of values is passed to the form events.
+
+        Alternatively, use `checkbox_in_group/1` to set this automatically.
+        """
+      )
+    end
+  end
+
+  defmacro checkbox_is_emphasised_label() do
+    quote do
+      attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
+    end
+  end
+
+  defmacro checkbox_is_omit_label() do
+    quote do
+      attr(:is_omit_label, :boolean, default: false, doc: "Omits the label.")
+    end
+  end
+
+  defmacro checkbox_classes(component_name) do
+    quote do
+      attr(:classes, :map,
+        default: %{
+          container: nil,
+          label_container: nil,
+          label: nil,
+          input: nil,
+          caption: nil,
+          hint: nil,
+          disclosure: nil
+        },
+        doc:
+          """
+          Additional classnames for {component_name} elements.
+
+          Any provided value will be appended to the default classname.
+
+          Default map:
+          ```
+          %{
+            container: "",       # {component_name_title} container
+            label_container: "", # Input label container
+            label: "",           # Input label
+            input: "",           # {component_name_title} input element
+            caption: "",         # Hint message element
+            hint: "",            # Deprecation support: identical to "caption"
+            disclosure: ""       # Disclosure container (inline)
+          }
+          ```
+          """
+          |> String.replace(
+            "{component_name_title}",
+            unquote(component_name) |> Macro.camelize()
+          )
+          |> String.replace("{component_name}", unquote(component_name |> String.downcase()))
+      )
+    end
+  end
+
+  defmacro checkbox_slot_label(component_name) do
+    quote do
+      alias PrimerLive.Helpers.DeclarationHelpers
+
+      slot :label,
+        doc:
+          """
+          Custom {component_name} label. Overides the derived label when using a `form` and `field`.
+          """
+          |> String.replace("{component_name}", unquote(component_name)) do
+        DeclarationHelpers.slot_class()
+        DeclarationHelpers.slot_style()
+        DeclarationHelpers.slot_rest()
+      end
+    end
+  end
+
+  defmacro checkbox_slot_caption(the_component) do
+    quote do
+      alias PrimerLive.Helpers.DeclarationHelpers
+
+      slot :caption,
+        doc:
+          """
+          Adds text below {the_component} label. Enabled when a label is displayed.
+          """
+          |> String.replace("{the_component}", unquote(the_component)) do
+        DeclarationHelpers.slot_class()
+        DeclarationHelpers.slot_style()
+        DeclarationHelpers.slot_rest()
+      end
+    end
+  end
+
+  defmacro checkbox_slot_hint() do
+    quote do
+      alias PrimerLive.Helpers.DeclarationHelpers
+
+      slot :hint,
+        doc: """
+        Deprecated: use `caption`. As of 0.5.0.
+        """ do
+        DeclarationHelpers.slot_class()
+        DeclarationHelpers.slot_style()
+        DeclarationHelpers.slot_rest()
+      end
+    end
+  end
+
+  defmacro checkbox_slot_disclosure(the_component) do
+    quote do
+      alias PrimerLive.Helpers.DeclarationHelpers
+
+      slot :disclosure,
+        doc:
+          """
+          Extra label content to be revealed when {the_component} is checked. Enabled when a label is displayed.
+
+          Note that the label element can only contain inline child elements.
+          """
+          |> String.replace("{the_component}", unquote(the_component)) do
+        DeclarationHelpers.slot_class()
+        DeclarationHelpers.slot_style()
+        DeclarationHelpers.slot_rest()
+      end
     end
   end
 end

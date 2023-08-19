@@ -88,8 +88,17 @@ defmodule PrimerLive.TestComponents.TextareaTest do
     }
 
     assert rendered_to_string(~H"""
-           <.textarea caption={fn -> "Caption" end} />
-           <.textarea caption={fn -> "Caption" end} is_form_control />
+           <.textarea caption="Caption" />
+           <.textarea
+             caption={
+               fn ->
+                 ~H'''
+                 Caption
+                 '''
+               end
+             }
+             is_form_control
+           />
            <.textarea caption={
              fn field_state ->
                if !field_state.valid?,

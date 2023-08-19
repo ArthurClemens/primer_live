@@ -232,8 +232,11 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
              class="my-radio-button"
              classes={
                %{
+                 container: "container-x",
+                 label_container: "label_container-x",
                  label: "label-x",
                  input: "input-x",
+                 caption: "caption-x",
                  hint: "hint-x",
                  disclosure: "disclosure-x"
                }
@@ -243,17 +246,18 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            >
              <:label class="my-label">Some label</:label>
              <:hint class="my-hint">Some hint</:hint>
-             <:disclosure class="my-disclosure">Some hint</:disclosure>
+             <:caption class="my-caption">Some caption</:caption>
+             <:disclosure class="my-disclosure">Disclosed</:disclosure>
            </.radio_button>
            """)
            |> format_html() ==
              """
-             <span class="FormControl-radio-wrap pl-neutral my-radio-button"><input
+             <span class="FormControl-radio-wrap pl-neutral container-x my-radio-button"><input
              class="form-checkbox-details-trigger FormControl-radio input-x" id="user_role" name="user[role]" type="radio"
-             value="" /><span class="FormControl-radio-labelWrap"><label aria-live="polite"
+             value="" /><span class="FormControl-radio-labelWrap label_container-x"><label aria-live="polite"
              class="FormControl-label label-x my-label" for="user_role">Some label</label><span
-             class="FormControl-caption hint-x my-hint">Some hint</span><span
-             class="form-checkbox-details text-normal disclosure-x my-disclosure">Some hint</span></span></span>
+             class="FormControl-caption caption-x my-caption">Some caption</span><span
+             class="form-checkbox-details text-normal disclosure-x my-disclosure">Disclosed</span></span></span>
              """
              |> format_html()
   end
@@ -326,7 +330,7 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
              |> format_html()
   end
 
-  test "Hint slot" do
+  test "Hint slot (deprecated)" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
@@ -337,6 +341,30 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
              <:hint>
                Add your <strong>resume</strong> below
              </:hint>
+           </.radio_button>
+           """)
+           |> format_html() ==
+             """
+             <span class="FormControl-radio-wrap"><input checked class="FormControl-radio" id="role" name="role" type="radio" value="" />
+             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role">Some label</label>
+             <span class="FormControl-caption">Add your<strong>resume</strong>below</span>
+             </span>
+             </span>
+             """
+             |> format_html()
+  end
+
+  test "Caption slot" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.radio_button name="role">
+             <:label>
+               Some label
+             </:label>
+             <:caption>
+               Add your <strong>resume</strong> below
+             </:caption>
            </.radio_button>
            """)
            |> format_html() ==

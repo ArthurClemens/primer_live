@@ -10,10 +10,10 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.radio_group>
+           <.radio_tabs>
              <:radio_button name="role" value="admin"></:radio_button>
              <:radio_button name="role" value="editor"></:radio_button>
-           </.radio_group>
+           </.radio_tabs>
            """)
            |> format_html() ==
              """
@@ -30,10 +30,10 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.radio_group>
+           <.radio_tabs>
              <:radio_button name="role" value="admin" id="admin-id"></:radio_button>
              <:radio_button name="role" value="editor" id="editor-id"></:radio_button>
-           </.radio_group>
+           </.radio_tabs>
            """)
            |> format_html() ==
              """
@@ -51,7 +51,7 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.radio_group form="x" />
+           <.radio_tabs form="x" />
            """)
            |> format_html() ==
              """
@@ -64,10 +64,10 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.radio_group>
+           <.radio_tabs>
              <:radio_button name="role" value="admin">Some label A</:radio_button>
              <:radio_button name="role" value="editor">Some label B</:radio_button>
-           </.radio_group>
+           </.radio_tabs>
            """)
            |> format_html() ==
              """
@@ -89,7 +89,7 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
     }
 
     assert rendered_to_string(~H"""
-           <.radio_group>
+           <.radio_tabs>
              <:radio_button
                :for={{label, value} <- @options}
                name="role"
@@ -97,7 +97,7 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
                label={label |> String.upcase()}
              >
              </:radio_button>
-           </.radio_group>
+           </.radio_tabs>
            """)
            |> format_html() ==
              """
@@ -114,10 +114,10 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.radio_group form={:user} field={:role}>
+           <.radio_tabs form={:user} field={:role}>
              <:radio_button value="admin"></:radio_button>
              <:radio_button value="editor"></:radio_button>
-           </.radio_group>
+           </.radio_tabs>
            """)
            |> format_html() ==
              """
@@ -135,10 +135,10 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.radio_group form={:user} field="role">
+           <.radio_tabs form={:user} field="role">
              <:radio_button value="admin"></:radio_button>
              <:radio_button value="editor"></:radio_button>
-           </.radio_group>
+           </.radio_tabs>
            """)
            |> format_html() ==
              """
@@ -156,10 +156,10 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.radio_group form={:user} field={:role} id_prefix="custom">
+           <.radio_tabs form={:user} field={:role} id_prefix="custom">
              <:radio_button value="admin"></:radio_button>
              <:radio_button value="editor"></:radio_button>
-           </.radio_group>
+           </.radio_tabs>
            """)
            |> format_html() ==
              """
@@ -177,7 +177,7 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.radio_group
+           <.radio_tabs
              classes={
                %{
                  radio_group: "radio-group-x",
@@ -189,7 +189,7 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            >
              <:radio_button class="my-radio-button-a" name="role" value="admin">Some label A</:radio_button>
              <:radio_button class="my-radio-button-b" name="role" value="editor">Some label B</:radio_button>
-           </.radio_group>
+           </.radio_tabs>
            """)
            |> format_html() ==
              """
@@ -207,10 +207,10 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.radio_group dir="rtl">
+           <.radio_tabs dir="rtl">
              <:radio_button name="role" value="admin"></:radio_button>
              <:radio_button name="role" value="editor"></:radio_button>
-           </.radio_group>
+           </.radio_tabs>
            """)
            |> format_html() ==
              """

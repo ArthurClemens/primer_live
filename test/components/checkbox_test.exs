@@ -72,15 +72,15 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.checkbox form={:user} field="available_for_hire" />
+           <.checkbox field="available_for_hire" />
            """)
            |> format_html() ==
              """
              <span class="FormControl-checkbox-wrap">
-             <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" />
+             <input name="[available_for_hire]" type="hidden" value="false" />
+             <input class="FormControl-checkbox" id="available_for_hire" name="[available_for_hire]" type="checkbox" value="true" />
              <span class="FormControl-checkbox-labelWrap">
-             <label class="FormControl-label" for="user_available_for_hire">Available for hire</label>
+             <label class="FormControl-label" for="available_for_hire">Available for hire</label>
              </span>
              </span>
              """
@@ -122,26 +122,25 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              |> format_html()
   end
 
-  test "Multiple" do
-    assigns = %{}
+  test "Attribute: is_multiple" do
+    assigns = %{
+      form: @default_form
+    }
 
     assert rendered_to_string(~H"""
-           <.checkbox form={:user} name="interest" checked_value="coding" />
-           <.checkbox form={:user} name="interest" checked_value="music" />
+           <.checkbox form={:user} field={:available_for_hire} checked_value="coding" is_multiple />
+           <.checkbox form={:user} field={:available_for_hire} checked_value="music" is_multiple />
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="user[interest]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="user_interest_coding" name="user[interest]" type="checkbox" value="coding" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user_interest_coding">Coding</label></span>
-             </span>
-             <span class="FormControl-checkbox-wrap">
-             <input name="user[interest]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="user_interest_music" name="user[interest]" type="checkbox" value="music" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user_interest_music">Music</label></span>
-             </span>
-
+             <span class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input
+             class="FormControl-checkbox" id="user_available_for_hire_coding" name="user[available_for_hire][]" type="checkbox"
+             value="coding" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
+             for="user_available_for_hire_coding">Coding</label></span></span>
+             <span class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input
+             class="FormControl-checkbox" id="user_available_for_hire_music" name="user[available_for_hire][]" type="checkbox"
+             value="music" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
+             for="user_available_for_hire_music">Music</label></span></span>
              """
              |> format_html()
   end
@@ -219,6 +218,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
                  label_container: "label_container-x",
                  label: "label-x",
                  input: "input-x",
+                 caption: "caption-x",
                  hint: "hint-x",
                  disclosure: "disclosure-x"
                }
@@ -228,7 +228,8 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            >
              <:label class="my-label">Some label</:label>
              <:hint class="my-hint">Some hint</:hint>
-             <:disclosure class="my-disclosure">Some hint</:disclosure>
+             <:caption class="my-caption">Some caption</:caption>
+             <:disclosure class="my-disclosure">Disclosed</:disclosure>
            </.checkbox>
            """)
            |> format_html() ==
@@ -238,8 +239,8 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" /><span
              class="FormControl-checkbox-labelWrap label_container-x"><label aria-live="polite"
              class="FormControl-label label-x my-label" for="user_available_for_hire">Some label</label><span
-             class="FormControl-caption hint-x my-hint">Some hint</span><span
-             class="form-checkbox-details text-normal disclosure-x my-disclosure">Some hint</span></span></span>
+             class="FormControl-caption caption-x my-caption">Some caption</span><span
+             class="form-checkbox-details text-normal disclosure-x my-disclosure">Disclosed</span></span></span>
              """
              |> format_html()
   end
@@ -360,7 +361,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              |> format_html()
   end
 
-  test "Hint slot" do
+  test "Hint slot (deprecated)" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
@@ -386,7 +387,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              |> format_html()
   end
 
-  test "Hint slot without label (not shown)" do
+  test "Hint slot without label (not shown) (deprecated)" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
@@ -394,6 +395,52 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
              <:hint>
                Add your <strong>resume</strong> below
              </:hint>
+           </.checkbox>
+           """)
+           |> format_html() ==
+             """
+             <span class="FormControl-checkbox-wrap">
+             <input name="available_for_hire" type="hidden" value="false" />
+             <input class="FormControl-checkbox" id="available_for_hire" name="available_for_hire" type="checkbox" value="true" />
+             </span>
+             """
+             |> format_html()
+  end
+
+  test "Caption slot" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.checkbox name="available_for_hire">
+             <:label>
+               Some label
+             </:label>
+             <:caption>
+               Add your <strong>resume</strong> below
+             </:caption>
+           </.checkbox>
+           """)
+           |> format_html() ==
+             """
+             <span class="FormControl-checkbox-wrap">
+             <input name="available_for_hire" type="hidden" value="false" />
+             <input class="FormControl-checkbox" id="available_for_hire" name="available_for_hire" type="checkbox" value="true" />
+             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available_for_hire">Some label</label>
+             <span class="FormControl-caption">Add your<strong>resume</strong>below</span>
+             </span>
+             </span>
+             """
+             |> format_html()
+  end
+
+  test "Caption slot without label (not shown)" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.checkbox name="available_for_hire">
+             <:caption>
+               Add your <strong>resume</strong> below
+             </:caption>
            </.checkbox>
            """)
            |> format_html() ==
