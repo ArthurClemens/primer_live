@@ -4015,6 +4015,7 @@ defmodule PrimerLive.Component do
           "FormControl-select-wrap",
           is_multiple and "pl-multiple-select",
           assigns.is_full_width and "FormControl--fullWidth",
+          assigns.rest[:disabled] && "pl-FormControl-select-wrap--disabled",
           validation_marker_class,
           assigns.classes[:select_container],
           assigns[:class]

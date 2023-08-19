@@ -27353,6 +27353,15 @@ fieldset[disabled] .FormControl-label {
 .FormControl-select[multiple].FormControl-large {
   height: auto;
 }
+.FormControl-select-wrap {
+  grid-template-columns: minmax(0, min-content) var(--base-size-16, 16px);
+}
+.FormControl-select-wrap.FormControl--fullWidth {
+  grid-template-columns: minmax(0, auto) var(--base-size-16, 16px);
+}
+.pl-FormControl-select-wrap--disabled:after {
+  background-color: var(--color-primer-fg-disabled);
+}
 .FormControl-select-wrap.pl-multiple-select .FormControl-select {
   padding-inline: var(--primer-control-medium-paddingInline-condensed, 8px);
 }

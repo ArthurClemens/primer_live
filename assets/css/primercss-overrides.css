@@ -142,6 +142,7 @@ fieldset[disabled] .FormControl-label {
   color: var(--color-primer-fg-disabled);
   cursor: not-allowed;
 }
+
 /* -- idem for checkbox and radio. */
 .FormControl.pl-FormControl-disabled .FormControl-checkbox,
 .FormControl.pl-FormControl-disabled .FormControl-radio {
@@ -169,6 +170,21 @@ fieldset[disabled] .FormControl-label {
 .FormControl-select[multiple].FormControl-medium,
 .FormControl-select[multiple].FormControl-large {
   height: auto;
+}
+
+/* Set auto width on select wrapper. */
+.FormControl-select-wrap {
+  grid-template-columns: minmax(0, min-content) var(--base-size-16, 16px);
+}
+
+/* -- and set to full width when FormControl--fullWidth. */
+.FormControl-select-wrap.FormControl--fullWidth {
+  grid-template-columns: minmax(0, auto) var(--base-size-16, 16px);
+}
+
+/* Mute arrow icon when disabled. */
+.pl-FormControl-select-wrap--disabled:after {
+  background-color: var(--color-primer-fg-disabled);
 }
 
 /* Don't create space for dropdown icon on multiple selects. */
