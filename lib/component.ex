@@ -3045,6 +3045,51 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Checkbox group renders a set of [`checkboxes`](`checkbox/1`).
 
+  ```
+  <.checkbox_group>
+    <.checkbox name="roles[]" checked_value="admin" />
+    <.checkbox name="roles[]" checked_value="editor" />
+  </.checkbox_group>
+  ```
+
+  This is equivalent to:
+
+  ```
+  <.form_control is_input_group>
+    <.checkbox name="roles[]" checked_value="admin" />
+    <.checkbox name="roles[]" checked_value="editor" />
+  </.form_control>
+  ```
+
+  `is_input_group` (and hence `checkbox_group`) adds specific styling: a larger label font size, and layout for inputs, captions and validation.
+
+  ## Examples
+
+  Another convenience component - checkbox variant `checkbox_in_group/1` - sets attr `is_multiple` to true,
+  so that the server receives an array of strings for the checked values.
+
+  ```
+  <.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.checkbox_group
+      form={f}
+      field={@field}
+      caption="Select one"
+    >
+      <.checkbox_in_group
+        :for={{label, value} <- @options}
+        form={f}
+        field={@field}
+        checked_value={value}
+        checked={value in @values}
+      >
+        <:label>
+          <%= label %>
+        </:label>
+      </.checkbox_in_group>
+    </.checkbox_group>
+  </.form>
+  ```
+
   ## Reference
 
   [Primer Checkbox group](https://primer.style/design/components/checkbox-group)
@@ -3085,6 +3130,44 @@ defmodule PrimerLive.Component do
 
   @doc ~S"""
   Radio group renders a set of [`radio buttons`](`radio_button/1`).
+
+  ```
+  <.radio_group>
+    <.radio_button name="role" value="admin" />
+    <.radio_button name="role" value="editor" />
+  </.radio_group>
+  ```
+
+  This is equivalent to:
+
+  ```
+  <.form_control is_input_group>
+    <.radio_button name="role" value="admin" />
+    <.radio_button name="role" value="editor" />
+  </.form_control>
+  ```
+
+  `is_input_group` (and hence `radio_group`) adds specific styling: a larger label font size, and layout for inputs, captions and validation.
+
+
+  ## Examples
+
+  ```
+  <.form :let={f} for={@changeset}>
+    <.radio_group form={f} field={@field} caption="Select one">
+      <.radio_button
+        :for={{label, value} <- @options}
+        form={f}
+        field={@field}
+        value={value}
+      >
+        <:label>
+          <%= label %>
+        </:label>
+      </.radio_button>
+    </.radio_group>
+  </.form>
+  ```
 
   ## Reference
 
@@ -3953,8 +4036,6 @@ defmodule PrimerLive.Component do
     default: false,
     doc: """
     Full width select.
-
-    Deprecated: to make the select full width, set the parent width.
     """
   )
 

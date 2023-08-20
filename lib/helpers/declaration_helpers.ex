@@ -312,7 +312,8 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     quote do
       attr(:is_input_group, :boolean,
         default: false,
-        doc: "Creates styling for `checkbox_group/1` and `radio_group/1`."
+        doc:
+          "Creates styling for `checkbox_group/1` and `radio_group/1`: a larger label font size, and layout for inputs, captions and validation."
       )
     end
   end
