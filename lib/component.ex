@@ -5075,9 +5075,14 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:is_full, :boolean,
+  attr(:is_full_width, :boolean,
     default: false,
     doc: "Renders the alert full width, with border and border radius removed."
+  )
+
+  attr(:is_full, :boolean,
+    default: false,
+    doc: "Deprecated: use `is_full_width`."
   )
 
   DeclarationHelpers.rest()
@@ -5085,6 +5090,13 @@ defmodule PrimerLive.Component do
   slot(:inner_block, required: true, doc: "Alert content.")
 
   def alert(assigns) do
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr is_full used in alert: use is_full_width. Since 0.5.0.",
+      !is_nil(assigns[:is_full])
+    )
+
+    is_full_width = assigns[:is_full_width] || assigns[:is_full]
+
     state_modifier_classes = %{
       state_default:
         AttributeHelpers.classnames([
@@ -5119,7 +5131,7 @@ defmodule PrimerLive.Component do
         assigns[:state] === "success" and state_modifier_classes.state_success,
         assigns[:state] === "warning" and state_modifier_classes.state_warning,
         assigns[:state] === "error" and state_modifier_classes.state_error,
-        assigns.is_full and "flash-full",
+        is_full_width and "flash-full",
         assigns[:class]
       ])
 
@@ -6187,16 +6199,16 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  Stretch an item with attribute `is_full`:
+  Stretch an item with attribute `is_full_width`:
 
   ```
-   <:item is_full>Stretched item</:item>
+   <:item is_full_width>Stretched item</:item>
   ```
 
   A space can also be generated with an "empty" item:
 
   ```
-  <:item is_full />
+  <:item is_full_width />
   ```
 
   Links can be placed inside items. Use `:let` to get access to the `classes.link` class. With `Phoenix.Component.link/1`:
@@ -6283,7 +6295,8 @@ defmodule PrimerLive.Component do
     doc: """
     Header item.
     """ do
-    attr(:is_full, :boolean, doc: "Stretches the item to maximum.")
+    attr(:is_full_width, :boolean, doc: "Stretches the item to maximum.")
+    attr(:is_full, :boolean, doc: "Deprecated: use is_full_width")
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
@@ -6316,13 +6329,21 @@ defmodule PrimerLive.Component do
       item_rest =
         AttributeHelpers.assigns_to_attributes_sorted(item, [
           :is_full,
+          :is_full_width,
           :class
         ])
+
+      ComponentHelpers.deprecated_message(
+        "Deprecated attr is_full used in header slot item: use is_full_width. Since 0.5.0.",
+        !is_nil(item[:is_full])
+      )
+
+      is_full_width = item[:is_full_width] || item[:is_full]
 
       item_class =
         AttributeHelpers.classnames([
           "Header-item",
-          item[:is_full] && "Header-item--full",
+          is_full_width && "Header-item--full",
           assigns.classes[:item],
           item[:class]
         ])

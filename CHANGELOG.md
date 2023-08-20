@@ -6,16 +6,17 @@ Form elements have been revamped and aligned with the most recent [form element 
 
 ### Deprecated
 
+For all listed deprecations below: existing syntax will keep working, but log warnings will inform about the deprecation.
+
 - `form_group` is replaced by `form_control` (and `is_form_group` is replaced by `is_form_control`).
-  - Existing syntax will keep working, but log warnings will inform about the deprecation.
   - Note that the class "form-group" (added for `form_group` and `is_form_group`) contains a top and bottom margin. When updating your code, you may need to add styling to correct the missing whitespace.
 - The horizontal "tab-row" layout of `radio_group` is not mentioned in the Primer Design specification, while "Radio group" is (with vertical layout).
   - The current `radio_group` has been renamed to `radio_tabs`.
-  - The new component `radio_group` uses vertical layout.
+  - The new component `radio_group` uses a vertical layout.
 - `checkbox` and `radio_button` slot `hint` has been renamed to `caption`.
-  - Existing syntax will keep working, but log warnings will inform about the deprecation.
 - `button_group` slot `button` is replaced by `button` components as children.
- 
+- For consistency, attr `is_full` has been renamed to `is_full_width` (in `alert` and `header` slot: `item`).
+
 ### Improvements
 
 - Added component `checkbox_group`.
