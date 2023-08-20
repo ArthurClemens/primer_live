@@ -27269,14 +27269,14 @@ a.branch-name .octicon {
 }
 .UnderlineNav-item > .octicon {
   display: inline !important;
-  margin-right: 8px;
+  margin-right: var(--base-size-8, 8px);
   color: var(--color-fg-muted);
   fill: var(--color-fg-muted);
 }
 .SideNav-item > .octicon,
 .SideNav-subItem > .octicon {
-  width: 16px;
-  margin-right: 8px;
+  width: var(--base-size-16, 16px);
+  margin-right: var(--base-size-8, 8px);
   color: var(--color-fg-muted);
 }
 .btn-sm .octicon[width="16"],
@@ -27289,38 +27289,59 @@ a.branch-name .octicon {
   padding-top: 0;
   padding-bottom: 0;
 }
+.form-group.FormControl {
+  display: flex;
+}
+.FormControl-inlineValidation,
+.FormControl-caption {
+  margin-top: var(--base-size-4, 4px);
+}
+.FormControl .FormControl-inlineValidation,
+.FormControl-radio-labelWrap .FormControl-inlineValidation,
+.FormControl-checkbox-labelWrap .FormControl-inlineValidation,
+.FormControl .FormControl-caption,
+.FormControl-radio-labelWrap .FormControl-caption,
+.FormControl-checkbox-labelWrap .FormControl-caption {
+  margin-top: 0;
+}
+.FormControl .FormControl-caption {
+  margin-top: 0;
+}
+.FormControl.form-group .form-group-header {
+  margin: 0;
+}
+.FormControl {
+  align-items: flex-start;
+}
 .FormControl-input,
 .FormControl-select,
 .FormControl-textarea {
   width: auto;
 }
-.form-group .FormControl-input,
-.form-group .FormControl-select-wrap,
-.form-group .FormControl-textarea {
+.FormControl--fullWidth .FormControl-input,
+.FormControl--fullWidth .FormControl-select-wrap,
+.FormControl--fullWidth .FormControl-select,
+.FormControl--fullWidth .FormControl-textarea {
   width: 100%;
-  max-width: 440px;
 }
-.form-group .FormControl-input.FormControl--short,
-.form-group .FormControl-select-wrap.FormControl--short,
-.form-group .FormControl-textarea.FormControl--short {
-  width: 100%;
-  max-width: 250px;
+.FormControl.pl-FormControl-disabled,
+.FormControl.pl-FormControl-disabled .FormControl-label,
+fieldset[disabled] .form-group-header,
+fieldset[disabled] .FormControl-caption,
+fieldset[disabled] .FormControl-label {
+  color: var(--color-primer-fg-disabled);
+  cursor: not-allowed;
 }
-.form-group .FormControl-input.FormControl--shorter,
-.form-group .FormControl-select-wrap.FormControl--shorter,
-.form-group .FormControl-textarea.FormControl--shorter {
-  width: 100%;
-  max-width: 130px;
+.FormControl.pl-FormControl-disabled .FormControl-checkbox,
+.FormControl.pl-FormControl-disabled .FormControl-radio {
+  border-color: var(--color-border-default);
+  cursor: not-allowed;
 }
-.FormControl-input.SelectMenu-input,
 .FormControl-input.FormControl--fullWidth,
 .FormControl-select-wrap.FormControl--fullWidth,
-.FormControl-textarea.FormControl--fullWidth,
-.form-group .FormControl-input.FormControl--fullWidth,
-.form-group .FormControl-select.FormControl--fullWidth,
-.form-group .FormControl-textarea.FormControl--fullWidth {
+.FormControl-select.FormControl--fullWidth,
+.FormControl-textarea.FormControl--fullWidth {
   width: 100%;
-  max-width: unset;
 }
 .FormControl-textarea.FormControl-small,
 .FormControl-textarea.FormControl-medium,
@@ -27332,6 +27353,15 @@ a.branch-name .octicon {
 .FormControl-select[multiple].FormControl-large {
   height: auto;
 }
+.FormControl-select-wrap {
+  grid-template-columns: minmax(0, min-content) var(--base-size-16, 16px);
+}
+.FormControl-select-wrap.FormControl--fullWidth {
+  grid-template-columns: minmax(0, auto) var(--base-size-16, 16px);
+}
+.pl-FormControl-select-wrap--disabled:after {
+  background-color: var(--color-primer-fg-disabled);
+}
 .FormControl-select-wrap.pl-multiple-select .FormControl-select {
   padding-inline: var(--primer-control-medium-paddingInline-condensed, 8px);
 }
@@ -27341,10 +27371,6 @@ a.branch-name .octicon {
 .input-group .FormControl-input[type=text] {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-}
-.input-group .FormControl-input[type=text]:last-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
 }
 .input-group .FormControl-input {
   width: 100%;
@@ -27367,19 +27393,6 @@ input:placeholder-shown + .FormControl-input-trailingAction.pl-trailingAction--i
 input:not(:placeholder-shown) + .FormControl-input-trailingAction.pl-trailingAction--if-value {
   visibility: visible;
 }
-.form-control:not(:focus)[invalid],
-.form-select:not(:focus)[invalid] {
-  border-color: var(--color-danger-emphasis);
-}
-.form-group.errored label {
-  color: inherit;
-}
-.form-group .form-group-header {
-  margin-bottom: 4px;
-}
-.FormControl-inlineValidation {
-  margin-top: 4px;
-}
 .FormControl-inlineValidation--success {
   color: var(--color-success-fg);
   fill: var(--color-success-fg);
@@ -27390,17 +27403,55 @@ input:not(:placeholder-shown) + .FormControl-input-trailingAction.pl-trailingAct
 .pl-valid + .FormControl-inlineValidation--success.phx-no-feedback {
   display: block;
 }
+.FormControl-inlineValidation a[href] {
+  color: inherit;
+  text-decoration: underline;
+}
+.FormControl-caption a[href] {
+  color: inherit;
+  text-decoration: underline;
+}
+.phx-no-feedback .FormControl-input[invalid]:not(:focus),
+.phx-no-feedback .FormControl-select[invalid]:not(:focus),
+.phx-no-feedback .FormControl-textarea[invalid]:not(:focus) {
+  border-color: var(--color-border-default);
+}
+.phx-no-feedback .FormControl-input:not(:focus)[invalid],
+.phx-no-feedback .FormControl-select:not(:focus)[invalid] {
+  border-color: var(--color-border-default);
+}
+.phx-no-feedback .FormControl-inlineValidation--error,
+.pl-valid + .FormControl-inlineValidation--error,
+.pl-neutral + .FormControl-inlineValidation--error {
+  display: none;
+}
+.pl-invalid + .FormControl-inlineValidation--success {
+  display: none;
+}
+input.FormControl-checkbox[type=checkbox][invalid]:not(:focus),
+input.FormControl-radio[type=radio][invalid]:not(:focus) {
+  border-color: var(--color-neutral-emphasis);
+}
+.pl-valid .FormControl-input:not(:focus)[invalid],
+.pl-valid .FormControl-select:not(:focus),
+.pl-valid .FormControl-select:not(:focus)[invalid] {
+  border-color: var(--color-success-emphasis);
+}
+.pl-neutral .FormControl-input:not(:focus)[invalid],
+.pl-neutral .FormControl-select:not(:focus)[invalid] {
+  border-color: var(--color-border-default);
+}
 .FormControl-checkbox-wrap .FormControl-label em.highlight,
 .FormControl-radio-wrap .FormControl-label em.highlight {
   position: relative;
-  left: -4px;
-  padding: 2px 4px;
+  left: calc(-1 * var(--base-size-4, 4px));
+  padding: 2px var(--base-size-4, 4px);
   font-style: normal;
   background: var(--color-attention-subtle);
   border-radius: 6px;
 }
 .radio-group input[type=radio].radio-input.FormControl-radio {
-  margin: 10px -32px 0 16px;
+  margin: 10px -32px 0 var(--base-size-16, 16px);
   width: 13px;
   height: 13px;
 }
@@ -27413,8 +27464,8 @@ input:not(:placeholder-shown) + .FormControl-input-trailingAction.pl-trailingAct
 fieldset[disabled] * {
   pointer-events: none;
 }
-fieldset[disabled] input.FormControl-radio[type=radio],
-fieldset[disabled] input.FormControl-checkbox[type=checkbox] {
+fieldset[disabled] input.FormControl-radio[type=radio]:not(:focus),
+fieldset[disabled] input.FormControl-checkbox[type=checkbox]:not(:focus) {
   -webkit-text-fill-color: var(--color-primer-fg-disabled);
   background-color: var(--color-input-disabled-bg);
   border-color: var(--color-border-default);
@@ -27422,6 +27473,7 @@ fieldset[disabled] input.FormControl-checkbox[type=checkbox] {
   cursor: not-allowed;
   opacity: 1;
 }
+fieldset[disabled] legend.FormControl-label,
 fieldset[disabled] .FormControl-checkbox-labelWrap .FormControl-label,
 fieldset[disabled] .FormControl-radio-labelWrap .FormControl-label {
   color: var(--color-primer-fg-disabled);
@@ -27460,7 +27512,7 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 .ActionList-item-visual .ActionList-item-multiSelectIcon.FormControl-checkbox-wrap,
 .ActionList-item-visual .ActionList-item-multiSelectIcon.FormControl-radio-wrap {
   gap: 0;
-  width: 16px;
+  width: var(--base-size-16, 16px);
 }
 .ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type=checkbox] {
   background: none;
@@ -27472,7 +27524,7 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 .ActionList-item-visual .ActionList-item-singleSelectCheckmark.FormControl-checkbox-wrap,
 .ActionList-item-visual .ActionList-item-singleSelectCheckmark.FormControl-radio-wrap {
   gap: 0;
-  width: 16px;
+  width: var(--base-size-16, 16px);
 }
 .ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-radio[type=radio] {
   visibility: hidden;
@@ -27490,52 +27542,15 @@ fieldset[disabled] .FormControl-textarea::placeholder {
     animation-duration: 80ms;
   }
 }
-.phx-no-feedback .FormControl-input[invalid]:not(:focus),
-.phx-no-feedback .FormControl-select[invalid]:not(:focus),
-.phx-no-feedback .FormControl-textarea[invalid]:not(:focus) {
-  border-color: var(--color-border-default);
-}
-.phx-no-feedback input.FormControl-checkbox[type=checkbox][invalid]:not(:focus),
-.phx-no-feedback input.FormControl-radio[type=radio][invalid]:not(:focus) {
-  border-color: var(--color-border-default);
-}
-.phx-no-feedback .form-control:not(:focus)[invalid],
-.phx-no-feedback .FormControl-input:not(:focus)[invalid],
-.phx-no-feedback .form-select:not(:focus)[invalid],
-.phx-no-feedback .FormControl-select:not(:focus)[invalid] {
-  border-color: var(--color-border-default);
-}
-.phx-no-feedback .FormControl-inlineValidation--error,
-.pl-valid + .FormControl-inlineValidation--error,
-.pl-neutral + .FormControl-inlineValidation--error {
-  display: none;
-}
-.pl-invalid + .FormControl-inlineValidation--success {
-  display: none;
-}
-.pl-valid .form-control:not(:focus)[invalid],
-.pl-valid .FormControl-input:not(:focus)[invalid],
-.pl-valid .form-select:not(:focus),
-.pl-valid .form-select:not(:focus)[invalid],
-.pl-valid .FormControl-select:not(:focus),
-.pl-valid .FormControl-select:not(:focus)[invalid] {
-  border-color: var(--color-success-emphasis);
-}
-.pl-neutral .form-control:not(:focus)[invalid],
-.pl-neutral .FormControl-input:not(:focus)[invalid],
-.pl-neutral .form-select:not(:focus)[invalid],
-.pl-neutral .FormControl-select:not(:focus)[invalid] {
-  border-color: var(--color-border-default);
-}
 .FormControl-input-wrap .FormControl-input-leadingVisualWrap {
   display: grid;
 }
 .close-button {
   width: inherit;
-  min-width: 16px;
+  min-width: var(--base-size-16, 16px);
   height: inherit;
-  min-height: 16px;
-  line-height: 16px;
+  min-height: var(--base-size-16, 16px);
+  line-height: var(--base-size-16, 16px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27569,8 +27584,8 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 }
 .subnav-search input[type=search] + .octicon {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: var(--base-size-8, 8px);
+  left: var(--base-size-8, 8px);
   display: block;
   color: var(--color-fg-muted);
   text-align: center;
@@ -27608,7 +27623,7 @@ fieldset[disabled] .FormControl-textarea::placeholder {
   display: none;
 }
 .ActionList-item-label > .octicon + span {
-  margin-left: 8px;
+  margin-left: var(--base-size-8, 8px);
 }
 span.ActionList-content[aria-expanded] {
   display: none;
@@ -27626,8 +27641,8 @@ span.ActionList-content[aria-expanded] {
 }
 @media (pointer: coarse) {
   .ActionList-content {
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: var(--base-size-8, 8px);
+    padding-bottom: var(--base-size-8, 8px);
   }
 }
 .ActionMenu-modal {
@@ -27643,17 +27658,17 @@ span.ActionList-content[aria-expanded] {
   min-width: 192px;
   max-width: 640px;
   border: none;
-  margin: 8px 0 16px 0;
+  margin: var(--base-size-8, 8px) 0 var(--base-size-16, 16px) 0;
 }
 .Header {
-  column-gap: 16px;
+  column-gap: var(--base-size-16, 16px);
 }
 .Header-item {
   margin-left: 0;
   margin-right: 0;
 }
 .btn-icon {
-  padding: 5px 8px;
+  padding: 5px var(--base-size-8, 8px);
 }
 .btn-icon.btn-sm {
   padding: 3px 6px;
@@ -27673,16 +27688,54 @@ span.ActionList-content[aria-expanded] {
   box-shadow: none;
 }
 .tabnav-tab--small {
-  padding: 8px 16px;
+  padding: var(--base-size-8, 8px) var(--base-size-16, 16px);
   font-size: 12px;
 }
 @media (min-width: 544px) {
   .tabnav-tab--small {
-    padding: 4px 16px;
+    padding: var(--base-size-4, 4px) var(--base-size-16, 16px);
   }
 }
 span[data-color-mode] {
   background: none;
+}
+.pl-FormControl--input-group {
+  display: flex;
+}
+.pl-FormControl--input-group__container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--base-size-8, 8px);
+  margin-top: var(--base-size-4, 4px);
+  margin-bottom: calc(var(--base-size-4, 4px) / 2);
+}
+.pl-FormControl--input-group .form-group-header .FormControl-label {
+  font-weight: var(--base-text-weight-normal, 400);
+  font-size: var(--h4-size, 16px);
+}
+.pl-FormControl--input-group .FormControl-caption {
+  margin-top: -3px;
+  font-size: var(--primer-text-body-size-medium, 14px);
+}
+.pl-button-group {
+  display: flex;
+}
+.pl-button-group .btn:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.pl-button-group .btn:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left-color: transparent;
+}
+.pl-button-group .btn:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.pl-button-group .btn:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 /*!
  * @primer/css/core

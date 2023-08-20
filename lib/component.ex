@@ -6,8 +6,10 @@ defmodule PrimerLive.Component do
   use Phoenix.Component
   use Phoenix.HTML
 
-  require PrimerLive.Helpers.DeclarationHelpers
-  require PrimerLive.Helpers.PromptDeclarationHelpers
+  require PrimerLive.Helpers.{
+    DeclarationHelpers,
+    PromptDeclarationHelpers
+  }
 
   alias PrimerLive.Helpers.{
     AttributeHelpers,
@@ -379,8 +381,6 @@ defmodule PrimerLive.Component do
     doc: "Adds attribute `role` to the outer element."
   )
 
-  DeclarationHelpers.class()
-
   attr(:is_divided, :boolean,
     default: false,
     doc: """
@@ -401,6 +401,8 @@ defmodule PrimerLive.Component do
     Sets ARIA attribute and classes for multi select checkmarks.
     """
   )
+
+  DeclarationHelpers.class()
 
   DeclarationHelpers.rest()
 
@@ -2358,13 +2360,12 @@ defmodule PrimerLive.Component do
 
   """
 
-  DeclarationHelpers.class()
-
   attr(:is_wrap, :boolean,
     default: false,
     doc: "Allows child elements to wrap, for example a link row followed by a search field."
   )
 
+  DeclarationHelpers.class()
   DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Subnav components.")
@@ -2800,18 +2801,30 @@ defmodule PrimerLive.Component do
   end
 
   # ------------------------------------------------------------------------------------
-  # form_group
+  # form_control
   # ------------------------------------------------------------------------------------
 
   @doc section: :forms
 
   @doc ~S"""
-  Generates a form group: a wrapper around one or more inputs. Automatically adds a label based on supplied form and field, with the option to set a custom label.
+  Helper component that generates a form control: a wrapper around a form input that maintains consistent layout and a field label. Form control is used by other components, and you probably won't need to use it standalone.
 
+  Used with `text_input/1`, `textarea/1` and `select/1`.
+
+  Automatically adds a label based on supplied form and field (with the option to set a custom label) and a required mark if the field is required.
+
+  Unlike Primer Style, the form control component does not provide validation messages and captions - these can also be added to the input element without a form control.
+
+  Using `form_control` standalone:
   ```
-  <.form_group field="first_name">
+  <.form_control field="first_name">
     <.text_input field="first_name" />
-  </.form_group>
+  </.form_control>
+  ```
+
+  This is equivalent to:
+  ```
+  <.text_input field="first_name" is_form_control />
   ```
 
   ## Examples
@@ -2820,30 +2833,30 @@ defmodule PrimerLive.Component do
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.form_group form={f} field={:first_name} autocomplete="off">
+    <.form_control form={f} field={:first_name}>
       <.text_input
         form={f}
         field={:first_name}
         phx_debounce="blur"
       />
-    </.form_group>
+    </.form_control>
   </.form>
   ```
 
   Custom label:
 
   ```
-  <.form_group form={f} field={:first_name} label="Enter your first name">
+  <.form_control form={f} field={:first_name} label="Enter your first name">
   ...
-  </.form_group>
+  </.form_control>
   ```
 
   Hide the label:
 
   ```
-  <.form_group form={f} field={:first_name} is_hide_label>
+  <.form_control form={f} field={:first_name} is_hide_label>
   ...
-  </.form_group>
+  </.form_control>
   ```
 
   [INSERT LVATTRDOCS]
@@ -2856,52 +2869,20 @@ defmodule PrimerLive.Component do
 
   DeclarationHelpers.form()
   DeclarationHelpers.field()
-
-  attr(:label, :string,
-    default: nil,
-    doc: "Custom label. Note that a label is automatically generated when using `field`."
-  )
-
-  attr(:is_hide_label, :boolean, default: false, doc: "Omits the label when using `field`.")
-
+  DeclarationHelpers.form_control_is_input_group()
+  DeclarationHelpers.caption("the form control label")
+  DeclarationHelpers.form_control_label()
+  DeclarationHelpers.form_control_is_hide_label()
+  DeclarationHelpers.form_control_is_disabled()
+  DeclarationHelpers.form_control_required_marker()
   DeclarationHelpers.class()
-
-  attr(:for, :string,
-    default: nil,
-    doc:
-      "Internally used by `text_input/1` and `textarea/1` when using `is_form_group` or `form_group`. Label attribute to associate the label with the input. `for` should be the same as the input's `id`."
-  )
-
-  attr(:classes, :map,
-    default: %{
-      group: nil,
-      header: nil,
-      body: nil,
-      label: nil,
-      validation_message: nil
-    },
-    doc: """
-    Additional classnames for form group elements.
-
-    Any provided value will be appended to the default classname.
-
-    Default map:
-    ```
-    %{
-      group: "",              # Form group element
-      header: "",             # Header element containing the group label
-      body: "",               # Input wrapper
-      label: "",              # Form group label
-    }
-    ```
-    """
-  )
-
+  DeclarationHelpers.form_control_classes("form control")
   DeclarationHelpers.rest()
+  DeclarationHelpers.form_control_deprecated_has_form_group()
+  DeclarationHelpers.form_control_for()
+  DeclarationHelpers.form_control_slot_inner_block("The form control")
 
-  slot(:inner_block, required: true, doc: "Form group content.")
-
-  def form_group(assigns) do
+  def form_control(assigns) do
     case SchemaHelpers.validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
@@ -2913,23 +2894,29 @@ defmodule PrimerLive.Component do
         """
 
       _ ->
-        render_form_group(assigns)
+        render_form_control(assigns)
     end
   end
 
-  defp render_form_group(assigns) do
+  defp render_form_control(assigns) do
     %{
       rest: rest,
       form: form,
-      field: field
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+      field: field,
+      validation_marker_class: validation_marker_class,
+      caption: caption
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     classes = %{
-      group:
+      control:
         AttributeHelpers.classnames([
-          "form-group",
+          "FormControl",
+          assigns.deprecated_has_form_group && "form-group",
+          assigns.is_disabled && "pl-FormControl-disabled",
+          assigns.is_input_group && "pl-FormControl--input-group",
           assigns[:class],
-          assigns.classes[:group]
+          assigns.classes[:group],
+          assigns.classes[:control]
         ]),
       header:
         AttributeHelpers.classnames([
@@ -2938,28 +2925,30 @@ defmodule PrimerLive.Component do
         ]),
       label:
         AttributeHelpers.classnames([
+          "FormControl-label",
           assigns.classes[:label]
         ]),
-      input:
+      input_group_container:
         AttributeHelpers.classnames([
-          assigns.classes[:input]
+          "pl-FormControl--input-group__container",
+          assigns.classes[:input_group_container]
         ]),
-      body:
+      caption:
         AttributeHelpers.classnames([
-          "form-group-body",
-          assigns.classes[:body]
+          "FormControl-caption",
+          assigns.classes[:caption]
         ])
     }
 
     # If label is supplied, wrap it inside a label element
     # else use the default generated label
-    header_label_attributes =
+    label_attributes =
       AttributeHelpers.append_attributes([
-        [class: assigns.classes[:label]],
+        [class: classes[:label]],
         [for: assigns[:for] || nil]
       ])
 
-    header_label =
+    label =
       cond do
         assigns.is_hide_label ->
           nil
@@ -2969,7 +2958,7 @@ defmodule PrimerLive.Component do
             form,
             field,
             assigns[:label],
-            header_label_attributes
+            label_attributes
           )
 
         true ->
@@ -2977,35 +2966,233 @@ defmodule PrimerLive.Component do
 
           case humanize_label === "Nil" do
             true -> nil
-            false -> Form.label(form, field, header_label_attributes)
+            false -> Form.label(form, field, label_attributes)
           end
       end
 
-    has_header_label = header_label && header_label !== "Nil"
+    has_header_label = label && label !== "Nil"
+    has_required_marker = !is_nil(assigns.required_marker) && assigns.required_marker !== ""
 
-    group_attributes =
+    control_attributes =
       AttributeHelpers.append_attributes(rest, [
-        [class: classes.group]
+        [class: AttributeHelpers.classnames([classes.control, validation_marker_class])]
       ])
 
     assigns =
       assigns
       |> assign(:classes, classes)
-      |> assign(:group_attributes, group_attributes)
+      |> assign(:control_attributes, control_attributes)
       |> assign(:has_header_label, has_header_label)
-      |> assign(:header_label, header_label)
+      |> assign(:has_required_marker, has_required_marker)
+      |> assign(:label, label)
+      |> assign(:caption, caption)
 
     ~H"""
-    <div {@group_attributes}>
+    <div {@control_attributes}>
       <%= if @has_header_label do %>
         <div class={@classes.header}>
-          <%= @header_label %>
+          <%= @label %>
+          <%= if @has_required_marker do %>
+            <span aria-hidden="true"><%= @required_marker %></span>
+          <% end %>
         </div>
       <% end %>
-      <div class={@classes.body}>
+      <%= if @caption do %>
+        <div class={@classes.caption}>
+          <%= @caption %>
+        </div>
+      <% end %>
+      <%= if @is_input_group do %>
+        <div class={@classes.input_group_container}>
+          <%= render_slot(@inner_block) %>
+        </div>
+      <% else %>
         <%= render_slot(@inner_block) %>
-      </div>
+      <% end %>
     </div>
+    """
+  end
+
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.form_control_is_input_group()
+  DeclarationHelpers.caption("the form group label")
+  DeclarationHelpers.form_control_label()
+  DeclarationHelpers.form_control_is_hide_label()
+  DeclarationHelpers.form_control_is_disabled()
+  DeclarationHelpers.form_control_required_marker()
+  DeclarationHelpers.class()
+  DeclarationHelpers.form_control_classes("form group")
+  DeclarationHelpers.rest()
+  DeclarationHelpers.form_control_slot_inner_block("The form group")
+
+  def form_group(assigns) do
+    ComponentHelpers.deprecated_message(
+      "Deprecated component form_group: use form_control. Since 0.5.0."
+    )
+
+    assigns = assigns |> assign(:deprecated_has_form_group, true)
+
+    form_control(assigns)
+  end
+
+  # ------------------------------------------------------------------------------------
+  # checkbox_group
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :forms
+
+  @doc ~S"""
+  Checkbox group renders a set of [`checkboxes`](`checkbox/1`).
+
+  ```
+  <.checkbox_group>
+    <.checkbox name="roles[]" checked_value="admin" />
+    <.checkbox name="roles[]" checked_value="editor" />
+  </.checkbox_group>
+  ```
+
+  This is equivalent to:
+
+  ```
+  <.form_control is_input_group>
+    <.checkbox name="roles[]" checked_value="admin" />
+    <.checkbox name="roles[]" checked_value="editor" />
+  </.form_control>
+  ```
+
+  `is_input_group` (and hence `checkbox_group`) adds specific styling: a larger label font size, and layout for inputs, captions and validation.
+
+  ## Examples
+
+  Another convenience component - checkbox variant `checkbox_in_group/1` - sets attr `is_multiple` to true,
+  so that the server receives an array of strings for the checked values.
+
+  ```
+  <.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.checkbox_group
+      form={f}
+      field={@field}
+      caption="Select one"
+    >
+      <.checkbox_in_group
+        :for={{label, value} <- @options}
+        form={f}
+        field={@field}
+        checked_value={value}
+        checked={value in @values}
+      >
+        <:label>
+          <%= label %>
+        </:label>
+      </.checkbox_in_group>
+    </.checkbox_group>
+  </.form>
+  ```
+
+  ## Reference
+
+  [Primer Checkbox group](https://primer.style/design/components/checkbox-group)
+  """
+
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.validation_message()
+  DeclarationHelpers.caption("the checkbox group label")
+  DeclarationHelpers.form_control_label()
+  DeclarationHelpers.form_control_is_hide_label()
+  DeclarationHelpers.form_control_is_disabled()
+  DeclarationHelpers.form_control_required_marker()
+  DeclarationHelpers.class()
+  DeclarationHelpers.form_control_classes("checkbox group")
+  DeclarationHelpers.rest()
+  DeclarationHelpers.form_control_slot_inner_block("The checkbox group")
+
+  def checkbox_group(assigns) do
+    ~H"""
+    <.form_control is_input_group {assigns}>
+      <%= render_slot(@inner_block) %>
+      <.input_validation_message
+        form={@form}
+        field={@field}
+        validation_message={@validation_message}
+        is_multiple
+      />
+    </.form_control>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # radio_group
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :forms
+
+  @doc ~S"""
+  Radio group renders a set of [`radio buttons`](`radio_button/1`).
+
+  ```
+  <.radio_group>
+    <.radio_button name="role" value="admin" />
+    <.radio_button name="role" value="editor" />
+  </.radio_group>
+  ```
+
+  This is equivalent to:
+
+  ```
+  <.form_control is_input_group>
+    <.radio_button name="role" value="admin" />
+    <.radio_button name="role" value="editor" />
+  </.form_control>
+  ```
+
+  `is_input_group` (and hence `radio_group`) adds specific styling: a larger label font size, and layout for inputs, captions and validation.
+
+
+  ## Examples
+
+  ```
+  <.form :let={f} for={@changeset}>
+    <.radio_group form={f} field={@field} caption="Select one">
+      <.radio_button
+        :for={{label, value} <- @options}
+        form={f}
+        field={@field}
+        value={value}
+      >
+        <:label>
+          <%= label %>
+        </:label>
+      </.radio_button>
+    </.radio_group>
+  </.form>
+  ```
+
+  ## Reference
+
+  [Primer Radio group](https://primer.style/design/components/radio-group)
+  """
+
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.validation_message()
+  DeclarationHelpers.caption("the radio group label")
+  DeclarationHelpers.form_control_label()
+  DeclarationHelpers.form_control_is_hide_label()
+  DeclarationHelpers.form_control_is_disabled()
+  DeclarationHelpers.form_control_required_marker()
+  DeclarationHelpers.class()
+  DeclarationHelpers.form_control_classes("radio group")
+  DeclarationHelpers.rest()
+  DeclarationHelpers.form_control_slot_inner_block("The radio group")
+
+  def radio_group(assigns) do
+    ~H"""
+    <.form_control is_input_group {assigns}>
+      <%= render_slot(@inner_block) %>
+      <.input_validation_message form={@form} field={@field} validation_message={@validation_message} />
+    </.form_control>
     """
   end
 
@@ -3074,19 +3261,8 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form()
   DeclarationHelpers.field()
   DeclarationHelpers.input_id()
-  DeclarationHelpers.class()
-
-  attr(:validation_message_id, :string,
-    doc: """
-    Message ID that is usually passed from the form element component to `input_validation_message`. If not used, the ID will be generated.
-    """
-  )
-
-  attr(:validation_message, :any,
-    doc: """
-    Function to write a custom validation message (in case of error or success). See `text_input/1`.
-    """
-  )
+  DeclarationHelpers.validation_message()
+  DeclarationHelpers.validation_message_id()
 
   attr(:is_multiple, :boolean,
     default: false,
@@ -3095,6 +3271,7 @@ defmodule PrimerLive.Component do
     """
   )
 
+  DeclarationHelpers.class()
   DeclarationHelpers.rest()
 
   def input_validation_message(assigns) do
@@ -3104,7 +3281,7 @@ defmodule PrimerLive.Component do
       phx_feedback_for_id: phx_feedback_for_id,
       message: message,
       valid?: valid?
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     class =
       AttributeHelpers.classnames([
@@ -3154,7 +3331,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a text input field.
 
-  Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form group" to add a field label.
+  Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form control" to add a field label.
 
   ```
   <.text_input field="first_name" />
@@ -3241,15 +3418,15 @@ defmodule PrimerLive.Component do
   </.text_input>
   ```
 
-  Place the input inside a `form_group/1` with `is_form_group`. Attributes `form` and `field` are passed to the form group to generate a group label.
+  Place the input inside a `form_control/1` with `is_form_control`. Attributes `form` and `field` are passed to the form control to generate a control label. If the field is required, its label will show a required marker.
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <.text_input form={f} field={:first_name} is_form_group />
+    <.text_input form={f} field={:first_name} is_form_control />
   </.form>
   ```
 
-  To configure the form group and label, use attr `form_group`. See `form_group/1` for supported attributes.
+  To configure the form control and label, use attr `form_control`. See `form_control/1` for supported attributes.
 
   A validation error message is automatically added when using a changeset with an error state. The message text is taken from the changeset errors.
   To show a custom validation error message, supply function `validation_message`:
@@ -3259,7 +3436,7 @@ defmodule PrimerLive.Component do
     <.text_input
       form={f}
       field={:first_name}
-      form_group={%{
+      form_control={%{
         label: "Custom label",
         validation_message:
           fn field_state ->
@@ -3298,11 +3475,14 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form()
   DeclarationHelpers.field()
   DeclarationHelpers.input_id()
+  DeclarationHelpers.caption("the input element")
+
   DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
       input: nil,
+      caption: nil,
       input_group: nil,
       input_group_button: nil,
       validation_message: nil,
@@ -3317,6 +3497,7 @@ defmodule PrimerLive.Component do
     ```
     %{
       input: "",              # Input element
+      caption: "",            # Caption element
       input_group: "",        # Wrapper around the grouped input and group button
       input_group_button: "", # Wrapper around slot group_button
       validation_message: "", # Validation message
@@ -3355,69 +3536,18 @@ defmodule PrimerLive.Component do
     doc: "Smaller (less high) input with smaller text size."
   )
 
-  attr(:is_short, :boolean,
-    default: false,
-    doc: "Inside a form group. Generates an input with a reduced width."
-  )
-
-  attr(:is_shorter, :boolean,
-    default: false,
-    doc: "Inside a form group. Generates an input with a even more reduced width."
-  )
-
   attr(:is_monospace, :boolean,
     default: false,
     doc: "Uses a monospace font."
   )
 
-  attr(:is_form_group, :boolean,
-    default: false,
-    doc: """
-    Inserts the input inside a `form_group/1`. Attributes `form` and `field` are passed to the form group to generate a group label.
-
-    To configure the form group and label, use attr `form_group`.
-    """
-  )
-
-  attr(:form_group, :any,
-    doc: """
-    Form group attributes. Inserts the input inside a `form_group/1` with given attributes, alongside `form` and `field` to generate a group label.
-    """
-  )
-
-  attr(:validation_message, :any,
-    doc: """
-    Function to write a custom validation message (in case of error or success).
-
-    The function receives a `PrimerLive.FieldState` struct and returns a validation message.
-
-    A validation message is shown:
-    - If form is a `Phoenix.HTML.Form`, containing a `changeset`
-    - And either:
-      - `changeset.action` is `:validate`
-      - `validation_message` returns a string
-
-    Function signature: `fun field_state -> string | nil`.
-
-    Example error message:
-
-    ```
-    fn field_state ->
-      if !field_state.valid?, do: "Please enter your first name"
-    end
-    ```
-
-    Example success message, only shown when `changeset.action` is `:validate`:
-
-    ```
-    fn field_state ->
-      if field_state.valid? && field_state.changeset.action == :validate, do: "Is available"
-    end
-    ```
-    """
-  )
-
-  DeclarationHelpers.rest()
+  DeclarationHelpers.form_control("the input")
+  DeclarationHelpers.deprecated_form_group("the input")
+  DeclarationHelpers.is_form_control("the input")
+  DeclarationHelpers.deprecated_is_form_group("the input")
+  DeclarationHelpers.validation_message()
+  DeclarationHelpers.validation_message_id()
+  DeclarationHelpers.rest(include: ~w(name type disabled))
 
   slot(:group_button,
     doc: """
@@ -3482,9 +3612,9 @@ defmodule PrimerLive.Component do
   defp render_text_input(assigns) do
     %{
       field: field,
-      form_group_attrs: form_group_attrs,
+      form_control_attrs: form_control_attrs,
       form: form,
-      has_form_group: has_form_group,
+      has_form_control: has_form_control,
       input_id: input_id,
       input_name: input_name,
       rest: rest,
@@ -3492,8 +3622,9 @@ defmodule PrimerLive.Component do
       validation_marker_attrs: validation_marker_attrs,
       validation_marker_class: validation_marker_class,
       validation_message_id: validation_message_id,
-      value: value
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+      value: value,
+      caption: caption
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     type = assigns.type
 
@@ -3523,11 +3654,14 @@ defmodule PrimerLive.Component do
           assigns.is_large and "FormControl-large",
           assigns.is_small and "FormControl-small",
           assigns.is_full_width and "FormControl--fullWidth",
-          assigns.is_short and "FormControl--short",
-          assigns.is_shorter and "FormControl--shorter",
           assigns.is_monospace and "FormControl-monospace",
           assigns.classes[:input],
           assigns.class
+        ]),
+      caption:
+        AttributeHelpers.classnames([
+          "FormControl-caption",
+          assigns.classes[:caption]
         ]),
       input_group:
         AttributeHelpers.classnames([
@@ -3641,6 +3775,7 @@ defmodule PrimerLive.Component do
         |> assign(:validation_message, assigns[:validation_message])
         |> assign(:validation_message_id, validation_message_id)
         |> assign(:render_trailing_action, render_trailing_action)
+        |> assign(:caption, caption)
 
       ~H"""
       <%= if @has_group_button do %>
@@ -3676,20 +3811,26 @@ defmodule PrimerLive.Component do
           class={@validation_message_class}
         />
       <% end %>
+      <%= if @caption do %>
+        <div class={@classes.caption}>
+          <%= @caption %>
+        </div>
+      <% end %>
       """
     end
 
     assigns =
       assigns
-      |> assign(:has_form_group, has_form_group)
-      |> assign(:form_group_attrs, form_group_attrs)
+      |> assign(:has_form_control, has_form_control)
+      |> assign(:form_control_attrs, form_control_attrs)
       |> assign(:render, render)
+      |> assign(:is_form_control_disabled, rest[:disabled])
 
     ~H"""
-    <%= if @has_form_group do %>
-      <.form_group {@form_group_attrs}>
+    <%= if @has_form_control do %>
+      <.form_control {@form_control_attrs} is_disabled={@is_form_control_disabled}>
         <%= @render.() %>
-      </.form_group>
+      </.form_control>
     <% else %>
       <%= @render.() %>
     <% end %>
@@ -3797,7 +3938,7 @@ defmodule PrimerLive.Component do
   </.form>
   ```
 
-  Place the select inside a `form_group/1` with `is_form_group`. See `text_input/1` for examples.
+  Place the select inside a `form_control/1` with `is_form_control`. See `text_input/1` for examples.
 
   A validation error message is automatically added when using a changeset with an error state. See `text_input/1` how to customise the validation messages.
 
@@ -3814,6 +3955,9 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.field()
   DeclarationHelpers.name()
   DeclarationHelpers.input_id()
+  DeclarationHelpers.validation_message()
+  DeclarationHelpers.validation_message_id()
+  DeclarationHelpers.caption("the select input")
 
   attr(:options, :any, required: true, doc: "Selectable options (list, map or keyword list).")
 
@@ -3827,7 +3971,8 @@ defmodule PrimerLive.Component do
     default: %{
       select_container: nil,
       select: nil,
-      validation_message: nil
+      validation_message: nil,
+      caption: nil
     },
     doc: """
     Additional classnames for select elements.
@@ -3839,7 +3984,8 @@ defmodule PrimerLive.Component do
     %{
       select_container: "",   # Select container element
       select: "",             # Select element
-      validation_message: "", # Validation message
+      validation_message: "", # Validation message,
+      caption: "",            # Hint message element
     }
     ```
     """
@@ -3883,11 +4029,15 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:is_small, :boolean, default: false, doc: "Creates a small select.")
-  attr(:is_large, :boolean, default: false, doc: "Creates a large select.")
-  attr(:is_short, :boolean, default: false, doc: "Creates a short select.")
-  attr(:is_shorter, :boolean, default: false, doc: "Creates a shorter select.")
-  attr(:is_full_width, :boolean, default: false, doc: "Full width select.")
+  attr(:is_small, :boolean, default: false, doc: "Creates a small (less high) select.")
+  attr(:is_large, :boolean, default: false, doc: "Creates a large (higher) select.")
+
+  attr(:is_full_width, :boolean,
+    default: false,
+    doc: """
+    Full width select.
+    """
+  )
 
   attr(:is_auto_height, :boolean,
     default: false,
@@ -3899,28 +4049,12 @@ defmodule PrimerLive.Component do
     doc: "Uses a monospace font."
   )
 
-  attr(:is_form_group, :boolean,
-    default: false,
-    doc: """
-    Inserts the select inside a `form_group/1`. Attributes `form` and `field` are passed to the form group to generate a group label.
+  DeclarationHelpers.form_control("the select input")
+  DeclarationHelpers.deprecated_form_group("the select input")
+  DeclarationHelpers.is_form_control("the select input")
+  DeclarationHelpers.deprecated_is_form_group("the select input")
 
-    To configure the form group and label, use attr `form_group`.
-    """
-  )
-
-  attr(:form_group, :any,
-    doc: """
-    Form group attributes. Inserts the select inside a `form_group/1` with given attributes, alongside `form` and `field` to generate a group label.
-    """
-  )
-
-  attr(:validation_message, :any,
-    doc: """
-    Function to write a custom validation message (in case of error or success). See `text_input/1`.
-    """
-  )
-
-  DeclarationHelpers.rest()
+  DeclarationHelpers.rest(include: ~w(name type disabled))
 
   def select(assigns) do
     case SchemaHelpers.validate_is_form(assigns) do
@@ -3945,12 +4079,13 @@ defmodule PrimerLive.Component do
       field: field,
       input_id: input_id,
       input_name: input_name,
-      has_form_group: has_form_group,
-      form_group_attrs: form_group_attrs,
+      has_form_control: has_form_control,
+      form_control_attrs: form_control_attrs,
       show_message?: show_message?,
       validation_message_id: validation_message_id,
       validation_marker_attrs: validation_marker_attrs,
-      validation_marker_class: validation_marker_class
+      validation_marker_class: validation_marker_class,
+      caption: caption
     } = AttributeHelpers.common_input_attrs(assigns, :select)
 
     is_multiple = assigns.is_multiple
@@ -3960,9 +4095,8 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "FormControl-select-wrap",
           is_multiple and "pl-multiple-select",
-          assigns.is_short and "FormControl--short",
-          assigns.is_shorter and "FormControl--shorter",
           assigns.is_full_width and "FormControl--fullWidth",
+          assigns.rest[:disabled] && "pl-FormControl-select-wrap--disabled",
           validation_marker_class,
           assigns.classes[:select_container],
           assigns[:class]
@@ -3976,7 +4110,12 @@ defmodule PrimerLive.Component do
           assigns.is_monospace and "FormControl-monospace",
           assigns.classes[:select]
         ]),
-      validation_message: assigns.classes[:validation_message]
+      validation_message: assigns.classes[:validation_message],
+      caption:
+        AttributeHelpers.classnames([
+          "FormControl-caption",
+          assigns.classes[:caption]
+        ])
     }
 
     render = fn ->
@@ -4028,6 +4167,7 @@ defmodule PrimerLive.Component do
         |> assign(:validation_message_class, classes.validation_message)
         |> assign(:validation_message, assigns[:validation_message])
         |> assign(:validation_message_id, validation_message_id)
+        |> assign(:caption, caption)
 
       ~H"""
       <div {@container_attrs}>
@@ -4041,20 +4181,26 @@ defmodule PrimerLive.Component do
         class={@validation_message_class}
         is_multiple={@is_multiple}
       />
+      <%= if @caption do %>
+        <div class={@classes.caption}>
+          <%= @caption %>
+        </div>
+      <% end %>
       """
     end
 
     assigns =
       assigns
-      |> assign(:has_form_group, has_form_group)
-      |> assign(:form_group_attrs, form_group_attrs)
+      |> assign(:has_form_control, has_form_control)
+      |> assign(:form_control_attrs, form_control_attrs)
       |> assign(:render, render)
+      |> assign(:is_form_control_disabled, rest[:disabled])
 
     ~H"""
-    <%= if @has_form_group do %>
-      <.form_group {@form_group_attrs}>
+    <%= if @has_form_control do %>
+      <.form_control {@form_control_attrs} is_disabled={@is_form_control_disabled}>
         <%= @render.() %>
-      </.form_group>
+      </.form_control>
     <% else %>
       <%= @render.() %>
     <% end %>
@@ -4075,6 +4221,8 @@ defmodule PrimerLive.Component do
   ```
   <.checkbox name="available_for_hire" />
   ```
+
+  To create a group of checkboxes, see `checkbox_group/1`.
 
   ## Examples
 
@@ -4143,96 +4291,20 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.field()
   DeclarationHelpers.name()
   DeclarationHelpers.input_id()
-
-  attr(:checked, :boolean, doc: "The state of the checkbox (when not using `form` and `field`).")
-
-  attr(:checked_value, :string,
-    default: nil,
-    doc:
-      "The value to be sent when the checkbox is checked. If `checked_value` equals `value`, the checkbox is marked checked. Defaults to \"true\"."
-  )
-
-  attr(:hidden_input, :string,
-    default: "true",
-    doc: """
-    Controls if the component will generate a hidden input to submit the unchecked checkbox value or not. Defaults to "true". Uses `Phoenix.HTML.Form.hidden_input/3`.
-    """
-  )
-
-  attr(:value, :string,
-    doc: "Checkbox value attribute (overrides field value when using `form` and `field`)."
-  )
-
-  attr(:is_multiple, :boolean,
-    default: false,
-    doc:
-      "When creating a list of checkboxes. Appends `[]` to the input name so that a list of values is passed to the form events."
-  )
-
-  attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
-
-  attr(:is_omit_label, :boolean, default: false, doc: "Omits any label.")
-
+  DeclarationHelpers.checkbox_checked("the checkbox")
+  DeclarationHelpers.checkbox_checked_value("the checkbox")
+  DeclarationHelpers.checkbox_hidden_input()
+  DeclarationHelpers.checkbox_value("checkbox")
+  DeclarationHelpers.checkbox_is_multiple()
+  DeclarationHelpers.checkbox_is_emphasised_label()
+  DeclarationHelpers.checkbox_is_omit_label()
   DeclarationHelpers.class()
-
-  attr(:classes, :map,
-    default: %{
-      container: nil,
-      label_container: nil,
-      label: nil,
-      input: nil,
-      hint: nil,
-      disclosure: nil
-    },
-    doc: """
-    Additional classnames for checkbox elements.
-
-    Any provided value will be appended to the default classname.
-
-    Default map:
-    ```
-    %{
-      container: "",       # Checkbox container
-      label_container: "", # Input label container
-      label: "",           # Input label
-      input: "",           # Checkbox input element
-      hint: "",            # Hint message container
-      disclosure: ""       # Disclosure container (inline)
-    }
-    ```
-    """
-  )
-
+  DeclarationHelpers.checkbox_classes("checkbox")
   DeclarationHelpers.rest()
-
-  slot :label,
-    doc: """
-    Custom checkbox label. Overides the derived label when using a `form` and `field`.
-    """ do
-    DeclarationHelpers.slot_class()
-    DeclarationHelpers.slot_style()
-    DeclarationHelpers.slot_rest()
-  end
-
-  slot :hint,
-    doc: """
-    Adds text below the checkbox label. Enabled when a label is displayed.
-    """ do
-    DeclarationHelpers.slot_class()
-    DeclarationHelpers.slot_style()
-    DeclarationHelpers.slot_rest()
-  end
-
-  slot :disclosure,
-    doc: """
-    Extra label content to be revealed when the checkbox is checked. Enabled when a label is displayed.
-
-    Note that the label element can only contain inline child elements.
-    """ do
-    DeclarationHelpers.slot_class()
-    DeclarationHelpers.slot_style()
-    DeclarationHelpers.slot_rest()
-  end
+  DeclarationHelpers.checkbox_slot_label("checkbox")
+  DeclarationHelpers.checkbox_slot_caption("checkbox")
+  DeclarationHelpers.checkbox_slot_hint()
+  DeclarationHelpers.checkbox_slot_disclosure("checkbox")
 
   def checkbox(assigns) do
     case SchemaHelpers.validate_is_form(assigns) do
@@ -4267,6 +4339,16 @@ defmodule PrimerLive.Component do
 
   defp render_checkbox_input(assigns) do
     input_type = assigns[:input_type]
+
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr hint used in #{input_type}: use caption. Since 0.5.0.",
+      assigns[:hint] && assigns[:hint] !== []
+    )
+
+    caption_slots =
+      if assigns[:caption] && assigns[:caption] !== [],
+        do: assigns[:caption],
+        else: assigns[:hint]
 
     %{
       derived_label: derived_label,
@@ -4315,6 +4397,13 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "FormControl-label",
           assigns[:classes][:label],
+          slot[:class]
+        ])
+      end,
+      caption: fn slot ->
+        AttributeHelpers.classnames([
+          "FormControl-caption",
+          assigns[:classes][:caption],
           slot[:class]
         ])
       end,
@@ -4420,10 +4509,12 @@ defmodule PrimerLive.Component do
       |> assign(:derived_label, derived_label)
       |> assign(:has_disclosure_slot, has_disclosure_slot)
 
-    render_hint = fn ->
+    render_caption = fn caption_slots ->
+      assigns = assigns |> assign(:caption_slots, caption_slots)
+
       ~H"""
-      <%= for slot <- @hint do %>
-        <span class={@classes.hint.(slot)}>
+      <%= for slot <- @caption_slots do %>
+        <span class={@classes.caption.(slot)}>
           <%= render_slot(slot, @classes) %>
         </span>
       <% end %>
@@ -4456,7 +4547,8 @@ defmodule PrimerLive.Component do
     assigns =
       assigns
       |> assign(:label, label)
-      |> assign(:render_hint, render_hint)
+      |> assign(:caption_slots, caption_slots)
+      |> assign(:render_caption, render_caption)
       |> assign(:render_disclosure, render_disclosure)
       |> assign(:validation_marker_attrs, validation_marker_attrs)
 
@@ -4468,8 +4560,8 @@ defmodule PrimerLive.Component do
           <label {@label_attributes}>
             <%= @label %>
           </label>
-          <%= if @hint && @hint !== [] do %>
-            <%= @render_hint.() %>
+          <%= if @caption_slots && @caption_slots !== [] do %>
+            <%= @render_caption.(@caption_slots) %>
           <% end %>
           <%= if @has_disclosure_slot do %>
             <%= @render_disclosure.() %>
@@ -4478,6 +4570,50 @@ defmodule PrimerLive.Component do
       <% end %>
     </span>
     """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # checkbox_in_group
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :forms
+
+  @doc ~S"""
+  Convenience checkbox component for use inside `checkbox_group/1`.
+
+  Sets attr `is_multiple` to true, so that the server receives an array of strings for the checked values.
+
+  ```
+  <.checkbox_in_group form={@form} field={@field} />
+  ```
+
+  Inside a form and checkbox group:
+
+  ```
+  <.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
+    <.checkbox_group
+      form={f}
+      field={@field}
+    >
+      <.checkbox_in_group
+        :for={{label, value} <- @options}
+        form={f}
+        field={@field}
+        checked_value={value}
+        checked={value in @values}
+      />
+    </.checkbox_group>
+  </.form>
+  ```
+
+  ## Attributes
+
+  Use `checkbox/1` attributes.
+  """
+
+  def checkbox_in_group(assigns) do
+    assigns = assigns |> assign(:is_multiple, true)
+    checkbox(assigns)
   end
 
   # ------------------------------------------------------------------------------------
@@ -4495,6 +4631,8 @@ defmodule PrimerLive.Component do
   <.radio_button name="role" value="admin" />
   <.radio_button name="role" value="editor" />
   ```
+
+  To create a group of radio buttons, see `radio_group/1`.
 
   ## Examples
 
@@ -4563,45 +4701,8 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form()
   DeclarationHelpers.field()
   DeclarationHelpers.name()
-
-  attr(:value, :string,
-    default: nil,
-    doc: "Input value (overrides field value when using `form` and `field`)."
-  )
-
-  attr(:checked, :boolean,
-    doc: "The state of the radio button (when not using `form` and `field`)."
-  )
-
-  attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
-
-  attr(:is_omit_label, :boolean, default: false, doc: "Omits any label.")
-
-  DeclarationHelpers.class()
-
-  attr(:classes, :map,
-    default: %{
-      label: nil,
-      input: nil,
-      hint: nil,
-      disclosure: nil
-    },
-    doc: """
-    Additional classnames for radio button elements.
-
-    Any provided value will be appended to the default classname.
-
-    Default map:
-    ```
-    %{
-      label: "",      # Input label
-      input: "",      # Radio button input element
-      hint: "",       # Hint message container
-      disclosure: ""  # Disclosure container (inline)
-    }
-    ```
-    """
-  )
+  DeclarationHelpers.input_id()
+  DeclarationHelpers.checkbox_checked("the radio button")
 
   attr(:checked_value, :string,
     default: nil,
@@ -4609,36 +4710,16 @@ defmodule PrimerLive.Component do
       "For internal use to ensure compatibility with \"single select\" radio buttons in `action_list/1`."
   )
 
+  DeclarationHelpers.checkbox_value("radio button")
+  DeclarationHelpers.checkbox_is_emphasised_label()
+  DeclarationHelpers.checkbox_is_omit_label()
+  DeclarationHelpers.class()
+  DeclarationHelpers.checkbox_classes("radio button")
   DeclarationHelpers.rest()
-
-  slot :label,
-    doc: """
-    Custom radio button label. Overides the derived label when using a `form` and `field`.
-    """ do
-    DeclarationHelpers.slot_class()
-    DeclarationHelpers.slot_style()
-    DeclarationHelpers.slot_rest()
-  end
-
-  slot :hint,
-    doc: """
-    Adds text below the radio button label. Enabled when a label is displayed.
-    """ do
-    DeclarationHelpers.slot_class()
-    DeclarationHelpers.slot_style()
-    DeclarationHelpers.slot_rest()
-  end
-
-  slot :disclosure,
-    doc: """
-    Extra label content to be revealed when the radio button is checked. Enabled when a label is displayed.
-
-    Note that the label element can only contain inline child elements.
-    """ do
-    DeclarationHelpers.slot_class()
-    DeclarationHelpers.slot_style()
-    DeclarationHelpers.slot_rest()
-  end
+  DeclarationHelpers.checkbox_slot_label("radio button")
+  DeclarationHelpers.checkbox_slot_caption("radio button")
+  DeclarationHelpers.checkbox_slot_hint()
+  DeclarationHelpers.checkbox_slot_disclosure("radio button")
 
   def radio_button(assigns) do
     case SchemaHelpers.validate_is_form(assigns) do
@@ -4680,21 +4761,21 @@ defmodule PrimerLive.Component do
   end
 
   # ------------------------------------------------------------------------------------
-  # radio_group
+  # radio_tabs
   # ------------------------------------------------------------------------------------
 
   @doc section: :forms
 
   @doc ~S"""
-  Groups radio buttons in a tab-like row.
+  Groups [`radio buttons`](`radio_button/1`) in a tab-like row.
 
   Radio buttons are generated from the `radio_button` slot:
 
   ```
-  <.radio_group>
+  <.radio_tabs>
     <:radio_button name="role" value="admin"></:radio_button>
     <:radio_button name="role" value="editor"></:radio_button>
-  </.radio_group>
+  </.radio_tabs>
   ```
 
   ## Examples
@@ -4703,10 +4784,10 @@ defmodule PrimerLive.Component do
 
   ```
   <.form let={f} for={@changeset}>
-    <.radio_group form={f} field={:role}>
+    <.radio_tabs form={f} field={:role}>
       <:radio_button value="admin"></:radio_button>
       <:radio_button value="editor"></:radio_button>
-    </.radio_group>
+    </.radio_tabs>
   </.form>
   ```
 
@@ -4728,15 +4809,17 @@ defmodule PrimerLive.Component do
   Use custom label with the `radio_button` slot attr `label`:
 
   ```
-  <.radio_group>
+  <.radio_tabs>
     <:radio_button name="role" value="admin" label="My role is Admin"></:radio_button>
     <:radio_button name="role" value="editor" label="My role is Editor"></:radio_button>
-  </.radio_group>
+  </.radio_tabs>
   ```
 
   [INSERT LVATTRDOCS]
 
   ## Reference
+
+  This component was created based on Primer CSS documentation. It is not mentioned in the Primer Style specification.
 
   - [Primer Radio group](https://primer.style/design/components/radio-group)
   - [Primer Form control](https://primer.style/design/components/form-control)
@@ -4781,7 +4864,7 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_class()
   end
 
-  def radio_group(assigns) do
+  def radio_tabs(assigns) do
     case SchemaHelpers.validate_is_form(assigns) do
       {:error, reason} ->
         assigns =
@@ -4793,11 +4876,11 @@ defmodule PrimerLive.Component do
         """
 
       _ ->
-        render_radio_group(assigns)
+        render_radio_tabs(assigns)
     end
   end
 
-  defp render_radio_group(assigns) do
+  defp render_radio_tabs(assigns) do
     form = assigns[:form]
     field = assigns[:field]
 
@@ -4992,9 +5075,14 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:is_full, :boolean,
+  attr(:is_full_width, :boolean,
     default: false,
     doc: "Renders the alert full width, with border and border radius removed."
+  )
+
+  attr(:is_full, :boolean,
+    default: false,
+    doc: "Deprecated: use `is_full_width`."
   )
 
   DeclarationHelpers.rest()
@@ -5002,6 +5090,13 @@ defmodule PrimerLive.Component do
   slot(:inner_block, required: true, doc: "Alert content.")
 
   def alert(assigns) do
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr is_full used in alert: use is_full_width. Since 0.5.0.",
+      !is_nil(assigns[:is_full])
+    )
+
+    is_full_width = assigns[:is_full_width] || assigns[:is_full]
+
     state_modifier_classes = %{
       state_default:
         AttributeHelpers.classnames([
@@ -5036,7 +5131,7 @@ defmodule PrimerLive.Component do
         assigns[:state] === "success" and state_modifier_classes.state_success,
         assigns[:state] === "warning" and state_modifier_classes.state_warning,
         assigns[:state] === "error" and state_modifier_classes.state_error,
-        assigns.is_full and "flash-full",
+        is_full_width and "flash-full",
         assigns[:class]
       ])
 
@@ -6104,16 +6199,16 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  Stretch an item with attribute `is_full`:
+  Stretch an item with attribute `is_full_width`:
 
   ```
-   <:item is_full>Stretched item</:item>
+   <:item is_full_width>Stretched item</:item>
   ```
 
   A space can also be generated with an "empty" item:
 
   ```
-  <:item is_full />
+  <:item is_full_width />
   ```
 
   Links can be placed inside items. Use `:let` to get access to the `classes.link` class. With `Phoenix.Component.link/1`:
@@ -6200,7 +6295,8 @@ defmodule PrimerLive.Component do
     doc: """
     Header item.
     """ do
-    attr(:is_full, :boolean, doc: "Stretches the item to maximum.")
+    attr(:is_full_width, :boolean, doc: "Stretches the item to maximum.")
+    attr(:is_full, :boolean, doc: "Deprecated: use is_full_width")
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
@@ -6233,13 +6329,21 @@ defmodule PrimerLive.Component do
       item_rest =
         AttributeHelpers.assigns_to_attributes_sorted(item, [
           :is_full,
+          :is_full_width,
           :class
         ])
+
+      ComponentHelpers.deprecated_message(
+        "Deprecated attr is_full used in header slot item: use is_full_width. Since 0.5.0.",
+        !is_nil(item[:is_full])
+      )
+
+      is_full_width = item[:is_full_width] || item[:is_full]
 
       item_class =
         AttributeHelpers.classnames([
           "Header-item",
-          item[:is_full] && "Header-item--full",
+          is_full_width && "Header-item--full",
           assigns.classes[:item],
           item[:class]
         ])
@@ -6454,7 +6558,7 @@ defmodule PrimerLive.Component do
     %{
       form: form,
       field: field
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     # Get the first menu slot, if any
     menu_slot = if assigns[:menu] && assigns[:menu] !== [], do: hd(assigns[:menu]), else: []
@@ -6795,10 +6899,10 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the select menu component")
 
-  DeclarationHelpers.class()
-
   attr(:is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right.")
   attr(:is_borderless, :boolean, default: false, doc: "Removes the borders between list items.")
+
+  DeclarationHelpers.class()
 
   attr(:classes, :map,
     default: %{
@@ -6971,7 +7075,7 @@ defmodule PrimerLive.Component do
     %{
       form: form,
       field: field
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     assigns_classes =
       Map.merge(
@@ -7491,7 +7595,7 @@ defmodule PrimerLive.Component do
     %{
       form: form,
       field: field
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     assigns_classes =
       Map.merge(
@@ -7689,9 +7793,9 @@ defmodule PrimerLive.Component do
 
   ```
   <.button_group>
-    <.button_group_item>Button 1</.button_group_item>
-    <.button_group_item>Button 2</.button_group_item>
-    <.button_group_item>Button 3</.button_group_item>
+    <.button>Button 1</.button>
+    <.button>Button 2</.button>
+    <.button>Button 3</.button>
   </.button_group>
   ```
 
@@ -7704,8 +7808,6 @@ defmodule PrimerLive.Component do
   [Primer Icon button](https://primer.style/design/components/icon-button)
 
   """
-
-  DeclarationHelpers.class()
 
   attr(:is_full_width, :boolean, default: false, doc: "Generates a full-width button.")
 
@@ -7754,32 +7856,57 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.href()
   DeclarationHelpers.patch()
   DeclarationHelpers.navigate()
-  DeclarationHelpers.rest(include: ~w(name type))
+  DeclarationHelpers.class()
 
-  slot(:inner_block, required: true, doc: "Button content.")
+  attr(:classes, :map,
+    default: %{
+      button: nil,
+      label: nil,
+      leading_visual: nil,
+      trailing_visual: nil,
+      trailing_action: nil
+    },
+    doc: """
+    Additional classnames for button elements. Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      button: "",
+    }
+    ```
+    """
+  )
+
+  DeclarationHelpers.rest(include: ~w(name type disabled))
+
+  slot(:inner_block, required: false, doc: "Button content.")
 
   def button(assigns) do
-    class =
-      AttributeHelpers.classnames([
-        !assigns.is_link and !assigns.is_icon_only and !assigns.is_close_button and "btn",
-        assigns.is_link and "btn-link",
-        assigns.is_icon_only and "btn-octicon",
-        assigns.is_icon_button and "btn-icon",
-        assigns.is_danger and
-          if assigns.is_icon_only do
-            "btn-octicon-danger"
-          else
-            "btn-danger"
-          end,
-        assigns.is_large and "btn-large",
-        assigns.is_primary and "btn-primary",
-        assigns.is_outline and "btn-outline",
-        assigns.is_small and "btn-sm",
-        assigns.is_full_width and "btn-block",
-        assigns.is_invisible and "btn-invisible",
-        assigns.is_close_button and "close-button",
-        assigns[:class]
-      ])
+    classes = %{
+      button:
+        AttributeHelpers.classnames([
+          !assigns.is_link and !assigns.is_icon_only and !assigns.is_close_button and "btn",
+          assigns.is_link and "btn-link",
+          assigns.is_icon_only and "btn-octicon",
+          assigns.is_icon_button and "btn-icon",
+          assigns.is_danger and
+            if assigns.is_icon_only do
+              "btn-octicon-danger"
+            else
+              "btn-danger"
+            end,
+          assigns.is_large and "btn-large",
+          assigns.is_primary and "btn-primary",
+          assigns.is_outline and "btn-outline",
+          assigns.is_small and "btn-sm",
+          assigns.is_full_width and "btn-block",
+          assigns.is_invisible and "btn-invisible",
+          assigns.is_close_button and "close-button",
+          assigns[:classes][:button],
+          assigns[:class]
+        ])
+    }
 
     is_link = AttributeHelpers.is_link?(assigns)
 
@@ -7794,14 +7921,16 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes(rest, [
         assigns.is_selected && ["aria-selected": "true"],
         assigns.is_disabled && ["aria-disabled": "true"],
-        [class: class],
+        [class: classes.button],
         !is_link && [type: type || if(assigns.is_submit, do: "submit", else: "button")],
         [href: assigns[:href], navigate: assigns[:navigate], patch: assigns[:patch]]
       ])
 
     render_content = fn ->
       ~H"""
-      <%= render_slot(@inner_block) %>
+      <%= if !is_nil(@inner_block) && @inner_block !== [] do %>
+        <%= render_slot(@inner_block) %>
+      <% end %>
       <%= if @is_dropdown_caret do %>
         <span class="dropdown-caret"></span>
       <% end %>
@@ -7838,22 +7967,22 @@ defmodule PrimerLive.Component do
 
   ```
   <.button_group>
-    <:button>Button 1</:button>
-    <:button>Button 2</:button>
-    <:button>Button 3</:button>
+    <.button>Button 1</.button>
+    <.button>Button 2</.button>
+    <.button>Button 3</.button>
   </.button_group>
   ```
 
   ## Examples
 
-  Use button slots while passing button attributes to create the button row:
+  Use `button/1` children to create the button row:
 
   ```
   <.button_group>
-    <:button>Button 1</:button>
-    <:button is_selected>Button 2</:button>
-    <:button is_danger>Button 3</:button>
-    <:button class="my-button">Button 4</:button>
+    <.button>Button 1</.button>
+    <.button is_selected>Button 2</.button>
+    <.button is_danger>Button 3</.button>
+    <.button class="my-button">Button 4</.button>
   </.button_group>
   ```
 
@@ -7862,6 +7991,7 @@ defmodule PrimerLive.Component do
   ## Reference
 
   [Primer Button group](https://primer.style/design/components/button-group)
+  [Primer Button](https://primer.style/design/components/button)
 
   """
 
@@ -7869,9 +7999,11 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.rest()
 
   slot :button,
-    required: true,
+    required: false,
     doc: """
-    Button. Use `button/1` attributes to configure the button appearance and behaviour.
+    Deprecated: use `button/1` as children.
+
+    Deprecation support: use `button/1` attributes to configure the button appearance and behaviour.
     """ do
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_href()
@@ -7894,16 +8026,22 @@ defmodule PrimerLive.Component do
     attr(:is_submit, :boolean, doc: "See `button/1`.")
   end
 
+  slot(:inner_block, required: false, doc: "Buttons as children of group button.")
+
   def button_group(assigns) do
+    ComponentHelpers.deprecated_message(
+      "Deprecated slot button used in button_group: use button components as children. Since 0.5.0.",
+      assigns[:button] && assigns[:button] !== []
+    )
+
     classes = %{
       button_group:
         AttributeHelpers.classnames([
-          "BtnGroup",
+          "pl-button-group",
           assigns[:class]
         ]),
       button: fn slot ->
         AttributeHelpers.classnames([
-          "BtnGroup-item",
           slot[:class]
         ])
       end
@@ -7921,11 +8059,14 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@button_group_attrs}>
-      <%= for slot <- @button do %>
-        <.button {slot} class={@classes.button.(slot)}>
-          <%= render_slot(slot) %>
-        </.button>
+      <%= if !is_nil(@button) && @button !== [] do %>
+        <%= for slot <- @button do %>
+          <.button {slot} class={@classes.button.(slot)}>
+            <%= render_slot(slot) %>
+          </.button>
+        <% end %>
       <% end %>
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
@@ -8489,8 +8630,6 @@ defmodule PrimerLive.Component do
 
   """
 
-  DeclarationHelpers.class()
-
   attr(:is_primary, :boolean,
     default: false,
     doc: """
@@ -8582,6 +8721,8 @@ defmodule PrimerLive.Component do
     """
   )
 
+  DeclarationHelpers.class()
+
   DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Label content.")
@@ -8656,14 +8797,14 @@ defmodule PrimerLive.Component do
 
   """
 
-  DeclarationHelpers.class()
-
   attr(:is_big, :boolean,
     default: false,
     doc: """
     Larger issue label.
     """
   )
+
+  DeclarationHelpers.class()
 
   DeclarationHelpers.rest()
 
@@ -8733,8 +8874,6 @@ defmodule PrimerLive.Component do
 
   """
 
-  DeclarationHelpers.class()
-
   attr(:is_draft, :boolean,
     default: false,
     doc: """
@@ -8769,6 +8908,8 @@ defmodule PrimerLive.Component do
     Smaller state label.
     """
   )
+
+  DeclarationHelpers.class()
 
   DeclarationHelpers.rest()
 
@@ -8840,8 +8981,6 @@ defmodule PrimerLive.Component do
 
   """
 
-  DeclarationHelpers.class()
-
   attr(:is_primary, :boolean,
     default: false,
     doc: """
@@ -8855,6 +8994,8 @@ defmodule PrimerLive.Component do
     Secondary color.
     """
   )
+
+  DeclarationHelpers.class()
 
   DeclarationHelpers.rest()
 
@@ -9285,8 +9426,6 @@ defmodule PrimerLive.Component do
 
   """
 
-  DeclarationHelpers.class()
-
   attr(:is_primary, :boolean,
     default: false,
     doc: """
@@ -9325,6 +9464,8 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.href()
   DeclarationHelpers.patch()
   DeclarationHelpers.navigate()
+  DeclarationHelpers.class()
+
   DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Link content.")
@@ -9402,8 +9543,6 @@ defmodule PrimerLive.Component do
 
   """
 
-  DeclarationHelpers.class()
-
   attr(:src, :string, default: nil, doc: "Image source attribute.")
   attr(:width, :string, default: nil, doc: "Image width attribute.")
   attr(:height, :string, default: nil, doc: "Image height attribute.")
@@ -9426,6 +9565,8 @@ defmodule PrimerLive.Component do
     - 8: `64px`
     """
   )
+
+  DeclarationHelpers.class()
 
   DeclarationHelpers.rest()
 
@@ -9653,8 +9794,6 @@ defmodule PrimerLive.Component do
 
   """
 
-  DeclarationHelpers.class()
-
   attr(:size, :string,
     default: "small",
     doc: """
@@ -9670,6 +9809,8 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.href()
   DeclarationHelpers.patch()
   DeclarationHelpers.navigate()
+  DeclarationHelpers.class()
+
   DeclarationHelpers.rest()
 
   slot :octicon,
@@ -9927,13 +10068,13 @@ defmodule PrimerLive.Component do
 
   """
 
-  DeclarationHelpers.class()
-
   attr(:size, :any, default: 18, doc: "Spinner size (number or number as string).")
 
   attr(:color, :string, default: "#959da5", doc: "Spinner color as SVG fill color.")
 
   attr(:gap_color, :string, default: "#ffffff", doc: "Spinner gap color as SVG fill color.")
+
+  DeclarationHelpers.class()
 
   DeclarationHelpers.rest()
 
@@ -10730,8 +10871,8 @@ defmodule PrimerLive.Component do
   <.dialog is_backdrop is_modal>
     <:header_title>Title</:header_title>
     <:body>
-    <.text_input form={:user} field={:first_name} is_group />
-    <.text_input form={:user} field={:last_name} is_group />
+    <.text_input form={:user} field={:first_name} is_form_control />
+    <.text_input form={:user} field={:last_name} is_form_control />
     </:body>
   </.dialog>
   ```
@@ -10876,7 +11017,7 @@ defmodule PrimerLive.Component do
     %{
       form: form,
       field: field
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     classes = %{
       dialog_wrapper:
@@ -11193,7 +11334,7 @@ defmodule PrimerLive.Component do
     %{
       form: form,
       field: field
-    } = AttributeHelpers.common_input_attrs(assigns, nil)
+    } = AttributeHelpers.common_input_attrs(assigns)
 
     # Get the body slot, if any
     body_slot = if assigns.body && assigns.body !== [], do: hd(assigns.body), else: []
@@ -11331,8 +11472,6 @@ defmodule PrimerLive.Component do
   [INSERT LVATTRDOCS]
   """
 
-  DeclarationHelpers.class()
-
   attr(:width, :string,
     default: nil,
     doc: """
@@ -11342,6 +11481,8 @@ defmodule PrimerLive.Component do
     """
   )
 
+  DeclarationHelpers.class()
+
   DeclarationHelpers.rest()
 
   slot(:inner_block,
@@ -11349,9 +11490,9 @@ defmodule PrimerLive.Component do
   )
 
   def drawer_content(assigns) do
-    if Application.get_env(:primer_live, :env) !== :test do
-      IO.puts("Deprecated drawer_content: use drawer's 'body' slot. Since 0.4.0.")
-    end
+    ComponentHelpers.deprecated_message(
+      "Deprecated component drawer_content: use drawer's 'body' slot. Since 0.4.0."
+    )
 
     %{
       focus_wrap_id: focus_wrap_id
@@ -11434,11 +11575,11 @@ defmodule PrimerLive.Component do
   [Primer Branch name](https://primer.style/design/components/branch-name)
   """
 
-  DeclarationHelpers.class()
-
   DeclarationHelpers.href()
   DeclarationHelpers.patch()
   DeclarationHelpers.navigate()
+  DeclarationHelpers.class()
+
   DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "The branch name text and optionally an icon.")

@@ -131,44 +131,6 @@ defmodule PrimerLive.TestComponents.SelectTest do
              |> format_html()
   end
 
-  test "Attribute: is_short" do
-    assigns = %{}
-
-    assert rendered_to_string(~H"""
-           <.select name="age" options={25..27} is_short />
-           """)
-           |> format_html() ==
-             """
-             <div class="FormControl-select-wrap FormControl--short">
-             <select class="FormControl-select FormControl-medium" id="age" name="age">
-             <option value="25">25</option>
-             <option value="26">26</option>
-             <option value="27">27</option>
-             </select>
-             </div>
-             """
-             |> format_html()
-  end
-
-  test "Attribute: is_shorter" do
-    assigns = %{}
-
-    assert rendered_to_string(~H"""
-           <.select name="age" options={25..27} is_shorter />
-           """)
-           |> format_html() ==
-             """
-             <div class="FormControl-select-wrap FormControl--shorter">
-             <select class="FormControl-select FormControl-medium" id="age" name="age">
-             <option value="25">25</option>
-             <option value="26">26</option>
-             <option value="27">27</option>
-             </select>
-             </div>
-             """
-             |> format_html()
-  end
-
   test "Attribute: is_full_width" do
     assigns = %{}
 
@@ -346,6 +308,65 @@ defmodule PrimerLive.TestComponents.SelectTest do
              |> format_html()
   end
 
+  test "Attribute: caption" do
+    assigns = %{
+      form: %{@default_form | source: @error_changeset}
+    }
+
+    assert rendered_to_string(~H"""
+           <.select
+             name="count"
+             options={["One", "Two", "Three"]}
+             caption={
+               fn ->
+                 "Caption"
+               end
+             }
+           />
+           <.select
+             name="count"
+             options={["One", "Two", "Three"]}
+             caption={fn -> "Caption" end}
+             is_form_control
+           />
+           <.select
+             name="count"
+             options={["One", "Two", "Three"]}
+             caption={
+               fn field_state ->
+                 if !field_state.valid?,
+                   # Hide this text because the error validation message will show similar content
+                   do: nil
+               end
+             }
+           />
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl-select-wrap"><select class="FormControl-select FormControl-medium" id="count" name="count">
+             <option value="One">One</option>
+             <option value="Two">Two</option>
+             <option value="Three">Three</option>
+             </select></div>
+             <div class="FormControl-caption">Caption</div>
+             <div class="FormControl">
+             <div class="form-group-header"><label class="FormControl-label" for="count">Count</label><span aria-hidden="true">*</span></div>
+             <div class="FormControl-select-wrap"><select class="FormControl-select FormControl-medium" id="count" name="count">
+             <option value="One">One</option>
+             <option value="Two">Two</option>
+             <option value="Three">Three</option>
+             </select></div>
+             <div class="FormControl-caption">Caption</div>
+             </div>
+             <div class="FormControl-select-wrap"><select class="FormControl-select FormControl-medium" id="count" name="count">
+             <option value="One">One</option>
+             <option value="Two">Two</option>
+             <option value="Three">Three</option>
+             </select></div>
+             """
+             |> format_html()
+  end
+
   test "Attribute: is_multiple" do
     assigns = %{
       form: @default_form
@@ -418,6 +439,21 @@ defmodule PrimerLive.TestComponents.SelectTest do
 
   test "Classes" do
     assigns = %{
+      classes: %{
+        select_container: "select_container-x",
+        select: "select-x",
+        validation_message: "validation_message-x",
+        caption: "caption-x"
+      },
+      form_control_attrs: %{
+        classes: %{
+          control: "control-x",
+          group: "group-x",
+          header: "header-x",
+          label: "label-x"
+        }
+      },
+      class: "my-select-container",
       form: %{@default_form | source: @error_changeset}
     }
 
@@ -435,18 +471,16 @@ defmodule PrimerLive.TestComponents.SelectTest do
                Developer: "developer"
              ]}
              aria_label="Role"
-             classes={
-               %{
-                 select_container: "select_container-x",
-                 select: "select-x",
-                 validation_message: "validation_message-x"
-               }
-             }
-             class="my-select-container"
+             classes={@classes}
+             form_control={@form_control_attrs}
+             class={@class}
+             caption={fn -> "Caption" end}
            />
            """)
            |> format_html() ==
              """
+             <div class="FormControl group-x control-x pl-invalid">
+             <div class="form-group-header header-x"><label class="FormControl-label label-x" for="user_role">Role</label><span aria-hidden="true">*</span></div>
              <div class="FormControl-select-wrap pl-invalid select_container-x my-select-container" phx-feedback-for="user[role]">
              <select aria-describedby="user_role-validation" aria-label="Role"
              class="FormControl-select FormControl-medium select-x" id="user_role" invalid="" name="user[role]">
@@ -461,6 +495,8 @@ defmodule PrimerLive.TestComponents.SelectTest do
              <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x"
              id="user_role-validation" phx-feedback-for="user[role]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg"
              width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>can&#39;t be blank</span></div>
+             <div class="FormControl-caption caption-x">Caption</div>
+             </div>
              """
              |> format_html()
   end

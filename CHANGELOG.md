@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.5.0
+
+Form elements have been revamped and aligned with the most recent [form element documentation at Primer Style](https://primer.style/design/ui-patterns/forms/overview).
+
+### Deprecated
+
+For all listed deprecations below: existing syntax will keep working, but log warnings will inform about the deprecation.
+
+- `form_group` is replaced by `form_control` (and `is_form_group` is replaced by `is_form_control`). When updating your code:
+  - You may need to add styling to correct the missing whitespace at top and bottom, because class "form-group" (which is also added when using attrs `form_group` and `is_form_group`) contains a top and bottom margin.
+  - Without a form group, text inputs (as well as selects) [will be given a default width by the browser](https://primer.style/design/components/text-input#width) and will probably be displayed smaller than they currently are.
+- The horizontal "tab-row" layout of `radio_group` is not mentioned in the Primer Design specification, while "Radio group" is (with vertical layout).
+  - The current `radio_group` has been renamed to `radio_tabs`.
+  - The new component `radio_group` uses a vertical layout.
+- `checkbox` and `radio_button` slot `hint` has been renamed to `caption`.
+- `button_group` slot `button` is replaced by `button` components as children.
+- For consistency, attr `is_full` has been renamed to `is_full_width` (in `alert` and `header` slot: `item`).
+
+### Improvements
+
+- Added component `checkbox_group`.
+- Added convenience component `checkbox_in_group` for checkboxes inside a `checkbox_group`.
+- Added component `radio_group` (with vertical layout).
+- Added attr `caption` to show **hint message** below the form fields.
+  - Implemented for `select`, `text_input` and `textarea`.
+  - Implemented for `checkbox_group` and `radio_group` to show a hint below the group label.
+- Added a **required marker** to `form_control`, `checkbox_group` and `radio_group`. The form control label will show a required marker if the field is required.
+  - Added `is_required?` to `FieldState`, so it can also be queried in `validation_message` and `caption` callbacks.
+- Added **disabled state** to `form_control`:
+  - With components `select`, `text_input` and `textarea`: the attribute `disabled` is automatically passed to `form_control`.
+  - When using component `form_control` on its own: set explicitly with attr `is_disabled`.
+
+### Removed
+
+- Form element width variation attrs `is_short` and `is_shorter`. These are no longer supported by Primer System.
+- `form_control` class `body`: this extra div is removed to simplify the styling of validation states.
+
+
 ## 0.4.0
 
 ### Improvements

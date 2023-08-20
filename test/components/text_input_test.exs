@@ -166,7 +166,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
-  test "Attributes: is_monospace, is_contrast, is_full_width, is_hide_webkit_autofill, is_large, is_small, is_short, is_shorter" do
+  test "Attributes: is_monospace, is_contrast, is_full_width, is_hide_webkit_autofill, is_large, is_small" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
@@ -176,8 +176,6 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            <.text_input is_hide_webkit_autofill />
            <.text_input is_large />
            <.text_input is_small />
-           <.text_input is_short />
-           <.text_input is_shorter />
            """)
            |> format_html() ==
              """
@@ -187,13 +185,66 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <input class="FormControl-input input-hide-webkit-autofill FormControl-medium" type="text" />
              <input class="FormControl-input FormControl-large" type="text" />
              <input class="FormControl-input FormControl-small" type="text" />
-             <input class="FormControl-input FormControl-medium FormControl--short" type="text" />
-             <input class="FormControl-input FormControl-medium FormControl--shorter" type="text" />
              """
              |> format_html()
   end
 
-  test "Attribute: is_form_group" do
+  test "Attribute: caption" do
+    assigns = %{
+      form: %{@default_form | source: @error_changeset}
+    }
+
+    assert rendered_to_string(~H"""
+           <.text_input caption="Caption" />
+           <.text_input
+             caption={
+               fn ->
+                 ~H'''
+                 Caption
+                 '''
+               end
+             }
+             is_form_control
+           />
+           <.text_input caption={
+             fn field_state ->
+               if !field_state.valid?,
+                 # Hide this text because the error validation message will show similar content
+                 do: nil
+             end
+           } />
+           """)
+           |> format_html() ==
+             """
+             <input class="FormControl-input FormControl-medium" type="text" />
+             <div class="FormControl-caption">Caption</div>
+             <div class="FormControl">
+             <div class="form-group-header"><label class="FormControl-label"></label><span aria-hidden="true">*</span></div><input
+             class="FormControl-input FormControl-medium" type="text" />
+             <div class="FormControl-caption">Caption</div>
+             </div>
+             <input class="FormControl-input FormControl-medium" type="text" />
+             """
+             |> format_html()
+  end
+
+  test "Attribute: is_form_control" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input form={:user} name="first_name" is_form_control />
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl">
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label><span aria-hidden="true">*</span></div><input
+             class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: is_form_group (deprecatd)" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
@@ -201,9 +252,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group">
-             <div class="form-group-header"><label for="user_first_name">First name</label></div>
-             <div class="form-group-body"><input class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" /></div>
+             <div class="FormControl form-group">
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label><span aria-hidden="true">*</span></div><input
+             class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
              </div>
              """
              |> format_html()
@@ -217,15 +268,39 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group">
-             <div class="form-group-header"><label for="xyz">First name</label></div>
-             <div class="form-group-body"><input class="FormControl-input FormControl-medium" id="xyz" name="user[first_name]" type="text" /></div>
+             <div class="FormControl form-group">
+             <div class="form-group-header"><label class="FormControl-label" for="xyz">First name</label><span aria-hidden="true">*</span></div><input
+             class="FormControl-input FormControl-medium" id="xyz" name="user[first_name]" type="text" />
              </div>
              """
              |> format_html()
   end
 
-  test "Attribute: form_group (label)" do
+  test "Attribute: form_control (label)" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input
+             form={:user}
+             field="first_name"
+             form_control={
+               %{
+                 label: "Some label"
+               }
+             }
+           />
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl">
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label><span aria-hidden="true">*</span></div><input
+             class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
+             </div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: form_group (label) (deprecated)" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
@@ -241,9 +316,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <div class="form-group">
-             <div class="form-group-header"><label for="user_first_name">Some label</label></div>
-             <div class="form-group-body"><input class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" /></div>
+             <div class="FormControl form-group">
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label><span aria-hidden="true">*</span></div><input
+             class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
              </div>
              """
              |> format_html()
@@ -342,6 +417,22 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              |> format_html()
   end
 
+  test "Extra attributes: disabled with is_form_control" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.text_input name="first_name" disabled is_form_control />
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl pl-FormControl-disabled">
+             <div class="form-group-header"><label class="FormControl-label" for="first_name">First name</label><span aria-hidden="true">*</span></div><input
+               class="FormControl-input FormControl-medium" disabled id="first_name" name="first_name" type="text" />
+             </div>
+             """
+             |> format_html()
+  end
+
   test "Extra attributes: placeholder (and implicit aria-label)" do
     assigns = %{}
 
@@ -390,6 +481,92 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <input class="FormControl-input FormControl-medium my-input" type="text" />
+             """
+             |> format_html()
+  end
+
+  test "Attribute: classes" do
+    assigns = %{
+      classes: %{
+        input: "input-x",
+        input_group: "input_group-x",
+        input_group_button: "input_group_button-x",
+        validation_message: "validation_message-x",
+        input_wrap: "input_wrap-x",
+        caption: "caption-x"
+      },
+      form_control_attrs: %{
+        classes: %{
+          control: "control-x",
+          group: "group-x",
+          header: "header-x",
+          label: "label-x"
+        }
+      },
+      class: "my-text-input",
+      form: %{@default_form | source: @error_changeset}
+    }
+
+    assert rendered_to_string(~H"""
+           <.text_input
+             classes={@classes}
+             form_control={@form_control_attrs}
+             class={@class}
+             caption={fn -> "Caption" end}
+             form={@form}
+             field={:first_name}
+           >
+             <:group_button>
+               <.button>Send</.button>
+             </:group_button>
+           </.text_input>
+
+           <.text_input classes={@classes} form_control={@form_control_attrs} class={@class}>
+             <:leading_visual class="my-leading-visual">
+               <.octicon name="mail-16" />
+             </:leading_visual>
+           </.text_input>
+
+           <.text_input classes={@classes} form_control={@form_control_attrs} class={@class}>
+             <:trailing_action>
+               <.button is_icon_only aria-label="Clear">
+                 <.octicon name="x-16" />
+               </.button>
+             </:trailing_action>
+           </.text_input>
+           """)
+           |> format_html() ==
+             """
+             <div class="FormControl group-x control-x pl-invalid">
+             <div class="form-group-header header-x"><label class="FormControl-label label-x" for="user_first_name">First
+             name</label><span aria-hidden="true">*</span></div>
+             <div class="input-group input_group-x">
+             <div class="pl-invalid" phx-feedback-for="user[first_name]"><input aria-describedby="user_first_name-validation"
+             class="FormControl-input FormControl-medium input-x my-text-input" id="user_first_name" invalid=""
+             name="user[first_name]" type="text" value="" /></div><span
+             class="input-group-button input_group_button-x"><button class="btn" type="button">Send</button></span>
+             </div>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x"
+             id="user_first_name-validation" phx-feedback-for="user[first_name]"><svg class="octicon"
+             xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+             viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>can&#39;t be blank</span></div>
+             <div class="FormControl-caption caption-x">Caption</div>
+             </div>
+             <div class="FormControl group-x control-x">
+             <div class="form-group-header header-x"><label class="FormControl-label label-x"></label><span aria-hidden="true">*</span></div>
+             <div class="FormControl-input-wrap FormControl-input-wrap--leadingVisual input_wrap-x"><span
+             class="FormControl-input-leadingVisualWrap"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16"
+             height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span><input
+             class="FormControl-input FormControl-medium input-x my-text-input" type="text" /></div>
+             </div>
+             <div class="FormControl group-x control-x">
+             <div class="form-group-header header-x"><label class="FormControl-label label-x"></label><span aria-hidden="true">*</span></div>
+             <div class="FormControl-input-wrap FormControl-input-wrap--trailingAction input_wrap-x"><input
+             class="FormControl-input FormControl-medium input-x my-text-input" type="text" /><span
+             class="FormControl-input-trailingAction"><button aria-label="Clear" class="btn-octicon" type="button"><svg
+             class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></button></span></div>
+             </div>
              """
              |> format_html()
   end

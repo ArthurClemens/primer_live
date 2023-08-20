@@ -2,7 +2,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   @moduledoc false
 
   use Phoenix.Component
-  alias PrimerLive.Helpers.FormHelpers
+  alias PrimerLive.Helpers.{ComponentHelpers, FormHelpers}
 
   @doc ~S"""
   Concatenates a list of classnames to a single string.
@@ -75,6 +75,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([dir: "rtl"], [[placeholder: "hello"]])
       [dir: "rtl", placeholder: "hello"]
 
+      iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([dir: "rtl"], %{"placeholder" => "hello"})
+      [dir: "rtl", placeholder: "hello"]
+
       iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([dir: "rtl"], [false, [placeholder: "hello"], [placeholder: "hello"], nil])
       [dir: "rtl", placeholder: "hello"]
 
@@ -97,20 +100,29 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       [class: "x", foo: "foo"]
   """
   def append_attributes(attributes, input_attributes) when is_map(attributes) do
-    attr_list = Keyword.new(attributes)
+    attr_list = convert_map_to_keyword_list(attributes)
     append_attributes(attr_list, input_attributes)
+  end
+
+  def append_attributes(attributes, input_attributes) when is_map(input_attributes) do
+    input_attributes_list = convert_map_to_keyword_list(input_attributes)
+    append_attributes(attributes, input_attributes_list)
   end
 
   def append_attributes(attributes, input_attributes) when is_nil(attributes),
     do: append_attributes([], input_attributes)
 
   def append_attributes(attributes, input_attributes) do
-    input_attributes
-    |> Enum.reject(&(&1 == false || is_nil(&1)))
+    flat_input_attributes =
+      input_attributes
+      |> Enum.reject(&(&1 == false || is_nil(&1)))
+      |> List.flatten()
+
+    flat_attributes = attributes |> List.flatten()
+
+    flat_attributes
+    |> Keyword.merge(flat_input_attributes)
     |> Enum.uniq()
-    |> Enum.reduce(attributes, fn kw, acc ->
-      acc ++ kw
-    end)
     |> Enum.sort()
   end
 
@@ -122,6 +134,18 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   def assigns_to_attributes_sorted(assigns, exclude \\ []) do
     assigns_to_attributes(assigns, exclude) |> Enum.sort()
   end
+
+  defp convert_map_to_keyword_list(map) when map == %{}, do: nil
+
+  defp convert_map_to_keyword_list(map) do
+    Keyword.new(map, fn {k, v} ->
+      {to_atom(k), v}
+    end)
+  end
+
+  defp to_atom(key) when is_atom(key), do: key
+  defp to_atom(key) when is_binary(key), do: String.to_existing_atom(key)
+  defp to_atom(key), do: key
 
   @doc ~S"""
   Converts user input to an integer, with optionally a default value
@@ -542,14 +566,15 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   @doc ~S"""
   Extracts common attributes for form inputs. Shared for consistency.
   """
-  def common_input_attrs(assigns, input_type) do
+  def common_input_attrs(assigns, input_type \\ nil) do
     common_shared_attrs = common_shared_attrs(assigns)
 
     # ID and label
     id_attrs = common_id_attrs(assigns, input_type, common_shared_attrs)
 
     # Form group
-    form_group_attrs = common_form_group_attrs(assigns, id_attrs.input_id, common_shared_attrs)
+    form_control_attrs =
+      common_form_control_attrs(assigns, id_attrs.input_id, common_shared_attrs)
 
     # Field state
     field_state_attrs =
@@ -562,7 +587,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     [
       common_shared_attrs,
       id_attrs,
-      form_group_attrs,
+      form_control_attrs,
       field_state_attrs
     ]
     |> Enum.reduce(&Map.merge/2)
@@ -624,24 +649,40 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     }
   end
 
-  defp common_form_group_attrs(assigns, input_id, %{
+  defp common_form_control_attrs(assigns, input_id, %{
          form: form,
          field_or_name: field_or_name
        }) do
-    form_group = assigns[:form_group]
-    is_form_group = assigns[:is_form_group]
-    has_form_group = is_form_group || form_group
+    deprecated_form_group = assigns[:form_group]
+    deprecated_is_form_group = !!assigns[:is_form_group]
+    deprecated_has_form_group = deprecated_is_form_group || !!deprecated_form_group
 
-    form_group_attrs =
-      Map.merge(form_group || %{}, %{
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr form_group: use form_control. Since 0.5.0.",
+      !is_nil(assigns[:form_group])
+    )
+
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr is_form_group: use is_form_control. Since 0.5.0.",
+      assigns[:is_form_group] == true
+    )
+
+    form_control = assigns[:form_control] || deprecated_form_group
+    is_form_control = assigns[:is_form_control] || !!form_control || deprecated_is_form_group
+
+    has_form_control = is_form_control || deprecated_has_form_group
+
+    form_control_attrs =
+      Map.merge(form_control || %{}, %{
         form: form,
         field: field_or_name,
-        for: input_id
+        for: input_id,
+        deprecated_has_form_group: deprecated_has_form_group
       })
 
     %{
-      form_group_attrs: form_group_attrs,
-      has_form_group: has_form_group
+      form_control_attrs: form_control_attrs,
+      has_form_control: has_form_control
     }
   end
 
@@ -650,12 +691,14 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
          field_or_name: field_or_name
        }) do
     validation_message = assigns[:validation_message]
-    field_state = FormHelpers.field_state(form, field_or_name, validation_message)
+    caption = assigns[:caption]
+    field_state = FormHelpers.field_state(form, field_or_name, validation_message, caption)
 
     %{
       message: message,
       valid?: valid?,
-      ignore_errors?: ignore_errors?
+      ignore_errors?: ignore_errors?,
+      caption: caption
     } = field_state
 
     has_changeset? = !is_nil(field_state.changeset)
@@ -697,7 +740,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       show_message?: show_message?,
       validation_message_id: validation_message_id,
       validation_marker_attrs: validation_marker_attrs,
-      validation_marker_class: validation_marker_class
+      validation_marker_class: validation_marker_class,
+      caption: caption
     }
   end
 
@@ -877,11 +921,10 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     prompt_options = assigns[:prompt_options] || toggle_slot[:options]
 
-    if !is_nil(toggle_slot[:options]) && Application.get_env(:primer_live, :env) !== :test do
-      IO.puts(
-        "Deprecated toggle options: pass prompt_options to the main component. Since 0.4.0."
-      )
-    end
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr options passed to slot toggle_slot: pass prompt_options to the main component. Since 0.4.0.",
+      !is_nil(toggle_slot[:options])
+    )
 
     input_name = if field, do: Phoenix.HTML.Form.input_name(form, field), else: nil
     generated_id = id || input_name || random_string()
