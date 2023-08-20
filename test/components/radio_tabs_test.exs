@@ -1,4 +1,4 @@
-defmodule PrimerLive.TestComponents.RadioGroupTest do
+defmodule PrimerLive.TestComponents.RadioTabsTest do
   use ExUnit.Case
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers
