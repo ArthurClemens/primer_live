@@ -8,8 +8,9 @@ Form elements have been revamped and aligned with the most recent [form element 
 
 For all listed deprecations below: existing syntax will keep working, but log warnings will inform about the deprecation.
 
-- `form_group` is replaced by `form_control` (and `is_form_group` is replaced by `is_form_control`).
-  - Note that the class "form-group" (added for `form_group` and `is_form_group`) contains a top and bottom margin. When updating your code, you may need to add styling to correct the missing whitespace.
+- `form_group` is replaced by `form_control` (and `is_form_group` is replaced by `is_form_control`). When updating your code:
+  - You may need to add styling to correct the missing whitespace at top and bottom, because class "form-group" (which is also added when using attrs `form_group` and `is_form_group`) contains a top and bottom margin.
+  - Without a form group, text inputs (as well as selects) [will be given a default width by the browser](https://primer.style/design/components/text-input#width) and will probably be displayed smaller than they currently are.
 - The horizontal "tab-row" layout of `radio_group` is not mentioned in the Primer Design specification, while "Radio group" is (with vertical layout).
   - The current `radio_group` has been renamed to `radio_tabs`.
   - The new component `radio_group` uses a vertical layout.
