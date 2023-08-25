@@ -735,3 +735,11 @@ span[data-color-mode] {
 .pl-avatar--round {
   border-radius: 50%;
 }
+/* Support avatar pair inside a flex container. */
+.avatar-parent-child {
+  align-self: baseline;
+}
+/* Add missing border in avatar child .*/
+.avatar-child {
+  box-shadow: 0 0 0 1px var(--color-avatar-border), var(--avatar-shadow, var(--color-avatar-child-shadow));
+}

@@ -27740,6 +27740,12 @@ span[data-color-mode] {
 .pl-avatar--round {
   border-radius: 50%;
 }
+.avatar-parent-child {
+  align-self: baseline;
+}
+.avatar-child {
+  box-shadow: 0 0 0 1px var(--color-avatar-border), var(--avatar-shadow, var(--color-avatar-child-shadow));
+}
 /*!
  * @primer/css/core
  * http://primer.style/css
