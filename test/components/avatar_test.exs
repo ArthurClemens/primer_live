@@ -84,6 +84,19 @@ defmodule PrimerLive.TestComponents.AvatarTest do
              |> format_html()
   end
 
+  test "Attribute: is_round" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.avatar src="user.jpg" is_round />
+           """)
+           |> format_html() ==
+             """
+             <img class="avatar avatar-3 pl-avatar--round" src="user.jpg" />
+             """
+             |> format_html()
+  end
+
   test "Class" do
     assigns = %{}
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.1
+
+- Updated components:
+  - `avatar` - added attr `is_round`.
+
 ## 0.5.0
 
 Form elements have been revamped and aligned with the most recent [form element documentation at Primer Style](https://primer.style/design/ui-patterns/forms/overview).

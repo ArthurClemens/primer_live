@@ -9541,6 +9541,7 @@ defmodule PrimerLive.Component do
   attr(:width, :string, default: nil, doc: "Image width attribute.")
   attr(:height, :string, default: nil, doc: "Image height attribute.")
   attr(:alt, :string, default: nil, doc: "Image alt attribute.")
+  attr(:is_round, :boolean, default: false, doc: "Creates a round avatar.")
 
   attr(:size, :any,
     values: [1, 2, 3, 4, 5, 6, 7, 8, "1", "2", "3", "4", "5", "6", "7", "8"],
@@ -9578,11 +9579,17 @@ defmodule PrimerLive.Component do
       AttributeHelpers.classnames([
         "avatar",
         size && "avatar-#{size}",
+        assigns.is_round && "pl-avatar--round",
         assigns[:class]
       ])
 
+    rest =
+      AttributeHelpers.assigns_to_attributes_sorted(assigns.rest, [
+        :is_round
+      ])
+
     avatar_attrs =
-      AttributeHelpers.append_attributes(assigns.rest, [
+      AttributeHelpers.append_attributes(rest, [
         [class: class],
         [src: assigns.src],
         [width: assigns.width],

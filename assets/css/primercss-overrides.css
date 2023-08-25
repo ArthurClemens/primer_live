@@ -730,3 +730,8 @@ span[data-color-mode] {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
+
+/* Support round avatars. */
+.pl-avatar--round {
+  border-radius: 50%;
+}

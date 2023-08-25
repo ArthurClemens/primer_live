@@ -27737,6 +27737,9 @@ span[data-color-mode] {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
+.pl-avatar--round {
+  border-radius: 50%;
+}
 /*!
  * @primer/css/core
  * http://primer.style/css
