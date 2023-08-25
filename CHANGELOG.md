@@ -2,8 +2,13 @@
 
 ## 0.5.1
 
-- Updated components:
-  - `avatar` - added attr `is_round`.
+### Updated components
+
+- `avatar` - added attr `is_round`.
+
+### Deprecated
+
+- Renamed `parent_child_avatar` to `avatar_pair`.
 
 ## 0.5.0
 

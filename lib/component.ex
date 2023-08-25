@@ -9618,7 +9618,7 @@ defmodule PrimerLive.Component do
   defp avatar_size_in_range(size), do: size
 
   # ------------------------------------------------------------------------------------
-  # parent_child_avatar
+  # avatar_pair
   # ------------------------------------------------------------------------------------
 
   @doc section: :avatar
@@ -9631,10 +9631,10 @@ defmodule PrimerLive.Component do
   Use slots `parent` and `child` to create the avatars using `avatar/1` attributes:
 
   ```
-  <.parent_child_avatar>
+  <.avatar_pair>
     <:parent src="emma.jpg" size="7" />
     <:child src="kim.jpg" size="2" />
-  </.parent_child_avatar>
+  </.avatar_pair>
   ```
 
   [INSERT LVATTRDOCS]
@@ -9654,6 +9654,7 @@ defmodule PrimerLive.Component do
     doc: "Generates a parent avatar." do
     attr(:size, :any, doc: "Avatar image size - see `avatar/1`.")
     attr(:src, :any, doc: "Avatar image source - see `avatar/1`.")
+    attr(:is_round, :any, doc: "Rounded avatar - see `avatar/1`.")
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
@@ -9664,13 +9665,14 @@ defmodule PrimerLive.Component do
     doc: "Generates a child avatar." do
     attr(:size, :any, doc: "Avatar size - see `avatar/1`.")
     attr(:src, :any, doc: "Avatar image source - see `avatar/1`.")
+    attr(:is_round, :any, doc: "Rounded avatar - see `avatar/1`.")
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
   end
 
-  def parent_child_avatar(assigns) do
+  def avatar_pair(assigns) do
     classes = %{
       parent_child:
         AttributeHelpers.classnames([
@@ -9736,6 +9738,14 @@ defmodule PrimerLive.Component do
       <% end %>
     </div>
     """
+  end
+
+  def parent_child_avatar(assigns) do
+    ComponentHelpers.deprecated_message(
+      "Deprecated component parent_child_avatar: use avatar_pair. Since 0.5.1."
+    )
+
+    avatar_pair(assigns)
   end
 
   # ------------------------------------------------------------------------------------
