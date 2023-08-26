@@ -6895,7 +6895,13 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the select menu component")
 
-  attr(:is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right.")
+  attr(:is_aligned_end, :boolean,
+    default: false,
+    doc: "Aligns the menu to the end (at the right in left-to-right langages)."
+  )
+
+  attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
+
   attr(:is_borderless, :boolean, default: false, doc: "Removes the borders between list items.")
 
   DeclarationHelpers.class()
@@ -7068,6 +7074,11 @@ defmodule PrimerLive.Component do
   end
 
   def select_menu(assigns) do
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr is_right_aligned used in select_menu: use is_aligned_end. Since 0.5.1.",
+      !is_nil(assigns[:is_right_aligned])
+    )
+
     %{
       form: form,
       field: field
@@ -7146,7 +7157,8 @@ defmodule PrimerLive.Component do
       menu:
         AttributeHelpers.classnames([
           "SelectMenu",
-          assigns.is_right_aligned and "right-0",
+          assigns.is_aligned_end and "pl-aligned-end",
+          assigns[:is_right_aligned] && "pl-aligned-end",
           assigns[:filter] !== [] && "SelectMenu--hasFilter",
           assigns_classes.menu
         ]),
@@ -7522,7 +7534,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the menu component")
 
-  attr(:is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right.")
+  attr(:is_aligned_end, :boolean, default: false, doc: "Aligns the menu to the right.")
+
+  attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
 
   DeclarationHelpers.class()
 
@@ -7588,6 +7602,11 @@ defmodule PrimerLive.Component do
   )
 
   def action_menu(assigns) do
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr is_right_aligned used in action_menu: use is_aligned_end. Since 0.5.1.",
+      !is_nil(assigns[:is_right_aligned])
+    )
+
     %{
       form: form,
       field: field
@@ -7635,7 +7654,8 @@ defmodule PrimerLive.Component do
       menu:
         AttributeHelpers.classnames([
           "ActionMenu",
-          assigns.is_right_aligned and "right-0",
+          assigns.is_aligned_end and "pl-aligned-end",
+          assigns[:is_right_aligned] && "pl-aligned-end",
           assigns_classes.menu
         ]),
       menu_container:
@@ -8031,7 +8051,7 @@ defmodule PrimerLive.Component do
   slot :button,
     required: false,
     doc: """
-    Deprecated: use `button/1` as children.
+    Deprecated: use `button/1` as children. Since 0.5.0.
 
     Deprecation support: use `button/1` attributes to configure the button appearance and behaviour.
     """ do

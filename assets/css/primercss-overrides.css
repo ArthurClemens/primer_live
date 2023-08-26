@@ -803,3 +803,16 @@ span[data-color-mode] {
 .avatar-child {
   box-shadow: 0 0 0 1px var(--color-avatar-border), var(--avatar-shadow, var(--color-avatar-child-shadow));
 }
+
+/* Use "aligned" start / end instead of left / right */
+.pl-aligned-end,
+[dir=rtl] .pl-aligned-start {
+  left: auto;
+  right: 0;
+}
+
+.pl-aligned-start,
+[dir=rtl] .pl-aligned-end {
+  left: 0;
+  right: auto;
+}

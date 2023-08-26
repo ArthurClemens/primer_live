@@ -415,11 +415,11 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              |> format_html()
   end
 
-  test "Attribute: is_right_aligned" do
+  test "Attribute: is_aligned_end" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.select_menu is_right_aligned id="querty">
+           <.select_menu is_aligned_end id="querty">
              <:toggle>Menu</:toggle>
              <:item>
                Item 1
@@ -436,7 +436,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
              <div data-touch=""></div>
-             <div class="SelectMenu right-0">
+             <div class="SelectMenu pl-aligned-end">
              <div aria-role="menu" class="SelectMenu-modal" data-content="">
              <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
              class="SelectMenu-item" role="menuitem">Item 2</button></div>
