@@ -7760,12 +7760,21 @@ defmodule PrimerLive.Component do
   <.button is_dropdown_caret>Menu</.button>
   ```
 
-  Button that contains an icon next to the button label:
+  With a leading icon:
 
   ```
   <.button is_primary>
     <.octicon name="download-16" />
     <span>Clone</span>
+  </.button>
+  ```
+
+  With a trailing icon:
+
+  ```
+  <.button is_primary>
+    <span>Clone</span>
+    <.octicon name="download-16" />
   </.button>
   ```
 
@@ -7841,6 +7850,17 @@ defmodule PrimerLive.Component do
     doc: "Create a button that looks like a link, maintaining the paddings of a regular button."
   )
 
+  attr(:is_aligned_start, :boolean,
+    default: false,
+    doc: """
+    Aligns contents to the start (at the left in left-to-right languages), while the dropdown caret (if any)
+    is placed at the far end.
+    Use this when the button is used for selecting items from a list.
+
+    By default contents is center aligned.
+    """
+  )
+
   attr(:is_large, :boolean, default: false, doc: "Generates a large button.")
   attr(:is_link, :boolean, default: false, doc: "Create a button that looks like a link.")
   attr(:is_outline, :boolean, default: false, doc: "Generates an outline button.")
@@ -7857,10 +7877,7 @@ defmodule PrimerLive.Component do
   attr(:classes, :map,
     default: %{
       button: nil,
-      label: nil,
-      leading_visual: nil,
-      trailing_visual: nil,
-      trailing_action: nil
+      content: nil
     },
     doc: """
     Additional classnames for button elements. Any provided value will be appended to the default classname.
@@ -7868,7 +7885,9 @@ defmodule PrimerLive.Component do
     Default map:
     ```
     %{
-      button: "",
+      button: "",  # Button element
+      content: "", # Content (icons and label)
+      caret: "",   # Dropdown icon
     }
     ```
     """
@@ -7899,8 +7918,19 @@ defmodule PrimerLive.Component do
           assigns.is_full_width and "btn-block",
           assigns.is_invisible and "btn-invisible",
           assigns.is_close_button and "close-button",
+          assigns.is_aligned_start and "pl-button-aligned--start",
           assigns[:classes][:button],
           assigns[:class]
+        ]),
+      content:
+        AttributeHelpers.classnames([
+          "pl-button__content",
+          assigns[:classes][:content]
+        ]),
+      caret:
+        AttributeHelpers.classnames([
+          "dropdown-caret",
+          assigns[:classes][:caret]
         ])
     }
 
@@ -7923,12 +7953,16 @@ defmodule PrimerLive.Component do
       ])
 
     render_content = fn ->
+      assigns =
+        assigns
+        |> assign(:classes, classes)
+
       ~H"""
       <%= if !is_nil(@inner_block) && @inner_block !== [] do %>
-        <%= render_slot(@inner_block) %>
+        <span class={@classes.content}><%= render_slot(@inner_block) %></span>
       <% end %>
       <%= if @is_dropdown_caret do %>
-        <span class="dropdown-caret"></span>
+        <span class={@classes.caret}></span>
       <% end %>
       """
     end

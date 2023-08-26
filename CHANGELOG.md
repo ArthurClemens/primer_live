@@ -2,13 +2,17 @@
 
 ## 0.5.1
 
-### Updated components
-
-- `avatar` - added attr `is_round`.
-
 ### Deprecated
 
 - Renamed `parent_child_avatar` to `avatar_pair`.
+
+### Updated components
+
+- `avatar`: Added attr `is_round`.
+- `avatar_pair`: Improved styling: support display inside flex container, add inner border to child avatar.
+- `button`
+  - Improved dimensions according to Primer Style specs, including placing a trailing icon.
+  - Added attr `is_aligned_start`. Aligns contents to the start (at the left in left-to-right languages), while the dropdown caret (if any) is placed at the far end.
 
 ## 0.5.0
 
