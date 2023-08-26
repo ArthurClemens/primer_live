@@ -5080,10 +5080,7 @@ defmodule PrimerLive.Component do
     doc: "Renders the alert full width, with border and border radius removed."
   )
 
-  attr(:is_full, :boolean,
-    default: false,
-    doc: "Deprecated: use `is_full_width`."
-  )
+  attr(:is_full, :boolean, doc: "Deprecated: use `is_full_width`.")
 
   DeclarationHelpers.rest()
 
@@ -5131,7 +5128,7 @@ defmodule PrimerLive.Component do
         assigns[:state] === "success" and state_modifier_classes.state_success,
         assigns[:state] === "warning" and state_modifier_classes.state_warning,
         assigns[:state] === "error" and state_modifier_classes.state_error,
-        is_full_width and "flash-full",
+        is_full_width && "flash-full",
         assigns[:class]
       ])
 
