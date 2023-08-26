@@ -7897,7 +7897,8 @@ defmodule PrimerLive.Component do
   attr(:classes, :map,
     default: %{
       button: nil,
-      content: nil
+      content: nil,
+      caret: nil
     },
     doc: """
     Additional classnames for button elements. Any provided value will be appended to the default classname.

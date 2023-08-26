@@ -203,12 +203,12 @@ defmodule PrimerLive.TestComponents.BoxTest do
              <div class="Box">
              <div class="Box-header d-flex flex-justify-between flex-items-start">
              <h3 class="Box-title">A very long title that wraps onto multiple lines without overlapping or wrapping underneath
-             the icon to it's right</h3><button aria-label="Close" class="close-button flex-shrink-0 pl-4" type="button"><svg
+             the icon to it's right</h3><button aria-label="Close" class="close-button flex-shrink-0 pl-4" type="button"><span class="pl-button__content"><svg
              class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
              <path fill-rule="evenodd"
              d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z">
              </path>
-             </svg></button>
+             </svg></span></button>
              </div>
              <div class="Box-body">Content</div>
              </div>

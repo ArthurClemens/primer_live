@@ -397,8 +397,8 @@ defmodule PrimerLive.TestComponents.DialogTest do
                     <div class="Box-header d-flex flex-justify-between flex-items-start">
                         <h3 class="Box-title">Dialog title</h3><button aria-label="Close"
                             class="close-button Box-btn-octicon btn-octicon flex-shrink-0" onclick="Prompt.hide(this)"
-                            type="button"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></button>
+                            type="button"><span class="pl-button__content"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span></button>
                     </div>
                     <div class="overflow-auto">Message<div class="Box-body">Body message</div>
                         <div class="Box-row">Row 1</div>
@@ -457,8 +457,8 @@ defmodule PrimerLive.TestComponents.DialogTest do
                     <div class="Box-header header-x d-flex flex-justify-between flex-items-start">
                         <h3 class="Box-title header_title-x my-header-title">Dialog title</h3><button aria-label="Close"
                             class="close-button Box-btn-octicon btn-octicon flex-shrink-0" onclick="Prompt.hide(this)"
-                            type="button"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></button>
+                            type="button"><span class="pl-button__content"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span></button>
                     </div>
                     <div class="overflow-auto">Message<div class="Box-body body-x my-body">Body message</div>
                         <div class="Box-row row-x my-row">Row 1</div>
