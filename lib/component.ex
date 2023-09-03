@@ -703,6 +703,7 @@ defmodule PrimerLive.Component do
     default: false,
     doc: """
     Creates a checkbox group, visualized as checkmark icons, and sets ARIA attributes. The icons can be replaced with the `leading_visual` slot.
+    Uses `checkbox/1` without attr `is_multiple` set, so the form will contain a single string for the selected value.
     """
   )
 
@@ -710,6 +711,7 @@ defmodule PrimerLive.Component do
     default: false,
     doc: """
     Creates a checkbox group, using smaller sized checkboxes, and sets ARIA attributes. The icons can be replaced with the `leading_visual` slot.
+    Uses `checkbox/1` with attr `is_multiple: true` and `hidden_input: false`, so the form will contain an array of strings for the selected values.
     """
   )
 
