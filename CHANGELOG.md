@@ -6,6 +6,7 @@
 
 - Component `avatar_pair`: renamed `parent_child_avatar` to `avatar_pair`.
 - Components `action_menu` and `select_menu`: renamed `is_right_aligned` to `is_aligned_end` (added RTL support).
+- Component `spinner`: renamed `gap_color` to `highlight_color`.
 
 ### New component
 

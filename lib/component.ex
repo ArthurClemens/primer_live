@@ -5382,7 +5382,7 @@ defmodule PrimerLive.Component do
     <label {@container_attrs}>
       <%= @input %>
       <%= if @is_loading do %>
-        <PrimerLive.UIIcons.ui_icon_spinner size="16" class={@classes.loading_icon} />
+        <.spinner size="16" class={@classes.loading_icon} />
       <% end %>
       <%= if @has_labels do %>
         <span class={@classes.status_labels_container}>
@@ -10346,9 +10346,7 @@ defmodule PrimerLive.Component do
   @doc section: :loaders
 
   @doc ~S"""
-  SVG spinner animation.
-
-  This spinner is derived from the Toast loading animation.
+  Indicator to show that content is being loaded.
 
   ```
   <.spinner />
@@ -10362,7 +10360,7 @@ defmodule PrimerLive.Component do
   <.spinner size="40" />
   ```
 
-  Set the circle color (default: `#959da5`):
+  Set the circle color (defaults to the current text color):
 
   ```
   <.spinner color="red" />
@@ -10370,12 +10368,11 @@ defmodule PrimerLive.Component do
   <.spinner color="rgba(250, 50, 150, 0.5)" />
   ```
 
-  Set the gap color (default: `#ffffff`):
+  Set the highlight color (defaults to the `color` value):
 
   ```
-  <.spinner gap_color="black" />
-  <.spinner gap_color="#000000" />
-  <.spinner gap_color="rgba(0, 0, 0, 1)" />
+  <.spinner highlight_color="black" />
+  <.spinner highlight_color="#000000" />
   ```
 
   Alternatively, use `octicon/1` with class "anim-rotate", using any circular icon:
@@ -10394,16 +10391,73 @@ defmodule PrimerLive.Component do
 
   attr(:size, :any, default: 32, doc: "Spinner size (number or number as string).")
 
-  attr(:color, :string, default: "currentColor", doc: "Spinner color as SVG fill color.")
+  attr(:color, :string,
+    default: "currentColor",
+    doc: "Spinner color."
+  )
 
-  attr(:gap_color, :string, default: "currentColor", doc: "Spinner gap color as SVG fill color.")
+  attr(:highlight_color, :string,
+    doc: "Spinner highlight segment color. Defaults to the `color` value."
+  )
+
+  attr(:gap_color, :string,
+    doc: """
+    Deprecated: use `highlight_color`. Since `0.5.1`.
+    """
+  )
 
   DeclarationHelpers.class()
-
   DeclarationHelpers.rest()
 
   def spinner(assigns) do
-    PrimerLive.UIIcons.ui_icon_spinner(assigns)
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr gap_color: use highlight_color. Since 0.5.1.",
+      !is_nil(assigns[:gap_color])
+    )
+
+    highlight_color = assigns[:highlight_color] || assigns[:gap_color] || assigns.color
+
+    class =
+      AttributeHelpers.classnames([
+        "anim-rotate",
+        assigns[:class]
+      ])
+
+    svg_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [class: class],
+        [width: assigns.size],
+        [height: assigns.size]
+      ])
+
+    assigns =
+      assigns
+      |> assign(:common_attrs, PrimerLive.UIIcons.common_svg_attrs())
+      |> assign(:svg_attrs, svg_attrs)
+      |> assign(:highlight_color, highlight_color)
+
+    ~H"""
+    <svg {@common_attrs} fill="none" {@svg_attrs} {@rest}>
+      <circle
+        cx="8"
+        cy="8"
+        r="7"
+        stroke={@color}
+        stroke-opacity="0.25"
+        stroke-width="2"
+        vector-effect="non-scaling-stroke"
+      >
+      </circle>
+      <path
+        d="M15 8a7.002 7.002 0 00-7-7"
+        stroke={@highlight_color}
+        stroke-width="2"
+        stroke-linecap="round"
+        vector-effect="non-scaling-stroke"
+      >
+      </path>
+    </svg>
+    """
   end
 
   # ------------------------------------------------------------------------------------
