@@ -10354,15 +10354,9 @@ defmodule PrimerLive.Component do
   <.spinner />
   ```
 
-  Alternatively, use `octicon/1` with class "anim-rotate", using any circular icon:
-
-  ```
-  <.octicon name="skip-16" class="anim-rotate" />
-  ```
-
   ## Examples
 
-  Set the size (default: `18`):
+  Set the size (default: `32`):
 
   ```
   <.spinner size="40" />
@@ -10382,6 +10376,12 @@ defmodule PrimerLive.Component do
   <.spinner gap_color="black" />
   <.spinner gap_color="#000000" />
   <.spinner gap_color="rgba(0, 0, 0, 1)" />
+  ```
+
+  Alternatively, use `octicon/1` with class "anim-rotate", using any circular icon:
+
+  ```
+  <.octicon name="skip-16" class="anim-rotate" />
   ```
 
   [INSERT LVATTRDOCS]
