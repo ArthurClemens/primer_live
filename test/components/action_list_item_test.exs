@@ -305,14 +305,14 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
              """
              <li class="ActionList-item"><button aria-expanded="true" class="ActionList-content"><span
              class="ActionList-item-label">Item</span><span
-             class="ActionList-item-visual ActionList-item-visual--trailing"><svg width="16" height="16"
-                 viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
-                 class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button></li>
+             class="ActionList-item-visual ActionList-item-visual--trailing"><svg viewBox="0 0 16 16"
+             xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16" height="16"
+             class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button></li>
              <li class="ActionList-item"><button aria-expanded="false" class="ActionList-content"><span
              class="ActionList-item-label">Item</span><span
-             class="ActionList-item-visual ActionList-item-visual--trailing"><svg width="16" height="16"
-                 viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
-                 class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button></li>
+             class="ActionList-item-visual ActionList-item-visual--trailing"><svg viewBox="0 0 16 16"
+             xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16" height="16"
+             class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button></li>
              """
              |> format_html()
   end
@@ -519,9 +519,9 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
              class="ActionList-item-label">Not collapsible item, default expanded</span></span>
              <ul aria-labelledby="title-01" class="ActionList ActionList--subGroup" role="list">
              <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-                    class="ActionList-item-label">Sub item</span></span></li>
+             class="ActionList-item-label">Sub item</span></span></li>
              <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-                    class="ActionList-item-label">Sub item</span></span></li>
+             class="ActionList-item-label">Sub item</span></span></li>
              </ul>
              </li>
              <li class="ActionList-sectionDivider">
@@ -530,16 +530,16 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
              <li class="ActionList-item ActionList-item--hasSubItem"><button aria-expanded="false"
              class="ActionList-content ActionList-content--visual16"><span
              class="ActionList-item-visual ActionList-item-visual--leading"><svg class="octicon"
-                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Collapsible, not
-             expanded item</span><span class="ActionList-item-visual ActionList-item-visual--trailing"><svg width="16"
-                height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
-                class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button>
+             xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Collapsible, not expanded
+             item</span><span class="ActionList-item-visual ActionList-item-visual--trailing"><svg viewBox="0 0 16 16"
+             xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16" height="16"
+             class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button>
              <ul class="ActionList ActionList--subGroup" role="list">
              <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-                    class="ActionList-item-label">Sub item</span></span></li>
+             class="ActionList-item-label">Sub item</span></span></li>
              <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-                    class="ActionList-item-label">Sub item</span></span></li>
+             class="ActionList-item-label">Sub item</span></span></li>
              </ul>
              </li>
              <li class="ActionList-sectionDivider">
@@ -548,16 +548,16 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
              <li class="ActionList-item ActionList-item--hasSubItem"><button aria-expanded="true"
              class="ActionList-content ActionList-content--hasActiveSubItem ActionList-content--visual16"><span
              class="ActionList-item-visual ActionList-item-visual--leading"><svg class="octicon"
-                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Collapsible and
-             expanded item</span><span class="ActionList-item-visual ActionList-item-visual--trailing"><svg width="16"
-                height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
-                class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button>
+             xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Collapsible and expanded
+             item</span><span class="ActionList-item-visual ActionList-item-visual--trailing"><svg viewBox="0 0 16 16"
+             xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16" height="16"
+             class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button>
              <ul class="ActionList ActionList--subGroup" role="list">
              <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-                    class="ActionList-item-label">Sub item</span></span></li>
+             class="ActionList-item-label">Sub item</span></span></li>
              <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-                    class="ActionList-item-label">Sub item</span></span></li>
+             class="ActionList-item-label">Sub item</span></span></li>
              </ul>
              </li>
              <li class="ActionList-sectionDivider">
@@ -566,17 +566,16 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
              <li class="ActionList-item ActionList-item--hasSubItem"><button aria-expanded="true"
              class="ActionList-content ActionList-content--hasActiveSubItem ActionList-content--visual24"><span
              class="ActionList-item-visual ActionList-item-visual--leading"><svg class="octicon"
-                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                viewBox="0 0 24 24">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg></span><span
-             class="ActionList-item-label">Collapsible and expanded item, wide visual</span><span
-             class="ActionList-item-visual ActionList-item-visual--trailing"><svg width="16" height="16"
-                viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
-                class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button>
+             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+             viewBox="0 0 24 24">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Collapsible and expanded
+             item, wide visual</span><span class="ActionList-item-visual ActionList-item-visual--trailing"><svg
+             viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16"
+             height="16" class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button>
              <ul class="ActionList ActionList--subGroup" role="list">
              <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-                    class="ActionList-item-label">Sub item</span></span></li>
+             class="ActionList-item-label">Sub item</span></span></li>
              <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-                    class="ActionList-item-label">Sub item</span></span></li>
+             class="ActionList-item-label">Sub item</span></span></li>
              </ul>
              </li>
              """

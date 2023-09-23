@@ -1,19 +1,19 @@
 defmodule PrimerLive.Helpers.DeclarationHelpers do
   @moduledoc false
 
-  defmacro class() do
+  defmacro class do
     quote do
       attr(:class, :string, default: nil, doc: "Additional classname.")
     end
   end
 
-  defmacro slot_class() do
+  defmacro slot_class do
     quote do
       attr(:class, :string, doc: "Additional classname.")
     end
   end
 
-  defmacro slot_style() do
+  defmacro slot_style do
     quote do
       attr(:style, :string,
         doc: """
@@ -23,7 +23,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro input_id() do
+  defmacro input_id do
     quote do
       attr(:input_id, :string,
         default: nil,
@@ -33,7 +33,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro form() do
+  defmacro form do
     quote do
       attr(:form, :any,
         default: nil,
@@ -43,19 +43,19 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro field() do
+  defmacro field do
     quote do
       attr(:field, :any, default: nil, doc: "Field name (atom or string).")
     end
   end
 
-  defmacro name() do
+  defmacro name do
     quote do
       attr(:name, :string, doc: "Input name attribute (when not using `form` and `field`).")
     end
   end
 
-  defmacro validation_message() do
+  defmacro validation_message do
     quote do
       attr(:validation_message, :any,
         default: nil,
@@ -90,7 +90,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro validation_message_id() do
+  defmacro validation_message_id do
     quote do
       attr(:validation_message_id, :any,
         doc: """
@@ -189,7 +189,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
 
   # link attr
 
-  defmacro href() do
+  defmacro href do
     quote do
       attr(:href, :any,
         doc: """
@@ -199,7 +199,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro slot_href() do
+  defmacro slot_href do
     quote do
       attr(:href, :any,
         doc: """
@@ -209,7 +209,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro patch() do
+  defmacro patch do
     quote do
       attr(:patch, :string,
         doc: """
@@ -219,7 +219,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro navigate() do
+  defmacro navigate do
     quote do
       attr(:navigate, :string,
         doc: """
@@ -237,13 +237,13 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro rest() do
+  defmacro rest do
     quote do
       attr(:rest, :global)
     end
   end
 
-  defmacro slot_rest() do
+  defmacro slot_rest do
     quote do
       attr(:rest, :any)
     end
@@ -251,7 +251,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
 
   # form_control attrs
 
-  defmacro form_control_label() do
+  defmacro form_control_label do
     quote do
       attr(:label, :string,
         default: nil,
@@ -260,7 +260,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro form_control_is_hide_label() do
+  defmacro form_control_is_hide_label do
     quote do
       attr(:is_hide_label, :boolean,
         default: false,
@@ -269,7 +269,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro form_control_is_disabled() do
+  defmacro form_control_is_disabled do
     quote do
       attr(:is_disabled, :boolean,
         default: false,
@@ -278,7 +278,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro form_control_deprecated_has_form_group() do
+  defmacro form_control_deprecated_has_form_group do
     quote do
       attr(:deprecated_has_form_group, :boolean,
         default: false,
@@ -288,7 +288,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro form_control_required_marker() do
+  defmacro form_control_required_marker do
     quote do
       attr(:required_marker, :string,
         default: "*",
@@ -298,7 +298,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro form_control_for() do
+  defmacro form_control_for do
     quote do
       attr(:for, :string,
         default: nil,
@@ -308,7 +308,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro form_control_is_input_group() do
+  defmacro form_control_is_input_group do
     quote do
       attr(:is_input_group, :boolean,
         default: false,
@@ -397,7 +397,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro checkbox_hidden_input() do
+  defmacro checkbox_hidden_input do
     quote do
       attr(:hidden_input, :string,
         default: "true",
@@ -421,7 +421,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro checkbox_is_multiple() do
+  defmacro checkbox_is_multiple do
     quote do
       attr(:is_multiple, :boolean,
         default: false,
@@ -434,13 +434,13 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro checkbox_is_emphasised_label() do
+  defmacro checkbox_is_emphasised_label do
     quote do
       attr(:is_emphasised_label, :boolean, default: false, doc: "Adds emphasis to the label.")
     end
   end
 
-  defmacro checkbox_is_omit_label() do
+  defmacro checkbox_is_omit_label do
     quote do
       attr(:is_omit_label, :boolean, default: false, doc: "Omits the label.")
     end
@@ -520,7 +520,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro checkbox_slot_hint() do
+  defmacro checkbox_slot_hint do
     quote do
       alias PrimerLive.Helpers.DeclarationHelpers
 

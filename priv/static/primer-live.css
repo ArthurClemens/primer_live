@@ -23736,23 +23736,6 @@ a.tabnav-extra:hover {
   --body-font-size: 0.875rem;
   --font-size-small: 0.75rem;
 }
-:root {
-  --h00-size-mobile: 2.5rem;
-  --h0-size-mobile: 2rem;
-  --h1-size-mobile: 1.625rem;
-  --h2-size-mobile: 1.375rem;
-  --h3-size-mobile: 1.125rem;
-  --h00-size: 3rem;
-  --h0-size: 2.5rem;
-  --h1-size: 2rem;
-  --h2-size: 1.5rem;
-  --h3-size: 1.25rem;
-  --h4-size: 1rem;
-  --h5-size: 0.875rem;
-  --h6-size: 0.75rem;
-  --body-font-size: 0.875rem;
-  --font-size-small: 0.75rem;
-}
 .flash:not(.Banner) {
   background-image: linear-gradient(var(--color-accent-subtle), var(--color-accent-subtle));
   border-color: var(--color-accent-muted);
@@ -23857,187 +23840,6 @@ a.tabnav-extra:hover {
   font-weight: var(--base-text-weight-semibold, 600);
   margin-bottom: 0.8em;
   padding: 0.5em;
-}
-:root {
-  --h00-size-mobile: 2.5rem;
-  --h0-size-mobile: 2rem;
-  --h1-size-mobile: 1.625rem;
-  --h2-size-mobile: 1.375rem;
-  --h3-size-mobile: 1.125rem;
-  --h00-size: 3rem;
-  --h0-size: 2.5rem;
-  --h1-size: 2rem;
-  --h2-size: 1.5rem;
-  --h3-size: 1.25rem;
-  --h4-size: 1rem;
-  --h5-size: 0.875rem;
-  --h6-size: 0.75rem;
-  --body-font-size: 0.875rem;
-  --font-size-small: 0.75rem;
-}
-.autocomplete-label-stacked {
-  display: block;
-  margin-bottom: 6px;
-}
-.autocomplete-label-inline {
-  display: inline;
-  margin-right: 6px;
-}
-@media (max-width: 543.98px) {
-  .autocomplete-label-inline {
-    display: block;
-    margin-bottom: 6px;
-  }
-}
-.autocomplete-body {
-  display: inline;
-  position: relative;
-}
-.autocomplete-embedded-icon-wrap {
-  align-items: center;
-  display: inline-flex;
-  padding: 4px 8px;
-}
-.autocomplete-embedded-icon-wrap:focus-within {
-  border-color: var(--color-accent-fg);
-  box-shadow: inset 0 0 0 1px var(--color-accent-fg);
-  outline: none;
-}
-.autocomplete-embedded-icon-wrap .form-control {
-  border: none;
-  box-shadow: none;
-  margin-left: 8px;
-  padding: 0;
-}
-.autocomplete-embedded-icon-wrap .form-control:focus {
-  box-shadow: none;
-}
-.autocomplete-embedded-icon-wrap .form-control:focus-visible {
-  box-shadow: none;
-}
-.autocomplete-results {
-  background: var(--color-canvas-overlay);
-  border: var(--primer-borderWidth-thin, 1px) solid var(--color-border-default);
-  border-radius: var(--primer-borderRadius-medium, 6px);
-  box-shadow: var(--color-shadow-medium);
-  font-size: 13px;
-  left: 0;
-  list-style: none;
-  max-height: 20em;
-  min-width: 100%;
-  overflow-y: auto;
-  position: absolute;
-  width: max-content;
-  z-index: 99;
-}
-.autocomplete-item {
-  background-color: var(--color-canvas-overlay);
-  border: 0;
-  color: var(--color-fg-default);
-  cursor: pointer;
-  display: block;
-  font-weight: var(--base-text-weight-semibold, 600);
-  overflow: hidden;
-  padding: 4px 8px;
-  text-align: left;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
-}
-.autocomplete-item:hover {
-  background-color: var(--color-accent-emphasis);
-  color: var(--color-fg-on-emphasis);
-  text-decoration: none;
-}
-.autocomplete-item:hover * {
-  color: inherit !important;
-}
-.autocomplete-item.navigation-focus,
-.autocomplete-item.selected,
-.autocomplete-item[aria-selected=true] {
-  background-color: var(--color-accent-emphasis);
-  color: var(--color-fg-on-emphasis);
-  text-decoration: none;
-}
-.autocomplete-item.navigation-focus *,
-.autocomplete-item.selected *,
-.autocomplete-item[aria-selected=true] * {
-  color: inherit !important;
-}
-.suggester {
-  position: relative;
-  top: 0;
-  left: 0;
-  min-width: 180px;
-  padding: 0;
-  margin: 0;
-  margin-top: 24px;
-  list-style: none;
-  cursor: pointer;
-  background: var(--overlay-bgColor, var(--color-canvas-overlay));
-  border: 1px solid var(--borderColor-default, var(--color-border-default));
-  border-radius: 6px;
-  box-shadow: var(--shadow-resting-medium, var(--color-shadow-medium));
-}
-.suggester li {
-  display: block;
-  padding: 4px 8px;
-  font-weight: var(--base-text-weight-medium, 500);
-  border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));
-}
-.suggester li small {
-  font-weight: var(--base-text-weight-normal, 400);
-  color: var(--fgColor-muted, var(--color-fg-muted));
-}
-.suggester li:last-child {
-  border-bottom: 0;
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
-}
-.suggester li:first-child {
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-}
-.suggester li:hover {
-  color: var(--fgColor-onEmphasis, var(--color-fg-on-emphasis));
-  text-decoration: none;
-  background: var(--bgColor-accent-emphasis, var(--color-accent-emphasis));
-}
-.suggester li:hover small {
-  color: var(--fgColor-onEmphasis, var(--color-fg-on-emphasis));
-}
-.suggester li:hover .octicon {
-  color: inherit !important;
-}
-.suggester li[aria-selected=true],
-.suggester li.navigation-focus {
-  color: var(--fgColor-onEmphasis, var(--color-fg-on-emphasis));
-  text-decoration: none;
-  background: var(--bgColor-accent-emphasis, var(--color-accent-emphasis));
-}
-.suggester li[aria-selected=true] small,
-.suggester li.navigation-focus small {
-  color: var(--fgColor-onEmphasis, var(--color-fg-on-emphasis));
-}
-.suggester li[aria-selected=true] .octicon,
-.suggester li.navigation-focus .octicon {
-  color: inherit !important;
-}
-.suggester-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 30;
-}
-@media (max-width: 544px) {
-  .page-responsive .suggester-container {
-    right: 8px !important;
-    left: 8px !important;
-  }
-  .page-responsive .suggester li {
-    padding: 8px 16px;
-  }
 }
 :root {
   --h00-size-mobile: 2.5rem;
@@ -26127,323 +25929,6 @@ a.branch-name .octicon {
   margin-bottom: var(--base-size-8, 8px);
   margin-top: var(--base-size-8, 8px);
 }
-:root {
-  --h00-size-mobile: 2.5rem;
-  --h0-size-mobile: 2rem;
-  --h1-size-mobile: 1.625rem;
-  --h2-size-mobile: 1.375rem;
-  --h3-size-mobile: 1.125rem;
-  --h00-size: 3rem;
-  --h0-size: 2.5rem;
-  --h1-size: 2rem;
-  --h2-size: 1.5rem;
-  --h3-size: 1.25rem;
-  --h4-size: 1rem;
-  --h5-size: 0.875rem;
-  --h6-size: 0.75rem;
-  --body-font-size: 0.875rem;
-  --font-size-small: 0.75rem;
-}
-.Toast {
-  display: flex;
-  margin: 8px;
-  color: var(--fgColor-default, var(--color-fg-default));
-  background-color: var(--bgColor-default, var(--color-canvas-default));
-  border-radius: 6px;
-  box-shadow: inset 0 0 0 1px var(--borderColor-default, var(--color-border-default)), var(--shadow-floating-large, var(--color-shadow-large));
-}
-@media (min-width: 544px) {
-  .Toast {
-    width: max-content;
-    max-width: 450px;
-    margin: 16px;
-  }
-}
-.Toast-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  flex-shrink: 0;
-  color: var(--fgColor-onEmphasis, var(--color-fg-on-emphasis));
-  background-color: var(--bgColor-accent-emphasis, var(--color-accent-emphasis));
-  border: 1px solid transparent;
-  border-right: 0;
-  border-top-left-radius: inherit;
-  border-bottom-left-radius: inherit;
-}
-.Toast-content {
-  padding: 16px;
-}
-.Toast-dismissButton {
-  max-height: 54px;
-  padding: 16px;
-  color: inherit;
-  background-color: transparent;
-  border: 0;
-}
-.Toast-dismissButton:hover {
-  opacity: 0.7;
-}
-.Toast-dismissButton:active {
-  opacity: 0.5;
-}
-.Toast--loading {
-  color: var(--fgColor-default, var(--color-fg-default));
-  box-shadow: inset 0 0 0 1px var(--borderColor-default, var(--color-border-default)), var(--shadow-floating-large, var(--color-shadow-large));
-}
-.Toast--loading .Toast-icon {
-  background-color: var(--bgColor-neutral-emphasis, var(--color-neutral-emphasis));
-}
-.Toast--error {
-  color: var(--fgColor-default, var(--color-fg-default));
-  box-shadow: inset 0 0 0 1px var(--borderColor-default, var(--color-border-default)), var(--shadow-floating-large, var(--color-shadow-large));
-}
-.Toast--error .Toast-icon {
-  background-color: var(--bgColor-danger-emphasis, var(--color-danger-emphasis));
-}
-.Toast--warning {
-  color: var(--fgColor-default, var(--color-fg-default));
-  box-shadow: inset 0 0 0 1px var(--borderColor-default, var(--color-border-default)), var(--shadow-floating-large, var(--color-shadow-large));
-}
-.Toast--warning .Toast-icon {
-  background-color: var(--bgColor-attention-emphasis, var(--color-attention-emphasis));
-}
-.Toast--success {
-  color: var(--fgColor-default, var(--color-fg-default));
-  box-shadow: inset 0 0 0 1px var(--borderColor-default, var(--color-border-default)), var(--shadow-floating-large, var(--color-shadow-large));
-}
-.Toast--success .Toast-icon {
-  background-color: var(--bgColor-success-emphasis, var(--color-success-emphasis));
-}
-.Toast--animateIn {
-  animation: Toast--animateIn 0.18s cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
-}
-@keyframes Toast--animateIn {
-  0% {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-}
-.Toast--animateOut {
-  animation: Toast--animateOut 0.18s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
-}
-@keyframes Toast--animateOut {
-  100% {
-    pointer-events: none;
-    opacity: 0;
-    transform: translateY(100%);
-  }
-}
-.Toast--spinner {
-  animation: Toast--spinner 1000ms linear infinite;
-}
-@keyframes Toast--spinner {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-:root {
-  --h00-size-mobile: 2.5rem;
-  --h0-size-mobile: 2rem;
-  --h1-size-mobile: 1.625rem;
-  --h2-size-mobile: 1.375rem;
-  --h3-size-mobile: 1.125rem;
-  --h00-size: 3rem;
-  --h0-size: 2.5rem;
-  --h1-size: 2rem;
-  --h2-size: 1.5rem;
-  --h3-size: 1.25rem;
-  --h4-size: 1rem;
-  --h5-size: 0.875rem;
-  --h6-size: 0.75rem;
-  --body-font-size: 0.875rem;
-  --font-size-small: 0.75rem;
-}
-.ToggleSwitch,
-.ToggleSwitch.ToggleSwitch {
-  display: inline-flex;
-}
-.ToggleSwitch {
-  align-items: center;
-  gap: var(--primer-controlStack-medium-gap-condensed, 8px);
-}
-.ToggleSwitch--checked .ToggleSwitch-statusOn {
-  height: auto;
-  visibility: visible;
-}
-.ToggleSwitch--checked .ToggleSwitch-statusOff {
-  height: 0;
-  visibility: hidden;
-}
-.ToggleSwitch-track {
-  -webkit-appearance: none;
-  appearance: none;
-  background-color: var(--color-switch-track-bg);
-  border: var(--primer-borderWidth-thin, 1px) solid var(--color-switch-track-border);
-  border-radius: var(--primer-borderRadius-medium, 6px);
-  cursor: pointer;
-  display: block;
-  height: var(--primer-control-medium-size, 32px);
-  overflow: hidden;
-  padding: 0;
-  position: relative;
-  text-decoration: none;
-  transition-duration: 80ms;
-  transition-property: background-color, border-color;
-  transition-timing-function: cubic-bezier(0.5, 1, 0.89, 1);
-  -webkit-user-select: none;
-  user-select: none;
-  width: var(--base-size-64, 64px);
-}
-.ToggleSwitch-track:focus,
-.ToggleSwitch-track:focus-visible {
-  outline-offset: 1px;
-}
-.ToggleSwitch-track:hover {
-  background-color: var(--color-switch-track-hover-bg);
-}
-.ToggleSwitch-track:active {
-  background-color: var(--color-switch-track-active-bg);
-}
-@media (pointer: coarse) {
-  .ToggleSwitch-track:before {
-    content: "";
-    height: 100%;
-    left: 50%;
-    min-height: 44px;
-    position: absolute;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    width: 100%;
-  }
-}
-@media (prefers-reduced-motion) {
-  .ToggleSwitch-track,
-  .ToggleSwitch-track * {
-    transition: none;
-  }
-}
-.ToggleSwitch-track[aria-checked=true][aria-disabled=true] {
-  background-color: var(--color-switch-track-disabled-bg);
-  border-color: rgba(0, 0, 0, 0);
-  color: var(--color-switch-track-checked-disabled-fg);
-}
-.ToggleSwitch-track[aria-checked=true] {
-  background-color: var(--color-switch-track-checked-bg);
-  border-color: var(--color-switch-track-checked-border);
-}
-.ToggleSwitch-track[aria-checked=true]:not([aria-disabled=true]):hover {
-  background-color: var(--color-switch-track-checked-hover-bg);
-}
-.ToggleSwitch-track[aria-checked=true]:not([aria-disabled=true]):active {
-  background-color: var(--color-switch-track-checked-active-bg);
-}
-.ToggleSwitch-track[aria-checked=true] .ToggleSwitch-knob {
-  background-color: var(--color-switch-knob-checked-bg);
-  border-color: var(--color-switch-knob-checked-border);
-  transform: translateX(100%);
-}
-.ToggleSwitch-track[aria-checked=true] .ToggleSwitch-lineIcon {
-  transform: translateX(0);
-}
-.ToggleSwitch-track[aria-checked=true] .ToggleSwitch-circleIcon {
-  transform: translateX(100%);
-}
-.ToggleSwitch-track[aria-disabled=true] {
-  background-color: var(--color-switch-track-disabled-bg);
-  border-color: rgba(0, 0, 0, 0);
-  cursor: not-allowed;
-  transition-property: none;
-}
-.ToggleSwitch-track[aria-disabled=true] .ToggleSwitch-knob {
-  border-color: var(--color-border-default);
-  box-shadow: none;
-}
-.ToggleSwitch-track[aria-disabled=true] .ToggleSwitch-circleIcon,
-.ToggleSwitch-track[aria-disabled=true] .ToggleSwitch-lineIcon {
-  color: var(--color-switch-track-disabled-fg);
-}
-.ToggleSwitch-icons {
-  align-items: center;
-  display: flex;
-  height: 100%;
-  overflow: hidden;
-  width: 100%;
-}
-.ToggleSwitch-lineIcon {
-  color: var(--color-switch-track-checked-fg);
-  transform: translateX(-100%);
-}
-.ToggleSwitch-circleIcon,
-.ToggleSwitch-lineIcon {
-  flex: 1 0 50%;
-  line-height: 0;
-  transition-duration: 80ms;
-  transition-property: transform;
-}
-.ToggleSwitch-circleIcon {
-  color: var(--color-switch-track-fg);
-  transform: translateX(0);
-}
-.ToggleSwitch-knob {
-  background-color: var(--color-switch-knob-bg);
-  border: var(--primer-borderWidth-thin, 1px) solid var(--color-switch-knob-border);
-  border-radius: var(--primer-borderRadius-medium, 6px);
-  bottom: 0;
-  box-shadow: var(--color-shadow-medium), var(--color-btn-inset-shadow);
-  position: absolute;
-  top: 0;
-  transition-duration: 80ms;
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.5, 1, 0.89, 1);
-  width: 50%;
-  z-index: 1;
-}
-@media (prefers-reduced-motion) {
-  .ToggleSwitch-knob {
-    transition: none;
-  }
-}
-.ToggleSwitch-status {
-  color: var(--color-fg-default);
-  font-size: var(--primer-text-body-size-medium, 14px);
-  line-height: 1.5;
-  position: relative;
-  text-align: right;
-}
-.ToggleSwitch-statusIcon {
-  display: flex;
-  margin-top: 0.063rem;
-  width: var(--base-size-16, 16px);
-}
-.ToggleSwitch--small .ToggleSwitch-status {
-  font-size: var(--primer-text-body-size-small, 12px);
-}
-.ToggleSwitch--small .ToggleSwitch-track {
-  height: var(--primer-control-xsmall-size, 24px);
-  width: var(--base-size-48, 48px);
-}
-.ToggleSwitch--disabled .ToggleSwitch-status {
-  color: var(--color-fg-muted);
-}
-.ToggleSwitch-statusOn {
-  height: 0;
-  visibility: hidden;
-}
-.ToggleSwitch-statusOff {
-  height: auto;
-  visibility: visible;
-}
-.ToggleSwitch--statusAtEnd {
-  flex-direction: row-reverse;
-}
-.ToggleSwitch--statusAtEnd .ToggleSwitch-status {
-  text-align: left;
-}
 
 /* css/actionlist/index.scss */
 :root {
@@ -27802,6 +27287,210 @@ span[data-color-mode] {
   left: 0;
   right: auto;
 }
+
+/* css/toggle-switch.css */
+label.ToggleSwitch {
+  display: inline-flex;
+}
+.ToggleSwitch input[type=checkbox] {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+.ToggleSwitch:not(.ToggleSwitch--statusAtEnd) {
+  flex-direction: row;
+}
+.ToggleSwitch--statusAtEnd {
+  flex-direction: row-reverse;
+}
+.ToggleSwitch {
+  align-items: center;
+  gap: var(--primer-controlStack-medium-gap-condensed, 8px);
+}
+.ToggleSwitch:not(.pl-ToggleSwitch--loading) input[type=checkbox]:not(:disabled) ~ * {
+  cursor: pointer;
+}
+.ToggleSwitch.pl-ToggleSwitch--loading {
+  pointer-events: none;
+}
+.ToggleSwitch input[type=checkbox]:checked ~ .pl-ToggleSwitch__status-label-container > .ToggleSwitch-statusOn {
+  height: auto;
+  visibility: visible;
+}
+.ToggleSwitch input[type=checkbox]:checked ~ .pl-ToggleSwitch__status-label-container > .ToggleSwitch-statusOff {
+  height: 0;
+  visibility: hidden;
+}
+.ToggleSwitch-track {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--color-switch-track-bg);
+  border: var(--primer-borderWidth-thin, 1px) solid var(--color-switch-track-border);
+  border-radius: var(--primer-borderRadius-medium, 6px);
+  display: block;
+  height: var(--primer-control-medium-size, 32px);
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  text-decoration: none;
+  transition-duration: 80ms;
+  transition-property: background-color, border-color;
+  transition-timing-function: cubic-bezier(.5, 1, .89, 1);
+  -webkit-user-select: none;
+  user-select: none;
+  width: var(--base-size-64, 64px);
+}
+.ToggleSwitch-track:focus,
+.ToggleSwitch-track:focus-visible {
+  outline-offset: 1px;
+}
+.ToggleSwitch-track:hover {
+  background-color: var(--color-switch-track-hover-bg);
+}
+.ToggleSwitch-track:active {
+  background-color: var(--color-switch-track-active-bg);
+}
+@media (pointer:coarse) {
+  .ToggleSwitch-track:before {
+    content: "";
+    height: 100%;
+    left: 50%;
+    min-height: 44px;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion) {
+  .ToggleSwitch-track,
+  .ToggleSwitch-track * {
+    transition: none;
+  }
+}
+.ToggleSwitch input[type=checkbox]:checked:disabled ~ .ToggleSwitch-track {
+  background-color: var(--color-switch-track-disabled-bg);
+  border-color: #0000;
+  color: var(--color-switch-track-checked-disabled-fg);
+}
+.ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track {
+  background-color: var(--color-switch-track-checked-bg);
+  border-color: var(--color-switch-track-checked-border);
+}
+.ToggleSwitch input[type=checkbox]:checked:not(:disabled) ~ .ToggleSwitch-track:hover {
+  background-color: var(--color-switch-track-checked-hover-bg);
+}
+.ToggleSwitch input[type=checkbox]:checked:not(:disabled) ~ .ToggleSwitch-track:active {
+  background-color: var(--color-switch-track-checked-active-bg);
+}
+.ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-knob {
+  background-color: var(--color-switch-knob-checked-bg);
+  border-color: var(--color-switch-knob-checked-border);
+  transform: translateX(100%);
+}
+.ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-lineIcon {
+  transform: translateX(0);
+}
+.ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-circleIcon {
+  transform: translateX(100%);
+}
+.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track {
+  background-color: var(--color-switch-track-disabled-bg);
+  border-color: #0000;
+  cursor: not-allowed;
+  transition-property: none;
+}
+.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track .ToggleSwitch-knob {
+  border-color: var(--color-switch-track-disabled-bg);
+  box-shadow: none;
+}
+.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track .ToggleSwitch-circleIcon,
+.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track .ToggleSwitch-lineIcon {
+  color: var(--color-switch-track-disabled-fg);
+}
+.ToggleSwitch-icons {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+.ToggleSwitch-lineIcon {
+  color: var(--color-switch-track-checked-fg);
+  transform: translateX(-100%);
+}
+.ToggleSwitch-circleIcon,
+.ToggleSwitch-lineIcon {
+  flex: 1 0 50%;
+  line-height: 0;
+  transition-duration: 80ms;
+  transition-property: transform;
+  display: flex;
+  justify-content: center;
+}
+.ToggleSwitch-circleIcon svg,
+.ToggleSwitch-lineIcon svg {
+  fill: currentColor;
+}
+.ToggleSwitch-circleIcon {
+  color: var(--color-switch-track-fg);
+  transform: translateX(0);
+}
+.ToggleSwitch-knob {
+  background-color: var(--color-switch-knob-bg);
+  border: var(--primer-borderWidth-thin, 1px) solid var(--color-switch-knob-border);
+  border-radius: var(--primer-borderRadius-medium, 6px);
+  bottom: 0;
+  box-shadow: var(--color-shadow-medium), var(--color-btn-inset-shadow);
+  position: absolute;
+  top: 0;
+  transition-duration: 80ms;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(.5, 1, .89, 1);
+  width: 50%;
+  z-index: 1;
+}
+@media (prefers-reduced-motion) {
+  .ToggleSwitch-knob {
+    transition: none;
+  }
+}
+.ToggleSwitch-status {
+  display: block;
+  font-weight: normal;
+  color: var(--color-fg-default);
+  font-size: var(--primer-text-body-size-medium, 14px);
+  line-height: 1.5;
+  position: relative;
+  text-align: right;
+}
+.ToggleSwitch input[type=checkbox]:disabled ~ .pl-ToggleSwitch__status-label-container .ToggleSwitch-status,
+.ToggleSwitch.pl-ToggleSwitch--loading input[type=checkbox] ~ .pl-ToggleSwitch__status-label-container .ToggleSwitch-status {
+  color: var(--color-fg-muted);
+}
+.ToggleSwitch-statusIcon {
+  display: flex;
+  margin-top: .063rem;
+  width: var(--base-size-16, 16px);
+}
+.ToggleSwitch--small .ToggleSwitch-status {
+  font-size: var(--primer-text-body-size-small, 12px);
+}
+.ToggleSwitch--small .ToggleSwitch-track {
+  height: var(--primer-control-xsmall-size, 24px);
+  width: var(--base-size-48, 48px);
+}
+.ToggleSwitch-statusOn {
+  height: 0;
+  visibility: hidden;
+}
+.ToggleSwitch-statusOff {
+  height: auto;
+  visibility: visible;
+}
+.ToggleSwitch--statusAtEnd .ToggleSwitch-status {
+  text-align: left;
+}
 /*!
  * @primer/css/core
  * http://primer.style/css
@@ -27809,9 +27498,3 @@ span[data-color-mode] {
  * Released under MIT license. Copyright (c) 2019 GitHub Inc.
  */
 /*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
-/*!
- * @primer/css/product
- * http://primer.style/css
- *
- * Released under MIT license. Copyright (c) 2019 GitHub Inc.
- */

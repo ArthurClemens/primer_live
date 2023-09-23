@@ -3549,7 +3549,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.deprecated_is_form_group("the input")
   DeclarationHelpers.validation_message()
   DeclarationHelpers.validation_message_id()
-  DeclarationHelpers.rest(include: ~w(name type disabled))
+  DeclarationHelpers.rest(include: ~w(disabled))
 
   slot(:group_button,
     doc: """
@@ -4056,7 +4056,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.is_form_control("the select input")
   DeclarationHelpers.deprecated_is_form_group("the select input")
 
-  DeclarationHelpers.rest(include: ~w(name type disabled))
+  DeclarationHelpers.rest(include: ~w(disabled))
 
   def select(assigns) do
     case SchemaHelpers.validate_is_form(assigns) do
@@ -4302,7 +4302,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.checkbox_is_omit_label()
   DeclarationHelpers.class()
   DeclarationHelpers.checkbox_classes("checkbox")
-  DeclarationHelpers.rest()
+  DeclarationHelpers.rest(include: ~w(disabled))
   DeclarationHelpers.checkbox_slot_label("checkbox")
   DeclarationHelpers.checkbox_slot_caption("checkbox")
   DeclarationHelpers.checkbox_slot_hint()
@@ -4717,7 +4717,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.checkbox_is_omit_label()
   DeclarationHelpers.class()
   DeclarationHelpers.checkbox_classes("radio button")
-  DeclarationHelpers.rest()
+  DeclarationHelpers.rest(include: ~w(disabled))
   DeclarationHelpers.checkbox_slot_label("radio button")
   DeclarationHelpers.checkbox_slot_caption("radio button")
   DeclarationHelpers.checkbox_slot_hint()
@@ -5147,6 +5147,265 @@ defmodule PrimerLive.Component do
     <div {@alert_attrs}>
       <%= render_slot(@inner_block) %>
     </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # toggle_switch
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :forms
+
+  @doc ~S"""
+  Toggle switch is used to immediately toggle a setting on or off.
+
+  ```
+  <.toggle_switch />
+  ```
+
+  ## Examples
+
+  Add an On/Off label:
+
+  ```
+  <.toggle_switch status_on_label="On" status_off_label="Off" />
+  ```
+
+  When using a `Phoenix.HTML.Form`, the label can be derived from the field:
+
+  ```
+  <.toggle_switch form={f} field={:terms_accepted} is_derived_label />
+  ```
+
+  Create a small toggle switch:
+  ```
+  <.toggle_switch status_on_label="On" status_off_label="Off" is_small />
+  ```
+
+  Add a loading spinner:
+  ```
+  <.toggle_switch status_on_label="On" status_off_label="Off" is_loading />
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer Toggle switch](https://primer.style/design/components/toggle-switch)
+
+  """
+
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.name()
+  DeclarationHelpers.input_id()
+  DeclarationHelpers.checkbox_checked("the toggle switch")
+  DeclarationHelpers.checkbox_checked_value("the toggle switch")
+  DeclarationHelpers.checkbox_hidden_input()
+  DeclarationHelpers.checkbox_value("toggle switch")
+
+  attr(:status_on_label, :string, doc: "Status label for on state.")
+  attr(:status_off_label, :string, doc: "Status label for off state.")
+  attr(:is_small, :boolean, default: false, doc: "Creates a small toggle switch.")
+  attr(:is_loading, :boolean, default: false, doc: "Adds a loading spinner.")
+
+  attr(:is_derived_label, :boolean,
+    default: false,
+    doc:
+      "Uses a single a label (for both on and off state) derived from the field name (when using `field`)."
+  )
+
+  attr(:is_label_position_end, :boolean,
+    default: false,
+    doc: "Places the label after the switch control."
+  )
+
+  attr(:classes, :map,
+    default: %{
+      container: nil,
+      status_icon: nil,
+      status_labels_container: nil,
+      status_label: nil,
+      status_on_label: nil,
+      status_off_label: nil,
+      track: nil,
+      icons_container: nil,
+      circle_icon: nil,
+      line_icon: nil,
+      loading_icon: nil,
+      toggle_knob: nil
+    },
+    doc: """
+    Additional classnames for toggle switch elements. Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      container: "",
+      status_icon: "",
+      status_labels_container: "",
+      status_label: "",
+      status_on_label: "",
+      status_off_label: "",
+      track: "",
+      icons_container: "",
+      circle_icon: "",
+      line_icon: "",
+      loading_icon: "",
+      toggle_knob: "",
+    }
+    ```
+    """
+  )
+
+  DeclarationHelpers.class()
+  DeclarationHelpers.rest(include: ~w(disabled))
+
+  def toggle_switch(assigns) do
+    %{
+      derived_label: derived_label,
+      field: field,
+      form: form,
+      input_id: input_id,
+      input_name: input_name,
+      rest: rest,
+      value: value
+    } = AttributeHelpers.common_input_attrs(assigns, :checkbox)
+
+    classes = %{
+      container:
+        AttributeHelpers.classnames([
+          "ToggleSwitch",
+          assigns.is_label_position_end && "ToggleSwitch--statusAtEnd",
+          assigns.is_small && "ToggleSwitch--small",
+          assigns.is_loading && "pl-ToggleSwitch--loading",
+          assigns[:classes][:container],
+          assigns[:class]
+        ]),
+      status_icon:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-statusIcon",
+          assigns[:classes][:status_icon]
+        ]),
+      status_labels_container:
+        AttributeHelpers.classnames([
+          "pl-ToggleSwitch__status-label-container",
+          assigns[:classes][:status_labels_container]
+        ]),
+      status_on_label:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-status",
+          "ToggleSwitch-statusOn",
+          assigns[:classes][:status_label],
+          assigns[:classes][:status_on_label]
+        ]),
+      status_off_label:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-status",
+          "ToggleSwitch-statusOff",
+          assigns[:classes][:status_label],
+          assigns[:classes][:status_off_label]
+        ]),
+      track:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-track",
+          assigns[:classes][:track]
+        ]),
+      icons_container:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-icons",
+          assigns[:classes][:icons_container]
+        ]),
+      circle_icon:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-circleIcon",
+          assigns[:classes][:circle_icon]
+        ]),
+      line_icon:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-lineIcon",
+          assigns[:classes][:line_icon]
+        ]),
+      loading_icon:
+        AttributeHelpers.classnames([
+          assigns[:classes][:loading_icon]
+        ]),
+      toggle_knob:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-knob",
+          assigns[:classes][:toggle_knob]
+        ])
+    }
+
+    input_opts =
+      AttributeHelpers.append_attributes(
+        AttributeHelpers.assigns_to_attributes_sorted(rest, [
+          :id,
+          :name,
+          :disabled
+        ]),
+        [
+          [id: input_id, name: input_name],
+          !is_nil(assigns[:checked]) && [checked: assigns[:checked]],
+          !is_nil(assigns[:checked_value]) && [checked_value: assigns[:checked_value]],
+          !is_nil(value) && [value: value],
+          !is_nil(rest[:disabled]) && [disabled: ""],
+          (form || field) && [hidden_input: true]
+        ]
+      )
+
+    input = Form.checkbox(form, field, input_opts)
+
+    container_attrs =
+      AttributeHelpers.append_attributes(rest, [
+        [class: classes.container]
+      ])
+
+    on_label =
+      assigns[:status_on_label] || if assigns.is_derived_label, do: derived_label, else: nil
+
+    off_label =
+      assigns[:status_off_label] || if assigns.is_derived_label, do: derived_label, else: nil
+
+    has_labels = on_label || off_label
+
+    assigns =
+      assigns
+      |> assign(:container_attrs, container_attrs)
+      |> assign(:input, input)
+      |> assign(:classes, classes)
+      |> assign(:has_labels, has_labels)
+      |> assign(:on_label, on_label)
+      |> assign(:off_label, off_label)
+
+    ~H"""
+    <label {@container_attrs}>
+      <%= @input %>
+      <%= if @is_loading do %>
+        <PrimerLive.UIIcons.ui_icon_spinner size="16" class={@classes.loading_icon} />
+      <% end %>
+      <%= if @has_labels do %>
+        <span class={@classes.status_labels_container}>
+          <%= if @on_label do %>
+            <span class={@classes.status_on_label}><%= @on_label %></span>
+          <% end %>
+          <%= if @off_label do %>
+            <span class={@classes.status_off_label}><%= @off_label %></span>
+          <% end %>
+        </span>
+      <% end %>
+      <span class={@classes.track}>
+        <span class={@classes.icons_container}>
+          <span class={@classes.line_icon}>
+            <.ui_icon name="toggle-switch-on-16" />
+          </span>
+          <span class={@classes.circle_icon}>
+            <.ui_icon name="toggle-switch-off-16" />
+          </span>
+        </span>
+        <span class={@classes.toggle_knob}></span>
+      </span>
+    </label>
     """
   end
 
@@ -10095,10 +10354,10 @@ defmodule PrimerLive.Component do
   <.spinner />
   ```
 
-  Alternatively, use `octicon/1` with class "Toast--spinner", using any circular icon:
+  Alternatively, use `octicon/1` with class "anim-rotate", using any circular icon:
 
   ```
-  <.octicon name="skip-16" class="Toast--spinner" />
+  <.octicon name="skip-16" class="anim-rotate" />
   ```
 
   ## Examples
@@ -10133,42 +10392,18 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:size, :any, default: 18, doc: "Spinner size (number or number as string).")
+  attr(:size, :any, default: 32, doc: "Spinner size (number or number as string).")
 
-  attr(:color, :string, default: "#959da5", doc: "Spinner color as SVG fill color.")
+  attr(:color, :string, default: "currentColor", doc: "Spinner color as SVG fill color.")
 
-  attr(:gap_color, :string, default: "#ffffff", doc: "Spinner gap color as SVG fill color.")
+  attr(:gap_color, :string, default: "currentColor", doc: "Spinner gap color as SVG fill color.")
 
   DeclarationHelpers.class()
 
   DeclarationHelpers.rest()
 
   def spinner(assigns) do
-    class =
-      AttributeHelpers.classnames([
-        "Toast--spinner",
-        assigns[:class]
-      ])
-
-    spinner_attrs =
-      AttributeHelpers.append_attributes(assigns.rest, [
-        [class: class],
-        [viewBox: "0 0 32 32"],
-        [width: assigns.size],
-        [height: assigns.size]
-      ])
-
-    assigns = assigns |> assign(:spinner_attrs, spinner_attrs)
-
-    ~H"""
-    <svg {@spinner_attrs}>
-      <path
-        fill={@color}
-        d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"
-      />
-      <path fill={@gap_color} d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"></path>
-    </svg>
-    """
+    PrimerLive.UIIcons.ui_icon_spinner(assigns)
   end
 
   # ------------------------------------------------------------------------------------
