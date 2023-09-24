@@ -192,11 +192,11 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              |> format_html()
   end
 
-  test "Attribute: is_right_aligned" do
+  test "Attribute: is_aligned_end" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.action_menu is_right_aligned id="qwerty">
+           <.action_menu is_aligned_end id="qwerty">
              <:toggle>
                Menu
              </:toggle>
@@ -210,7 +210,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
              <div data-touch=""></div>
-             <div class="ActionMenu right-0">
+             <div class="ActionMenu pl-aligned-end">
              <div aria-role="menu" class="ActionMenu-modal" data-content="">
                 <div class="SelectMenu-list">LIST</div>
              </div>
@@ -320,7 +320,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
     }
 
     assert rendered_to_string(~H"""
-           <.action_menu is_right_aligned menu_theme={@theme_state} id="qwerty">
+           <.action_menu is_aligned_end menu_theme={@theme_state} id="qwerty">
              <:toggle>
                Menu
              </:toggle>
@@ -334,7 +334,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
              onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
              <div data-prompt-content>
              <div data-touch=""></div>
-             <div class="ActionMenu right-0">
+             <div class="ActionMenu pl-aligned-end">
              <div aria-role="menu" class="ActionMenu-modal" data-color-mode="dark" data-content=""
                 data-dark-theme="dark_high_contrast" data-light-theme="light_colorblind">
                 <div class="SelectMenu-list">LIST</div>

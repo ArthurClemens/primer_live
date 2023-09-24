@@ -128,8 +128,8 @@ defmodule PrimerLive.Components.BlankslateTest do
            |> format_html() ==
              """
              <div class="blankslate">
-             <div class="blankslate-action"><button class="btn btn-primary" type="button">New project</button></div>
-             <div class="blankslate-action"><button class="btn-link" type="button">Learn more</button></div>
+             <div class="blankslate-action"><button class="btn btn-primary" type="button"><span class="pl-button__content">New project</span></button></div>
+             <div class="blankslate-action"><button class="btn-link" type="button"><span class="pl-button__content">Learn more</span></button></div>
              </div>
              """
              |> format_html()
@@ -190,7 +190,7 @@ defmodule PrimerLive.Components.BlankslateTest do
              class="blankslate-image img-x my-img" src="https://ghicons.github.com/assets/images/blue/png/Pull%20request.png" />
              <h3 class="blankslate-heading heading-x my-heading">This is a blank slate</h3>
              <p>Use it to provide information when no dynamic content exists.</p>
-             <div class="blankslate-action action-x my-action"><button class="btn btn-primary" type="button">New project</button>
+             <div class="blankslate-action action-x my-action"><button class="btn btn-primary" type="button"><span class="pl-button__content">New project</span></button>
              </div>
              </div>
              """

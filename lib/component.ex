@@ -703,6 +703,7 @@ defmodule PrimerLive.Component do
     default: false,
     doc: """
     Creates a checkbox group, visualized as checkmark icons, and sets ARIA attributes. The icons can be replaced with the `leading_visual` slot.
+    Uses `checkbox/1` without attr `is_multiple` set, so the form will contain a single string for the selected value.
     """
   )
 
@@ -710,6 +711,7 @@ defmodule PrimerLive.Component do
     default: false,
     doc: """
     Creates a checkbox group, using smaller sized checkboxes, and sets ARIA attributes. The icons can be replaced with the `leading_visual` slot.
+    Uses `checkbox/1` with attr `is_multiple: true` and `hidden_input: false`, so the form will contain an array of strings for the selected values.
     """
   )
 
@@ -3547,7 +3549,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.deprecated_is_form_group("the input")
   DeclarationHelpers.validation_message()
   DeclarationHelpers.validation_message_id()
-  DeclarationHelpers.rest(include: ~w(name type disabled))
+  DeclarationHelpers.rest(include: ~w(disabled))
 
   slot(:group_button,
     doc: """
@@ -4054,7 +4056,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.is_form_control("the select input")
   DeclarationHelpers.deprecated_is_form_group("the select input")
 
-  DeclarationHelpers.rest(include: ~w(name type disabled))
+  DeclarationHelpers.rest(include: ~w(disabled))
 
   def select(assigns) do
     case SchemaHelpers.validate_is_form(assigns) do
@@ -4300,7 +4302,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.checkbox_is_omit_label()
   DeclarationHelpers.class()
   DeclarationHelpers.checkbox_classes("checkbox")
-  DeclarationHelpers.rest()
+  DeclarationHelpers.rest(include: ~w(disabled))
   DeclarationHelpers.checkbox_slot_label("checkbox")
   DeclarationHelpers.checkbox_slot_caption("checkbox")
   DeclarationHelpers.checkbox_slot_hint()
@@ -4715,7 +4717,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.checkbox_is_omit_label()
   DeclarationHelpers.class()
   DeclarationHelpers.checkbox_classes("radio button")
-  DeclarationHelpers.rest()
+  DeclarationHelpers.rest(include: ~w(disabled))
   DeclarationHelpers.checkbox_slot_label("radio button")
   DeclarationHelpers.checkbox_slot_caption("radio button")
   DeclarationHelpers.checkbox_slot_hint()
@@ -5080,10 +5082,7 @@ defmodule PrimerLive.Component do
     doc: "Renders the alert full width, with border and border radius removed."
   )
 
-  attr(:is_full, :boolean,
-    default: false,
-    doc: "Deprecated: use `is_full_width`."
-  )
+  attr(:is_full, :boolean, doc: "Deprecated: use `is_full_width`.")
 
   DeclarationHelpers.rest()
 
@@ -5131,7 +5130,7 @@ defmodule PrimerLive.Component do
         assigns[:state] === "success" and state_modifier_classes.state_success,
         assigns[:state] === "warning" and state_modifier_classes.state_warning,
         assigns[:state] === "error" and state_modifier_classes.state_error,
-        is_full_width and "flash-full",
+        is_full_width && "flash-full",
         assigns[:class]
       ])
 
@@ -5148,6 +5147,265 @@ defmodule PrimerLive.Component do
     <div {@alert_attrs}>
       <%= render_slot(@inner_block) %>
     </div>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # toggle_switch
+  # ------------------------------------------------------------------------------------
+
+  @doc section: :forms
+
+  @doc ~S"""
+  Toggle switch is used to immediately toggle a setting on or off.
+
+  ```
+  <.toggle_switch />
+  ```
+
+  ## Examples
+
+  Add an On/Off label:
+
+  ```
+  <.toggle_switch status_on_label="On" status_off_label="Off" />
+  ```
+
+  When using a `Phoenix.HTML.Form`, the label can be derived from the field:
+
+  ```
+  <.toggle_switch form={f} field={:terms_accepted} is_derived_label />
+  ```
+
+  Create a small toggle switch:
+  ```
+  <.toggle_switch status_on_label="On" status_off_label="Off" is_small />
+  ```
+
+  Add a loading spinner:
+  ```
+  <.toggle_switch status_on_label="On" status_off_label="Off" is_loading />
+  ```
+
+  [INSERT LVATTRDOCS]
+
+  ## Reference
+
+  [Primer Toggle switch](https://primer.style/design/components/toggle-switch)
+
+  """
+
+  DeclarationHelpers.form()
+  DeclarationHelpers.field()
+  DeclarationHelpers.name()
+  DeclarationHelpers.input_id()
+  DeclarationHelpers.checkbox_checked("the toggle switch")
+  DeclarationHelpers.checkbox_checked_value("the toggle switch")
+  DeclarationHelpers.checkbox_hidden_input()
+  DeclarationHelpers.checkbox_value("toggle switch")
+
+  attr(:status_on_label, :string, doc: "Status label for on state.")
+  attr(:status_off_label, :string, doc: "Status label for off state.")
+  attr(:is_small, :boolean, default: false, doc: "Creates a small toggle switch.")
+  attr(:is_loading, :boolean, default: false, doc: "Adds a loading spinner.")
+
+  attr(:is_derived_label, :boolean,
+    default: false,
+    doc:
+      "Uses a single a label (for both on and off state) derived from the field name (when using `field`)."
+  )
+
+  attr(:is_label_position_end, :boolean,
+    default: false,
+    doc: "Places the label after the switch control."
+  )
+
+  attr(:classes, :map,
+    default: %{
+      container: nil,
+      status_icon: nil,
+      status_labels_container: nil,
+      status_label: nil,
+      status_on_label: nil,
+      status_off_label: nil,
+      track: nil,
+      icons_container: nil,
+      circle_icon: nil,
+      line_icon: nil,
+      loading_icon: nil,
+      toggle_knob: nil
+    },
+    doc: """
+    Additional classnames for toggle switch elements. Any provided value will be appended to the default classname.
+
+    Default map:
+    ```
+    %{
+      container: "",
+      status_icon: "",
+      status_labels_container: "",
+      status_label: "",
+      status_on_label: "",
+      status_off_label: "",
+      track: "",
+      icons_container: "",
+      circle_icon: "",
+      line_icon: "",
+      loading_icon: "",
+      toggle_knob: "",
+    }
+    ```
+    """
+  )
+
+  DeclarationHelpers.class()
+  DeclarationHelpers.rest(include: ~w(disabled))
+
+  def toggle_switch(assigns) do
+    %{
+      derived_label: derived_label,
+      field: field,
+      form: form,
+      input_id: input_id,
+      input_name: input_name,
+      rest: rest,
+      value: value
+    } = AttributeHelpers.common_input_attrs(assigns, :checkbox)
+
+    classes = %{
+      container:
+        AttributeHelpers.classnames([
+          "ToggleSwitch",
+          assigns.is_label_position_end && "ToggleSwitch--statusAtEnd",
+          assigns.is_small && "ToggleSwitch--small",
+          assigns.is_loading && "pl-ToggleSwitch--loading",
+          assigns[:classes][:container],
+          assigns[:class]
+        ]),
+      status_icon:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-statusIcon",
+          assigns[:classes][:status_icon]
+        ]),
+      status_labels_container:
+        AttributeHelpers.classnames([
+          "pl-ToggleSwitch__status-label-container",
+          assigns[:classes][:status_labels_container]
+        ]),
+      status_on_label:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-status",
+          "ToggleSwitch-statusOn",
+          assigns[:classes][:status_label],
+          assigns[:classes][:status_on_label]
+        ]),
+      status_off_label:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-status",
+          "ToggleSwitch-statusOff",
+          assigns[:classes][:status_label],
+          assigns[:classes][:status_off_label]
+        ]),
+      track:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-track",
+          assigns[:classes][:track]
+        ]),
+      icons_container:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-icons",
+          assigns[:classes][:icons_container]
+        ]),
+      circle_icon:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-circleIcon",
+          assigns[:classes][:circle_icon]
+        ]),
+      line_icon:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-lineIcon",
+          assigns[:classes][:line_icon]
+        ]),
+      loading_icon:
+        AttributeHelpers.classnames([
+          assigns[:classes][:loading_icon]
+        ]),
+      toggle_knob:
+        AttributeHelpers.classnames([
+          "ToggleSwitch-knob",
+          assigns[:classes][:toggle_knob]
+        ])
+    }
+
+    input_opts =
+      AttributeHelpers.append_attributes(
+        AttributeHelpers.assigns_to_attributes_sorted(rest, [
+          :id,
+          :name,
+          :disabled
+        ]),
+        [
+          [id: input_id, name: input_name],
+          !is_nil(assigns[:checked]) && [checked: assigns[:checked]],
+          !is_nil(assigns[:checked_value]) && [checked_value: assigns[:checked_value]],
+          !is_nil(value) && [value: value],
+          !is_nil(rest[:disabled]) && [disabled: ""],
+          (form || field) && [hidden_input: true]
+        ]
+      )
+
+    input = Form.checkbox(form, field, input_opts)
+
+    container_attrs =
+      AttributeHelpers.append_attributes(rest, [
+        [class: classes.container]
+      ])
+
+    on_label =
+      assigns[:status_on_label] || if assigns.is_derived_label, do: derived_label, else: nil
+
+    off_label =
+      assigns[:status_off_label] || if assigns.is_derived_label, do: derived_label, else: nil
+
+    has_labels = on_label || off_label
+
+    assigns =
+      assigns
+      |> assign(:container_attrs, container_attrs)
+      |> assign(:input, input)
+      |> assign(:classes, classes)
+      |> assign(:has_labels, has_labels)
+      |> assign(:on_label, on_label)
+      |> assign(:off_label, off_label)
+
+    ~H"""
+    <label {@container_attrs}>
+      <%= @input %>
+      <%= if @is_loading do %>
+        <.spinner size="16" class={@classes.loading_icon} />
+      <% end %>
+      <%= if @has_labels do %>
+        <span class={@classes.status_labels_container}>
+          <%= if @on_label do %>
+            <span class={@classes.status_on_label}><%= @on_label %></span>
+          <% end %>
+          <%= if @off_label do %>
+            <span class={@classes.status_off_label}><%= @off_label %></span>
+          <% end %>
+        </span>
+      <% end %>
+      <span class={@classes.track}>
+        <span class={@classes.icons_container}>
+          <span class={@classes.line_icon}>
+            <.ui_icon name="toggle-switch-on-16" />
+          </span>
+          <span class={@classes.circle_icon}>
+            <.ui_icon name="toggle-switch-off-16" />
+          </span>
+        </span>
+        <span class={@classes.toggle_knob}></span>
+      </span>
+    </label>
     """
   end
 
@@ -6895,7 +7153,13 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the select menu component")
 
-  attr(:is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right.")
+  attr(:is_aligned_end, :boolean,
+    default: false,
+    doc: "Aligns the menu to the end (at the right in left-to-right langages)."
+  )
+
+  attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
+
   attr(:is_borderless, :boolean, default: false, doc: "Removes the borders between list items.")
 
   DeclarationHelpers.class()
@@ -7068,6 +7332,11 @@ defmodule PrimerLive.Component do
   end
 
   def select_menu(assigns) do
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr is_right_aligned used in select_menu: use is_aligned_end. Since 0.5.1.",
+      !is_nil(assigns[:is_right_aligned])
+    )
+
     %{
       form: form,
       field: field
@@ -7146,7 +7415,8 @@ defmodule PrimerLive.Component do
       menu:
         AttributeHelpers.classnames([
           "SelectMenu",
-          assigns.is_right_aligned and "right-0",
+          assigns.is_aligned_end and "pl-aligned-end",
+          assigns[:is_right_aligned] && "pl-aligned-end",
           assigns[:filter] !== [] && "SelectMenu--hasFilter",
           assigns_classes.menu
         ]),
@@ -7522,7 +7792,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the menu component")
 
-  attr(:is_right_aligned, :boolean, default: false, doc: "Aligns the menu to the right.")
+  attr(:is_aligned_end, :boolean, default: false, doc: "Aligns the menu to the right.")
+
+  attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
 
   DeclarationHelpers.class()
 
@@ -7588,6 +7860,11 @@ defmodule PrimerLive.Component do
   )
 
   def action_menu(assigns) do
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr is_right_aligned used in action_menu: use is_aligned_end. Since 0.5.1.",
+      !is_nil(assigns[:is_right_aligned])
+    )
+
     %{
       form: form,
       field: field
@@ -7635,7 +7912,8 @@ defmodule PrimerLive.Component do
       menu:
         AttributeHelpers.classnames([
           "ActionMenu",
-          assigns.is_right_aligned and "right-0",
+          assigns.is_aligned_end and "pl-aligned-end",
+          assigns[:is_right_aligned] && "pl-aligned-end",
           assigns_classes.menu
         ]),
       menu_container:
@@ -7760,12 +8038,21 @@ defmodule PrimerLive.Component do
   <.button is_dropdown_caret>Menu</.button>
   ```
 
-  Button that contains an icon next to the button label:
+  With a leading icon:
 
   ```
   <.button is_primary>
     <.octicon name="download-16" />
     <span>Clone</span>
+  </.button>
+  ```
+
+  With a trailing icon:
+
+  ```
+  <.button is_primary>
+    <span>Clone</span>
+    <.octicon name="download-16" />
   </.button>
   ```
 
@@ -7841,6 +8128,17 @@ defmodule PrimerLive.Component do
     doc: "Create a button that looks like a link, maintaining the paddings of a regular button."
   )
 
+  attr(:is_aligned_start, :boolean,
+    default: false,
+    doc: """
+    Aligns contents to the start (at the left in left-to-right languages), while the dropdown caret (if any)
+    is placed at the far end.
+    Use this when the button is used for selecting items from a list.
+
+    By default contents is center aligned.
+    """
+  )
+
   attr(:is_large, :boolean, default: false, doc: "Generates a large button.")
   attr(:is_link, :boolean, default: false, doc: "Create a button that looks like a link.")
   attr(:is_outline, :boolean, default: false, doc: "Generates an outline button.")
@@ -7857,10 +8155,8 @@ defmodule PrimerLive.Component do
   attr(:classes, :map,
     default: %{
       button: nil,
-      label: nil,
-      leading_visual: nil,
-      trailing_visual: nil,
-      trailing_action: nil
+      content: nil,
+      caret: nil
     },
     doc: """
     Additional classnames for button elements. Any provided value will be appended to the default classname.
@@ -7868,7 +8164,9 @@ defmodule PrimerLive.Component do
     Default map:
     ```
     %{
-      button: "",
+      button: "",  # Button element
+      content: "", # Content (icons and label)
+      caret: "",   # Dropdown icon
     }
     ```
     """
@@ -7899,8 +8197,19 @@ defmodule PrimerLive.Component do
           assigns.is_full_width and "btn-block",
           assigns.is_invisible and "btn-invisible",
           assigns.is_close_button and "close-button",
+          assigns.is_aligned_start and "pl-button-aligned--start",
           assigns[:classes][:button],
           assigns[:class]
+        ]),
+      content:
+        AttributeHelpers.classnames([
+          "pl-button__content",
+          assigns[:classes][:content]
+        ]),
+      caret:
+        AttributeHelpers.classnames([
+          "dropdown-caret",
+          assigns[:classes][:caret]
         ])
     }
 
@@ -7923,12 +8232,16 @@ defmodule PrimerLive.Component do
       ])
 
     render_content = fn ->
+      assigns =
+        assigns
+        |> assign(:classes, classes)
+
       ~H"""
       <%= if !is_nil(@inner_block) && @inner_block !== [] do %>
-        <%= render_slot(@inner_block) %>
+        <span class={@classes.content}><%= render_slot(@inner_block) %></span>
       <% end %>
       <%= if @is_dropdown_caret do %>
-        <span class="dropdown-caret"></span>
+        <span class={@classes.caret}></span>
       <% end %>
       """
     end
@@ -7997,7 +8310,7 @@ defmodule PrimerLive.Component do
   slot :button,
     required: false,
     doc: """
-    Deprecated: use `button/1` as children.
+    Deprecated: use `button/1` as children. Since 0.5.0.
 
     Deprecation support: use `button/1` attributes to configure the button appearance and behaviour.
     """ do
@@ -9541,6 +9854,7 @@ defmodule PrimerLive.Component do
   attr(:width, :string, default: nil, doc: "Image width attribute.")
   attr(:height, :string, default: nil, doc: "Image height attribute.")
   attr(:alt, :string, default: nil, doc: "Image alt attribute.")
+  attr(:is_round, :boolean, default: false, doc: "Creates a round avatar.")
 
   attr(:size, :any,
     values: [1, 2, 3, 4, 5, 6, 7, 8, "1", "2", "3", "4", "5", "6", "7", "8"],
@@ -9578,11 +9892,17 @@ defmodule PrimerLive.Component do
       AttributeHelpers.classnames([
         "avatar",
         size && "avatar-#{size}",
+        assigns.is_round && "pl-avatar--round",
         assigns[:class]
       ])
 
+    rest =
+      AttributeHelpers.assigns_to_attributes_sorted(assigns.rest, [
+        :is_round
+      ])
+
     avatar_attrs =
-      AttributeHelpers.append_attributes(assigns.rest, [
+      AttributeHelpers.append_attributes(rest, [
         [class: class],
         [src: assigns.src],
         [width: assigns.width],
@@ -9611,7 +9931,7 @@ defmodule PrimerLive.Component do
   defp avatar_size_in_range(size), do: size
 
   # ------------------------------------------------------------------------------------
-  # parent_child_avatar
+  # avatar_pair
   # ------------------------------------------------------------------------------------
 
   @doc section: :avatar
@@ -9624,10 +9944,10 @@ defmodule PrimerLive.Component do
   Use slots `parent` and `child` to create the avatars using `avatar/1` attributes:
 
   ```
-  <.parent_child_avatar>
+  <.avatar_pair>
     <:parent src="emma.jpg" size="7" />
     <:child src="kim.jpg" size="2" />
-  </.parent_child_avatar>
+  </.avatar_pair>
   ```
 
   [INSERT LVATTRDOCS]
@@ -9647,6 +9967,7 @@ defmodule PrimerLive.Component do
     doc: "Generates a parent avatar." do
     attr(:size, :any, doc: "Avatar image size - see `avatar/1`.")
     attr(:src, :any, doc: "Avatar image source - see `avatar/1`.")
+    attr(:is_round, :any, doc: "Rounded avatar - see `avatar/1`.")
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
@@ -9657,13 +9978,14 @@ defmodule PrimerLive.Component do
     doc: "Generates a child avatar." do
     attr(:size, :any, doc: "Avatar size - see `avatar/1`.")
     attr(:src, :any, doc: "Avatar image source - see `avatar/1`.")
+    attr(:is_round, :any, doc: "Rounded avatar - see `avatar/1`.")
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
   end
 
-  def parent_child_avatar(assigns) do
+  def avatar_pair(assigns) do
     classes = %{
       parent_child:
         AttributeHelpers.classnames([
@@ -9729,6 +10051,14 @@ defmodule PrimerLive.Component do
       <% end %>
     </div>
     """
+  end
+
+  def parent_child_avatar(assigns) do
+    ComponentHelpers.deprecated_message(
+      "Deprecated component parent_child_avatar: use avatar_pair. Since 0.5.1."
+    )
+
+    avatar_pair(assigns)
   end
 
   # ------------------------------------------------------------------------------------
@@ -10016,29 +10346,21 @@ defmodule PrimerLive.Component do
   @doc section: :loaders
 
   @doc ~S"""
-  SVG spinner animation.
-
-  This spinner is derived from the Toast loading animation.
+  Indicator to show that content is being loaded.
 
   ```
   <.spinner />
   ```
 
-  Alternatively, use `octicon/1` with class "Toast--spinner", using any circular icon:
-
-  ```
-  <.octicon name="skip-16" class="Toast--spinner" />
-  ```
-
   ## Examples
 
-  Set the size (default: `18`):
+  Set the size (default: `32`):
 
   ```
   <.spinner size="40" />
   ```
 
-  Set the circle color (default: `#959da5`):
+  Set the circle color (defaults to the current text color):
 
   ```
   <.spinner color="red" />
@@ -10046,12 +10368,17 @@ defmodule PrimerLive.Component do
   <.spinner color="rgba(250, 50, 150, 0.5)" />
   ```
 
-  Set the gap color (default: `#ffffff`):
+  Set the highlight color (defaults to the `color` value):
 
   ```
-  <.spinner gap_color="black" />
-  <.spinner gap_color="#000000" />
-  <.spinner gap_color="rgba(0, 0, 0, 1)" />
+  <.spinner highlight_color="black" />
+  <.spinner highlight_color="#000000" />
+  ```
+
+  Alternatively, use `octicon/1` with class "anim-rotate", using any circular icon:
+
+  ```
+  <.octicon name="skip-16" class="anim-rotate" />
   ```
 
   [INSERT LVATTRDOCS]
@@ -10062,40 +10389,73 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr(:size, :any, default: 18, doc: "Spinner size (number or number as string).")
+  attr(:size, :any, default: 32, doc: "Spinner size (number or number as string).")
 
-  attr(:color, :string, default: "#959da5", doc: "Spinner color as SVG fill color.")
+  attr(:color, :string,
+    default: "currentColor",
+    doc: "Spinner color."
+  )
 
-  attr(:gap_color, :string, default: "#ffffff", doc: "Spinner gap color as SVG fill color.")
+  attr(:highlight_color, :string,
+    doc: "Spinner highlight segment color. Defaults to the `color` value."
+  )
+
+  attr(:gap_color, :string,
+    doc: """
+    Deprecated: use `highlight_color`. Since `0.5.1`.
+    """
+  )
 
   DeclarationHelpers.class()
-
   DeclarationHelpers.rest()
 
   def spinner(assigns) do
+    ComponentHelpers.deprecated_message(
+      "Deprecated attr gap_color: use highlight_color. Since 0.5.1.",
+      !is_nil(assigns[:gap_color])
+    )
+
+    highlight_color = assigns[:highlight_color] || assigns[:gap_color] || assigns.color
+
     class =
       AttributeHelpers.classnames([
-        "Toast--spinner",
+        "anim-rotate",
         assigns[:class]
       ])
 
-    spinner_attrs =
+    svg_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: class],
-        [viewBox: "0 0 32 32"],
         [width: assigns.size],
         [height: assigns.size]
       ])
 
-    assigns = assigns |> assign(:spinner_attrs, spinner_attrs)
+    assigns =
+      assigns
+      |> assign(:common_attrs, PrimerLive.UIIcons.common_svg_attrs())
+      |> assign(:svg_attrs, svg_attrs)
+      |> assign(:highlight_color, highlight_color)
 
     ~H"""
-    <svg {@spinner_attrs}>
+    <svg {@common_attrs} fill="none" {@svg_attrs} {@rest}>
+      <circle
+        cx="8"
+        cy="8"
+        r="7"
+        stroke={@color}
+        stroke-opacity="0.25"
+        stroke-width="2"
+        vector-effect="non-scaling-stroke"
+      >
+      </circle>
       <path
-        fill={@color}
-        d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"
-      />
-      <path fill={@gap_color} d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"></path>
+        d="M15 8a7.002 7.002 0 00-7-7"
+        stroke={@highlight_color}
+        stroke-width="2"
+        stroke-linecap="round"
+        vector-effect="non-scaling-stroke"
+      >
+      </path>
     </svg>
     """
   end

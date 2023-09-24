@@ -5,6 +5,17 @@ defmodule PrimerLive.UIIcons do
 
   use Phoenix.Component
 
+  require PrimerLive.Helpers.DeclarationHelpers
+
+  @common_svg_attrs [
+    viewBox: "0 0 16 16",
+    xmlns: "http://www.w3.org/2000/svg",
+    "aria-hidden": "true",
+    focusable: "false"
+  ]
+
+  def common_svg_attrs, do: @common_svg_attrs
+
   @doc """
   Internal use: generates a map of SVG's.
 
@@ -29,17 +40,13 @@ defmodule PrimerLive.UIIcons do
   )
 
   def ui_icons(assigns) do
+    assigns =
+      assigns
+      |> assign(:common_attrs, @common_svg_attrs)
+
     %{
       "single-select-16" => ~H"""
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-        focusable="false"
-        {@rest}
-      >
+      <svg {@common_attrs} width="16" height="16" {@rest}>
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
@@ -48,15 +55,7 @@ defmodule PrimerLive.UIIcons do
       </svg>
       """,
       "multiple-select-16" => ~H"""
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-        focusable="false"
-        {@rest}
-      >
+      <svg {@common_attrs} width="16" height="16" {@rest}>
         <rect x="2" y="2" width="12" height="12" rx="4" class="ActionList-item-multiSelectIconRect">
         </rect>
         <path
@@ -68,18 +67,28 @@ defmodule PrimerLive.UIIcons do
       </svg>
       """,
       "collapse-16" => ~H"""
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-        focusable="false"
-        {@rest}
-      >
+      <svg {@common_attrs} width="16" height="16" {@rest}>
         <path
           fill-rule="evenodd"
           d="M12.78 6.22a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06 0L3.22 7.28a.75.75 0 011.06-1.06L8 9.94l3.72-3.72a.75.75 0 011.06 0z"
+        >
+        </path>
+      </svg>
+      """,
+      "toggle-switch-on-16" => ~H"""
+      <svg {@common_attrs} width="16" height="16" {@rest}>
+        <path
+          fill-rule="evenodd"
+          d="M8 2a.75.75 0 0 1 .75.75v11.5a.75.75 0 0 1-1.5 0V2.75A.75.75 0 0 1 8 2Z"
+        >
+        </path>
+      </svg>
+      """,
+      "toggle-switch-off-16" => ~H"""
+      <svg {@common_attrs} width="16" height="16" {@rest}>
+        <path
+          fill-rule="evenodd"
+          d="M8 12.5a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12Z"
         >
         </path>
       </svg>

@@ -1,0 +1,244 @@
+/* Support toggle switch with checkbox input */
+
+label.ToggleSwitch {
+  display: inline-flex;
+}
+
+.ToggleSwitch input[type=checkbox] {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.ToggleSwitch:not(.ToggleSwitch--statusAtEnd) {
+  flex-direction: row;
+}
+
+.ToggleSwitch--statusAtEnd {
+  flex-direction: row-reverse;
+}
+
+.ToggleSwitch {
+  align-items: center;
+  gap: var(--primer-controlStack-medium-gap-condensed, 8px)
+}
+
+.ToggleSwitch:not(.pl-ToggleSwitch--loading) input[type=checkbox]:not(:disabled) ~ * {
+  cursor: pointer;
+}
+
+.ToggleSwitch.pl-ToggleSwitch--loading {
+  pointer-events: none;
+}
+
+.ToggleSwitch input[type=checkbox]:checked ~ .pl-ToggleSwitch__status-label-container > .ToggleSwitch-statusOn {
+  height: auto;
+  visibility: visible
+}
+
+/* -- idem */
+.ToggleSwitch input[type=checkbox]:checked ~ .pl-ToggleSwitch__status-label-container > .ToggleSwitch-statusOff {
+  height: 0;
+  visibility: hidden
+}
+
+.ToggleSwitch-track {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--color-switch-track-bg);
+  border: var(--primer-borderWidth-thin, 1px) solid var(--color-switch-track-border);
+  border-radius: var(--primer-borderRadius-medium, 6px);
+  display: block;
+  height: var(--primer-control-medium-size, 32px);
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  text-decoration: none;
+  transition-duration: 80ms;
+  transition-property: background-color, border-color;
+  transition-timing-function: cubic-bezier(.5, 1, .89, 1);
+  -webkit-user-select: none;
+  user-select: none;
+  width: var(--base-size-64, 64px)
+}
+
+.ToggleSwitch-track:focus,
+.ToggleSwitch-track:focus-visible {
+  outline-offset: 1px
+}
+
+.ToggleSwitch-track:hover {
+  background-color: var(--color-switch-track-hover-bg)
+}
+
+.ToggleSwitch-track:active {
+  background-color: var(--color-switch-track-active-bg)
+}
+
+@media (pointer:coarse) {
+  .ToggleSwitch-track:before {
+    content: "";
+    height: 100%;
+    left: 50%;
+    min-height: 44px;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 100%
+  }
+}
+
+@media (prefers-reduced-motion) {
+  .ToggleSwitch-track,
+  .ToggleSwitch-track * {
+    transition: none
+  }
+}
+
+.ToggleSwitch input[type=checkbox]:checked:disabled~.ToggleSwitch-track {
+  background-color: var(--color-switch-track-disabled-bg);
+  border-color: #0000;
+  color: var(--color-switch-track-checked-disabled-fg)
+}
+
+.ToggleSwitch input[type=checkbox]:checked~.ToggleSwitch-track {
+  background-color: var(--color-switch-track-checked-bg);
+  border-color: var(--color-switch-track-checked-border)
+}
+
+.ToggleSwitch input[type=checkbox]:checked:not(:disabled)~.ToggleSwitch-track:hover {
+  background-color: var(--color-switch-track-checked-hover-bg)
+}
+
+.ToggleSwitch input[type=checkbox]:checked:not(:disabled)~.ToggleSwitch-track:active {
+  background-color: var(--color-switch-track-checked-active-bg)
+}
+
+.ToggleSwitch input[type=checkbox]:checked~.ToggleSwitch-track .ToggleSwitch-knob {
+  background-color: var(--color-switch-knob-checked-bg);
+  border-color: var(--color-switch-knob-checked-border);
+  transform: translateX(100%)
+}
+
+.ToggleSwitch input[type=checkbox]:checked~.ToggleSwitch-track .ToggleSwitch-lineIcon {
+  transform: translateX(0)
+}
+
+.ToggleSwitch input[type=checkbox]:checked~.ToggleSwitch-track .ToggleSwitch-circleIcon {
+  transform: translateX(100%)
+}
+
+.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track {
+  background-color: var(--color-switch-track-disabled-bg);
+  border-color: #0000;
+  cursor: not-allowed;
+  transition-property: none
+}
+
+.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track .ToggleSwitch-knob {
+  border-color: var(--color-switch-track-disabled-bg);
+  box-shadow: none;
+}
+
+.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track .ToggleSwitch-circleIcon,
+.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track .ToggleSwitch-lineIcon {
+  color: var(--color-switch-track-disabled-fg)
+}
+
+.ToggleSwitch-icons {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  width: 100%
+}
+
+.ToggleSwitch-lineIcon {
+  color: var(--color-switch-track-checked-fg);
+  transform: translateX(-100%)
+}
+
+.ToggleSwitch-circleIcon,
+.ToggleSwitch-lineIcon {
+  flex: 1 0 50%;
+  line-height: 0;
+  transition-duration: 80ms;
+  transition-property: transform;
+  display: flex;
+  justify-content: center;
+}
+
+.ToggleSwitch-circleIcon svg,
+.ToggleSwitch-lineIcon svg {
+  fill: currentColor;
+}
+
+.ToggleSwitch-circleIcon {
+  color: var(--color-switch-track-fg);
+  transform: translateX(0)
+}
+
+.ToggleSwitch-knob {
+  background-color: var(--color-switch-knob-bg);
+  border: var(--primer-borderWidth-thin, 1px) solid var(--color-switch-knob-border);
+  border-radius: var(--primer-borderRadius-medium, 6px);
+  bottom: 0;
+  box-shadow: var(--color-shadow-medium), var(--color-btn-inset-shadow);
+  position: absolute;
+  top: 0;
+  transition-duration: 80ms;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(.5, 1, .89, 1);
+  width: 50%;
+  z-index: 1
+}
+
+@media (prefers-reduced-motion) {
+  .ToggleSwitch-knob {
+    transition: none
+  }
+}
+
+.ToggleSwitch-status {
+  display: block;
+  font-weight: normal;
+  color: var(--color-fg-default);
+  font-size: var(--primer-text-body-size-medium, 14px);
+  line-height: 1.5;
+  position: relative;
+  text-align: right
+}
+
+.ToggleSwitch input[type=checkbox]:disabled ~ .pl-ToggleSwitch__status-label-container .ToggleSwitch-status,
+.ToggleSwitch.pl-ToggleSwitch--loading input[type=checkbox] ~ .pl-ToggleSwitch__status-label-container .ToggleSwitch-status {
+  color: var(--color-fg-muted);
+}
+
+.ToggleSwitch-statusIcon {
+  display: flex;
+  margin-top: .063rem;
+  width: var(--base-size-16, 16px)
+}
+
+.ToggleSwitch--small .ToggleSwitch-status {
+  font-size: var(--primer-text-body-size-small, 12px)
+}
+
+.ToggleSwitch--small .ToggleSwitch-track {
+  height: var(--primer-control-xsmall-size, 24px);
+  width: var(--base-size-48, 48px)
+}
+
+.ToggleSwitch-statusOn {
+  height: 0;
+  visibility: hidden
+}
+
+.ToggleSwitch-statusOff {
+  height: auto;
+  visibility: visible
+}
+
+.ToggleSwitch--statusAtEnd .ToggleSwitch-status {
+  text-align: left
+}

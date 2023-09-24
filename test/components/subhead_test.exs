@@ -87,7 +87,7 @@ defmodule PrimerLive.TestComponents.SubheadTest do
              """
              <div class="Subhead">
              <h2 class="Subhead-heading">Heading</h2>
-             <div class="Subhead-actions"><button class="btn btn-primary" type="button">Action</button></div>
+             <div class="Subhead-actions"><button class="btn btn-primary" type="button"><span class="pl-button__content">Action</span></button></div>
              </div>
              """
              |> format_html()
@@ -122,7 +122,7 @@ defmodule PrimerLive.TestComponents.SubheadTest do
              <div class="Subhead subhead-x my-subhead">
              <h2 class="Subhead-heading heading-x">Heading</h2>
              <div class="Subhead-description description-x my-description">Description</div>
-             <div class="Subhead-actions actions-x my-action"><button class="btn btn-primary" type="button">Action</button></div>
+             <div class="Subhead-actions actions-x my-action"><button class="btn btn-primary" type="button"><span class="pl-button__content">Action</span></button></div>
              </div>
              """
              |> format_html()

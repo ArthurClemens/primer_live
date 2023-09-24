@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.5.1
+
+### Deprecated
+
+- Component `avatar_pair`: renamed `parent_child_avatar` to `avatar_pair`.
+- Components `action_menu` and `select_menu`: renamed `is_right_aligned` to `is_aligned_end` (added RTL support).
+- Component `spinner`: renamed `gap_color` to `highlight_color`.
+
+### New component
+
+- `toggle_switch`: Toggle switch is used to immediately toggle a setting on or off.
+
+### Updated components
+
+- `avatar`: Added attr `is_round`.
+- `avatar_pair`: Improved styling: support display inside flex container, add inner border to child avatar.
+- `button`
+  - Improved dimensions according to Primer Style specs, including placing a trailing icon.
+  - Added attr `is_aligned_start`. Aligns contents to the start (at the left in left-to-right languages), while the dropdown caret (if any) is placed at the far end.
+- `spinner`: Updated to latest Primer Style design.
+
 ## 0.5.0
 
 Form elements have been revamped and aligned with the most recent [form element documentation at Primer Style](https://primer.style/design/ui-patterns/forms/overview).

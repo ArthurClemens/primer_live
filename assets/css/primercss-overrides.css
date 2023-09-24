@@ -68,6 +68,66 @@
   color: var(--color-fg-muted);
 }
 
+/* Support leading and trailing icons. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.pl-button__content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* -- idem (medium button) */
+.btn {
+  height: 32px;
+  padding: 0 var(--base-size-12, 12px);
+  gap: var(--base-size-8, 8px);
+}
+
+.btn .pl-button__content {
+  gap: var(--base-size-8, 8px);
+}
+
+/* -- idem (small button) */
+.btn.btn-sm {
+  height: 28px;
+  padding: 0 var(--base-size-8, 8px);
+  gap: var(--base-size-4, 4px);
+}
+.btn.btn-sm .pl-button__content {
+  gap: var(--base-size-4, 4px);
+}
+
+/* -- idem (large button) */
+.btn.btn-large {
+  height: var(--primer-control-large-size, 40px);
+  padding: 0 var(--base-size-16, 16px);
+  gap: var(--base-size-8, 8px);
+}
+.btn.btn-large .pl-button__content {
+  gap: var(--base-size-8, 8px);
+}
+
+/* -- idem */
+.btn .octicon,
+.btn .dropdown-caret,
+.btn .Counter {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Support aligning content at the start. */
+.btn.pl-button-aligned--start {
+  display: grid;
+  grid-template-columns: minmax(0, auto) var(--base-size-8, 8px);
+  justify-content: space-between;
+}
+
 /* Resize octicon in a small button. */
 .btn-sm .octicon[width="16"],
 .btn-sm .octicon[height="16"] {
@@ -729,4 +789,30 @@ span[data-color-mode] {
 .pl-button-group .btn:not(:last-child) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+/* Support round avatars. */
+.pl-avatar--round {
+  border-radius: 50%;
+}
+/* Support avatar pair inside a flex container. */
+.avatar-parent-child {
+  align-self: baseline;
+}
+/* Add missing border in avatar child .*/
+.avatar-child {
+  box-shadow: 0 0 0 1px var(--color-avatar-border), var(--avatar-shadow, var(--color-avatar-child-shadow));
+}
+
+/* Use "aligned" start / end instead of left / right */
+.pl-aligned-end,
+[dir=rtl] .pl-aligned-start {
+  left: auto;
+  right: 0;
+}
+
+.pl-aligned-start,
+[dir=rtl] .pl-aligned-end {
+  left: 0;
+  right: auto;
 }

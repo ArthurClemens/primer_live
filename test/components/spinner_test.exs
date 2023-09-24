@@ -14,7 +14,8 @@ defmodule PrimerLive.Components.SpinnerTest do
            """)
            |> format_html() ==
              """
-             <svg class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg>
+             <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none"
+             class="anim-rotate" height="32" width="32">STRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
   end
@@ -28,8 +29,10 @@ defmodule PrimerLive.Components.SpinnerTest do
            """)
            |> format_html() ==
              """
-             <svg class="Toast--spinner" height="40" viewBox="0 0 32 32" width="40">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg><svg
-             class="Toast--spinner" height="40" viewBox="0 0 32 32" width="40">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg>
+             <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none"
+             class="anim-rotate" height="40" width="40">STRIPPED_SVG_PATHS</svg><svg viewBox="0 0 16 16"
+             xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none" class="anim-rotate" height="40"
+             width="40">STRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
   end
@@ -44,14 +47,35 @@ defmodule PrimerLive.Components.SpinnerTest do
            """)
            |> format_html() ==
              """
-             <svg class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg><svg
-             class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg><svg
-             class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg>
+             <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none"
+             class="anim-rotate" height="32" width="32">STRIPPED_SVG_PATHS</svg><svg viewBox="0 0 16 16"
+             xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none" class="anim-rotate" height="32"
+             width="32">STRIPPED_SVG_PATHS</svg><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+             focusable="false" fill="none" class="anim-rotate" height="32" width="32">STRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
   end
 
-  test "Attribute: gap color" do
+  test "Attribute: highlight_color" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.spinner highlight_color="black" />
+           <.spinner highlight_color="#000000" />
+           <.spinner highlight_color="rgba(0, 0, 0, 1)" />
+           """)
+           |> format_html() ==
+             """
+             <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none"
+             class="anim-rotate" height="32" width="32">STRIPPED_SVG_PATHS</svg><svg viewBox="0 0 16 16"
+             xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none" class="anim-rotate" height="32"
+             width="32">STRIPPED_SVG_PATHS</svg><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+             focusable="false" fill="none" class="anim-rotate" height="32" width="32">STRIPPED_SVG_PATHS</svg>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: gap_color (deprecated)" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
@@ -61,9 +85,11 @@ defmodule PrimerLive.Components.SpinnerTest do
            """)
            |> format_html() ==
              """
-             <svg class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg><svg
-             class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg><svg
-             class="Toast--spinner" height="18" viewBox="0 0 32 32" width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg>
+             <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none"
+             class="anim-rotate" height="32" width="32">STRIPPED_SVG_PATHS</svg><svg viewBox="0 0 16 16"
+             xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none" class="anim-rotate" height="32"
+             width="32">STRIPPED_SVG_PATHS</svg><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+             focusable="false" fill="none" class="anim-rotate" height="32" width="32">STRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
   end
@@ -76,8 +102,8 @@ defmodule PrimerLive.Components.SpinnerTest do
            """)
            |> format_html() ==
              """
-             <svg class="Toast--spinner my-spinner" dir="rtl" height="18" viewBox="0 0 32 32"
-             width="18">STRIPPED_SVG_PATHSSTRIPPED_SVG_PATHS</svg>
+             <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none"
+             class="anim-rotate my-spinner" dir="rtl" height="32" width="32" dir="rtl">STRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
   end

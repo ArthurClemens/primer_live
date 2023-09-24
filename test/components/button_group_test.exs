@@ -20,10 +20,10 @@ defmodule PrimerLive.TestComponents.ButtonGroupTest do
            |> format_html() ==
              """
              <div class="pl-button-group">
-             <button class="btn" type="button">Button 1</button>
-             <button aria-selected="true" class="btn" type="button">Button 2</button>
-             <button class="btn btn-danger" type="button">Button 3</button>
-             <button class="btn button-x" type="button">Button 4</button>
+             <button class="btn" type="button"><span class="pl-button__content">Button 1</span></button>
+             <button aria-selected="true" class="btn" type="button"><span class="pl-button__content">Button 2</span></button>
+             <button class="btn btn-danger" type="button"><span class="pl-button__content">Button 3</span></button>
+             <button class="btn button-x" type="button"><span class="pl-button__content">Button 4</span></button>
              </div>
              """
              |> format_html()
@@ -43,10 +43,10 @@ defmodule PrimerLive.TestComponents.ButtonGroupTest do
            |> format_html() ==
              """
              <div class="pl-button-group">
-             <button class="btn" type="button">Button 1</button>
-             <button aria-selected="true" class="btn" type="button">Button 2</button>
-             <button class="btn btn-danger" type="button">Button 3</button>
-             <button class="btn button-x" type="button">Button 4</button>
+             <button class="btn" type="button"><span class="pl-button__content">Button 1</span></button>
+             <button aria-selected="true" class="btn" type="button"><span class="pl-button__content">Button 2</span></button>
+             <button class="btn btn-danger" type="button"><span class="pl-button__content">Button 3</span></button>
+             <button class="btn button-x" type="button"><span class="pl-button__content">Button 4</span></button>
              </div>
              """
              |> format_html()
@@ -64,8 +64,8 @@ defmodule PrimerLive.TestComponents.ButtonGroupTest do
            |> format_html() ==
              """
              <div class="pl-button-group button-group-x">
-             <button class="btn" type="button">Button 1</button>
-             <button class="btn" type="button">Button 2</button>
+             <button class="btn" type="button"><span class="pl-button__content">Button 1</span></button>
+             <button class="btn" type="button"><span class="pl-button__content">Button 2</span></button>
              </div>
              """
              |> format_html()
@@ -83,8 +83,8 @@ defmodule PrimerLive.TestComponents.ButtonGroupTest do
            |> format_html() ==
              """
              <div class="pl-button-group" dir="rtl">
-             <button class="btn" type="button">Button 1</button>
-             <button class="btn" type="button">Button 2</button>
+             <button class="btn" type="button"><span class="pl-button__content">Button 1</span></button>
+             <button class="btn" type="button"><span class="pl-button__content">Button 2</span></button>
              </div>
              """
              |> format_html()

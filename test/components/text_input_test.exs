@@ -544,7 +544,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <div class="pl-invalid" phx-feedback-for="user[first_name]"><input aria-describedby="user_first_name-validation"
              class="FormControl-input FormControl-medium input-x my-text-input" id="user_first_name" invalid=""
              name="user[first_name]" type="text" value="" /></div><span
-             class="input-group-button input_group_button-x"><button class="btn" type="button">Send</button></span>
+             class="input-group-button input_group_button-x"><button class="btn" type="button"><span class="pl-button__content">Send</span></button></span>
              </div>
              <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x"
              id="user_first_name-validation" phx-feedback-for="user[first_name]"><svg class="octicon"
@@ -563,9 +563,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <div class="form-group-header header-x"><label class="FormControl-label label-x"></label><span aria-hidden="true">*</span></div>
              <div class="FormControl-input-wrap FormControl-input-wrap--trailingAction input_wrap-x"><input
              class="FormControl-input FormControl-medium input-x my-text-input" type="text" /><span
-             class="FormControl-input-trailingAction"><button aria-label="Clear" class="btn-octicon" type="button"><svg
+             class="FormControl-input-trailingAction"><button aria-label="Clear" class="btn-octicon" type="button"><span class="pl-button__content"><svg
              class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-             viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></button></span></div>
+             viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span></button></span></div>
              </div>
              """
              |> format_html()
@@ -623,7 +623,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <div class="FormControl-input-wrap FormControl-input-wrap--trailingAction">
              <input class="FormControl-input FormControl-medium" type="text" />
              <span class="FormControl-input-trailingAction">
-             <button aria-label="Clear" class="btn-octicon" type="button"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>
+             <button aria-label="Clear" class="btn-octicon" type="button"><span class="pl-button__content"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span>
              </button>
              </span>
              </div>
@@ -648,9 +648,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <div class="FormControl-input-wrap FormControl-input-wrap--trailingAction">
              <input class="FormControl-input FormControl-medium" type="text" />
              <span class="FormControl-input-trailingAction FormControl-input-trailingAction--divider">
-             <button aria-label="Clear" class="btn-octicon" type="button">
+             <button aria-label="Clear" class="btn-octicon" type="button"><span class="pl-button__content">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>
-             </button>
+             </span></button>
              </span>
              </div>
              """
@@ -674,9 +674,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <div class="FormControl-input-wrap FormControl-input-wrap--trailingAction">
              <input class="FormControl-input FormControl-medium" placeholder=" " type="text" />
              <span class="FormControl-input-trailingAction pl-trailingAction--if-value">
-             <button aria-label="Clear" class="btn-octicon" type="button">
+             <button aria-label="Clear" class="btn-octicon" type="button"><span class="pl-button__content">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>
-             </button>
+             </span></button>
              </span>
              </div>
              """
@@ -705,15 +705,15 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <div class="input-group">
              <input class="FormControl-input FormControl-medium" type="text" />
              <span class="input-group-button">
-             <button class="btn" type="button">Send</button>
+             <button class="btn" type="button"><span class="pl-button__content">Send</span></button>
              </span>
              </div>
              <div class="input-group">
              <input class="FormControl-input FormControl-medium" type="text" />
              <span class="input-group-button">
-             <button aria-label="Copy" class="btn" type="button">
+             <button aria-label="Copy" class="btn" type="button"><span class="pl-button__content">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5.75 1a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-4.5zm.75 3V2.5h3V4h-3zm-2.874-.467a.75.75 0 00-.752-1.298A1.75 1.75 0 002 3.75v9.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 13.25v-9.5a1.75 1.75 0 00-.874-1.515.75.75 0 10-.752 1.298.25.25 0 01.126.217v9.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-9.5a.25.25 0 01.126-.217z"></path></svg>
-             </button>
+             </span></button>
              </span>
              </div>
              """
@@ -749,9 +749,9 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              ><input class="FormControl-input FormControl-medium" type="text" />
              <span class="FormControl-input-trailingAction">
              <button aria-label="Clear" class="close-button"
-             type="button">
+             type="button"><span class="pl-button__content">
              <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>
-             </button>
+             </span></button>
              </span>
              </div>
              """
