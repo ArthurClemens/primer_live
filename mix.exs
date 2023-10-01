@@ -36,7 +36,7 @@ defmodule PrimerLive.MixProject do
       {:ex_doc, "~> 0.30", only: :dev},
       {:phoenix_ecto, "~> 4.4", only: :test, runtime: false},
       {:phoenix_html, "~> 3.3"},
-      {:phoenix_live_view, "~> 0.19"},
+      {:phoenix_live_view, "~> 0.20"},
       {:jason, "~> 1.4"}
     ]
   end
