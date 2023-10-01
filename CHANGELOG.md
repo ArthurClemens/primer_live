@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.3
+
+Downgraded `phoenix_live_view` version to `0.19`; both `0.19` and `0.20` should be compatible.
+
 ## 0.5.2
 
 Added JS and CSS exports for Prompt functionality only. This is useful when you want to use menu/dialog/drawer behavior without Primer Design CSS. See the installation documentation for details.
