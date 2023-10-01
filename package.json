@@ -1,6 +1,6 @@
 {
   "name": "primer-live",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "JavaScript and CSS for PrimerLive",
   "license": "MIT",
   "module": "./priv/static/primer-live.esm.js",
@@ -19,6 +19,22 @@
     },
     "./primer-live.min.css": {
       "default": "./priv/static/primer-live.min.css"
+    },
+    "./primer-live-prompt": {
+      "import": "./priv/static/primer-live-prompt.esm.js",
+      "require": "./priv/static/primer-live-prompt.cjs.js",
+      "default": "./priv/static/primer-live-prompt.js"
+    },
+    "./primer-live-prompt.min.js": {
+      "import": "./priv/static/primer-live-prompt.min.js",
+      "default": "./priv/static/primer-live-prompt.min.js"
+    },
+    "./primer-live-prompt.css": {
+      "import": "./priv/static/primer-live-prompt.css",
+      "default": "./priv/static/primer-live-prompt.css"
+    },
+    "./primer-live-prompt.min.css": {
+      "default": "./priv/static/primer-live-prompt.min.css"
     }
   },
   "types": "./priv/static",

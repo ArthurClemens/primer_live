@@ -33,6 +33,8 @@ if (!optsFromArgs.outfile) {
 const entryPoints: string[] = [];
 if (optsFromArgs.format === 'esm' || optsFromArgs.format === 'cjs') {
   entryPoints.push('index-js-only.ts');
+} else if (optsFromArgs.outfile.includes('prompt')) {
+  entryPoints.push('index-prompt-only.ts');
 } else {
   entryPoints.push('index.ts');
 }

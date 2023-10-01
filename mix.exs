@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.5.1",
+      version: "0.5.2",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: description(),
       package: package(),
@@ -108,6 +108,11 @@ defmodule PrimerLive.MixProject do
         "cmd npm --prefix assets run build -- --format=cjs --sourcemap --outfile=../priv/static/primer-live.cjs.js",
         "cmd npm --prefix assets run build -- --format=iife --target=es2016 --outfile=../priv/static/primer-live.js",
         "cmd npm --prefix assets run build -- --format=iife --target=es2016 --minify --outfile=../priv/static/primer-live.min.js",
+        # Prompt only
+        "cmd npm --prefix assets run build -- --format=esm --sourcemap --outfile=../priv/static/primer-live-prompt.esm.js",
+        "cmd npm --prefix assets run build -- --format=cjs --sourcemap --outfile=../priv/static/primer-live-prompt.cjs.js",
+        "cmd npm --prefix assets run build -- --format=iife --target=es2016 --outfile=../priv/static/primer-live-prompt.js",
+        "cmd npm --prefix assets run build -- --format=iife --target=es2016 --minify --outfile=../priv/static/primer-live-prompt.min.js",
         "cmd npm --prefix assets run build:types"
       ]
     ]

@@ -56,6 +56,8 @@ Otherwise:
 <script defer phx-track-static type="text/javascript" src={~p"/primer_live/primer-live.min.js"}></script>
 ```
 
+Advanced usage: to only include core Prompt functionality (to enable menus, dialogs and drawers, but without included styling), replace the import filenames with `primer-live-prompt.min.css` and `primer-live-prompt.min.js`.
+
 Otherwise:
 
 ```
@@ -64,9 +66,7 @@ Otherwise:
 ```
 
 <p>
-  In <code>assets/js/app.js</code>, add global <code>Prompt</code>
-  and <code>Theme</code>
-  to the hooks:
+  In <code>assets/js/app.js</code>, add global <code>Prompt</code> to the hooks:
 </p>
 
 ```
@@ -74,7 +74,6 @@ let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
   hooks: {
     Prompt: window.Prompt,
-    Theme: window.Theme,
     // existing hooks ...
   },
 });
@@ -142,17 +141,18 @@ end
 
 ```
 import "primer-live/primer-live.min.css";
-import { Prompt, Theme } from "primer-live";
+import { Prompt } from "primer-live";
 ```
 
-<p>Also in <code>assets/js/app.js</code>, add <code>Prompt</code> and <code>Theme</code> to the hooks:</p>
+Advanced usage: to only include core Prompt functionality (to enable menus, dialogs and drawers, but without included styling), replace the CSS filename to `primer-live-prompt.min.js`.
+
+<p>Also in <code>assets/js/app.js</code>, add <code>Prompt</code> to the hooks:</p>
 
 ```
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
   hooks: {
     Prompt,
-    Theme,
     // existing hooks ...
   },
 });
