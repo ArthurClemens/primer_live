@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.2
+
+Added JS and CSS exports for Prompt functionality only. This is useful when you want to use menu/dialog/drawer behaviour without Primer Design CSS. See the Installation doc for details.
+
 ## 0.5.1
 
 ### Deprecated
