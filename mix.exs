@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.5.2",
+      version: "0.5.3",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: description(),
       package: package(),
@@ -36,7 +36,7 @@ defmodule PrimerLive.MixProject do
       {:ex_doc, "~> 0.30", only: :dev},
       {:phoenix_ecto, "~> 4.4", only: :test, runtime: false},
       {:phoenix_html, "~> 3.3"},
-      {:phoenix_live_view, "~> 0.20"},
+      {:phoenix_live_view, "~> 0.19"},
       {:jason, "~> 1.4"}
     ]
   end
