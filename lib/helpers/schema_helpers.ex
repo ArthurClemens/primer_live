@@ -2,6 +2,7 @@ defmodule PrimerLive.Helpers.SchemaHelpers do
   @moduledoc false
 
   use Phoenix.Component
+  alias PrimerLive.Helpers.{FormHelpers}
 
   @doc """
   Validates attribute `form`.
@@ -9,6 +10,7 @@ defmodule PrimerLive.Helpers.SchemaHelpers do
   - nil
   - atom
   - Phoenix.HTML.Form
+  - a struct whose stringified type contains "Form"
   """
   def validate_is_form(assigns) do
     form = assigns[:form]
@@ -16,11 +18,8 @@ defmodule PrimerLive.Helpers.SchemaHelpers do
     cond do
       is_nil(form) -> true
       is_atom(form) -> true
-      is_phoenix_form(form) -> true
+      FormHelpers.is_form(form) -> true
       true -> {:error, "attr form: invalid value"}
     end
   end
-
-  defp is_phoenix_form(%Phoenix.HTML.Form{}), do: true
-  defp is_phoenix_form(_), do: false
 end

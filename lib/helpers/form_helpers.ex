@@ -26,6 +26,27 @@ defmodule PrimerLive.Helpers.FormHelpers do
   def text_input_types(), do: @text_input_types
 
   @doc """
+  Validates if the input is a form.
+  """
+  def is_form(%Phoenix.HTML.Form{}), do: true
+
+  # Handle other types of forms
+  def is_form(%_{} = maybe_form)
+      when not is_nil(maybe_form.__struct__) do
+    form_type = "#{maybe_form.__struct__}"
+
+    cond do
+      form_type |> String.contains?("AshPhoenix.Form") ->
+        true
+
+      true ->
+        false
+    end
+  end
+
+  def is_form(_), do: false
+
+  @doc """
   Returns a `PrimerLive.FieldState` struct to facilitate display logic in component rendering functions.
 
       iex> PrimerLive.Helpers.FormHelpers.field_state(:f, :first_name, nil, nil)
@@ -127,8 +148,9 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>   :first_name, nil, fn field_state -> if !field_state.valid?, do: "Please select your availability" end)
       %PrimerLive.FieldState{caption: "Please select your availability", changeset: %Ecto.Changeset{action: :validate, changes: %{}, errors: [first_name: {"can't be blank", [validation: :required]}], data: nil, valid?: true}, field_errors: ["can't be blank"], ignore_errors?: false, message: "can't be blank", message_id: nil, required?: true, valid?: false}
   """
-  def field_state(form, field, validation_message_fn, caption_fn) do
-    changeset = form_changeset(form)
+  def field_state(maybe_form, field, validation_message_fn, caption_fn) do
+    form = get_form(maybe_form)
+    changeset = get_form_changeset(form)
 
     get_field_state_for_changeset(
       changeset,
@@ -160,7 +182,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
        ) do
     with field_errors <- get_field_errors(changeset, field),
          required? <- get_field_required(changeset, field),
-         valid? <- field_errors == [],
+         valid? <- Enum.count(field_errors) == 0,
          field_state <- %{
            field_state
            | valid?: valid?,
@@ -213,34 +235,162 @@ defmodule PrimerLive.Helpers.FormHelpers do
   end
 
   @doc """
+  Extracts the form struct from either a form struct or a nested struct that contains a form.
+
+      iex> PrimerLive.Helpers.FormHelpers.get_form(%Phoenix.HTML.Form{
+      ...>   source: %Ecto.Changeset{
+      ...>     action: :update,
+      ...>     changes: %{first_name: "annette"},
+      ...>     errors: [],
+      ...>     data: nil,
+      ...>     valid?: true
+      ...>   }
+      ...> })
+      %Phoenix.HTML.Form{source: %Ecto.Changeset{action: :update, changes: %{first_name: "annette"}, errors: [], data: nil, valid?: true}, impl: nil, id: nil, name: nil, data: nil, hidden: [], params: %{}, errors: [], options: [], index: nil, action: nil}
+
+      iex> PrimerLive.Helpers.FormHelpers.get_form(%Phoenix.HTML.Form{
+      ...>   source: %Phoenix.HTML.Form{
+      ...>     source: %Ecto.Changeset{
+      ...>       action: :update,
+      ...>       changes: %{first_name: "annette"},
+      ...>       errors: [],
+      ...>       data: nil,
+      ...>       valid?: true
+      ...>     }
+      ...>   }
+      ...> })
+      %Phoenix.HTML.Form{source: %Ecto.Changeset{action: :update, changes: %{first_name: "annette"}, errors: [], data: nil, valid?: true}, impl: nil, id: nil, name: nil, data: nil, hidden: [], params: %{}, errors: [], options: [], index: nil, action: nil}
+
+      iex> PrimerLive.Helpers.FormHelpers.get_form(%PrimerLive.Helpers.TestForm{
+      ...>   source: %PrimerLive.Helpers.TestForm{
+      ...>     source: %Phoenix.HTML.Form{}
+      ...>   }
+      ...> })
+      %Phoenix.HTML.Form{source: nil, impl: nil, id: nil, name: nil, data: nil, hidden: [], params: %{}, errors: [], options: [], index: nil, action: nil}
+
+      iex> PrimerLive.Helpers.FormHelpers.get_form(:form)
+      nil
+  """
+  # Handle different kinds of forms
+  def get_form(%_{source: _} = maybe_form) when not is_nil(maybe_form.source.__struct__) do
+    form_type = "#{maybe_form.source.__struct__}"
+
+    if form_type |> String.contains?("Form") do
+      # Find a possible nested form
+      get_form(maybe_form.source)
+    else
+      maybe_form
+    end
+  end
+
+  def get_form(%Phoenix.HTML.Form{} = form) do
+    form
+  end
+
+  def get_form(_), do: nil
+
+  @doc """
+  Gets the form name - either an atom or a string.
+
+      iex> PrimerLive.Helpers.FormHelpers.get_form_name(%Phoenix.HTML.Form{
+      ...>   name: :profile,
+      ...>   source: %Ecto.Changeset{
+      ...>     action: :update,
+      ...>     changes: %{first_name: "annette"},
+      ...>     errors: [],
+      ...>     data: nil,
+      ...>     valid?: true
+      ...>   }
+      ...> })
+      :profile
+
+      iex> PrimerLive.Helpers.FormHelpers.get_form_name(%PrimerLive.Helpers.TestForm{
+      ...>   source: %PrimerLive.Helpers.TestForm{
+      ...>     name: "test",
+      ...>     source: %Phoenix.HTML.Form{
+      ...>       name: "profile",
+      ...>     }
+      ...>   }
+      ...> })
+      "profile"
+
+      iex> PrimerLive.Helpers.FormHelpers.get_form_name(:profile)
+      :profile
+
+      iex> PrimerLive.Helpers.FormHelpers.get_form_name("profile")
+      "profile"
+
+      iex> PrimerLive.Helpers.FormHelpers.get_form_name(1)
+      nil
+
+      iex> PrimerLive.Helpers.FormHelpers.get_form_name(nil)
+      nil
+  """
+  def get_form_name(%_{source: _} = maybe_form) when not is_nil(maybe_form.source.__struct__) do
+    if "#{maybe_form.source.__struct__}" |> String.contains?("Form") do
+      get_form_name(maybe_form.source)
+    else
+      get_form_name(maybe_form.name)
+    end
+  end
+
+  def get_form_name(name) when is_atom(name), do: name
+  def get_form_name(name) when is_binary(name), do: name
+
+  def get_form_name(%Phoenix.HTML.Form{} = form) do
+    form.name
+  end
+
+  def get_form_name(_), do: nil
+
+  @doc """
   Returns the form changeset extracted from `form.source`.
   Returns nil if no changeset is found.
 
-      iex> PrimerLive.Helpers.FormHelpers.form_changeset(nil)
+      iex> PrimerLive.Helpers.FormHelpers.get_form_changeset(nil)
       nil
 
-      iex> PrimerLive.Helpers.FormHelpers.form_changeset(%{})
+      iex> PrimerLive.Helpers.FormHelpers.get_form_changeset(%{})
       nil
 
-      iex> PrimerLive.Helpers.FormHelpers.form_changeset(%Phoenix.HTML.Form{})
+      iex> PrimerLive.Helpers.FormHelpers.get_form_changeset(%Phoenix.HTML.Form{})
       nil
 
-      iex> PrimerLive.Helpers.FormHelpers.form_changeset(%Phoenix.HTML.Form{
+      iex> PrimerLive.Helpers.FormHelpers.get_form_changeset(%Phoenix.HTML.Form{
       ...>   source: %Ecto.Changeset{}
       ...> })
       %Ecto.Changeset{action: nil, changes: %{}, errors: [], data: nil, valid?: false}
   """
-  def form_changeset(%Phoenix.HTML.Form{source: _} = form) do
+
+  # Handle other types of changesets
+  def get_form_changeset(%_{source: _} = form_or_changeset)
+      when not is_nil(form_or_changeset.source.__struct__) do
+    form_or_changeset_type = "#{form_or_changeset.source.__struct__}"
+
+    cond do
+      form_or_changeset_type |> String.contains?("Ash.Changeset") ->
+        ash_changeset = form_or_changeset
+        _get_ash_framework_changeset(ash_changeset)
+
+      true ->
+        form_or_changeset.source
+    end
+  end
+
+  def get_form_changeset(%Phoenix.HTML.Form{source: _} = form) do
     form.source
   end
 
-  def form_changeset(_form), do: nil
+  def get_form_changeset(_form), do: nil
+
+  # Handle other types of changesets: Ash Framework
+  def _get_ash_framework_changeset(ash_changeset), do: ash_changeset.source
 
   @doc """
   Returns all errors for a given field from a changeset.
 
       iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
-      ...>   %{
+      ...>   %Ecto.Changeset{
       ...>     action: :update,
       ...>     changes: %{},
       ...>     errors: [],
@@ -250,7 +400,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       []
 
       iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
-      ...>   %{
+      ...>   %Ecto.Changeset{
       ...>     action: :update,
       ...>     changes: %{},
       ...>     errors: [
@@ -263,7 +413,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ["can't be blank"]
 
       iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
-      ...>   %{
+      ...>   %Ecto.Changeset{
       ...>     action: :update,
       ...>     changes: %{},
       ...>     errors: [
@@ -276,7 +426,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ["invalid value"]
 
       iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
-      ...>   %{
+      ...>   %Ecto.Changeset{
       ...>     action: :update,
       ...>     changes: %{},
       ...>     errors: [
@@ -288,7 +438,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>   }, :first_name)
       ["should be at most 255 character(s)"]
   """
-  def get_field_errors(changeset, field) do
+  def get_field_errors(%Ecto.Changeset{} = changeset, field) do
     changeset.errors
     |> Enum.filter(fn {error_field, _content} -> error_field == field end)
     |> Enum.map(fn {_error_field, {content, details}} ->
@@ -296,11 +446,50 @@ defmodule PrimerLive.Helpers.FormHelpers do
     end)
   end
 
+  # Handle other types of changesets
+  def get_field_errors(%_{} = maybe_changeset, field)
+      when not is_nil(maybe_changeset.__struct__) do
+    changeset_type = "#{maybe_changeset.__struct__}"
+
+    cond do
+      changeset_type |> String.contains?("Ash.Changeset") ->
+        ash_changeset = maybe_changeset
+        _get_ash_framework_field_errors(ash_changeset, field)
+
+      true ->
+        []
+    end
+  end
+
+  def get_field_errors(_, _), do: []
+
+  # Handle other types of changesets: Ash Framework
+  def _get_ash_framework_field_errors(ash_changeset, field) do
+    cond do
+      Map.has_key?(ash_changeset.attributes, field) &&
+          Map.get(ash_changeset.attributes, field) === nil ->
+        ash_changeset.errors
+        |> Enum.filter(fn ash_error -> ash_error.field == field end)
+        |> Enum.map(fn ash_error ->
+          {message, _binding} =
+            Code.eval_string("Ash.ErrorKind.message(e)", [e: ash_error],
+              file: __ENV__.file,
+              line: __ENV__.line
+            )
+
+          message
+        end)
+
+      true ->
+        []
+    end
+  end
+
   @doc """
   Returns the required state for a given field from a changeset.
 
       iex> PrimerLive.Helpers.FormHelpers.get_field_required(
-      ...>   %{
+      ...>   %Ecto.Changeset{
       ...>     action: :update,
       ...>     changes: %{},
       ...>     errors: [],
@@ -310,7 +499,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       false
 
       iex> PrimerLive.Helpers.FormHelpers.get_field_required(
-      ...>   %{
+      ...>   %Ecto.Changeset{
       ...>     action: :update,
       ...>     changes: %{},
       ...>     errors: [
@@ -323,7 +512,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       true
 
       iex> PrimerLive.Helpers.FormHelpers.get_field_required(
-      ...>   %{
+      ...>   %Ecto.Changeset{
       ...>     action: :update,
       ...>     changes: %{},
       ...>     errors: [
@@ -335,7 +524,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
       ...>   }, :first_name)
       false
   """
-  def get_field_required(changeset, field) do
+  def get_field_required(%Ecto.Changeset{} = changeset, field) do
     changeset.errors
     |> Enum.filter(fn {error_field, _content} -> error_field == field end)
     |> Enum.map(fn {_error_field, {_content, details}} -> details end)
@@ -344,6 +533,30 @@ defmodule PrimerLive.Helpers.FormHelpers do
       _ -> false
     end)
     |> Enum.any?(fn value -> !!value end)
+  end
+
+  # Handle other types of changesets
+  def get_field_required(%_{} = maybe_changeset, field)
+      when not is_nil(maybe_changeset.__struct__) do
+    changeset_type = "#{maybe_changeset.__struct__}"
+
+    cond do
+      changeset_type |> String.contains?("Ash.Changeset") ->
+        ash_changeset = maybe_changeset
+        _get_ash_framework_field_required(ash_changeset, field)
+
+      true ->
+        false
+    end
+  end
+
+  def get_field_required(_, _), do: []
+
+  # Handle other types of changesets: Ash Framework
+  def _get_ash_framework_field_required(ash_changeset, field) do
+    ash_changeset.errors
+    |> Enum.filter(fn ash_error -> ash_error.field == field end)
+    |> Enum.count() > 0
   end
 
   @doc """
