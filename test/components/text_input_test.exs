@@ -219,7 +219,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <input class="FormControl-input FormControl-medium" type="text" />
              <div class="FormControl-caption">Caption</div>
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label"></label><span aria-hidden="true">*</span></div><input
+             <div class="form-group-header"><label class="FormControl-label"></label></div><input
              class="FormControl-input FormControl-medium" type="text" />
              <div class="FormControl-caption">Caption</div>
              </div>
@@ -237,7 +237,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label><span aria-hidden="true">*</span></div><input
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label></div><input
              class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
              </div>
              """
@@ -253,7 +253,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="FormControl form-group">
-             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label><span aria-hidden="true">*</span></div><input
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label></div><input
              class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
              </div>
              """
@@ -269,7 +269,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="FormControl form-group">
-             <div class="form-group-header"><label class="FormControl-label" for="xyz">First name</label><span aria-hidden="true">*</span></div><input
+             <div class="form-group-header"><label class="FormControl-label" for="xyz">First name</label></div><input
              class="FormControl-input FormControl-medium" id="xyz" name="user[first_name]" type="text" />
              </div>
              """
@@ -293,7 +293,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label><span aria-hidden="true">*</span></div><input
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label></div><input
              class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
              </div>
              """
@@ -317,7 +317,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="FormControl form-group">
-             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label><span aria-hidden="true">*</span></div><input
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label></div><input
              class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
              </div>
              """
@@ -426,7 +426,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="FormControl pl-FormControl-disabled">
-             <div class="form-group-header"><label class="FormControl-label" for="first_name">First name</label><span aria-hidden="true">*</span></div><input
+             <div class="form-group-header"><label class="FormControl-label" for="first_name">First name</label></div><input
                class="FormControl-input FormControl-medium" disabled id="first_name" name="first_name" type="text" />
              </div>
              """
@@ -553,14 +553,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <div class="FormControl-caption caption-x">Caption</div>
              </div>
              <div class="FormControl group-x control-x">
-             <div class="form-group-header header-x"><label class="FormControl-label label-x"></label><span aria-hidden="true">*</span></div>
+             <div class="form-group-header header-x"><label class="FormControl-label label-x"></label></div>
              <div class="FormControl-input-wrap FormControl-input-wrap--leadingVisual input_wrap-x"><span
              class="FormControl-input-leadingVisualWrap"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16"
              height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span><input
              class="FormControl-input FormControl-medium input-x my-text-input" type="text" /></div>
              </div>
              <div class="FormControl group-x control-x">
-             <div class="form-group-header header-x"><label class="FormControl-label label-x"></label><span aria-hidden="true">*</span></div>
+             <div class="form-group-header header-x"><label class="FormControl-label label-x"></label></div>
              <div class="FormControl-input-wrap FormControl-input-wrap--trailingAction input_wrap-x"><input
              class="FormControl-input FormControl-medium input-x my-text-input" type="text" /><span
              class="FormControl-input-trailingAction"><button aria-label="Clear" class="btn-octicon" type="button"><span class="pl-button__content"><svg

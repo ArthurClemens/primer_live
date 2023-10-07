@@ -79,7 +79,7 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
              """
              <form>
              <div class="FormControl pl-FormControl--input-group">
-             <div class="form-group-header"><label class="FormControl-label">Role</label><span aria-hidden="true">*</span></div>
+             <div class="form-group-header"><label class="FormControl-label">Role</label></div>
              <div class="FormControl-caption">Select one</div>
              <div class="pl-FormControl--input-group__container"><span class="FormControl-radio-wrap"><input
              class="FormControl-radio" id="role-caption_admin" name="role-caption" type="radio" value="admin" /><span
@@ -123,7 +123,7 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
              """
              <form method="post">
              <div class="FormControl pl-FormControl--input-group pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label">Statuses</label><span aria-hidden="true">*</span>
+             <div class="form-group-header"><label class="FormControl-label">Statuses</label>
              </div>
              <div class="pl-FormControl--input-group__container"><span class="FormControl-radio-wrap pl-invalid"><input
              class="FormControl-radio" id="in-progress-derived-label" name="todo[statuses]" type="radio"
@@ -174,7 +174,7 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
              """
              <form method="post">
              <div class="FormControl pl-FormControl--input-group pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label">Statuses</label><span aria-hidden="true">*</span>
+             <div class="form-group-header"><label class="FormControl-label">Statuses</label>
              </div>
              <div class="pl-FormControl--input-group__container"><span class="FormControl-radio-wrap pl-invalid"><input
              class="FormControl-radio" id="in-progress-custom-label" name="todo[statuses]" type="radio"

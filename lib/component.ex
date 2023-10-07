@@ -2906,7 +2906,8 @@ defmodule PrimerLive.Component do
       form: form,
       field: field,
       validation_marker_class: validation_marker_class,
-      caption: caption
+      caption: caption,
+      required?: required?
     } = AttributeHelpers.common_input_attrs(assigns)
 
     classes = %{
@@ -2973,7 +2974,9 @@ defmodule PrimerLive.Component do
       end
 
     has_header_label = label && label !== "Nil"
-    has_required_marker = !is_nil(assigns.required_marker) && assigns.required_marker !== ""
+
+    show_required_marker =
+      required? && !is_nil(assigns.required_marker) && assigns.required_marker !== ""
 
     control_attributes =
       AttributeHelpers.append_attributes(rest, [
@@ -2985,7 +2988,7 @@ defmodule PrimerLive.Component do
       |> assign(:classes, classes)
       |> assign(:control_attributes, control_attributes)
       |> assign(:has_header_label, has_header_label)
-      |> assign(:has_required_marker, has_required_marker)
+      |> assign(:show_required_marker, show_required_marker)
       |> assign(:label, label)
       |> assign(:caption, caption)
 
@@ -2994,7 +2997,7 @@ defmodule PrimerLive.Component do
       <%= if @has_header_label do %>
         <div class={@classes.header}>
           <%= @label %>
-          <%= if @has_required_marker do %>
+          <%= if @show_required_marker do %>
             <span aria-hidden="true"><%= @required_marker %></span>
           <% end %>
         </div>
@@ -7152,14 +7155,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the select menu component")
-
-  attr(:is_aligned_end, :boolean,
-    default: false,
-    doc: "Aligns the menu to the end (at the right in left-to-right langages)."
-  )
+  DeclarationHelpers.is_aligned_end("the menu")
 
   attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
-
   attr(:is_borderless, :boolean, default: false, doc: "Removes the borders between list items.")
 
   DeclarationHelpers.class()
@@ -7791,8 +7789,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the menu component")
-
-  attr(:is_aligned_end, :boolean, default: false, doc: "Aligns the menu to the right.")
+  DeclarationHelpers.is_aligned_end("the menu")
 
   attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
 

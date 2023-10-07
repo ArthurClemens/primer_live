@@ -42,7 +42,7 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
            |> format_html() ==
              """
              <div class="FormControl form-group">
-             <div class="form-group-header"><label class="FormControl-label">First name</label><span aria-hidden="true">*</span></div>inputs
+             <div class="form-group-header"><label class="FormControl-label">First name</label></div>inputs
              </div>
              """
              |> format_html()
@@ -57,7 +57,7 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
            |> format_html() ==
              """
              <div class="FormControl form-group">
-             <div class="form-group-header"><label class="FormControl-label">First name</label><span aria-hidden="true">*</span></div>inputs
+             <div class="form-group-header"><label class="FormControl-label">First name</label></div>inputs
              </div>
              """
              |> format_html()
@@ -127,7 +127,7 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
            |> format_html() ==
              """
              <div class="FormControl form-group my-form-group group-x control-x pl-neutral">
-             <div class="form-group-header header-x"><label class="FormControl-label label-x">First name</label><span aria-hidden="true">*</span></div>inputs
+             <div class="form-group-header header-x"><label class="FormControl-label label-x">First name</label></div>inputs
              </div>
              """
              |> format_html()

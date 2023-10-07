@@ -350,7 +350,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
              </select></div>
              <div class="FormControl-caption">Caption</div>
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label" for="count">Count</label><span aria-hidden="true">*</span></div>
+             <div class="form-group-header"><label class="FormControl-label" for="count">Count</label></div>
              <div class="FormControl-select-wrap"><select class="FormControl-select FormControl-medium" id="count" name="count">
              <option value="One">One</option>
              <option value="Two">Two</option>

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.4
+
+Fixed a bug where the required marker would always be displayed, regardless of the field's required state.
+
 ## 0.5.3
 
 Downgraded `phoenix_live_view` version to `0.19`; both `0.19` and `0.20` should be compatible.
