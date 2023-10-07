@@ -7155,14 +7155,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the select menu component")
-
-  attr(:is_aligned_end, :boolean,
-    default: false,
-    doc: "Aligns the menu to the end (at the right in left-to-right langages)."
-  )
+  DeclarationHelpers.is_aligned_end("the menu")
 
   attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
-
   attr(:is_borderless, :boolean, default: false, doc: "Removes the borders between list items.")
 
   DeclarationHelpers.class()
@@ -7794,8 +7789,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the menu component")
-
-  attr(:is_aligned_end, :boolean, default: false, doc: "Aligns the menu to the right.")
+  DeclarationHelpers.is_aligned_end("the menu")
 
   attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
 

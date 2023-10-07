@@ -187,6 +187,19 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
+  defmacro is_aligned_end(the_element) do
+    quote do
+      attr(:is_aligned_end, :boolean,
+        default: false,
+        doc:
+          """
+          Aligns {the_element} to the end (at the right in left-to-right languages).
+          """
+          |> String.replace("{the_element}", unquote(the_element))
+      )
+    end
+  end
+
   # link attr
 
   defmacro href do
