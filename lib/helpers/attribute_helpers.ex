@@ -697,6 +697,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     %{
       message: message,
       valid?: valid?,
+      required?: required?,
       ignore_errors?: ignore_errors?,
       caption: caption
     } = field_state
@@ -736,6 +737,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     %{
       message: message,
       valid?: valid?,
+      required?: required?,
       ignore_errors?: ignore_errors?,
       show_message?: show_message?,
       validation_message_id: validation_message_id,
