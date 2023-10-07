@@ -79,7 +79,7 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
              """
              <form>
              <div class="FormControl pl-FormControl--input-group">
-             <div class="form-group-header"><label class="FormControl-label">Role</label><span aria-hidden="true">*</span></div>
+             <div class="form-group-header"><label class="FormControl-label">Role</label></div>
              <div class="FormControl-caption">Select one</div>
              <div class="pl-FormControl--input-group__container"><span class="FormControl-checkbox-wrap"><input
              name="role-caption[]" type="hidden" value="false" /><input class="FormControl-checkbox"
@@ -124,7 +124,7 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
              """
              <form method="post">
              <div class="FormControl pl-FormControl--input-group pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label">Statuses</label><span aria-hidden="true">*</span>
+             <div class="form-group-header"><label class="FormControl-label">Statuses</label>
              </div>
              <div class="pl-FormControl--input-group__container"><span class="FormControl-checkbox-wrap pl-invalid"><input
              name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox"
@@ -177,7 +177,7 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
              """
              <form method="post">
              <div class="FormControl pl-FormControl--input-group pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label">Statuses</label><span aria-hidden="true">*</span>
+             <div class="form-group-header"><label class="FormControl-label">Statuses</label>
              </div>
              <div class="pl-FormControl--input-group__container"><span class="FormControl-checkbox-wrap pl-invalid"><input
              name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox"
