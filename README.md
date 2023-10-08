@@ -16,6 +16,10 @@ All PrimerLive components accept the <code>class</code> attribute for customisat
 PrimerLive components can be used in <a href="https://github.com/phoenixframework/phoenix_live_view" target="_blank">Phoenix LiveView pages</a> and regular (non-LiveView) views in Phoenix applications.
 </p>
 
+<p>
+Forms created with <a href"https://www.ash-hq.org/">Ash Framework</a> are supported.
+</p>
+
 ## Documentation
 
 - [Documentation at Hexdocs](https://hexdocs.pm/primer_live/)
