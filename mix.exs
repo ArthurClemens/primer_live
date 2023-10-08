@@ -4,14 +4,15 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.5.4",
+      version: "0.6.0",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       description: description(),
       package: package(),
       aliases: aliases(),
       name: "PrimerLive",
       deps: deps(),
-      docs: docs()
+      docs: docs(),
+      consolidate_protocols: Mix.env() != :test
     ]
   end
 
@@ -29,15 +30,17 @@ defmodule PrimerLive.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:ash_phoenix, "~> 1.2", only: :test, runtime: false},
+      {:ash, "~> 2.15", only: :test, runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:ecto, "~> 3.10", runtime: false},
       {:ecto_sql, "~> 3.10", only: :test, runtime: false},
+      {:ecto, "~> 3.10", runtime: false},
       {:esbuild, "~> 0.7", only: :dev},
       {:ex_doc, "~> 0.30", only: :dev},
+      {:jason, "~> 1.4"},
       {:phoenix_ecto, "~> 4.4", only: :test, runtime: false},
       {:phoenix_html, "~> 3.3"},
-      {:phoenix_live_view, "~> 0.19"},
-      {:jason, "~> 1.4"}
+      {:phoenix_live_view, "~> 0.19"}
     ]
   end
 
@@ -95,7 +98,8 @@ defmodule PrimerLive.MixProject do
       },
       files:
         ~w(lib .formatter.exs mix.exs README* LICENSE* priv/octicon_builder/build.exs priv/static
-                CHANGELOG* package.json)
+                CHANGELOG* package.json),
+      exclude_patterns: ["lib/helpers/test_helpers", "priv/octicon_builder"]
     ]
   end
 

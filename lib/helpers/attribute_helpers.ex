@@ -447,9 +447,33 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
       iex> PrimerLive.Helpers.AttributeHelpers.input_name(:profile, :first_name, is_multiple: true)
       "profile[first_name][]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_name(%Phoenix.HTML.Form{
+      ...>   name: :profile,
+      ...>   source: %Ecto.Changeset{
+      ...>     action: :update,
+      ...>     changes: %{first_name: "annette"},
+      ...>     errors: [],
+      ...>     data: nil,
+      ...>     valid?: true
+      ...>   }
+      ...> }, :first_name)
+      "profile[first_name]"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_name(%PrimerLive.Helpers.TestForm{
+      ...>   source: %PrimerLive.Helpers.TestForm{
+      ...>     name: "test",
+      ...>     source: %Phoenix.HTML.Form{
+      ...>       name: :profile,
+      ...>     }
+      ...>   }
+      ...> }, :first_name)
+      "first_name"
   """
 
-  def input_name(form, field, opts \\ []) do
+  def input_name(form_or_name, field, opts \\ [])
+
+  def input_name(form, field, opts) do
     _input_name(form, field, opts[:name], !!opts[:is_multiple])
   end
 

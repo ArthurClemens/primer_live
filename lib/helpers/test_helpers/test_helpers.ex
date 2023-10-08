@@ -27,3 +27,9 @@ defmodule PrimerLive.Helpers.TestHelpers do
     |> String.trim()
   end
 end
+
+defmodule PrimerLive.Helpers.TestForm do
+  @moduledoc false
+
+  defstruct source: nil, name: nil
+end

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0
+
+Added support for forms created with [Ash Framework](https://www.ash-hq.org/). See [test/frameworks/ash/form_test.exs](https://github.com/ArthurClemens/primer_live/tree/development/test/frameworks/ash/form_test.exs) for an example.
+
 ## 0.5.4
 
 Fixed a bug where the required marker would always be displayed, regardless of the field's required state.
