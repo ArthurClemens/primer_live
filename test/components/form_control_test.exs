@@ -1,36 +1,14 @@
 defmodule PrimerLive.TestComponents.FormControlTest do
   use ExUnit.Case
   use PrimerLive
-  import PrimerLive.Helpers.TestHelpers
 
+  import PrimerLive.Helpers.TestHelpers
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
-  @default_form %Phoenix.HTML.Form{
-    impl: Phoenix.HTML.FormData.Atom,
-    id: "user",
-    name: "user",
-    params: %{"first_name" => ""},
-    source: %Ecto.Changeset{
-      action: :validate,
-      changes: %{},
-      errors: [],
-      data: nil,
-      valid?: true
-    }
-  }
+  alias PrimerLive.TestHelpers.Repo.Users
 
-  @error_changeset %Ecto.Changeset{
-    action: :validate,
-    changes: %{},
-    errors: [
-      first_name: {"can't be blank", [validation: :required]}
-    ],
-    data: nil,
-    valid?: false
-  }
-
-  test "Called without options : should render the component" do
+  test "Called without options: should render the component" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
@@ -100,31 +78,48 @@ defmodule PrimerLive.TestComponents.FormControlTest do
   end
 
   test "Attribute: required_marker" do
+    changeset = Users.init()
+
     assigns = %{
-      form: %{@default_form | source: @error_changeset}
+      changeset: changeset,
+      field: :first_name
     }
 
     assert rendered_to_string(~H"""
-           <.form_control form={@form} field={:first_name}>inputs</.form_control>
-           <.form_control form={@form} field={:first_name} required_marker="">inputs</.form_control>
-           <.form_control form={@form} field={:first_name} required_marker="required">inputs</.form_control>
+           <.form :let={f} for={@changeset}>
+             <.form_control form={f} field={@field}>inputs</.form_control>
+           </.form>
+
+           <.form :let={f} for={@changeset}>
+             <.form_control form={f} field={@field} required_marker="">inputs</.form_control>
+           </.form>
+
+           <.form :let={f} for={@changeset}>
+             <.form_control form={f} field={@field} required_marker="required">inputs</.form_control>
+           </.form>
            """)
            |> format_html() ==
              """
+             <form method="post">
              <div class="FormControl pl-invalid">
              <div class="form-group-header"><label class="FormControl-label">First name</label><span aria-hidden="true">*</span>
              </div>
              inputs
              </div>
+             </form>
+             <form method="post">
              <div class="FormControl pl-invalid">
              <div class="form-group-header"><label class="FormControl-label">First name</label></div>
              inputs
              </div>
+             </form>
+             <form method="post">
              <div class="FormControl pl-invalid">
              <div class="form-group-header"><label class="FormControl-label">First name</label><span
              aria-hidden="true">required</span></div>
              inputs
              </div>
+             </form>
              """
              |> format_html()
   end
@@ -143,78 +138,77 @@ defmodule PrimerLive.TestComponents.FormControlTest do
   end
 
   test "Classes" do
+    changeset = Users.init()
+
     assigns = %{
-      form: @default_form
+      changeset: changeset,
+      field: :first_name
     }
 
     assert rendered_to_string(~H"""
-           <.form_control
-             class="my-form-control"
-             classes={
-               %{
-                 control: "control-x",
-                 group: "group-x",
-                 header: "header-x",
-                 label: "label-x"
+           <.form :let={f} for={@changeset}>
+             <.form_control
+               class="my-form-control"
+               classes={
+                 %{
+                   control: "control-x",
+                   group: "group-x",
+                   header: "header-x",
+                   label: "label-x"
+                 }
                }
-             }
-             form={@form}
-             field={:first_name}
-           >
-             inputs
-           </.form_control>
+               form={f}
+               field={@field}
+             >
+               inputs
+             </.form_control>
+           </.form>
            """)
            |> format_html() ==
              """
-             <div class="FormControl my-form-control group-x control-x pl-neutral">
-             <div class="form-group-header header-x"><label class="FormControl-label label-x">First name</label></div>inputs
+             <form method="post">
+             <div class="FormControl my-form-control group-x control-x pl-invalid">
+             <div class="form-group-header header-x"><label class="FormControl-label label-x">First name</label><span
+                aria-hidden="true">*</span></div>inputs
              </div>
+             </form>
              """
              |> format_html()
   end
 
   test "Checkboxes" do
-    form = %Phoenix.HTML.Form{
-      impl: Phoenix.HTML.FormData.Atom,
-      id: "user",
-      name: "user",
-      params: %{"available_for_hire" => ""},
-      source: %Ecto.Changeset{
-        action: :validate,
-        changes: %{},
-        errors: [
-          available_for_hire: {"can't be blank", [validation: :required]}
-        ],
-        data: nil,
-        valid?: false
-      }
-    }
+    changeset = Users.init()
 
     assigns = %{
-      form: form
+      changeset: changeset,
+      field: :available_for_hire
     }
 
     assert rendered_to_string(~H"""
-           <.form_control form={@form} field={:available_for_hire}>
-             <.checkbox form={@form} field={:available_for_hire} checked_value="admin" />
-             <.checkbox form={@form} field={:available_for_hire} checked_value="editor" />
-           </.form_control>
+           <.form :let={f} for={@changeset}>
+             <.form_control form={f} field={@field}>
+               <.checkbox form={f} field={@field} checked_value="admin" />
+               <.checkbox form={f} field={@field} checked_value="editor" />
+             </.form_control>
+           </.form>
            """)
            |> format_html() ==
              """
+             <form method="post">
              <div class="FormControl pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label">Available for hire</label><span aria-hidden="true">*</span></div><span
-             class="FormControl-checkbox-wrap pl-invalid" phx-feedback-for="user[available_for_hire]"><input
-             name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox"
-             id="user_available_for_hire_admin" invalid="" name="user[available_for_hire]" type="checkbox"
-             value="admin" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="user_available_for_hire_admin">Admin</label></span></span><span
-             class="FormControl-checkbox-wrap pl-invalid" phx-feedback-for="user[available_for_hire]"><input
-             name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox"
-             id="user_available_for_hire_editor" invalid="" name="user[available_for_hire]" type="checkbox"
-             value="editor" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="user_available_for_hire_editor">Editor</label></span></span>
+             <div class="form-group-header"><label class="FormControl-label">Available for hire</label><span
+                aria-hidden="true">*</span></div><span class="FormControl-checkbox-wrap pl-invalid"><input
+                name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox"
+                id="user_available_for_hire_admin" name="user[available_for_hire]" type="checkbox" value="admin" /><span
+                class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
+                    for="user_available_for_hire_admin">Admin</label></span></span><span
+             class="FormControl-checkbox-wrap pl-invalid"><input name="user[available_for_hire]" type="hidden"
+                value="false" /><input class="FormControl-checkbox" id="user_available_for_hire_editor"
+                name="user[available_for_hire]" type="checkbox" value="editor" /><span
+                class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
+                    for="user_available_for_hire_editor">Editor</label></span></span>
              </div>
+             </form>
              """
              |> format_html()
   end

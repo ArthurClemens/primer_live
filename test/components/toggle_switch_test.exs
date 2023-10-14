@@ -7,7 +7,7 @@ defmodule PrimerLive.Components.ToggleSwitchTest do
   import Phoenix.LiveViewTest
 
   @default_form %Phoenix.HTML.Form{
-    impl: Phoenix.HTML.FormData.Atom,
+    impl: Phoenix.HTML.FormData.Ecto.Changeset,
     id: "user",
     name: "user",
     params: %{"available_for_hire" => "true"},

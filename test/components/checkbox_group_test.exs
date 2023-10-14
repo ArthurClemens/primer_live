@@ -1,8 +1,8 @@
 defmodule PrimerLive.TestComponents.CheckboxGroupTest do
   use ExUnit.Case
   use PrimerLive
-  import PrimerLive.Helpers.TestHelpers
 
+  import PrimerLive.Helpers.TestHelpers
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
@@ -125,6 +125,7 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
              <form method="post">
              <div class="FormControl pl-FormControl--input-group pl-invalid">
              <div class="form-group-header"><label class="FormControl-label">Statuses</label>
+             <span aria-hidden="true">*</span>
              </div>
              <div class="pl-FormControl--input-group__container"><span class="FormControl-checkbox-wrap pl-invalid"><input
              name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox"
@@ -178,6 +179,7 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
              <form method="post">
              <div class="FormControl pl-FormControl--input-group pl-invalid">
              <div class="form-group-header"><label class="FormControl-label">Statuses</label>
+             <span aria-hidden="true">*</span>
              </div>
              <div class="pl-FormControl--input-group__container"><span class="FormControl-checkbox-wrap pl-invalid"><input
              name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox"
@@ -204,19 +206,11 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
     values = changeset.changes |> Map.get(:statuses) || []
 
     form = %Phoenix.HTML.Form{
-      impl: Phoenix.HTML.FormData.Atom,
+      impl: Phoenix.HTML.FormData.Ecto.Changeset,
       id: "user",
       name: "user",
       params: %{"statuses" => ""},
-      source: %Ecto.Changeset{
-        action: :validate,
-        changes: %{},
-        errors: [
-          statuses: {"can't be blank", [validation: :required]}
-        ],
-        data: nil,
-        valid?: false
-      }
+      source: %Ecto.Changeset{changeset | action: :validate}
     }
 
     assigns = %{
@@ -263,7 +257,7 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
              for="user_statuses_complete">Complete</label></span></span>
              <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_statuses-validation"
              phx-feedback-for="user[statuses][]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-             viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>can&#39;t be blank</span></div>
+             viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>must select a status</span></div>
              </div>
              </div>
              """

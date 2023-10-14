@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+
+Fixes reading the required state of input fields.
+
 ## 0.6.0
 
 Added support for forms created with [Ash Framework](https://www.ash-hq.org/). See [test/frameworks/ash/form_test.exs](https://github.com/ArthurClemens/primer_live/tree/development/test/frameworks/ash/form_test.exs) for an example.

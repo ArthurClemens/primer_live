@@ -1,34 +1,12 @@
 defmodule PrimerLive.TestComponents.TextInputTest do
   use ExUnit.Case
   use PrimerLive
-  import PrimerLive.Helpers.TestHelpers
 
+  import PrimerLive.Helpers.TestHelpers
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
-  @default_form %Phoenix.HTML.Form{
-    impl: Phoenix.HTML.FormData.Atom,
-    id: "user",
-    name: "user",
-    params: %{"first_name" => ""},
-    source: %Ecto.Changeset{
-      action: :validate,
-      changes: %{},
-      errors: [],
-      data: nil,
-      valid?: true
-    }
-  }
-
-  @error_changeset %Ecto.Changeset{
-    action: :validate,
-    changes: %{},
-    errors: [
-      first_name: {"can't be blank", [validation: :required]}
-    ],
-    data: nil,
-    valid?: false
-  }
+  alias PrimerLive.TestHelpers.Repo.Users
 
   test "Called without options or inner_block: should render the component" do
     assigns = %{}
@@ -190,9 +168,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Attribute: caption" do
-    assigns = %{
-      form: %{@default_form | source: @error_changeset}
-    }
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.text_input caption="Caption" />
@@ -325,81 +301,116 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Default validation message" do
+    changeset = Users.init()
+
+    validate_changeset = %Ecto.Changeset{
+      changeset
+      | action: :validate,
+        changes: %{first_name: nil}
+    }
+
     assigns = %{
-      form: %{@default_form | source: @error_changeset}
+      changeset: validate_changeset,
+      field: :first_name
     }
 
     assert rendered_to_string(~H"""
-           <.text_input form={@form} field={:first_name} />
+           <.form :let={f} for={@changeset}>
+             <.text_input form={f} field={@field} />
+           </.form>
            """)
            |> format_html() ==
              """
+             <form method="post">
              <div class="pl-invalid" phx-feedback-for="user[first_name]"><input aria-describedby="user_first_name-validation"
-             class="FormControl-input FormControl-medium" id="user_first_name" invalid="" name="user[first_name]" type="text"
-             value="" /></div>
+             class="FormControl-input FormControl-medium" id="user_first_name" invalid="" name="user[first_name]" type="text" /></div>
              <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation"
              phx-feedback-for="user[first_name]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
              viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>can&#39;t be blank</span></div>
+             </form>
              """
              |> format_html()
   end
 
   test "Attribute: validation_message (custom error message)" do
+    changeset = Users.init()
+
+    validate_changeset = %Ecto.Changeset{
+      changeset
+      | action: :validate,
+        changes: %{first_name: nil}
+    }
+
     assigns = %{
-      form: %{@default_form | source: @error_changeset}
+      changeset: validate_changeset,
+      field: :first_name
     }
 
     assert rendered_to_string(~H"""
-           <.text_input
-             form={@form}
-             field={:first_name}
-             validation_message={
-               fn field_state ->
-                 if !field_state.valid?, do: "Please enter your first name"
-               end
-             }
-           />
+           <.form :let={f} for={@changeset}>
+             <.text_input
+               form={f}
+               field={@field}
+               validation_message={
+                 fn field_state ->
+                   if !field_state.valid?, do: "Please enter your first name"
+                 end
+               }
+             />
+           </.form>
            """)
            |> format_html() ==
              """
+             <form method="post">
              <div class="pl-invalid" phx-feedback-for="user[first_name]"><input aria-describedby="user_first_name-validation"
-             class="FormControl-input FormControl-medium" id="user_first_name" invalid="" name="user[first_name]" type="text"
-             value="" /></div>
+             class="FormControl-input FormControl-medium" id="user_first_name" invalid="" name="user[first_name]" type="text" /></div>
              <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation"
              phx-feedback-for="user[first_name]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
              viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>Please enter your first name</span></div>
+             </form>
              """
              |> format_html()
   end
 
   test "Attribute: validation_message (custom success message)" do
+    changeset = Users.init()
+
+    validate_changeset = %Ecto.Changeset{
+      changeset
+      | action: :validate,
+        changes: %{first_name: "anna"},
+        errors: [],
+        valid?: true
+    }
+
     assigns = %{
-      form: %{
-        @default_form
-        | source: @default_form.source,
-          params: %{"first_name" => "anna"}
-      }
+      changeset: validate_changeset,
+      field: :first_name
     }
 
     assert rendered_to_string(~H"""
-           <.text_input
-             form={@form}
-             field={:first_name}
-             validation_message={
-               fn field_state ->
-                 if field_state.valid?, do: "Available!"
-               end
-             }
-           />
+           <.form :let={f} for={@changeset}>
+             <.text_input
+               form={f}
+               field={@field}
+               validation_message={
+                 fn field_state ->
+                   if field_state.valid?, do: "Available!"
+                 end
+               }
+             />
+           </.form>
            """)
            |> format_html() ==
              """
+             <form method="post">
              <div class="pl-valid" phx-feedback-for="user[first_name]"><input aria-describedby="user_first_name-validation"
              class="FormControl-input FormControl-medium" id="user_first_name" invalid="" name="user[first_name]" type="text"
              value="anna" /></div>
              <div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="user_first_name-validation"
              phx-feedback-for="user[first_name]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
              viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>Available!</span></div>
+             </form>
              """
              |> format_html()
   end
@@ -486,7 +497,17 @@ defmodule PrimerLive.TestComponents.TextInputTest do
   end
 
   test "Attribute: classes" do
+    changeset = Users.init()
+
+    validate_changeset = %Ecto.Changeset{
+      changeset
+      | action: :validate,
+        changes: %{first_name: nil}
+    }
+
     assigns = %{
+      changeset: validate_changeset,
+      field: :first_name,
       classes: %{
         input: "input-x",
         input_group: "input_group-x",
@@ -503,47 +524,49 @@ defmodule PrimerLive.TestComponents.TextInputTest do
           label: "label-x"
         }
       },
-      class: "my-text-input",
-      form: %{@default_form | source: @error_changeset}
+      class: "my-text-input"
     }
 
     assert rendered_to_string(~H"""
-           <.text_input
-             classes={@classes}
-             form_control={@form_control_attrs}
-             class={@class}
-             caption={fn -> "Caption" end}
-             form={@form}
-             field={:first_name}
-           >
-             <:group_button>
-               <.button>Send</.button>
-             </:group_button>
-           </.text_input>
+           <.form :let={f} for={@changeset}>
+             <.text_input
+               classes={@classes}
+               form_control={@form_control_attrs}
+               class={@class}
+               caption={fn -> "Caption" end}
+               form={f}
+               field={@field}
+             >
+               <:group_button>
+                 <.button>Send</.button>
+               </:group_button>
+             </.text_input>
 
-           <.text_input classes={@classes} form_control={@form_control_attrs} class={@class}>
-             <:leading_visual class="my-leading-visual">
-               <.octicon name="mail-16" />
-             </:leading_visual>
-           </.text_input>
+             <.text_input classes={@classes} form_control={@form_control_attrs} class={@class}>
+               <:leading_visual class="my-leading-visual">
+                 <.octicon name="mail-16" />
+               </:leading_visual>
+             </.text_input>
 
-           <.text_input classes={@classes} form_control={@form_control_attrs} class={@class}>
-             <:trailing_action>
-               <.button is_icon_only aria-label="Clear">
-                 <.octicon name="x-16" />
-               </.button>
-             </:trailing_action>
-           </.text_input>
+             <.text_input classes={@classes} form_control={@form_control_attrs} class={@class}>
+               <:trailing_action>
+                 <.button is_icon_only aria-label="Clear">
+                   <.octicon name="x-16" />
+                 </.button>
+               </:trailing_action>
+             </.text_input>
+           </.form>
            """)
            |> format_html() ==
              """
+             <form method="post">
              <div class="FormControl group-x control-x pl-invalid">
              <div class="form-group-header header-x"><label class="FormControl-label label-x" for="user_first_name">First
              name</label><span aria-hidden="true">*</span></div>
              <div class="input-group input_group-x">
              <div class="pl-invalid" phx-feedback-for="user[first_name]"><input aria-describedby="user_first_name-validation"
              class="FormControl-input FormControl-medium input-x my-text-input" id="user_first_name" invalid=""
-             name="user[first_name]" type="text" value="" /></div><span
+             name="user[first_name]" type="text" /></div><span
              class="input-group-button input_group_button-x"><button class="btn" type="button"><span class="pl-button__content">Send</span></button></span>
              </div>
              <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x"
@@ -567,6 +590,7 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
              viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span></button></span></div>
              </div>
+             </form>
              """
              |> format_html()
   end

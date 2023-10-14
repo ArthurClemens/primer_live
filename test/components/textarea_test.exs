@@ -6,29 +6,7 @@ defmodule PrimerLive.TestComponents.TextareaTest do
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
-  @default_form %Phoenix.HTML.Form{
-    impl: Phoenix.HTML.FormData.Atom,
-    id: "user",
-    name: "user",
-    params: %{"first_name" => ""},
-    source: %Ecto.Changeset{
-      action: :validate,
-      changes: %{},
-      errors: [],
-      data: nil,
-      valid?: true
-    }
-  }
-
-  @error_changeset %Ecto.Changeset{
-    action: :validate,
-    changes: %{},
-    errors: [
-      first_name: {"can't be blank", [validation: :required]}
-    ],
-    data: nil,
-    valid?: false
-  }
+  alias PrimerLive.TestHelpers.Repo.Users
 
   test "Called without options: should render the component" do
     assigns = %{}
@@ -83,40 +61,61 @@ defmodule PrimerLive.TestComponents.TextareaTest do
   end
 
   test "Attribute: caption" do
+    changeset = Users.init()
+
     assigns = %{
-      form: %{@default_form | source: @error_changeset}
+      changeset: changeset,
+      field: :first_name
     }
 
     assert rendered_to_string(~H"""
-           <.textarea caption="Caption" />
-           <.textarea
-             caption={
-               fn ->
-                 ~H'''
-                 Caption
-                 '''
-               end
-             }
-             is_form_control
-           />
-           <.textarea caption={
-             fn field_state ->
-               if !field_state.valid?,
-                 # Hide this text because the error validation message will show similar content
-                 do: nil
-             end
-           } />
+           <.form :let={f} for={@changeset}>
+             <.textarea form={f} field={@field} caption="Caption 1" />
+           </.form>
+           <.form :let={f} for={@changeset}>
+             <.textarea
+               form={f}
+               field={@field}
+               caption={
+                 fn ->
+                   ~H'''
+                   Caption 2
+                   '''
+                 end
+               }
+               is_form_control
+             />
+           </.form>
+           <.form :let={f} for={@changeset}>
+             <.textarea
+               form={f}
+               field={@field}
+               caption={
+                 fn field_state ->
+                   if !field_state.valid?,
+                     # Hide this text because the error validation message will show similar content
+                     do: nil
+                 end
+               }
+             />
+           </.form>
            """)
            |> format_html() ==
              """
-             <textarea class="FormControl-textarea FormControl-medium"></textarea>
-             <div class="FormControl-caption">Caption</div>
-             <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label"></label></div><textarea
-             class="FormControl-textarea FormControl-medium"></textarea>
-             <div class="FormControl-caption">Caption</div>
+             <form method="post"><textarea class="FormControl-textarea FormControl-medium" id="user_first_name"
+             name="user[first_name]"></textarea>
+             <div class="FormControl-caption">Caption 1</div>
+             </form>
+             <form method="post">
+             <div class="FormControl pl-invalid">
+             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label><span
+                aria-hidden="true">*</span></div><textarea class="FormControl-textarea FormControl-medium"
+             id="user_first_name" name="user[first_name]"></textarea>
+             <div class="FormControl-caption">Caption 2</div>
              </div>
-             <textarea class="FormControl-textarea FormControl-medium"></textarea>
+             </form>
+             <form method="post"><textarea class="FormControl-textarea FormControl-medium" id="user_first_name"
+             name="user[first_name]"></textarea></form>
              """
              |> format_html()
   end
@@ -162,35 +161,52 @@ defmodule PrimerLive.TestComponents.TextareaTest do
   end
 
   test "Attribute: validation_message" do
+    changeset = Users.init()
+
+    validate_changeset = %Ecto.Changeset{
+      changeset
+      | action: :validate,
+        changes: %{first_name: nil}
+    }
+
     assigns = %{
-      form: %{@default_form | source: @error_changeset}
+      changeset: validate_changeset,
+      field: :first_name
     }
 
     assert rendered_to_string(~H"""
-           <.textarea
-             form={@form}
-             field={:first_name}
-             validation_message={
-               fn field_state ->
-                 if !field_state.valid?, do: "Please enter your first name"
-               end
-             }
-           />
+           <.form :let={f} for={@changeset}>
+             <.textarea
+               form={f}
+               field={@field}
+               validation_message={
+                 fn field_state ->
+                   if !field_state.valid?, do: "Please enter your first name"
+                 end
+               }
+             />
+           </.form>
            """)
            |> format_html() ==
              """
+             <form method="post">
              <div class="pl-invalid" phx-feedback-for="user[first_name]"><textarea aria-describedby="user_first_name-validation"
              class="FormControl-textarea FormControl-medium" id="user_first_name" invalid="" name="user[first_name]"></textarea>
              </div>
              <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation"
              phx-feedback-for="user[first_name]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
              viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>Please enter your first name</span></div>
+             </form>
              """
              |> format_html()
   end
 
   test "Attribute: classes" do
+    changeset = Users.init()
+
     assigns = %{
+      changeset: changeset,
+      field: :first_name,
       classes: %{
         input: "input-x",
         validation_message: "validation_message-x",
@@ -204,34 +220,32 @@ defmodule PrimerLive.TestComponents.TextareaTest do
           label: "label-x"
         }
       },
-      class: "my-text-input",
-      form: %{@default_form | source: @error_changeset}
+      class: "my-text-input"
     }
 
     assert rendered_to_string(~H"""
-           <.textarea
-             classes={@classes}
-             form_control={@form_control_attrs}
-             class={@class}
-             caption={fn -> "Caption" end}
-             form={@form}
-             field={:first_name}
-           />
+           <.form :let={f} for={@changeset}>
+             <.textarea
+               classes={@classes}
+               form_control={@form_control_attrs}
+               class={@class}
+               caption={fn -> "Caption" end}
+               form={f}
+               field={@field}
+             />
+           </.form>
            """)
            |> format_html() ==
              """
+             <form method="post">
              <div class="FormControl group-x control-x pl-invalid">
              <div class="form-group-header header-x"><label class="FormControl-label label-x" for="user_first_name">First
-             name</label><span aria-hidden="true">*</span></div>
-             <div class="pl-invalid" phx-feedback-for="user[first_name]"><textarea aria-describedby="user_first_name-validation"
-             class="FormControl-textarea FormControl-medium input-x my-text-input" id="user_first_name" invalid=""
-             name="user[first_name]"></textarea></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x"
-             id="user_first_name-validation" phx-feedback-for="user[first_name]"><svg class="octicon"
-             xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-             viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>can&#39;t be blank</span></div>
+                name</label><span aria-hidden="true">*</span></div><textarea
+             class="FormControl-textarea FormControl-medium input-x my-text-input" id="user_first_name"
+             name="user[first_name]"></textarea>
              <div class="FormControl-caption caption-x">Caption</div>
              </div>
+             </form>
              """
              |> format_html()
   end

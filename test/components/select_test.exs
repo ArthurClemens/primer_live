@@ -1,34 +1,12 @@
 defmodule PrimerLive.TestComponents.SelectTest do
   use ExUnit.Case
   use PrimerLive
-  import PrimerLive.Helpers.TestHelpers
 
+  import PrimerLive.Helpers.TestHelpers
   import Phoenix.Component
   import Phoenix.LiveViewTest
 
-  @default_form %Phoenix.HTML.Form{
-    impl: Phoenix.HTML.FormData.Atom,
-    id: "user",
-    name: "user",
-    params: %{"role" => ""},
-    source: %Ecto.Changeset{
-      action: :validate,
-      changes: %{},
-      errors: [],
-      data: nil,
-      valid?: true
-    }
-  }
-
-  @error_changeset %Ecto.Changeset{
-    action: :validate,
-    changes: %{},
-    errors: [
-      role: {"can't be blank", [validation: :required]}
-    ],
-    data: nil,
-    valid?: false
-  }
+  alias PrimerLive.TestHelpers.Repo.Todos
 
   test "Simple select" do
     assigns = %{}
@@ -173,145 +151,182 @@ defmodule PrimerLive.TestComponents.SelectTest do
   end
 
   test "With form data: options as list" do
+    changeset = Todos.init()
+
     assigns = %{
-      form: @default_form
+      changeset: changeset,
+      field: :statuses
     }
 
     assert rendered_to_string(~H"""
-           <.select form={@form} field={:role} options={["admin", "editor"]} />
+           <.form :let={f} for={@changeset}>
+             <.select form={f} field={@field} options={["admin", "editor"]} />
+           </.form>
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap pl-neutral">
-             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
+             <form method="post">
+             <div class="FormControl-select-wrap pl-invalid"><select class="FormControl-select FormControl-medium" id="todo_statuses"
+             name="todo[statuses]">
              <option value="admin">admin</option>
              <option value="editor">editor</option>
-             </select>
-             </div>
+             </select></div>
+             </form>
              """
              |> format_html()
   end
 
   test "With form data: options as keyword list" do
+    changeset = Todos.init()
+
     assigns = %{
-      form: @default_form
+      changeset: changeset,
+      field: :statuses
     }
 
     assert rendered_to_string(~H"""
-           <.select form={@form} field={:role} options={[Admin: "admin", User: "user"]} />
+           <.form :let={f} for={@changeset}>
+             <.select form={f} field={@field} options={[Admin: "admin", User: "user"]} />
+           </.form>
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap pl-neutral">
-             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
+             <form method="post">
+             <div class="FormControl-select-wrap pl-invalid">
+             <select class="FormControl-select FormControl-medium" id="todo_statuses" name="todo[statuses]">
              <option value="admin">Admin</option>
              <option value="user">User</option>
              </select>
              </div>
+             </form>
              """
              |> format_html()
   end
 
   test "With form data: options as nested keyword list" do
+    changeset = Todos.init()
+
     assigns = %{
-      form: @default_form
+      changeset: changeset,
+      field: :statuses
     }
 
     assert rendered_to_string(~H"""
-           <.select
-             form={@form}
-             field={:role}
-             options={[[key: "Admin", value: "admin", disabled: true], [key: "User", value: "user"]]}
-           />
+           <.form :let={f} for={@changeset}>
+             <.select
+               form={f}
+               field={@field}
+               options={[[key: "Admin", value: "admin", disabled: true], [key: "User", value: "user"]]}
+             />
+           </.form>
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap pl-neutral">
-             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
+             <form method="post">
+             <div class="FormControl-select-wrap pl-invalid">
+             <select class="FormControl-select FormControl-medium" id="todo_statuses" name="todo[statuses]">
              <option disabled value="admin">Admin</option>
              <option value="user">User</option>
              </select>
              </div>
+             </form>
              """
              |> format_html()
   end
 
   test "Attribute: input_id" do
+    changeset = Todos.init()
+
     assigns = %{
-      form: @default_form
+      changeset: changeset,
+      field: :statuses
     }
 
     assert rendered_to_string(~H"""
-           <.select form={@form} field={:role} options={[Admin: "admin", User: "user"]} input_id="xyz" />
+           <.form :let={f} for={@changeset}>
+             <.select form={f} field={@field} options={[Admin: "admin", User: "user"]} input_id="xyz" />
+           </.form>
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap pl-neutral">
-             <select class="FormControl-select FormControl-medium" id="xyz" name="user[role]">
+             <form method="post">
+             <div class="FormControl-select-wrap pl-invalid">
+             <select class="FormControl-select FormControl-medium" id="xyz" name="todo[statuses]">
              <option value="admin">Admin</option>
              <option value="user">User</option>
              </select>
              </div>
+             </form>
              """
              |> format_html()
   end
 
   test "Attribute: prompt" do
+    changeset = Todos.init()
+
     assigns = %{
-      form: @default_form
+      changeset: changeset,
+      field: :statuses
     }
 
     assert rendered_to_string(~H"""
-           <.select
-             form={@form}
-             field={:role}
-             options={[Admin: "admin", User: "user"]}
-             prompt="Choose your role"
-           />
+           <.form :let={f} for={@changeset}>
+             <.select
+               form={f}
+               field={@field}
+               options={[Admin: "admin", User: "user"]}
+               prompt="Choose your role"
+             />
+           </.form>
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap pl-neutral">
-             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
+             <form method="post">
+             <div class="FormControl-select-wrap pl-invalid"><select class="FormControl-select FormControl-medium"
+             id="todo_statuses" name="todo[statuses]">
              <option value="">Choose your role</option>
              <option value="admin">Admin</option>
              <option value="user">User</option>
-             </select>
-             </div>
+             </select></div>
+             </form>
              """
              |> format_html()
   end
 
   test "Attribute: prompt (disabled)" do
+    changeset = Todos.init()
+
     assigns = %{
-      form: @default_form
+      changeset: changeset,
+      field: :statuses
     }
 
     assert rendered_to_string(~H"""
-           <.select
-             form={@form}
-             field={:role}
-             options={[Admin: "admin", User: "user"]}
-             prompt={[key: "Choose your role", disabled: true]}
-           />
+           <.form :let={f} for={@changeset}>
+             <.select
+               form={f}
+               field={@field}
+               options={[Admin: "admin", User: "user"]}
+               prompt={[key: "Choose your role", disabled: true]}
+             />
+           </.form>
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap pl-neutral">
-             <select class="FormControl-select FormControl-medium" id="user_role" name="user[role]">
-               <option disabled value="">Choose your role</option>
-               <option value="admin">Admin</option>
-               <option value="user">User</option>
-             </select>
-             </div>
+             <form method="post">
+             <div class="FormControl-select-wrap pl-invalid"><select class="FormControl-select FormControl-medium"
+             id="todo_statuses" name="todo[statuses]">
+             <option disabled value="">Choose your role</option>
+             <option value="admin">Admin</option>
+             <option value="user">User</option>
+             </select></div>
+             </form>
              """
              |> format_html()
   end
 
   test "Attribute: caption" do
-    assigns = %{
-      form: %{@default_form | source: @error_changeset}
-    }
+    assigns = %{}
 
     assert rendered_to_string(~H"""
            <.select
@@ -368,77 +383,100 @@ defmodule PrimerLive.TestComponents.SelectTest do
   end
 
   test "Attribute: is_multiple" do
+    changeset = Todos.init()
+
     assigns = %{
-      form: @default_form
+      changeset: changeset,
+      field: :statuses
     }
 
     assert rendered_to_string(~H"""
-           <.select
-             form={@form}
-             field={:role}
-             options={[
-               Admin: "admin",
-               User: "user",
-               Editor: "editor",
-               Copywriter: "copywriter",
-               Tester: "tester",
-               "Project owner": "project_owner",
-               Developer: "developer"
-             ]}
-             is_multiple
-             is_auto_height
-             selected={["user", "tester"]}
-           />
+           <.form :let={f} for={@changeset}>
+             <.select
+               form={f}
+               field={@field}
+               options={[
+                 Admin: "admin",
+                 User: "user",
+                 Editor: "editor",
+                 Copywriter: "copywriter",
+                 Tester: "tester",
+                 "Project owner": "project_owner",
+                 Developer: "developer"
+               ]}
+               is_multiple
+               is_auto_height
+               selected={["user", "tester"]}
+             />
+           </.form>
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap pl-multiple-select pl-neutral">
-             <select class="FormControl-select FormControl-medium" id="user_role" multiple=""
-             name="user[role][]" size="7">
+             <form method="post">
+             <div class="FormControl-select-wrap pl-multiple-select pl-invalid"><select
+             class="FormControl-select FormControl-medium" id="todo_statuses" multiple="" name="todo[statuses][]"
+             size="7">
              <option value="admin">Admin</option>
-             <option value="user">User</option>
+             <option selected value="user">User</option>
              <option value="editor">Editor</option>
              <option value="copywriter">Copywriter</option>
-             <option value="tester">Tester</option>
+             <option selected value="tester">Tester</option>
              <option value="project_owner">Project owner</option>
              <option value="developer">Developer</option>
-             </select>
-             </div>
+             </select></div>
+             </form>
              """
              |> format_html()
   end
 
   test "Default validation" do
+    changeset = Todos.init()
+
+    validate_changeset = %Ecto.Changeset{
+      changeset
+      | action: :validate,
+        changes: %{statuses: nil}
+    }
+
     assigns = %{
-      form: %{@default_form | source: @error_changeset}
+      changeset: validate_changeset,
+      field: :statuses
     }
 
     assert rendered_to_string(~H"""
-           <.select
-             form={@form}
-             field={:role}
-             options={[Admin: "admin", User: "user"]}
-             prompt={[key: "Choose your role", disabled: true]}
-             is_multiple
-           />
+           <.form :let={f} for={@changeset}>
+             <.select
+               form={f}
+               field={@field}
+               options={[Admin: "admin", User: "user"]}
+               prompt={[key: "Choose your role", disabled: true]}
+               is_multiple
+             />
+           </.form>
            """)
            |> format_html() ==
              """
-             <div class="FormControl-select-wrap pl-multiple-select pl-invalid" phx-feedback-for="user[role][]"><select
-             aria-describedby="user_role-validation" class="FormControl-select FormControl-medium" id="user_role" invalid=""
-             multiple="" name="user[role][]">
-             <option value="admin">Admin</option>
-             <option value="user">User</option>
-             </select></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_role-validation"
-             phx-feedback-for="user[role][]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-             viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>can&#39;t be blank</span></div>
+             <form method="post">
+             <div class="FormControl-select-wrap pl-multiple-select pl-invalid" phx-feedback-for="todo[statuses][]"><select
+                     aria-describedby="todo_statuses-validation" class="FormControl-select FormControl-medium" id="todo_statuses"
+                     invalid="" multiple="" name="todo[statuses][]">
+                     <option value="admin">Admin</option>
+                     <option value="user">User</option>
+                 </select></div>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="todo_statuses-validation"
+                 phx-feedback-for="todo[statuses][]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12"
+                     height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>must select a status</span></div>
+             </form>
              """
              |> format_html()
   end
 
   test "Classes" do
+    changeset = Todos.init()
+
     assigns = %{
+      changeset: changeset,
+      field: :statuses,
       classes: %{
         select_container: "select_container-x",
         select: "select-x",
@@ -453,50 +491,50 @@ defmodule PrimerLive.TestComponents.SelectTest do
           label: "label-x"
         }
       },
-      class: "my-select-container",
-      form: %{@default_form | source: @error_changeset}
+      class: "my-select-container"
     }
 
     assert rendered_to_string(~H"""
-           <.select
-             form={@form}
-             field={:role}
-             options={[
-               Admin: "admin",
-               User: "user",
-               Editor: "editor",
-               Copywriter: "copywriter",
-               Tester: "tester",
-               "Project owner": "project_owner",
-               Developer: "developer"
-             ]}
-             aria_label="Role"
-             classes={@classes}
-             form_control={@form_control_attrs}
-             class={@class}
-             caption={fn -> "Caption" end}
-           />
+           <.form :let={f} for={@changeset}>
+             <.select
+               form={f}
+               field={@field}
+               options={[
+                 Admin: "admin",
+                 User: "user",
+                 Editor: "editor",
+                 Copywriter: "copywriter",
+                 Tester: "tester",
+                 "Project owner": "project_owner",
+                 Developer: "developer"
+               ]}
+               aria_label="Role"
+               classes={@classes}
+               form_control={@form_control_attrs}
+               class={@class}
+               caption={fn -> "Caption" end}
+             />
+           </.form>
            """)
            |> format_html() ==
              """
+             <form method="post">
              <div class="FormControl group-x control-x pl-invalid">
-             <div class="form-group-header header-x"><label class="FormControl-label label-x" for="user_role">Role</label><span aria-hidden="true">*</span></div>
-             <div class="FormControl-select-wrap pl-invalid select_container-x my-select-container" phx-feedback-for="user[role]">
-             <select aria-describedby="user_role-validation" aria-label="Role"
-             class="FormControl-select FormControl-medium select-x" id="user_role" invalid="" name="user[role]">
-             <option value="admin">Admin</option>
-             <option value="user">User</option>
-             <option value="editor">Editor</option>
-             <option value="copywriter">Copywriter</option>
-             <option value="tester">Tester</option>
-             <option value="project_owner">Project owner</option>
-             <option value="developer">Developer</option>
+             <div class="form-group-header header-x"><label class="FormControl-label label-x"
+                for="todo_statuses">Statuses</label><span aria-hidden="true">*</span></div>
+             <div class="FormControl-select-wrap pl-invalid select_container-x my-select-container"><select aria-label="Role"
+                class="FormControl-select FormControl-medium select-x" id="todo_statuses" name="todo[statuses]">
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+                <option value="editor">Editor</option>
+                <option value="copywriter">Copywriter</option>
+                <option value="tester">Tester</option>
+                <option value="project_owner">Project owner</option>
+                <option value="developer">Developer</option>
              </select></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x"
-             id="user_role-validation" phx-feedback-for="user[role]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg"
-             width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>can&#39;t be blank</span></div>
              <div class="FormControl-caption caption-x">Caption</div>
              </div>
+             </form>
              """
              |> format_html()
   end

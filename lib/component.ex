@@ -3731,7 +3731,7 @@ defmodule PrimerLive.Component do
             [id: input_id],
             [name: input_name],
             [size: assigns[:size]],
-            !is_nil(value) && [value: value],
+            !is_nil(value) && [value: value], # If value is nil, the value attribute is omitted. Querying the input value will return an empty string.
             show_message? && [invalid: ""]
           ]
         )
