@@ -53,74 +53,57 @@ defmodule PrimerLive.Helpers.FormHelpers do
       %PrimerLive.FieldState{valid?: false, changeset: nil, message: nil, field_errors: [], caption: nil}
 
       # If validation_message_fn returns a string it will be added to FieldState, regardless of the changeset action value:
-      iex> PrimerLive.Helpers.FormHelpers.field_state(
+      iex> changeset = PrimerLive.TestHelpers.Repo.Users.init()
+      ...> update_changeset = %Ecto.Changeset{changeset |
+      ...>   action: :update,
+      ...>   changes: %{first_name: "annette"}
+      ...> }
+      ...> PrimerLive.Helpers.FormHelpers.field_state(
       ...>   %Phoenix.HTML.Form{
-      ...>     source: %Ecto.Changeset{
-      ...>       action: :update,
-      ...>       changes: %{first_name: "annette"},
-      ...>       errors: [],
-      ...>       data: nil,
-      ...>       valid?: true
-      ...>     },
+      ...>     impl: Phoenix.HTML.FormData.Ecto.Changeset,
+      ...>     source: update_changeset
       ...>   },
-      ...>   :first_name, fn _field_state -> "always" end, nil)
-      %PrimerLive.FieldState{valid?: true, changeset: %Ecto.Changeset{action: :update, changes: %{first_name: "annette"}, data: nil, errors: [], valid?: true}, message: "always", field_errors: []}
+      ...>   :first_name,
+      ...>   fn _field_state -> "always" end,
+      ...>   nil
+      ...> )
+      %PrimerLive.FieldState{valid?: false, required?: true, changeset: update_changeset, message: "always", field_errors: ["can't be blank"]}
 
       # If changeset action is :validate and no validation_message_fn is provided, the default field error is added to FieldState:
-      iex> PrimerLive.Helpers.FormHelpers.field_state(
+      iex> changeset = PrimerLive.TestHelpers.Repo.Users.init()
+      ...> validate_changeset = %Ecto.Changeset{changeset |
+      ...>   action: :validate,
+      ...>   changes: %{first_name: "annette"}
+      ...> }
+      ...> PrimerLive.Helpers.FormHelpers.field_state(
       ...>   %Phoenix.HTML.Form{
-      ...>     source: %Ecto.Changeset{
-      ...>       action: :validate,
-      ...>       changes: %{},
-      ...>       errors: [first_name: {"can't be blank", [validation: :required]}],
-      ...>       data: nil,
-      ...>       valid?: true
-      ...>     },
+      ...>     impl: Phoenix.HTML.FormData.Ecto.Changeset,
+      ...>     source: validate_changeset
       ...>   },
-      ...>   :first_name, nil, nil)
-      %PrimerLive.FieldState{required?: true, valid?: false, changeset: %Ecto.Changeset{action: :validate, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
-
-      # If changeset action is :update and no validation_message_fn is provided, no message is added to FieldState:
-      iex> PrimerLive.Helpers.FormHelpers.field_state(
-      ...>   %Phoenix.HTML.Form{
-      ...>     source: %Ecto.Changeset{
-      ...>       action: :update,
-      ...>       changes: %{},
-      ...>       errors: [first_name: {"can't be blank", [validation: :required]}],
-      ...>       data: nil,
-      ...>       valid?: true,
-      ...>     },
-      ...>   },
-      ...>   :first_name, nil, nil)
-      %PrimerLive.FieldState{required?: true, valid?: false, changeset: %Ecto.Changeset{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "can't be blank", field_errors: ["can't be blank"]}
-
-      # Custom error message: if changeset action is :update and a validation_message_fn is provided, the resulting message is added to FieldState:
-      iex> PrimerLive.Helpers.FormHelpers.field_state(
-      ...>   %Phoenix.HTML.Form{
-      ...>     source: %Ecto.Changeset{
-      ...>       action: :update,
-      ...>       changes: %{},
-      ...>       errors: [first_name: {"can't be blank", [validation: :required]}],
-      ...>       data: nil,
-      ...>       valid?: true,
-      ...>     },
-      ...>   },
-      ...>   :first_name, fn field_state -> if !field_state.valid?, do: "Please select your availability" end, nil)
-      %PrimerLive.FieldState{required?: true, valid?: false, changeset: %Ecto.Changeset{action: :update, changes: %{}, data: nil, errors: [first_name: {"can't be blank", [validation: :required]}], valid?: true}, message: "Please select your availability", field_errors: ["can't be blank"]}
+      ...>   :first_name,
+      ...>   nil,
+      ...>   nil
+      ...> )
+      %PrimerLive.FieldState{valid?: false, required?: true, changeset: validate_changeset, message: "can't be blank", field_errors: ["can't be blank"]}
 
       # Custom success message: if changeset action is :update and a validation_message_fn is provided, the resulting message is added to FieldState:
-      iex> PrimerLive.Helpers.FormHelpers.field_state(
+      iex> changeset = PrimerLive.TestHelpers.Repo.Users.init()
+      ...> update_changeset = %Ecto.Changeset{changeset |
+      ...>   action: :update,
+      ...>   changes: %{first_name: "annette"},
+      ...>   errors: [],
+      ...>   valid?: true,
+      ...> }
+      ...> PrimerLive.Helpers.FormHelpers.field_state(
       ...>   %Phoenix.HTML.Form{
-      ...>     source: %Ecto.Changeset{
-      ...>       action: :update,
-      ...>       changes: %{first_name: "annette"},
-      ...>       errors: [],
-      ...>       data: nil,
-      ...>       valid?: true,
-      ...>     },
+      ...>     impl: Phoenix.HTML.FormData.Ecto.Changeset,
+      ...>     source: update_changeset,
       ...>   },
-      ...>   :first_name, fn field_state -> if field_state.valid?, do: "Great!" end, nil)
-      %PrimerLive.FieldState{required?: false, valid?: true, changeset: %Ecto.Changeset{action: :update, changes: %{first_name: "annette"}, data: nil, errors: [], valid?: true}, message: "Great!", field_errors: []}
+      ...>   :first_name,
+      ...>   fn field_state -> if field_state.valid?, do: "Great!" end,
+      ...>   nil
+      ...> )
+      %PrimerLive.FieldState{valid?: true, required?: true, changeset: update_changeset, message: "Great!", field_errors: []}
 
       # Caption: return a caption if changeset is nil
       iex> PrimerLive.Helpers.FormHelpers.field_state(nil, nil, nil, fn _field_state -> "Caption" end)
@@ -135,24 +118,28 @@ defmodule PrimerLive.Helpers.FormHelpers do
       %PrimerLive.FieldState{required?: false, valid?: false, changeset: nil, message: nil, field_errors: [], caption: "Caption"}
 
       # Caption: return a caption dependent on the state
-      iex> PrimerLive.Helpers.FormHelpers.field_state(
+      iex> changeset = PrimerLive.TestHelpers.Repo.Users.init()
+      ...> validate_changeset = %Ecto.Changeset{changeset |
+      ...>   action: :validate,
+      ...>   changes: %{first_name: "annette"}
+      ...> }
+      ...> PrimerLive.Helpers.FormHelpers.field_state(
       ...>   %Phoenix.HTML.Form{
-      ...>     source: %Ecto.Changeset{
-      ...>       action: :validate,
-      ...>       changes: %{},
-      ...>       errors: [first_name: {"can't be blank", [validation: :required]}],
-      ...>       data: nil,
-      ...>       valid?: true,
-      ...>     },
+      ...>     impl: Phoenix.HTML.FormData.Ecto.Changeset,
+      ...>     source: validate_changeset
       ...>   },
-      ...>   :first_name, nil, fn field_state -> if !field_state.valid?, do: "Please select your availability" end)
-      %PrimerLive.FieldState{caption: "Please select your availability", changeset: %Ecto.Changeset{action: :validate, changes: %{}, errors: [first_name: {"can't be blank", [validation: :required]}], data: nil, valid?: true}, field_errors: ["can't be blank"], ignore_errors?: false, message: "can't be blank", message_id: nil, required?: true, valid?: false}
+      ...>   :first_name,
+      ...>   nil,
+      ...>   fn field_state -> if !field_state.valid?, do: "Please select your availability" end
+      ...> )
+      %PrimerLive.FieldState{caption: "Please select your availability", changeset: validate_changeset, field_errors: ["can't be blank"], ignore_errors?: false, message: "can't be blank", message_id: nil, required?: true, valid?: false}
   """
   def field_state(maybe_form, field, validation_message_fn, caption_fn) do
     form = get_form(maybe_form)
     changeset = get_form_changeset(form)
 
     get_field_state_for_changeset(
+      form,
       changeset,
       %PrimerLive.FieldState{},
       field,
@@ -162,6 +149,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
   end
 
   defp get_field_state_for_changeset(
+         _form,
          changeset,
          field_state,
          _field,
@@ -174,6 +162,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
   end
 
   defp get_field_state_for_changeset(
+         form,
          changeset,
          field_state,
          field,
@@ -181,7 +170,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
          caption_fn
        ) do
     with field_errors <- get_field_errors(changeset, field),
-         required? <- get_field_required(changeset, field),
+         required? <- get_field_required(form, changeset, field),
          valid? <- Enum.count(field_errors) == 0,
          field_state <- %{
            field_state
@@ -237,36 +226,36 @@ defmodule PrimerLive.Helpers.FormHelpers do
   @doc """
   Extracts the form struct from either a form struct or a nested struct that contains a form.
 
-      iex> PrimerLive.Helpers.FormHelpers.get_form(%Phoenix.HTML.Form{
-      ...>   source: %Ecto.Changeset{
-      ...>     action: :update,
-      ...>     changes: %{first_name: "annette"},
-      ...>     errors: [],
-      ...>     data: nil,
-      ...>     valid?: true
-      ...>   }
+      iex> changeset = PrimerLive.TestHelpers.Repo.Users.init()
+      ...> PrimerLive.Helpers.FormHelpers.get_form(%Phoenix.HTML.Form{
+      ...>   impl: Phoenix.HTML.FormData.Ecto.Changeset,
+      ...>   source: changeset
       ...> })
-      %Phoenix.HTML.Form{source: %Ecto.Changeset{action: :update, changes: %{first_name: "annette"}, errors: [], data: nil, valid?: true}, impl: nil, id: nil, name: nil, data: nil, hidden: [], params: %{}, errors: [], options: [], index: nil, action: nil}
+      %Phoenix.HTML.Form{source: changeset, impl: Phoenix.HTML.FormData.Ecto.Changeset}
 
-      iex> PrimerLive.Helpers.FormHelpers.get_form(%Phoenix.HTML.Form{
+      iex> changeset = PrimerLive.TestHelpers.Repo.Users.init()
+      ...> PrimerLive.Helpers.FormHelpers.get_form(%Phoenix.HTML.Form{
+      ...>   impl: Phoenix.HTML.FormData.Ecto.Changeset,
       ...>   source: %Phoenix.HTML.Form{
-      ...>     source: %Ecto.Changeset{
+      ...>     impl: Phoenix.HTML.FormData.Ecto.Changeset,
+      ...>     source: %Ecto.Changeset{changeset |
       ...>       action: :update,
-      ...>       changes: %{first_name: "annette"},
-      ...>       errors: [],
-      ...>       data: nil,
-      ...>       valid?: true
+      ...>       changes: %{first_name: "annette"}
       ...>     }
       ...>   }
       ...> })
-      %Phoenix.HTML.Form{source: %Ecto.Changeset{action: :update, changes: %{first_name: "annette"}, errors: [], data: nil, valid?: true}, impl: nil, id: nil, name: nil, data: nil, hidden: [], params: %{}, errors: [], options: [], index: nil, action: nil}
+      %Phoenix.HTML.Form{source: %Ecto.Changeset{changeset | action: :update, changes: %{first_name: "annette"}}, impl: Phoenix.HTML.FormData.Ecto.Changeset}
 
       iex> PrimerLive.Helpers.FormHelpers.get_form(%PrimerLive.Helpers.TestForm{
+      ...>   impl: Phoenix.HTML.FormData.Ecto.Changeset,
       ...>   source: %PrimerLive.Helpers.TestForm{
-      ...>     source: %Phoenix.HTML.Form{}
+      ...>     impl: Phoenix.HTML.FormData.Ecto.Changeset,
+      ...>     source: %Phoenix.HTML.Form{
+      ...>       impl: Phoenix.HTML.FormData.Ecto.Changeset
+      ...>     }
       ...>   }
       ...> })
-      %Phoenix.HTML.Form{source: nil, impl: nil, id: nil, name: nil, data: nil, hidden: [], params: %{}, errors: [], options: [], index: nil, action: nil}
+      %Phoenix.HTML.Form{source: nil, impl: Phoenix.HTML.FormData.Ecto.Changeset, id: nil, name: nil, data: nil, hidden: [], params: %{}, errors: [], options: [], index: nil, action: nil}
 
       iex> PrimerLive.Helpers.FormHelpers.get_form(:form)
       nil
@@ -292,19 +281,16 @@ defmodule PrimerLive.Helpers.FormHelpers do
   @doc """
   Gets the form name - either an atom or a string.
 
-      iex> PrimerLive.Helpers.FormHelpers.get_form_name(%Phoenix.HTML.Form{
+      iex> changeset = PrimerLive.TestHelpers.Repo.Users.init()
+      ...> PrimerLive.Helpers.FormHelpers.get_form_name(%Phoenix.HTML.Form{
+      ...>   impl: Phoenix.HTML.FormData.Ecto.Changeset,
       ...>   name: :profile,
-      ...>   source: %Ecto.Changeset{
-      ...>     action: :update,
-      ...>     changes: %{first_name: "annette"},
-      ...>     errors: [],
-      ...>     data: nil,
-      ...>     valid?: true
-      ...>   }
+      ...>   source: changeset
       ...> })
       :profile
 
       iex> PrimerLive.Helpers.FormHelpers.get_form_name(%PrimerLive.Helpers.TestForm{
+      ...>   impl: Phoenix.HTML.FormData.Ecto.Changeset,
       ...>   source: %PrimerLive.Helpers.TestForm{
       ...>     name: "test",
       ...>     source: %Phoenix.HTML.Form{
@@ -389,54 +375,53 @@ defmodule PrimerLive.Helpers.FormHelpers do
   @doc """
   Returns all errors for a given field from a changeset.
 
-      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
+      iex> changeset = PrimerLive.TestHelpers.Repo.Users.init()
+      ...> PrimerLive.Helpers.FormHelpers.get_field_errors(
       ...>   %Ecto.Changeset{
-      ...>     action: :update,
-      ...>     changes: %{},
-      ...>     errors: [],
-      ...>     data: nil,
-      ...>     valid?: true
-      ...>   }, :first_name)
+      ...>     changeset | action: :update, errors: []
+      ...>   },
+      ...>   :first_name
+      ...> )
       []
 
-      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
+      iex> changeset = PrimerLive.TestHelpers.Repo.Users.init()
+      ...> PrimerLive.Helpers.FormHelpers.get_field_errors(
       ...>   %Ecto.Changeset{
-      ...>     action: :update,
-      ...>     changes: %{},
-      ...>     errors: [
-      ...>       first_name: {"can't be blank", [validation: :required]},
-      ...>       work_experience: {"invalid value", [validation: :required]}
-      ...>     ],
-      ...>     data: nil,
-      ...>     valid?: true
-      ...>   }, :first_name)
+      ...>     changeset | action: :update,
+      ...>       errors: [
+      ...>         first_name: {"can't be blank", [validation: :required]},
+      ...>         work_experience: {"invalid value", [validation: :required]}
+      ...>       ],
+      ...>   },
+      ...>   :first_name
+      ...> )
       ["can't be blank"]
 
-      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
+      iex> changeset = PrimerLive.TestHelpers.Repo.Users.init()
+      ...> PrimerLive.Helpers.FormHelpers.get_field_errors(
       ...>   %Ecto.Changeset{
-      ...>     action: :update,
-      ...>     changes: %{},
-      ...>     errors: [
-      ...>       first_name: {"can't be blank", [validation: :required]},
-      ...>       work_experience: {"invalid value", [validation: :required]}
-      ...>     ],
-      ...>     data: nil,
-      ...>     valid?: true
-      ...>   }, :work_experience)
-      ["invalid value"]
-
-      iex> PrimerLive.Helpers.FormHelpers.get_field_errors(
-      ...>   %Ecto.Changeset{
-      ...>     action: :update,
-      ...>     changes: %{},
-      ...>     errors: [
-      ...>       first_name: {"should be at most %{count} character(s)",
+      ...>     changeset | action: :update,
+      ...>       errors: [
+      ...>         first_name: {"should be at most %{count} character(s)",
       ...>         [count: 255, validation: :length, kind: :max, type: :string]}
-      ...>     ],
-      ...>     data: nil,
-      ...>     valid?: true
-      ...>   }, :first_name)
+      ...>       ],
+      ...>   },
+      ...>   :first_name
+      ...> )
       ["should be at most 255 character(s)"]
+
+      iex> changeset = PrimerLive.TestHelpers.Repo.Users.init()
+      ...> PrimerLive.Helpers.FormHelpers.get_field_errors(
+      ...>   %Ecto.Changeset{
+      ...>     changeset | action: :update,
+      ...>       errors: [
+      ...>         first_name: {"can't be blank", [validation: :required]},
+      ...>         work_experience: {"invalid value", [validation: :required]}
+      ...>       ],
+      ...>   },
+      ...>   :work_experience
+      ...> )
+      ["invalid value"]
   """
   def get_field_errors(%Ecto.Changeset{} = changeset, field) do
     changeset.errors
@@ -488,75 +473,54 @@ defmodule PrimerLive.Helpers.FormHelpers do
   @doc """
   Returns the required state for a given field from a changeset.
 
-      iex> PrimerLive.Helpers.FormHelpers.get_field_required(
-      ...>   %Ecto.Changeset{
-      ...>     action: :update,
-      ...>     changes: %{},
-      ...>     errors: [],
+      iex> changeset = PrimerLive.TestHelpers.Repo.Users.init()
+      ...> PrimerLive.Helpers.FormHelpers.get_field_required(
+      ...>   %Phoenix.HTML.Form{
+      ...>     impl: Phoenix.HTML.FormData.Ecto.Changeset,
       ...>     data: nil,
-      ...>     valid?: true
-      ...>   }, :first_name)
-      false
-
-      iex> PrimerLive.Helpers.FormHelpers.get_field_required(
-      ...>   %Ecto.Changeset{
-      ...>     action: :update,
-      ...>     changes: %{},
-      ...>     errors: [
-      ...>       first_name: {"can't be blank", [validation: :required]},
-      ...>       work_experience: {"invalid value", [validation: :required]}
-      ...>     ],
-      ...>     data: nil,
-      ...>     valid?: true
-      ...>   }, :first_name)
+      ...>     source: changeset
+      ...>  },
+      ...>  changeset,
+      ...>  :first_name
+      ...> )
       true
 
-      iex> PrimerLive.Helpers.FormHelpers.get_field_required(
-      ...>   %Ecto.Changeset{
-      ...>     action: :update,
-      ...>     changes: %{},
-      ...>     errors: [
-      ...>       first_name: {"should be at most %{count} character(s)",
-      ...>         [count: 255, validation: :length, kind: :max, type: :string]}
-      ...>     ],
+      iex> changeset = PrimerLive.TestHelpers.Repo.Users.init()
+      ...> PrimerLive.Helpers.FormHelpers.get_field_required(
+      ...>   %Phoenix.HTML.Form{
+      ...>     impl: Phoenix.HTML.FormData.Ecto.Changeset,
       ...>     data: nil,
-      ...>     valid?: true
-      ...>   }, :first_name)
+      ...>     source: changeset
+      ...>  },
+      ...>  changeset,
+      ...>  :work_experience
+      ...> )
       false
   """
-  def get_field_required(%Ecto.Changeset{} = changeset, field) do
-    changeset.errors
-    |> Enum.filter(fn {error_field, _content} -> error_field == field end)
-    |> Enum.map(fn {_error_field, {_content, details}} -> details end)
-    |> Enum.map(fn
-      [validation: :required] -> true
-      _ -> false
-    end)
-    |> Enum.any?(fn value -> !!value end)
+  def get_field_required(%Phoenix.HTML.Form{} = form, %Ecto.Changeset{} = _changeset, field) do
+    input_validations(form, field)[:required] == true
   end
 
   # Handle other types of changesets
-  def get_field_required(%_{} = maybe_changeset, field)
+  def get_field_required(form, %_{} = maybe_changeset, field)
       when not is_nil(maybe_changeset.__struct__) do
     changeset_type = "#{maybe_changeset.__struct__}"
 
     cond do
       changeset_type |> String.contains?("Ash.Changeset") ->
         ash_changeset = maybe_changeset
-        _get_ash_framework_field_required(ash_changeset, field)
+        get_ash_framework_field_required(form, ash_changeset, field)
 
       true ->
         false
     end
   end
 
-  def get_field_required(_, _), do: []
+  def get_field_required(_, _), do: false
 
   # Handle other types of changesets: Ash Framework
-  def _get_ash_framework_field_required(ash_changeset, field) do
-    ash_changeset.errors
-    |> Enum.filter(fn ash_error -> ash_error.field == field end)
-    |> Enum.count() > 0
+  defp get_ash_framework_field_required(form, ash_changeset, field) do
+    Phoenix.HTML.FormData.input_validations(form, ash_changeset, field)[:required] == true
   end
 
   @doc """

@@ -4,15 +4,6 @@ defmodule PrimerLive.TestHelpers.Repo.Todos do
   import Ecto.Changeset, except: [change: 1]
   alias PrimerLive.TestHelpers.Repo.Todo
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking to do item changes.
-
-  ## Examples
-
-      iex> change(to do item)
-      %Ecto.Changeset{data: %Todo{}}
-
-  """
   def change(%Todo{} = todo, attrs \\ %{}) do
     todo
     |> changeset(attrs)
