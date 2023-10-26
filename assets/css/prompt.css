@@ -58,6 +58,7 @@ GENERAL
   height: 0;
   width: 0;
   position: absolute;
+  border: none;
 }
 
 /* Add a transition to the checkbox so we can receive a transitionend evennt */
