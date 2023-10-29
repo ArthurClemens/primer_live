@@ -8600,6 +8600,7 @@ defmodule PrimerLive.Component do
     pagination_container_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
         ["aria-label": assigns.labels.aria_label_container],
+        [role: "navigation"],
         [class: classes.pagination_container]
       ])
 

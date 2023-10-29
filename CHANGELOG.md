@@ -2,8 +2,12 @@
 
 ## 0.6.2
 
-Bug fixes:
+### Bug fixes
 - Pagination: fixes the calculation when a gap between page numbers should be shown.
+
+### Other changes
+- Pagination: added `role` and improved ARIA labels.
+
 
 ## 0.6.1
 

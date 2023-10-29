@@ -136,7 +136,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav aria-label="Pagination navigation" class="paginate-container">
+             <nav aria-label="Pagination navigation" class="paginate-container" role="navigation">
              <div class="pagination"><span class="previous_page" aria-disabled="true">Previous</span><em
              aria-current="page" aria-label="Current page, page 1">1</em><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push"
              aria-label="Go to page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push" rel="next"
@@ -154,7 +154,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav aria-label="Pagination navigation" class="paginate-container">
+             <nav aria-label="Pagination navigation" class="paginate-container" role="navigation">
              <div class="pagination"><a href="/page/8" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
              class="previous_page" aria-label="Go to previous page">Previous</a><a href="/page/1" data-phx-link="redirect"
              data-phx-link-state="push" aria-label="Go to page 1">1</a><span class="gap">…</span><a href="/page/7"
@@ -183,7 +183,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav aria-label="Pagination navigation" class="paginate-container">
+             <nav aria-label="Pagination navigation" class="paginate-container" role="navigation">
              <div class="pagination"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
              class="previous_page" aria-label="Go to previous page">Previous</a><a href="/page/1" data-phx-link="redirect"
              data-phx-link-state="push" aria-label="Go to page 1">1</a><span class="gap">…</span><a href="/page/3"
@@ -212,7 +212,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav aria-label="Pagination navigation" class="paginate-container">
+             <nav aria-label="Pagination navigation" class="paginate-container" role="navigation">
              <div class="pagination"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
              class="previous_page" aria-label="Go to previous page">Previous</a><a href="/page/1" data-phx-link="redirect"
              data-phx-link-state="push" aria-label="Go to page 1">1</a><span class="gap">…</span><a href="/page/4"
@@ -239,7 +239,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav aria-label="Pagination navigation" class="paginate-container">
+             <nav aria-label="Pagination navigation" class="paginate-container" role="navigation">
              <div class="pagination"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
              class="previous_page" aria-label="Go to previous page">Previous</a><a href="/page/6" data-phx-link="redirect"
              data-phx-link-state="push" rel="next" class="next_page" aria-label="Go to next page">Next</a></div>
@@ -261,7 +261,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav aria-label="Pagination navigation" class="paginate-container nav">
+             <nav aria-label="Pagination navigation" class="paginate-container nav" role="navigation">
              <div class="pagination"><span class="previous_page" aria-disabled="true">Previous</span><em
              aria-current="page" aria-label="Current page, page 1">1</em><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push"
              aria-label="Go to page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push" rel="next"
@@ -293,7 +293,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav aria-label="Pagination navigation" class="paginate-container pagination_container-x">
+             <nav aria-label="Pagination navigation" class="paginate-container pagination_container-x" role="navigation">
              <div class="pagination pagination-x"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push"
              rel="previous" class="previous_page previous_page-x" aria-label="Go to previous page">Previous</a><a href="/page/1"
              data-phx-link="redirect" data-phx-link-state="push" class="page-x" aria-label="Go to page 1">1</a><span
@@ -333,7 +333,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav aria-label="A" class="paginate-container">
+             <nav aria-label="A" class="paginate-container" role="navigation">
              <div class="pagination"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
              class="previous_page" aria-label="D">G</a><a href="/page/1" data-phx-link="redirect" data-phx-link-state="push"
              aria-label="C">1</a><span class="gap">E</span><a href="/page/3" data-phx-link="redirect"
@@ -365,7 +365,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav aria-label="Pagination navigation" class="paginate-container">
+             <nav aria-label="Pagination navigation" class="paginate-container" role="navigation">
              <div class="pagination"><span class="previous_page" aria-disabled="true">Previous</span><em
              aria-current="page" aria-label="Current page, page 1">1</em><a href="/page/2" data-phx-link="redirect" data-phx-link-state="replace"
              aria-label="Go to page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="replace" rel="next"
@@ -388,7 +388,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
            """)
            |> format_html() ==
              """
-             <nav aria-label="Pagination navigation" class="paginate-container" dir="rtl">
+             <nav aria-label="Pagination navigation" class="paginate-container" dir="rtl" role="navigation">
              <div class="pagination"><span class="previous_page" aria-disabled="true">Previous</span><em
              aria-current="page" aria-label="Current page, page 1">1</em><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push"
              aria-label="Go to page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push" rel="next"
