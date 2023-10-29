@@ -8496,10 +8496,11 @@ defmodule PrimerLive.Component do
   )
 
   @default_pagination_labels %{
-    aria_label_container: "Navigation",
-    aria_label_next_page: "Next page",
-    aria_label_page: "Page {page_number}",
-    aria_label_previous_page: "Previous page",
+    aria_label_container: "Pagination navigation",
+    aria_label_next_page: "Go to next page",
+    aria_label_current_page: "Current page, page {page_number}",
+    aria_label_page: "Go to page {page_number}",
+    aria_label_previous_page: "Go to previous page",
     gap: "…",
     next_page: "Next",
     previous_page: "Previous"
@@ -8635,7 +8636,15 @@ defmodule PrimerLive.Component do
           <%= if @show_numbers do %>
             <%= for item <- @pagination_elements do %>
               <%= if item === @current_page do %>
-                <em aria-current="page"><%= @current_page %></em>
+                <em
+                  aria-current="page"
+                  aria-label={
+                    @labels.aria_label_current_page
+                    |> String.replace("{page_number}", to_string(item))
+                  }
+                >
+                  <%= @current_page %>
+                </em>
               <% else %>
                 <%= if item == 0 do %>
                   <span class={@classes.gap} phx-no-format><%= @labels.gap %></span>
