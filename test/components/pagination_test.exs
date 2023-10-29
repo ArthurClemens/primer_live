@@ -26,8 +26,22 @@ defmodule PrimerLive.TestComponents.PaginationTest do
     assert actual == expected
   end
 
-  test "get_pagination_numbers: page_count 3, side_count 1 and sibling_count 1" do
-    page_count = 3
+  test "get_pagination_numbers: page_count 4, side_count 1 and sibling_count 2" do
+    page_count = 4
+    side_count = 1
+    sibling_count = 2
+
+    actual =
+      1..page_count
+      |> Enum.map(&get_pagination_numbers(page_count, &1, side_count, sibling_count))
+
+    expected = [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]
+
+    assert actual == expected
+  end
+
+  test "get_pagination_numbers: page_count 7, side_count 1 and sibling_count 1" do
+    page_count = 7
     side_count = 1
     sibling_count = 1
 
@@ -35,7 +49,15 @@ defmodule PrimerLive.TestComponents.PaginationTest do
       1..page_count
       |> Enum.map(&get_pagination_numbers(page_count, &1, side_count, sibling_count))
 
-    expected = [[1, 2, 3], [1, 2, 3], [1, 2, 3]]
+    expected = [
+      [1, 2, 3, 4, 0, 7],
+      [1, 2, 3, 4, 0, 7],
+      [1, 2, 3, 4, 0, 7],
+      [1, 0, 3, 4, 5, 0, 7],
+      [1, 0, 4, 5, 6, 7],
+      [1, 0, 4, 5, 6, 7],
+      [1, 0, 4, 5, 6, 7]
+    ]
 
     assert actual == expected
   end

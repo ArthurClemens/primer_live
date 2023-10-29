@@ -8703,8 +8703,7 @@ defmodule PrimerLive.Component do
 
     # Insert a '0' divider when the page sequence is not sequential
     # But omit this when the total number of pages equals the side_count counts plus the gap item
-
-    may_insert_gaps = page_count !== 0 && page_count > 2 * side_count + 1
+    may_insert_gaps = page_count !== 0 && page_count > 2 * sibling_count + 1
 
     case may_insert_gaps do
       true -> insert_gaps(page_count, current_page, side_count, sibling_count, list)
