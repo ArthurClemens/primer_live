@@ -3552,7 +3552,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.deprecated_is_form_group("the input")
   DeclarationHelpers.validation_message()
   DeclarationHelpers.validation_message_id()
-  DeclarationHelpers.rest(include: ~w(disabled))
+  DeclarationHelpers.rest(include: ~w(disabled max maxlength min minlength autocomplete pattern placeholder readonly required))
 
   slot(:group_button,
     doc: """
