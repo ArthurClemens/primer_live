@@ -26482,6 +26482,7 @@ a.branch-name .octicon {
   height: 0;
   width: 0;
   position: absolute;
+  border: none;
 }
 [data-prompt] > input[type=checkbox] {
   transition-property: opacity;

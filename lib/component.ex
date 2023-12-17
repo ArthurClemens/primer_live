@@ -3552,7 +3552,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.deprecated_is_form_group("the input")
   DeclarationHelpers.validation_message()
   DeclarationHelpers.validation_message_id()
-  DeclarationHelpers.rest(include: ~w(disabled))
+  DeclarationHelpers.rest(include: ~w(disabled max maxlength min minlength autocomplete pattern placeholder readonly required))
 
   slot(:group_button,
     doc: """
@@ -3731,7 +3731,8 @@ defmodule PrimerLive.Component do
             [id: input_id],
             [name: input_name],
             [size: assigns[:size]],
-            !is_nil(value) && [value: value], # If value is nil, the value attribute is omitted. Querying the input value will return an empty string.
+            # If value is nil, the value attribute is omitted. Querying the input value will return an empty string.
+            !is_nil(value) && [value: value],
             show_message? && [invalid: ""]
           ]
         )
@@ -8495,10 +8496,11 @@ defmodule PrimerLive.Component do
   )
 
   @default_pagination_labels %{
-    aria_label_container: "Navigation",
-    aria_label_next_page: "Next page",
-    aria_label_page: "Page {page_number}",
-    aria_label_previous_page: "Previous page",
+    aria_label_container: "Pagination navigation",
+    aria_label_next_page: "Go to next page",
+    aria_label_current_page: "Current page, page {page_number}",
+    aria_label_page: "Go to page {page_number}",
+    aria_label_previous_page: "Go to previous page",
     gap: "…",
     next_page: "Next",
     previous_page: "Previous"
@@ -8598,6 +8600,7 @@ defmodule PrimerLive.Component do
     pagination_container_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
         ["aria-label": assigns.labels.aria_label_container],
+        [role: "navigation"],
         [class: classes.pagination_container]
       ])
 
@@ -8634,7 +8637,15 @@ defmodule PrimerLive.Component do
           <%= if @show_numbers do %>
             <%= for item <- @pagination_elements do %>
               <%= if item === @current_page do %>
-                <em aria-current="page"><%= @current_page %></em>
+                <em
+                  aria-current="page"
+                  aria-label={
+                    @labels.aria_label_current_page
+                    |> String.replace("{page_number}", to_string(item))
+                  }
+                >
+                  <%= @current_page %>
+                </em>
               <% else %>
                 <%= if item == 0 do %>
                   <span class={@classes.gap} phx-no-format><%= @labels.gap %></span>
@@ -8702,8 +8713,7 @@ defmodule PrimerLive.Component do
 
     # Insert a '0' divider when the page sequence is not sequential
     # But omit this when the total number of pages equals the side_count counts plus the gap item
-
-    may_insert_gaps = page_count !== 0 && page_count > 2 * side_count + 1
+    may_insert_gaps = page_count !== 0 && page_count > 2 * sibling_count + 1
 
     case may_insert_gaps do
       true -> insert_gaps(page_count, current_page, side_count, sibling_count, list)

@@ -1,8 +1,19 @@
 # Changelog
 
+## 0.6.2
+
+### Bug fixes
+- Pagination: fixes the calculation when a gap between page numbers should be shown.
+
+### Other changes
+- Pagination: added `role` and improved ARIA labels.
+
+
 ## 0.6.1
 
-Fixes reading the required state of input fields.
+Bug fixes:
+- Fixes reading the required state of input fields.
+
 
 ## 0.6.0
 
