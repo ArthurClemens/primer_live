@@ -23,7 +23,7 @@
     "trash-cli": "^5.0.0",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
-    "tsx": "^3.12.7",
+    "tsx": "^4.0.0",
     "typescript": "^5.1.6"
   },
   "author": "Arthur Clemens <arthurclemens@gmail.com> (http://arthurclemens.com)"
