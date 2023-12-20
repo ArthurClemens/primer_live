@@ -32,9 +32,12 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>   is_bar and "bar"
       ...> ])
       "foo"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.classnames([nil, ["class1", "class2"], "class3"])
+      "class1 class2 class3"
   """
   def classnames(input_classnames) do
-    concat(input_classnames, " ")
+    concat(input_classnames_normalize(input_classnames), " ")
   end
 
   def inline_styles(input_styles) do
@@ -55,6 +58,17 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       result
     end
   end
+
+  # Make it works with HEEx and Surface
+  # - [nil, "class1", "class2"] (HEEx | ~H\""" \""")
+  # - [nil, ["class1", "class2"], "class3"] (.sface | ~F\""" \"""")
+  defp input_classnames_normalize(input_classnames) do
+    input_classnames
+    |> Enum.map(&input_classnames_list_to_string/1)
+  end
+
+  defp input_classnames_list_to_string(class) when is_list(class), do: Enum.join(class, " ")
+  defp input_classnames_list_to_string(class), do: class
 
   @doc ~S"""
   Concatenates 2 keyword lists of attributes.
