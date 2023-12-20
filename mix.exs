@@ -35,7 +35,7 @@ defmodule PrimerLive.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.10", only: :test, runtime: false},
       {:ecto, "~> 3.10", runtime: false},
-      {:esbuild, "~> 0.7", only: :dev},
+      {:esbuild, "~> 0.8", only: :dev},
       {:ex_doc, "~> 0.30", only: :dev},
       {:jason, "~> 1.4"},
       {:phoenix_ecto, "~> 4.4", only: :test, runtime: false},
