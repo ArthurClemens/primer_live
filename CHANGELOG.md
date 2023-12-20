@@ -4,8 +4,8 @@
 
 ### Changes
 
-- Component class attrs now support class notation from [Surface](https://github.com/surface-ui/surface). Thanks @tunchamroeun!
-
+- Class attrs now support class notation from [Surface](https://github.com/surface-ui/surface). Thanks @tunchamroeun!
+- Component `pagination`: added class entry for "current_page" which now can receive a custom class.
 
 ## 0.6.2
 
