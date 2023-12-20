@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.3
+
+### Changes
+
+- Component class attrs now support class notation from [Surface](https://github.com/surface-ui/surface). Thanks @tunchamroeun!
+
+
 ## 0.6.2
 
 ### Bug fixes
