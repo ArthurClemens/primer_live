@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.4
+
+Reverted dependency `@primer/css` to `21.0.9` because of an excessively increased file size in later versions.
+
 ## 0.6.3
 
 ### Changes
