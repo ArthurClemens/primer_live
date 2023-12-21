@@ -151,7 +151,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
             |> String.replace("{the_element}", unquote(the_element))
         )
 
-        attr(:class, :string,
+        attr(:class, :any,
           doc: """
           Additional classname.
           """

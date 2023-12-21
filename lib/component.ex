@@ -8476,6 +8476,7 @@ defmodule PrimerLive.Component do
       pagination: nil,
       previous_page: nil,
       next_page: nil,
+      current_page: nil,
       page: nil
     },
     doc: """
@@ -8489,6 +8490,7 @@ defmodule PrimerLive.Component do
       pagination: "",
       previous_page: "",
       next_page: "",
+      current_page: "",
       page: ""
     }
     ```
@@ -8582,6 +8584,10 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           assigns[:classes][:page]
         ]),
+      current_page:
+        AttributeHelpers.classnames([
+          assigns[:classes][:current_page]
+        ]),
       gap:
         AttributeHelpers.classnames([
           "gap",
@@ -8643,6 +8649,7 @@ defmodule PrimerLive.Component do
                     @labels.aria_label_current_page
                     |> String.replace("{page_number}", to_string(item))
                   }
+                  class={@classes.current_page}
                 >
                   <%= @current_page %>
                 </em>
