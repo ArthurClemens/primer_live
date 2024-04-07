@@ -2,7 +2,8 @@ defmodule PrimerLive.Helpers.FormHelpers do
   @moduledoc false
   # Helper functions for components that interact with forms and changesets.
 
-  use Phoenix.HTML
+  import Phoenix.HTML.Form
+  use PhoenixHTMLHelpers
 
   # Map of input name to atom value that can be used by Phoenix.HTML.Form to render the appropriate input element.
   @text_input_types %{
