@@ -672,8 +672,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     derived_label =
       case input_type do
-        :checkbox -> Phoenix.HTML.Form.humanize(value_for_derived_label || field)
-        :radio_button -> Phoenix.HTML.Form.humanize(value_for_derived_label)
+        :checkbox -> Phoenix.Naming.humanize(value_for_derived_label || field)
+        :radio_button -> Phoenix.Naming.humanize(value_for_derived_label)
         _ -> nil
       end
 

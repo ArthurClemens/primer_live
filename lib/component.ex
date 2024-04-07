@@ -4,7 +4,8 @@ defmodule PrimerLive.Component do
   """
 
   use Phoenix.Component
-  use Phoenix.HTML
+
+  use PhoenixHTMLHelpers
 
   require PrimerLive.Helpers.{
     DeclarationHelpers,
@@ -21,7 +22,6 @@ defmodule PrimerLive.Component do
   }
 
   alias PrimerLive.Theme
-  alias Phoenix.HTML.Form
 
   # ------------------------------------------------------------------------------------
   # action_list
@@ -2831,7 +2831,7 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  With a `Phoenix.HTML.Form`:
+  With a `PhoenixHTMLHelpers.Form`:
 
   ```
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
@@ -2957,7 +2957,7 @@ defmodule PrimerLive.Component do
           nil
 
         assigns[:label] ->
-          Form.label(
+          PhoenixHTMLHelpers.Form.label(
             form,
             field,
             assigns[:label],
@@ -2965,11 +2965,11 @@ defmodule PrimerLive.Component do
           )
 
         true ->
-          humanize_label = Form.humanize(field)
+          humanize_label = Phoenix.Naming.humanize(field)
 
           case humanize_label === "Nil" do
             true -> nil
-            false -> Form.label(form, field, label_attributes)
+            false -> PhoenixHTMLHelpers.Form.label(form, field, label_attributes)
           end
       end
 
@@ -3336,7 +3336,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a text input field.
 
-  Wrapper around `Phoenix.HTML.Form.text_input/3`, optionally wrapped itself inside a "form control" to add a field label.
+  Wrapper around `PhoenixHTMLHelpers.Form.text_input/3`, optionally wrapped itself inside a "form control" to add a field label.
 
   ```
   <.text_input field="first_name" />
@@ -3552,7 +3552,11 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.deprecated_is_form_group("the input")
   DeclarationHelpers.validation_message()
   DeclarationHelpers.validation_message_id()
-  DeclarationHelpers.rest(include: ~w(disabled max maxlength min minlength autocomplete pattern placeholder readonly required))
+
+  DeclarationHelpers.rest(
+    include:
+      ~w(disabled max maxlength min minlength autocomplete pattern placeholder readonly required)
+  )
 
   slot(:group_button,
     doc: """
@@ -3738,7 +3742,7 @@ defmodule PrimerLive.Component do
         )
 
       input =
-        apply(Phoenix.HTML.Form, FormHelpers.text_input_type_as_atom(type), [
+        apply(PhoenixHTMLHelpers.Form, FormHelpers.text_input_type_as_atom(type), [
           form,
           field,
           input_attrs
@@ -3881,7 +3885,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a single or multiple select input.
 
-  Wrapper around `Phoenix.HTML.Form.select/4` and `Phoenix.HTML.Form.multiple_select/4`.
+  Wrapper around `PhoenixHTMLHelpers.Form.select/4` and `PhoenixHTMLHelpers.Form.multiple_select/4`.
 
   ```
   <.select name="age" options={25..35} />
@@ -4000,7 +4004,7 @@ defmodule PrimerLive.Component do
   attr(:prompt, :any,
     doc: """
     The default option that is displayed in the select options before the user makes a selection. See
-    `Phoenix.HTML.Form.multiple_select/4`.
+    `PhoenixHTMLHelpers.Form.multiple_select/4`.
 
     Can't be used with a multiple select - this attribute will be ignored.
 
@@ -4027,7 +4031,7 @@ defmodule PrimerLive.Component do
   attr(:is_multiple, :boolean,
     default: false,
     doc: """
-    Creates a multiple select. Uses `Phoenix.HTML.Form.multiple_select/4`.
+    Creates a multiple select. Uses `PhoenixHTMLHelpers.Form.multiple_select/4`.
 
     From the Phoenix documentation:
 
@@ -4158,7 +4162,7 @@ defmodule PrimerLive.Component do
           :select
         end
 
-      input = apply(Phoenix.HTML.Form, input_fn, [form, field, options, input_attrs])
+      input = apply(PhoenixHTMLHelpers.Form, input_fn, [form, field, options, input_attrs])
 
       assigns =
         assigns
@@ -4222,7 +4226,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a checkbox.
 
-  Wrapper around `Phoenix.HTML.Form.checkbox/3`.
+  Wrapper around `PhoenixHTMLHelpers.Form.checkbox/3`.
 
   ```
   <.checkbox name="available_for_hire" />
@@ -4481,10 +4485,10 @@ defmodule PrimerLive.Component do
     input =
       case assigns.input_type do
         :checkbox ->
-          Form.checkbox(form, field, input_opts)
+          PhoenixHTMLHelpers.Form.checkbox(form, field, input_opts)
 
         :radio_button ->
-          Form.radio_button(form, field, value, input_opts)
+          PhoenixHTMLHelpers.Form.radio_button(form, field, value, input_opts)
       end
 
     label_container_attributes = [
@@ -4631,7 +4635,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Generates a radio button.
 
-  Wrapper around `Phoenix.HTML.Form.radio_button/4`.
+  Wrapper around `PhoenixHTMLHelpers.Form.radio_button/4`.
 
   ```
   <.radio_button name="role" value="admin" />
@@ -4786,7 +4790,7 @@ defmodule PrimerLive.Component do
 
   ## Examples
 
-  Using a `Phoenix.HTML.Form`, attributes `form` and `field` are passed from radio group to the radio buttons, and labels are generated automatically:
+  Using a `PhoenixHTMLHelpers.Form`, attributes `form` and `field` are passed from radio group to the radio buttons, and labels are generated automatically:
 
   ```
   <.form let={f} for={@changeset}>
@@ -4924,7 +4928,7 @@ defmodule PrimerLive.Component do
       value = slot[:value]
       escaped_value = Phoenix.HTML.html_escape(value)
       id_prefix = if is_nil(assigns.id_prefix), do: "", else: assigns.id_prefix <> "-"
-      id = slot[:id] || id_prefix <> Form.input_id(form, field, escaped_value)
+      id = slot[:id] || id_prefix <> Phoenix.HTML.Form.input_id(form, field, escaped_value)
 
       input_opts =
         AttributeHelpers.append_attributes(initial_opts, [
@@ -4946,9 +4950,9 @@ defmodule PrimerLive.Component do
           [for: id]
         ])
 
-      derived_label = Form.humanize(value)
+      derived_label = Phoenix.Naming.humanize(value)
 
-      input = Form.radio_button(form, field, value, input_opts)
+      input = PhoenixHTMLHelpers.Form.radio_button(form, field, value, input_opts)
 
       assigns =
         assigns
@@ -5175,7 +5179,7 @@ defmodule PrimerLive.Component do
   <.toggle_switch status_on_label="On" status_off_label="Off" />
   ```
 
-  When using a `Phoenix.HTML.Form`, the label can be derived from the field:
+  When using a `PhoenixHTMLHelpers.Form`, the label can be derived from the field:
 
   ```
   <.toggle_switch form={f} field={:terms_accepted} is_derived_label />
@@ -5358,7 +5362,7 @@ defmodule PrimerLive.Component do
         ]
       )
 
-    input = Form.checkbox(form, field, input_opts)
+    input = PhoenixHTMLHelpers.Form.checkbox(form, field, input_opts)
 
     container_attrs =
       AttributeHelpers.append_attributes(rest, [
@@ -6997,7 +7001,7 @@ defmodule PrimerLive.Component do
           <div class={@classes.caret}></div>
         <% end %>
       </label>
-      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
       <div data-prompt-content>
         <%= if @backdrop_attrs !== [] do %>
           <div {@backdrop_attrs}></div>
@@ -7655,7 +7659,7 @@ defmodule PrimerLive.Component do
           <div class={@classes.caret}></div>
         <% end %>
       </label>
-      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
       <div data-prompt-content>
         <%= if @backdrop_attrs !== [] do %>
           <div {@backdrop_attrs}></div>
@@ -7971,7 +7975,7 @@ defmodule PrimerLive.Component do
           <div class={@classes.caret}></div>
         <% end %>
       </label>
-      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
       <div data-prompt-content>
         <%= if @backdrop_attrs !== [] do %>
           <div {@backdrop_attrs}></div>
@@ -8914,7 +8918,7 @@ defmodule PrimerLive.Component do
   <.label>Label</.label>
   ```
 
-  When using `label` alongside `Phoenix.HTML.Form.label/2`, use a prefix, for example:
+  When using `label` alongside `PhoenixHTMLHelpers.Form.label/2`, use a prefix, for example:
 
   ```
   use PrimerLive
@@ -11465,7 +11469,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@wrapper_attrs}>
-      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
       <div data-prompt-content>
         <div {@touch_layer_attrs}>
           <%= if @backdrop_attrs !== [] do %>
@@ -11795,7 +11799,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@wrapper_attrs}>
-      <%= Form.checkbox(@form, @field, @checkbox_attrs) %>
+      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
       <div data-prompt-content>
         <%= if !@is_push do %>
           <%= if @backdrop_attrs !== [] do %>

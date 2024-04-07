@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.7.0
+
+Updated dependencies:
+
+- `phoenix_ecto` to `4.5`
+- `phoenix_html` to `4.1`
+  - Added `phoenix_html_helpers`
+- `phoenix_live_view` to `0.20`
+- `@primer/css` to `21.2.2`
+
+Removed support for Ash Framework due to incompatible dependencies.
+
 ## 0.6.4
 
 Reverted dependency `@primer/css` to `21.0.9` because of an excessively increased file size in later versions.
@@ -14,17 +26,18 @@ Reverted dependency `@primer/css` to `21.0.9` because of an excessively increase
 ## 0.6.2
 
 ### Bug fixes
+
 - Pagination: fixes the calculation when a gap between page numbers should be shown.
 
 ### Other changes
-- Pagination: added `role` and improved ARIA labels.
 
+- Pagination: added `role` and improved ARIA labels.
 
 ## 0.6.1
 
 Bug fixes:
-- Fixes reading the required state of input fields.
 
+- Fixes reading the required state of input fields.
 
 ## 0.6.0
 
@@ -100,7 +113,6 @@ For all listed deprecations below: existing syntax will keep working, but log wa
 - Form element width variation attrs `is_short` and `is_shorter`. These are no longer supported by Primer System.
 - `form_control` class `body`: this extra div is removed to simplify the styling of validation states.
 
-
 ## 0.4.0
 
 ### Improvements
@@ -113,6 +125,7 @@ For all listed deprecations below: existing syntax will keep working, but log wa
 - Updated `@primer/css` to `21.0.7`.
 
 ### Breaking changes
+
 - Removed functions related to using session for theme state - see `PrimerLive.Theme` for alternatives. Removed:
   - `ThemeSessionController`
   - `ThemeEvent`
@@ -136,7 +149,8 @@ For all listed deprecations below: existing syntax will keep working, but log wa
 Replaced underscores in HTML element attributes with dashes because Phoenix LiveView 0.19 no longer does automatic substitution.
 
 Updated components:
-- `select`: attr `prompt` is ignored when `is_multiple` is also used. This prevents `Phoenix.HTML.Form.multiple_select/4` from raising an error.
+
+- `select`: attr `prompt` is ignored when `is_multiple` is also used. This prevents `Phoenix.HTML.Form.multiple_select` from raising an error.
 
 ## 0.3.0
 
@@ -157,9 +171,9 @@ Fixes a bug introduced in `0.2.6` where single select `action_list_item`s did no
 ## 0.2.5
 
 Updated components:
-- `action_menu` and `select_menu`: 
-  - Added `prompt` slot attr `options` to pass Prompt options. This enables (for example) to postpone submitting a form in the menu by calling `submit` event in the Prompt functions `willHide` or `didHide`.
 
+- `action_menu` and `select_menu`:
+  - Added `prompt` slot attr `options` to pass Prompt options. This enables (for example) to postpone submitting a form in the menu by calling `submit` event in the Prompt functions `willHide` or `didHide`.
 
 ## 0.2.4
 
@@ -173,6 +187,7 @@ Updated components:
 - Use checkboxes and radio buttons in action lists.
 
 Updated component:
+
 - `checkbox`:
   - Added attr `is_multiple`: When creating a list of checkboxes. Appends `[]` to the input name so that a list of values is passed to the form events.
   - Added attr `is_omit_label`: Omits any label.
@@ -180,6 +195,7 @@ Updated component:
 ## 0.2.2
 
 Updated component:
+
 - `text_input`:
   - Moved attr `is_trailing_action_divider` to slot `trailing_action` as `is_divider`
   - Added attr `is_visible_with_value` to slot `trailing_action` to only show the trailing action when the input has a value. Use this cor example to show a clear button only when the input has a value to clear.
@@ -191,6 +207,7 @@ Updated component:
 The rework includes styles from [Primer ViewComponents](https://primer.style/view-components/). The form styles from this flavor of Primer is more mature than the generally used Primer CSS.
 
 Updated components:
+
 - `text_input`:
   - Added attr `is_monospace`
   - Added slots `leading_visual` and `trailing_action`
@@ -218,9 +235,11 @@ Updated components:
   - Improved CSS for small screens
 
 Added component:
+
 - `input_validation_message` - can be used as standalone message component for inputs where the position of the validation feedback is not so obvious, for example lists of checkboxes or radio buttons
 
 Additional:
+
 - Added styling for input elements inside a disabled fieldset
 
 ### Integration of npm dependencies
@@ -244,6 +263,7 @@ Removed Octicon builder template files from distribution.
 ## 0.1.13
 
 Added:
+
 - `theme_menu_options` to create a theme menu
 - `Theme.html_attributes` to set theme attributes on elements
 - Theme functions for persistent theme data in the session
@@ -255,51 +275,61 @@ Fixes an issue where validation messages did not show.
 ## 0.1.11
 
 Added:
+
 - `theme`
 
 ## 0.1.10
 
 Updated:
+
 - Prevent attribute open on select menu
 
 ## 0.1.9
 
 Added:
+
 - `styled_html`
 
 ## 0.1.8
 
 Updated:
+
 - Removed requirement for Elixir version
 
 ## 0.1.7
 
 Updated:
+
 - Added `is_small` for `tabnav` items
 
 ## 0.1.6
 
 Updated:
+
 - `oticon` icons
 
 ## 0.1.5
 
 Added:
+
 - `drawer`
 
 ## 0.1.4
 
 Bug fix:
+
 - Improve `action_menu` on mobile
 
 ## 0.1.3
 
 Added:
+
 - `action_menu`
 
 ## 0.1.2
 
 Bug fix:
+
 - `action_link_item`: pass class to `link` slot.
 
 ## 0.1.1

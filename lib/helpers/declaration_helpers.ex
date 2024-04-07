@@ -415,7 +415,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
       attr(:hidden_input, :string,
         default: "true",
         doc: """
-        Controls if the component will generate a hidden input to submit the unchecked checkbox value or not. Defaults to "true". Uses `Phoenix.HTML.Form.hidden_input/3`.
+        Controls if the component will generate a hidden input to submit the unchecked checkbox value or not. Defaults to "true".
         """
       )
     end
