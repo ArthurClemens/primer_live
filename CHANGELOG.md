@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.1
+
+### Changes
+
+- Added dialog attr `is_show_on_mount`.
+- Downgraded dependency @primer/css to 21.0.7 due to regressions.
+
 ## 0.7.0
 
 Updated dependencies:
