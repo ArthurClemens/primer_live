@@ -990,6 +990,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       append_attributes([
         [
           id: toggle_id,
+          checked: assigns[:is_show_on_mount],
           "aria-hidden": "true",
           # Only use the default extra hidden input when using the menu inside a form
           hidden_input: !is_nil(field),

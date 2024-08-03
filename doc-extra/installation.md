@@ -5,7 +5,7 @@
 Add PrimerLive as a dependency in your Phoenix application's `mix.exs`
 
 ```
-{:primer_live, "~> 0.6"}
+{:primer_live, "~> 0.7"}
 ```
 
 Run `mix.deps get`
@@ -29,6 +29,12 @@ plug(Plug.Static,
   at: "/primer_live",
   from: {:primer_live, "priv/static"}
 )
+```
+
+Add the `primer_live` directory to the `Phoenix.VerifiedRoutes` configuration in `<app>_web.ex`:
+
+```
+def static_paths, do: ~w(assets fonts images favicon.png robots.txt primer_live)
 ```
 
 <h4>CSS only</h4>
