@@ -11,7 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@primer/css": "21.0.7"
+    "@primer/css": "21.3.6"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
