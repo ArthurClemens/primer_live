@@ -820,6 +820,36 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         touch_layer_attrs: ["data-touch": ""]
       }
 
+      With is_show_on_mount:
+      iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
+      ...>   %{
+      ...>     rest: %{
+      ...>       id: "some-id"
+      ...>     },
+      ...>     prompt_options: nil,
+      ...>     is_fast: false,
+      ...>     is_dark_backdrop: false,
+      ...>     is_medium_backdrop: false,
+      ...>     is_light_backdrop: false,
+      ...>     is_show_on_mount: true
+      ...>   },
+      ...>   %{
+      ...>     form: nil,
+      ...>     field: nil,
+      ...>     toggle_slot: nil,
+      ...>     toggle_class: "btn",
+      ...>     menu_class: "",
+      ...>     is_menu: false
+      ...>   })
+      %{
+        backdrop_attrs: [],
+        checkbox_attrs: [{:"aria-hidden", "true"},  {:checked, true}, {:hidden_input, false}, {:id, "some-id-toggle"}, {:onchange, "window.Prompt && Prompt.change(this)"}],
+        focus_wrap_id: "focus-wrap-some-id",
+        menu_attrs: [class: "", "data-prompt": "", id: "some-id", "phx-hook": "Prompt"],
+        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}],
+        touch_layer_attrs: ["data-touch": ""]
+      }
+
       phx_click_touch:
       iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
       ...>   %{
@@ -990,7 +1020,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       append_attributes([
         [
           id: toggle_id,
-          checked: assigns[:is_show_on_mount],
           "aria-hidden": "true",
           # Only use the default extra hidden input when using the menu inside a form
           hidden_input: !is_nil(field),
@@ -1003,7 +1032,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
               ")"
             ]
             |> Enum.join("")
-        ]
+        ],
+        if(assigns[:is_show_on_mount], do: [checked: true], else: nil)
       ])
 
     menu_id = id || "menu-" <> toggle_id

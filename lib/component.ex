@@ -11272,7 +11272,11 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.focus_first("the dialog")
 
-  attr(:is_show_on_mount, :boolean, default: false)
+  attr(:is_show_on_mount, :boolean,
+    default: false,
+    doc:
+      "Displays the dialog on mount. Control conditional display by using the regular `:if={}` attribute."
+  )
 
   DeclarationHelpers.class()
 
