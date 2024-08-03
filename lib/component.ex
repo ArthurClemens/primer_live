@@ -802,6 +802,18 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:onclick, :string,
+      doc: """
+      Onclick event.
+      """
+    )
+
+    attr(:"phx-*", :string,
+      doc: """
+      phx attributes.
+      """
+    )
+
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -1293,10 +1305,13 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:type, :string, doc: "For example: type=\"button\".")
+
     DeclarationHelpers.slot_href()
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_phx()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
   end
@@ -6811,6 +6826,9 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:name, :string)
+    attr(:type, :string)
+
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -7319,16 +7337,13 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:name, :string)
+    attr(:type, :string)
+
     DeclarationHelpers.slot_href()
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
-
-    attr(:phx_click, :string,
-      doc: """
-      See https://hexdocs.pm/phoenix_live_view/bindings.html
-      """
-    )
-
+    DeclarationHelpers.slot_phx()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -11699,6 +11714,8 @@ defmodule PrimerLive.Component do
       By default the drawer width is defined by its content.
       """
     )
+
+    attr(:style, :string)
 
     DeclarationHelpers.slot_rest()
   end
