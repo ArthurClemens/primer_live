@@ -11272,6 +11272,8 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.focus_first("the dialog")
 
+  attr(:is_show_on_mount, :boolean, default: false)
+
   DeclarationHelpers.class()
 
   attr(:classes, :map,
