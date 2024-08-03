@@ -2,7 +2,21 @@
 
 ## Usage in LiveView pages
 
-To use components, `use` module `PrimerLive`:
+```
+defmodule MyAppWeb.MyLiveView do
+  use MyAppWeb, :live_view
+  alias PrimerLive.Component, as: P
+
+  def render(assigns) do
+    ~H"""
+    <P.button>Click me</P.button>
+    """
+  end
+
+end
+```
+
+Or import with `use`:
 
 ```
 defmodule MyAppWeb.MyLiveView do
@@ -20,7 +34,22 @@ end
 
 ## Usage in regular views
 
-In view files, for example in `page_view.ex`, `use` module `PrimerLive`:
+In view files, for example in `page_view.ex`:
+
+```
+defmodule MyAppWeb.PageView do
+  use MyAppWeb, :view
+  alias PrimerLive.Component, as: P
+end
+```
+
+Then call the component on a page, for example in `templates/page/index.html.heex`:
+
+```
+<P.button>Click me</P.button>
+```
+
+Or import with `use`:
 
 ```
 defmodule MyAppWeb.PageView do
@@ -29,7 +58,7 @@ defmodule MyAppWeb.PageView do
 end
 ```
 
-Then call the component on a page, for example in `templates/page/index.html.heex`:
+Call the component on a page:
 
 ```
 <.button>Click me</.button>

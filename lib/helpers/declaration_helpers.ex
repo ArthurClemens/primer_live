@@ -23,6 +23,12 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
+  defmacro slot_phx do
+    quote do
+      attr(:"phx-click", :string)
+    end
+  end
+
   defmacro input_id do
     quote do
       attr(:input_id, :string,

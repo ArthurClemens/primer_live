@@ -27,7 +27,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
       attr :form, :any,
         doc:
           """
-          To maintain the open state when using the menu inside a form, pass the form surrounding {the_menu_element}.
+          To maintain the open state when using {the_menu_element} inside a form, pass the form surrounding {the_menu_element}.
           Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.
           """
           |> String.replace("{the_menu_element}", unquote(the_menu_element))
