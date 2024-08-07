@@ -1033,7 +1033,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
             ]
             |> Enum.join("")
         ],
-        if(assigns[:is_show_on_mount], do: [checked: true], else: nil)
+        assigns[:is_show_on_mount] && [checked: true]
       ])
 
     menu_id = id || "menu-" <> toggle_id

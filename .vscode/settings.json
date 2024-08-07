@@ -1,15 +1,16 @@
 {
   "files.associations": {
-    "*.heex": "html-heex"
+    "*.heex": "elixir"
   },
 
   "[elixir]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "JakeBecker.elixir-ls"
+    "editor.defaultFormatter": "elixir-tools.elixir-tools"
   },
 
   "[phoenix-heex]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "JakeBecker.elixir-ls"
-  }
+    "editor.defaultFormatter": "elixir-tools.elixir-tools"
+  },
+  "editor.tabSize": 2
 }
