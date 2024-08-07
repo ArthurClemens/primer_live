@@ -99,6 +99,7 @@
   padding: 0 var(--base-size-8, 8px);
   gap: var(--base-size-4, 4px);
 }
+
 .btn.btn-sm .pl-button__content {
   gap: var(--base-size-4, 4px);
 }
@@ -109,6 +110,7 @@
   padding: 0 var(--base-size-16, 16px);
   gap: var(--base-size-8, 8px);
 }
+
 .btn.btn-large .pl-button__content {
   gap: var(--base-size-8, 8px);
 }
@@ -698,6 +700,11 @@ span.ActionList-content[aria-expanded] {
   padding: 9px 12px;
 }
 
+/* Remove whitespace introduced by the default display: inline-block */
+.btn-octicon {
+  font-size: 0;
+}
+
 /* Box--overlay: reduce width on small screens */
 @media (max-width: 480px) {
   .Box--overlay {
@@ -795,10 +802,12 @@ span[data-color-mode] {
 .pl-avatar--round {
   border-radius: 50%;
 }
+
 /* Support avatar pair inside a flex container. */
 .avatar-parent-child {
   align-self: baseline;
 }
+
 /* Add missing border in avatar child .*/
 .avatar-child {
   box-shadow: 0 0 0 1px var(--color-avatar-border), var(--avatar-shadow, var(--color-avatar-child-shadow));
