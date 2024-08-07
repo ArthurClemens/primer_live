@@ -27283,6 +27283,9 @@ span.ActionList-content[aria-expanded] {
 .btn-icon.btn-large {
   padding: 9px 12px;
 }
+.btn-octicon {
+  font-size: 0;
+}
 @media (max-width: 480px) {
   .Box--overlay {
     max-width: 90vw;
