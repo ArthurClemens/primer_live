@@ -39,7 +39,8 @@ defmodule PrimerLive.MixProject do
       {:phoenix_ecto, "~> 4.5", only: :test, runtime: false},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_html_helpers, "~> 1.0"},
-      {:phoenix_live_view, "~> 0.20"}
+      {:phoenix_live_view, "~> 0.20"},
+      {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -105,6 +106,16 @@ defmodule PrimerLive.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "cmd --cd assets npm install --legacy-peer-deps"],
+      # Quality check
+      qa: [
+        "deps.clean --unlock --unused",
+        "format",
+        "format --check-formatted",
+        "compile",
+        "sobelow --config",
+        "credo --strict",
+        "docs"
+      ],
       "assets.build": [
         "cmd npm --prefix assets run build:clear -- ../priv/static/*",
         "cmd npm --prefix assets run build -- --format=esm --sourcemap --outfile=../priv/static/primer-live.esm.js",
