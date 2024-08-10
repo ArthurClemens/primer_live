@@ -8,8 +8,8 @@
   --prompt-transition-timing-function-content: ease-in-out;
   --prompt-transition-duration-content: 180ms;
   --prompt-fast-transition-duration-content: 140ms;
-  --prompt-transition-duration-backdrop: var(--prompt-transition-duration-content);
-  --prompt-fast-transition-duration-backdrop: var(--prompt-fast-transition-duration-content);
+  --prompt-transition-duration-backdrop: var( --prompt-transition-duration-content );
+  --prompt-fast-transition-duration-backdrop: var( --prompt-fast-transition-duration-content );
   --drawer-width: 320px;
   --prompt-z-index-backdrop: 98;
   --prompt-z-index-touch: 99;
@@ -41,14 +41,17 @@
   position: absolute;
   border: none;
 }
+[data-prompt],
 [data-prompt] > input[type=checkbox] {
   transition-property: opacity;
   transition-duration: 0ms;
   opacity: 1;
 }
+[data-prompt],
 [data-prompt] > input[type=checkbox] {
   transition-delay: var(--prompt-transition-duration-content);
 }
+[data-prompt][data-isfast],
 [data-prompt][data-isfast] > input[type=checkbox] {
   transition-delay: var(--prompt-fast-transition-duration-content);
 }
@@ -103,9 +106,11 @@
   transition-property: opacity, visibility;
   transition-timing-function: var(--prompt-transition-timing-function-backdrop);
 }
+[data-prompt][data-ismounted]:not([data-isfast]) > [data-prompt-content] [data-backdrop],
 [data-prompt]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-backdrop] {
   transition-duration: var(--prompt-transition-duration-backdrop);
 }
+[data-prompt][data-ismounted][data-isfast] > [data-prompt-content] [data-backdrop],
 [data-prompt][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-backdrop] {
   transition-duration: var(--prompt-fast-transition-duration-backdrop);
 }
@@ -129,9 +134,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+[data-prompt]:not([data-isfast])[data-ismounted] > [data-prompt-content] [data-content],
 [data-prompt]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content] {
   transition-duration: var(--prompt-transition-duration-content);
 }
+[data-prompt][data-isfast][data-ismounted] > [data-prompt-content] [data-content],
 [data-prompt][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content] {
   transition-duration: var(--prompt-fast-transition-duration-content);
 }

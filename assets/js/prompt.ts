@@ -33,9 +33,12 @@ const IS_MODAL_DATA = "ismodal";
 const IS_ESCAPABLE_DATA = "isescapable";
 const FOCUS_FIRST_SELECTOR_DATA = "focusfirst";
 
-const isTouchLayer = (el?: MaybeHTMLElement) => el?.dataset[TOUCH_DATA] !== undefined;
-const isModal = (el?: MaybeHTMLElement) => el?.dataset[IS_MODAL_DATA] !== undefined;
-const isEscapable = (el?: MaybeHTMLElement) => el?.dataset[IS_ESCAPABLE_DATA] !== undefined;
+const isTouchLayer = (el?: MaybeHTMLElement) =>
+  el?.dataset[TOUCH_DATA] !== undefined;
+const isModal = (el?: MaybeHTMLElement) =>
+  el?.dataset[IS_MODAL_DATA] !== undefined;
+const isEscapable = (el?: MaybeHTMLElement) =>
+  el?.dataset[IS_ESCAPABLE_DATA] !== undefined;
 
 function getCheckboxFromPromptContent(contentElement?: HTMLElement) {
   const root = contentElement?.closest(ROOT_SELECTOR);
@@ -50,7 +53,7 @@ function getCheckboxFromPromptContent(contentElement?: HTMLElement) {
 }
 
 function getCheckboxFromSelectorOrElement(
-  selectorOrElement: string | HTMLElement
+  selectorOrElement: string | HTMLElement,
 ) {
   let checkbox: HTMLInputElement | null = null;
   if (typeof selectorOrElement === "string") {
@@ -146,7 +149,11 @@ function closeFromTouchLayer(evt: MouseEvent) {
     return;
   }
   const touchLayer: HTMLElement = evt.target as HTMLElement;
-  if (touchLayer && touchLayer instanceof HTMLElement && !isTouchLayer(touchLayer)) {
+  if (
+    touchLayer &&
+    touchLayer instanceof HTMLElement &&
+    !isTouchLayer(touchLayer)
+  ) {
     return;
   }
   const root = touchLayer.closest(ROOT_SELECTOR);
@@ -161,8 +168,8 @@ function closeFromEscapeKey(evt: KeyboardEvent) {
     // Only close the top element if its root dataset contains "is escapable" data attr
     const openPromptCheckboxes = Array.from(
       document.querySelectorAll(
-        `${ROOT_SELECTOR} > ${CHECKBOX_SELECTOR}:checked`
-      )
+        `${ROOT_SELECTOR} > ${CHECKBOX_SELECTOR}:checked`,
+      ),
     );
     const topCheckbox = openPromptCheckboxes.reverse()[0];
 
@@ -180,7 +187,7 @@ function onEndShowing({ root }: PromptElements) {
   if (!content) {
     return;
   }
-  handleFocus(root, content)
+  handleFocus(root, content);
 }
 
 function handleFocus(root: HTMLElement, content: HTMLElement) {
@@ -196,8 +203,8 @@ function handleFocus(root: HTMLElement, content: HTMLElement) {
 
 function onToggle(
   selectorOrElement: string | HTMLElement,
-  mode: 'show' | 'hide' | 'toggle',
-  options?: PromptOptions
+  mode: "show" | "hide" | "toggle",
+  options?: PromptOptions,
 ) {
   const checkbox: MaybePromptCheckbox =
     getCheckboxFromSelectorOrElement(selectorOrElement);
@@ -219,30 +226,64 @@ type TPrompt = {
   el?: MaybeHTMLElement;
   checkbox?: MaybePromptCheckbox;
   isInited: boolean;
-  init: () => void;
+  init: (isMounted?: boolean) => void;
   mounted: () => void;
   updated: () => void;
+  destroyed: () => void;
   hide: (selectorOrElement: string | HTMLElement) => void;
   show: (selectorOrElement: string | HTMLElement) => void;
   toggle: (selectorOrElement: string | HTMLElement) => void;
-  change: (selectorOrElement: string | HTMLElement, options?: PromptOptions) => void;
+  change: (
+    selectorOrElement: string | HTMLElement,
+    options?: PromptOptions,
+  ) => void;
 };
+
+function handleToggleEvent(event: CustomEvent) {
+  const target: EventTarget | null = event.target;
+  if (!(target instanceof HTMLElement)) {
+    return;
+  }
+  const checkbox = getCheckboxFromSelectorOrElement(target);
+  if (!checkbox || !(checkbox instanceof HTMLInputElement)) {
+    return;
+  }
+
+  const actionDispatch = {
+    show: Prompt.show,
+    hide: Prompt.hide,
+  };
+
+  const action: "show" | "hide" = event.detail.action;
+  if (action) {
+    setTimeout(() => {
+      actionDispatch[action](target);
+    }, 0);
+  }
+}
 
 export const Prompt: TPrompt = {
   isInited: false,
-  init: function () { 
-    if (!Prompt.isInited) {
+  init: function (isMounted) {
+    if (this.el && isMounted) {
       window.addEventListener("keydown", closeFromEscapeKey);
+      this.el.addEventListener("prompt:toggle", handleToggleEvent);
       Prompt.isInited = true;
     }
   },
   mounted: function () {
-    this.init();
+    this.init(true);
   },
   updated: function () {
     this.init();
   },
-  change: function (selectorOrElement: string | HTMLElement, options: PromptOptions = {}) {
+  destroyed: function () {
+    this.el?.removeEventListener("prompt:toggle", handleToggleEvent);
+  },
+  change: function (
+    selectorOrElement: string | HTMLElement,
+    options: PromptOptions = {},
+  ) {
     const checkbox = getCheckboxFromSelectorOrElement(selectorOrElement);
     if (!checkbox || !(checkbox instanceof HTMLInputElement)) {
       return;
@@ -258,7 +299,7 @@ export const Prompt: TPrompt = {
 
     checkbox.addEventListener(
       "transitionend",
-      function (evt) {
+      function (_evt) {
         setCheckboxState({
           checkbox,
           state: checkbox.checked ? "endShowing" : "endHiding",
@@ -267,7 +308,7 @@ export const Prompt: TPrompt = {
           onDidShow: onEndShowing,
         });
       },
-      { once: true }
+      { once: true },
     );
 
     setCheckboxState({
@@ -277,9 +318,7 @@ export const Prompt: TPrompt = {
       options,
     });
   },
-  hide: function (
-    selectorOrElement: string | HTMLElement
-  ) {
+  hide: function (selectorOrElement: string | HTMLElement) {
     if (typeof selectorOrElement !== "string") {
       // Element
       let element = selectorOrElement;
@@ -292,17 +331,13 @@ export const Prompt: TPrompt = {
         }
       }
     }
-    onToggle(selectorOrElement, 'hide')
+    onToggle(selectorOrElement, "hide");
   },
-  show: function (
-    selectorOrElement: string | HTMLElement
-  ) {
-    onToggle(selectorOrElement, 'show');
+  show: function (selectorOrElement: string | HTMLElement) {
+    onToggle(selectorOrElement, "show");
   },
-  toggle: function (
-    selectorOrElement: string | HTMLElement
-  ) {
-    onToggle(selectorOrElement, 'toggle');
+  toggle: function (selectorOrElement: string | HTMLElement) {
+    onToggle(selectorOrElement, "toggle");
   },
 };
 

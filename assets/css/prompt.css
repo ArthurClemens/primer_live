@@ -10,8 +10,12 @@
   --prompt-transition-timing-function-content: ease-in-out;
   --prompt-transition-duration-content: 180ms;
   --prompt-fast-transition-duration-content: 140ms;
-  --prompt-transition-duration-backdrop: var(--prompt-transition-duration-content);
-  --prompt-fast-transition-duration-backdrop: var(--prompt-fast-transition-duration-content);
+  --prompt-transition-duration-backdrop: var(
+    --prompt-transition-duration-content
+  );
+  --prompt-fast-transition-duration-backdrop: var(
+    --prompt-fast-transition-duration-content
+  );
   /* drawer */
   --drawer-width: 320px;
   /* z-index */
@@ -39,7 +43,7 @@ GENERAL
   transition-duration: 0ms;
 }
 
-[data-prompt]>input[type=checkbox]:checked+[data-prompt-content] {
+[data-prompt] > input[type="checkbox"]:checked + [data-prompt-content] {
   visibility: visible;
 }
 
@@ -48,7 +52,10 @@ GENERAL
   pointer-events: none;
 }
 
-[data-prompt]>input[type="checkbox"]:checked+[data-prompt-content] [data-touch] {
+[data-prompt]
+  > input[type="checkbox"]:checked
+  + [data-prompt-content]
+  [data-touch] {
   pointer-events: initial;
 }
 
@@ -62,25 +69,28 @@ GENERAL
 }
 
 /* Add a transition to the checkbox so we can receive a transitionend evennt */
-[data-prompt]>input[type="checkbox"] {
+[data-prompt],
+[data-prompt] > input[type="checkbox"] {
   transition-property: opacity;
   transition-duration: 0ms;
   opacity: 1;
 }
 
-[data-prompt]>input[type="checkbox"] {
+[data-prompt],
+[data-prompt] > input[type="checkbox"] {
   transition-delay: var(--prompt-transition-duration-content);
 }
 
-[data-prompt][data-isfast]>input[type="checkbox"] {
+[data-prompt][data-isfast],
+[data-prompt][data-isfast] > input[type="checkbox"] {
   transition-delay: var(--prompt-fast-transition-duration-content);
 }
 
-[data-prompt]>input[type="checkbox"]:checked {
+[data-prompt] > input[type="checkbox"]:checked {
   opacity: 0.5;
 }
 
-[data-prompt]>input[type="checkbox"][data-ishiding] {
+[data-prompt] > input[type="checkbox"][data-ishiding] {
   opacity: 0;
 }
 
@@ -153,27 +163,48 @@ TOUCH AND BACKDROP
 }
 
 /* Backdrop regular fade */
-[data-prompt]:not([data-isfast])>input[type=checkbox][data-ismounted]+[data-prompt-content] [data-backdrop] {
+[data-prompt][data-ismounted]:not([data-isfast])
+  > [data-prompt-content]
+  [data-backdrop],
+[data-prompt]:not([data-isfast])
+  > input[type="checkbox"][data-ismounted]
+  + [data-prompt-content]
+  [data-backdrop] {
   transition-duration: var(--prompt-transition-duration-backdrop);
 }
 
 /* Backdrop fast fade */
-[data-prompt][data-isfast]>input[type=checkbox][data-ismounted]+[data-prompt-content] [data-backdrop] {
+[data-prompt][data-ismounted][data-isfast]
+  > [data-prompt-content]
+  [data-backdrop],
+[data-prompt][data-isfast]
+  > input[type="checkbox"][data-ismounted]
+  + [data-prompt-content]
+  [data-backdrop] {
   transition-duration: var(--prompt-fast-transition-duration-backdrop);
 }
 
 /* Backdrop medium opacity */
-[data-prompt]>input[type="checkbox"]:checked+[data-prompt-content] [data-backdrop] {
+[data-prompt]
+  > input[type="checkbox"]:checked
+  + [data-prompt-content]
+  [data-backdrop] {
   opacity: var(--prompt-background-opacity-backdrop-medium);
 }
 
 /* Backdrop dark opacity */
-[data-prompt]>input[type="checkbox"]:checked+[data-prompt-content] [data-backdrop][data-isdark] {
+[data-prompt]
+  > input[type="checkbox"]:checked
+  + [data-prompt-content]
+  [data-backdrop][data-isdark] {
   opacity: var(--prompt-background-opacity-backdrop-dark);
 }
 
 /* Backdrop light opacity */
-[data-prompt]>input[type="checkbox"]:checked+[data-prompt-content] [data-backdrop][data-islight] {
+[data-prompt]
+  > input[type="checkbox"]:checked
+  + [data-prompt-content]
+  [data-backdrop][data-islight] {
   opacity: var(--prompt-background-opacity-backdrop-light);
 }
 
@@ -192,23 +223,39 @@ DIALOG
 }
 
 /* Center on screen */
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]):not(dialog) {
+[data-prompt]:not([data-isdrawer])
+  [data-content]:not([aria-role="menu"]):not(dialog) {
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 /* Transition: regular */
-[data-prompt]:not([data-isfast])>input[type=checkbox][data-ismounted]+[data-prompt-content] [data-content] {
+[data-prompt]:not([data-isfast])[data-ismounted]
+  > [data-prompt-content]
+  [data-content],
+[data-prompt]:not([data-isfast])
+  > input[type="checkbox"][data-ismounted]
+  + [data-prompt-content]
+  [data-content] {
   transition-duration: var(--prompt-transition-duration-content);
 }
 
 /* Transition: fast */
-[data-prompt][data-isfast]>input[type=checkbox][data-ismounted]+[data-prompt-content] [data-content] {
+[data-prompt][data-isfast][data-ismounted]
+  > [data-prompt-content]
+  [data-content],
+[data-prompt][data-isfast]
+  > input[type="checkbox"][data-ismounted]
+  + [data-prompt-content]
+  [data-content] {
   transition-duration: var(--prompt-fast-transition-duration-content);
 }
 
 /* Appear: fade in */
-[data-prompt]:not([data-isdrawer]) input[type="checkbox"]:checked+[data-prompt-content] [data-content] {
+[data-prompt]:not([data-isdrawer])
+  input[type="checkbox"]:checked
+  + [data-prompt-content]
+  [data-content] {
   opacity: 1;
 }
 
@@ -234,13 +281,25 @@ DRAWER
   transition-timing-function: var(--prompt-transition-timing-function-content);
 }
 
-[data-prompt][data-isdrawer]:not([data-isfast])>input[type=checkbox][data-ismounted]+[data-prompt-content] [data-content],
-[data-prompt][data-isdrawer]:not([data-isfast])>input[type=checkbox][data-ismounted]+[data-prompt-content] [data-drawer-content] {
+[data-prompt][data-isdrawer]:not([data-isfast])
+  > input[type="checkbox"][data-ismounted]
+  + [data-prompt-content]
+  [data-content],
+[data-prompt][data-isdrawer]:not([data-isfast])
+  > input[type="checkbox"][data-ismounted]
+  + [data-prompt-content]
+  [data-drawer-content] {
   transition-duration: var(--prompt-transition-duration-content);
 }
 
-[data-prompt][data-isdrawer][data-isfast]>input[type=checkbox][data-ismounted]+[data-prompt-content] [data-content],
-[data-prompt][data-isdrawer][data-isfast]>input[type=checkbox][data-ismounted]+[data-prompt-content] [data-drawer-content] {
+[data-prompt][data-isdrawer][data-isfast]
+  > input[type="checkbox"][data-ismounted]
+  + [data-prompt-content]
+  [data-content],
+[data-prompt][data-isdrawer][data-isfast]
+  > input[type="checkbox"][data-ismounted]
+  + [data-prompt-content]
+  [data-drawer-content] {
   transition-duration: var(--prompt-fast-transition-duration-content);
 }
 
@@ -273,8 +332,15 @@ DRAWER
 }
 
 /* Appear: slide in */
-[data-prompt][data-isdrawer] input[type="checkbox"]:checked+[data-prompt-content] [data-content],
-[dir="rtl"] [data-prompt][data-isdrawer] input[type="checkbox"]:checked+[data-prompt-content] [data-content] {
+[data-prompt][data-isdrawer]
+  input[type="checkbox"]:checked
+  + [data-prompt-content]
+  [data-content],
+[dir="rtl"]
+  [data-prompt][data-isdrawer]
+  input[type="checkbox"]:checked
+  + [data-prompt-content]
+  [data-content] {
   transform: translateX(0);
 }
 
@@ -287,8 +353,8 @@ DRAWER
 }
 
 /* Push drawer: touch and backdrop */
-[data-prompt][data-ispush]+[data-prompt-content] [data-touch],
-[data-prompt][data-ispush]+[data-prompt-content] [data-backdrop] {
+[data-prompt][data-ispush] + [data-prompt-content] [data-touch],
+[data-prompt][data-ispush] + [data-prompt-content] [data-backdrop] {
   z-index: 1;
   position: absolute;
 }
@@ -320,7 +386,9 @@ DRAWER
 }
 
 /* Push drawer: content shift: position at end (RTL) */
-[dir="rtl"] [data-prompt][data-isdrawer][data-ispush][data-isfarside] [data-content] {
+[dir="rtl"]
+  [data-prompt][data-isdrawer][data-ispush][data-isfarside]
+  [data-content] {
   padding-left: var(--drawer-width);
   padding-right: 0;
 }
@@ -343,7 +411,8 @@ DRAWER
 }
 
 /* Push drawer: position at end */
-[data-prompt][data-isdrawer][data-ispush][data-isfarside] [data-drawer-content] {
+[data-prompt][data-isdrawer][data-ispush][data-isfarside]
+  [data-drawer-content] {
   left: auto;
   right: 0;
 }
@@ -355,7 +424,9 @@ DRAWER
 }
 
 /* Push drawer: position at end (RTL) */
-[dir="rtl"] [data-prompt][data-isdrawer][data-ispush][data-isfarside] [data-drawer-content] {
+[dir="rtl"]
+  [data-prompt][data-isdrawer][data-ispush][data-isfarside]
+  [data-drawer-content] {
   left: 0;
   right: auto;
 }
@@ -372,12 +443,18 @@ DRAWER
 }
 
 /* Push drawer: appear: slide in */
-[data-prompt][data-isdrawer][data-ispush] input[type="checkbox"]:checked+[data-prompt-content] [data-content] {
+[data-prompt][data-isdrawer][data-ispush]
+  input[type="checkbox"]:checked
+  + [data-prompt-content]
+  [data-content] {
   transform: translateX(0);
 }
 
 /* Push drawer, position at end: appear: slide in */
-[data-prompt][data-isdrawer][data-ispush][data-isfarside] input[type="checkbox"]:checked+[data-prompt-content] [data-content] {
+[data-prompt][data-isdrawer][data-ispush][data-isfarside]
+  input[type="checkbox"]:checked
+  + [data-prompt-content]
+  [data-content] {
   transform: translateX(calc(-1 * var(--drawer-width)));
 }
 
@@ -387,16 +464,26 @@ DRAWER
 }
 
 /* Push drawer: appear: slide in (RTL) */
-[dir="rtl"] [data-prompt][data-isdrawer][data-ispush] input[type="checkbox"]:checked+[data-prompt-content] [data-content] {
+[dir="rtl"]
+  [data-prompt][data-isdrawer][data-ispush]
+  input[type="checkbox"]:checked
+  + [data-prompt-content]
+  [data-content] {
   transform: translateX(0);
 }
 
 /* Push drawer: content position, position at end (RTL) */
-[dir="rtl"] [data-prompt][data-isdrawer][data-ispush][data-isfarside] [data-content] {
+[dir="rtl"]
+  [data-prompt][data-isdrawer][data-ispush][data-isfarside]
+  [data-content] {
   transform: translateX(0);
 }
 
 /* Push drawer: appear: slide in (RTL) */
-[dir="rtl"] [data-prompt][data-isdrawer][data-ispush][data-isfarside] input[type="checkbox"]:checked+[data-prompt-content] [data-content] {
+[dir="rtl"]
+  [data-prompt][data-isdrawer][data-ispush][data-isfarside]
+  input[type="checkbox"]:checked
+  + [data-prompt-content]
+  [data-content] {
   transform: translateX(var(--drawer-width));
 }

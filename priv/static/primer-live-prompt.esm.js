@@ -160,19 +160,44 @@ function onToggle(selectorOrElement, mode, options) {
     checkbox.click();
   }
 }
+function handleToggleEvent(event) {
+  const target = event.target;
+  if (!(target instanceof HTMLElement)) {
+    return;
+  }
+  const checkbox = getCheckboxFromSelectorOrElement(target);
+  if (!checkbox || !(checkbox instanceof HTMLInputElement)) {
+    return;
+  }
+  const actionDispatch = {
+    show: Prompt.show,
+    hide: Prompt.hide
+  };
+  const action = event.detail.action;
+  if (action) {
+    setTimeout(() => {
+      actionDispatch[action](target);
+    }, 0);
+  }
+}
 var Prompt = {
   isInited: false,
-  init: function() {
-    if (!Prompt.isInited) {
+  init: function(isMounted) {
+    if (this.el && isMounted) {
       window.addEventListener("keydown", closeFromEscapeKey);
+      this.el.addEventListener("prompt:toggle", handleToggleEvent);
       Prompt.isInited = true;
     }
   },
   mounted: function() {
-    this.init();
+    this.init(true);
   },
   updated: function() {
     this.init();
+  },
+  destroyed: function() {
+    var _a;
+    (_a = this.el) == null ? void 0 : _a.removeEventListener("prompt:toggle", handleToggleEvent);
   },
   change: function(selectorOrElement, options = {}) {
     var _a, _b;
@@ -188,7 +213,7 @@ var Prompt = {
     }
     checkbox.addEventListener(
       "transitionend",
-      function(evt) {
+      function(_evt) {
         setCheckboxState({
           checkbox,
           state: checkbox.checked ? "endShowing" : "endHiding",

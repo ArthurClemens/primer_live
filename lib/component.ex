@@ -12,6 +12,8 @@ defmodule PrimerLive.Component do
     PromptDeclarationHelpers
   }
 
+  alias Phoenix.LiveView.JS
+
   alias PrimerLive.Helpers.{
     AttributeHelpers,
     FormHelpers,
@@ -11287,10 +11289,16 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.focus_first("the dialog")
 
-  attr(:is_show_on_mount, :boolean,
+  attr(:is_show, :boolean,
     default: false,
     doc:
-      "Displays the dialog on mount. Control conditional display by using the regular `:if={}` attribute."
+      "Sets the display state of the dialog. Control conditional display by using the regular `:if={}` attribute."
+  )
+
+  attr(:on_cancel, JS,
+    default: %JS{},
+    doc:
+      "JS command to configure the closing/cancel event, for example: `on_cancel={JS.navigate(~p\"/posts\")}`."
   )
 
   DeclarationHelpers.class()
@@ -11489,14 +11497,19 @@ defmodule PrimerLive.Component do
       |> assign(:focus_wrap_id, focus_wrap_id)
 
     ~H"""
-    <div {@wrapper_attrs}>
+    <div
+      {@wrapper_attrs}
+      phx-mounted={@is_show && show_dialog(@id)}
+      phx-remove={hide_dialog(@id)}
+      data-cancel={JS.exec(@on_cancel, "phx-remove")}
+    >
       <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
       <div data-prompt-content>
-        <div {@touch_layer_attrs}>
+        <div {@touch_layer_attrs} phx-click={cancel_dialog(@id)}>
           <%= if @backdrop_attrs !== [] do %>
             <div {@backdrop_attrs} />
           <% end %>
-          <.focus_wrap id={@focus_wrap_id}>
+          <.focus_wrap id={@focus_wrap_id} phx-click-away={cancel_dialog(@id)}>
             <.box {@box_attrs}>
               <:header
                 :if={@header_title && @header_title !== []}
@@ -11513,6 +11526,42 @@ defmodule PrimerLive.Component do
       </div>
     </div>
     """
+  end
+
+  def show_dialog(js \\ %JS{}, id) when is_binary(id) do
+    js
+    |> allow_fade_in(id)
+    |> JS.dispatch("prompt:toggle", to: "##{id}", detail: %{action: "show"})
+    # Persist across routes:
+    |> JS.set_attribute({"data-ismounted", "true"}, to: "##{id}")
+  end
+
+  def hide_dialog(js \\ %JS{}, id) when is_binary(id) do
+    js
+    |> JS.dispatch("prompt:toggle", to: "##{id}", detail: %{action: "hide"})
+    |> allow_fade_out(id)
+    |> JS.pop_focus()
+  end
+
+  def cancel_dialog(js \\ %JS{}, id) when is_binary(id) do
+    js
+    |> JS.exec("data-cancel", to: "##{id}")
+  end
+
+  defp allow_fade_in(js, id) do
+    JS.show(js,
+      to: "##{id}",
+      time: 0,
+      transition: {"duration-0", "", ""}
+    )
+  end
+
+  defp allow_fade_out(js, id) do
+    JS.hide(js,
+      to: "##{id}",
+      time: 180,
+      transition: {"duration-180", "", ""}
+    )
   end
 
   # ------------------------------------------------------------------------------------
