@@ -11552,11 +11552,11 @@ defmodule PrimerLive.Component do
     >
       <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
       <div data-prompt-content>
-        <div {@touch_layer_attrs} phx-click={cancel_dialog(@id)}>
+        <div {@touch_layer_attrs}>
           <%= if @backdrop_attrs !== [] do %>
             <div {@backdrop_attrs} />
           <% end %>
-          <.focus_wrap id={@focus_wrap_id} phx-click-away={cancel_dialog(@id)}>
+          <.focus_wrap id={@focus_wrap_id} phx-click-away={not @is_modal && cancel_dialog(@id)} >
             <.box {@box_attrs}>
               <:header
                 :if={@header_title && @header_title !== []}
