@@ -188,6 +188,8 @@
         window.addEventListener("keydown", closeFromEscapeKey);
         this.el.addEventListener("prompt:toggle", handleToggleEvent);
         Prompt.isInited = true;
+      }
+      if (this.el) {
         const checkbox = getCheckboxFromSelectorOrElement(this.el);
         if (checkbox) {
           checkbox.dataset[IS_MOUNTED_DATA] = "true";

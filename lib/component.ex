@@ -11180,7 +11180,7 @@ defmodule PrimerLive.Component do
 
   ### Routes and other conditionals
 
-  To show the dialog at a specific route (or with any other condition), use Phoenix's `:if` attribute. The `on_cancel` function can then be used to redirect to the originating route:
+  To show the dialog at a specific route (or with any other condition), use Phoenix's `:if` attribute, combined with `is_show`. The `on_cancel` function can then be used to redirect to the originating route:
 
   ```
   <.dialog
