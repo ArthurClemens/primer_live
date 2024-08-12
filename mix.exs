@@ -16,7 +16,7 @@ defmodule PrimerLive.MixProject do
     ]
   end
 
-  defp description() do
+  defp description do
     "An implementation of GitHub's Primer Design System for Phoenix LiveView."
   end
 

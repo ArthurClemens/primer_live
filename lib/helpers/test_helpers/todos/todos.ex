@@ -9,7 +9,7 @@ defmodule PrimerLive.TestHelpers.Repo.Todos do
     |> changeset(attrs)
   end
 
-  def init() do
+  def init do
     change(%Todo{})
   end
 

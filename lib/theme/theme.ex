@@ -110,17 +110,17 @@ defmodule PrimerLive.Theme do
   @doc ~S"""
   Initial theme state.
   """
-  def default_theme_state(), do: @default_theme_state
+  def default_theme_state, do: @default_theme_state
 
   @doc ~S"""
   Default options for a theme menu.
   """
-  def default_menu_options(), do: @default_menu_options
+  def default_menu_options, do: @default_menu_options
 
   @doc ~S"""
   Default label for a theme menu.
   """
-  def default_menu_labels(), do: @default_menu_labels
+  def default_menu_labels, do: @default_menu_labels
 
   @doc ~S"""
   Default event name for the `handle_event` update callback.
@@ -133,12 +133,12 @@ defmodule PrimerLive.Theme do
   />
   ```
   """
-  def update_theme_event_key(), do: @update_theme_event_key
+  def update_theme_event_key, do: @update_theme_event_key
 
   @doc ~S"""
   Default reset link identifier for the `handle_event` update callback.
   """
-  def reset_key(), do: @reset_key
+  def reset_key, do: @reset_key
 
   @doc ~S"""
   Configures menu options from supplied params:
@@ -239,7 +239,7 @@ defmodule PrimerLive.Theme do
 
   ## Tests
 
-      iex> PrimerLive.Theme.is_default_theme(
+      iex> PrimerLive.Theme.default_theme?(
       ...> %{
       ...>   color_mode: "auto",
       ...>   light_theme: "light",
@@ -249,7 +249,7 @@ defmodule PrimerLive.Theme do
       ...> )
       true
 
-      iex> PrimerLive.Theme.is_default_theme(
+      iex> PrimerLive.Theme.default_theme?(
       ...> %{
       ...>   color_mode: "light",
       ...>   light_theme: "light_high_contrast",
@@ -259,7 +259,7 @@ defmodule PrimerLive.Theme do
       ...> )
       false
   """
-  def is_default_theme(theme, default_theme_state) do
+  def default_theme?(theme, default_theme_state) do
     Map.equal?(theme, default_theme_state)
   end
 

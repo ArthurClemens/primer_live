@@ -33,13 +33,13 @@ defmodule PrimerLive.Helpers.ComponentHelpers do
     end
   end
 
-  defp has_slot_content(rendered), do: !is_empty_slot(rendered)
-  defp is_empty_slot(rendered) when is_nil(rendered), do: false
-  defp is_empty_slot(rendered), do: is_empty_slot_content(rendered.static)
-  defp is_empty_slot_content(static) when is_nil(static), do: true
-  defp is_empty_slot_content(static) when static == [""], do: true
+  defp has_slot_content(rendered), do: !empty_slot?(rendered)
+  defp empty_slot?(rendered) when is_nil(rendered), do: false
+  defp empty_slot?(rendered), do: empty_slot_content?(rendered.static)
+  defp empty_slot_content?(static) when is_nil(static), do: true
+  defp empty_slot_content?(static) when static == [""], do: true
 
-  defp is_empty_slot_content(static) do
+  defp empty_slot_content?(static) do
     cond do
       static == [] -> true
       hd(static) |> String.trim() == "" -> true
