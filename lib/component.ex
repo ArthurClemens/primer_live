@@ -859,8 +859,8 @@ defmodule PrimerLive.Component do
     is_form_input = assigns[:form] || assigns[:field]
     # Get the first link slot, if any
     link_slot = if assigns[:link] && assigns[:link] !== [], do: hd(assigns[:link]), else: []
-    is_link = AttributeHelpers.is_link?(link_slot)
-    is_anchor_link = AttributeHelpers.is_anchor_link?(link_slot)
+    is_link = AttributeHelpers.link?(link_slot)
+    is_anchor_link = AttributeHelpers.anchor_link?(link_slot)
     is_selected_link_marker = assigns.is_selected_link_marker
     is_single_select = assigns.is_single_select
     is_multiple_select = assigns.is_multiple_select && !is_single_select
@@ -916,14 +916,18 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "ActionList-item-visual",
           "ActionList-item-visual--leading",
-          # Note that classes for action are identical ("ActionList-item-action ActionList-item-action--leading") and therefore not implemented
+          # Note that classes for action are identical
+          # ("ActionList-item-action ActionList-item-action--leading")
+          # and therefore not implemented
           assigns[:classes][:leading_visual]
         ]),
       trailing_visual:
         AttributeHelpers.classnames([
           "ActionList-item-visual",
           "ActionList-item-visual--trailing",
-          # Note that classes for action are identical ("ActionList-item-action ActionList-item-action--trailing") and therefore not implemented
+          # Note that classes for action are identical
+          # ("ActionList-item-action ActionList-item-action--trailing")
+          # and therefore not implemented
           assigns[:classes][:trailing_visual]
         ]),
       sub_group: fn slot ->
@@ -1055,9 +1059,7 @@ defmodule PrimerLive.Component do
         if assigns.is_collapsible do
           assigns.is_expanded
         else
-          if has_sub_group do
-            true
-          end
+          has_sub_group
         end
 
       attributes =
@@ -1140,7 +1142,8 @@ defmodule PrimerLive.Component do
         is_link && [role: "none"],
         !is_link && is_select && [role: "option"],
         assigns.is_disabled && ["aria-disabled": "true"]
-        # Don't use aria-selected on the list item, because the associated CSS prevents visual updates then updating the checkbox (see git history)
+        # Don't use aria-selected on the list item, because the associated CSS prevents
+        # visual updates then updating the checkbox (see git history)
       ])
 
     assigns =
@@ -1367,7 +1370,7 @@ defmodule PrimerLive.Component do
     }
 
     render_tab = fn slot ->
-      is_link = AttributeHelpers.is_link?(slot)
+      is_link = AttributeHelpers.link?(slot)
 
       rest =
         AttributeHelpers.assigns_to_attributes_sorted(slot, [
@@ -1683,7 +1686,7 @@ defmodule PrimerLive.Component do
       ])
 
     render_tab = fn slot ->
-      is_link = AttributeHelpers.is_link?(slot)
+      is_link = AttributeHelpers.link?(slot)
 
       rest =
         AttributeHelpers.assigns_to_attributes_sorted(slot, [
@@ -1968,7 +1971,7 @@ defmodule PrimerLive.Component do
       end
 
     render_item = fn slot ->
-      is_link = AttributeHelpers.is_link?(slot)
+      is_link = AttributeHelpers.link?(slot)
 
       rest =
         AttributeHelpers.assigns_to_attributes_sorted(slot, [
@@ -2245,7 +2248,7 @@ defmodule PrimerLive.Component do
     }
 
     render_item = fn slot ->
-      is_link = AttributeHelpers.is_link?(slot)
+      is_link = AttributeHelpers.link?(slot)
 
       rest =
         AttributeHelpers.assigns_to_attributes_sorted(slot, [
@@ -2487,7 +2490,7 @@ defmodule PrimerLive.Component do
     }
 
     render_item = fn slot ->
-      is_link = AttributeHelpers.is_link?(slot)
+      is_link = AttributeHelpers.link?(slot)
 
       rest =
         AttributeHelpers.assigns_to_attributes_sorted(slot, [
@@ -2757,7 +2760,7 @@ defmodule PrimerLive.Component do
     }
 
     render_item = fn slot ->
-      is_link = AttributeHelpers.is_link?(slot)
+      is_link = AttributeHelpers.link?(slot)
 
       rest =
         AttributeHelpers.assigns_to_attributes_sorted(slot, [
@@ -6351,7 +6354,7 @@ defmodule PrimerLive.Component do
     end
 
     render_row = fn slot ->
-      is_link = AttributeHelpers.is_link?(slot)
+      is_link = AttributeHelpers.link?(slot)
       class = classes.row.(slot, is_link)
 
       rest =
@@ -7534,7 +7537,7 @@ defmodule PrimerLive.Component do
     item_attrs = fn item ->
       is_selected = item[:is_selected]
       is_disabled = item[:is_disabled]
-      is_link = AttributeHelpers.is_link?(item)
+      is_link = AttributeHelpers.link?(item)
 
       # Don't pass item attributes to the HTML
       item_rest =
@@ -7569,7 +7572,7 @@ defmodule PrimerLive.Component do
       ])
 
     render_item = fn item ->
-      is_link = AttributeHelpers.is_link?(item)
+      is_link = AttributeHelpers.link?(item)
       is_divider = !!item[:is_divider]
       is_divider_content = is_divider && !!item.inner_block
       is_button = !is_link && !is_divider
@@ -7617,7 +7620,7 @@ defmodule PrimerLive.Component do
     end
 
     render_tab = fn slot ->
-      is_link = AttributeHelpers.is_link?(slot)
+      is_link = AttributeHelpers.link?(slot)
 
       rest =
         AttributeHelpers.assigns_to_attributes_sorted(slot, [
@@ -8232,7 +8235,7 @@ defmodule PrimerLive.Component do
         ])
     }
 
-    is_link = AttributeHelpers.is_link?(assigns)
+    is_link = AttributeHelpers.link?(assigns)
 
     type = assigns.rest[:type]
 
@@ -9830,7 +9833,7 @@ defmodule PrimerLive.Component do
         [href: assigns[:href], navigate: assigns[:navigate], patch: assigns[:patch]]
       ])
 
-    is_link = AttributeHelpers.is_link?(assigns)
+    is_link = AttributeHelpers.link?(assigns)
 
     assigns =
       assigns
@@ -10290,7 +10293,7 @@ defmodule PrimerLive.Component do
         [href: assigns[:href], navigate: assigns[:navigate], patch: assigns[:patch]]
       ])
 
-    is_link = AttributeHelpers.is_link?(assigns)
+    is_link = AttributeHelpers.link?(assigns)
 
     assigns =
       assigns
@@ -11054,7 +11057,7 @@ defmodule PrimerLive.Component do
     }
 
     render_item = fn slot ->
-      is_link = AttributeHelpers.is_link?(slot)
+      is_link = AttributeHelpers.link?(slot)
       tag = slot[:tag] || "span"
 
       class =
@@ -12062,7 +12065,7 @@ defmodule PrimerLive.Component do
         assigns[:class]
       ])
 
-    is_link = AttributeHelpers.is_link?(assigns)
+    is_link = AttributeHelpers.link?(assigns)
 
     attributes =
       AttributeHelpers.append_attributes(assigns.rest, [
@@ -12600,7 +12603,7 @@ defmodule PrimerLive.Component do
     }
 
     render_badge = fn slot, state ->
-      is_link = AttributeHelpers.is_link?(slot)
+      is_link = AttributeHelpers.link?(slot)
 
       rest =
         AttributeHelpers.assigns_to_attributes_sorted(slot, [
@@ -13039,7 +13042,7 @@ defmodule PrimerLive.Component do
         assigns.labels
       )
 
-    is_default_theme = Theme.is_default_theme(assigns.theme_state, assigns.default_theme_state)
+    is_default_theme = Theme.default_theme?(assigns.theme_state, assigns.default_theme_state)
 
     assigns =
       assigns

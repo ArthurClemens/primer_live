@@ -189,11 +189,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   def as_integer(input, _default_value) when is_float(input), do: trunc(input)
 
   def as_integer(input, default_value) when is_binary(input) do
-    try do
-      String.to_integer(input)
-    rescue
-      ArgumentError -> default_value
-    end
+    String.to_integer(input)
+  rescue
+    ArgumentError -> default_value
   end
 
   def as_integer(_input, default_value), do: default_value
@@ -378,19 +376,19 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
   ## Tests
 
-      iex> PrimerLive.Helpers.AttributeHelpers.is_link?(%{href: "#url"})
+      iex> PrimerLive.Helpers.AttributeHelpers.link?(%{href: "#url"})
       true
 
-      iex> PrimerLive.Helpers.AttributeHelpers.is_link?(%{navigate: "#url"})
+      iex> PrimerLive.Helpers.AttributeHelpers.link?(%{navigate: "#url"})
       true
 
-      iex> PrimerLive.Helpers.AttributeHelpers.is_link?(%{patch: "#url"})
+      iex> PrimerLive.Helpers.AttributeHelpers.link?(%{patch: "#url"})
       true
 
-      iex> PrimerLive.Helpers.AttributeHelpers.is_link?(%{url: "#url"})
+      iex> PrimerLive.Helpers.AttributeHelpers.link?(%{url: "#url"})
       false
   """
-  def is_link?(assigns), do: !!link_url(assigns)
+  def link?(assigns), do: !!link_url(assigns)
 
   defp link_url(assigns), do: assigns[:href] || assigns[:navigate] || assigns[:patch]
 
@@ -399,25 +397,25 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
   ## Tests
 
-      iex> PrimerLive.Helpers.AttributeHelpers.is_anchor_link?(%{})
+      iex> PrimerLive.Helpers.AttributeHelpers.anchor_link?(%{})
       false
 
-      iex> PrimerLive.Helpers.AttributeHelpers.is_anchor_link?(%{href: "/url"})
+      iex> PrimerLive.Helpers.AttributeHelpers.anchor_link?(%{href: "/url"})
       false
 
-      iex> PrimerLive.Helpers.AttributeHelpers.is_anchor_link?(%{href: "url"})
+      iex> PrimerLive.Helpers.AttributeHelpers.anchor_link?(%{href: "url"})
       false
 
-      iex> PrimerLive.Helpers.AttributeHelpers.is_anchor_link?(%{href: "#url"})
+      iex> PrimerLive.Helpers.AttributeHelpers.anchor_link?(%{href: "#url"})
       true
   """
-  def is_anchor_link?(assigns) do
-    link_url(assigns) |> is_anchor_link_url?()
+  def anchor_link?(assigns) do
+    link_url(assigns) |> anchor_link_url?()
   end
 
-  defp is_anchor_link_url?(url) when is_nil(url), do: false
+  defp anchor_link_url?(url) when is_nil(url), do: false
 
-  defp is_anchor_link_url?(url) do
+  defp anchor_link_url?(url) do
     String.match?(url, ~r/^#/)
   end
 

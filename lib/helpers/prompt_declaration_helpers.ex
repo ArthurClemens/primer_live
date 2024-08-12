@@ -54,7 +54,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro is_backdrop() do
+  defmacro is_backdrop do
     quote do
       attr :is_backdrop, :boolean,
         default: false,
@@ -64,7 +64,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro is_dark_backdrop() do
+  defmacro is_dark_backdrop do
     quote do
       attr :is_dark_backdrop, :boolean,
         default: false,
@@ -74,7 +74,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro is_medium_backdrop() do
+  defmacro is_medium_backdrop do
     quote do
       attr :is_medium_backdrop, :boolean,
         default: false,
@@ -84,7 +84,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro is_light_backdrop() do
+  defmacro is_light_backdrop do
     quote do
       attr :is_light_backdrop, :boolean,
         default: false,
@@ -125,7 +125,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro phx_click_touch() do
+  defmacro phx_click_touch do
     quote do
       attr :phx_click_touch, :any,
         required: false,
@@ -188,7 +188,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro is_escapable() do
+  defmacro is_escapable do
     quote do
       attr :is_escapable, :boolean,
         default: false,

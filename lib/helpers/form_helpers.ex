@@ -24,28 +24,22 @@ defmodule PrimerLive.Helpers.FormHelpers do
     "url" => :url_input
   }
 
-  def text_input_types(), do: @text_input_types
+  def text_input_types, do: @text_input_types
 
   @doc """
   Validates if the input is a form.
   """
-  def is_form(%Phoenix.HTML.Form{}), do: true
+  def form?(%Phoenix.HTML.Form{}), do: true
 
   # Handle other types of forms
-  def is_form(%_{} = maybe_form)
+  def form?(%_{} = maybe_form)
       when not is_nil(maybe_form.__struct__) do
     form_type = "#{maybe_form.__struct__}"
 
-    cond do
-      form_type |> String.contains?("AshPhoenix.Form") ->
-        true
-
-      true ->
-        false
-    end
+    String.contains?(form_type, "AshPhoenix.Form")
   end
 
-  def is_form(_), do: false
+  def form?(_), do: false
 
   @doc """
   Returns a `PrimerLive.FieldState` struct to facilitate display logic in component rendering functions.
@@ -172,7 +166,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
        ) do
     with field_errors <- get_field_errors(changeset, field),
          required? <- get_field_required(form, changeset, field),
-         valid? <- Enum.count(field_errors) == 0,
+         valid? <- Enum.empty?(field_errors),
          field_state <- %{
            field_state
            | valid?: valid?,
@@ -354,13 +348,11 @@ defmodule PrimerLive.Helpers.FormHelpers do
       when not is_nil(form_or_changeset.source.__struct__) do
     form_or_changeset_type = "#{form_or_changeset.source.__struct__}"
 
-    cond do
-      form_or_changeset_type |> String.contains?("Ash.Changeset") ->
-        ash_changeset = form_or_changeset
-        _get_ash_framework_changeset(ash_changeset)
-
-      true ->
-        form_or_changeset.source
+    if String.contains?(form_or_changeset_type, "Ash.Changeset") do
+      ash_changeset = form_or_changeset
+      _get_ash_framework_changeset(ash_changeset)
+    else
+      form_or_changeset.source
     end
   end
 
@@ -437,13 +429,11 @@ defmodule PrimerLive.Helpers.FormHelpers do
       when not is_nil(maybe_changeset.__struct__) do
     changeset_type = "#{maybe_changeset.__struct__}"
 
-    cond do
-      changeset_type |> String.contains?("Ash.Changeset") ->
-        ash_changeset = maybe_changeset
-        _get_ash_framework_field_errors(ash_changeset, field)
-
-      true ->
-        []
+    if String.contains?(changeset_type, "Ash.Changeset") do
+      ash_changeset = maybe_changeset
+      _get_ash_framework_field_errors(ash_changeset, field)
+    else
+      []
     end
   end
 
@@ -451,23 +441,21 @@ defmodule PrimerLive.Helpers.FormHelpers do
 
   # Handle other types of changesets: Ash Framework
   def _get_ash_framework_field_errors(ash_changeset, field) do
-    cond do
-      Map.has_key?(ash_changeset.attributes, field) &&
-          Map.get(ash_changeset.attributes, field) === nil ->
-        ash_changeset.errors
-        |> Enum.filter(fn ash_error -> ash_error.field == field end)
-        |> Enum.map(fn ash_error ->
-          {message, _binding} =
-            Code.eval_string("Ash.ErrorKind.message(e)", [e: ash_error],
-              file: __ENV__.file,
-              line: __ENV__.line
-            )
+    if Map.has_key?(ash_changeset.attributes, field) &&
+         Map.get(ash_changeset.attributes, field) === nil do
+      ash_changeset.errors
+      |> Enum.filter(fn ash_error -> ash_error.field == field end)
+      |> Enum.map(fn ash_error ->
+        {message, _binding} =
+          Code.eval_string("Ash.ErrorKind.message(e)", [e: ash_error],
+            file: __ENV__.file,
+            line: __ENV__.line
+          )
 
-          message
-        end)
-
-      true ->
-        []
+        message
+      end)
+    else
+      []
     end
   end
 
@@ -507,13 +495,11 @@ defmodule PrimerLive.Helpers.FormHelpers do
       when not is_nil(maybe_changeset.__struct__) do
     changeset_type = "#{maybe_changeset.__struct__}"
 
-    cond do
-      changeset_type |> String.contains?("Ash.Changeset") ->
-        ash_changeset = maybe_changeset
-        get_ash_framework_field_required(form, ash_changeset, field)
-
-      true ->
-        false
+    if String.contains?(changeset_type, "Ash.Changeset") do
+      ash_changeset = maybe_changeset
+      get_ash_framework_field_required(form, ash_changeset, field)
+    else
+      false
     end
   end
 
