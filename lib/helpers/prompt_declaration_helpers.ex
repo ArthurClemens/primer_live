@@ -8,7 +8,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
         doc:
           if unquote(is_required) do
             """
-            {name_element_id}. Use to toggle from the outside. Required in order to derive a consistent focus wrap ID.
+            {name_element_id}.
             """
             |> String.replace("{name_element_id}", unquote(name_element_id))
           else
@@ -104,21 +104,23 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro prompt_options() do
+  defmacro prompt_options(introduction \\ "") do
     quote do
       attr(:prompt_options, :string,
-        doc: """
-        JavaScript state callback functions as string. For example:
+        doc:
+          """
+          {introduction} JavaScript state callback functions as string. For example:
 
-        ```
-        "{
-          willShow: function(elements) { console.log('willShow', elements) },
-          didShow: function(elements) { console.log('didShow', elements) },
-          willHide: function(elements) { console.log('willHide', elements) },
-          didHide: function(elements) { console.log('didHide', elements) }
-        }"
-        ```
-        """
+          ```
+          "{
+            willShow: function(elements) { console.log('willShow', elements) },
+            didShow: function(elements) { console.log('didShow', elements) },
+            willHide: function(elements) { console.log('willHide', elements) },
+            didHide: function(elements) { console.log('didHide', elements) }
+          }"
+          ```
+          """
+          |> String.replace("{introduction}", unquote(introduction))
       )
     end
   end

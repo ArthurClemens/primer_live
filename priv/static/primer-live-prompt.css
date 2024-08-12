@@ -41,13 +41,11 @@
   position: absolute;
   border: none;
 }
-[data-prompt],
 [data-prompt] > input[type=checkbox] {
   transition-property: opacity;
   transition-duration: 0ms;
   opacity: 1;
 }
-[data-prompt],
 [data-prompt] > input[type=checkbox] {
   transition-delay: var(--prompt-transition-duration-content);
 }
@@ -74,7 +72,7 @@
 }
 [data-prompt]:not([data-isdrawer]) [data-content] {
   transition-property: opacity, visibility;
-  transition-timing-function: var(--prompt-transition-timing-function-content);
+  transition-timing-function: var( --prompt-transition-timing-function-content );
   opacity: 0;
 }
 [data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]) {
@@ -104,7 +102,7 @@
   background: var(--prompt-background-color-backdrop);
   opacity: 0;
   transition-property: opacity, visibility;
-  transition-timing-function: var(--prompt-transition-timing-function-backdrop);
+  transition-timing-function: var( --prompt-transition-timing-function-backdrop );
 }
 [data-prompt][data-ismounted]:not([data-isfast]) > [data-prompt-content] [data-backdrop],
 [data-prompt]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-backdrop] {
@@ -147,7 +145,7 @@
 }
 [data-prompt][data-isdrawer] [data-content] {
   transition-property: transform, visibility;
-  transition-timing-function: var(--prompt-transition-timing-function-content);
+  transition-timing-function: var( --prompt-transition-timing-function-content );
   position: fixed;
   height: 100%;
   top: 0;
@@ -157,7 +155,7 @@
   overflow-y: auto;
   height: inherit;
   transition-property: all;
-  transition-timing-function: var(--prompt-transition-timing-function-content);
+  transition-timing-function: var( --prompt-transition-timing-function-content );
 }
 [data-prompt][data-isdrawer]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content],
 [data-prompt][data-isdrawer]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-drawer-content] {

@@ -19,7 +19,7 @@ type TPrompt = {
     el?: MaybeHTMLElement;
     checkbox?: MaybePromptCheckbox;
     isInited: boolean;
-    init: (isMounted?: boolean) => void;
+    init: (isMounting?: boolean) => void;
     mounted: () => void;
     updated: () => void;
     destroyed: () => void;

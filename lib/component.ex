@@ -11141,7 +11141,27 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Showing and hiding is done with JS function `Prompt`, included in PrimerLive.
+  ## Showing and hiding the dialog
+
+  ### Invoking show and hide
+
+  Functions `show_dialog` and `hide_dialog` can be called with `phx-click`, passing the dialog's id:
+
+  ```
+  <.dialog id="my-dialog">
+    <:body>
+      Message in a dialog
+      <.button phx-click={hide_dialog("my-dialog")}>Close</.button>
+    </:body>
+  </.dialog>
+
+  <.button phx-click={show_dialog("my-dialog")}>Open dialog</.button>
+  ```
+
+  Clicking the backdrop will automatically invoke `hide_dialog`.
+
+  Alternatively, showing and hiding can be achieved with JS function `Prompt`, included in PrimerLive. Because `Prompt` is also used with drawer and menus, this method may be preferred for consistency.
+
   Function `Prompt.show` requires a selector. When placed inside the dialog component, the selector can be replaced with `this`:
 
   ```
@@ -11154,6 +11174,24 @@ defmodule PrimerLive.Component do
 
   <.button onclick="Prompt.show('#my-dialog')">Open dialog</.button>
   ```
+
+  ### Routes and other conditionals
+
+  To show the dialog at a specific route (or with any other condition), use Phoenix's `:if` attribute. The `on_cancel` function can then be used to redirect to the originating route:
+
+  ```
+  <.dialog
+    :if={@live_action == :create}
+    is_show
+    id="new-post-dialog"
+    on_cancel={JS.patch(~p"/posts")}
+  >
+    <:body>
+      Post form
+    </:body>
+  </.dialog>
+  ```
+
 
   ## Examples
 
@@ -11268,6 +11306,12 @@ defmodule PrimerLive.Component do
 
   [INSERT LVATTRDOCS]
 
+  ## Functions
+
+  - `show_dialog(dialog_id)`
+  - `hide_dialog(dialog_id)`
+  - `cancel_dialog(dialog_id)`
+
   ## Reference
 
   [Primer Dialog](https://primer.style/design/components/dialog)
@@ -11283,7 +11327,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(false)
-  PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.prompt_options("When using Prompt.")
   PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.is_modal("the dialog")
   PromptDeclarationHelpers.is_escapable()
@@ -11456,7 +11500,7 @@ defmodule PrimerLive.Component do
         [is_close_button: true],
         ["aria-label": "Close"],
         [class: "Box-btn-octicon btn-octicon flex-shrink-0"],
-        [onclick: "Prompt.hide(this)"]
+        ["phx-click": hide_dialog(assigns.id)]
       ])
 
     max_height_css = assigns.max_height || @default_dialog_max_height_css
@@ -11530,38 +11574,21 @@ defmodule PrimerLive.Component do
 
   def show_dialog(js \\ %JS{}, id) when is_binary(id) do
     js
-    |> allow_fade_in(id)
-    |> JS.dispatch("prompt:toggle", to: "##{id}", detail: %{action: "show"})
+    |> JS.dispatch("prompt:toggle", to: "##{id}-toggle", detail: %{action: "show"})
     # Persist across routes:
     |> JS.set_attribute({"data-ismounted", "true"}, to: "##{id}")
   end
 
   def hide_dialog(js \\ %JS{}, id) when is_binary(id) do
     js
-    |> JS.dispatch("prompt:toggle", to: "##{id}", detail: %{action: "hide"})
-    |> allow_fade_out(id)
+    |> JS.dispatch("prompt:toggle", to: "##{id}-toggle", detail: %{action: "hide"})
     |> JS.pop_focus()
   end
 
   def cancel_dialog(js \\ %JS{}, id) when is_binary(id) do
     js
     |> JS.exec("data-cancel", to: "##{id}")
-  end
-
-  defp allow_fade_in(js, id) do
-    JS.show(js,
-      to: "##{id}",
-      time: 0,
-      transition: {"duration-0", "", ""}
-    )
-  end
-
-  defp allow_fade_out(js, id) do
-    JS.hide(js,
-      to: "##{id}",
-      time: 180,
-      transition: {"duration-180", "", ""}
-    )
+    |> JS.remove_attribute("data-ismounted", to: "##{id}")
   end
 
   # ------------------------------------------------------------------------------------

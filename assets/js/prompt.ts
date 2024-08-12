@@ -110,7 +110,6 @@ function setCheckboxState({
   options: PromptOptions;
   onDidShow?: (elements: PromptElements) => void;
 }) {
-  checkbox.dataset[IS_MOUNTED_DATA] = "true";
   switch (state) {
     case "showing":
       delete checkbox.dataset.ishiding;
@@ -226,7 +225,7 @@ type TPrompt = {
   el?: MaybeHTMLElement;
   checkbox?: MaybePromptCheckbox;
   isInited: boolean;
-  init: (isMounted?: boolean) => void;
+  init: (isMounting?: boolean) => void;
   mounted: () => void;
   updated: () => void;
   destroyed: () => void;
@@ -264,11 +263,15 @@ function handleToggleEvent(event: CustomEvent) {
 
 export const Prompt: TPrompt = {
   isInited: false,
-  init: function (isMounted) {
-    if (this.el && isMounted) {
+  init: function (isMounting) {
+    if (this.el && isMounting) {
       window.addEventListener("keydown", closeFromEscapeKey);
       this.el.addEventListener("prompt:toggle", handleToggleEvent);
       Prompt.isInited = true;
+      const checkbox = getCheckboxFromSelectorOrElement(this.el);
+      if (checkbox) {
+        checkbox.dataset[IS_MOUNTED_DATA] = "true";
+      }
     }
   },
   mounted: function () {
