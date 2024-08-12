@@ -70,7 +70,9 @@ defmodule PrimerLive.Helpers.OcticonsHelper do
         filenames
         |> Enum.map(
           &%{
-            svg: load_svg_data(icons_path, &1),
+            svg:
+              File.read!("#{icons_path}/#{&1}")
+              |> String.replace(~r/\<svg/, "<svg class={@class} {@rest}"),
             name: &1 |> String.replace(".svg", "")
           }
         )
@@ -104,13 +106,6 @@ defmodule PrimerLive.Helpers.OcticonsHelper do
       {:error, :empty} ->
         IO.puts("Could not proceed: directory '#{icons_path}' is empty.")
     end
-  end
-
-  # sobelow_skip ["Traversal.FileModule"]
-  defp load_svg_data(icons_path, filename) do
-    "#{icons_path}/#{filename}"
-    |> File.read!()
-    |> String.replace(~r/\<svg/, "<svg class={@class} {@rest}")
   end
 
   defp file_count(filenames) do
