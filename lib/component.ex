@@ -11546,18 +11546,18 @@ defmodule PrimerLive.Component do
     ~H"""
     <div
       {@wrapper_attrs}
-      phx-mounted={@is_show && show_dialog(@id)}
+      phx-mounted={@is_show && on_mount_dialog(@id)}
       phx-remove={hide_dialog(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
     >
       <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
       <div data-prompt-content>
-        <div {@touch_layer_attrs}>
+        <div {@touch_layer_attrs} phx-click={not @is_modal && cancel_dialog(@id)}>
           <%= if @backdrop_attrs !== [] do %>
             <div {@backdrop_attrs} />
           <% end %>
-          <.focus_wrap id={@focus_wrap_id} phx-click-away={not @is_modal && cancel_dialog(@id)} >
-            <.box {@box_attrs}>
+          <.focus_wrap id={@focus_wrap_id} phx-click-away={not @is_modal && cancel_dialog(@id)}>
+            <.box {@box_attrs} phx-click={%JS{}}>
               <:header
                 :if={@header_title && @header_title !== []}
                 class="d-flex flex-justify-between flex-items-start"
@@ -11573,6 +11573,12 @@ defmodule PrimerLive.Component do
       </div>
     </div>
     """
+  end
+
+  defp on_mount_dialog(js \\ %JS{}, id) do
+    js
+    |> JS.set_attribute({"data-isshowonmount", "true"}, to: "##{id}")
+    |> show_dialog(id)
   end
 
   def show_dialog(js \\ %JS{}, id) when is_binary(id) do

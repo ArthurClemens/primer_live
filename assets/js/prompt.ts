@@ -31,6 +31,7 @@ const IS_MOUNTED_DATA = "ismounted";
 const TOUCH_DATA = "touch";
 const IS_MODAL_DATA = "ismodal";
 const IS_ESCAPABLE_DATA = "isescapable";
+const IS_SHOW_ON_MOUNT = "isshowonmount";
 const FOCUS_FIRST_SELECTOR_DATA = "focusfirst";
 
 const isTouchLayer = (el?: MaybeHTMLElement) =>
@@ -39,6 +40,8 @@ const isModal = (el?: MaybeHTMLElement) =>
   el?.dataset[IS_MODAL_DATA] !== undefined;
 const isEscapable = (el?: MaybeHTMLElement) =>
   el?.dataset[IS_ESCAPABLE_DATA] !== undefined;
+const isShowOnMount = (el?: MaybeHTMLElement) =>
+  el?.dataset[IS_SHOW_ON_MOUNT] !== undefined;
 
 function getCheckboxFromPromptContent(contentElement?: HTMLElement) {
   const root = contentElement?.closest(ROOT_SELECTOR);
@@ -221,23 +224,6 @@ function onToggle(
   }
 }
 
-type TPrompt = {
-  el?: MaybeHTMLElement;
-  checkbox?: MaybePromptCheckbox;
-  isInited: boolean;
-  init: (isMounting?: boolean) => void;
-  mounted: () => void;
-  updated: () => void;
-  destroyed: () => void;
-  hide: (selectorOrElement: string | HTMLElement) => void;
-  show: (selectorOrElement: string | HTMLElement) => void;
-  toggle: (selectorOrElement: string | HTMLElement) => void;
-  change: (
-    selectorOrElement: string | HTMLElement,
-    options?: PromptOptions,
-  ) => void;
-};
-
 function handleToggleEvent(event: CustomEvent) {
   const target: EventTarget | null = event.target;
   if (!(target instanceof HTMLElement)) {
@@ -261,19 +247,42 @@ function handleToggleEvent(event: CustomEvent) {
   }
 }
 
+type TPrompt = {
+  el?: MaybeHTMLElement;
+  checkbox?: MaybePromptCheckbox;
+  isInited: boolean;
+  init: (isMounting?: boolean) => void;
+  mounted: () => void;
+  updated: () => void;
+  destroyed: () => void;
+  hide: (selectorOrElement: string | HTMLElement) => void;
+  show: (selectorOrElement: string | HTMLElement) => void;
+  toggle: (selectorOrElement: string | HTMLElement) => void;
+  change: (
+    selectorOrElement: string | HTMLElement,
+    options?: PromptOptions,
+  ) => void;
+};
+
 export const Prompt: TPrompt = {
   isInited: false,
   init: function (isMounting) {
-    if (this.el && isMounting) {
+    if (!this.el) {
+      return;
+    }
+
+    const checkbox = getCheckboxFromSelectorOrElement(this.el);
+    if (checkbox) {
+      checkbox.dataset[IS_MOUNTED_DATA] = "true";
+    }
+
+    if (isMounting) {
       window.addEventListener("keydown", closeFromEscapeKey);
       this.el.addEventListener("prompt:toggle", handleToggleEvent);
-      Prompt.isInited = true;
-    }
-    if (this.el) {
-      const checkbox = getCheckboxFromSelectorOrElement(this.el);
-      if (checkbox) {
-        checkbox.dataset[IS_MOUNTED_DATA] = "true";
+      if (isShowOnMount(this.el)) {
+        Prompt.show(this.el);
       }
+      Prompt.isInited = true;
     }
   },
   mounted: function () {

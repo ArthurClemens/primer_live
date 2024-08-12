@@ -9,10 +9,12 @@ var IS_MOUNTED_DATA = "ismounted";
 var TOUCH_DATA = "touch";
 var IS_MODAL_DATA = "ismodal";
 var IS_ESCAPABLE_DATA = "isescapable";
+var IS_SHOW_ON_MOUNT = "isshowonmount";
 var FOCUS_FIRST_SELECTOR_DATA = "focusfirst";
 var isTouchLayer = (el) => (el == null ? void 0 : el.dataset[TOUCH_DATA]) !== void 0;
 var isModal = (el) => (el == null ? void 0 : el.dataset[IS_MODAL_DATA]) !== void 0;
-var isEscapable = (el) => (el == null ? void 0 : el.dataset[IS_ESCAPABLE_DATA]) !== void 0;
+var isEscapable = (el) => !isModal(el) || (el == null ? void 0 : el.dataset[IS_ESCAPABLE_DATA]) !== void 0;
+var isShowOnMount = (el) => (el == null ? void 0 : el.dataset[IS_SHOW_ON_MOUNT]) !== void 0;
 function getCheckboxFromPromptContent(contentElement) {
   const root = contentElement == null ? void 0 : contentElement.closest(ROOT_SELECTOR);
   if (!root) {
@@ -182,16 +184,20 @@ function handleToggleEvent(event) {
 var Prompt = {
   isInited: false,
   init: function(isMounting) {
-    if (this.el && isMounting) {
+    if (!this.el) {
+      return;
+    }
+    const checkbox = getCheckboxFromSelectorOrElement(this.el);
+    if (checkbox) {
+      checkbox.dataset[IS_MOUNTED_DATA] = "true";
+    }
+    if (isMounting) {
       window.addEventListener("keydown", closeFromEscapeKey);
       this.el.addEventListener("prompt:toggle", handleToggleEvent);
-      Prompt.isInited = true;
-    }
-    if (this.el) {
-      const checkbox = getCheckboxFromSelectorOrElement(this.el);
-      if (checkbox) {
-        checkbox.dataset[IS_MOUNTED_DATA] = "true";
+      if (isShowOnMount(this.el)) {
+        Prompt.show(this.el);
       }
+      Prompt.isInited = true;
     }
   },
   mounted: function() {
