@@ -452,8 +452,7 @@ defmodule PrimerLive.Helpers.FormHelpers do
   # Handle other types of changesets: Ash Framework
   def _get_ash_framework_field_errors(ash_changeset, field) do
     cond do
-      Map.has_key?(ash_changeset.attributes, field) &&
-          Map.get(ash_changeset.attributes, field) === nil ->
+      Map.has_key?(ash_changeset.attributes, field) ->
         ash_changeset.errors
         |> Enum.filter(fn ash_error -> ash_error.field == field end)
         |> Enum.map(fn ash_error ->
