@@ -1054,10 +1054,10 @@ defmodule PrimerLive.Component do
       is_button = assigns.is_button || assigns.is_collapsible
       # If is_collapsible is not used, unhide the sub_group
       is_expanded =
-        if assigns.is_collapsible do
-          assigns.is_expanded
-        else
-          has_sub_group
+        cond do
+          assigns.is_collapsible -> assigns.is_expanded
+          has_sub_group -> true
+          true -> nil
         end
 
       attributes =
