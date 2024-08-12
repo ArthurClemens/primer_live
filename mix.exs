@@ -6,6 +6,7 @@ defmodule PrimerLive.MixProject do
       app: :primer_live,
       version: "0.7.2",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
+      elixirc_paths: elixirc_paths(Mix.env()),
       description: description(),
       package: package(),
       aliases: aliases(),
@@ -15,6 +16,9 @@ defmodule PrimerLive.MixProject do
       consolidate_protocols: Mix.env() != :test
     ]
   end
+
+  defp elixirc_paths(:dev), do: ["lib", "lib_target"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp description do
     "An implementation of GitHub's Primer Design System for Phoenix LiveView."
