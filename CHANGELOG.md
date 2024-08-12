@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.8.0
+
+### Changes
+
+#### Dialog
+
+Replaced dialog attribute `is_show_on_mount` from 0.7.1 with a more complete solution for showing and hiding dialogs, based on CoreComponents:
+- New functions `show_dialog/1`, `hide_dialog/1` and `cancel_dialog/1`.
+- Dialogs can now be shown conditionally, for example with a live_action route:
+
+```
+<.dialog
+  :if={@live_action == :create}
+  is_show
+  id="new-post-dialog"
+  on_cancel={JS.patch(~p"/posts")}
+>
+  ...
+</.dialog>
+```
+See `PrimerLive.Component.dialog/1` for details.
+No changes to the existing code are required.
+
+
 ## 0.7.1
 
 ### Changes
