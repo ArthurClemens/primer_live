@@ -8940,9 +8940,9 @@ defmodule PrimerLive.Component do
 
   ```
   use PrimerLive
-  alias PrimerLive.Component, as: P
+  alias PrimerLive.Component, as: Primer
   ...
-  <P.label>Label</P.label>
+  <Primer.label>Label</Primer.label>
   ```
 
   ## Examples

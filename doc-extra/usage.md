@@ -5,11 +5,11 @@
 ```
 defmodule MyAppWeb.MyLiveView do
   use MyAppWeb, :live_view
-  alias PrimerLive.Component, as: P
+  alias PrimerLive.Component, as: Primer
 
   def render(assigns) do
     ~H"""
-    <P.button>Click me</P.button>
+    <Primer.button>Click me</Primer.button>
     """
   end
 
@@ -46,7 +46,7 @@ end
 Then call the component on a page, for example in `templates/page/index.html.heex`:
 
 ```
-<P.button>Click me</P.button>
+<Primer.button>Click me</Primer.button>
 ```
 
 Or import with `use`:

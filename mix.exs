@@ -51,7 +51,7 @@ defmodule PrimerLive.MixProject do
   defp docs do
     [
       main: "PrimerLive",
-      groups_for_functions: [
+      groups_for_docs: [
         Alerts: &(&1[:section] == :alerts),
         Avatars: &(&1[:section] == :avatars),
         Blankslate: &(&1[:section] == :blankslate),
