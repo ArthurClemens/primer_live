@@ -104,7 +104,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro prompt_options() do
+  defmacro prompt_options do
     quote do
       attr(:prompt_options, :string,
         doc: """

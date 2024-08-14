@@ -444,23 +444,26 @@ defmodule PrimerLive.Helpers.FormHelpers do
     if Map.has_key?(ash_changeset.attributes, field) do
       ash_changeset.errors
       |> Enum.filter(fn ash_error -> ash_error.field == field end)
-      |> Enum.map(fn ash_error ->
-        code_to_eval =
-          if Kernel.function_exported?(Ash.Error.Changes.Required, :id, 1),
-            do: "Ash.ErrorKind.message(e)",
-            else: "Exception.message(e)"
-
-        {message, _binding} =
-          Code.eval_string(code_to_eval, [e: ash_error],
-            file: __ENV__.file,
-            line: __ENV__.line
-          )
-
-        message
-      end)
+      |> Enum.map(&map_ash_error/1)
     else
       []
     end
+  end
+
+  # sobelow_skip ["RCE.CodeModule"]
+  defp map_ash_error(ash_error) do
+    code_to_eval =
+      if Kernel.function_exported?(Ash.Error.Changes.Required, :id, 1),
+        do: "Ash.ErrorKind.message(e)",
+        else: "Exception.message(e)"
+
+    {message, _binding} =
+      Code.eval_string(code_to_eval, [e: ash_error],
+        file: __ENV__.file,
+        line: __ENV__.line
+      )
+
+    message
   end
 
   @doc """
