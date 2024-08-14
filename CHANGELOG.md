@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.2
+
+### Changes
+
+- Fixes support for Ash 3. Thanks @ademenev!
+- Internal improvements
+
 ## 0.7.1
 
 ### Changes

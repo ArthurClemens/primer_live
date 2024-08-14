@@ -4,8 +4,9 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.7.1",
+      version: "0.7.2",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
+      elixirc_paths: elixirc_paths(Mix.env()),
       description: description(),
       package: package(),
       aliases: aliases(),
@@ -16,7 +17,10 @@ defmodule PrimerLive.MixProject do
     ]
   end
 
-  defp description() do
+  defp elixirc_paths(:dev), do: ["lib", "lib_target"]
+  defp elixirc_paths(_), do: ["lib"]
+
+  defp description do
     "An implementation of GitHub's Primer Design System for Phoenix LiveView."
   end
 
@@ -33,20 +37,21 @@ defmodule PrimerLive.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.10", only: :test, runtime: false},
       {:ecto, "~> 3.10", runtime: false},
-      {:esbuild, "~> 0.8", only: :dev},
+      {:esbuild, "~> 0.8", only: [:dev, :test]},
       {:ex_doc, "~> 0.34", only: :dev},
       {:jason, "~> 1.4"},
       {:phoenix_ecto, "~> 4.5", only: :test, runtime: false},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_html_helpers, "~> 1.0"},
-      {:phoenix_live_view, "~> 0.20"}
+      {:phoenix_live_view, "~> 0.20"},
+      {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false}
     ]
   end
 
   defp docs do
     [
       main: "PrimerLive",
-      groups_for_functions: [
+      groups_for_docs: [
         Alerts: &(&1[:section] == :alerts),
         Avatars: &(&1[:section] == :avatars),
         Blankslate: &(&1[:section] == :blankslate),
@@ -105,6 +110,16 @@ defmodule PrimerLive.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "cmd --cd assets npm install --legacy-peer-deps"],
+      # Quality check
+      qa: [
+        "deps.clean --unlock --unused",
+        "format",
+        "format --check-formatted",
+        "compile",
+        "sobelow --config",
+        "credo --strict",
+        "docs"
+      ],
       "assets.build": [
         "cmd npm --prefix assets run build:clear -- ../priv/static/*",
         "cmd npm --prefix assets run build -- --format=esm --sourcemap --outfile=../priv/static/primer-live.esm.js",

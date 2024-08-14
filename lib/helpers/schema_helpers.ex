@@ -2,7 +2,7 @@ defmodule PrimerLive.Helpers.SchemaHelpers do
   @moduledoc false
 
   use Phoenix.Component
-  alias PrimerLive.Helpers.{FormHelpers}
+  alias PrimerLive.Helpers.FormHelpers
 
   @doc """
   Validates attribute `form`.
@@ -18,7 +18,7 @@ defmodule PrimerLive.Helpers.SchemaHelpers do
     cond do
       is_nil(form) -> true
       is_atom(form) -> true
-      FormHelpers.is_form(form) -> true
+      FormHelpers.form?(form) -> true
       true -> {:error, "attr form: invalid value"}
     end
   end
