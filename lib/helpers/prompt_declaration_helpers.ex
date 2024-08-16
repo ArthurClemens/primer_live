@@ -1,6 +1,8 @@
 defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
   @moduledoc false
 
+  alias Phoenix.LiveView.JS
+
   defmacro id(name_element_id, is_required) do
     quote do
       attr(:id, :string,
@@ -169,6 +171,44 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
           """
         )
       end
+    end
+  end
+
+  # Dialog, drawer and menu specific
+
+  defmacro is_show(the_element) do
+    quote do
+      attr :is_show, :boolean,
+        default: false,
+        doc:
+          """
+          Sets the display state of {the_element}. Control conditional display by using the regular `:if={}` attribute.
+          """
+          |> String.replace("{the_element}", unquote(the_element))
+    end
+  end
+
+  defmacro on_cancel(the_element) do
+    quote do
+      attr :on_cancel, JS,
+        default: %JS{},
+        doc:
+          """
+          JS command to configure the closing/cancel event of {the_element}, for example: `on_cancel={JS.navigate(~p\"/posts\")}`.
+          """
+          |> String.replace("{the_element}", unquote(the_element))
+    end
+  end
+
+  defmacro transition_duration(the_element, default_value) do
+    quote do
+      attr :transition_duration, :integer,
+        default: unquote(default_value),
+        doc:
+          """
+          The number of milliseconds to fade-in/out {the_element}.
+          """
+          |> String.replace("{the_element}", unquote(the_element))
     end
   end
 

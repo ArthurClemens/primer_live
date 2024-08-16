@@ -12,6 +12,8 @@ defmodule PrimerLive.Component do
     PromptDeclarationHelpers
   }
 
+  alias Phoenix.LiveView.JS
+
   alias PrimerLive.Helpers.{
     AttributeHelpers,
     FormHelpers,
@@ -11275,6 +11277,10 @@ defmodule PrimerLive.Component do
 
   """
 
+  @default_dialog_max_height_css "80vh"
+  @default_dialog_max_width_css "90vw"
+  @default_dialog_transition_duration 180
+
   PromptDeclarationHelpers.id("Dialog element id", true)
   PromptDeclarationHelpers.form("the dialog element")
   PromptDeclarationHelpers.field("the dialog")
@@ -11289,6 +11295,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_modal("the dialog")
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.focus_first("the dialog")
+  PromptDeclarationHelpers.is_show("the dialog")
+  PromptDeclarationHelpers.on_cancel("the dialog")
+  PromptDeclarationHelpers.transition_duration("the dialog", @default_dialog_transition_duration)
 
   attr(:is_show_on_mount, :boolean,
     default: false,
@@ -11406,9 +11415,6 @@ defmodule PrimerLive.Component do
     doc: "Unstructured dialog content. Uses `box/1` `inner_block` slot."
   )
 
-  @default_dialog_max_height_css "80vh"
-  @default_dialog_max_width_css "90vw"
-
   def dialog(assigns) do
     %{
       form: form,
@@ -11492,30 +11498,122 @@ defmodule PrimerLive.Component do
       |> assign(:focus_wrap_id, focus_wrap_id)
 
     ~H"""
-    <div {@wrapper_attrs}>
-      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
-      <div data-prompt-content>
-        <div {@touch_layer_attrs}>
-          <%= if @backdrop_attrs !== [] do %>
-            <div {@backdrop_attrs} />
-          <% end %>
-          <.focus_wrap id={@focus_wrap_id}>
-            <.box {@box_attrs}>
-              <:header
-                :if={@header_title && @header_title !== []}
-                class="d-flex flex-justify-between flex-items-start"
-              >
-                <.button {@close_button_attrs}>
-                  <.octicon name="x-16" />
-                </.button>
-              </:header>
-              <%= render_slot(@inner_block) %>
-            </.box>
-          </.focus_wrap>
-        </div>
-      </div>
+    <div
+      {@wrapper_attrs}
+      phx-mounted={@is_show && on_mount_dialog("##{@id}", @transition_duration)}
+      phx-remove={on_remove_dialog("##{@id}", @transition_duration)}
+      data-cancel={JS.exec(@on_cancel, "phx-remove")}
+    >
+      <%= if @backdrop_attrs !== [] do %>
+        <div {@backdrop_attrs} />
+      <% end %>
+      <div {@touch_layer_attrs} phx-click={not @is_modal && cancel_dialog("##{@id}")}></div>
+      <.focus_wrap
+        id={@focus_wrap_id}
+        phx-window-keydown={@is_escapable && JS.exec("data-cancel", to: "##{@id}")}
+        phx-key="escape"
+      >
+        <.box {@box_attrs}>
+          <:header
+            :if={@header_title && @header_title !== []}
+            class="d-flex flex-justify-between flex-items-start"
+          >
+            <.button {@close_button_attrs}>
+              <.octicon name="x-16" />
+            </.button>
+          </:header>
+          <%= render_slot(@inner_block) %>
+        </.box>
+      </.focus_wrap>
     </div>
     """
+  end
+
+  defp on_mount_dialog(js, selector) do
+    js
+    |> show_dialog(selector)
+  end
+
+  defp on_remove_dialog(
+         selector,
+         transition_duration
+       ) do
+    %JS{}
+    |> hide_dialog(selector, transition_duration)
+  end
+
+  def show_dialog(
+        selector,
+        transition_duration \\ @default_dialog_transition_duration
+      )
+
+  def show_dialog(
+        selector,
+        transition_duration
+      ),
+      do:
+        show_dialog(
+          %JS{},
+          selector,
+          transition_duration
+        )
+
+  def show_dialog(
+        js,
+        selector,
+        transition_duration
+      ) do
+    dbg({"show_dialog", js, selector, transition_duration})
+
+    js
+    |> JS.show(
+      to: selector,
+      time: transition_duration,
+      transition: {"duration-#{transition_duration}", "", ""}
+    )
+    |> JS.dispatch("prompt:toggle",
+      to: selector,
+      detail: %{action: "show", transitionDuration: transition_duration}
+    )
+
+    # Persist across routes and form updates:
+    |> JS.set_attribute({"data-isopen", ""}, to: selector)
+  end
+
+  def hide_dialog(
+        selector,
+        transition_duration \\ @default_dialog_transition_duration
+      )
+
+  def hide_dialog(
+        selector,
+        transition_duration
+      ),
+      do: hide_dialog(%JS{}, selector, transition_duration)
+
+  def hide_dialog(
+        js,
+        selector,
+        transition_duration
+      ) do
+    dbg({"hide_dialog", js, selector, transition_duration})
+
+    js
+    |> JS.dispatch("prompt:toggle",
+      to: selector,
+      detail: %{action: "hide", transitionDuration: transition_duration}
+    )
+    |> JS.transition(
+      {"duration-#{transition_duration}", "", ""},
+      time: transition_duration,
+      to: selector
+    )
+    |> JS.remove_attribute("data-isopen", to: selector)
+  end
+
+  def cancel_dialog(js \\ %JS{}, selector) when is_binary(selector) do
+    js
+    |> JS.exec("data-cancel", to: selector)
   end
 
   # ------------------------------------------------------------------------------------

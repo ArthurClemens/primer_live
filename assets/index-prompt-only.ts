@@ -1,2 +1,2 @@
-export * from './js/prompt';
-export * from './css/prompt';
+import "dialogic-js/dialogic-js.css";
+export * from "./js/prompt";

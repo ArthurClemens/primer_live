@@ -1,4 +1,4 @@
-/* css/prompt.css */
+/* node_modules/dialogic-js/dist/dialogic-js.css */
 [data-prompt] {
   --prompt-background-color-backdrop: black;
   --prompt-background-opacity-backdrop-dark: 0.5;
@@ -8,80 +8,43 @@
   --prompt-transition-timing-function-content: ease-in-out;
   --prompt-transition-duration-content: 180ms;
   --prompt-fast-transition-duration-content: 140ms;
-  --prompt-transition-duration-backdrop: var(--prompt-transition-duration-content);
-  --prompt-fast-transition-duration-backdrop: var(--prompt-fast-transition-duration-content);
+  --prompt-transition-duration-backdrop: var( --prompt-transition-duration-content );
+  --prompt-fast-transition-duration-backdrop: var( --prompt-fast-transition-duration-content );
   --drawer-width: 320px;
   --prompt-z-index-backdrop: 98;
   --prompt-z-index-touch: 99;
-  --prompt-z-index-menu-content: 100;
-  --prompt-z-index-drawer-content: 200;
-  --prompt-z-index-dialog-content: 300;
+  --prompt-z-index-content: 100;
 }
-[data-prompt]:not([data-ispush]) [data-prompt-content] {
-  visibility: hidden;
-}
+[data-prompt] [data-touch],
 [data-prompt] [data-backdrop],
 [data-prompt] [data-content],
-[data-prompt] [data-drawer-content] {
-  transition-duration: 0ms;
-}
-[data-prompt] > input[type=checkbox]:checked + [data-prompt-content] {
-  visibility: visible;
+[data-prompt] [data-prompt-content] {
+  pointer-events: none;
 }
 [data-prompt] [data-touch] {
-  pointer-events: none;
+  display: none;
 }
-[data-prompt] > input[type=checkbox]:checked + [data-prompt-content] [data-touch] {
-  pointer-events: initial;
+[data-prompt][data-isopen] [data-touch],
+[data-prompt][data-isopen] [data-content],
+[data-prompt][data-isopen] [data-prompt-content] {
+  pointer-events: unset;
 }
-[data-prompt] input[type=checkbox][aria-hidden=true] {
-  visibility: hidden;
-  height: 0;
-  width: 0;
-  position: absolute;
-  border: none;
-}
-[data-prompt] > input[type=checkbox] {
-  transition-property: opacity;
-  transition-duration: 0ms;
-  opacity: 1;
-}
-[data-prompt] > input[type=checkbox] {
-  transition-delay: var(--prompt-transition-duration-content);
-}
-[data-prompt][data-isfast] > input[type=checkbox] {
-  transition-delay: var(--prompt-fast-transition-duration-content);
-}
-[data-prompt] > input[type=checkbox]:checked {
-  opacity: 0.5;
-}
-[data-prompt] > input[type=checkbox][data-ishiding] {
-  opacity: 0;
-}
-[data-prompt]:not([data-isdrawer]):not([data-islocal]) {
-  position: relative;
-}
-[data-prompt] [data-backdrop] {
-  pointer-events: none;
+[data-prompt][data-isopen] [data-touch] {
+  display: block;
 }
 [data-prompt] [data-content]:not([aria-role=menu]) {
   animation-name: unset;
   animation-duration: unset;
   animation-timing-function: unset;
 }
+[data-prompt] [data-content][aria-role=menu] {
+  animation-duration: unset;
+}
 [data-prompt]:not([data-isdrawer]) [data-content] {
-  transition-property: opacity, visibility;
+  z-index: var(--prompt-z-index-content);
+  transition-property: opacity;
   transition-timing-function: var(--prompt-transition-timing-function-content);
   opacity: 0;
-}
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]) {
-  z-index: var(--prompt-z-index-dialog-content);
-}
-[data-prompt][data-isdrawer] [data-content]:not([aria-role=menu]) {
-  z-index: var(--prompt-z-index-drawer-content);
-}
-[data-prompt] [data-content][aria-role=menu] {
-  z-index: var(--prompt-z-index-menu-content);
 }
 [data-prompt] [data-touch],
 [data-prompt] [data-backdrop] {
@@ -100,22 +63,22 @@
 [data-prompt] [data-backdrop] {
   background: var(--prompt-background-color-backdrop);
   opacity: 0;
-  transition-property: opacity, visibility;
+  transition-property: opacity;
   transition-timing-function: var(--prompt-transition-timing-function-backdrop);
 }
-[data-prompt]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-backdrop] {
+[data-prompt]:not([data-isfast]) [data-backdrop] {
   transition-duration: var(--prompt-transition-duration-backdrop);
 }
-[data-prompt][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-backdrop] {
+[data-prompt][data-isfast] [data-backdrop] {
   transition-duration: var(--prompt-fast-transition-duration-backdrop);
 }
-[data-prompt] > input[type=checkbox]:checked + [data-prompt-content] [data-backdrop] {
+[data-prompt][data-isopen] [data-backdrop] {
   opacity: var(--prompt-background-opacity-backdrop-medium);
 }
-[data-prompt] > input[type=checkbox]:checked + [data-prompt-content] [data-backdrop][data-isdark] {
+[data-prompt][data-isopen] [data-backdrop][data-isdark] {
   opacity: var(--prompt-background-opacity-backdrop-dark);
 }
-[data-prompt] > input[type=checkbox]:checked + [data-prompt-content] [data-backdrop][data-islight] {
+[data-prompt][data-isopen] [data-backdrop][data-islight] {
   opacity: var(--prompt-background-opacity-backdrop-light);
 }
 [data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]) {
@@ -129,17 +92,18 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-[data-prompt]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content] {
+[data-prompt]:not([data-isfast]) [data-content] {
   transition-duration: var(--prompt-transition-duration-content);
 }
-[data-prompt][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content] {
+[data-prompt][data-isfast] [data-content] {
   transition-duration: var(--prompt-fast-transition-duration-content);
 }
-[data-prompt]:not([data-isdrawer]) input[type=checkbox]:checked + [data-prompt-content] [data-content] {
+[data-prompt]:not([data-isdrawer])[data-isopen] [data-content] {
   opacity: 1;
 }
 [data-prompt][data-isdrawer] [data-content] {
-  transition-property: transform, visibility;
+  z-index: var(--prompt-z-index-content);
+  transition-property: transform;
   transition-timing-function: var(--prompt-transition-timing-function-content);
   position: fixed;
   height: 100%;
@@ -152,12 +116,12 @@
   transition-property: all;
   transition-timing-function: var(--prompt-transition-timing-function-content);
 }
-[data-prompt][data-isdrawer]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content],
-[data-prompt][data-isdrawer]:not([data-isfast]) > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-drawer-content] {
+[data-prompt][data-isdrawer]:not([data-isfast]) [data-content],
+[data-prompt][data-isdrawer]:not([data-isfast]) [data-drawer-content] {
   transition-duration: var(--prompt-transition-duration-content);
 }
-[data-prompt][data-isdrawer][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-content],
-[data-prompt][data-isdrawer][data-isfast] > input[type=checkbox][data-ismounted] + [data-prompt-content] [data-drawer-content] {
+[data-prompt][data-isdrawer][data-isfast] [data-content],
+[data-prompt][data-isdrawer][data-isfast] [data-drawer-content] {
   transition-duration: var(--prompt-fast-transition-duration-content);
 }
 [data-prompt][data-isdrawer] [data-content] {
@@ -180,18 +144,18 @@
   right: auto;
   transform: translateX(-100%);
 }
-[data-prompt][data-isdrawer] input[type=checkbox]:checked + [data-prompt-content] [data-content],
-[dir=rtl] [data-prompt][data-isdrawer] input[type=checkbox]:checked + [data-prompt-content] [data-content] {
+[data-prompt][data-isdrawer][data-isopen] [data-content],
+[dir=rtl] [data-prompt][data-isdrawer][data-isopen] [data-content] {
   transform: translateX(0);
 }
-[data-prompt][data-islocal] [data-touch],
-[data-prompt][data-islocal] [data-backdrop],
+[data-prompt][data-isdrawer][data-islocal] [data-touch],
+[data-prompt][data-isdrawer][data-islocal] [data-backdrop],
 [data-prompt][data-isdrawer][data-islocal] [data-content] {
   position: absolute;
   z-index: initial;
 }
-[data-prompt][data-ispush] + [data-prompt-content] [data-touch],
-[data-prompt][data-ispush] + [data-prompt-content] [data-backdrop] {
+[data-prompt][data-isopen][data-ispush] [data-touch],
+[data-prompt][data-isopen][data-ispush] [data-backdrop] {
   z-index: 1;
   position: absolute;
 }
@@ -222,7 +186,7 @@
   top: 0;
   overflow-y: auto;
   height: inherit;
-  z-index: var(--prompt-z-index-drawer-content);
+  z-index: 1;
   width: 100%;
   max-width: var(--drawer-width);
 }
@@ -249,21 +213,21 @@
   flex-direction: row-reverse;
   transform: translateX(0);
 }
-[data-prompt][data-isdrawer][data-ispush] input[type=checkbox]:checked + [data-prompt-content] [data-content] {
+[data-prompt][data-isdrawer][data-ispush][data-isopen] [data-content] {
   transform: translateX(0);
 }
-[data-prompt][data-isdrawer][data-ispush][data-isfarside] input[type=checkbox]:checked + [data-prompt-content] [data-content] {
+[data-prompt][data-isdrawer][data-ispush][data-isfarside][data-isopen] [data-content] {
   transform: translateX(calc(-1 * var(--drawer-width)));
 }
 [dir=rtl] [data-prompt][data-isdrawer][data-ispush] [data-content] {
   transform: translateX(var(--drawer-width));
 }
-[dir=rtl] [data-prompt][data-isdrawer][data-ispush] input[type=checkbox]:checked + [data-prompt-content] [data-content] {
+[dir=rtl] [data-prompt][data-isdrawer][data-ispush][data-isopen] [data-content] {
   transform: translateX(0);
 }
 [dir=rtl] [data-prompt][data-isdrawer][data-ispush][data-isfarside] [data-content] {
   transform: translateX(0);
 }
-[dir=rtl] [data-prompt][data-isdrawer][data-ispush][data-isfarside] input[type=checkbox]:checked + [data-prompt-content] [data-content] {
+[dir=rtl] [data-prompt][data-isdrawer][data-ispush][data-isfarside][data-isopen] [data-content] {
   transform: translateX(var(--drawer-width));
 }

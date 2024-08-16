@@ -1030,8 +1030,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
               ")"
             ]
             |> Enum.join("")
-        ],
-        if(assigns[:is_show_on_mount], do: [checked: true], else: nil)
+        ]
       ])
 
     menu_id = id || "menu-" <> toggle_id
@@ -1041,8 +1040,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         [
           class: menu_class,
           "data-prompt": "",
-          id: menu_id,
-          "phx-hook": "Prompt"
+          id: menu_id
         ],
         assigns[:is_fast] && ["data-isfast": ""],
         # Dialog and drawer specific:

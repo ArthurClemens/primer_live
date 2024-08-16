@@ -1,1 +1,1 @@
-import './prompt.css';
+import "dialogic-js/dialogic-js.css";
