@@ -11497,6 +11497,8 @@ defmodule PrimerLive.Component do
       |> assign(:box_attrs, box_attrs)
       |> assign(:close_button_attrs, close_button_attrs)
       |> assign(:focus_wrap_id, focus_wrap_id)
+      |> assign(:has_on_cancel, not is_nil(assigns.on_cancel))
+      |> assign(:on_cancel, assigns.on_cancel || %JS{})
 
     ~H"""
     <div
@@ -11511,7 +11513,9 @@ defmodule PrimerLive.Component do
       <div {@touch_layer_attrs} phx-click={not @is_modal && cancel_dialog("##{@id}")}></div>
       <.focus_wrap
         id={@focus_wrap_id}
-        phx-keydown={@is_escapable && JS.exec("data-cancel", to: "##{@id}")}
+        phx-window-keydown={
+          if(@is_escapable && @has_on_cancel, do: JS.exec("data-cancel", to: "##{@id}"), else: nil)
+        }
         phx-key="escape"
       >
         <.box {@box_attrs}>

@@ -191,7 +191,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
   defmacro on_cancel(the_element) do
     quote do
       attr :on_cancel, JS,
-        default: %JS{},
+        default: nil,
         doc:
           """
           JS command to configure the closing/cancel event of {the_element}, for example: `on_cancel={JS.navigate(~p\"/posts\")}`.
