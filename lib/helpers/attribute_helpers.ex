@@ -1045,8 +1045,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         assigns[:is_fast] && ["data-isfast": ""],
         # Dialog and drawer specific:
         is_modal && ["data-ismodal": ""],
-        assigns[:is_escapable] && ["data-isescapable": ""],
-        assigns[:focus_first] && ["data-focusfirst": assigns[:focus_first]]
+        not is_nil(assigns[:is_escapable]) && ["data-isescapable": assigns[:is_escapable] |> to_string()],
+        assigns[:focus_first] && ["data-focusfirst": assigns[:focus_first]],
+        assigns[:is_show_on_mount] && ["data-isopen": ""]
       ])
 
     backdrop_attrs =

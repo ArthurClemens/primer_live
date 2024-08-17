@@ -11487,6 +11487,7 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
+      |> assign(:is_show, assigns.is_show || assigns.is_show_on_mount)
       |> assign(:form, form)
       |> assign(:field, field)
       |> assign(:checkbox_attrs, checkbox_attrs)
@@ -11510,7 +11511,7 @@ defmodule PrimerLive.Component do
       <div {@touch_layer_attrs} phx-click={not @is_modal && cancel_dialog("##{@id}")}></div>
       <.focus_wrap
         id={@focus_wrap_id}
-        phx-window-keydown={@is_escapable && JS.exec("data-cancel", to: "##{@id}")}
+        phx-keydown={@is_escapable && JS.exec("data-cancel", to: "##{@id}")}
         phx-key="escape"
       >
         <.box {@box_attrs}>
@@ -11529,9 +11530,9 @@ defmodule PrimerLive.Component do
     """
   end
 
-  defp on_mount_dialog(js, selector) do
-    js
-    |> show_dialog(selector)
+  defp on_mount_dialog(selector, transition_duration) do
+    %JS{}
+    |> show_dialog(selector, transition_duration)
   end
 
   defp on_remove_dialog(
@@ -11563,8 +11564,6 @@ defmodule PrimerLive.Component do
         selector,
         transition_duration
       ) do
-    dbg({"show_dialog", js, selector, transition_duration})
-
     js
     |> JS.show(
       to: selector,
@@ -11575,7 +11574,6 @@ defmodule PrimerLive.Component do
       to: selector,
       detail: %{action: "show", transitionDuration: transition_duration}
     )
-
     # Persist across routes and form updates:
     |> JS.set_attribute({"data-isopen", ""}, to: selector)
   end
@@ -11596,13 +11594,12 @@ defmodule PrimerLive.Component do
         selector,
         transition_duration
       ) do
-    dbg({"hide_dialog", js, selector, transition_duration})
-
     js
     |> JS.dispatch("prompt:toggle",
       to: selector,
       detail: %{action: "hide", transitionDuration: transition_duration}
     )
+    # Wait before removing "data-isopen"
     |> JS.transition(
       {"duration-#{transition_duration}", "", ""},
       time: transition_duration,

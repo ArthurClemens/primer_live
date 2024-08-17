@@ -229,9 +229,9 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
   defmacro is_escapable do
     quote do
       attr :is_escapable, :boolean,
-        default: false,
+        default: true,
         doc: """
-        Closes the content when pressing the Escape key.
+        Closes the content when the Escape key is pressed. Set to false to prevent this.
         """
     end
   end

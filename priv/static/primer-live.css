@@ -26550,6 +26550,10 @@ a.branch-name .octicon {
 [data-prompt][data-isopen] [data-touch] {
   display: block;
 }
+[data-prompt][data-isopen] [data-content] {
+  visibility: visible;
+  display: block;
+}
 [data-prompt] [data-content]:not([aria-role=menu]) {
   animation-name: unset;
   animation-duration: unset;

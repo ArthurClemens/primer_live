@@ -32,6 +32,7 @@ defmodule PrimerLive do
     quote do
       import PrimerLive.Component
       import PrimerLive.Octicons
+      import PrimerLive.StatefulConditionComponent
       alias PrimerLive.Theme
     end
   end

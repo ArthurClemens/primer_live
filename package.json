@@ -22,6 +22,9 @@
     }
   },
   "types": "./priv/static",
+  "dependencies": {
+    "dialogic-js": "0.5.4"
+  },
   "author": "Arthur Clemens <arthurclemens@gmail.com> (http://arthurclemens.com)",
   "repository": {
     "type": "git",
