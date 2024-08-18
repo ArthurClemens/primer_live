@@ -1,5 +1,53 @@
 # Changelog
 
+## 0.8.0
+
+Refactoring of dialogs, drawers and menus, using the `Phoenix.LiveView.JS` API - and largely based on `CoreComponent`'s modal component. These changes reduce reliance on additional JavaScript, improve alignment with standard practice, and include accessibility improvements.
+
+### Changes (including breaking changes)
+
+See for update instructions: "Updating to 0.8" below.
+
+- Removed `Prompt` hook and JavaScript. PrimerLive now only exports a CSS file.
+- Removed status callbacks `willShow`, etcetera.
+- Prompt functions `show` and `hide` are replaced with `open_dialog`, `close_dialog` and `cancel_dialog`.
+- Dialog state is now preserved on form updates.
+- Dialogs can now be shown conditionally, for example on a `live_action` route:
+
+```
+<.dialog
+  :if={@live_action == :create}
+  is_show
+  id="new-post-dialog"
+  on_cancel={JS.patch(~p"/posts")}
+>
+  ...
+</.dialog>
+```
+- Added `PrimerLive.StatefulConditionComponent`.
+- Additional changes: `on_cancel` attribute, focus trap, new attribute `transition_duration`.
+- See `PrimerLive.Component.dialog/1` for details.
+
+### Updating to 0.8
+
+- Depending on the assets setup of your application, either:
+  - Remove `Prompt` import in `app.js`.
+  - Remove the `<script>` tag for either `primer-live.min.js` or `primer-live.js`.
+- Replace `Promp.show` and `Prompt.hide`:
+
+For example:
+```
+onclick="Prompt.show('#my-dialog')"
+onclick="Prompt.hide('#my-dialog')"
+```
+become:
+```
+phx-click={open_dialog("my-dialog")}
+phx-click={close_dialog("my-dialog")}
+```
+
+- Form state: the previous method to preserve state, using "a fictitious and unique field name" can be removed.
+
 ## 0.7.2
 
 ### Changes

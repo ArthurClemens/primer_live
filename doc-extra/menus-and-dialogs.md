@@ -1,5 +1,7 @@
 # Menus and dialogs
 
+TO BE UPDATED
+
 Menu and dialog components - [`action_menu`](`PrimerLive.Component.action_menu/1`), [`dropdown`](`PrimerLive.Component.dropdown/1`), [`select_menu`](`PrimerLive.Component.select_menu/1`), [`drawer`](`PrimerLive.Component.drawer/1`) and [`dialog`](`PrimerLive.Component.dialog/1`) - share common interaction and appearance.
 
 To use these components, CSS and JavaScript hook must be installed - see [Installation](installation.md).
@@ -252,4 +254,3 @@ def handle_event("save", %{"user" => params}, socket) do
   ...
 end
 ```
-

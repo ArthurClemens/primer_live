@@ -5,10 +5,13 @@ defmodule PrimerLive.StatefulConditionComponent do
 
   ## Examples
 
-  In this example, the 'Create new post' dialog is shown when `@live_action` is `:new`.
+  ### Conditional is_show_on_mount
+
+  Our goal is to show a dialog on a route to create a new Post. We also want to link to that page and show the dialog immediately, without fade-in.
+
+  In the example code, the 'Create new post' dialog is shown when `@live_action` is `:new`.
   When triggered from the posts listing, the dialog appears with a fade-in effect.
-  If the page is reloaded while still on that route, the dialog is shown immediately
-  using the dialog attribute `is_show_on_mount`.
+  Additionally, we use dialog attribute `is_show_on_mount` when the condition `@live_action == :new` is also the initial condition - which is at page load.
 
           <.live_component
             id="create-post-dialog-component"

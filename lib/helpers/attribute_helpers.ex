@@ -1038,17 +1038,11 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     menu_attrs =
       append_attributes(assigns.rest |> Map.drop([:id, :phx_click_touch]), [
         [
-          class: menu_class,
+          class: classnames([menu_class, assigns[:is_show_on_mount] && "is-open is-showing"]),
           "data-prompt": "",
           id: menu_id
         ],
-        assigns[:is_fast] && ["data-isfast": ""],
-        # Dialog and drawer specific:
-        is_modal && ["data-ismodal": ""],
-        not is_nil(assigns[:is_escapable]) &&
-          ["data-isescapable": assigns[:is_escapable] |> to_string()],
-        assigns[:focus_first] && ["data-focusfirst": assigns[:focus_first]],
-        assigns[:is_show_on_mount] && ["data-isopen": ""]
+        assigns[:is_fast] && ["data-isfast": ""]
       ])
 
     backdrop_attrs =

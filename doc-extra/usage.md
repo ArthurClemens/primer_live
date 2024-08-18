@@ -39,7 +39,7 @@ In view files, for example in `page_view.ex`:
 ```
 defmodule MyAppWeb.PageView do
   use MyAppWeb, :view
-  alias PrimerLive.Component, as: P
+  alias PrimerLive.Component, as: Primer
 end
 ```
 

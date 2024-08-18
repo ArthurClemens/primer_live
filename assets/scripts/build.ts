@@ -1,5 +1,5 @@
-import esbuild, { BuildOptions } from 'esbuild';
-import { sassPlugin } from 'esbuild-sass-plugin';
+import esbuild, { BuildOptions } from "esbuild";
+import { sassPlugin } from "esbuild-sass-plugin";
 
 declare var process: {
   argv: string[];
@@ -15,7 +15,7 @@ const optsFromArgs: OptsFromArgs = args.reduce((acc, arg) => {
   const parts = arg.match(argRe);
   if (parts !== null && parts.groups) {
     const key = parts.groups?.key;
-    const value = parts.groups?.value !== '' ? parts.groups.value : true;
+    const value = parts.groups?.value !== "" ? parts.groups.value : true;
     return {
       ...acc,
       [key]: value,
@@ -26,26 +26,19 @@ const optsFromArgs: OptsFromArgs = args.reduce((acc, arg) => {
 
 if (!optsFromArgs.outfile) {
   throw new Error(
-    'Missing outfile. Are you running the build script outside of the mix command "assets.build"?'
+    'Missing outfile. Are you running the build script outside of the mix command "assets.build"?',
   );
 }
 
-const entryPoints: string[] = [];
-if (optsFromArgs.format === 'esm' || optsFromArgs.format === 'cjs') {
-  entryPoints.push('index-js-only.ts');
-} else if (optsFromArgs.outfile.includes('prompt')) {
-  entryPoints.push('index-prompt-only.ts');
-} else {
-  entryPoints.push('index.ts');
-}
+const entryPoints: string[] = ["index.ts"];
 
 const config: BuildOptions = {
   ...optsFromArgs,
   entryPoints,
   bundle: true,
-  target: 'es2017',
-  logLevel: 'info',
-  external: ['/images/*'],
+  target: "es2017",
+  logLevel: "info",
+  external: ["/images/*"],
   plugins: [sassPlugin()],
 };
 
@@ -53,7 +46,7 @@ if (config.minify) {
   const minifyConfig: BuildOptions = {
     ...config,
     minify: true,
-    target: ['es2020', 'chrome58', 'edge18', 'firefox57', 'node12', 'safari11'],
+    target: ["es2020", "chrome58", "edge18", "firefox57", "node12", "safari11"],
   };
 
   esbuild.build(minifyConfig);

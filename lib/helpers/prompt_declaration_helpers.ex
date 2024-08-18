@@ -239,9 +239,10 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
   defmacro focus_first(the_element) do
     quote do
       attr :focus_first, :string,
+        default: nil,
         doc:
           """
-          Focus the first element after opening {the_element}. Pass a selector to match the element.
+          Gives focus to the specified element after opening {the_element}. Pass the element selector.
           """
           |> String.replace("{the_element}", unquote(the_element))
     end

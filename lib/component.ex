@@ -368,8 +368,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Action list](https://primer.style/design/components/action-list)
-  [Primer Nav list](https://primer.style/design/components/nav-list)
+  - [Primer Action list](https://primer.style/design/components/action-list)
+  - [Primer Nav list](https://primer.style/design/components/nav-list)
 
   """
 
@@ -8321,8 +8321,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Button group](https://primer.style/design/components/button-group)
-  [Primer Button](https://primer.style/design/components/button)
+  - [Primer Button group](https://primer.style/design/components/button-group)
+  - [Primer Button](https://primer.style/design/components/button)
 
   """
 
@@ -9992,8 +9992,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Avatar](https://primer.style/design/components/avatars)
-  [Primer Avatar pair](https://primer.style/design/components/avatar-pair)
+  - [Primer Avatar](https://primer.style/design/components/avatars)
+  - [Primer Avatar pair](https://primer.style/design/components/avatar-pair)
 
   """
 
@@ -11144,21 +11144,73 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Showing and hiding is done with JS function `Prompt`, included in PrimerLive.
-  Function `Prompt.show` requires a selector. When placed inside the dialog component, the selector can be replaced with `this`:
+  ## Opening and closing the dialog
+
+  ### Invoking open and close
+
+  Functions `open_dialog` and `close_dialog` can be called with `phx-click`, passing the dialog's id:
 
   ```
+  <.button phx-click={open_dialog("my-dialog")}>Open</.button>
+
   <.dialog id="my-dialog">
     <:body>
       Message in a dialog
-      <.button onclick="Prompt.hide(this)">Close</.button>
+      <.button phx-click={close_dialog("my-dialog")}>Close</.button>
     </:body>
   </.dialog>
-
-  <.button onclick="Prompt.show('#my-dialog')">Open dialog</.button>
   ```
 
-  ## Examples
+  Clicking the backdrop will automatically invoke `close_dialog`.
+
+  ### Routes and other conditionals
+
+  To show the dialog at a specific route (or with any other condition), use Phoenix's `:if` attribute, combined with `is_show`. The `on_cancel` attribute can then be used to redirect to the originating route:
+
+  ```
+  <.dialog
+    id="new-post-dialog"
+    :if={@live_action == :create}
+    is_show
+    on_cancel={JS.patch(~p"/posts")}
+  >
+    <:body>
+      Post form
+    </:body>
+  </.dialog>
+  ```
+
+  To display the dialog on page load without a fade-in transition, add attribute `is_show_on_mount`.
+  With attr `is_show_on_mount`, the dialog is displayed without fade-in. Conditional display can be controlled using Phoenix's `:if={}` attribute. Additional logic is provided by `PrimerLive.StatefulConditionComponent`.
+
+  ```
+  <.button phx-click={JS.patch(~p"/dialog/create")}>Create post</.button>
+
+  <.live_component
+    id="stateful-dialog-component"
+    module={PrimerLive.StatefulConditionComponent}
+    condition={@live_action == :new || nil}
+    :let={%{
+      equals_initial_condition: equals_initial_condition,
+      condition: condition
+    }}
+  >
+    <.dialog id="create-post"
+      :if={condition}
+      is_show
+      is_show_on_mount={equals_initial_condition}
+      on_cancel={JS.patch(~p"/dialog")}
+      is_backdrop
+    >
+      <:body>Body message</:body>
+      <:footer>
+        <.button phx-click={JS.patch(~p"/dialog")}>Save</.button>
+      </:footer>
+    </.dialog>
+  </.live_component>
+  ```
+
+  ## Other attributes
 
   Add a backdrop. Optionally add `is_light_backdrop` or `is_dark_backdrop`:
 
@@ -11437,7 +11489,6 @@ defmodule PrimerLive.Component do
     }
 
     %{
-      checkbox_attrs: checkbox_attrs,
       menu_attrs: wrapper_attrs,
       backdrop_attrs: backdrop_attrs,
       touch_layer_attrs: touch_layer_attrs,
@@ -11457,7 +11508,7 @@ defmodule PrimerLive.Component do
         [is_close_button: true],
         ["aria-label": "Close"],
         [class: "Box-btn-octicon btn-octicon flex-shrink-0"],
-        [onclick: "Prompt.hide(this)"]
+        ["phx-click": cancel_dialog(assigns.id)]
       ])
 
     max_height_css = assigns.max_height || @default_dialog_max_height_css
@@ -11490,32 +11541,55 @@ defmodule PrimerLive.Component do
       |> assign(:is_show, assigns.is_show || assigns.is_show_on_mount)
       |> assign(:form, form)
       |> assign(:field, field)
-      |> assign(:checkbox_attrs, checkbox_attrs)
       |> assign(:wrapper_attrs, wrapper_attrs)
       |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:box_attrs, box_attrs)
       |> assign(:close_button_attrs, close_button_attrs)
       |> assign(:focus_wrap_id, focus_wrap_id)
-      |> assign(:has_on_cancel, not is_nil(assigns.on_cancel))
       |> assign(:on_cancel, assigns.on_cancel || %JS{})
+      |> assign(:id_selector, "##{assigns.id}")
 
     ~H"""
     <div
       {@wrapper_attrs}
-      phx-mounted={@is_show && on_mount_dialog("##{@id}", @transition_duration)}
-      phx-remove={on_remove_dialog("##{@id}", @transition_duration)}
+      phx-mounted={@is_show && JS.exec("data-open", to: @id_selector)}
+      phx-remove={JS.exec("data-close", to: @id_selector)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
+      data-open={
+        JS.set_attribute(
+          {"style",
+           "--prompt-transition-duration: #{@transition_duration}ms; --prompt-fast-transition-duration: #{@transition_duration}ms;"},
+          to: @id_selector
+        )
+        |> JS.add_class("is-open", to: @id_selector)
+        |> JS.focus_first(to: "#{@id_selector} [data-content]")
+        |> maybe_focus(@focus_first)
+        |> JS.add_class("is-showing", to: @id_selector)
+      }
+      data-close={
+        JS.set_attribute(
+          {"style",
+           "--prompt-transition-duration: #{@transition_duration}ms; --prompt-fast-transition-duration: #{@transition_duration}ms;"},
+          to: @id_selector
+        )
+        |> JS.remove_class("is-showing", to: @id_selector)
+        |> JS.remove_class("is-open",
+          transition: {"duration-#{@transition_duration}", "", ""},
+          time: @transition_duration,
+          to: @id_selector
+        )
+        |> JS.pop_focus()
+      }
     >
       <%= if @backdrop_attrs !== [] do %>
         <div {@backdrop_attrs} />
       <% end %>
-      <div {@touch_layer_attrs} phx-click={not @is_modal && cancel_dialog("##{@id}")}></div>
+      <div {@touch_layer_attrs} phx-click={not @is_modal && cancel_dialog(@id)}></div>
       <.focus_wrap
         id={@focus_wrap_id}
-        phx-window-keydown={
-          if(@is_escapable && @has_on_cancel, do: JS.exec("data-cancel", to: "##{@id}"), else: nil)
-        }
+        data-focuswrap
+        phx-window-keydown={@is_escapable && cancel_dialog(@id)}
         phx-key="escape"
       >
         <.box {@box_attrs}>
@@ -11534,87 +11608,86 @@ defmodule PrimerLive.Component do
     """
   end
 
-  defp on_mount_dialog(selector, transition_duration) do
-    %JS{}
-    |> show_dialog(selector, transition_duration)
+  @doc section: :dialog_functions
+
+  @doc """
+  Opens a dialog.
+
+  ## Examples
+
+      <.button phx-click={open_dialog("my-dialog")}>Open</.button>
+  """
+  def open_dialog(id) when is_binary(id), do: open_dialog(%JS{}, id)
+
+  @doc section: :dialog_functions
+
+  @doc """
+  Opens a dialog as part of a `Phoenix.LiveView.JS` command chain.
+
+  ## Examples
+
+      <.button phx-click={
+        open_dialog("base-dialog")
+        |> open_dialog("confirmation-dialog")
+      }>Open</.button>
+  """
+  def open_dialog(js \\ %JS{}, id) when is_binary(id) do
+    JS.exec(js, "data-open", to: "##{id}")
   end
 
-  defp on_remove_dialog(
-         selector,
-         transition_duration
-       ) do
-    %JS{}
-    |> hide_dialog(selector, transition_duration)
+  @doc section: :dialog_functions
+
+  @doc """
+  Closes a dialog.
+  Note that this won't call `on_cancel`. Any time `on_cancel` is provided and you still need a close button, `cancel_dialog/1` will be a better choice.
+
+  ## Examples
+
+      <.button phx-click={close_dialog("my-dialog")}>Close</.button>
+  """
+  def close_dialog(id) when is_binary(id), do: close_dialog(%JS{}, id)
+
+  @doc section: :dialog_functions
+
+  @doc """
+  Closes a dialog as part of a `Phoenix.LiveView.JS` command chain.
+
+  ## Examples
+
+      <.button phx-click={
+        close_dialog("confirmation-dialog")
+        |> close_dialog("base-dialog")
+      }>Open</.button>
+  """
+  def close_dialog(js \\ %JS{}, id) when is_binary(id) do
+    JS.exec(js, "data-close", to: "##{id}")
   end
 
-  def show_dialog(
-        selector,
-        transition_duration \\ @default_dialog_transition_duration
-      )
+  @doc section: :dialog_functions
 
-  def show_dialog(
-        selector,
-        transition_duration
-      ),
-      do:
-        show_dialog(
-          %JS{},
-          selector,
-          transition_duration
-        )
+  @doc """
+  Cancels a dialog: closes the dialog after executing the `on_cancel` attribute.
 
-  def show_dialog(
-        js,
-        selector,
-        transition_duration
-      ) do
-    js
-    |> JS.show(
-      to: selector,
-      time: transition_duration,
-      transition: {"duration-#{transition_duration}", "", ""}
-    )
-    |> JS.dispatch("prompt:toggle",
-      to: selector,
-      detail: %{action: "show", transitionDuration: transition_duration}
-    )
-    # Persist across routes and form updates:
-    |> JS.set_attribute({"data-isopen", ""}, to: selector)
+  ## Examples
+
+      <.button phx-click={cancel_dialog("my-dialog")}>Cancel</.button>
+  """
+
+  def cancel_dialog(id) when is_binary(id), do: cancel_dialog(%JS{}, id)
+
+  @doc section: :dialog_functions
+
+  @doc """
+  Cancels a dialog as part of a `Phoenix.LiveView.JS` command chain.
+  """
+  def cancel_dialog(js \\ %JS{}, id) when is_binary(id) do
+    JS.exec(js, "data-cancel", to: "##{id}")
   end
 
-  def hide_dialog(
-        selector,
-        transition_duration \\ @default_dialog_transition_duration
-      )
+  defp maybe_focus(js, focus_first_selector) when is_nil(focus_first_selector), do: js
 
-  def hide_dialog(
-        selector,
-        transition_duration
-      ),
-      do: hide_dialog(%JS{}, selector, transition_duration)
-
-  def hide_dialog(
-        js,
-        selector,
-        transition_duration
-      ) do
-    js
-    |> JS.dispatch("prompt:toggle",
-      to: selector,
-      detail: %{action: "hide", transitionDuration: transition_duration}
-    )
-    # Wait before removing "data-isopen"
-    |> JS.transition(
-      {"duration-#{transition_duration}", "", ""},
-      time: transition_duration,
-      to: selector
-    )
-    |> JS.remove_attribute("data-isopen", to: selector)
-  end
-
-  def cancel_dialog(js \\ %JS{}, selector) when is_binary(selector) do
-    js
-    |> JS.exec("data-cancel", to: selector)
+  defp maybe_focus(js, focus_first_selector) do
+    JS.focus(js, to: focus_first_selector)
   end
 
   # ------------------------------------------------------------------------------------
