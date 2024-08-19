@@ -143,11 +143,11 @@ defmodule PrimerLive.TestComponents.DialogTest do
              |> format_html()
   end
 
-  test "Attribute: focus_first" do
+  test "Attribute: focus_after_opening" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.dialog id="my-dialog-id" focus_first="[name=first_name]">
+           <.dialog id="my-dialog-id" focus_after_opening="[name=first_name]">
              Message
            </.dialog>
            """)

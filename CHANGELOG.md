@@ -10,7 +10,8 @@ See for update instructions: "Updating to 0.8" below.
 
 - Removed `Prompt` hook.
 - The remaining JavaScript ensures that only the top dialog will be closed when pressing Escape.
-- Removed status callbacks `willShow`, etcetera.
+- Removed `prompt_options` with status callbacks `didShow`, etcetera.
+- Renamed attribute `focus_first` to `focus_after_opening`
 - Prompt functions `show` and `hide` are replaced with `open_dialog`, `close_dialog` and `cancel_dialog`.
 - Dialog state is now preserved on form updates.
 - Dialogs can now be shown conditionally, for example on a `live_action` route:
@@ -32,6 +33,7 @@ See for update instructions: "Updating to 0.8" below.
 ### Updating to 0.8
 
 - Remove `Prompt` import in `app.js`.
+- If in existing code `focus_first` was used with a selector value, rename the attribute to `focus_after_opening`.
 - Replace `Promp.show` and `Prompt.hide`:
 
 For example:

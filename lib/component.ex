@@ -11226,10 +11226,10 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  The dialog will focus the first element after opening the dialog. Pass `focus_first` with a selector to give focus to a different element.
+  The dialog will focus the first element after opening the dialog. Pass `focus_after_opening` with a selector to give focus to a different element.
 
   ```
-  <.dialog focus_first="#login_first_name">
+  <.dialog focus_after_opening="#login_first_name">
     ...
   </.dialog>
   ```
@@ -11304,7 +11304,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.is_modal("the dialog")
   PromptDeclarationHelpers.is_escapable()
-  PromptDeclarationHelpers.focus_first("the dialog")
+  PromptDeclarationHelpers.focus_after_opening("the dialog")
   PromptDeclarationHelpers.is_show("the dialog")
   PromptDeclarationHelpers.on_cancel("the dialog")
   PromptDeclarationHelpers.transition_duration("the dialog", @default_dialog_transition_duration)
@@ -11522,7 +11522,7 @@ defmodule PrimerLive.Component do
         )
         |> JS.add_class("is-open", to: @id_selector)
         |> JS.focus_first(to: "#{@id_selector} [data-content]")
-        |> maybe_focus(@focus_first)
+        |> maybe_focus_after_opening(@focus_after_opening)
         |> JS.add_class("is-showing", to: @id_selector)
       }
       data-close={
@@ -11642,10 +11642,10 @@ defmodule PrimerLive.Component do
     JS.exec(js, "data-cancel", to: "##{id}")
   end
 
-  defp maybe_focus(js, focus_first_selector) when is_nil(focus_first_selector), do: js
+  defp maybe_focus_after_opening(js, selector) when is_nil(selector), do: js
 
-  defp maybe_focus(js, focus_first_selector) do
-    JS.focus(js, to: focus_first_selector)
+  defp maybe_focus_after_opening(js, selector) do
+    JS.focus(js, to: selector)
   end
 
   # ------------------------------------------------------------------------------------
@@ -11726,7 +11726,7 @@ defmodule PrimerLive.Component do
   Focus the first element after opening the drawer. Pass a selector to match the element.
 
   ```
-  <.drawer focus_first="#login_first_name">
+  <.drawer focus_after_opening="#login_first_name">
     ...
   </.drawer>
   ```
@@ -11734,7 +11734,7 @@ defmodule PrimerLive.Component do
   or
 
   ```
-  <.drawer focus_first="[name=login\[first_name\]]">
+  <.drawer focus_after_opening="[name=login\[first_name\]]">
     ...
   </.drawer>
   ```
@@ -11785,7 +11785,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.is_modal("the drawer")
   PromptDeclarationHelpers.is_escapable()
-  PromptDeclarationHelpers.focus_first("the drawer")
+  PromptDeclarationHelpers.focus_after_opening("the drawer")
 
   DeclarationHelpers.class()
 

@@ -156,11 +156,11 @@ defmodule PrimerLive.TestComponents.DrawerContentDeprecatedTest do
              |> format_html()
   end
 
-  test "Attribute: focus_first" do
+  test "Attribute: focus_after_opening" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.drawer id="my-drawer-id" focus_first="[name=first_name]">
+           <.drawer id="my-drawer-id" focus_after_opening="[name=first_name]">
              <.drawer_content id="my-drawer-content-id">
                Content
              </.drawer_content>
