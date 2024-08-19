@@ -123,9 +123,8 @@ defmodule PrimerLive.MixProject do
       ],
       "assets.build": [
         "cmd rm -rf priv/static/*",
-        "cmd npm --prefix assets run build -- --outfile=../priv/static/primer-live.js",
-        "cmd npm --prefix assets run build -- --minify --outfile=../priv/static/primer-live.min.js",
-        "cmd rm -rf priv/static/*.js"
+        "cmd npm --prefix assets run build -- --format=iife --target=es2016 --outfile=../priv/static/primer-live.js",
+        "cmd npm --prefix assets run build -- --format=iife --target=es2016 --minify --outfile=../priv/static/primer-live.min.js"
       ]
     ]
   end

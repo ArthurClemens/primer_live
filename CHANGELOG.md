@@ -8,7 +8,8 @@ Refactoring of dialogs, drawers and menus, using the `Phoenix.LiveView.JS` API -
 
 See for update instructions: "Updating to 0.8" below.
 
-- Removed `Prompt` hook and JavaScript. PrimerLive now only exports a CSS file.
+- Removed `Prompt` hook.
+- The remaining JavaScript ensures that only the top dialog will be closed when pressing Escape.
 - Removed status callbacks `willShow`, etcetera.
 - Prompt functions `show` and `hide` are replaced with `open_dialog`, `close_dialog` and `cancel_dialog`.
 - Dialog state is now preserved on form updates.
@@ -30,9 +31,7 @@ See for update instructions: "Updating to 0.8" below.
 
 ### Updating to 0.8
 
-- Depending on the assets setup of your application, either:
-  - Remove `Prompt` import in `app.js`.
-  - Remove the `<script>` tag for either `primer-live.min.js` or `primer-live.js`.
+- Remove `Prompt` import in `app.js`.
 - Replace `Promp.show` and `Prompt.hide`:
 
 For example:

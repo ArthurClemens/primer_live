@@ -11163,6 +11163,8 @@ defmodule PrimerLive.Component do
 
   Clicking the backdrop will automatically invoke `close_dialog`.
 
+  Pressing Escape will close the open dialog (unless `is_escapable` is explicitly set to false). In case of stacked dialogs, the included `prompt.js` ensures that only the top dialog will be closed.
+
   ### Routes and other conditionals
 
   To show the dialog at a specific route (or with any other condition), use Phoenix's `:if` attribute, combined with `is_show`. The `on_cancel` attribute can then be used to redirect to the originating route:
@@ -11180,35 +11182,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  To display the dialog on page load without a fade-in transition, add attribute `is_show_on_mount`.
-  With attr `is_show_on_mount`, the dialog is displayed without fade-in. Conditional display can be controlled using Phoenix's `:if={}` attribute. Additional logic is provided by `PrimerLive.StatefulConditionComponent`.
-
-  ```
-  <.button phx-click={JS.patch(~p"/dialog/create")}>Create post</.button>
-
-  <.live_component
-    id="stateful-dialog-component"
-    module={PrimerLive.StatefulConditionComponent}
-    condition={@live_action == :new || nil}
-    :let={%{
-      equals_initial_condition: equals_initial_condition,
-      condition: condition
-    }}
-  >
-    <.dialog id="create-post"
-      :if={condition}
-      is_show
-      is_show_on_mount={equals_initial_condition}
-      on_cancel={JS.patch(~p"/dialog")}
-      is_backdrop
-    >
-      <:body>Body message</:body>
-      <:footer>
-        <.button phx-click={JS.patch(~p"/dialog")}>Save</.button>
-      </:footer>
-    </.dialog>
-  </.live_component>
-  ```
+  To display the dialog on page load without a fade-in transition, add attribute `is_show_on_mount`. See `PrimerLive.StatefulConditionComponent` for an example.
 
   ## Other attributes
 
@@ -11224,14 +11198,6 @@ defmodule PrimerLive.Component do
 
   ```
   <.dialog is_modal>
-    ...
-  </.dialog>
-  ```
-
-  Close the dialog with the Escape key:
-
-  ```
-  <.dialog is_escapable>
     ...
   </.dialog>
   ```
@@ -11260,18 +11226,10 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Focus the first element after opening the dialog. Pass a selector to match the element.
+  The dialog will focus the first element after opening the dialog. Pass `focus_first` with a selector to give focus to a different element.
 
   ```
   <.dialog focus_first="#login_first_name">
-    ...
-  </.dialog>
-  ```
-
-  or
-
-  ```
-  <.dialog focus_first="[name=login\[first_name\]]">
     ...
   </.dialog>
   ```
@@ -11309,7 +11267,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Dialog content is wrapped inside a `Phoenix.Component.focus_wrap/1` so that navigating with Tab won't leave the dialog.
+  Dialog content is automatically wrapped inside a `Phoenix.Component.focus_wrap/1` so that navigating with Tab won't leave the dialog.
 
   ```
   <.dialog is_backdrop is_modal>
@@ -11590,7 +11548,7 @@ defmodule PrimerLive.Component do
         id={@focus_wrap_id}
         data-focuswrap
         phx-window-keydown={@is_escapable && cancel_dialog(@id)}
-        phx-key="escape"
+        phx-key="Escape"
       >
         <.box {@box_attrs}>
           <:header

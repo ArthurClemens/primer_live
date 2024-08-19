@@ -1042,7 +1042,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
           "data-prompt": "",
           id: menu_id
         ],
-        assigns[:is_fast] && ["data-isfast": ""]
+        assigns[:is_fast] && ["data-isfast": ""],
+        assigns[:is_escapable] != false && ["data-isescapable": ""]
       ])
 
     backdrop_attrs =

@@ -8,11 +8,11 @@ Add PrimerLive as a dependency in your Phoenix application's `mix.exs`
 {:primer_live, "~> 0.8"}
 ```
 
-Run `mix.deps get`
+Run `mix.deps get`.
 
 ## 2. Mark PrimerLive resources as static
 
-In <code>endpoint.ex</code>, create a new static plug entry:
+In `endpoint.ex`, create a new Static Plug entry:
 
 ```
 # PrimerLive resources
@@ -30,17 +30,20 @@ In `<app>_web.ex`, change the `Phoenix.VerifiedRoutes` configuration to include 
 def static_paths, do: ~w(assets fonts images favicon.png robots.txt primer_live)
 ```
 
-## 4. Add the CSS link to the base HTML
+## 4. Add the CSS and JavaScript to the base HTML
 
-<p>Add the import link to <code>root.html.heex</code>.</p>
-<p>If you are using verified routes:</p>
+Add the import link to `root.html.heex`.
+
+If you are using verified routes:
 
 ```
 <link phx-track-static rel="stylesheet" href={~p"/primer_live/primer-live.min.css"}>
+<script defer phx-track-static type="text/javascript" src={~p"/primer_live/primer-live.min.js"}></script>
 ```
 
 Otherwise:
 
 ```
 <link phx-track-static rel="stylesheet" href="/primer_live/primer-live.min.css">
+<script defer phx-track-static type="text/javascript" src={"/primer_live/primer-live.min.js"}></script>
 ```
