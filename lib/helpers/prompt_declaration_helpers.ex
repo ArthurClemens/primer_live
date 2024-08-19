@@ -247,4 +247,17 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
           |> String.replace("{the_element}", unquote(the_element))
     end
   end
+
+  defmacro focus_after_closing(the_element) do
+    quote do
+      attr :focus_after_closing, :string,
+        default: nil,
+        doc:
+          """
+          Returns focus to the specified element after closing {the_element}. Pass the element selector.
+          Improve accessibility by implementing this [ARIA Dialog Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+          """
+          |> String.replace("{the_element}", unquote(the_element))
+    end
+  end
 end

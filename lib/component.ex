@@ -11234,6 +11234,16 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
+  After closing the dialog, return the focus to the originating element. Improve accessibility by implementing this [ARIA Dialog Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+
+  ```
+  <.button id="opens-dialog" phx-click={open_dialog("my-dialog")}>Open</.button>
+
+  <.dialog id="my-dialog" focus_after_closing="#opens-dialog">
+    ...
+  </.dialog>
+  ```
+
   Long content will automatically show a scrollbar. To change the maxium height of the dialog, use a CSS value. Use unit `vh` or `%`.
 
   ```
@@ -11305,6 +11315,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_modal("the dialog")
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.focus_after_opening("the dialog")
+  PromptDeclarationHelpers.focus_after_closing("the dialog")
   PromptDeclarationHelpers.is_show("the dialog")
   PromptDeclarationHelpers.on_cancel("the dialog")
   PromptDeclarationHelpers.transition_duration("the dialog", @default_dialog_transition_duration)
@@ -11515,7 +11526,8 @@ defmodule PrimerLive.Component do
       phx-remove={JS.exec("data-close", to: @id_selector)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
       data-open={
-        JS.set_attribute(
+        maybe_focus_after_closing(%JS{}, @focus_after_closing)
+        |> JS.set_attribute(
           {"style",
            "--prompt-transition-duration: #{@transition_duration}ms; --prompt-fast-transition-duration: #{@transition_duration}ms;"},
           to: @id_selector
@@ -11646,6 +11658,12 @@ defmodule PrimerLive.Component do
 
   defp maybe_focus_after_opening(js, selector) do
     JS.focus(js, to: selector)
+  end
+
+  defp maybe_focus_after_closing(js, selector) when is_nil(selector), do: js
+
+  defp maybe_focus_after_closing(js, selector) do
+    JS.push_focus(js, to: selector)
   end
 
   # ------------------------------------------------------------------------------------

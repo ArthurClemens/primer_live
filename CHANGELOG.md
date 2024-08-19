@@ -11,7 +11,8 @@ See for update instructions: "Updating to 0.8" below.
 - Removed `Prompt` hook.
 - The remaining JavaScript ensures that only the top dialog will be closed when pressing Escape.
 - Removed `prompt_options` with status callbacks `didShow`, etcetera.
-- Renamed attribute `focus_first` to `focus_after_opening`
+- Renamed attribute `focus_first` to `focus_after_opening`.
+- Added attribute `focus_after_closing`.
 - Prompt functions `show` and `hide` are replaced with `open_dialog`, `close_dialog` and `cancel_dialog`.
 - Dialog state is now preserved on form updates.
 - Dialogs can now be shown conditionally, for example on a `live_action` route:
@@ -26,9 +27,11 @@ See for update instructions: "Updating to 0.8" below.
   ...
 </.dialog>
 ```
+
 - Added `PrimerLive.StatefulConditionComponent`.
 - Additional changes: `on_cancel` attribute, focus trap, new attribute `transition_duration`.
-- See `PrimerLive.Component.dialog/1` for details.
+
+See `PrimerLive.Component.dialog/1` for details.
 
 ### Updating to 0.8
 
