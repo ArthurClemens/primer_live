@@ -1,16 +1,9 @@
+import { ViewHook } from "phoenix_live_view";
+
 /**
 Prompt Hook handles status callbacks.
 */
-export type TPrompt = {
-  el?: HTMLElement;
-  mounted: () => void;
-  destroyed: () => void;
-  pushEventTo?: (
-    selector: string,
-    eventName: string,
-    payload?: Object,
-    onReply?: () => void,
-  ) => void;
+export type TPrompt = Partial<ViewHook> & {
   handlePromptOpen?: (evt: CustomEvent) => void;
   handlePromptClose?: (evt: CustomEvent) => void;
 };
@@ -73,7 +66,7 @@ export const Prompt: TPrompt = {
 
 declare global {
   interface Window {
-    Prompt?: typeof Prompt;
+    Prompt: TPrompt;
   }
 }
 
