@@ -13,12 +13,11 @@
     "@types/phoenix_live_view": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "^20.12.5",
-    "esbuild": "^0.23.0",
-    "esbuild-sass-plugin": "^3.2.0",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.7.2",
-    "typescript": "^5.4.4"
+    "@types/node": "^22.4.1",
+    "esbuild": "^0.23.1",
+    "esbuild-sass-plugin": "^3.3.1",
+    "tsx": "^4.17.0",
+    "typescript": "^5.5.4"
   },
   "author": "Arthur Clemens <arthurclemens@gmail.com> (http://arthurclemens.com)"
 }

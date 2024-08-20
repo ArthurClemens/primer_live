@@ -10,21 +10,16 @@
   "exports": {
     ".": {
       "import": "./priv/static/primer-live.esm.js",
-      "require": "./priv/static/primer-live.cjs.js",
       "default": "./priv/static/primer-live.js"
     },
     "./primer-live.css": {
-      "import": "./priv/static/primer-live.css",
       "default": "./priv/static/primer-live.css"
     },
     "./primer-live.min.css": {
       "default": "./priv/static/primer-live.min.css"
     }
   },
-  "types": "./priv/static/index.d.ts",
-  "dependencies": {
-    "dialogic-js": "0.5.4"
-  },
+  "types": "./priv/static",
   "author": "Arthur Clemens <arthurclemens@gmail.com> (http://arthurclemens.com)",
   "repository": {
     "type": "git",
