@@ -109,6 +109,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
   defmacro prompt_options do
     quote do
       attr(:prompt_options, :string,
+        default: nil,
         doc: """
         JavaScript state callback functions as string. For example:
 
@@ -256,6 +257,27 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
           """
           Returns focus to the specified element after closing {the_element}. Pass the element selector.
           Improve accessibility by implementing this [ARIA Dialog Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+          """
+          |> String.replace("{the_element}", unquote(the_element))
+    end
+  end
+
+  defmacro status_callback_selector(the_element) do
+    quote do
+      attr :status_callback_selector, :string,
+        default: nil,
+        doc:
+          """
+          Receiver to get status callback events. Events are passed from the Prompt hook using `pushEventTo`.
+          Pass the HTML selector of the receiver of the LiveComponent or LiveView the element is defined in.
+
+          The event sends the object named "primer_live:prompt" with payload:
+          ```
+          %{
+            "elementId" => "",  # {the_element} id
+            "status" => ""      # possible values: "opening", "open", "closing", "closed"
+          }
+          ```
           """
           |> String.replace("{the_element}", unquote(the_element))
     end

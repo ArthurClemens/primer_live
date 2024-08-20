@@ -8,9 +8,8 @@ Refactoring of dialogs, drawers and menus, using the `Phoenix.LiveView.JS` API -
 
 See for update instructions: "Updating to 0.8" below.
 
-- Removed `Prompt` hook.
-- The remaining JavaScript ensures that only the top dialog will be closed when pressing Escape.
-- Removed `prompt_options` with status callbacks `didShow`, etcetera.
+- Reduced the size of the `Prompt` hook script.
+- Replaced attribute `prompt_options` for status callbacks with `status_callback_selector` that sends status events to the component.
 - Renamed attribute `focus_first` to `focus_after_opening`.
 - Added attribute `focus_after_closing`.
 - Prompt functions `show` and `hide` are replaced with `open_dialog`, `close_dialog` and `cancel_dialog`.
@@ -35,7 +34,6 @@ See `PrimerLive.Component.dialog/1` for details.
 
 ### Updating to 0.8
 
-- Remove `Prompt` import in `app.js`.
 - If in existing code `focus_first` was used with a selector value, rename the attribute to `focus_after_opening`.
 - Replace `Promp.show` and `Prompt.hide`:
 
@@ -44,13 +42,48 @@ For example:
 onclick="Prompt.show('#my-dialog')"
 onclick="Prompt.hide('#my-dialog')"
 ```
-become:
+Becomes:
 ```
 phx-click={open_dialog("my-dialog")}
 phx-click={close_dialog("my-dialog")}
 ```
 
 - Form state: the previous method to preserve state, using "a fictitious and unique field name" can be removed.
+- Replacing `prompt_options` can't be done easily, because passing JavaScript functions is no longer supported. This example LiveComponent may give some ideas how to approach the update:
+
+```
+defmodule MyAppWeb.StatusComponent do
+  use MyAppWeb, :live_component
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div id="dialog_status">
+      <p>Status: <%= @status %></p>
+    </div>
+    """
+  end
+
+  @impl true
+  def update(assigns, socket) do
+    socket =
+      socket
+      |> assign(assigns)
+      |> assign(:status, "initial")
+
+    {:ok, socket}
+  end
+
+  @impl true
+  def handle_event("primer_live:prompt", %{"elementId" => _dialog_id, "status" => status}, socket) do
+    socket =
+      socket
+      |> assign(:status, status)
+
+    {:noreply, socket}
+  end
+end
+```
 
 ## 0.7.2
 

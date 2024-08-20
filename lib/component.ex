@@ -11148,7 +11148,7 @@ defmodule PrimerLive.Component do
 
   ### Invoking open and close
 
-  Functions `open_dialog` and `close_dialog` can be called with `phx-click`, passing the dialog's id:
+  Functions `open_dialog/1` and `close_dialog/1` can be called with `phx-click`, passing the dialog's id (the alternative approach is to conditionally render - see below).
 
   ```
   <.button phx-click={open_dialog("my-dialog")}>Open</.button>
@@ -11163,7 +11163,7 @@ defmodule PrimerLive.Component do
 
   Clicking the backdrop will automatically invoke `close_dialog`.
 
-  Pressing Escape will close the open dialog (unless `is_escapable` is explicitly set to false). In case of stacked dialogs, the included `prompt.js` ensures that only the top dialog will be closed.
+  Pressing Escape will close the open dialog (unless `is_escapable` is explicitly set to false). In case of stacked dialogs, the included `Prompt` hook ensures that only the top dialog will be closed.
 
   ### Routes and other conditionals
 
@@ -11182,7 +11182,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  To display the dialog on page load without a fade-in transition, add attribute `is_show_on_mount`. See `PrimerLive.StatefulConditionComponent` for an example.
+  To display the dialog on page load *without* a fade-in transition, add attribute `is_show_on_mount`. See `PrimerLive.StatefulConditionComponent` for an example.
 
   ## Other attributes
 
@@ -11310,7 +11310,6 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(false)
-  PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.is_modal("the dialog")
   PromptDeclarationHelpers.is_escapable()
@@ -11319,6 +11318,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_show("the dialog")
   PromptDeclarationHelpers.on_cancel("the dialog")
   PromptDeclarationHelpers.transition_duration("the dialog", @default_dialog_transition_duration)
+  PromptDeclarationHelpers.status_callback_selector("the dialog")
 
   attr(:is_show_on_mount, :boolean,
     default: false,
@@ -11532,6 +11532,7 @@ defmodule PrimerLive.Component do
            "--prompt-transition-duration: #{@transition_duration}ms; --prompt-fast-transition-duration: #{@transition_duration}ms;"},
           to: @id_selector
         )
+        |> maybe_send_status_event(@status_callback_selector, @id_selector, "prompt:open")
         |> JS.add_class("is-open", to: @id_selector)
         |> JS.focus_first(to: "#{@id_selector} [data-content]")
         |> maybe_focus_after_opening(@focus_after_opening)
@@ -11543,7 +11544,10 @@ defmodule PrimerLive.Component do
            "--prompt-transition-duration: #{@transition_duration}ms; --prompt-fast-transition-duration: #{@transition_duration}ms;"},
           to: @id_selector
         )
-        |> JS.remove_class("is-showing", to: @id_selector)
+        |> maybe_send_status_event(@status_callback_selector, @id_selector, "prompt:close")
+        |> JS.remove_class("is-showing",
+          to: @id_selector
+        )
         |> JS.remove_class("is-open",
           transition: {"duration-#{@transition_duration}", "", ""},
           time: @transition_duration,
@@ -11664,6 +11668,17 @@ defmodule PrimerLive.Component do
 
   defp maybe_focus_after_closing(js, selector) do
     JS.push_focus(js, to: selector)
+  end
+
+  defp maybe_send_status_event(js, status_callback_selector, _id_selector, _event_name)
+       when is_nil(status_callback_selector),
+       do: js
+
+  defp maybe_send_status_event(js, status_callback_selector, id_selector, event_name) do
+    JS.dispatch(js, event_name,
+      to: id_selector,
+      detail: %{selector: status_callback_selector}
+    )
   end
 
   # ------------------------------------------------------------------------------------

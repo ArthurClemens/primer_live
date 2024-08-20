@@ -5,7 +5,8 @@
   "license": "MIT",
   "repository": {},
   "scripts": {
-    "build": "tsx scripts/build.ts"
+    "build": "tsx scripts/build.ts",
+    "build:types": "./node_modules/typescript/bin/tsc --p tsconfig.gen.json"
   },
   "dependencies": {
     "@primer/css": "21.0.7"

@@ -1040,7 +1040,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         [
           class: classnames([menu_class, assigns[:is_show_on_mount] && "is-open is-showing"]),
           "data-prompt": "",
-          id: menu_id
+          id: menu_id,
+          "phx-hook": "Prompt"
         ],
         assigns[:is_fast] && ["data-isfast": ""],
         assigns[:is_escapable] != false && ["data-isescapable": ""]

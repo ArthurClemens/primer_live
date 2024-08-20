@@ -1,60 +1,38 @@
-/**
-Prompt Hook handles status callbacks.
-*/
-export type TPrompt = {
-  el?: HTMLElement;
-  mounted: () => void;
-  destroyed: () => void;
-  pushEventTo?: (
-    selector: string,
-    eventName: string,
-    payload?: Object,
-    onReply?: () => void,
-  ) => void;
-  handlePromptOpen?: (evt: CustomEvent) => void;
-  handlePromptClose?: (evt: CustomEvent) => void;
-};
-
-export const Prompt: TPrompt = {
+// javascript/prompt.ts
+var Prompt = {
   mounted() {
-    const el = this.el as HTMLElement;
+    const el = this.el;
     const contentEl = el.querySelector("[data-content]");
-
     if (!(contentEl instanceof HTMLElement)) {
       console.error("Missing element with attribute [data-content]");
       return;
     }
-
-    const pushEvent = (selector: string, status: string) => {
-      this.pushEventTo?.(selector, "primer_live:prompt", {
+    const pushEvent = (selector, status) => {
+      var _a;
+      (_a = this.pushEventTo) == null ? void 0 : _a.call(this, selector, "primer_live:prompt", {
         elementId: el.id,
-        status: status,
+        status
       });
     };
-
-    const createStatusHandler = (startStatus: string, endStatus: string) => {
-      return (evt: CustomEvent) => {
+    const createStatusHandler = (startStatus, endStatus) => {
+      return (evt) => {
         const selector = evt.detail.selector;
         if (!selector) {
           console.error("Missing status_callback_selector");
           return;
         }
-
         pushEvent(selector, startStatus);
-
         contentEl.addEventListener(
           "transitionend",
-          function (_evt) {
+          function(_evt) {
             pushEvent(selector, endStatus);
           },
-          { once: true },
+          { once: true }
         );
       };
     };
-
     this.handlePromptOpen = createStatusHandler("opening", "open");
     el.addEventListener("prompt:open", this.handlePromptOpen);
-
     this.handlePromptClose = createStatusHandler("closing", "closed");
     el.addEventListener("prompt:close", this.handlePromptClose);
   },
@@ -68,38 +46,21 @@ export const Prompt: TPrompt = {
     if (this.handlePromptClose) {
       this.el.removeEventListener("prompt:close", this.handlePromptClose);
     }
-  },
-};
-
-declare global {
-  interface Window {
-    Prompt?: typeof Prompt;
   }
-}
-
+};
 if (typeof window !== "undefined") {
   window.Prompt = Prompt;
 }
-
-/**
-Handle closing prompts using the Escape key. The listener function ensures that only
-the top prompt is closed, so stacked prompts can be closed one by one.
-*/
-
 window.addEventListener("keydown", maybeCloseFromEscapeKey);
-
-function maybeCloseFromEscapeKey(evt: KeyboardEvent) {
+function maybeCloseFromEscapeKey(evt) {
   if (evt.key === "Escape") {
-    // Only close the top element if its root dataset contains "is escapable" data attr
     const openPrompts = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-prompt].is-open"),
-    ).filter((el) => el.dataset.isescapable !== undefined);
-
+      document.querySelectorAll("[data-prompt].is-open")
+    ).filter((el) => el.dataset.isescapable !== void 0);
     let topOpenPrompt = openPrompts.reverse()[0];
     if (!(topOpenPrompt instanceof HTMLElement)) {
       return;
     }
-
     openPrompts.forEach((el) => {
       const focusWrapEl = el.querySelector("[data-focuswrap]");
       if (focusWrapEl instanceof HTMLElement) {
@@ -109,3 +70,7 @@ function maybeCloseFromEscapeKey(evt: KeyboardEvent) {
     });
   }
 }
+export {
+  Prompt
+};
+//# sourceMappingURL=primer-live.esm.js.map

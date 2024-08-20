@@ -47,3 +47,17 @@ Otherwise:
 <link phx-track-static rel="stylesheet" href="/primer_live/primer-live.min.css">
 <script defer phx-track-static type="text/javascript" src={"/primer_live/primer-live.min.js"}></script>
 ```
+
+## 5. Add the Prompt hook
+
+In `assets/js/app.js`, add global `Prompt` to the hooks:
+
+```
+let liveSocket = new LiveSocket("/live", Socket, {
+  params: { _csrf_token: csrfToken },
+  hooks: {
+    Prompt: window.Prompt,
+    // existing hooks ...
+  },
+});
+```

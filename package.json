@@ -21,7 +21,7 @@
       "default": "./priv/static/primer-live.min.css"
     }
   },
-  "types": "./priv/static",
+  "types": "./priv/static/index.d.ts",
   "dependencies": {
     "dialogic-js": "0.5.4"
   },
