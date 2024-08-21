@@ -2026,7 +2026,7 @@ defmodule PrimerLive.Component do
       """
     end
 
-    menu_attrs =
+    prompt_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.menu],
         ["aria-label": assigns.aria_label],
@@ -2038,10 +2038,10 @@ defmodule PrimerLive.Component do
       |> assign(:classes, classes)
       |> assign(:render_item, render_item)
       |> assign(:render_heading, render_heading)
-      |> assign(:menu_attrs, menu_attrs)
+      |> assign(:prompt_attrs, prompt_attrs)
 
     ~H"""
-    <nav {@menu_attrs}>
+    <nav {@prompt_attrs}>
       <%= if @heading && @heading !== [] do %>
         <%= for slot <- @heading do %>
           <%= @render_heading.(slot) %>
@@ -6903,7 +6903,7 @@ defmodule PrimerLive.Component do
     %{
       toggle_attrs: toggle_attrs,
       checkbox_attrs: checkbox_attrs,
-      menu_attrs: dropdown_menu_attrs,
+      prompt_attrs: dropdown_menu_attrs,
       backdrop_attrs: backdrop_attrs,
       touch_layer_attrs: touch_layer_attrs
     } =
@@ -6983,13 +6983,13 @@ defmodule PrimerLive.Component do
       assigns
       |> assign(:render_item, render_item)
 
-    render_menu = fn menu_attrs ->
+    render_menu = fn prompt_attrs ->
       assigns =
         assigns
-        |> assign(:menu_attrs, menu_attrs)
+        |> assign(:prompt_attrs, prompt_attrs)
 
       ~H"""
-      <ul {@menu_attrs}>
+      <ul {@prompt_attrs}>
         <%= for item <- @item do %>
           <%= @render_item.(item) %>
         <% end %>
@@ -7519,7 +7519,7 @@ defmodule PrimerLive.Component do
     %{
       toggle_attrs: toggle_attrs,
       checkbox_attrs: checkbox_attrs,
-      menu_attrs: select_menu_attrs,
+      prompt_attrs: select_menu_attrs,
       backdrop_attrs: backdrop_attrs,
       touch_layer_attrs: touch_layer_attrs
     } =
@@ -7950,7 +7950,7 @@ defmodule PrimerLive.Component do
     %{
       toggle_attrs: toggle_attrs,
       checkbox_attrs: checkbox_attrs,
-      menu_attrs: action_menu_attrs,
+      prompt_attrs: action_menu_attrs,
       backdrop_attrs: backdrop_attrs,
       touch_layer_attrs: touch_layer_attrs
     } =
@@ -11454,7 +11454,7 @@ defmodule PrimerLive.Component do
     }
 
     %{
-      menu_attrs: wrapper_attrs,
+      prompt_attrs: wrapper_attrs,
       backdrop_attrs: backdrop_attrs,
       touch_layer_attrs: touch_layer_attrs,
       focus_wrap_id: focus_wrap_id
@@ -11917,7 +11917,7 @@ defmodule PrimerLive.Component do
 
     %{
       checkbox_attrs: checkbox_attrs,
-      menu_attrs: wrapper_attrs,
+      prompt_attrs: wrapper_attrs,
       backdrop_attrs: backdrop_attrs,
       touch_layer_attrs: touch_layer_attrs,
       focus_wrap_id: focus_wrap_id

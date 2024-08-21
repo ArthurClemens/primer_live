@@ -813,7 +813,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         backdrop_attrs: [],
         checkbox_attrs: [{:"aria-hidden", "true"}, {:hidden_input, false}, {:id, "some-id-toggle"}, {:onchange, "window.Prompt && Prompt.change(this)"}],
         focus_wrap_id: "focus-wrap-some-id",
-        menu_attrs: [class: "", "data-prompt": "", id: "some-id", "phx-hook": "Prompt"],
+        prompt_attrs: [class: "", "data-prompt": "", id: "some-id", "phx-hook": "Prompt"],
         toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}],
         touch_layer_attrs: ["data-touch": ""]
       }
@@ -843,7 +843,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         backdrop_attrs: [],
         checkbox_attrs: [{:"aria-hidden", "true"},  {:checked, true}, {:hidden_input, false}, {:id, "some-id-toggle"}, {:onchange, "window.Prompt && Prompt.change(this)"}],
         focus_wrap_id: "focus-wrap-some-id",
-        menu_attrs: [class: "", "data-prompt": "", id: "some-id", "phx-hook": "Prompt"],
+        prompt_attrs: [class: "", "data-prompt": "", id: "some-id", "phx-hook": "Prompt"],
         toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}],
         touch_layer_attrs: ["data-touch": ""]
       }
@@ -873,7 +873,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         backdrop_attrs: ["data-backdrop": "", "data-ismedium": ""],
         checkbox_attrs: [{:"aria-hidden", "true"}, {:hidden_input, false}, {:id, "some-id-toggle"}, {:onchange, "window.Prompt && Prompt.change(this)"}],
         focus_wrap_id: "focus-wrap-some-id",
-        menu_attrs: [{:class, ""}, {:"data-isfast", ""}, {:"data-prompt", ""}, {:id, "some-id"}, {:"phx-hook", "Prompt"}],
+        prompt_attrs: [{:class, ""}, {:"data-isfast", ""}, {:"data-prompt", ""}, {:id, "some-id"}, {:"phx-hook", "Prompt"}],
         toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}],
         touch_layer_attrs: ["data-touch": ""]
       }
@@ -909,7 +909,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         backdrop_attrs: ["data-backdrop": "", "data-isdark": ""],
         checkbox_attrs: [{:"aria-hidden", "true"}, {:hidden_input, true}, {:id, "job"}, {:onchange, "window.Prompt && Prompt.change(this)"}],
         focus_wrap_id: "focus-wrap-job",
-        menu_attrs: [{:class, "my-menu"}, {:"data-isfast", ""}, {:"data-prompt", ""}, {:id, "menu-job"}, {:"phx-hook", "Prompt"}],
+        prompt_attrs: [{:class, "my-menu"}, {:"data-isfast", ""}, {:"data-prompt", ""}, {:id, "menu-job"}, {:"phx-hook", "Prompt"}],
         toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "job"}],
         touch_layer_attrs: ["data-touch": ""]
       }
@@ -971,7 +971,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     menu_id = id || "menu-" <> toggle_id
 
-    menu_attrs =
+    prompt_attrs =
       append_attributes(assigns.rest |> Map.drop([:id]), [
         [
           class: classnames([menu_class, assigns[:is_show_on_mount] && "is-open is-showing"]),
@@ -1013,7 +1013,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     %{
       toggle_attrs: toggle_attrs,
       checkbox_attrs: checkbox_attrs,
-      menu_attrs: menu_attrs,
+      prompt_attrs: prompt_attrs,
       backdrop_attrs: backdrop_attrs,
       touch_layer_attrs: touch_layer_attrs,
       focus_wrap_id: focus_wrap_id
