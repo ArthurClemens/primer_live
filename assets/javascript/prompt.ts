@@ -21,6 +21,7 @@ export const Prompt: TPrompt = {
     const pushEvent = (selector: string, status: string) => {
       this.pushEventTo?.(selector, "primer_live:prompt", {
         elementId: el.id,
+        selector: selector,
         status: status,
       });
     };
@@ -45,7 +46,7 @@ export const Prompt: TPrompt = {
       };
     };
 
-    this.handlePromptOpen = createStatusHandler("opening", "open");
+    this.handlePromptOpen = createStatusHandler("opening", "opened");
     el.addEventListener("prompt:open", this.handlePromptOpen);
 
     this.handlePromptClose = createStatusHandler("closing", "closed");

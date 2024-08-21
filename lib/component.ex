@@ -6753,7 +6753,6 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the dropdown component")
 
   DeclarationHelpers.class()
@@ -7181,7 +7180,6 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the select menu component")
   DeclarationHelpers.is_aligned_end("the menu")
 
@@ -7812,7 +7810,6 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.toggle_slot("the menu component")
   DeclarationHelpers.is_aligned_end("the menu")
 
@@ -11310,7 +11307,6 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(false)
-  PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.is_modal("the dialog")
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.focus_after_opening("the dialog")
@@ -11545,9 +11541,7 @@ defmodule PrimerLive.Component do
           to: @id_selector
         )
         |> maybe_send_status_event(@status_callback_selector, @id_selector, "prompt:close")
-        |> JS.remove_class("is-showing",
-          to: @id_selector
-        )
+        |> JS.remove_class("is-showing", to: @id_selector)
         |> JS.remove_class("is-open",
           transition: {"duration-#{@transition_duration}", "", ""},
           time: @transition_duration,
@@ -11815,7 +11809,6 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(false)
   PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.phx_click_touch()
   PromptDeclarationHelpers.is_modal("the drawer")
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.focus_after_opening("the drawer")

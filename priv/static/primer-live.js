@@ -13,6 +13,7 @@
         var _a;
         (_a = this.pushEventTo) == null ? void 0 : _a.call(this, selector, "primer_live:prompt", {
           elementId: el.id,
+          selector,
           status
         });
       };
@@ -33,7 +34,7 @@
           );
         };
       };
-      this.handlePromptOpen = createStatusHandler("opening", "open");
+      this.handlePromptOpen = createStatusHandler("opening", "opened");
       el.addEventListener("prompt:open", this.handlePromptOpen);
       this.handlePromptClose = createStatusHandler("closing", "closed");
       el.addEventListener("prompt:close", this.handlePromptClose);

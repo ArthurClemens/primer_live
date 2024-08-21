@@ -126,17 +126,6 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro phx_click_touch do
-    quote do
-      attr :phx_click_touch, :any,
-        required: false,
-        doc: """
-        `phx-click` event binding to assign an event callback on clicking the touch layer.
-        Ignored if `is_modal` is true.
-        """
-    end
-  end
-
   defmacro toggle_slot(the_element) do
     quote do
       slot :toggle,
@@ -274,8 +263,9 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
           The event sends the object named "primer_live:prompt" with payload:
           ```
           %{
-            "elementId" => "",  # {the_element} id
-            "status" => ""      # possible values: "opening", "open", "closing", "closed"
+            "selector" => "",  # callback selector
+            "elementId" => "", # {the_element} id
+            "status" => ""     # possible values: "opening", "opened", "closing", "closed"
           }
           ```
           """

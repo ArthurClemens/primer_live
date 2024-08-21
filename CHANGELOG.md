@@ -4,15 +4,11 @@
 
 Refactoring of dialogs, drawers and menus, using the `Phoenix.LiveView.JS` API - and largely based on `CoreComponent`'s modal component. These changes reduce reliance on additional JavaScript, improve alignment with standard practice, and include accessibility improvements.
 
-### Changes (including breaking changes)
+See `PrimerLive.Component.dialog/1` for details.
 
-See for update instructions: "Updating to 0.8" below.
+### Additions
 
-- Reduced the size of the `Prompt` hook script.
-- Replaced attribute `prompt_options` for status callbacks with `status_callback_selector` that sends status events to the component.
-- Renamed attribute `focus_first` to `focus_after_opening`.
 - Added attribute `focus_after_closing`.
-- Prompt functions `show` and `hide` are replaced with `open_dialog`, `close_dialog` and `cancel_dialog`.
 - Dialog state is now preserved on form updates.
 - Dialogs can now be shown conditionally, for example on a `live_action` route:
 
@@ -28,13 +24,22 @@ See for update instructions: "Updating to 0.8" below.
 ```
 
 - Added `PrimerLive.StatefulConditionComponent`.
-- Additional changes: `on_cancel` attribute, focus trap, new attribute `transition_duration`.
+- Added attribute `on_cancel`
+- Added attribute `transition_duration`
+- Added focus trap
 
-See `PrimerLive.Component.dialog/1` for details.
+### Changes and removals
+
+See for update instructions: "Updating to 0.8" below.
+
+- Prompt functions `show` and `hide` are replaced with `open_dialog`, `close_dialog` and `cancel_dialog`.
+- Replaced attribute `prompt_options` for status callbacks with `status_callback_selector` that sends status events to the component, so that state changes can be used in Elixir code.
+- Removed attribute `phx_click_touch` in favor of using `status_callback_selector`, because closing can be initiated in several ways, not only through backdrop clicks, and we can't assume that the event handler always hosts the dialog/drawer as well.
+- Renamed attribute `focus_first` to `focus_after_opening`.
+- Reduced the size of the `Prompt` hook script.
 
 ### Updating to 0.8
 
-- If in existing code `focus_first` was used with a selector value, rename the attribute to `focus_after_opening`.
 - Replace `Promp.show` and `Prompt.hide`:
 
 For example:
@@ -49,13 +54,25 @@ phx-click={close_dialog("my-dialog")}
 ```
 
 - Form state: the previous method to preserve state, using "a fictitious and unique field name" can be removed.
-- Replacing `prompt_options` can't be done easily, because passing JavaScript functions is no longer supported. This example LiveComponent may give some ideas how to approach the update:
+- Because `focus_first` (without a selector) is now the default, nothing needs to be changed when using this attribute. If in existing code a selector value is used, rename the attribute to `focus_after_opening`.
+- Replace `prompt_options` and `phx_click_touch` with `status_callback_selector`. There's no simple way to replace `prompt_options`, because passing JavaScript functions is no longer supported. A solution coiuld be very similar to the previous `phx_click_touch` method. This example LiveComponent may give some ideas how to approach the update:
 
 ```
+defmodule MyAppWeb.Page do
+  def render(assigns) do
+    ~H"""
+      <.live_component id="status_component" module={MyAppWeb.StatusComponent} />
+
+      <.dialog id="my-dialog" status_callback_selector="#dialog_status">
+        <:body>Body</:body>
+      </.dialog>
+    """
+  end
+end
+
 defmodule MyAppWeb.StatusComponent do
   use MyAppWeb, :live_component
 
-  @impl true
   def render(assigns) do
     ~H"""
     <div id="dialog_status">
@@ -64,7 +81,6 @@ defmodule MyAppWeb.StatusComponent do
     """
   end
 
-  @impl true
   def update(assigns, socket) do
     socket =
       socket
@@ -74,8 +90,11 @@ defmodule MyAppWeb.StatusComponent do
     {:ok, socket}
   end
 
-  @impl true
-  def handle_event("primer_live:prompt", %{"elementId" => _dialog_id, "status" => status}, socket) do
+  def handle_event(
+    "primer_live:prompt",
+    %{"elementId" => _dialog_id, "status" => status},
+    socket
+  ) do
     socket =
       socket
       |> assign(:status, status)

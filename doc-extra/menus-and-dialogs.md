@@ -42,8 +42,6 @@ The following (optional) attributes are common for all menus and dialogs.
 - `is_fast` - Generates fast fade transitions for backdrop and content.
 - `is_light_backdrop` - Generates a light backdrop background color.
 - `is_medium_backdrop` - Generates a medium backdrop background color.
-- `phx_click_touch` - `phx-click` event binding to assign an event callback on clicking the touch layer.
-- `prompt_options` - JavaScript state callback functions.
 
 Dialog and drawer specific:
 
