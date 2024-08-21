@@ -12,8 +12,6 @@ defmodule PrimerLive.Component do
     PromptDeclarationHelpers
   }
 
-  alias Phoenix.LiveView.JS
-
   alias PrimerLive.Helpers.{
     AttributeHelpers,
     ComponentHelpers,
@@ -11583,7 +11581,7 @@ defmodule PrimerLive.Component do
         |> open_dialog("confirmation-dialog")
       }>Open</.button>
   """
-  def open_dialog(js \\ %JS{}, id) when is_binary(id), do: PromptHelpers.open_prompt(js, id)
+  def open_dialog(js, id), do: PromptHelpers.open_prompt(js, id)
 
   @doc section: :dialog_functions
 
@@ -11595,7 +11593,7 @@ defmodule PrimerLive.Component do
 
       <.button phx-click={close_dialog("my-dialog")}>Close</.button>
   """
-  def close_dialog(id) when is_binary(id), do: PromptHelpers.close_prompt(id)
+  def close_dialog(id), do: PromptHelpers.close_prompt(id)
 
   @doc section: :dialog_functions
 
@@ -11609,7 +11607,7 @@ defmodule PrimerLive.Component do
         |> close_dialog("base-dialog")
       }>Open</.button>
   """
-  def close_dialog(js \\ %JS{}, id) when is_binary(id), do: PromptHelpers.close_prompt(js, id)
+  def close_dialog(js, id), do: PromptHelpers.close_prompt(js, id)
 
   @doc section: :dialog_functions
 
@@ -11621,14 +11619,14 @@ defmodule PrimerLive.Component do
       <.button phx-click={cancel_dialog("my-dialog")}>Cancel</.button>
   """
 
-  def cancel_dialog(id) when is_binary(id), do: PromptHelpers.cancel_prompt(id)
+  def cancel_dialog(id), do: PromptHelpers.cancel_prompt(id)
 
   @doc section: :dialog_functions
 
   @doc """
   Cancels a dialog as part of a `Phoenix.LiveView.JS` command chain.
   """
-  def cancel_dialog(js \\ %JS{}, id) when is_binary(id), do: PromptHelpers.cancel_prompt(js, id)
+  def cancel_dialog(js, id), do: PromptHelpers.cancel_prompt(js, id)
 
   # ------------------------------------------------------------------------------------
   # drawer
