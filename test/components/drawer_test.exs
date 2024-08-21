@@ -156,11 +156,11 @@ defmodule PrimerLive.TestComponents.DrawerTest do
              |> format_html()
   end
 
-  test "Attribute: focus_after_opening" do
+  test "Attribute: focus_after_opening_selector" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.drawer id="my-drawer-id" focus_after_opening="[name=first_name]">
+           <.drawer id="my-drawer-id" focus_after_opening_selector="[name=first_name]">
              <:body id="my-drawer-content-id">
                Content
              </:body>

@@ -81,17 +81,32 @@ defmodule PrimerLive.TestComponents.DialogTest do
              |> format_html()
   end
 
-  test "Attribute: focus_after_opening" do
+  test "Attribute: focus_after_opening_selector" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.dialog id="my-dialog-id" focus_after_opening="[name=first_name]">
+           <.dialog id="my-dialog-id" focus_after_opening_selector="[name=first_name]">
              Message
            </.dialog>
            """)
            |> format_html() ==
              """
              <div data-isescapable="" data-prompt="" id="my-dialog-id" phx-hook="Prompt" phx-remove="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-dialog-id&quot;,&quot;attr&quot;:&quot;data-close&quot;}]]" data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;phx-remove&quot;}]]" data-open="[[&quot;set_attr&quot;,{&quot;to&quot;:&quot;#my-dialog-id&quot;,&quot;attr&quot;:[&quot;style&quot;,&quot;--prompt-transition-duration: 180ms; --prompt-fast-transition-duration: 180ms;&quot;]}],[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-dialog-id&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#my-dialog-id [data-content]&quot;}],[&quot;focus&quot;,{&quot;to&quot;:&quot;[name=first_name]&quot;}],[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-dialog-id&quot;}]]" data-close="[[&quot;set_attr&quot;,{&quot;to&quot;:&quot;#my-dialog-id&quot;,&quot;attr&quot;:[&quot;style&quot;,&quot;--prompt-transition-duration: 180ms; --prompt-fast-transition-duration: 180ms;&quot;]}],[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-dialog-id&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:180,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-dialog-id&quot;,&quot;transition&quot;:[[&quot;duration-180&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]"><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-dialog-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap" data-focuswrap phx-key="Escape" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-dialog-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"><span id="focus-wrap-my-dialog-id-start" tabindex="0" aria-hidden="true"></span><div class="Box d-flex flex-column Box--overlay" data-content=""><div class="overflow-auto">Message</div></div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span></div></div>
+             """
+             |> format_html()
+  end
+
+  test "Attribute: focus_after_closing_selector" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.dialog id="my-dialog-id" focus_after_closing_selector="#button">
+             Message
+           </.dialog>
+           """)
+           |> format_html() ==
+             """
+             <div data-isescapable="" data-prompt="" id="my-dialog-id" phx-hook="Prompt" phx-remove="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-dialog-id&quot;,&quot;attr&quot;:&quot;data-close&quot;}]]" data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;phx-remove&quot;}]]" data-open="[[&quot;push_focus&quot;,{&quot;to&quot;:&quot;#button&quot;}],[&quot;set_attr&quot;,{&quot;to&quot;:&quot;#my-dialog-id&quot;,&quot;attr&quot;:[&quot;style&quot;,&quot;--prompt-transition-duration: 180ms; --prompt-fast-transition-duration: 180ms;&quot;]}],[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-dialog-id&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#my-dialog-id [data-content]&quot;}],[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-dialog-id&quot;}]]" data-close="[[&quot;set_attr&quot;,{&quot;to&quot;:&quot;#my-dialog-id&quot;,&quot;attr&quot;:[&quot;style&quot;,&quot;--prompt-transition-duration: 180ms; --prompt-fast-transition-duration: 180ms;&quot;]}],[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-dialog-id&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:180,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-dialog-id&quot;,&quot;transition&quot;:[[&quot;duration-180&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]"><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-dialog-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div id="focus-wrap-my-dialog-id" phx-hook="Phoenix.FocusWrap" data-focuswrap phx-key="Escape" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-dialog-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"><span id="focus-wrap-my-dialog-id-start" tabindex="0" aria-hidden="true"></span><div class="Box d-flex flex-column Box--overlay" data-content=""><div class="overflow-auto">Message</div></div><span id="focus-wrap-my-dialog-id-end" tabindex="0" aria-hidden="true"></span></div></div>
              """
              |> format_html()
   end

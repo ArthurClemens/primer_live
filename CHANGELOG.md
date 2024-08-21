@@ -8,8 +8,6 @@ See `PrimerLive.Component.dialog/1` for details.
 
 ### Additions
 
-- Added attribute `focus_after_closing`.
-- Dialog state is now preserved on form updates.
 - Dialogs can now be shown conditionally, for example on a `live_action` route:
 
 ```
@@ -24,6 +22,8 @@ See `PrimerLive.Component.dialog/1` for details.
 ```
 
 - Added `PrimerLive.StatefulConditionComponent`.
+- Dialog state is now preserved on form updates.
+- Added attribute `focus_after_closing_selector`, mirroring the (renamed) `focus_after_opening_selector`.
 - Added attribute `on_cancel`
 - Added attribute `transition_duration`
 - Added focus trap
@@ -35,7 +35,7 @@ See for update instructions: "Updating to 0.8" below.
 - Prompt functions `show` and `hide` are replaced with `open_dialog`, `close_dialog` and `cancel_dialog`.
 - Replaced attribute `prompt_options` for status callbacks with `status_callback_selector` that sends status events to the component, so that state changes can be used in Elixir code.
 - Removed attribute `phx_click_touch` in favor of using `status_callback_selector`, because closing can be initiated in several ways, not only through backdrop clicks, and we can't assume that the event handler always hosts the dialog/drawer as well.
-- Renamed attribute `focus_first` to `focus_after_opening`.
+- Renamed attribute `focus_first` to `focus_after_opening_selector`. Focus on the first interactive element is now default; with `focus_after_opening_selector` a specific element can be appointed.
 - Reduced the size of the `Prompt` hook script.
 
 ### Updating to 0.8
@@ -54,7 +54,7 @@ phx-click={close_dialog("my-dialog")}
 ```
 
 - Form state: the previous method to preserve state, using "a fictitious and unique field name" can be removed.
-- Because `focus_first` (without a selector) is now the default, nothing needs to be changed when using this attribute. If in existing code a selector value is used, rename the attribute to `focus_after_opening`.
+- Because `focus_first` (without a selector) is now the default, nothing needs to be changed when using this attribute. If in existing code a selector value is used, rename the attribute to `focus_after_opening_selector`.
 - Replace `prompt_options` and `phx_click_touch` with `status_callback_selector`. There's no simple way to replace `prompt_options`, because passing JavaScript functions is no longer supported. A solution coiuld be very similar to the previous `phx_click_touch` method. This example LiveComponent may give some ideas how to approach the update:
 
 ```

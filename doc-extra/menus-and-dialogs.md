@@ -47,7 +47,7 @@ Dialog and drawer specific:
 
 - `is_modal` - Generates a modal dialog/drawer; clicking the backdrop (if used) or outside of the dialog/drawer will not close it.
 - `is_escapable` - Closes the content when pressing the Escape key.
-- `focus_after_opening` - Focus the first element after opening dialog/drawer. Pass a selector to match the element.
+- `focus_after_opening_selector` - Focus the first element after opening dialog/drawer. Pass a selector to match the element.
 
 ### Slots
 

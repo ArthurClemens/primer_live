@@ -226,9 +226,9 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro focus_after_opening(the_element) do
+  defmacro focus_after_opening_selector(the_element) do
     quote do
-      attr :focus_after_opening, :string,
+      attr :focus_after_opening_selector, :string,
         default: nil,
         doc:
           """
@@ -238,9 +238,9 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro focus_after_closing(the_element) do
+  defmacro focus_after_closing_selector(the_element) do
     quote do
-      attr :focus_after_closing, :string,
+      attr :focus_after_closing_selector, :string,
         default: nil,
         doc:
           """

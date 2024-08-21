@@ -11223,10 +11223,10 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  The dialog will focus the first element after opening the dialog. Pass `focus_after_opening` with a selector to give focus to a different element.
+  The dialog will focus the first element after opening the dialog. Pass `focus_after_opening_selector` with a selector to give focus to a different element.
 
   ```
-  <.dialog focus_after_opening="#login_first_name">
+  <.dialog focus_after_opening_selector="#login_first_name">
     ...
   </.dialog>
   ```
@@ -11236,7 +11236,7 @@ defmodule PrimerLive.Component do
   ```
   <.button id="opens-dialog" phx-click={open_dialog("my-dialog")}>Open</.button>
 
-  <.dialog id="my-dialog" focus_after_closing="#opens-dialog">
+  <.dialog id="my-dialog" focus_after_closing_selector="#opens-dialog">
     ...
   </.dialog>
   ```
@@ -11309,8 +11309,8 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_fast(false)
   PromptDeclarationHelpers.is_modal("the dialog")
   PromptDeclarationHelpers.is_escapable()
-  PromptDeclarationHelpers.focus_after_opening("the dialog")
-  PromptDeclarationHelpers.focus_after_closing("the dialog")
+  PromptDeclarationHelpers.focus_after_opening_selector("the dialog")
+  PromptDeclarationHelpers.focus_after_closing_selector("the dialog")
   PromptDeclarationHelpers.is_show("the dialog")
   PromptDeclarationHelpers.on_cancel("the dialog")
   PromptDeclarationHelpers.transition_duration("the dialog", @default_dialog_transition_duration)
@@ -11522,7 +11522,7 @@ defmodule PrimerLive.Component do
       phx-remove={JS.exec("data-close", to: @id_selector)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
       data-open={
-        maybe_focus_after_closing(%JS{}, @focus_after_closing)
+        maybe_focus_after_closing_selector(%JS{}, @focus_after_closing_selector)
         |> JS.set_attribute(
           {"style",
            "--prompt-transition-duration: #{@transition_duration}ms; --prompt-fast-transition-duration: #{@transition_duration}ms;"},
@@ -11531,7 +11531,7 @@ defmodule PrimerLive.Component do
         |> maybe_send_status_event(@status_callback_selector, @id_selector, "prompt:open")
         |> JS.add_class("is-open", to: @id_selector)
         |> JS.focus_first(to: "#{@id_selector} [data-content]")
-        |> maybe_focus_after_opening(@focus_after_opening)
+        |> maybe_focus_after_opening_selector(@focus_after_opening_selector)
         |> JS.add_class("is-showing", to: @id_selector)
       }
       data-close={
@@ -11652,15 +11652,15 @@ defmodule PrimerLive.Component do
     JS.exec(js, "data-cancel", to: "##{id}")
   end
 
-  defp maybe_focus_after_opening(js, selector) when is_nil(selector), do: js
+  defp maybe_focus_after_opening_selector(js, selector) when is_nil(selector), do: js
 
-  defp maybe_focus_after_opening(js, selector) do
+  defp maybe_focus_after_opening_selector(js, selector) do
     JS.focus(js, to: selector)
   end
 
-  defp maybe_focus_after_closing(js, selector) when is_nil(selector), do: js
+  defp maybe_focus_after_closing_selector(js, selector) when is_nil(selector), do: js
 
-  defp maybe_focus_after_closing(js, selector) do
+  defp maybe_focus_after_closing_selector(js, selector) do
     JS.push_focus(js, to: selector)
   end
 
@@ -11753,7 +11753,7 @@ defmodule PrimerLive.Component do
   Focus the first element after opening the drawer. Pass a selector to match the element.
 
   ```
-  <.drawer focus_after_opening="#login_first_name">
+  <.drawer focus_after_opening_selector="#login_first_name">
     ...
   </.drawer>
   ```
@@ -11761,7 +11761,7 @@ defmodule PrimerLive.Component do
   or
 
   ```
-  <.drawer focus_after_opening="[name=login\[first_name\]]">
+  <.drawer focus_after_opening_selector="[name=login\[first_name\]]">
     ...
   </.drawer>
   ```
@@ -11811,7 +11811,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.is_modal("the drawer")
   PromptDeclarationHelpers.is_escapable()
-  PromptDeclarationHelpers.focus_after_opening("the drawer")
+  PromptDeclarationHelpers.focus_after_opening_selector("the drawer")
 
   DeclarationHelpers.class()
 
