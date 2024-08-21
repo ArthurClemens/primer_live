@@ -1006,6 +1006,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       }) do
     id = assigns[:id] || assigns.rest[:id]
 
+    if is_nil(id), do: ComponentHelpers.missing_attribute("id")
+
     prompt_options = assigns[:prompt_options] || toggle_slot[:options]
 
     ComponentHelpers.deprecated_message(
