@@ -172,9 +172,22 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
         default: false,
         doc:
           """
-          Sets the display state of {the_element}. Control conditional display by using the regular `:if={}` attribute.
+          Sets the display state of {the_element}. Control conditional display by using Phoenix's `:if` attribute.
           """
           |> String.replace("{the_element}", unquote(the_element))
+    end
+  end
+
+  defmacro is_show_on_mount(the_element) do
+    quote do
+      attr(:is_show_on_mount, :boolean,
+        default: false,
+        doc:
+          """
+          Displays {the_element} on mount. Control conditional display by using Phoenix's `:if` attribute.
+          """
+          |> String.replace("{the_element}", unquote(the_element))
+      )
     end
   end
 

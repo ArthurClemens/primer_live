@@ -2,7 +2,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   @moduledoc false
 
   use Phoenix.Component
-  alias PrimerLive.Helpers.{ComponentHelpers, FormHelpers}
+  alias Phoenix.LiveView.JS
+  alias PrimerLive.Helpers.{ComponentHelpers, FormHelpers, PromptHelpers}
 
   @doc ~S"""
   Concatenates a list of classnames to a single string.
@@ -971,16 +972,70 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     menu_id = id || "menu-" <> toggle_id
 
+    id_selector = "##{id}"
+    is_show = assigns.is_show || assigns.is_show_on_mount
+
     prompt_attrs =
       append_attributes(assigns.rest |> Map.drop([:id]), [
+        [class: classnames([menu_class, assigns[:is_show_on_mount] && "is-open is-showing"])],
+        ["data-prompt": ""],
+        [id: menu_id],
+        ["phx-hook": "Prompt"],
+        ["phx-mounted": is_show && JS.exec("data-open", to: id_selector)],
+        ["phx-remove": JS.exec("data-close", to: id_selector)],
+        ["data-cancel": JS.exec(assigns.on_cancel || %JS{}, "phx-remove")],
         [
-          class: classnames([menu_class, assigns[:is_show_on_mount] && "is-open is-showing"]),
-          "data-prompt": "",
-          id: menu_id,
-          "phx-hook": "Prompt"
+          "data-open":
+            maybe_focus_after_closing_selector(%JS{}, assigns.focus_after_closing_selector)
+            |> JS.set_attribute(
+              {"style",
+               "--prompt-transition-duration: #{assigns.transition_duration}ms; --prompt-fast-transition-duration: #{assigns.transition_duration}ms;"},
+              to: id_selector
+            )
+            |> maybe_send_status_event(
+              assigns.status_callback_selector,
+              id_selector,
+              "prompt:open"
+            )
+            |> JS.add_class("is-open", to: id_selector)
+            |> JS.focus_first(to: "#{id_selector} [data-content]")
+            |> maybe_focus_after_opening_selector(assigns.focus_after_opening_selector)
+            |> JS.add_class("is-showing", to: id_selector)
+        ],
+        [
+          "data-close":
+            JS.set_attribute(
+              {"style",
+               "--prompt-transition-duration: #{assigns.transition_duration}ms; --prompt-fast-transition-duration: #{assigns.transition_duration}ms;"},
+              to: id_selector
+            )
+            |> maybe_send_status_event(
+              assigns.status_callback_selector,
+              id_selector,
+              "prompt:close"
+            )
+            |> JS.remove_class("is-showing", to: id_selector)
+            |> JS.remove_class("is-open",
+              transition: {"duration-#{assigns.transition_duration}", "", ""},
+              time: assigns.transition_duration,
+              to: id_selector
+            )
+            |> JS.pop_focus()
         ],
         assigns[:is_fast] && ["data-isfast": ""],
-        assigns[:is_escapable] != false && ["data-isescapable": ""]
+        assigns.is_escapable != false && ["data-isescapable": ""]
+      ])
+
+    focus_wrap_id = "focus-wrap-#{id || generated_id}"
+
+    focus_wrap_attrs =
+      append_attributes([
+        [
+          id: focus_wrap_id,
+          "data-focuswrap": "",
+          "phx-window-keydown": assigns.is_escapable && PromptHelpers.cancel_prompt(id),
+          "phx-key": "Escape"
+        ]
       ])
 
     backdrop_attrs =
@@ -1003,12 +1058,15 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         end
       ])
 
+    is_modal = assigns[:is_modal] || false
+
     touch_layer_attrs =
       append_attributes([
-        ["data-touch": ""]
+        [
+          "data-touch": "",
+          "phx-click": not is_modal && PromptHelpers.cancel_prompt(id)
+        ]
       ])
-
-    focus_wrap_id = "focus-wrap-#{id || generated_id}"
 
     %{
       toggle_attrs: toggle_attrs,
@@ -1016,7 +1074,31 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       prompt_attrs: prompt_attrs,
       backdrop_attrs: backdrop_attrs,
       touch_layer_attrs: touch_layer_attrs,
-      focus_wrap_id: focus_wrap_id
+      focus_wrap_id: focus_wrap_id,
+      focus_wrap_attrs: focus_wrap_attrs
     }
+  end
+
+  defp maybe_focus_after_opening_selector(js, selector) when is_nil(selector), do: js
+
+  defp maybe_focus_after_opening_selector(js, selector) do
+    JS.focus(js, to: selector)
+  end
+
+  defp maybe_focus_after_closing_selector(js, selector) when is_nil(selector), do: js
+
+  defp maybe_focus_after_closing_selector(js, selector) do
+    JS.push_focus(js, to: selector)
+  end
+
+  defp maybe_send_status_event(js, status_callback_selector, _id_selector, _event_name)
+       when is_nil(status_callback_selector),
+       do: js
+
+  defp maybe_send_status_event(js, status_callback_selector, id_selector, event_name) do
+    JS.dispatch(js, event_name,
+      to: id_selector,
+      detail: %{selector: status_callback_selector}
+    )
   end
 end

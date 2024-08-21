@@ -16,14 +16,18 @@ defmodule PrimerLive.Component do
 
   alias PrimerLive.Helpers.{
     AttributeHelpers,
-    FormHelpers,
-    SchemaHelpers,
     ComponentHelpers,
+    DeclarationHelpers,
+    FormHelpers,
     PromptDeclarationHelpers,
-    DeclarationHelpers
+    PromptHelpers,
+    SchemaHelpers
   }
 
   alias PrimerLive.Theme
+
+  @default_dialog_transition_duration 180
+  @default_menu_transition_duration 140
 
   # ------------------------------------------------------------------------------------
   # action_list
@@ -6743,17 +6747,25 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.id("Dropdown element id", false)
-  PromptDeclarationHelpers.form("the dropdown element")
   PromptDeclarationHelpers.field("the dropdown")
-  PromptDeclarationHelpers.is_dropdown_caret(true)
+  PromptDeclarationHelpers.focus_after_closing_selector("the dropdown")
+  PromptDeclarationHelpers.focus_after_opening_selector("the dropdown")
+  PromptDeclarationHelpers.form("the dropdown element")
+  PromptDeclarationHelpers.id("Dropdown element id", false)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_dropdown_caret(true)
+  PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.is_fast(true)
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_show("the dropdown")
+  PromptDeclarationHelpers.is_show_on_mount("the dropdown")
+  PromptDeclarationHelpers.on_cancel("the dropdown")
   PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.status_callback_selector("the dropdown")
   PromptDeclarationHelpers.toggle_slot("the dropdown component")
+  PromptDeclarationHelpers.transition_duration("the dropdown", @default_menu_transition_duration)
 
   DeclarationHelpers.class()
 
@@ -7170,17 +7182,30 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.id("Select menu element id", false)
-  PromptDeclarationHelpers.form("the menu element")
   PromptDeclarationHelpers.field("the menu")
-  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.focus_after_closing_selector("the select menu")
+  PromptDeclarationHelpers.focus_after_opening_selector("the select menu")
+  PromptDeclarationHelpers.form("the menu element")
+  PromptDeclarationHelpers.id("Select menu element id", false)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.is_fast(true)
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_show("the select menu")
+  PromptDeclarationHelpers.is_show_on_mount("the select menu")
+  PromptDeclarationHelpers.on_cancel("the select menu")
   PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.status_callback_selector("the select menu")
   PromptDeclarationHelpers.toggle_slot("the select menu component")
+
+  PromptDeclarationHelpers.transition_duration(
+    "the select menu",
+    @default_menu_transition_duration
+  )
+
   DeclarationHelpers.is_aligned_end("the menu")
 
   attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
@@ -7801,16 +7826,25 @@ defmodule PrimerLive.Component do
   """
 
   PromptDeclarationHelpers.id("Menu element id", false)
+  PromptDeclarationHelpers.focus_after_closing_selector("the menu")
+  PromptDeclarationHelpers.focus_after_opening_selector("the menu")
   PromptDeclarationHelpers.form("the menu element")
   PromptDeclarationHelpers.field("the menu")
   PromptDeclarationHelpers.is_dropdown_caret(false)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(true)
+  PromptDeclarationHelpers.is_show("the menu")
+  PromptDeclarationHelpers.is_show_on_mount("the menu")
+  PromptDeclarationHelpers.on_cancel("the menu")
   PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.status_callback_selector("the menu")
   PromptDeclarationHelpers.toggle_slot("the menu component")
+  PromptDeclarationHelpers.transition_duration("the menu", @default_menu_transition_duration)
+
   DeclarationHelpers.is_aligned_end("the menu")
 
   attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
@@ -11296,31 +11330,25 @@ defmodule PrimerLive.Component do
 
   @default_dialog_max_height_css "80vh"
   @default_dialog_max_width_css "90vw"
-  @default_dialog_transition_duration 180
 
-  PromptDeclarationHelpers.id("Dialog element id", true)
-  PromptDeclarationHelpers.form("the dialog element")
   PromptDeclarationHelpers.field("the dialog")
-  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.focus_after_closing_selector("the dialog")
+  PromptDeclarationHelpers.focus_after_opening_selector("the dialog")
+  PromptDeclarationHelpers.form("the dialog element")
+  PromptDeclarationHelpers.id("Dialog element id", true)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_light_backdrop()
-  PromptDeclarationHelpers.is_fast(false)
-  PromptDeclarationHelpers.is_modal("the dialog")
+  PromptDeclarationHelpers.is_dropdown_caret(false)
   PromptDeclarationHelpers.is_escapable()
-  PromptDeclarationHelpers.focus_after_opening_selector("the dialog")
-  PromptDeclarationHelpers.focus_after_closing_selector("the dialog")
+  PromptDeclarationHelpers.is_fast(false)
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_modal("the dialog")
   PromptDeclarationHelpers.is_show("the dialog")
+  PromptDeclarationHelpers.is_show_on_mount("the dialog")
   PromptDeclarationHelpers.on_cancel("the dialog")
-  PromptDeclarationHelpers.transition_duration("the dialog", @default_dialog_transition_duration)
   PromptDeclarationHelpers.status_callback_selector("the dialog")
-
-  attr(:is_show_on_mount, :boolean,
-    default: false,
-    doc:
-      "Displays the dialog on mount. Control conditional display by using the regular `:if={}` attribute."
-  )
+  PromptDeclarationHelpers.transition_duration("the dialog", @default_dialog_transition_duration)
 
   DeclarationHelpers.class()
 
@@ -11450,14 +11478,15 @@ defmodule PrimerLive.Component do
           assigns.is_narrow && "Box-overlay--narrow",
           assigns.is_wide && "Box-overlay--wide",
           assigns[:classes][:dialog]
-        ])
+        ]),
+      header: "d-flex flex-justify-between flex-items-start"
     }
 
     %{
-      prompt_attrs: wrapper_attrs,
       backdrop_attrs: backdrop_attrs,
-      touch_layer_attrs: touch_layer_attrs,
-      focus_wrap_id: focus_wrap_id
+      focus_wrap_attrs: focus_wrap_attrs,
+      prompt_attrs: prompt_attrs,
+      touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
         form: form,
@@ -11503,68 +11532,23 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:is_show, assigns.is_show || assigns.is_show_on_mount)
-      |> assign(:form, form)
-      |> assign(:field, field)
-      |> assign(:wrapper_attrs, wrapper_attrs)
-      |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:box_attrs, box_attrs)
+      |> assign(:classes, classes)
       |> assign(:close_button_attrs, close_button_attrs)
-      |> assign(:focus_wrap_id, focus_wrap_id)
-      |> assign(:on_cancel, assigns.on_cancel || %JS{})
-      |> assign(:id_selector, "##{assigns.id}")
+      |> assign(:focus_wrap_attrs, focus_wrap_attrs)
+      |> assign(:prompt_attrs, prompt_attrs)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
 
     ~H"""
-    <div
-      {@wrapper_attrs}
-      phx-mounted={@is_show && JS.exec("data-open", to: @id_selector)}
-      phx-remove={JS.exec("data-close", to: @id_selector)}
-      data-cancel={JS.exec(@on_cancel, "phx-remove")}
-      data-open={
-        maybe_focus_after_closing_selector(%JS{}, @focus_after_closing_selector)
-        |> JS.set_attribute(
-          {"style",
-           "--prompt-transition-duration: #{@transition_duration}ms; --prompt-fast-transition-duration: #{@transition_duration}ms;"},
-          to: @id_selector
-        )
-        |> maybe_send_status_event(@status_callback_selector, @id_selector, "prompt:open")
-        |> JS.add_class("is-open", to: @id_selector)
-        |> JS.focus_first(to: "#{@id_selector} [data-content]")
-        |> maybe_focus_after_opening_selector(@focus_after_opening_selector)
-        |> JS.add_class("is-showing", to: @id_selector)
-      }
-      data-close={
-        JS.set_attribute(
-          {"style",
-           "--prompt-transition-duration: #{@transition_duration}ms; --prompt-fast-transition-duration: #{@transition_duration}ms;"},
-          to: @id_selector
-        )
-        |> maybe_send_status_event(@status_callback_selector, @id_selector, "prompt:close")
-        |> JS.remove_class("is-showing", to: @id_selector)
-        |> JS.remove_class("is-open",
-          transition: {"duration-#{@transition_duration}", "", ""},
-          time: @transition_duration,
-          to: @id_selector
-        )
-        |> JS.pop_focus()
-      }
-    >
+    <div {@prompt_attrs}>
       <%= if @backdrop_attrs !== [] do %>
         <div {@backdrop_attrs} />
       <% end %>
-      <div {@touch_layer_attrs} phx-click={not @is_modal && cancel_dialog(@id)}></div>
-      <.focus_wrap
-        id={@focus_wrap_id}
-        data-focuswrap
-        phx-window-keydown={@is_escapable && cancel_dialog(@id)}
-        phx-key="Escape"
-      >
+      <div {@touch_layer_attrs}></div>
+      <.focus_wrap {@focus_wrap_attrs}>
         <.box {@box_attrs}>
-          <:header
-            :if={@header_title && @header_title !== []}
-            class="d-flex flex-justify-between flex-items-start"
-          >
+          <:header :if={@header_title && @header_title !== []} class={@classes.header}>
             <.button {@close_button_attrs}>
               <.octicon name="x-16" />
             </.button>
@@ -11585,7 +11569,7 @@ defmodule PrimerLive.Component do
 
       <.button phx-click={open_dialog("my-dialog")}>Open</.button>
   """
-  def open_dialog(id) when is_binary(id), do: open_dialog(%JS{}, id)
+  def open_dialog(id) when is_binary(id), do: PromptHelpers.open_prompt(id)
 
   @doc section: :dialog_functions
 
@@ -11599,9 +11583,7 @@ defmodule PrimerLive.Component do
         |> open_dialog("confirmation-dialog")
       }>Open</.button>
   """
-  def open_dialog(js \\ %JS{}, id) when is_binary(id) do
-    JS.exec(js, "data-open", to: "##{id}")
-  end
+  def open_dialog(js \\ %JS{}, id) when is_binary(id), do: PromptHelpers.open_prompt(js, id)
 
   @doc section: :dialog_functions
 
@@ -11613,7 +11595,7 @@ defmodule PrimerLive.Component do
 
       <.button phx-click={close_dialog("my-dialog")}>Close</.button>
   """
-  def close_dialog(id) when is_binary(id), do: close_dialog(%JS{}, id)
+  def close_dialog(id) when is_binary(id), do: PromptHelpers.close_prompt(id)
 
   @doc section: :dialog_functions
 
@@ -11627,9 +11609,7 @@ defmodule PrimerLive.Component do
         |> close_dialog("base-dialog")
       }>Open</.button>
   """
-  def close_dialog(js \\ %JS{}, id) when is_binary(id) do
-    JS.exec(js, "data-close", to: "##{id}")
-  end
+  def close_dialog(js \\ %JS{}, id) when is_binary(id), do: PromptHelpers.close_prompt(js, id)
 
   @doc section: :dialog_functions
 
@@ -11641,39 +11621,14 @@ defmodule PrimerLive.Component do
       <.button phx-click={cancel_dialog("my-dialog")}>Cancel</.button>
   """
 
-  def cancel_dialog(id) when is_binary(id), do: cancel_dialog(%JS{}, id)
+  def cancel_dialog(id) when is_binary(id), do: PromptHelpers.cancel_prompt(id)
 
   @doc section: :dialog_functions
 
   @doc """
   Cancels a dialog as part of a `Phoenix.LiveView.JS` command chain.
   """
-  def cancel_dialog(js \\ %JS{}, id) when is_binary(id) do
-    JS.exec(js, "data-cancel", to: "##{id}")
-  end
-
-  defp maybe_focus_after_opening_selector(js, selector) when is_nil(selector), do: js
-
-  defp maybe_focus_after_opening_selector(js, selector) do
-    JS.focus(js, to: selector)
-  end
-
-  defp maybe_focus_after_closing_selector(js, selector) when is_nil(selector), do: js
-
-  defp maybe_focus_after_closing_selector(js, selector) do
-    JS.push_focus(js, to: selector)
-  end
-
-  defp maybe_send_status_event(js, status_callback_selector, _id_selector, _event_name)
-       when is_nil(status_callback_selector),
-       do: js
-
-  defp maybe_send_status_event(js, status_callback_selector, id_selector, event_name) do
-    JS.dispatch(js, event_name,
-      to: id_selector,
-      detail: %{selector: status_callback_selector}
-    )
-  end
+  def cancel_dialog(js \\ %JS{}, id) when is_binary(id), do: PromptHelpers.cancel_prompt(js, id)
 
   # ------------------------------------------------------------------------------------
   # drawer
@@ -11799,19 +11754,25 @@ defmodule PrimerLive.Component do
   Neither Primer CSS nor Primer React provide a drawer component. However, a drawer is used on their documentation site (mobile view).
   """
 
-  PromptDeclarationHelpers.id("Drawer element id", true)
-  PromptDeclarationHelpers.form("the drawer element")
   PromptDeclarationHelpers.field("the drawer")
-  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.focus_after_closing_selector("the drawer")
+  PromptDeclarationHelpers.focus_after_opening_selector("the drawer")
+  PromptDeclarationHelpers.form("the drawer element")
+  PromptDeclarationHelpers.id("Drawer element id", true)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_light_backdrop()
-  PromptDeclarationHelpers.is_fast(false)
-  PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.is_modal("the drawer")
+  PromptDeclarationHelpers.is_dropdown_caret(false)
   PromptDeclarationHelpers.is_escapable()
-  PromptDeclarationHelpers.focus_after_opening_selector("the drawer")
+  PromptDeclarationHelpers.is_fast(false)
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
+  PromptDeclarationHelpers.is_modal("the drawer")
+  PromptDeclarationHelpers.is_show("the drawer")
+  PromptDeclarationHelpers.is_show_on_mount("the drawer")
+  PromptDeclarationHelpers.on_cancel("the drawer")
+  PromptDeclarationHelpers.status_callback_selector("the drawer")
+  PromptDeclarationHelpers.prompt_options()
+  PromptDeclarationHelpers.transition_duration("the drawer", @default_menu_transition_duration)
 
   DeclarationHelpers.class()
 
