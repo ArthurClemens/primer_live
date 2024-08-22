@@ -62,6 +62,7 @@ defmodule PrimerLive.MixProject do
         Dialog: &(&1[:section] == :dialog),
         "Dialog functions": &(&1[:section] == :dialog_functions),
         Drawer: &(&1[:section] == :drawer),
+        "Drawer functions": &(&1[:section] == :drawer_functions),
         "Styled HTML": &(&1[:section] == :styled_html),
         Forms: &(&1[:section] == :forms),
         Header: &(&1[:section] == :header),

@@ -11515,7 +11515,7 @@ defmodule PrimerLive.Component do
     max_height_css = assigns.max_height || @default_dialog_max_height_css
     max_width_css = assigns.max_width || @default_dialog_max_width_css
 
-    box_attrs =
+    content_attrs =
       AttributeHelpers.append_attributes([
         [class: classes.dialog],
         [classes: assigns.classes |> Map.drop([:dialog_wrapper, :dialog])],
@@ -11540,9 +11540,9 @@ defmodule PrimerLive.Component do
     assigns =
       assigns
       |> assign(:backdrop_attrs, backdrop_attrs)
-      |> assign(:box_attrs, box_attrs)
       |> assign(:classes, classes)
       |> assign(:close_button_attrs, close_button_attrs)
+      |> assign(:content_attrs, content_attrs)
       |> assign(:focus_wrap_attrs, focus_wrap_attrs)
       |> assign(:prompt_attrs, prompt_attrs)
       |> assign(:touch_layer_attrs, touch_layer_attrs)
@@ -11554,7 +11554,7 @@ defmodule PrimerLive.Component do
       <% end %>
       <div {@touch_layer_attrs}></div>
       <.focus_wrap {@focus_wrap_attrs}>
-        <.box {@box_attrs}>
+        <.box {@content_attrs}>
           <:header :if={@header_title && @header_title !== []} class={@classes.header}>
             <.button {@close_button_attrs}>
               <.octicon name="x-16" />
@@ -11636,6 +11636,20 @@ defmodule PrimerLive.Component do
   Cancels a dialog as part of a `Phoenix.LiveView.JS` command chain.
   """
   def cancel_dialog(js, id), do: PromptHelpers.cancel_prompt(js, id)
+
+  @doc section: :dialog_functions
+
+  @doc """
+  Toggles the open state of the dialog.
+  """
+  def toggle_dialog(id), do: PromptHelpers.toggle_prompt(id)
+
+  @doc section: :dialog_functions
+
+  @doc """
+  Toggles a dialog as part of a `Phoenix.LiveView.JS` command chain.
+  """
+  def toggle_dialog(js, id), do: PromptHelpers.toggle_prompt(js, id)
 
   # ------------------------------------------------------------------------------------
   # drawer
@@ -11782,7 +11796,7 @@ defmodule PrimerLive.Component do
 
   PromptDeclarationHelpers.transition_duration(
     "the drawer",
-    PromptHelpers.default_menu_transition_duration()
+    PromptHelpers.default_dialog_transition_duration()
   )
 
   DeclarationHelpers.class()
@@ -11888,11 +11902,10 @@ defmodule PrimerLive.Component do
     }
 
     %{
-      checkbox_attrs: checkbox_attrs,
-      prompt_attrs: wrapper_attrs,
       backdrop_attrs: backdrop_attrs,
-      touch_layer_attrs: touch_layer_attrs,
-      focus_wrap_id: focus_wrap_id
+      focus_wrap_attrs: focus_wrap_attrs,
+      prompt_attrs: prompt_attrs,
+      touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
         form: form,
@@ -11903,8 +11916,8 @@ defmodule PrimerLive.Component do
         is_menu: false
       })
 
-    wrapper_attrs =
-      AttributeHelpers.append_attributes(wrapper_attrs, [
+    prompt_attrs =
+      AttributeHelpers.append_attributes(prompt_attrs, [
         ["data-isdrawer": ""],
         classes.drawer_wrapper && [class: classes.drawer_wrapper],
         if assigns.is_far_side do
@@ -11940,20 +11953,16 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:form, form)
-      |> assign(:field, field)
-      |> assign(:checkbox_attrs, checkbox_attrs)
-      |> assign(:wrapper_attrs, wrapper_attrs)
-      |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
-      |> assign(:content_attrs, content_attrs)
-      |> assign(:body_slot, body_slot)
       |> assign(:body_attrs, body_attrs)
-      |> assign(:focus_wrap_id, focus_wrap_id)
+      |> assign(:body_slot, body_slot)
+      |> assign(:content_attrs, content_attrs)
+      |> assign(:focus_wrap_attrs, focus_wrap_attrs)
+      |> assign(:prompt_attrs, prompt_attrs)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
 
     ~H"""
-    <div {@wrapper_attrs}>
-      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
+    <div {@prompt_attrs}>
       <div data-prompt-content>
         <%= if !@is_push do %>
           <%= if @backdrop_attrs !== [] do %>
@@ -11968,12 +11977,10 @@ defmodule PrimerLive.Component do
             <% end %>
             <div {@touch_layer_attrs}></div>
           <% end %>
-          <% # START DEPRECATED %>
           <%= render_slot(@inner_block) %>
-          <% # END DEPRECATED %>
           <%= if @body && @body !== [] do %>
             <div {@body_attrs}>
-              <.focus_wrap id={@focus_wrap_id}>
+              <.focus_wrap {@focus_wrap_attrs}>
                 <%= render_slot(@body) %>
               </.focus_wrap>
             </div>
@@ -12061,6 +12068,90 @@ defmodule PrimerLive.Component do
     </div>
     """
   end
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Opens a drawer.
+
+  ## Examples
+
+      <.button phx-click={open_drawer("my-drawer")}>Open</.button>
+  """
+  def open_drawer(id) when is_binary(id), do: PromptHelpers.open_prompt(id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Opens a drawer as part of a `Phoenix.LiveView.JS` command chain.
+
+  ## Examples
+
+      <.button phx-click={
+        open_drawer("base-drawer")
+        |> open_drawer("confirmation-drawer")
+      }>Open</.button>
+  """
+  def open_drawer(js, id), do: PromptHelpers.open_prompt(js, id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Closes a drawer.
+  Note that this won't call `on_cancel`. Any time `on_cancel` is provided and you still need a close button, `cancel_drawer/1` will be a better choice.
+
+  ## Examples
+
+      <.button phx-click={close_drawer("my-drawer")}>Close</.button>
+  """
+  def close_drawer(id), do: PromptHelpers.close_prompt(id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Closes a drawer as part of a `Phoenix.LiveView.JS` command chain.
+
+  ## Examples
+
+      <.button phx-click={
+        close_drawer("confirmation-drawer")
+        |> close_drawer("base-drawer")
+      }>Open</.button>
+  """
+  def close_drawer(js, id), do: PromptHelpers.close_prompt(js, id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Cancels a drawer: closes the drawer after executing the `on_cancel` attribute.
+
+  ## Examples
+
+      <.button phx-click={cancel_drawer("my-drawer")}>Cancel</.button>
+  """
+
+  def cancel_drawer(id), do: PromptHelpers.cancel_prompt(id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Cancels a drawer as part of a `Phoenix.LiveView.JS` command chain.
+  """
+  def cancel_drawer(js, id), do: PromptHelpers.cancel_prompt(js, id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Toggles the open state of the drawer.
+  """
+  def toggle_drawer(id), do: PromptHelpers.toggle_prompt(id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Toggles a drawer as part of a `Phoenix.LiveView.JS` command chain.
+  """
+  def toggle_drawer(js, id), do: PromptHelpers.toggle_prompt(js, id)
 
   # ------------------------------------------------------------------------------------
   # branch_name
