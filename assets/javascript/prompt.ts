@@ -52,17 +52,6 @@ export const Prompt: TPrompt = {
     this.handlePromptClose = createStatusHandler("closing", "closed");
     el.addEventListener("prompt:close", this.handlePromptClose);
   },
-  destroyed() {
-    if (!this.el) {
-      return;
-    }
-    if (this.handlePromptOpen) {
-      this.el.removeEventListener("prompt:open", this.handlePromptOpen);
-    }
-    if (this.handlePromptClose) {
-      this.el.removeEventListener("prompt:close", this.handlePromptClose);
-    }
-  },
 };
 
 declare global {
