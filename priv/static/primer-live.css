@@ -26523,22 +26523,24 @@ a.branch-name .octicon {
   --prompt-background-opacity-backdrop-medium: 0.2;
   --prompt-background-opacity-backdrop-light: 0.07;
   --prompt-transition-timing-function: ease-in-out;
-  --prompt-transition-duration: 180ms;
-  --prompt-fast-transition-duration: 140ms;
+  --prompt-transition-duration: 170ms;
+  --prompt-fast-transition-duration: 130ms;
   --drawer-width: 320px;
   --prompt-z-index-backdrop: 98;
   --prompt-z-index-touch: 99;
   --prompt-z-index-content: 100;
 }
+[data-prompt] [data-touch],
+[data-prompt] [data-backdrop],
+[data-prompt] [data-focuswrap],
 [data-prompt] [data-content] {
   display: none;
-  visibility: hidden;
 }
 [data-prompt].is-open [data-touch],
 [data-prompt].is-open [data-backdrop],
+[data-prompt].is-open [data-focuswrap],
 [data-prompt].is-open [data-content] {
   display: block;
-  visibility: visible;
 }
 [data-prompt] [data-content]:not([aria-role=menu]) {
   animation-name: unset;

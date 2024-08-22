@@ -24,9 +24,6 @@ defmodule PrimerLive.Component do
 
   alias PrimerLive.Theme
 
-  @default_dialog_transition_duration 180
-  @default_menu_transition_duration 140
-
   # ------------------------------------------------------------------------------------
   # action_list
   # ------------------------------------------------------------------------------------
@@ -6763,7 +6760,11 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.status_callback_selector("the dropdown")
   PromptDeclarationHelpers.toggle_slot("the dropdown component")
-  PromptDeclarationHelpers.transition_duration("the dropdown", @default_menu_transition_duration)
+
+  PromptDeclarationHelpers.transition_duration(
+    "the dropdown",
+    PromptHelpers.default_menu_transition_duration()
+  )
 
   DeclarationHelpers.class()
 
@@ -7201,7 +7202,7 @@ defmodule PrimerLive.Component do
 
   PromptDeclarationHelpers.transition_duration(
     "the select menu",
-    @default_menu_transition_duration
+    PromptHelpers.default_menu_transition_duration()
   )
 
   DeclarationHelpers.is_aligned_end("the menu")
@@ -7841,7 +7842,11 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.status_callback_selector("the menu")
   PromptDeclarationHelpers.toggle_slot("the menu component")
-  PromptDeclarationHelpers.transition_duration("the menu", @default_menu_transition_duration)
+
+  PromptDeclarationHelpers.transition_duration(
+    "the menu",
+    PromptHelpers.default_menu_transition_duration()
+  )
 
   DeclarationHelpers.is_aligned_end("the menu")
 
@@ -11346,7 +11351,11 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_show_on_mount("the dialog")
   PromptDeclarationHelpers.on_cancel("the dialog")
   PromptDeclarationHelpers.status_callback_selector("the dialog")
-  PromptDeclarationHelpers.transition_duration("the dialog", @default_dialog_transition_duration)
+
+  PromptDeclarationHelpers.transition_duration(
+    "the dialog",
+    PromptHelpers.default_dialog_transition_duration()
+  )
 
   DeclarationHelpers.class()
 
@@ -11770,7 +11779,11 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.on_cancel("the drawer")
   PromptDeclarationHelpers.status_callback_selector("the drawer")
   PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.transition_duration("the drawer", @default_menu_transition_duration)
+
+  PromptDeclarationHelpers.transition_duration(
+    "the drawer",
+    PromptHelpers.default_menu_transition_duration()
+  )
 
   DeclarationHelpers.class()
 

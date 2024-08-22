@@ -7,8 +7,8 @@
     --prompt-background-opacity-backdrop-light: 0.07;
     /* transitions */
     --prompt-transition-timing-function: ease-in-out;
-    --prompt-transition-duration: 180ms;
-    --prompt-fast-transition-duration: 140ms;
+    --prompt-transition-duration: 170ms;
+    --prompt-fast-transition-duration: 130ms;
     /* drawer */
     --drawer-width: 320px;
     /* z-index */
@@ -23,16 +23,18 @@ GENERAL
 
 /* Hide inner elements as long as prompt is not open */
 
+[data-prompt] [data-touch],
+[data-prompt] [data-backdrop],
+[data-prompt] [data-focuswrap],
 [data-prompt] [data-content] {
     display: none;
-    visibility: hidden;
 }
 
 [data-prompt].is-open [data-touch],
 [data-prompt].is-open [data-backdrop],
+[data-prompt].is-open [data-focuswrap],
 [data-prompt].is-open [data-content] {
     display: block;
-    visibility: visible;
 }
 
 /* Reset any conflicting animation styles set on dialogs */

@@ -3,6 +3,9 @@ defmodule PrimerLive.Helpers.PromptHelpers do
 
   alias Phoenix.LiveView.JS
 
+  def default_menu_transition_duration, do: 130
+  def default_dialog_transition_duration, do: 170
+
   def open_prompt(id) when is_binary(id), do: open_prompt(%JS{}, id)
   def open_prompt(_), do: %JS{}
   def open_prompt(%JS{} = js, id) when is_binary(id), do: JS.exec(js, "data-open", to: "##{id}")
