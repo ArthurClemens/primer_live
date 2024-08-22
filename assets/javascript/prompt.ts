@@ -1,4 +1,4 @@
-import { ViewHook } from "phoenix_live_view";
+import { ViewHook, LiveSocket } from "phoenix_live_view";
 
 /**
 Prompt Hook handles status callbacks.
@@ -6,6 +6,8 @@ Prompt Hook handles status callbacks.
 export type TPrompt = Partial<ViewHook> & {
   handlePromptOpen?: (evt: CustomEvent) => void;
   handlePromptClose?: (evt: CustomEvent) => void;
+  handlePromptToggle?: (evt: CustomEvent) => void;
+  liveSocket?: LiveSocket;
 };
 
 export const Prompt: TPrompt = {
@@ -34,7 +36,13 @@ export const Prompt: TPrompt = {
           return;
         }
 
-        pushEvent(selector, startStatus);
+        contentEl.addEventListener(
+          "transitionstart",
+          function (_evt) {
+            pushEvent(selector, startStatus);
+          },
+          { once: true },
+        );
 
         contentEl.addEventListener(
           "transitionend",
@@ -46,11 +54,38 @@ export const Prompt: TPrompt = {
       };
     };
 
+    this.handlePromptToggle = (evt: CustomEvent) => {
+      const cmd = el.classList.contains("is-open")
+        ? el.dataset.close
+        : el.dataset.open;
+      if (cmd) {
+        this.liveSocket?.execJS(el, cmd as string);
+      } else {
+        console.error("No command found in element dataset");
+      }
+    };
+
     this.handlePromptOpen = createStatusHandler("opening", "opened");
     el.addEventListener("prompt:open", this.handlePromptOpen);
 
     this.handlePromptClose = createStatusHandler("closing", "closed");
     el.addEventListener("prompt:close", this.handlePromptClose);
+
+    el.addEventListener("prompt:toggle", this.handlePromptToggle);
+  },
+  destroyed() {
+    if (!this.el) {
+      return;
+    }
+    if (this.handlePromptOpen) {
+      this.el.removeEventListener("prompt:open", this.handlePromptOpen);
+    }
+    if (this.handlePromptClose) {
+      this.el.removeEventListener("prompt:close", this.handlePromptClose);
+    }
+    if (this.handlePromptToggle) {
+      this.el.removeEventListener("prompt:toggle", this.handlePromptToggle);
+    }
   },
 };
 

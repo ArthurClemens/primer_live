@@ -14,7 +14,11 @@
     /* z-index */
     --prompt-z-index-backdrop: 98;
     --prompt-z-index-touch: 99;
-    --prompt-z-index-content: 100;
+    --prompt-z-index-menu-content: 100;
+    --prompt-z-index-drawer-content: 200;
+    --prompt-z-index-dialog-content: 300;
+    /* content */
+    --prompt-max-height-content: 80vh;
 }
 
 /* -----------------------------------------------------
@@ -30,11 +34,23 @@ GENERAL
     display: none;
 }
 
+/* -- Push drawers should be visible, because the pushed content should be visible at all times. */
+[data-prompt] [data-prompt-content] {
+    visibility: visible;
+}
+[data-prompt]:not([data-ispush]) [data-prompt-content] {
+    visibility: hidden;
+}
+
 [data-prompt].is-open [data-touch],
 [data-prompt].is-open [data-backdrop],
 [data-prompt].is-open [data-focuswrap],
 [data-prompt].is-open [data-content] {
     display: block;
+}
+
+[data-prompt]:not([data-ispush]).is-open [data-prompt-content] {
+    visibility: visible;
 }
 
 /* Reset any conflicting animation styles set on dialogs */
@@ -46,7 +62,6 @@ GENERAL
 
 /* Set content size and set up fade */
 [data-prompt]:not([data-isdrawer]) [data-content] {
-    z-index: var(--prompt-z-index-content);
     transition-property: opacity;
     transition-timing-function: inherit;
     opacity: 0;
@@ -64,9 +79,22 @@ GENERAL
 }
 [data-prompt] [data-backdrop],
 [data-prompt] [data-focuswrap],
-[data-prompt] [data-content] {
+[data-prompt] [data-content],
+[data-prompt] [data-prompt-content] {
     transition-duration: inherit;
     transition-timing-function: inherit;
+}
+
+[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
+    z-index: var(--prompt-z-index-dialog-content);
+}
+
+[data-prompt][data-isdrawer] [data-content]:not([aria-role="menu"]) {
+    z-index: var(--prompt-z-index-drawer-content);
+}
+
+[data-prompt] [data-content][aria-role="menu"] {
+    z-index: var(--prompt-z-index-menu-content);
 }
 
 /* -----------------------------------------------------
@@ -342,4 +370,37 @@ DRAWER
     [data-prompt][data-isdrawer][data-ispush][data-isfarside].is-showing
     [data-content] {
     transform: translateX(var(--drawer-width));
+}
+
+/* Various styling tweaks */
+
+/* Adjusted backdrop opacities for dark theme. */
+[data-color-mode="dark"] [data-prompt] {
+    --prompt-background-opacity-backdrop-dark: 0.7;
+    --prompt-background-opacity-backdrop-medium: 0.5;
+    --prompt-background-opacity-backdrop-light: 0.3;
+}
+
+/* Adjusted backdrop opacities for dimmed dark theme. */
+[data-color-mode="dark"][data-dark-theme="dark_dimmed"] [data-prompt] {
+    --prompt-background-opacity-backdrop-dark: 0.5;
+    --prompt-background-opacity-backdrop-medium: 0.35;
+    --prompt-background-opacity-backdrop-light: 0.2;
+}
+
+/* Set max height on dialog content. */
+[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
+    max-height: var(--prompt-max-height-content);
+}
+
+/* Box--overlay: drawer width */
+[data-prompt][data-isdrawer] [data-drawer-content].Box--overlay {
+    width: initial;
+}
+
+/* Box--overlay: prevent shadow for push drawer when not showing. */
+[data-prompt][data-isdrawer]:not(.is-showing)
+    [data-prompt-content]
+    [data-drawer-content] {
+    box-shadow: none;
 }

@@ -26528,7 +26528,10 @@ a.branch-name .octicon {
   --drawer-width: 320px;
   --prompt-z-index-backdrop: 98;
   --prompt-z-index-touch: 99;
-  --prompt-z-index-content: 100;
+  --prompt-z-index-menu-content: 100;
+  --prompt-z-index-drawer-content: 200;
+  --prompt-z-index-dialog-content: 300;
+  --prompt-max-height-content: 80vh;
 }
 [data-prompt] [data-touch],
 [data-prompt] [data-backdrop],
@@ -26536,11 +26539,20 @@ a.branch-name .octicon {
 [data-prompt] [data-content] {
   display: none;
 }
+[data-prompt] [data-prompt-content] {
+  visibility: visible;
+}
+[data-prompt]:not([data-ispush]) [data-prompt-content] {
+  visibility: hidden;
+}
 [data-prompt].is-open [data-touch],
 [data-prompt].is-open [data-backdrop],
 [data-prompt].is-open [data-focuswrap],
 [data-prompt].is-open [data-content] {
   display: block;
+}
+[data-prompt]:not([data-ispush]).is-open [data-prompt-content] {
+  visibility: visible;
 }
 [data-prompt] [data-content]:not([aria-role=menu]) {
   animation-name: unset;
@@ -26548,7 +26560,6 @@ a.branch-name .octicon {
   animation-timing-function: unset;
 }
 [data-prompt]:not([data-isdrawer]) [data-content] {
-  z-index: var(--prompt-z-index-content);
   transition-property: opacity;
   transition-timing-function: inherit;
   opacity: 0;
@@ -26564,9 +26575,19 @@ a.branch-name .octicon {
 }
 [data-prompt] [data-backdrop],
 [data-prompt] [data-focuswrap],
-[data-prompt] [data-content] {
+[data-prompt] [data-content],
+[data-prompt] [data-prompt-content] {
   transition-duration: inherit;
   transition-timing-function: inherit;
+}
+[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]) {
+  z-index: var(--prompt-z-index-dialog-content);
+}
+[data-prompt][data-isdrawer] [data-content]:not([aria-role=menu]) {
+  z-index: var(--prompt-z-index-drawer-content);
+}
+[data-prompt] [data-content][aria-role=menu] {
+  z-index: var(--prompt-z-index-menu-content);
 }
 [data-prompt].is-open [data-touch],
 [data-prompt].is-open [data-backdrop] {
@@ -26741,6 +26762,25 @@ a.branch-name .octicon {
 [dir=rtl] [data-prompt][data-isdrawer][data-ispush][data-isfarside].is-showing [data-content] {
   transform: translateX(var(--drawer-width));
 }
+[data-color-mode=dark] [data-prompt] {
+  --prompt-background-opacity-backdrop-dark: 0.7;
+  --prompt-background-opacity-backdrop-medium: 0.5;
+  --prompt-background-opacity-backdrop-light: 0.3;
+}
+[data-color-mode=dark][data-dark-theme=dark_dimmed] [data-prompt] {
+  --prompt-background-opacity-backdrop-dark: 0.5;
+  --prompt-background-opacity-backdrop-medium: 0.35;
+  --prompt-background-opacity-backdrop-light: 0.2;
+}
+[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]) {
+  max-height: var(--prompt-max-height-content);
+}
+[data-prompt][data-isdrawer] [data-drawer-content].Box--overlay {
+  width: initial;
+}
+[data-prompt][data-isdrawer]:not(.is-showing) [data-prompt-content] [data-drawer-content] {
+  box-shadow: none;
+}
 
 /* css/primercss-overrides.css */
 :root {
@@ -26752,20 +26792,6 @@ a.branch-name .octicon {
     Consolas,
     "Liberation Mono",
     monospace;
-  --prompt-max-height-content: 80vh;
-}
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]) {
-  max-height: var(--prompt-max-height-content);
-}
-[data-color-mode=dark] [data-prompt] {
-  --prompt-background-opacity-backdrop-dark: 0.7;
-  --prompt-background-opacity-backdrop-medium: 0.5;
-  --prompt-background-opacity-backdrop-light: 0.3;
-}
-[data-color-mode=dark][data-dark-theme=dark_dimmed] [data-prompt] {
-  --prompt-background-opacity-backdrop-dark: 0.5;
-  --prompt-background-opacity-backdrop-medium: 0.35;
-  --prompt-background-opacity-backdrop-light: 0.2;
 }
 .SelectMenu::before {
   display: none;
@@ -27246,12 +27272,6 @@ span.ActionList-content[aria-expanded] {
   .Box--overlay {
     max-width: 90vw;
   }
-}
-[data-prompt][data-isdrawer] [data-drawer-content].Box--overlay {
-  width: initial;
-}
-[data-prompt][data-isdrawer] input[type=checkbox]:not(:checked) + [data-prompt-content] [data-drawer-content] {
-  box-shadow: none;
 }
 .tabnav-tab--small {
   padding: var(--base-size-8, 8px) var(--base-size-16, 16px);

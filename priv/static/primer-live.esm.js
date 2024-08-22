@@ -22,7 +22,13 @@ var Prompt = {
           console.error("Missing status_callback_selector");
           return;
         }
-        pushEvent(selector, startStatus);
+        contentEl.addEventListener(
+          "transitionstart",
+          function(_evt) {
+            pushEvent(selector, startStatus);
+          },
+          { once: true }
+        );
         contentEl.addEventListener(
           "transitionend",
           function(_evt) {
@@ -32,10 +38,34 @@ var Prompt = {
         );
       };
     };
+    this.handlePromptToggle = (evt) => {
+      var _a;
+      const cmd = el.classList.contains("is-open") ? el.dataset.close : el.dataset.open;
+      if (cmd) {
+        (_a = this.liveSocket) == null ? void 0 : _a.execJS(el, cmd);
+      } else {
+        console.error("No command found in element dataset");
+      }
+    };
     this.handlePromptOpen = createStatusHandler("opening", "opened");
     el.addEventListener("prompt:open", this.handlePromptOpen);
     this.handlePromptClose = createStatusHandler("closing", "closed");
     el.addEventListener("prompt:close", this.handlePromptClose);
+    el.addEventListener("prompt:toggle", this.handlePromptToggle);
+  },
+  destroyed() {
+    if (!this.el) {
+      return;
+    }
+    if (this.handlePromptOpen) {
+      this.el.removeEventListener("prompt:open", this.handlePromptOpen);
+    }
+    if (this.handlePromptClose) {
+      this.el.removeEventListener("prompt:close", this.handlePromptClose);
+    }
+    if (this.handlePromptToggle) {
+      this.el.removeEventListener("prompt:toggle", this.handlePromptToggle);
+    }
   }
 };
 if (typeof window !== "undefined") {

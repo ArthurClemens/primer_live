@@ -25,4 +25,9 @@ defmodule PrimerLive.Helpers.PromptHelpers do
     do: JS.exec(js, "data-cancel", to: "##{id}")
 
   def cancel_prompt(_, _), do: %JS{}
+
+  def toggle_prompt(id) when is_binary(id), do: toggle_prompt(%JS{}, id)
+
+  def toggle_prompt(%JS{} = js, id) when is_binary(id),
+    do: JS.dispatch(js, "prompt:toggle", to: "##{id}")
 end
