@@ -11195,7 +11195,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Clicking the backdrop will automatically invoke `close_dialog`.
+  Clicking the backdrop will automatically invoke `cancel_dialog`.
 
   Pressing Escape will close the open dialog (unless `is_escapable` is explicitly set to false). In case of stacked dialogs, the included `Prompt` hook ensures that only the top dialog will be closed.
 
@@ -11260,7 +11260,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  The dialog will focus the first element after opening the dialog. Pass `focus_after_opening_selector` with a selector to give focus to a different element.
+  The dialog will focus the first element after opening. Pass `focus_after_opening_selector` with a selector to give focus to a different element.
 
   ```
   <.dialog focus_after_opening_selector="#login_first_name">
@@ -11341,7 +11341,6 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.id("Dialog element id", true)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
-  PromptDeclarationHelpers.is_dropdown_caret(false)
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.is_fast(false)
   PromptDeclarationHelpers.is_light_backdrop()
@@ -11668,21 +11667,47 @@ defmodule PrimerLive.Component do
   </.drawer>
   ```
 
-  Showing and hiding is done with JS function `Prompt`, included in PrimerLive.
-  Function `Prompt.show` requires a selector. When placed inside the drawer component, the selector can be replaced with `this`:
+  ## Opening and closing the drawer
+
+  ### Invoking open and close
+
+  Functions `open_drawer/1` and `close_drawer/1` can be called with `phx-click`, passing the drawer's id (the alternative approach is to conditionally render - see below).
+  Alternatively use `toggle_drawer/1` for simply toggling open and close.
 
   ```
+  <.button phx-click={open_drawer("my-drawer")}>Open</.button>
+
   <.drawer id="my-drawer">
-    <:body>
-      <.button onclick="Prompt.hide(this)">Close</.button>
-      Content
+    <:body width="300px">
+      <.button phx-click={close_drawer("my-drawer")}>Close</.button>
     </:body>
   </.drawer>
-
-  <.button onclick="Prompt.show('#my-drawer')">Open drawer</.button>
   ```
 
-  ## Examples
+  Clicking the backdrop will automatically invoke `cancel_drawer`.
+
+  Pressing Escape will close the open drawer (unless `is_escapable` is explicitly set to false).
+
+  ### Routes and other conditionals
+
+  To show the drawer at a specific route (or with any other condition), use Phoenix's `:if` attribute, combined with `is_show`. The `on_cancel` attribute can then be used to redirect to the originating route:
+
+  ```
+  <.drawer
+    id="my-drawer"
+    :if={@live_action == :create}
+    is_show
+    on_cancel={JS.patch(~p"/posts")}
+  >
+    <:body>
+      Post form
+    </:body>
+  </.dialog>
+  ```
+
+  To display the drawer on page load *without* a fade-in transition, add attribute `is_show_on_mount`. See `PrimerLive.StatefulConditionComponent` for an example.
+
+  ## Other attributes
 
   By default the drawer width is defined by its content. To set an explicit width of the drawer content:
 
@@ -11710,14 +11735,6 @@ defmodule PrimerLive.Component do
   </.drawer>
   ```
 
-  Close the drawer with the Escape key:
-
-  ```
-  <.drawer is_escapable>
-    ...
-  </.drawer>
-  ```
-
   Create faster slide in and out:
 
   ```
@@ -11726,18 +11743,10 @@ defmodule PrimerLive.Component do
   </.drawer>
   ```
 
-  Focus the first element after opening the drawer. Pass a selector to match the element.
+  The drawer will focus the first element after opening. Pass `focus_after_opening_selector` with a selector to give focus to a different element.
 
   ```
   <.drawer focus_after_opening_selector="#login_first_name">
-    ...
-  </.drawer>
-  ```
-
-  or
-
-  ```
-  <.drawer focus_after_opening_selector="[name=login\[first_name\]]">
     ...
   </.drawer>
   ```
@@ -11782,7 +11791,6 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.id("Drawer element id", true)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
-  PromptDeclarationHelpers.is_dropdown_caret(false)
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.is_fast(false)
   PromptDeclarationHelpers.is_light_backdrop()
@@ -11792,7 +11800,6 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_show_on_mount("the drawer")
   PromptDeclarationHelpers.on_cancel("the drawer")
   PromptDeclarationHelpers.status_callback_selector("the drawer")
-  PromptDeclarationHelpers.prompt_options()
 
   PromptDeclarationHelpers.transition_duration(
     "the drawer",

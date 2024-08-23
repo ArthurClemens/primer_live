@@ -10,7 +10,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
         doc:
           if unquote(is_required) do
             """
-            {name_element_id}. Use to toggle from the outside. Required in order to derive a consistent focus wrap ID.
+            {name_element_id}, used for opening and closing.
             """
             |> String.replace("{name_element_id}", unquote(name_element_id))
           else
