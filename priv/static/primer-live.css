@@ -26532,6 +26532,7 @@ a.branch-name .octicon {
   --prompt-z-index-drawer-content: 200;
   --prompt-z-index-dialog-content: 300;
   --prompt-max-height-content: 80vh;
+  --prompt-drawer-content-width: initial;
 }
 [data-prompt] [data-touch],
 [data-prompt] [data-backdrop],
@@ -26775,8 +26776,8 @@ a.branch-name .octicon {
 [data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]) {
   max-height: var(--prompt-max-height-content);
 }
-[data-prompt][data-isdrawer] [data-drawer-content].Box--overlay {
-  width: initial;
+[data-prompt][data-isdrawer] [data-drawer-content] {
+  width: var(--prompt-drawer-content-width);
 }
 [data-prompt][data-isdrawer]:not(.is-showing) [data-prompt-content] [data-drawer-content] {
   box-shadow: none;

@@ -22,9 +22,7 @@ var Prompt = {
           console.error("Missing status_callback_selector");
           return;
         }
-        setTimeout(() => {
-          pushEvent(selector, startStatus);
-        }, 50);
+        pushEvent(selector, startStatus);
         setTimeout(() => {
           pushEvent(selector, endStatus);
         }, transitionDuration);
@@ -46,7 +44,6 @@ var Prompt = {
     el.addEventListener("prompt:toggle", this.handlePromptToggle);
   },
   destroyed() {
-    console.log("destroyed");
     if (!this.el) {
       return;
     }

@@ -11953,7 +11953,7 @@ defmodule PrimerLive.Component do
           classes.body && [class: classes.body],
           body_slot[:width] &&
             [
-              style: "width: #{body_slot[:width]}"
+              style: "--prompt-drawer-content-width: #{body_slot[:width]}"
             ]
         ]
       )
