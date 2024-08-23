@@ -1208,8 +1208,10 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
               is_menu
             )
             |> maybe_send_status_event(
+              assigns.transition_duration,
               assigns.status_callback_selector,
               id_selector,
+              is_menu,
               "prompt:open"
             )
             |> JS.focus_first(to: "#{id_selector} [data-content]")
@@ -1225,15 +1227,17 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         [
           "data-close":
             %JS{}
+            |> maybe_send_status_event(
+              assigns.transition_duration,
+              assigns.status_callback_selector,
+              id_selector,
+              is_menu,
+              "prompt:close"
+            )
             |> maybe_set_transition_duration_style(
               assigns.transition_duration,
               id_selector,
               is_menu
-            )
-            |> maybe_send_status_event(
-              assigns.status_callback_selector,
-              id_selector,
-              "prompt:close"
             )
             |> JS.remove_class("is-showing", to: id_selector)
             |> JS.remove_class("is-open",
@@ -1312,14 +1316,62 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     JS.push_focus(js, to: selector)
   end
 
-  defp maybe_send_status_event(js, status_callback_selector, _id_selector, _event_name)
+  defp maybe_send_status_event(
+         js,
+         _transition_duration,
+         status_callback_selector,
+         _id_selector,
+         _is_menu,
+         _event_name
+       )
        when is_nil(status_callback_selector),
        do: js
 
-  defp maybe_send_status_event(js, status_callback_selector, id_selector, event_name) do
+  defp maybe_send_status_event(
+         js,
+         transition_duration,
+         status_callback_selector,
+         id_selector,
+         is_menu,
+         event_name
+       )
+       when is_menu do
+    dispatch_send_status_event(
+      js,
+      transition_duration || PromptHelpers.default_menu_transition_duration(),
+      status_callback_selector,
+      id_selector,
+      event_name
+    )
+  end
+
+  defp maybe_send_status_event(
+         js,
+         transition_duration,
+         status_callback_selector,
+         id_selector,
+         _is_menu,
+         event_name
+       ) do
+    dispatch_send_status_event(
+      js,
+      transition_duration || PromptHelpers.default_dialog_transition_duration(),
+      status_callback_selector,
+      id_selector,
+      event_name
+    )
+  end
+
+  defp dispatch_send_status_event(
+         js,
+         transition_duration,
+         status_callback_selector,
+         id_selector,
+         event_name
+       ) do
     JS.dispatch(js, event_name,
       to: id_selector,
-      detail: %{selector: status_callback_selector}
+      detail: %{selector: status_callback_selector, transitionDuration: transition_duration}
     )
   end
 

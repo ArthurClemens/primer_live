@@ -17,25 +17,17 @@ var Prompt = {
     };
     const createStatusHandler = (startStatus, endStatus) => {
       return (evt) => {
-        const selector = evt.detail.selector;
+        const { selector, transitionDuration } = evt.detail;
         if (!selector) {
           console.error("Missing status_callback_selector");
           return;
         }
-        contentEl.addEventListener(
-          "transitionstart",
-          function(_evt) {
-            pushEvent(selector, startStatus);
-          },
-          { once: true }
-        );
-        contentEl.addEventListener(
-          "transitionend",
-          function(_evt) {
-            pushEvent(selector, endStatus);
-          },
-          { once: true }
-        );
+        setTimeout(() => {
+          pushEvent(selector, startStatus);
+        }, 50);
+        setTimeout(() => {
+          pushEvent(selector, endStatus);
+        }, transitionDuration);
       };
     };
     this.handlePromptToggle = (evt) => {
@@ -54,6 +46,7 @@ var Prompt = {
     el.addEventListener("prompt:toggle", this.handlePromptToggle);
   },
   destroyed() {
+    console.log("destroyed");
     if (!this.el) {
       return;
     }
