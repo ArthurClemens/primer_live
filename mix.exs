@@ -73,6 +73,7 @@ defmodule PrimerLive.MixProject do
         Loaders: &(&1[:section] == :loaders),
         Markdown: &(&1[:section] == :markdown),
         Menus: &(&1[:section] == :menus),
+        "Menu functions": &(&1[:section] == :menu_functions),
         Navigation: &(&1[:section] == :navigation),
         Pagination: &(&1[:section] == :pagination),
         Popover: &(&1[:section] == :popover),

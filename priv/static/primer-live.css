@@ -26577,7 +26577,8 @@ a.branch-name .octicon {
 [data-prompt] [data-backdrop],
 [data-prompt] [data-focuswrap],
 [data-prompt] [data-content],
-[data-prompt] [data-prompt-content] {
+[data-prompt] [data-prompt-content],
+[data-prompt] .ActionMenu {
   transition-duration: inherit;
   transition-timing-function: inherit;
 }

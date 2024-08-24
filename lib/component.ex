@@ -990,6 +990,7 @@ defmodule PrimerLive.Component do
               checked_value={@checked_value}
               is_omit_label
               hidden_input={@form || @field}
+              tabindex="0"
               class={
                 if @is_checkmark_icon or @is_single_select,
                   do: @classes.leading_visual_single_select_checkmark,
@@ -7985,10 +7986,10 @@ defmodule PrimerLive.Component do
     }
 
     %{
-      toggle_attrs: toggle_attrs,
-      checkbox_attrs: checkbox_attrs,
-      prompt_attrs: action_menu_attrs,
       backdrop_attrs: backdrop_attrs,
+      focus_wrap_attrs: focus_wrap_attrs,
+      prompt_attrs: prompt_attrs,
+      toggle_attrs: toggle_attrs,
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
@@ -8010,26 +8011,25 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:form, form)
-      |> assign(:field, field)
+      |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:classes, classes)
-      |> assign(:action_menu_attrs, action_menu_attrs)
-      |> assign(:checkbox_attrs, checkbox_attrs)
+      |> assign(:field, field)
+      |> assign(:focus_wrap_attrs, focus_wrap_attrs)
+      |> assign(:form, form)
+      |> assign(:menu_container_attrs, menu_container_attrs)
+      |> assign(:prompt_attrs, prompt_attrs)
       |> assign(:toggle_attrs, toggle_attrs)
       |> assign(:toggle_slot, toggle_slot)
-      |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:touch_layer_attrs, touch_layer_attrs)
-      |> assign(:menu_container_attrs, menu_container_attrs)
 
     ~H"""
-    <div {@action_menu_attrs}>
+    <div {@prompt_attrs}>
       <label {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
       </label>
-      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
       <div data-prompt-content>
         <%= if @backdrop_attrs !== [] do %>
           <div {@backdrop_attrs}></div>
@@ -8038,7 +8038,9 @@ defmodule PrimerLive.Component do
         <div class={@classes.menu}>
           <div {@menu_container_attrs}>
             <div class={@classes.menu_list}>
-              <%= render_slot(@inner_block) %>
+              <.focus_wrap {@focus_wrap_attrs}>
+                <%= render_slot(@inner_block) %>
+              </.focus_wrap>
             </div>
           </div>
         </div>
@@ -8046,6 +8048,90 @@ defmodule PrimerLive.Component do
     </div>
     """
   end
+
+  @doc section: :menu_functions
+
+  @doc """
+  Opens a menu.
+
+  ## Examples
+
+      <.button phx-click={open_menu("my-menu")}>Open</.button>
+  """
+  def open_menu(id) when is_binary(id), do: PromptHelpers.open_prompt(id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Opens a menu as part of a `Phoenix.LiveView.JS` command chain.
+
+  ## Examples
+
+      <.action_menu id="my-menu">
+        <:toggle phx-click={open_menu("my-menu")}>Open</:toggle>
+        ...
+      </.action_menu>
+  """
+  def open_menu(js, id), do: PromptHelpers.open_prompt(js, id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Closes a menu.
+  Note that this won't call `on_cancel`. Any time `on_cancel` is provided and you still need a close button, `cancel_menu/1` will be a better choice.
+
+  ## Examples
+
+      <.button phx-click={close_menu("my-menu")}>Close</.button>
+  """
+  def close_menu(id), do: PromptHelpers.close_prompt(id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Closes a menu as part of a `Phoenix.LiveView.JS` command chain.
+
+  ## Examples
+
+      <.button phx-click={
+        close_menu("confirmation-menu")
+        |> close_menu("base-menu")
+      }>Open</.button>
+  """
+  def close_menu(js, id), do: PromptHelpers.close_prompt(js, id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Cancels a menu: closes the menu after executing the `on_cancel` attribute.
+
+  ## Examples
+
+      <.button phx-click={cancel_menu("my-menu")}>Cancel</.button>
+  """
+
+  def cancel_menu(id), do: PromptHelpers.cancel_prompt(id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Cancels a menu as part of a `Phoenix.LiveView.JS` command chain.
+  """
+  def cancel_menu(js, id), do: PromptHelpers.cancel_prompt(js, id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Toggles the open state of the menu.
+  """
+  def toggle_menu(id), do: PromptHelpers.toggle_prompt(id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Toggles a menu as part of a `Phoenix.LiveView.JS` command chain.
+  """
+  def toggle_menu(js, id), do: PromptHelpers.toggle_prompt(js, id)
 
   # ------------------------------------------------------------------------------------
   # button
