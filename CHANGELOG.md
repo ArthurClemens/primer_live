@@ -53,6 +53,7 @@ phx-click={open_dialog("my-dialog")}
 phx-click={close_dialog("my-dialog")}
 ```
 
+- All dialogs, drawers and menus need to have an id attribute.
 - Form state: the previous method to preserve state, using "a fictitious and unique field name" can be removed.
 - Because `focus_first` (without a selector) is now the default, nothing needs to be changed when using this attribute. If in existing code a selector value is used, rename the attribute to `focus_after_opening_selector`.
 - Replace `prompt_options` and `phx_click_touch` with `status_callback_selector`. There's no simple way to replace `prompt_options`, because passing JavaScript functions is no longer supported. A solution coiuld be very similar to the previous `phx_click_touch` method. This example LiveComponent may give some ideas how to approach the update:
