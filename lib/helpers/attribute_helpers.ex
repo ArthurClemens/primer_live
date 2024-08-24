@@ -1214,8 +1214,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
               is_menu,
               "prompt:open"
             )
-            |> JS.focus_first(to: "#{id_selector} [data-content]")
             |> JS.add_class("is-open", to: id_selector)
+            |> JS.focus_first(to: "#{id_selector} [data-content]")
             |> maybe_focus_after_opening_selector(assigns.focus_after_opening_selector)
             |> JS.add_class("is-showing",
               # Small delay to create a fade-in effect
