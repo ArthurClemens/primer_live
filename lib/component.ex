@@ -6743,10 +6743,10 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.field("the dropdown")
+  PromptDeclarationHelpers.field()
   PromptDeclarationHelpers.focus_after_closing_selector("the dropdown")
   PromptDeclarationHelpers.focus_after_opening_selector("the dropdown")
-  PromptDeclarationHelpers.form("the dropdown element")
+  PromptDeclarationHelpers.form()
   PromptDeclarationHelpers.id("Dropdown element id", false)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
@@ -7182,10 +7182,10 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.field("the menu")
+  PromptDeclarationHelpers.field()
   PromptDeclarationHelpers.focus_after_closing_selector("the select menu")
   PromptDeclarationHelpers.focus_after_opening_selector("the select menu")
-  PromptDeclarationHelpers.form("the menu element")
+  PromptDeclarationHelpers.form()
   PromptDeclarationHelpers.id("Select menu element id", false)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
@@ -7783,8 +7783,8 @@ defmodule PrimerLive.Component do
   The action menu functions similarly to a `select_menu/1`, but with an `action_list/1` as content.
 
   ```
-  <.action_menu>
-    <:toggle>Menu</:toggle>
+  <.action_menu id="my-menu">
+    <:toggle phx-click={toggle_menu("my-menu")}>Menu</:toggle>
     <.action_list>
       ...
     </.action_list>
@@ -7796,8 +7796,8 @@ defmodule PrimerLive.Component do
   Create a multiple select menu:
 
   ```
-  <.action_menu is_dropdown_caret>
-    <:toggle>Select <.counter>2</.counter></:toggle>
+  <.action_menu is_dropdown_caret id="my-menu">
+    <:toggle phx-click={toggle_menu("my-menu")}>Select <.counter>2</.counter></:toggle>
     <.action_list>
       <.action_list_item is_multiple_select is_selected>
         Option
@@ -7828,8 +7828,8 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.id("Menu element id", false)
   PromptDeclarationHelpers.focus_after_closing_selector("the menu")
   PromptDeclarationHelpers.focus_after_opening_selector("the menu")
-  PromptDeclarationHelpers.form("the menu element")
-  PromptDeclarationHelpers.field("the menu")
+  PromptDeclarationHelpers.form()
+  PromptDeclarationHelpers.field()
   PromptDeclarationHelpers.is_dropdown_caret(false)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
@@ -7894,8 +7894,8 @@ defmodule PrimerLive.Component do
     Example:
     ```
     <.header>
-      <.action_menu menu_theme={@theme_state}>
-        <:toggle>
+      <.action_menu menu_theme={@theme_state} id="my-menu">
+        <:toggle phx-click={toggle_menu("my-menu")}>
           <.octicon name="sun-16" />
         </:toggle>
         <.theme_menu_options
@@ -8013,9 +8013,7 @@ defmodule PrimerLive.Component do
       assigns
       |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:classes, classes)
-      |> assign(:field, field)
       |> assign(:focus_wrap_attrs, focus_wrap_attrs)
-      |> assign(:form, form)
       |> assign(:menu_container_attrs, menu_container_attrs)
       |> assign(:prompt_attrs, prompt_attrs)
       |> assign(:toggle_attrs, toggle_attrs)
@@ -11420,10 +11418,10 @@ defmodule PrimerLive.Component do
   @default_dialog_max_height_css "80vh"
   @default_dialog_max_width_css "90vw"
 
-  PromptDeclarationHelpers.field("the dialog")
+  PromptDeclarationHelpers.field()
   PromptDeclarationHelpers.focus_after_closing_selector("the dialog")
   PromptDeclarationHelpers.focus_after_opening_selector("the dialog")
-  PromptDeclarationHelpers.form("the dialog element")
+  PromptDeclarationHelpers.form()
   PromptDeclarationHelpers.id("Dialog element id", true)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
@@ -11870,10 +11868,10 @@ defmodule PrimerLive.Component do
   Neither Primer CSS nor Primer React provide a drawer component. However, a drawer is used on their documentation site (mobile view).
   """
 
-  PromptDeclarationHelpers.field("the drawer")
+  PromptDeclarationHelpers.field()
   PromptDeclarationHelpers.focus_after_closing_selector("the drawer")
   PromptDeclarationHelpers.focus_after_opening_selector("the drawer")
-  PromptDeclarationHelpers.form("the drawer element")
+  PromptDeclarationHelpers.form()
   PromptDeclarationHelpers.id("Drawer element id", true)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
@@ -13131,8 +13129,8 @@ defmodule PrimerLive.Component do
   Place the menu options inside an expanding menu:
 
   ```
-  <.action_menu>
-    <:toggle class="btn btn-invisible">
+  <.action_menu id="theme-menu">
+    <:toggle class="btn btn-invisible" phx-click={toggle_menu("theme-menu")}>
       <.octicon name="sun-16" />
     </:toggle>
     <.theme_menu_options

@@ -24,27 +24,21 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro form(the_menu_element) do
+  defmacro form do
     quote do
       attr :form, :any,
-        doc:
-          """
-          To maintain the open state when using {the_menu_element} inside a form, pass the form surrounding {the_menu_element}.
-          Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.
-          """
-          |> String.replace("{the_menu_element}", unquote(the_menu_element))
+        doc: """
+        Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.
+        """
     end
   end
 
-  defmacro field(the_menu) do
+  defmacro field do
     quote do
       attr :field, :any,
-        doc:
-          """
-          Field name (atom or string). Use an atom when used with a form.
-          To maintain the open state when using {the_menu} inside a form, see: [Menus and dialogs](doc-extra/menus-and-dialogs.md).
-          """
-          |> String.replace("{the_menu}", unquote(the_menu))
+        doc: """
+        Field name (atom or string). Use an atom when used with a form.
+        """
     end
   end
 
