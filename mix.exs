@@ -89,7 +89,6 @@ defmodule PrimerLive.MixProject do
         "doc-extra/overview.md",
         "doc-extra/installation.md",
         "doc-extra/usage.md",
-        "doc-extra/menus-and-dialogs.md",
         "CHANGELOG.md",
         "LICENSE.md"
       ]

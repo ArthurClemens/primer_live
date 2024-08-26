@@ -236,7 +236,7 @@ For all listed deprecations below: existing syntax will keep working, but log wa
 
 ### Improvements
 
-- The open state of menus and dialogs can now be maintained when used inside forms - see [Menus and dialogs](doc-extra/menus-and-dialogs.md).
+- The open state of menus and dialogs can now be maintained when used inside forms.
 - Improved validation message logic.
 - Updated components:
   - `theme_menu_options`: added attr `update_theme_event`: the event name to be called for updating the theme.
