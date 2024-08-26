@@ -122,6 +122,10 @@ defmodule PrimerLive.MixProject do
         "credo --strict",
         "docs"
       ],
+      doc: [
+        "cmd rm -rf ./doc",
+        "cmd mix docs"
+      ],
       "assets.build": [
         "cmd rm -rf priv/static/*",
         "cmd npm --prefix assets run build:types",

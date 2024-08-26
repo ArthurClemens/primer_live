@@ -18,9 +18,9 @@ defmodule PrimerLive do
 
   ## Documentation
 
-  - [Component documentation](`PrimerLive.Component`)
   - [Installation](doc-extra/installation.md)
   - [Usage](doc-extra/usage.md)
+  - [Components](`PrimerLive.Component`)
 
   ## Resources
 

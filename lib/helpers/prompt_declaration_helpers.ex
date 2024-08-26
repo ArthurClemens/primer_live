@@ -3,7 +3,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
 
   alias Phoenix.LiveView.JS
 
-  defmacro id(name_element_id, is_required) do
+  defmacro id(name_element_id, the_element, is_required) do
     quote do
       attr(:id, :string,
         required: unquote(is_required),
@@ -15,10 +15,14 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
             |> String.replace("{name_element_id}", unquote(name_element_id))
           else
             """
-            {name_element_id}. Use to toggle from the outside, and to get consistent IDs in tests.
-            If not set, an id is generated, either based on `form` and `field`, or otherwise randomly.
+            {name_element_id}. While passing the ID is optional, it is required:
+            - For referencing {the_element} from other functions or components, such as for opening and closing.
+            - For maintaining an open state after making selections.
+            - To get consistent IDs in tests.
+            If not set, an ID is derived from `form` and `field`, or otherwise generated randomly.
             """
             |> String.replace("{name_element_id}", unquote(name_element_id))
+            |> String.replace("{the_element}", unquote(the_element))
           end
       )
     end
@@ -120,22 +124,16 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro toggle_slot(the_element) do
+  defmacro toggle_slot do
     quote do
       slot :toggle,
         required: true,
         doc: """
         Generates a toggle element (default with button appearance) using the slot content as label.
+        A `phx-click` attribute is added automatically if it is not passed in the slot attributes.
 
         Any custom class will override the default class "btn".
         """ do
-        attr(:options, :string,
-          doc:
-            """
-            Deprecated: pass the attrs to {the_element} as `prompt_options`.
-            """
-            |> String.replace("{the_element}", unquote(the_element))
-        )
 
         attr(:class, :any,
           doc: """
@@ -146,6 +144,12 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
         attr(:style, :string,
           doc: """
           Additional CSS styles.
+          """
+        )
+
+        attr(:"phx-click", :any,
+          doc: """
+          Phoenix click function. Overrides the default toggle function.
           """
         )
 

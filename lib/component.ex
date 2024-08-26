@@ -6747,7 +6747,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.focus_after_closing_selector("the dropdown")
   PromptDeclarationHelpers.focus_after_opening_selector("the dropdown")
   PromptDeclarationHelpers.form()
-  PromptDeclarationHelpers.id("Dropdown element id", false)
+  PromptDeclarationHelpers.id("Dropdown element id", "the dropdown", false)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
   PromptDeclarationHelpers.is_dropdown_caret(true)
@@ -6760,7 +6760,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.on_cancel("the dropdown")
   PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.status_callback_selector("the dropdown")
-  PromptDeclarationHelpers.toggle_slot("the dropdown component")
+  PromptDeclarationHelpers.toggle_slot()
 
   PromptDeclarationHelpers.transition_duration(
     "the dropdown",
@@ -7186,7 +7186,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.focus_after_closing_selector("the select menu")
   PromptDeclarationHelpers.focus_after_opening_selector("the select menu")
   PromptDeclarationHelpers.form()
-  PromptDeclarationHelpers.id("Select menu element id", false)
+  PromptDeclarationHelpers.id("Select menu element id", "the select menu", false)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
   PromptDeclarationHelpers.is_dropdown_caret(false)
@@ -7199,7 +7199,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.on_cancel("the select menu")
   PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.status_callback_selector("the select menu")
-  PromptDeclarationHelpers.toggle_slot("the select menu component")
+  PromptDeclarationHelpers.toggle_slot()
 
   PromptDeclarationHelpers.transition_duration(
     "the select menu",
@@ -7783,8 +7783,8 @@ defmodule PrimerLive.Component do
   The action menu functions similarly to a `select_menu/1`, but with an `action_list/1` as content.
 
   ```
-  <.action_menu id="my-menu">
-    <:toggle phx-click={toggle_menu("my-menu")}>Menu</:toggle>
+  <.action_menu>
+    <:toggle>Menu</:toggle>
     <.action_list>
       ...
     </.action_list>
@@ -7796,8 +7796,8 @@ defmodule PrimerLive.Component do
   Create a multiple select menu:
 
   ```
-  <.action_menu is_dropdown_caret id="my-menu">
-    <:toggle phx-click={toggle_menu("my-menu")}>Select <.counter>2</.counter></:toggle>
+  <.action_menu is_dropdown_caret>
+    <:toggle>Select <.counter>2</.counter></:toggle>
     <.action_list>
       <.action_list_item is_multiple_select is_selected>
         Option
@@ -7825,7 +7825,7 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.id("Menu element id", false)
+  PromptDeclarationHelpers.id("Menu element id", "the menu", false)
   PromptDeclarationHelpers.focus_after_closing_selector("the menu")
   PromptDeclarationHelpers.focus_after_opening_selector("the menu")
   PromptDeclarationHelpers.form()
@@ -7840,9 +7840,8 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_show("the menu")
   PromptDeclarationHelpers.is_show_on_mount("the menu")
   PromptDeclarationHelpers.on_cancel("the menu")
-  PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.status_callback_selector("the menu")
-  PromptDeclarationHelpers.toggle_slot("the menu component")
+  PromptDeclarationHelpers.toggle_slot()
 
   PromptDeclarationHelpers.transition_duration(
     "the menu",
@@ -7894,8 +7893,8 @@ defmodule PrimerLive.Component do
     Example:
     ```
     <.header>
-      <.action_menu menu_theme={@theme_state} id="my-menu">
-        <:toggle phx-click={toggle_menu("my-menu")}>
+      <.action_menu menu_theme={@theme_state}>
+        <:toggle>
           <.octicon name="sun-16" />
         </:toggle>
         <.theme_menu_options
@@ -8062,13 +8061,6 @@ defmodule PrimerLive.Component do
 
   @doc """
   Opens a menu as part of a `Phoenix.LiveView.JS` command chain.
-
-  ## Examples
-
-      <.action_menu id="my-menu">
-        <:toggle phx-click={open_menu("my-menu")}>Open</:toggle>
-        ...
-      </.action_menu>
   """
   def open_menu(js, id), do: PromptHelpers.open_prompt(js, id)
 
@@ -11422,7 +11414,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.focus_after_closing_selector("the dialog")
   PromptDeclarationHelpers.focus_after_opening_selector("the dialog")
   PromptDeclarationHelpers.form()
-  PromptDeclarationHelpers.id("Dialog element id", true)
+  PromptDeclarationHelpers.id("Dialog element id", "the dialog", true)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
   PromptDeclarationHelpers.is_escapable()
@@ -11872,7 +11864,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.focus_after_closing_selector("the drawer")
   PromptDeclarationHelpers.focus_after_opening_selector("the drawer")
   PromptDeclarationHelpers.form()
-  PromptDeclarationHelpers.id("Drawer element id", true)
+  PromptDeclarationHelpers.id("Drawer element id", "the drawer", true)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
   PromptDeclarationHelpers.is_escapable()
@@ -13129,8 +13121,8 @@ defmodule PrimerLive.Component do
   Place the menu options inside an expanding menu:
 
   ```
-  <.action_menu id="theme-menu">
-    <:toggle class="btn btn-invisible" phx-click={toggle_menu("theme-menu")}>
+  <.action_menu>
+    <:toggle class="btn btn-invisible">
       <.octicon name="sun-16" />
     </:toggle>
     <.theme_menu_options
