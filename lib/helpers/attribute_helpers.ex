@@ -354,7 +354,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   uppercase letters, digits, etc...
   """
   def random_string(len \\ 12) when is_integer(len) and len > 0 do
-    for(_ <- 1..len, do: rand_uniform(32, 126))
+    for(_ <- 1..len, do: rand_uniform(98, 122))
     |> List.to_string()
   end
 
@@ -1136,7 +1136,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         menu_class: menu_class,
         is_menu: is_menu
       }) do
-    id = assigns[:id] || assigns.rest[:id]
+    id = assigns[:id] || assigns.rest[:id] || random_string()
 
     if is_nil(id), do: ComponentHelpers.missing_attribute("id")
 
@@ -1162,7 +1162,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         [
           class: toggle_class,
           "aria-haspopup": "true",
-          for: toggle_id
+          for: toggle_id,
+          "phx-click": Keyword.get(toggle_rest, :"phx-click", PromptHelpers.toggle_prompt(id))
         ]
       ])
 
