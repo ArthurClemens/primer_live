@@ -6739,7 +6739,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Dropdown](https://primer.style/design/components/dropdown)
+  [Primer Dropdown (deprecated)](https://primer.style/deprecated-components/dropdown)
 
   """
 
@@ -6758,7 +6758,6 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_show("the dropdown")
   PromptDeclarationHelpers.is_show_on_mount("the dropdown")
   PromptDeclarationHelpers.on_cancel("the dropdown")
-  PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.status_callback_selector("the dropdown")
   PromptDeclarationHelpers.toggle_slot()
 
@@ -6913,10 +6912,10 @@ defmodule PrimerLive.Component do
     }
 
     %{
-      toggle_attrs: toggle_attrs,
-      checkbox_attrs: checkbox_attrs,
-      prompt_attrs: dropdown_menu_attrs,
       backdrop_attrs: backdrop_attrs,
+      focus_wrap_attrs: focus_wrap_attrs,
+      prompt_attrs: prompt_attrs,
+      toggle_attrs: toggle_attrs,
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
@@ -6963,7 +6962,7 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:dropdown_menu_attrs, dropdown_menu_attrs)
+      |> assign(:prompt_attrs, prompt_attrs)
       |> assign(:toggle_attrs, toggle_attrs)
       |> assign(:classes, classes)
       |> assign(:toggle_slot, toggle_slot)
@@ -6999,13 +6998,16 @@ defmodule PrimerLive.Component do
       assigns =
         assigns
         |> assign(:prompt_attrs, prompt_attrs)
+        |> assign(:focus_wrap_attrs, focus_wrap_attrs)
 
       ~H"""
-      <ul {@prompt_attrs}>
-        <%= for item <- @item do %>
-          <%= @render_item.(item) %>
-        <% end %>
-      </ul>
+      <.focus_wrap {@focus_wrap_attrs}>
+        <ul {@prompt_attrs}>
+          <%= for item <- @item do %>
+            <%= @render_item.(item) %>
+          <% end %>
+        </ul>
+      </.focus_wrap>
       """
     end
 
@@ -7023,20 +7025,18 @@ defmodule PrimerLive.Component do
       |> assign(:field, field)
       |> assign(:menu_container_attrs, menu_container_attrs)
       |> assign(:render_menu, render_menu)
-      |> assign(:checkbox_attrs, checkbox_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:touch_layer_attrs, touch_layer_attrs)
 
     ~H"""
-    <div {@dropdown_menu_attrs}>
+    <div {@prompt_attrs}>
       <label {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
       </label>
-      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
-      <div data-prompt-content>
+      <div data-prompt-content="">
         <%= if @backdrop_attrs !== [] do %>
           <div {@backdrop_attrs}></div>
         <% end %>
@@ -7703,7 +7703,7 @@ defmodule PrimerLive.Component do
         <% end %>
       </label>
       <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
-      <div data-prompt-content>
+      <div data-prompt-content="">
         <%= if @backdrop_attrs !== [] do %>
           <div {@backdrop_attrs}></div>
         <% end %>
@@ -8027,7 +8027,7 @@ defmodule PrimerLive.Component do
           <div class={@classes.caret}></div>
         <% end %>
       </label>
-      <div data-prompt-content>
+      <div data-prompt-content="">
         <%= if @backdrop_attrs !== [] do %>
           <div {@backdrop_attrs}></div>
         <% end %>
@@ -12046,7 +12046,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@prompt_attrs}>
-      <div data-prompt-content>
+      <div data-prompt-content="">
         <%= if !@is_push do %>
           <%= if @backdrop_attrs !== [] do %>
             <div {@backdrop_attrs}></div>

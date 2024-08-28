@@ -134,7 +134,6 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
 
         Any custom class will override the default class "btn".
         """ do
-
         attr(:class, :any,
           doc: """
           Additional classname.

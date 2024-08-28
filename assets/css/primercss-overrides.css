@@ -21,7 +21,7 @@
 }
 
 /* Remove redundant top spacing of first form group. */
-.Box-body > .form-group:first-child {
+.Box-body>.form-group:first-child {
     margin-top: 0;
 }
 
@@ -32,7 +32,7 @@
 }
 
 /* Add the right octicon styles for underline nav items, to avoid having to add class `UnderlineNav-octicon`. */
-.UnderlineNav-item > .octicon {
+.UnderlineNav-item>.octicon {
     display: inline !important;
     margin-right: var(--base-size-8, 8px);
     color: var(--color-fg-muted);
@@ -40,8 +40,8 @@
 }
 
 /* Add the right octicon styles for side nav items, to avoid having to add class `SideNav-icon`. */
-.SideNav-item > .octicon,
-.SideNav-subItem > .octicon {
+.SideNav-item>.octicon,
+.SideNav-subItem>.octicon {
     width: var(--base-size-16, 16px);
     margin-right: var(--base-size-8, 8px);
     color: var(--color-fg-muted);
@@ -121,6 +121,12 @@
     height: var(--primer-control-large-size, 40px);
     padding-top: 0;
     padding-bottom: 0;
+}
+
+/* Fix too small dropdown menu */
+.dropdown-menu {
+    width: auto;
+    min-width: 160px;
 }
 
 /* Deprecation support (0.5.0). Make deprecated .form-group co-exist with FormControl to keep the layout (remove inline-flex). */
@@ -250,8 +256,7 @@ fieldset[disabled] .FormControl-label {
 }
 
 /* Provide default values for trailing action separator. */
-.FormControl-input-wrap
-    .FormControl-input-trailingAction.FormControl-input-trailingAction--divider:before {
+.FormControl-input-wrap .FormControl-input-trailingAction.FormControl-input-trailingAction--divider:before {
     height: var(--base-size-16, 16px);
     width: var(--primer-borderWidth-thin, 1px);
 }
@@ -269,14 +274,12 @@ fieldset[disabled] .FormControl-label {
 }
 
 /* Conditional trailing action. */
-input:placeholder-shown
-    + .FormControl-input-trailingAction.pl-trailingAction--if-value {
+input:placeholder-shown+.FormControl-input-trailingAction.pl-trailingAction--if-value {
     visibility: hidden;
 }
 
 /* -- idem */
-input:not(:placeholder-shown)
-    + .FormControl-input-trailingAction.pl-trailingAction--if-value {
+input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingAction--if-value {
     visibility: visible;
 }
 
@@ -291,7 +294,7 @@ input:not(:placeholder-shown)
     display: none;
 }
 
-.pl-valid + .FormControl-inlineValidation--success.phx-no-feedback {
+.pl-valid+.FormControl-inlineValidation--success.phx-no-feedback {
     display: block;
 }
 
@@ -322,12 +325,12 @@ input:not(:placeholder-shown)
 
 /* -- idem */
 .phx-no-feedback .FormControl-inlineValidation--error,
-.pl-valid + .FormControl-inlineValidation--error,
-.pl-neutral + .FormControl-inlineValidation--error {
+.pl-valid+.FormControl-inlineValidation--error,
+.pl-neutral+.FormControl-inlineValidation--error {
     display: none;
 }
 
-.pl-invalid + .FormControl-inlineValidation--success {
+.pl-invalid+.FormControl-inlineValidation--success {
     display: none;
 }
 
@@ -418,99 +421,73 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 
 /* Align checkbox styles with action list select icons. */
 /* Multiple select: use smaller checkboxes when shown in an action list (mimic ui icon "multiple-select-16") */
-.ActionList-item-visual
-    .ActionList-item-multiSelectIcon
-    input.FormControl-checkbox[type="checkbox"],
-.ActionList-item-visual
-    .ActionList-item-singleSelectCheckmark
-    input.FormControl-checkbox[type="checkbox"] {
+.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type="checkbox"],
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type="checkbox"] {
     height: 13px;
     width: 13px;
     margin: 0;
 }
 
 /* -- idem */
-.ActionList-item-visual
-    .ActionList-item-multiSelectIcon
-    input.FormControl-checkbox[type="checkbox"] {
+.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type="checkbox"] {
     border-color: var(--color-border-default);
 }
 
 /* -- idem */
-.ActionList-item-visual
-    .ActionList-item-multiSelectIcon
-    input.FormControl-checkbox[type="checkbox"]:checked {
+.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type="checkbox"]:checked {
     border-color: var(--color-accent-fg);
 }
 
 /* -- idem */
-.ActionList-item-visual
-    .ActionList-item-multiSelectIcon
-    input.FormControl-checkbox[type="checkbox"]:before {
+.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type="checkbox"]:before {
     height: 12px;
     width: 12px;
 }
 
 /* -- idem */
-.ActionList-item-visual
-    .ActionList-item-multiSelectIcon.FormControl-checkbox-wrap,
-.ActionList-item-visual
-    .ActionList-item-multiSelectIcon.FormControl-radio-wrap {
+.ActionList-item-visual .ActionList-item-multiSelectIcon.FormControl-checkbox-wrap,
+.ActionList-item-visual .ActionList-item-multiSelectIcon.FormControl-radio-wrap {
     gap: 0;
     width: var(--base-size-16, 16px);
 }
 
 /* Use borderless checkboxes when shown in an action list, single select style (mimic ui icon "single-select-16") */
-.ActionList-item-visual
-    .ActionList-item-singleSelectCheckmark
-    input.FormControl-checkbox[type="checkbox"] {
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type="checkbox"] {
     background: none;
     border: none;
 }
 
 /* -- idem */
-.ActionList-item-visual
-    .ActionList-item-singleSelectCheckmark
-    input.FormControl-checkbox[type="checkbox"]:before {
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type="checkbox"]:before {
     background-color: var(--color-fg-muted);
 }
 
 /* -- idem */
-.ActionList-item-visual
-    .ActionList-item-singleSelectCheckmark.FormControl-checkbox-wrap,
-.ActionList-item-visual
-    .ActionList-item-singleSelectCheckmark.FormControl-radio-wrap {
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark.FormControl-checkbox-wrap,
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark.FormControl-radio-wrap {
     gap: 0;
     width: var(--base-size-16, 16px);
 }
 
 /* Hide radio inputs in an action list. */
-.ActionList-item-visual
-    .ActionList-item-singleSelectCheckmark
-    input.FormControl-radio[type="radio"] {
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-radio[type="radio"] {
     visibility: hidden;
     width: 0;
     border: 0;
 }
 
 /* -- idem - reduce label element height. */
-.ActionList-item-visual
-    .ActionList-item-singleSelectCheckmark
-    .FormControl-radio-labelWrap
-    .FormControl-label {
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark .FormControl-radio-labelWrap .FormControl-label {
     display: grid;
 }
 
 /* -- idem - shorten animation duration. */
 @media screen and (prefers-reduced-motion: no-preference) {
-    .ActionList-item[aria-checked="false"]
-        .ActionList-item-singleSelectCheckmark,
-    .ActionList-item[aria-selected="false"]
-        .ActionList-item-singleSelectCheckmark,
-    .ActionList-item[aria-checked="true"]
-        .ActionList-item-singleSelectCheckmark,
-    .ActionList-item[aria-selected="true"]
-        .ActionList-item-singleSelectCheckmark {
+
+    .ActionList-item[aria-checked="false"] .ActionList-item-singleSelectCheckmark,
+    .ActionList-item[aria-selected="false"] .ActionList-item-singleSelectCheckmark,
+    .ActionList-item[aria-checked="true"] .ActionList-item-singleSelectCheckmark,
+    .ActionList-item[aria-selected="true"] .ActionList-item-singleSelectCheckmark {
         animation-duration: 80ms;
     }
 }
@@ -569,12 +546,12 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 }
 
 /* -- idem */
-.subnav-search input + .octicon {
+.subnav-search input+.octicon {
     display: none;
 }
 
 /* -- idem */
-.subnav-search input[type="search"] + .octicon {
+.subnav-search input[type="search"]+.octicon {
     position: absolute;
     top: var(--base-size-8, 8px);
     left: var(--base-size-8, 8px);
@@ -585,8 +562,8 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 }
 
 /* -- idem */
-.subnav-search-context + .subnav-search input[type="text"],
-.subnav-search-context + .subnav-search input[type="search"] {
+.subnav-search-context+.subnav-search input[type="text"],
+.subnav-search-context+.subnav-search input[type="search"] {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
@@ -615,17 +592,15 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 }
 
 /* Ensure that successive Box-row siblings don't show rounded top corners. */
-.Box-header + .Box-row,
-.Box-row + .Box-row {
+.Box-header+.Box-row,
+.Box-row+.Box-row {
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
 }
 
 /* Don't show link menu appearance for non-link items such as single and multiple select items: */
 /* hide selection line at left and selection background. */
-.ActionList-item:not(.ActionList-item--navActive)[aria-selected="true"]:not(
-        :hover
-    ) {
+.ActionList-item:not(.ActionList-item--navActive)[aria-selected="true"]:not( :hover) {
     background: none;
 }
 
@@ -635,7 +610,7 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 }
 
 /* Add space to label following an octicon. */
-.ActionList-item-label > .octicon + span {
+.ActionList-item-label>.octicon+span {
     margin-left: var(--base-size-8, 8px);
 }
 

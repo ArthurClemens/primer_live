@@ -26880,6 +26880,10 @@ a.branch-name .octicon {
   padding-top: 0;
   padding-bottom: 0;
 }
+.dropdown-menu {
+  width: auto;
+  min-width: 160px;
+}
 .form-group.FormControl {
   display: flex;
 }
