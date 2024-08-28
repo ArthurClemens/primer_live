@@ -191,33 +191,7 @@ defmodule PrimerLive.TestComponents.ActionListTest do
            """)
            |> format_html() ==
              """
-             <form method="post" phx-submit="save" phx-change="validate">
-             <ul aria-multiselectable="true" class="ActionList" role="listbox">
-             <li class="ActionList-item" role="option"><label class="ActionList-content"
-                for="todo_statuses_in-progress"><span
-                    class="ActionList-item-visual ActionList-item-visual--leading"><span
-                        class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input
-                            name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox"
-                            id="todo_statuses_in-progress" name="todo[statuses][]" type="checkbox"
-                            value="in-progress" /></span></span><span class="ActionList-item-label">In
-                    progress</span></label></li>
-             <li class="ActionList-item" role="option"><label class="ActionList-content"
-                for="todo_statuses_needs-review"><span
-                    class="ActionList-item-visual ActionList-item-visual--leading"><span
-                        class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input
-                            name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox"
-                            id="todo_statuses_needs-review" name="todo[statuses][]" type="checkbox"
-                            value="needs-review" /></span></span><span class="ActionList-item-label">Needs
-                    review</span></label></li>
-             <li class="ActionList-item" role="option"><label class="ActionList-content" for="todo_statuses_complete"><span
-                    class="ActionList-item-visual ActionList-item-visual--leading"><span
-                        class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input
-                            name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox"
-                            id="todo_statuses_complete" name="todo[statuses][]" type="checkbox"
-                            value="complete" /></span></span><span class="ActionList-item-label">Complete</span></label>
-             </li>
-             </ul>
-             </form>
+             <form method="post" phx-submit="save" phx-change="validate"><ul aria-multiselectable="true" class="ActionList" role="listbox"><li class="ActionList-item" role="option"><label class="ActionList-content" for="todo_statuses_in-progress"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo_statuses_in-progress" name="todo[statuses][]" tabindex="0" type="checkbox" value="in-progress" /></span></span><span class="ActionList-item-label">In progress</span></label></li><li class="ActionList-item" role="option"><label class="ActionList-content" for="todo_statuses_needs-review"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo_statuses_needs-review" name="todo[statuses][]" tabindex="0" type="checkbox" value="needs-review" /></span></span><span class="ActionList-item-label">Needs review</span></label></li><li class="ActionList-item" role="option"><label class="ActionList-content" for="todo_statuses_complete"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo_statuses_complete" name="todo[statuses][]" tabindex="0" type="checkbox" value="complete" /></span></span><span class="ActionList-item-label">Complete</span></label></li></ul></form>
              """
              |> format_html()
   end

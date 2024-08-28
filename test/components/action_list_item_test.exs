@@ -170,26 +170,7 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item" role="option">
-             <span class="ActionList-content">
-             <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
-             <input checked class="FormControl-checkbox" type="checkbox" value="true" />
-             </span>
-             </span>
-             <span class="ActionList-item-label">Item</span>
-             </span>
-             </li>
-             <li class="ActionList-item" role="option">
-             <span class="ActionList-content">
-             <span class="ActionList-item-visual ActionList-item-visual--leading">
-             <span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark">
-             <input class="FormControl-checkbox" type="checkbox" value="true" />
-             </span>
-             </span>
-             <span class="ActionList-item-label">Item</span>
-             </span>
-             </li>
+             <li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark"><input checked class="FormControl-checkbox" tabindex="0" type="checkbox" value="true" /></span></span><span class="ActionList-item-label">Item</span></span></li><li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap ActionList-item-singleSelectCheckmark"><input class="FormControl-checkbox" tabindex="0" type="checkbox" value="true" /></span></span><span class="ActionList-item-label">Item</span></span></li>
              """
              |> format_html()
   end
@@ -232,10 +213,7 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon">
-             <input checked class="FormControl-checkbox" type="checkbox" value="true" /></span></span><span class="ActionList-item-label">Item</span></span></li>
-             <li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon">
-             <input class="FormControl-checkbox" type="checkbox" value="true" /></span></span><span class="ActionList-item-label">Item</span></span></li>
+             <li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon"><input checked class="FormControl-checkbox" tabindex="0" type="checkbox" value="true" /></span></span><span class="ActionList-item-label">Item</span></span></li><li class="ActionList-item" role="option"><span class="ActionList-content"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap ActionList-item-multiSelectIcon"><input class="FormControl-checkbox" tabindex="0" type="checkbox" value="true" /></span></span><span class="ActionList-item-label">Item</span></span></li>
              """
              |> format_html()
   end

@@ -826,24 +826,16 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         prompt_attrs: [
           class: nil,
           "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
-          "data-close": %Phoenix.LiveView.JS{
-            ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]
-          },
+          "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
           "data-isescapable": "",
-          "data-open": %Phoenix.LiveView.JS{
-            ops: [
-              ["focus_first", %{to: "#some-id [data-content]"}],
-              ["add_class", %{names: ["is-open"], to: "#some-id"}],
-              ["add_class", %{to: "#some-id", names: ["is-showing"], time: 30, transition: [["duration-30"], [""], [""]]}]
-            ]
-          },
+          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]]},
           "data-prompt": "",
           id: "some-id",
           "phx-hook": "Prompt",
           "phx-mounted": false,
           "phx-remove": nil
         ],
-        toggle_attrs: ["aria-haspopup": "true", class: "btn", for: "some-id-toggle"],
+        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
         touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
       }
 
@@ -883,24 +875,16 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         prompt_attrs: [
           class: "is-open is-showing",
           "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
-          "data-close": %Phoenix.LiveView.JS{
-            ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]
-          },
+          "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
           "data-isescapable": "",
-          "data-open": %Phoenix.LiveView.JS{
-            ops: [
-              ["focus_first", %{to: "#some-id [data-content]"}],
-              ["add_class", %{names: ["is-open"], to: "#some-id"}],
-              ["add_class", %{to: "#some-id", names: ["is-showing"], time: 30, transition: [["duration-30"], [""], [""]]}]
-            ]
-          },
+          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]]},
           "data-prompt": "",
           id: "some-id",
           "phx-hook": "Prompt",
           "phx-mounted": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-open", to: "#some-id"}]]},
           "phx-remove": nil
         ],
-        toggle_attrs: ["aria-haspopup": "true", class: "btn", for: "some-id-toggle"],
+        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
         touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
       }
 
@@ -936,11 +920,37 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       %{
         backdrop_attrs: ["data-backdrop": "", "data-ismedium": ""],
         checkbox_attrs: ["aria-hidden": "true", hidden_input: false, id: "some-id-toggle", onchange: "window.Prompt && Prompt.change(this)"],
-        focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{to: "#some-id", attr: "data-cancel"}]]}],
+        focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         focus_wrap_id: "focus-wrap-some-id",
-        prompt_attrs: [class: nil, "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]}, "data-close": %Phoenix.LiveView.JS{ops: [["set_attr", %{to: "#some-id", attr: ["style", "--prompt-transition-duration: 500ms; --prompt-fast-transition-duration: 500ms;"]}], ["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{time: 500, names: ["is-open"], to: "#some-id", transition: [["duration-500"], [""], [""]]}], ["pop_focus", %{}]]}, "data-isescapable": "", "data-isfast": "", "data-open": %Phoenix.LiveView.JS{ops: [["set_attr", %{to: "#some-id", attr: ["style", "--prompt-transition-duration: 500ms; --prompt-fast-transition-duration: 500ms;"]}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-open"], to: "#some-id"}], ["add_class", %{time: 30, names: ["is-showing"], to: "#some-id", transition: [["duration-30"], [""], [""]]}]]}, "data-prompt": "", id: "some-id", "phx-hook": "Prompt", "phx-mounted": false, "phx-remove": nil],
-        toggle_attrs: ["aria-haspopup": "true", class: "btn", for: "some-id-toggle"],
-        touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{to: "#some-id", attr: "data-cancel"}]]}]
+        prompt_attrs: [
+          class: nil,
+          "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
+          "data-close": %Phoenix.LiveView.JS{
+            ops: [
+              ["set_attr", %{attr: ["style", "--prompt-transition-duration: 500ms; --prompt-fast-transition-duration: 500ms;"], to: "#some-id"}],
+              ["remove_class", %{names: ["is-showing"], to: "#some-id"}],
+              ["remove_class", %{names: ["is-open"], time: 500, to: "#some-id", transition: [["duration-500"], [""], [""]]}],
+              ["pop_focus", %{}]
+            ]
+          },
+          "data-isescapable": "",
+          "data-isfast": "",
+          "data-open": %Phoenix.LiveView.JS{
+            ops: [
+              ["set_attr", %{attr: ["style", "--prompt-transition-duration: 500ms; --prompt-fast-transition-duration: 500ms;"], to: "#some-id"}],
+              ["add_class", %{names: ["is-open"], to: "#some-id"}],
+              ["focus_first", %{to: "#some-id [data-content]"}],
+              ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]
+            ]
+          },
+          "data-prompt": "",
+          id: "some-id",
+          "phx-hook": "Prompt",
+          "phx-mounted": false,
+          "phx-remove": nil
+        ],
+        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
+        touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
       }
 
       Transition duration equals default duration:
@@ -985,20 +995,14 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
           },
           "data-isescapable": "",
           "data-isfast": "",
-          "data-open": %Phoenix.LiveView.JS{
-            ops: [
-              ["focus_first", %{to: "#some-id [data-content]"}],
-              ["add_class", %{names: ["is-open"], to: "#some-id"}],
-              ["add_class", %{time: 30, names: ["is-showing"], to: "#some-id", transition: [["duration-30"], [""], [""]]}]
-            ]
-          },
+          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]]},
           "data-prompt": "",
           id: "some-id",
           "phx-hook": "Prompt",
           "phx-mounted": false,
           "phx-remove": nil
         ],
-        toggle_attrs: ["aria-haspopup": "true", class: "btn", for: "some-id-toggle"],
+        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
         touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
       }
 
@@ -1039,25 +1043,17 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         prompt_attrs: [
           class: nil,
           "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
-          "data-close": %Phoenix.LiveView.JS{
-            ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]
-          },
+          "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
           "data-isescapable": "",
           "data-isfast": "",
-          "data-open": %Phoenix.LiveView.JS{
-            ops: [
-              ["focus_first", %{to: "#some-id [data-content]"}],
-              ["add_class", %{names: ["is-open"], to: "#some-id"}],
-              ["add_class", %{to: "#some-id", names: ["is-showing"], time: 30, transition: [["duration-30"], [""], [""]]}]
-            ]
-          },
+          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]]},
           "data-prompt": "",
           id: "some-id",
           "phx-hook": "Prompt",
           "phx-mounted": false,
           "phx-remove": nil
         ],
-        toggle_attrs: ["aria-haspopup": "true", class: "btn", for: "some-id-toggle"],
+        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
         touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
       }
 
@@ -1101,31 +1097,23 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       %{
         backdrop_attrs: ["data-backdrop": "", "data-isdark": ""],
         checkbox_attrs: ["aria-hidden": "true", hidden_input: true, id: "some-id-toggle", onchange: "window.Prompt && Prompt.change(this)"],
-        focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{to: "#some-id", attr: "data-cancel"}]]}],
+        focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         focus_wrap_id: "focus-wrap-some-id",
         prompt_attrs: [
           class: "my-menu",
           "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
-          "data-close": %Phoenix.LiveView.JS{
-            ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]
-          },
+          "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
           "data-isescapable": "",
           "data-isfast": "",
-          "data-open": %Phoenix.LiveView.JS{
-            ops: [
-              ["focus_first", %{to: "#some-id [data-content]"}],
-              ["add_class", %{names: ["is-open"], to: "#some-id"}],
-              ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]
-            ]
-          },
+          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]]},
           "data-prompt": "",
           id: "some-id",
           "phx-hook": "Prompt",
           "phx-mounted": false,
           "phx-remove": nil
         ],
-        toggle_attrs: ["aria-haspopup": "true", class: "btn", for: "some-id-toggle"],
-        touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{to: "#some-id", attr: "data-cancel"}]]}]
+        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
+        touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
       }
   """
   def prompt_attrs(assigns, %{
