@@ -805,7 +805,7 @@ defmodule PrimerLive.Component do
 
     attr(:onclick, :string,
       doc: """
-      Onclick event.
+      JavaScript onclick event.
       """
     )
 
@@ -1874,7 +1874,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer mentioned on https://primer.style/design/components
+  [Primer Menu (deprecated)](https://primer.style/deprecated-components/menu)
 
   """
 
@@ -2155,7 +2155,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer mentioned on https://primer.style/design/components
+  No longer referenced on https://primer.style/design/components
 
   """
 
@@ -2677,7 +2677,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer mentioned on https://primer.style/design/components
+  No longer referenced on https://primer.style/design/components
 
   """
 
@@ -7178,7 +7178,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Select menu](https://primer.style/design/components/select-menu)
+  [Primer Select menu (deprecated)](https://primer.style/deprecated-components/select-menu)
 
   """
 
@@ -7194,10 +7194,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_show("the select menu")
   PromptDeclarationHelpers.is_show_on_mount("the select menu")
+  PromptDeclarationHelpers.is_show("the select menu")
   PromptDeclarationHelpers.on_cancel("the select menu")
-  PromptDeclarationHelpers.prompt_options()
   PromptDeclarationHelpers.status_callback_selector("the select menu")
   PromptDeclarationHelpers.toggle_slot()
 
@@ -7542,10 +7541,10 @@ defmodule PrimerLive.Component do
     }
 
     %{
-      toggle_attrs: toggle_attrs,
-      checkbox_attrs: checkbox_attrs,
-      prompt_attrs: select_menu_attrs,
       backdrop_attrs: backdrop_attrs,
+      focus_wrap_attrs: focus_wrap_attrs,
+      prompt_attrs: prompt_attrs,
+      toggle_attrs: toggle_attrs,
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
@@ -7679,30 +7678,27 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:form, form)
-      |> assign(:field, field)
-      |> assign(:classes, classes)
-      |> assign(:select_menu_attrs, select_menu_attrs)
-      |> assign(:checkbox_attrs, checkbox_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
-      |> assign(:touch_layer_attrs, touch_layer_attrs)
-      |> assign(:toggle_attrs, toggle_attrs)
-      |> assign(:toggle_slot, toggle_slot)
+      |> assign(:classes, classes)
+      |> assign(:focus_wrap_attrs, focus_wrap_attrs)
+      |> assign(:item_slots, item_slots)
       |> assign(:menu_container_attrs, menu_container_attrs)
       |> assign(:menu_title, menu_title)
-      |> assign(:item_slots, item_slots)
+      |> assign(:prompt_attrs, prompt_attrs)
       |> assign(:render_item, render_item)
       |> assign(:render_tab, render_tab)
+      |> assign(:toggle_attrs, toggle_attrs)
+      |> assign(:toggle_slot, toggle_slot)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
 
     ~H"""
-    <div {@select_menu_attrs}>
+    <div {@prompt_attrs}>
       <label {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
       </label>
-      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
       <div data-prompt-content="">
         <%= if @backdrop_attrs !== [] do %>
           <div {@backdrop_attrs}></div>
@@ -7710,60 +7706,68 @@ defmodule PrimerLive.Component do
         <div {@touch_layer_attrs}></div>
         <div class={@classes.menu}>
           <div {@menu_container_attrs}>
-            <%= if not is_nil(@menu_title) do %>
-              <header class={@classes.header}>
-                <h3 class={@classes.menu_title}><%= @menu_title %></h3>
-                <button class={@classes.header_close_button} type="button" onclick="Prompt.hide(this)">
-                  <.octicon name="x-16" />
-                </button>
-              </header>
-            <% end %>
-            <%= if @message do %>
-              <%= for message <- @message do %>
-                <div class={AttributeHelpers.classnames([@classes.message, message[:class]])}>
-                  <%= render_slot(message) %>
-                </div>
+            <.focus_wrap {@focus_wrap_attrs}>
+              <%= if not is_nil(@menu_title) do %>
+                <header class={@classes.header}>
+                  <h3 class={@classes.menu_title}><%= @menu_title %></h3>
+                  <button
+                    class={@classes.header_close_button}
+                    type="button"
+                    phx-click={cancel_menu(@prompt_attrs[:id])}
+                  >
+                    <.octicon name="x-16" />
+                  </button>
+                </header>
               <% end %>
-            <% end %>
-            <%= if @filter && @filter !== [] do %>
-              <div class={@classes.filter}>
-                <%= render_slot(@filter) %>
-              </div>
-            <% end %>
-            <%= if @tab && @tab !== [] do %>
-              <div class={@classes.tabs}>
-                <%= for slot <- @tab do %>
-                  <%= @render_tab.(slot) %>
-                <% end %>
-              </div>
-            <% end %>
-            <%= if @loading do %>
-              <%= for loading <- @loading do %>
-                <div class={AttributeHelpers.classnames([@classes.loading, loading[:class]])}>
-                  <%= render_slot(loading) %>
-                </div>
-              <% end %>
-            <% end %>
-            <div class={@classes.menu_list}>
-              <%= if @blankslate do %>
-                <%= for blankslate <- @blankslate do %>
-                  <div class={AttributeHelpers.classnames([@classes.blankslate, blankslate[:class]])}>
-                    <%= render_slot(blankslate) %>
+              <%= if @message do %>
+                <%= for message <- @message do %>
+                  <div class={AttributeHelpers.classnames([@classes.message, message[:class]])}>
+                    <%= render_slot(message) %>
                   </div>
                 <% end %>
               <% end %>
-
-              <%= for item <- @item_slots do %>
-                <%= @render_item.(item) %>
-              <% end %>
-            </div>
-            <%= if @footer do %>
-              <%= for footer <- @footer do %>
-                <div class={AttributeHelpers.classnames([@classes.footer, footer[:class]])}>
-                  <%= render_slot(footer) %>
+              <%= if @filter && @filter !== [] do %>
+                <div class={@classes.filter}>
+                  <%= render_slot(@filter) %>
                 </div>
               <% end %>
-            <% end %>
+              <%= if @tab && @tab !== [] do %>
+                <div class={@classes.tabs}>
+                  <%= for slot <- @tab do %>
+                    <%= @render_tab.(slot) %>
+                  <% end %>
+                </div>
+              <% end %>
+              <%= if @loading do %>
+                <%= for loading <- @loading do %>
+                  <div class={AttributeHelpers.classnames([@classes.loading, loading[:class]])}>
+                    <%= render_slot(loading) %>
+                  </div>
+                <% end %>
+              <% end %>
+              <div class={@classes.menu_list}>
+                <%= if @blankslate do %>
+                  <%= for blankslate <- @blankslate do %>
+                    <div class={
+                      AttributeHelpers.classnames([@classes.blankslate, blankslate[:class]])
+                    }>
+                      <%= render_slot(blankslate) %>
+                    </div>
+                  <% end %>
+                <% end %>
+
+                <%= for item <- @item_slots do %>
+                  <%= @render_item.(item) %>
+                <% end %>
+              </div>
+              <%= if @footer do %>
+                <%= for footer <- @footer do %>
+                  <div class={AttributeHelpers.classnames([@classes.footer, footer[:class]])}>
+                    <%= render_slot(footer) %>
+                  </div>
+                <% end %>
+              <% end %>
+            </.focus_wrap>
           </div>
         </div>
       </div>
@@ -7825,20 +7829,20 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.id("Menu element id", "the menu", false)
+  PromptDeclarationHelpers.field()
   PromptDeclarationHelpers.focus_after_closing_selector("the menu")
   PromptDeclarationHelpers.focus_after_opening_selector("the menu")
   PromptDeclarationHelpers.form()
-  PromptDeclarationHelpers.field()
-  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.id("Menu element id", "the menu", false)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.is_dropdown_caret(false)
   PromptDeclarationHelpers.is_escapable()
-  PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_fast(true)
-  PromptDeclarationHelpers.is_show("the menu")
+  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_show_on_mount("the menu")
+  PromptDeclarationHelpers.is_show("the menu")
   PromptDeclarationHelpers.on_cancel("the menu")
   PromptDeclarationHelpers.status_callback_selector("the menu")
   PromptDeclarationHelpers.toggle_slot()
@@ -8957,7 +8961,6 @@ defmodule PrimerLive.Component do
 
   - [Primer Icon](https://primer.style/design/components/icon)
   - [List of Primer icons](https://primer.style/octicons/)
-  - [Primer/Octicons Usage](https://primer.style/octicons/guidelines/usage)
 
   """
 
@@ -9248,7 +9251,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Labels](https://primer.style/design/components/labels)
+  No longer referenced on https://primer.style/design/components
 
   """
 
@@ -10461,7 +10464,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer mentioned on https://primer.style/design/components
+  No longer referenced on https://primer.style/design/components
 
   """
 
@@ -12113,14 +12116,25 @@ defmodule PrimerLive.Component do
     %{
       focus_wrap_id: focus_wrap_id
     } =
-      AttributeHelpers.prompt_attrs(assigns, %{
-        form: nil,
-        field: nil,
-        toggle_slot: nil,
-        toggle_class: nil,
-        menu_class: nil,
-        is_menu: nil
-      })
+      AttributeHelpers.prompt_attrs(
+        Map.merge(assigns, %{
+          is_show: true,
+          on_cancel: nil,
+          focus_after_closing_selector: nil,
+          focus_after_opening_selector: nil,
+          is_escapable: nil,
+          transition_duration: nil,
+          status_callback_selector: nil
+        }),
+        %{
+          form: nil,
+          field: nil,
+          toggle_slot: nil,
+          toggle_class: nil,
+          menu_class: nil,
+          is_menu: nil
+        }
+      )
 
     class =
       AttributeHelpers.classnames([
@@ -13012,7 +13026,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer mentioned on https://primer.style/design/components
+  No longer referenced on https://primer.style/design/components
 
   """
 

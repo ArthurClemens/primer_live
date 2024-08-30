@@ -26544,7 +26544,7 @@ a.branch-name .octicon {
   visibility: visible;
 }
 [data-prompt]:not([data-ispush]) [data-prompt-content] {
-  visibility: hidden;
+  display: none;
 }
 [data-prompt].is-open [data-touch],
 [data-prompt].is-open [data-backdrop],
@@ -26553,6 +26553,7 @@ a.branch-name .octicon {
   display: block;
 }
 [data-prompt]:not([data-ispush]).is-open [data-prompt-content] {
+  display: block;
   visibility: visible;
 }
 [data-prompt] [data-content]:not([aria-role=menu]) {
@@ -26578,6 +26579,7 @@ a.branch-name .octicon {
 [data-prompt] [data-focuswrap],
 [data-prompt] [data-content],
 [data-prompt] [data-prompt-content],
+[data-prompt] .SelectMenu,
 [data-prompt] .ActionMenu {
   transition-duration: inherit;
   transition-timing-function: inherit;

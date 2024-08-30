@@ -104,26 +104,6 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro prompt_options do
-    quote do
-      attr(:prompt_options, :string,
-        default: nil,
-        doc: """
-        JavaScript state callback functions as string. For example:
-
-        ```
-        "{
-          willShow: function(elements) { console.log('willShow', elements) },
-          didShow: function(elements) { console.log('didShow', elements) },
-          willHide: function(elements) { console.log('willHide', elements) },
-          didHide: function(elements) { console.log('didHide', elements) }
-        }"
-        ```
-        """
-      )
-    end
-  end
-
   defmacro toggle_slot do
     quote do
       slot :toggle,

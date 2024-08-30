@@ -795,7 +795,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     rest: %{
       ...>       id: "some-id"
       ...>     },
-      ...>     prompt_options: nil,
       ...>     is_fast: false,
       ...>     is_dark_backdrop: false,
       ...>     is_medium_backdrop: false,
@@ -820,7 +819,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>   })
       %{
         backdrop_attrs: [],
-        checkbox_attrs: ["aria-hidden": "true", hidden_input: false, id: "some-id-toggle", onchange: "window.Prompt && Prompt.change(this)"],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         focus_wrap_id: "focus-wrap-some-id",
         prompt_attrs: [
@@ -845,7 +843,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     rest: %{
       ...>       id: "some-id"
       ...>     },
-      ...>     prompt_options: nil,
       ...>     is_fast: false,
       ...>     is_dark_backdrop: false,
       ...>     is_medium_backdrop: false,
@@ -869,7 +866,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>   })
       %{
         backdrop_attrs: [],
-        checkbox_attrs: ["aria-hidden": "true", hidden_input: false, id: "some-id-toggle", onchange: "window.Prompt && Prompt.change(this)"],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         focus_wrap_id: "focus-wrap-some-id",
         prompt_attrs: [
@@ -894,7 +890,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     rest: %{
       ...>       id: "some-id"
       ...>     },
-      ...>     prompt_options: nil,
       ...>     is_fast: true,
       ...>     is_dark_backdrop: false,
       ...>     is_medium_backdrop: true,
@@ -919,7 +914,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>   })
       %{
         backdrop_attrs: ["data-backdrop": "", "data-ismedium": ""],
-        checkbox_attrs: ["aria-hidden": "true", hidden_input: false, id: "some-id-toggle", onchange: "window.Prompt && Prompt.change(this)"],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         focus_wrap_id: "focus-wrap-some-id",
         prompt_attrs: [
@@ -959,7 +953,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     rest: %{
       ...>       id: "some-id"
       ...>     },
-      ...>     prompt_options: nil,
       ...>     is_fast: true,
       ...>     is_dark_backdrop: false,
       ...>     is_medium_backdrop: true,
@@ -984,7 +977,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>   })
       %{
         backdrop_attrs: ["data-backdrop": "", "data-ismedium": ""],
-        checkbox_attrs: ["aria-hidden": "true", hidden_input: false, id: "some-id-toggle", onchange: "window.Prompt && Prompt.change(this)"],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         focus_wrap_id: "focus-wrap-some-id",
         prompt_attrs: [
@@ -1012,7 +1004,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     rest: %{
       ...>       id: "some-id"
       ...>     },
-      ...>     prompt_options: nil,
       ...>     is_fast: true,
       ...>     is_dark_backdrop: false,
       ...>     is_medium_backdrop: true,
@@ -1037,7 +1028,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>   })
       %{
         backdrop_attrs: ["data-backdrop": "", "data-ismedium": ""],
-        checkbox_attrs: ["aria-hidden": "true", hidden_input: false, id: "some-id-toggle", onchange: "window.Prompt && Prompt.change(this)"],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         focus_wrap_id: "focus-wrap-some-id",
         prompt_attrs: [
@@ -1063,7 +1053,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     rest: %{
       ...>       id: "some-id"
       ...>     },
-      ...>     prompt_options: nil,
       ...>     is_fast: true,
       ...>     is_dark_backdrop: true,
       ...>     is_medium_backdrop: false,
@@ -1096,7 +1085,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>   })
       %{
         backdrop_attrs: ["data-backdrop": "", "data-isdark": ""],
-        checkbox_attrs: ["aria-hidden": "true", hidden_input: true, id: "some-id-toggle", onchange: "window.Prompt && Prompt.change(this)"],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         focus_wrap_id: "focus-wrap-some-id",
         prompt_attrs: [
@@ -1128,13 +1116,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     if is_nil(id), do: ComponentHelpers.missing_attribute("id")
 
-    prompt_options = assigns[:prompt_options] || toggle_slot[:options]
-
-    ComponentHelpers.deprecated_message(
-      "Deprecated attr options passed to slot toggle_slot: pass prompt_options to the main component. Since 0.4.0.",
-      !is_nil(toggle_slot[:options])
-    )
-
     input_name = if field, do: Phoenix.HTML.Form.input_name(form, field), else: nil
     generated_id = id || input_name || random_string()
 
@@ -1152,25 +1133,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
           "aria-haspopup": "true",
           for: toggle_id,
           "phx-click": Keyword.get(toggle_rest, :"phx-click", PromptHelpers.toggle_prompt(id))
-        ]
-      ])
-
-    checkbox_attrs =
-      append_attributes([
-        [
-          id: toggle_id,
-          "aria-hidden": "true",
-          # Only use the default extra hidden input when using the menu inside a form
-          hidden_input: !is_nil(field),
-          onchange:
-            [
-              "window.Prompt && Prompt.change(this",
-              if prompt_options do
-                ", #{prompt_options}"
-              end,
-              ")"
-            ]
-            |> Enum.join("")
         ]
       ])
 
@@ -1284,7 +1246,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     %{
       toggle_attrs: toggle_attrs,
-      checkbox_attrs: checkbox_attrs,
       prompt_attrs: prompt_attrs,
       backdrop_attrs: backdrop_attrs,
       touch_layer_attrs: touch_layer_attrs,
