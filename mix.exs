@@ -5,6 +5,7 @@ defmodule PrimerLive.MixProject do
     [
       app: :primer_live,
       version: "0.7.2",
+      elixir: "~> 1.17",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       elixirc_paths: elixirc_paths(Mix.env()),
       description: description(),
@@ -39,7 +40,9 @@ defmodule PrimerLive.MixProject do
       {:ecto, "~> 3.10", runtime: false},
       {:esbuild, "~> 0.8", only: [:dev, :test]},
       {:ex_doc, "~> 0.34", only: :dev},
+      {:github_workflows_generator, "~> 0.1", only: :dev, runtime: false},
       {:jason, "~> 1.4"},
+      {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       {:phoenix_ecto, "~> 4.5", only: :test, runtime: false},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_html_helpers, "~> 1.0"},
@@ -135,6 +138,17 @@ defmodule PrimerLive.MixProject do
         "cmd npm --prefix assets run build -- --format=iife --target=es2016 --minify --outfile=../priv/static/primer-live.min.js",
         "cmd rm -rf priv/static/*.cjs.css*",
         "cmd rm -rf priv/static/*.esm.css*"
+      ],
+      # CI
+      ci: [
+        "deps.unlock --check-unused",
+        "deps.audit",
+        "hex.audit",
+        "sobelow --config",
+        "format --check-formatted",
+        "credo --strict",
+        # "dialyzer",
+        "cmd MIX_ENV=test mix test"
       ]
     ]
   end
