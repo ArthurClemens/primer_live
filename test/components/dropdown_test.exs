@@ -42,31 +42,6 @@ defmodule PrimerLive.TestComponents.DropdownTest do
              |> format_html()
   end
 
-  test "Attribute: prompt_options" do
-    assigns = %{}
-
-    assert rendered_to_string(~H"""
-           <.dropdown
-             id="my-dropdown"
-             prompt_options="{
-              didHide: function() {
-              document.querySelector('#role-form').dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
-            }
-           }"
-           >
-             <:toggle>Menu</:toggle>
-             <:item>item</:item>
-             <:item>item</:item>
-             <:item>item</:item>
-           </.dropdown>
-           """)
-           |> format_html() ==
-             """
-             <div class="dropdown d-inline-block" data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-dropdown&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-dropdown&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-dropdown&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#my-dropdown [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-dropdown&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="my-dropdown" phx-hook="Prompt" prompt_options="{ didHide: function() { document.querySelector(&#39;#role-form&#39;).dispatchEvent(new Event(&#39;submit&#39;, {bubbles: true, cancelable: true})); } }"><label aria-haspopup="true" class="btn" for="my-dropdown-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#my-dropdown&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu<div class="dropdown-caret"></div></label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-dropdown&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div id="focus-wrap-my-dropdown" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-dropdown&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-my-dropdown-start" tabindex="0" aria-hidden="true"></span><ul aria-role="menu" class="dropdown-menu dropdown-menu-se" data-content=""><li><a href="#" class="dropdown-item">item</a></li><li><a href="#" class="dropdown-item">item</a></li><li><a href="#" class="dropdown-item">item</a></li></ul><span id="focus-wrap-my-dropdown-end" tabindex="0" aria-hidden="true"></span></div></div></div>
-             """
-             |> format_html()
-  end
-
   test "Slot: item (various types)" do
     assigns = %{}
 

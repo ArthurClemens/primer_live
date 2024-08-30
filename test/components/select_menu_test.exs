@@ -35,24 +35,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Button</button>
-             <div class="SelectMenu-divider" role="separator">Divider</div><a href="#url" role="menuitem"
-             class="SelectMenu-item">href link</a><a href="#url" data-phx-link="redirect" data-phx-link-state="push"
-             role="menuitem" class="SelectMenu-item">navigate link</a><a href="#url" data-phx-link="patch"
-             data-phx-link-state="push" role="menuitem" class="SelectMenu-item">patch link</a>
-             <hr class="SelectMenu-divider" /><button class="SelectMenu-item" role="menuitem">Button</button>
-             </div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu</label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Button</button><div class="SelectMenu-divider" role="separator">Divider</div><a href="#url" role="menuitem" class="SelectMenu-item">href link</a><a href="#url" data-phx-link="redirect" data-phx-link-state="push" role="menuitem" class="SelectMenu-item">navigate link</a><a href="#url" data-phx-link="patch" data-phx-link-state="push" role="menuitem" class="SelectMenu-item">patch link</a><hr class="SelectMenu-divider" /><button class="SelectMenu-item" role="menuitem">Button</button></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
@@ -73,19 +56,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <div class="SelectMenu-list"><button class="SelectMenu-item" disabled="true" role="menuitem">Button</button><a
-             href="#url" role="menuitem" class="SelectMenu-item" aria-disabled="true">Link</a></div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu</label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-list"><button class="SelectMenu-item" disabled="true" role="menuitem">Button</button><a href="#url" role="menuitem" class="SelectMenu-item" aria-disabled="true">Link</a></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
@@ -113,28 +84,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <div class="SelectMenu-list"><button aria-checked="true" class="SelectMenu-item" role="menuitemcheckbox"><svg
-              class="octicon SelectMenu-icon SelectMenu-icon--check" xmlns="http://www.w3.org/2000/svg" width="16"
-              height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>Button</button>
-             <div class="SelectMenu-divider" role="separator">Divider</div><a href="#url" role="menuitemcheckbox"
-             class="SelectMenu-item" aria-checked="true"><svg class="octicon SelectMenu-icon SelectMenu-icon--check"
-              xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-              viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>Link</a>
-             <hr class="SelectMenu-divider" /><button class="SelectMenu-item" role="menuitem"><svg
-              class="octicon SelectMenu-icon SelectMenu-icon--check" xmlns="http://www.w3.org/2000/svg" width="16"
-              height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>Button</button>
-             </div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu</label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-list"><button aria-checked="true" class="SelectMenu-item" role="menuitemcheckbox"><svg class="octicon SelectMenu-icon SelectMenu-icon--check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>Button</button><div class="SelectMenu-divider" role="separator">Divider</div><a href="#url" role="menuitemcheckbox" class="SelectMenu-item" aria-checked="true"><svg class="octicon SelectMenu-icon SelectMenu-icon--check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>Link</a><hr class="SelectMenu-divider" /><button class="SelectMenu-item" role="menuitem"><svg class="octicon SelectMenu-icon SelectMenu-icon--check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg>Button</button></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
@@ -156,24 +106,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div data-isfast="" data-prompt="" id="my-menu-id" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="my-menu-id-toggle">Menu</label><input aria-hidden="true" id="my-menu-id-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <header class="SelectMenu-header">
-             <h3 class="SelectMenu-title">Title</h3><button class="SelectMenu-closeButton" type="button"
-             onclick="Prompt.hide(this)"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-              viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></button>
-             </header>
-             <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
-             class="SelectMenu-item" role="menuitem">Item 2</button></div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-menu-id&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-menu-id&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-menu-id&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#my-menu-id [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-menu-id&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="my-menu-id" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="my-menu-id-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#my-menu-id&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu</label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-menu-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-my-menu-id" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-menu-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-my-menu-id-start" tabindex="0" aria-hidden="true"></span><header class="SelectMenu-header"><h3 class="SelectMenu-title">Title</h3><button class="SelectMenu-closeButton" type="button" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-menu-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></button></header><div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button class="SelectMenu-item" role="menuitem">Item 2</button></div><span id="focus-wrap-my-menu-id-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
@@ -195,20 +128,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
-             class="SelectMenu-item" role="menuitem">Item 2</button></div>
-             <div class="SelectMenu-footer">Footer</div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu</label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button class="SelectMenu-item" role="menuitem">Item 2</button></div><div class="SelectMenu-footer">Footer</div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
@@ -234,23 +154,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu SelectMenu--hasFilter">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <div class="SelectMenu-filter">
-             <form><input aria-label="Filter" class="FormControl-input FormControl-medium SelectMenu-input" id="q" name="q"
-              placeholder="Filter" type="search" /></form>
-             </div>
-             <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
-             class="SelectMenu-item" role="menuitem">Item 2</button></div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu</label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu SelectMenu--hasFilter"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-filter"><form><input aria-label="Filter" class="FormControl-input FormControl-medium SelectMenu-input" id="q" name="q" placeholder="Filter" type="search" /></form></div><div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button class="SelectMenu-item" role="menuitem">Item 2</button></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
@@ -277,21 +181,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <div class="SelectMenu-tabs"><button aria-selected="true" class="SelectMenu-tab" role="tab">Selected
-             tab</button><button class="SelectMenu-tab" role="tab">Other tab</button></div>
-             <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
-             class="SelectMenu-item" role="menuitem">Item 2</button></div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu</label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-tabs"><button aria-selected="true" class="SelectMenu-tab" role="tab">Selected tab</button><button class="SelectMenu-tab" role="tab">Other tab</button></div><div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button class="SelectMenu-item" role="menuitem">Item 2</button></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
@@ -307,20 +197,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <div class="SelectMenu-loading"><svg class="octicon anim-pulse" xmlns="http://www.w3.org/2000/svg" width="48"
-             height="48" viewBox="0 0 48 48">STRIPPED_SVG_PATHS</svg></div>
-             <div class="SelectMenu-list"></div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu</label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-loading"><svg class="octicon anim-pulse" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">STRIPPED_SVG_PATHS</svg></div><div class="SelectMenu-list"></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
@@ -336,20 +213,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <div class="SelectMenu-list">
-             <div class="SelectMenu-blankslate">Blankslate content</div>
-             </div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu</label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-list"><div class="SelectMenu-blankslate">Blankslate content</div></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
@@ -365,19 +229,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <div class="SelectMenu-message color-bg-danger color-fg-danger">Message</div>
-             <div class="SelectMenu-list"></div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu</label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-message color-bg-danger color-fg-danger">Message</div><div class="SelectMenu-list"></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
@@ -398,19 +250,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <div class="SelectMenu-list SelectMenu-list--borderless"><button class="SelectMenu-item" role="menuitem">Item
-             1</button><button class="SelectMenu-item" role="menuitem">Item 2</button></div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu</label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-list SelectMenu-list--borderless"><button class="SelectMenu-item" role="menuitem">Item 1</button><button class="SelectMenu-item" role="menuitem">Item 2</button></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
@@ -431,60 +271,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu pl-aligned-end">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
-             class="SelectMenu-item" role="menuitem">Item 2</button></div>
-             </div>
-             </div>
-             </div>
-             </div>
-             """
-             |> format_html()
-  end
-
-  test "Attribute: prompt_options" do
-    assigns = %{}
-
-    assert rendered_to_string(~H"""
-           <.select_menu
-             id="querty"
-             prompt_options="{
-            didHide: function() {
-              document.querySelector('#role-form').dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
-            }
-           }"
-           >
-             <:toggle>Menu</:toggle>
-             <:item>
-               Item 1
-             </:item>
-             <:item>
-               Item 2
-             </:item>
-           </.select_menu>
-           """)
-           |> format_html() ==
-             """
-             <div data-isfast="" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this, { didHide: function() { document.querySelector(&#39;#role-form&#39;).dispatchEvent(new Event(&#39;submit&#39;, {bubbles: true, cancelable: true})); } })"
-             type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
-             class="SelectMenu-item" role="menuitem">Item 2</button></div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu</label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu pl-aligned-end"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button class="SelectMenu-item" role="menuitem">Item 2</button></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
@@ -545,37 +332,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div class="select_menu-x my-select-menu" data-isfast="" data-prompt="" id="my-menu-id" phx-hook="Prompt"><label
-             aria-haspopup="true" class="toggle-x my-toggle" for="my-menu-id-toggle">Menu<div class="dropdown-caret caret-x">
-             </div></label><input aria-hidden="true" id="my-menu-id-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu SelectMenu--hasFilter menu-x">
-             <div aria-role="menu" class="SelectMenu-modal menu_container-x" data-content="">
-             <header class="SelectMenu-header header-x">
-             <h3 class="SelectMenu-title menu_title-x">Title</h3><button
-             class="SelectMenu-closeButton header_close_button-x" type="button" onclick="Prompt.hide(this)"><svg
-              class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-              viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></button>
-             </header>
-             <div class="SelectMenu-message message-x my-message">Message</div>
-             <div class="SelectMenu-filter filter-x">Filter</div>
-             <div class="SelectMenu-tabs tabs-x"><button aria-selected="true" class="SelectMenu-tab tab-x my-tab"
-             role="tab">Selected tab</button><button class="SelectMenu-tab tab-x" role="tab">Other tab</button></div>
-             <div class="SelectMenu-loading loading-x my-loading"><svg class="octicon anim-pulse"
-             xmlns="http://www.w3.org/2000/svg" width="48" height="48"
-             viewBox="0 0 48 48">STRIPPED_SVG_PATHS</svg></div>
-             <div class="SelectMenu-list menu_list-x">
-             <div class="SelectMenu-blankslate blankslate-x my-blankslate">Blankslate content</div><button
-             class="SelectMenu-item item-x my-item" role="menuitem">Item 1</button><button class="SelectMenu-item item-x"
-             role="menuitem">Item 2</button>
-             </div>
-             <div class="SelectMenu-footer footer-x my-footer">Footer</div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div class="select_menu-x my-select-menu" data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-menu-id&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-menu-id&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-menu-id&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#my-menu-id [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-menu-id&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="my-menu-id" phx-hook="Prompt"><label aria-haspopup="true" class="toggle-x my-toggle" for="my-menu-id-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#my-menu-id&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu<div class="dropdown-caret caret-x"></div></label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-menu-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu SelectMenu--hasFilter menu-x"><div aria-role="menu" class="SelectMenu-modal menu_container-x" data-content=""><div id="focus-wrap-my-menu-id" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-menu-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-my-menu-id-start" tabindex="0" aria-hidden="true"></span><header class="SelectMenu-header header-x"><h3 class="SelectMenu-title menu_title-x">Title</h3><button class="SelectMenu-closeButton header_close_button-x" type="button" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-menu-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></button></header><div class="SelectMenu-message message-x my-message">Message</div><div class="SelectMenu-filter filter-x">Filter</div><div class="SelectMenu-tabs tabs-x"><button aria-selected="true" class="SelectMenu-tab tab-x my-tab" role="tab">Selected tab</button><button class="SelectMenu-tab tab-x" role="tab">Other tab</button></div><div class="SelectMenu-loading loading-x my-loading"><svg class="octicon anim-pulse" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">STRIPPED_SVG_PATHS</svg></div><div class="SelectMenu-list menu_list-x"><div class="SelectMenu-blankslate blankslate-x my-blankslate">Blankslate content</div><button class="SelectMenu-item item-x my-item" role="menuitem">Item 1</button><button class="SelectMenu-item item-x" role="menuitem">Item 2</button></div><div class="SelectMenu-footer footer-x my-footer">Footer</div><span id="focus-wrap-my-menu-id-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
@@ -596,19 +353,7 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
            """)
            |> format_html() ==
              """
-             <div data-isfast="" data-prompt="" dir="rtl" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn"
-             for="querty-toggle">Menu</label><input aria-hidden="true" id="querty-toggle" name="[]"
-             onchange="window.Prompt &amp;&amp; Prompt.change(this)" type="checkbox" value="true" />
-             <div data-prompt-content>
-             <div data-touch=""></div>
-             <div class="SelectMenu">
-             <div aria-role="menu" class="SelectMenu-modal" data-content="">
-             <div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button
-             class="SelectMenu-item" role="menuitem">Item 2</button></div>
-             </div>
-             </div>
-             </div>
-             </div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" dir="rtl" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu</label><div data-prompt-content=""><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button class="SelectMenu-item" role="menuitem">Item 2</button></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div>
              """
              |> format_html()
   end
