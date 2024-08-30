@@ -1,10 +1,11 @@
 # Changelog
 
-## 0.8.0
+## Next
 
 Refactoring of dialogs, drawers and menus, using the `Phoenix.LiveView.JS` API - and largely based on `CoreComponent`'s modal component. These changes reduce reliance on additional JavaScript, improve alignment with standard practice, and include accessibility improvements.
 
 See component documentation for further details:
+
 - [Action menu](`PrimerLive.Component.action_menu/1`)
 - [Dialog](`PrimerLive.Component.dialog/1`)
 - [Drawer](`PrimerLive.Component.drawer/1`)
@@ -48,11 +49,14 @@ See for update instructions: "Updating to 0.8" below.
 - Replace `Promp.show` and `Prompt.hide`:
 
 For example:
+
 ```
 onclick="Prompt.show('#my-dialog')"
 onclick="Prompt.hide('#my-dialog')"
 ```
+
 Becomes:
+
 ```
 phx-click={open_dialog("my-dialog")}
 phx-click={close_dialog("my-dialog")}
