@@ -43,6 +43,7 @@ See for update instructions: "Updating to 0.8" below.
 - Removed attribute `phx_click_touch` in favor of using `status_callback_selector`, because closing can be initiated in several ways, not only through backdrop clicks, and we can't assume that the event handler always hosts the dialog/drawer as well.
 - Renamed attribute `focus_first` to `focus_after_opening_selector`. Focus on the first interactive element is now default; with `focus_after_opening_selector` a specific element can be appointed.
 - Reduced the size of the `Prompt` hook script.
+- Added separate `z-index` settings for menus, so that the menu panel (and optional backdrop) are closer to the page, allowing them to be covered by other elements such as top bars. Using a `z-index` of `100` for a top bar ensures that it sits in between menus and dialogs/drawers.
 
 ### Updating to 0.8
 

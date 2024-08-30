@@ -26525,15 +26525,18 @@ a.branch-name .octicon {
   --prompt-transition-timing-function: ease-in-out;
   --prompt-transition-duration: 170ms;
   --prompt-fast-transition-duration: 130ms;
-  --drawer-width: 320px;
-  --prompt-z-index-backdrop: 97;
-  --prompt-z-index-touch: 98;
-  --prompt-z-index-focus-wrap: 99;
-  --prompt-z-index-menu-content: 100;
+  --prompt-z-index-menu-backdrop: 40;
+  --prompt-z-index-menu-touch: 41;
+  --prompt-z-index-menu-focus-wrap: 42;
+  --prompt-z-index-menu-content: 50;
+  --prompt-z-index-backdrop: 190;
+  --prompt-z-index-touch: 191;
+  --prompt-z-index-focus-wrap: 192;
   --prompt-z-index-drawer-content: 200;
   --prompt-z-index-dialog-content: 300;
   --prompt-max-height-content: 80;
   --prompt-drawer-content-width: initial;
+  --drawer-width: 320px;
 }
 [data-prompt] [data-touch],
 [data-prompt] [data-backdrop],
@@ -26547,7 +26550,7 @@ a.branch-name .octicon {
 [data-prompt].is-open [data-content] {
   display: block;
 }
-[data-prompt] [data-content]:not([aria-role=menu]) {
+[data-prompt]:not([data-menu]) [data-content] {
   animation-name: unset;
   animation-duration: unset;
   animation-timing-function: unset;
@@ -26576,15 +26579,32 @@ a.branch-name .octicon {
 }
 [data-prompt][data-focuswrap] {
   position: relative;
+}
+[data-prompt]:not([data-ismenu]) [data-backdrop] {
+  z-index: var(--prompt-z-index-backdrop);
+}
+[data-prompt][data-ismenu] [data-backdrop] {
+  z-index: var(--prompt-z-index-menu-backdrop);
+}
+[data-prompt]:not([data-ismenu]) [data-touch] {
+  z-index: var(--prompt-z-index-touch);
+}
+[data-prompt][data-ismenu] [data-touch] {
+  z-index: var(--prompt-z-index-menu-touch);
+}
+[data-prompt]:not([data-ismenu]) [data-focuswrap] {
   z-index: var(--prompt-z-index-focus-wrap);
 }
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]) {
+[data-prompt][data-ismenu] [data-focuswrap] {
+  z-index: var(--prompt-z-index-menu-focus-wrap);
+}
+[data-prompt]:not([data-isdrawer], [data-ismenu]) [data-content] {
   z-index: var(--prompt-z-index-dialog-content);
 }
-[data-prompt][data-isdrawer] [data-content]:not([aria-role=menu]) {
+[data-prompt][data-isdrawer]:not([data-ismenu]) [data-content] {
   z-index: var(--prompt-z-index-drawer-content);
 }
-[data-prompt] [data-content][aria-role=menu] {
+[data-prompt][data-ismenu] [data-content] {
   z-index: var(--prompt-z-index-menu-content);
 }
 [data-prompt].is-open [data-touch],
@@ -26594,12 +26614,6 @@ a.branch-name .octicon {
   right: 0;
   bottom: 0;
   left: 0;
-}
-[data-prompt].is-open [data-touch] {
-  z-index: var(--prompt-z-index-touch);
-}
-[data-prompt].is-open [data-backdrop] {
-  z-index: var(--prompt-z-index-backdrop);
 }
 [data-prompt] [data-backdrop] {
   background: var(--prompt-background-color-backdrop);
@@ -26616,14 +26630,14 @@ a.branch-name .octicon {
 [data-prompt].is-showing [data-backdrop][data-islight] {
   opacity: var(--prompt-background-opacity-backdrop-light);
 }
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]) {
+[data-prompt]:not([data-isdrawer], [data-ismenu]) [data-content] {
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
   overflow: auto;
   margin: 0 auto;
 }
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]):not(dialog) {
+[data-prompt]:not([data-isdrawer], [data-ismenu]) [data-content]:not(dialog) {
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -26631,7 +26645,6 @@ a.branch-name .octicon {
   opacity: 1;
 }
 [data-prompt][data-isdrawer] [data-content] {
-  z-index: var(--prompt-z-index-content);
   transition-property: transform;
   transition-timing-function: var(--prompt-transition-timing-function);
   position: fixed;
@@ -26770,7 +26783,7 @@ a.branch-name .octicon {
   --prompt-background-opacity-backdrop-medium: 0.35;
   --prompt-background-opacity-backdrop-light: 0.2;
 }
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role=menu]) {
+[data-prompt]:not([data-isdrawer], [data-ismenu]) [data-content] {
   max-height: calc(1vh * var(--prompt-max-height-content));
   max-height: calc(1dvh * var(--prompt-max-height-content));
 }

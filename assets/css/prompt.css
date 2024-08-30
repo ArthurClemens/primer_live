@@ -1,27 +1,36 @@
 [data-prompt] {
-    /* colors */
+    /* Colors */
     --prompt-background-color-backdrop: black;
     --prompt-background-opacity-backdrop-dark: 0.5;
     /* - default: */
     --prompt-background-opacity-backdrop-medium: 0.2;
     --prompt-background-opacity-backdrop-light: 0.07;
-    /* transitions */
+
+    /* Transitions */
     --prompt-transition-timing-function: ease-in-out;
     --prompt-transition-duration: 170ms;
     --prompt-fast-transition-duration: 130ms;
-    /* drawer */
-    --drawer-width: 320px;
-    /* z-index */
-    --prompt-z-index-backdrop: 97;
-    --prompt-z-index-touch: 98;
-    --prompt-z-index-focus-wrap: 99;
-    --prompt-z-index-menu-content: 100;
+
+    /* Z-index */
+    /* - menus */
+    --prompt-z-index-menu-backdrop: 40;
+    --prompt-z-index-menu-touch: 41;
+    --prompt-z-index-menu-focus-wrap: 42;
+    --prompt-z-index-menu-content: 50;
+    /* - dialog and drawer */
+    --prompt-z-index-backdrop: 190;
+    --prompt-z-index-touch: 191;
+    --prompt-z-index-focus-wrap: 192;
     --prompt-z-index-drawer-content: 200;
     --prompt-z-index-dialog-content: 300;
-    /* content */
+
+    /* Sizes
+    /* - content */
     --prompt-max-height-content: 80;
-    /* vh and dvh */
+    /* - vh and dvh */
     --prompt-drawer-content-width: initial;
+    /* - drawer */
+    --drawer-width: 320px;
 }
 
 /* -----------------------------------------------------
@@ -45,7 +54,7 @@ GENERAL
 }
 
 /* Reset any conflicting animation styles set on dialogs */
-[data-prompt] [data-content]:not([aria-role="menu"]) {
+[data-prompt]:not([data-menu]) [data-content] {
     animation-name: unset;
     animation-duration: unset;
     animation-timing-function: unset;
@@ -80,20 +89,51 @@ GENERAL
     transition-timing-function: inherit;
 }
 
+/* -----------------------------------------------------
+Z-INDEX
+----------------------------------------------------- */
+
 [data-prompt][data-focuswrap] {
     position: relative;
+}
+
+/* Backdrop layer z-index */
+[data-prompt]:not([data-ismenu]) [data-backdrop] {
+    z-index: var(--prompt-z-index-backdrop);
+}
+
+[data-prompt][data-ismenu] [data-backdrop] {
+    z-index: var(--prompt-z-index-menu-backdrop);
+}
+
+/* Touch layer z-index */
+[data-prompt]:not([data-ismenu]) [data-touch] {
+    z-index: var(--prompt-z-index-touch);
+}
+
+[data-prompt][data-ismenu] [data-touch] {
+    z-index: var(--prompt-z-index-menu-touch);
+}
+
+/* Focus wrap layer z-index */
+[data-prompt]:not([data-ismenu]) [data-focuswrap] {
     z-index: var(--prompt-z-index-focus-wrap);
 }
 
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
+[data-prompt][data-ismenu] [data-focuswrap] {
+    z-index: var(--prompt-z-index-menu-focus-wrap);
+}
+
+/* Content */
+[data-prompt]:not([data-isdrawer], [data-ismenu]) [data-content] {
     z-index: var(--prompt-z-index-dialog-content);
 }
 
-[data-prompt][data-isdrawer] [data-content]:not([aria-role="menu"]) {
+[data-prompt][data-isdrawer]:not([data-ismenu]) [data-content] {
     z-index: var(--prompt-z-index-drawer-content);
 }
 
-[data-prompt] [data-content][aria-role="menu"] {
+[data-prompt][data-ismenu] [data-content] {
     z-index: var(--prompt-z-index-menu-content);
 }
 
@@ -111,15 +151,6 @@ TOUCH AND BACKDROP
     left: 0;
 }
 
-/* Touch layer z-index */
-[data-prompt].is-open [data-touch] {
-    z-index: var(--prompt-z-index-touch);
-}
-
-/* Backdrop layer z-index */
-[data-prompt].is-open [data-backdrop] {
-    z-index: var(--prompt-z-index-backdrop);
-}
 
 /* Set up backdrop fade */
 [data-prompt] [data-backdrop] {
@@ -150,7 +181,7 @@ DIALOG
 
 /* Set positioning of dialogs (excluding menus and the dialog element) */
 /* The dialog element has a specific (native) way of positioning, so we only position on the vertical axis here */
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
+[data-prompt]:not([data-isdrawer], [data-ismenu]) [data-content] {
     position: fixed;
     top: 50%;
     transform: translateY(-50%);
@@ -159,7 +190,7 @@ DIALOG
 }
 
 /* Center on screen */
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]):not(dialog) {
+[data-prompt]:not([data-isdrawer], [data-ismenu]) [data-content]:not(dialog) {
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -175,7 +206,6 @@ DRAWER
 
 /* Drawer content */
 [data-prompt][data-isdrawer] [data-content] {
-    z-index: var(--prompt-z-index-content);
     transition-property: transform;
     transition-timing-function: var(--prompt-transition-timing-function);
     position: fixed;
@@ -376,7 +406,7 @@ DRAWER
 }
 
 /* Set max height on dialog content. */
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
+[data-prompt]:not([data-isdrawer], [data-ismenu]) [data-content] {
     max-height: calc(1vh * var(--prompt-max-height-content));
     max-height: calc(1dvh * var(--prompt-max-height-content));
 }

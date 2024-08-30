@@ -825,6 +825,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
           "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
           "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
           "data-isescapable": "",
+          "data-ismenu": "",
           "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]]},
           "data-prompt": "",
           id: "some-id",
@@ -1031,6 +1032,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
           "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
           "data-isescapable": "",
           "data-isfast": "",
+          "data-ismenu": "",
           "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]]},
           "data-prompt": "",
           id: "some-id",
@@ -1087,6 +1089,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
           "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
           "data-isescapable": "",
           "data-isfast": "",
+          "data-ismenu": "",
           "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]]},
           "data-prompt": "",
           id: "some-id",
@@ -1192,6 +1195,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
             )
             |> JS.pop_focus()
         ],
+        is_menu && ["data-ismenu": ""],
         assigns[:is_fast] && ["data-isfast": ""],
         assigns.is_escapable != false && ["data-isescapable": ""]
       ])
