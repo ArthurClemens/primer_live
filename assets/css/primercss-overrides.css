@@ -634,6 +634,11 @@ span.ActionList-content[aria-expanded] {
     padding: 0;
 }
 
+/* Restore hover when ActionList-content is used on a label */
+label.ActionList-content {
+    cursor: inherit;
+}
+
 /* Reset extra padding for touch devices because lots of layouts break because of it. */
 @media (pointer: coarse) {
     .ActionList-content {
@@ -787,6 +792,13 @@ span[data-color-mode] {
     box-shadow:
         0 0 0 1px var(--color-avatar-border),
         var(--avatar-shadow, var(--color-avatar-child-shadow));
+}
+
+/* Fix monospace font */
+.FormControl-input.FormControl-monospace,
+.FormControl-select.FormControl-monospace,
+.FormControl-textarea.FormControl-monospace {
+    font-family: var(--fontStack-monospace, "ui-monospace", "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace);
 }
 
 /* Use "aligned" start / end instead of left / right */
