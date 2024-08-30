@@ -12,13 +12,15 @@
     /* drawer */
     --drawer-width: 320px;
     /* z-index */
-    --prompt-z-index-backdrop: 98;
-    --prompt-z-index-touch: 99;
+    --prompt-z-index-backdrop: 97;
+    --prompt-z-index-touch: 98;
+    --prompt-z-index-focus-wrap: 99;
     --prompt-z-index-menu-content: 100;
     --prompt-z-index-drawer-content: 200;
     --prompt-z-index-dialog-content: 300;
     /* content */
-    --prompt-max-height-content: 80vh;
+    --prompt-max-height-content: 80;
+    /* vh and dvh */
     --prompt-drawer-content-width: initial;
 }
 
@@ -35,25 +37,11 @@ GENERAL
     display: none;
 }
 
-/* -- Push drawers should be visible, because the pushed content should be visible at all times. */
-[data-prompt] [data-prompt-content] {
-    visibility: visible;
-}
-
-[data-prompt]:not([data-ispush]) [data-prompt-content] {
-    display: none;
-}
-
 [data-prompt].is-open [data-touch],
 [data-prompt].is-open [data-backdrop],
 [data-prompt].is-open [data-focuswrap],
 [data-prompt].is-open [data-content] {
     display: block;
-}
-
-[data-prompt]:not([data-ispush]).is-open [data-prompt-content] {
-    display: block;
-    visibility: visible;
 }
 
 /* Reset any conflicting animation styles set on dialogs */
@@ -86,11 +74,15 @@ GENERAL
 [data-prompt] [data-backdrop],
 [data-prompt] [data-focuswrap],
 [data-prompt] [data-content],
-[data-prompt] [data-prompt-content],
 [data-prompt] .SelectMenu,
 [data-prompt] .ActionMenu {
     transition-duration: inherit;
     transition-timing-function: inherit;
+}
+
+[data-prompt][data-focuswrap] {
+    position: relative;
+    z-index: var(--prompt-z-index-focus-wrap);
 }
 
 [data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
@@ -385,7 +377,8 @@ DRAWER
 
 /* Set max height on dialog content. */
 [data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
-    max-height: var(--prompt-max-height-content);
+    max-height: calc(1vh * var(--prompt-max-height-content));
+    max-height: calc(1dvh * var(--prompt-max-height-content));
 }
 
 /* Box--overlay: drawer width */
@@ -394,6 +387,6 @@ DRAWER
 }
 
 /* Box--overlay: prevent shadow for push drawer when not showing. */
-[data-prompt][data-isdrawer]:not(.is-showing) [data-prompt-content] [data-drawer-content] {
+[data-prompt][data-isdrawer]:not(.is-showing) [data-drawer-content] {
     box-shadow: none;
 }

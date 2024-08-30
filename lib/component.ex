@@ -7036,22 +7036,20 @@ defmodule PrimerLive.Component do
           <div class={@classes.caret}></div>
         <% end %>
       </label>
-      <div data-prompt-content="">
-        <%= if @backdrop_attrs !== [] do %>
-          <div {@backdrop_attrs}></div>
-        <% end %>
-        <div {@touch_layer_attrs}></div>
-        <%= if not is_nil(@menu_title) do %>
-          <div {@menu_container_attrs}>
-            <div class={@classes.header}>
-              <%= @menu_title %>
-            </div>
-            <%= @render_menu.([]) %>
+      <%= if @backdrop_attrs !== [] do %>
+        <div {@backdrop_attrs}></div>
+      <% end %>
+      <div {@touch_layer_attrs}></div>
+      <%= if not is_nil(@menu_title) do %>
+        <div {@menu_container_attrs}>
+          <div class={@classes.header}>
+            <%= @menu_title %>
           </div>
-        <% else %>
-          <%= @render_menu.(@menu_container_attrs) %>
-        <% end %>
-      </div>
+          <%= @render_menu.([]) %>
+        </div>
+      <% else %>
+        <%= @render_menu.(@menu_container_attrs) %>
+      <% end %>
     </div>
     """
   end
@@ -7699,76 +7697,72 @@ defmodule PrimerLive.Component do
           <div class={@classes.caret}></div>
         <% end %>
       </label>
-      <div data-prompt-content="">
-        <%= if @backdrop_attrs !== [] do %>
-          <div {@backdrop_attrs}></div>
-        <% end %>
-        <div {@touch_layer_attrs}></div>
-        <div class={@classes.menu}>
-          <div {@menu_container_attrs}>
-            <.focus_wrap {@focus_wrap_attrs}>
-              <%= if not is_nil(@menu_title) do %>
-                <header class={@classes.header}>
-                  <h3 class={@classes.menu_title}><%= @menu_title %></h3>
-                  <button
-                    class={@classes.header_close_button}
-                    type="button"
-                    phx-click={cancel_menu(@prompt_attrs[:id])}
-                  >
-                    <.octicon name="x-16" />
-                  </button>
-                </header>
-              <% end %>
-              <%= if @message do %>
-                <%= for message <- @message do %>
-                  <div class={AttributeHelpers.classnames([@classes.message, message[:class]])}>
-                    <%= render_slot(message) %>
-                  </div>
-                <% end %>
-              <% end %>
-              <%= if @filter && @filter !== [] do %>
-                <div class={@classes.filter}>
-                  <%= render_slot(@filter) %>
+      <%= if @backdrop_attrs !== [] do %>
+        <div {@backdrop_attrs}></div>
+      <% end %>
+      <div {@touch_layer_attrs}></div>
+      <div class={@classes.menu}>
+        <div {@menu_container_attrs}>
+          <.focus_wrap {@focus_wrap_attrs}>
+            <%= if not is_nil(@menu_title) do %>
+              <header class={@classes.header}>
+                <h3 class={@classes.menu_title}><%= @menu_title %></h3>
+                <button
+                  class={@classes.header_close_button}
+                  type="button"
+                  phx-click={cancel_menu(@prompt_attrs[:id])}
+                >
+                  <.octicon name="x-16" />
+                </button>
+              </header>
+            <% end %>
+            <%= if @message do %>
+              <%= for message <- @message do %>
+                <div class={AttributeHelpers.classnames([@classes.message, message[:class]])}>
+                  <%= render_slot(message) %>
                 </div>
               <% end %>
-              <%= if @tab && @tab !== [] do %>
-                <div class={@classes.tabs}>
-                  <%= for slot <- @tab do %>
-                    <%= @render_tab.(slot) %>
-                  <% end %>
-                </div>
-              <% end %>
-              <%= if @loading do %>
-                <%= for loading <- @loading do %>
-                  <div class={AttributeHelpers.classnames([@classes.loading, loading[:class]])}>
-                    <%= render_slot(loading) %>
-                  </div>
-                <% end %>
-              <% end %>
-              <div class={@classes.menu_list}>
-                <%= if @blankslate do %>
-                  <%= for blankslate <- @blankslate do %>
-                    <div class={
-                      AttributeHelpers.classnames([@classes.blankslate, blankslate[:class]])
-                    }>
-                      <%= render_slot(blankslate) %>
-                    </div>
-                  <% end %>
-                <% end %>
-
-                <%= for item <- @item_slots do %>
-                  <%= @render_item.(item) %>
+            <% end %>
+            <%= if @filter && @filter !== [] do %>
+              <div class={@classes.filter}>
+                <%= render_slot(@filter) %>
+              </div>
+            <% end %>
+            <%= if @tab && @tab !== [] do %>
+              <div class={@classes.tabs}>
+                <%= for slot <- @tab do %>
+                  <%= @render_tab.(slot) %>
                 <% end %>
               </div>
-              <%= if @footer do %>
-                <%= for footer <- @footer do %>
-                  <div class={AttributeHelpers.classnames([@classes.footer, footer[:class]])}>
-                    <%= render_slot(footer) %>
+            <% end %>
+            <%= if @loading do %>
+              <%= for loading <- @loading do %>
+                <div class={AttributeHelpers.classnames([@classes.loading, loading[:class]])}>
+                  <%= render_slot(loading) %>
+                </div>
+              <% end %>
+            <% end %>
+            <div class={@classes.menu_list}>
+              <%= if @blankslate do %>
+                <%= for blankslate <- @blankslate do %>
+                  <div class={AttributeHelpers.classnames([@classes.blankslate, blankslate[:class]])}>
+                    <%= render_slot(blankslate) %>
                   </div>
                 <% end %>
               <% end %>
-            </.focus_wrap>
-          </div>
+
+              <%= for item <- @item_slots do %>
+                <%= @render_item.(item) %>
+              <% end %>
+            </div>
+            <%= if @footer do %>
+              <%= for footer <- @footer do %>
+                <div class={AttributeHelpers.classnames([@classes.footer, footer[:class]])}>
+                  <%= render_slot(footer) %>
+                </div>
+              <% end %>
+            <% end %>
+          </.focus_wrap>
         </div>
       </div>
     </div>
@@ -8031,18 +8025,16 @@ defmodule PrimerLive.Component do
           <div class={@classes.caret}></div>
         <% end %>
       </label>
-      <div data-prompt-content="">
-        <%= if @backdrop_attrs !== [] do %>
-          <div {@backdrop_attrs}></div>
-        <% end %>
-        <div {@touch_layer_attrs}></div>
-        <div class={@classes.menu}>
-          <div {@menu_container_attrs}>
-            <div class={@classes.menu_list}>
-              <.focus_wrap {@focus_wrap_attrs}>
-                <%= render_slot(@inner_block) %>
-              </.focus_wrap>
-            </div>
+      <%= if @backdrop_attrs !== [] do %>
+        <div {@backdrop_attrs}></div>
+      <% end %>
+      <div {@touch_layer_attrs}></div>
+      <div class={@classes.menu}>
+        <div {@menu_container_attrs}>
+          <div class={@classes.menu_list}>
+            <.focus_wrap {@focus_wrap_attrs}>
+              <%= render_slot(@inner_block) %>
+            </.focus_wrap>
           </div>
         </div>
       </div>
@@ -12049,29 +12041,27 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@prompt_attrs}>
-      <div data-prompt-content="">
-        <%= if !@is_push do %>
+      <%= if !@is_push do %>
+        <%= if @backdrop_attrs !== [] do %>
+          <div {@backdrop_attrs}></div>
+        <% end %>
+        <div {@touch_layer_attrs}></div>
+      <% end %>
+      <div {@content_attrs}>
+        <%= if @is_push do %>
           <%= if @backdrop_attrs !== [] do %>
             <div {@backdrop_attrs}></div>
           <% end %>
           <div {@touch_layer_attrs}></div>
         <% end %>
-        <div {@content_attrs}>
-          <%= if @is_push do %>
-            <%= if @backdrop_attrs !== [] do %>
-              <div {@backdrop_attrs}></div>
-            <% end %>
-            <div {@touch_layer_attrs}></div>
-          <% end %>
-          <%= render_slot(@inner_block) %>
-          <%= if @body && @body !== [] do %>
-            <div {@body_attrs}>
-              <.focus_wrap {@focus_wrap_attrs}>
-                <%= render_slot(@body) %>
-              </.focus_wrap>
-            </div>
-          <% end %>
-        </div>
+        <%= render_slot(@inner_block) %>
+        <%= if @body && @body !== [] do %>
+          <div {@body_attrs}>
+            <.focus_wrap {@focus_wrap_attrs}>
+              <%= render_slot(@body) %>
+            </.focus_wrap>
+          </div>
+        <% end %>
       </div>
     </div>
     """
@@ -12114,7 +12104,7 @@ defmodule PrimerLive.Component do
     )
 
     %{
-      focus_wrap_id: focus_wrap_id
+      focus_wrap_attrs: focus_wrap_attrs
     } =
       AttributeHelpers.prompt_attrs(
         Map.merge(assigns, %{
@@ -12155,11 +12145,11 @@ defmodule PrimerLive.Component do
     assigns =
       assigns
       |> assign(:content_attrs, content_attrs)
-      |> assign(:focus_wrap_id, focus_wrap_id)
+      |> assign(:focus_wrap_attrs, focus_wrap_attrs)
 
     ~H"""
     <div {@content_attrs}>
-      <.focus_wrap id={@focus_wrap_id}>
+      <.focus_wrap {@focus_wrap_attrs}>
         <%= render_slot(@inner_block) %>
       </.focus_wrap>
     </div>

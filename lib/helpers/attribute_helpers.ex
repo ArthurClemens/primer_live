@@ -820,7 +820,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       %{
         backdrop_attrs: [],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        focus_wrap_id: "focus-wrap-some-id",
         prompt_attrs: [
           class: nil,
           "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
@@ -867,7 +866,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       %{
         backdrop_attrs: [],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        focus_wrap_id: "focus-wrap-some-id",
         prompt_attrs: [
           class: "is-open is-showing",
           "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
@@ -915,7 +913,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       %{
         backdrop_attrs: ["data-backdrop": "", "data-ismedium": ""],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        focus_wrap_id: "focus-wrap-some-id",
         prompt_attrs: [
           class: nil,
           "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
@@ -978,7 +975,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       %{
         backdrop_attrs: ["data-backdrop": "", "data-ismedium": ""],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        focus_wrap_id: "focus-wrap-some-id",
         prompt_attrs: [
           class: nil,
           "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
@@ -1029,7 +1025,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       %{
         backdrop_attrs: ["data-backdrop": "", "data-ismedium": ""],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        focus_wrap_id: "focus-wrap-some-id",
         prompt_attrs: [
           class: nil,
           "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
@@ -1086,7 +1081,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       %{
         backdrop_attrs: ["data-backdrop": "", "data-isdark": ""],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        focus_wrap_id: "focus-wrap-some-id",
         prompt_attrs: [
           class: "my-menu",
           "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
@@ -1249,7 +1243,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       prompt_attrs: prompt_attrs,
       backdrop_attrs: backdrop_attrs,
       touch_layer_attrs: touch_layer_attrs,
-      focus_wrap_id: focus_wrap_id,
       focus_wrap_attrs: focus_wrap_attrs
     }
   end
