@@ -80,7 +80,8 @@ GENERAL
     transition-duration: var(--prompt-fast-transition-duration);
 }
 
-[data-prompt] [data-backdrop],
+/* - Prevent backdrop black flash when using is_show_on_mount: */
+[data-prompt]:not(.is-show_on_mount) [data-backdrop],
 [data-prompt] [data-focuswrap],
 [data-prompt] [data-content],
 [data-prompt] .SelectMenu,

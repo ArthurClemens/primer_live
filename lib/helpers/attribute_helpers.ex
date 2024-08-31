@@ -869,11 +869,11 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         backdrop_attrs: [],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         prompt_attrs: [
-          class: "is-open is-showing",
+          class: "is-open is-showing is-show_on_mount",
           "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
           "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
           "data-isescapable": "",
-          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], to: "#some-id"}]]},
+          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-show_on_mount"], to: "#some-id"}]]},
           "data-prompt": "",
           id: "some-id",
           "phx-hook": "Prompt",
@@ -916,11 +916,11 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         backdrop_attrs: [],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         prompt_attrs: [
-          class: "is-open is-showing",
+          class: "is-open is-showing is-show_on_mount",
           "data-cancel": %Phoenix.LiveView.JS{ops: [["patch", %{replace: false, href: "/"}], ["exec", %{attr: "data-close"}]]},
           "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
           "data-isescapable": "",
-          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], to: "#some-id"}]]},
+          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-show_on_mount"], to: "#some-id"}]]},
           "data-prompt": "",
           id: "some-id",
           "phx-hook": "Prompt",
@@ -1009,11 +1009,11 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         backdrop_attrs: [],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         prompt_attrs: [
-          class: "is-open is-showing",
+          class: "is-open is-showing is-show_on_mount",
           "data-cancel": %Phoenix.LiveView.JS{ops: [["patch", %{replace: false, href: "/"}], ["exec", %{attr: "data-close"}]]},
           "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
           "data-isescapable": "",
-          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["add_class", %{to: "#some-id", names: ["is-showing"]}]]},
+          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["add_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-show_on_mount"], to: "#some-id"}]]},
           "data-prompt": "",
           id: "some-id",
           "phx-hook": "Prompt",
@@ -1276,14 +1276,15 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     id_selector = "##{id}"
     prompt_id = id || "menu-" <> toggle_id
     show_state = assigns.show_state || "default"
-    is_show = assigns.is_show || assigns.is_show_on_mount
+    is_show_on_mount = !!assigns.is_show_on_mount
+    is_show = assigns.is_show || is_show_on_mount
 
-    is_opening_transitions_disabled = show_state == "hold" || assigns.is_show_on_mount
+    is_opening_transitions_disabled = show_state == "hold" || is_show_on_mount
     is_focus_first_disabled = show_state == "hold" 
 
     prompt_attrs =
       append_attributes(assigns.rest |> Map.drop([:id]), [
-        [class: classnames([menu_class, assigns[:is_show_on_mount] && "is-open is-showing"])],
+        [class: classnames([menu_class, is_show_on_mount && "is-open is-showing is-show_on_mount"])],
         ["data-prompt": ""],
         [id: prompt_id],
         ["phx-hook": "Prompt"],
@@ -1313,6 +1314,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
             |> maybe_focus_first(id_selector, is_focus_first_disabled)
             |> maybe_focus_after_opening_selector(assigns.focus_after_opening_selector)
             |> maybe_add_delay_to_show(id_selector, is_opening_transitions_disabled)
+            |> maybe_remove_classes(id_selector, is_show_on_mount)
         ],
         [
           "data-close":
@@ -1475,6 +1477,12 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       to: id_selector
     )
   end
+
+  defp maybe_remove_classes(js, id_selector, is_show_on_mount) when is_show_on_mount do
+    JS.remove_class(js, "is-show_on_mount", to: id_selector)
+  end
+
+  defp maybe_remove_classes(js, _id_selector, _is_show_on_mount), do: js
 
   defp dispatch_send_status_event(
          js,

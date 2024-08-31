@@ -26569,16 +26569,13 @@ a.branch-name .octicon {
 [data-prompt][data-isfast] {
   transition-duration: var(--prompt-fast-transition-duration);
 }
-[data-prompt] [data-backdrop],
+[data-prompt]:not(.is-show_on_mount) [data-backdrop],
 [data-prompt] [data-focuswrap],
 [data-prompt] [data-content],
 [data-prompt] .SelectMenu,
 [data-prompt] .ActionMenu {
   transition-duration: inherit;
   transition-timing-function: inherit;
-}
-[data-prompt].is_show_on_mount [data-backdrop] {
-  transition-duration: 0ms;
 }
 [data-prompt].is-open[data-focuswrap] {
   position: relative;
