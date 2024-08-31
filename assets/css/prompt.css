@@ -93,7 +93,7 @@ GENERAL
 Z-INDEX
 ----------------------------------------------------- */
 
-[data-prompt][data-focuswrap] {
+[data-prompt].is-open[data-focuswrap] {
     position: relative;
 }
 
@@ -151,13 +151,11 @@ TOUCH AND BACKDROP
     left: 0;
 }
 
-
 /* Set up backdrop fade */
 [data-prompt] [data-backdrop] {
     background: var(--prompt-background-color-backdrop);
     opacity: 0;
     transition-property: opacity;
-    transition-timing-function: inherit;
 }
 
 /* Backdrop medium opacity */
@@ -267,16 +265,16 @@ DRAWER
 }
 
 /* Local drawer */
-[data-prompt].is-open[data-islocal] [data-touch],
-[data-prompt].is-open[data-islocal] [data-backdrop],
+[data-prompt][data-isdrawer].is-open[data-islocal] [data-touch],
+[data-prompt][data-isdrawer].is-open[data-islocal] [data-backdrop],
 [data-prompt][data-isdrawer][data-islocal] [data-content] {
     position: absolute;
     z-index: initial;
 }
 
 /* Push drawer: touch and backdrop */
-[data-prompt].is-open[data-ispush] [data-touch],
-[data-prompt].is-open[data-ispush] [data-backdrop] {
+[data-prompt][data-isdrawer].is-open[data-ispush] [data-touch],
+[data-prompt][data-isdrawer].is-open[data-ispush] [data-backdrop] {
     z-index: 1;
     position: absolute;
 }

@@ -6756,6 +6756,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_show("the dropdown")
+  PromptDeclarationHelpers.show_state("the dropdown")
   PromptDeclarationHelpers.is_show_on_mount("the dropdown")
   PromptDeclarationHelpers.on_cancel("the dropdown")
   PromptDeclarationHelpers.status_callback_selector("the dropdown")
@@ -7192,8 +7193,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_show_on_mount("the select menu")
   PromptDeclarationHelpers.is_show("the select menu")
+  PromptDeclarationHelpers.show_state("the select menu")
+  PromptDeclarationHelpers.is_show_on_mount("the select menu")
   PromptDeclarationHelpers.on_cancel("the select menu")
   PromptDeclarationHelpers.status_callback_selector("the select menu")
   PromptDeclarationHelpers.toggle_slot()
@@ -7835,8 +7837,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_show_on_mount("the menu")
   PromptDeclarationHelpers.is_show("the menu")
+  PromptDeclarationHelpers.show_state("the menu")
+  PromptDeclarationHelpers.is_show_on_mount("the menu")
   PromptDeclarationHelpers.on_cancel("the menu")
   PromptDeclarationHelpers.status_callback_selector("the menu")
   PromptDeclarationHelpers.toggle_slot()
@@ -11418,6 +11421,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_modal("the dialog")
   PromptDeclarationHelpers.is_show("the dialog")
+  PromptDeclarationHelpers.show_state("the dialog")
   PromptDeclarationHelpers.is_show_on_mount("the dialog")
   PromptDeclarationHelpers.on_cancel("the dialog")
   PromptDeclarationHelpers.status_callback_selector("the dialog")
@@ -11868,6 +11872,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_modal("the drawer")
   PromptDeclarationHelpers.is_show("the drawer")
+  PromptDeclarationHelpers.show_state("the drawer")
   PromptDeclarationHelpers.is_show_on_mount("the drawer")
   PromptDeclarationHelpers.on_cancel("the drawer")
   PromptDeclarationHelpers.status_callback_selector("the drawer")
@@ -12109,6 +12114,8 @@ defmodule PrimerLive.Component do
       AttributeHelpers.prompt_attrs(
         Map.merge(assigns, %{
           is_show: true,
+          show_state: "default",
+          is_show_on_mount: nil,
           on_cancel: nil,
           focus_after_closing_selector: nil,
           focus_after_opening_selector: nil,

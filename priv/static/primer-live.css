@@ -26577,7 +26577,10 @@ a.branch-name .octicon {
   transition-duration: inherit;
   transition-timing-function: inherit;
 }
-[data-prompt][data-focuswrap] {
+[data-prompt].is_show_on_mount [data-backdrop] {
+  transition-duration: 0ms;
+}
+[data-prompt].is-open[data-focuswrap] {
   position: relative;
 }
 [data-prompt]:not([data-ismenu]) [data-backdrop] {
@@ -26619,7 +26622,6 @@ a.branch-name .octicon {
   background: var(--prompt-background-color-backdrop);
   opacity: 0;
   transition-property: opacity;
-  transition-timing-function: inherit;
 }
 [data-prompt].is-showing [data-backdrop] {
   opacity: var(--prompt-background-opacity-backdrop-medium);
@@ -26690,14 +26692,14 @@ a.branch-name .octicon {
 [dir=rtl] [data-prompt][data-isdrawer].is-showing [data-content] {
   transform: translateX(0);
 }
-[data-prompt].is-open[data-islocal] [data-touch],
-[data-prompt].is-open[data-islocal] [data-backdrop],
+[data-prompt][data-isdrawer].is-open[data-islocal] [data-touch],
+[data-prompt][data-isdrawer].is-open[data-islocal] [data-backdrop],
 [data-prompt][data-isdrawer][data-islocal] [data-content] {
   position: absolute;
   z-index: initial;
 }
-[data-prompt].is-open[data-ispush] [data-touch],
-[data-prompt].is-open[data-ispush] [data-backdrop] {
+[data-prompt][data-isdrawer].is-open[data-ispush] [data-touch],
+[data-prompt][data-isdrawer].is-open[data-ispush] [data-backdrop] {
   z-index: 1;
   position: absolute;
 }

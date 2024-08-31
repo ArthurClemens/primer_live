@@ -155,6 +155,24 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
+  defmacro show_state(the_element) do
+    quote do
+      attr :show_state, :string,
+        values: ~w(default onset hold),
+        default: "default",
+        doc:
+          """
+          Use when {the_element} is already displayed, and should be persisted when navigating to another LiveViews. Use together with `is_show`.
+
+          Values:
+          - "default": No change.
+          - "onset": Preparation for the "hold" state. Removes the "phx-remove" attribute so that navigating away doesn't cause a close transition.
+          - "hold": Temoves the "phx-remove" attribute as well as opening transitions and first focus.
+          """
+          |> String.replace("{the_element}", unquote(the_element))
+    end
+  end
+
   defmacro is_show_on_mount(the_element) do
     quote do
       attr(:is_show_on_mount, :boolean,

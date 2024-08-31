@@ -14,7 +14,7 @@ See component documentation for further details:
 
 ### Additions
 
-- Dialogs can now be shown conditionally, for example on a `live_action` route:
+- Dialogs, drawers and menus can now be shown conditionally, for example on a `live_action` route:
 
 ```
 <.dialog
@@ -32,6 +32,7 @@ See component documentation for further details:
 - Added attribute `focus_after_closing_selector`, mirroring the (renamed) `focus_after_opening_selector`.
 - Added attribute `on_cancel`
 - Added attribute `transition_duration`
+- Added attribute `show_state` to persist dialogs, drawers and menus across different LiveViews
 - Added focus trap
 
 ### Changes and removals
