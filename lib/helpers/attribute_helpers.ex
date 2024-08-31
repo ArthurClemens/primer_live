@@ -1290,7 +1290,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         ],
         ["data-prompt": ""],
         [id: prompt_id],
-        ["phx-hook": "Prompt"],
+        ["phx-hook": assigns.rest[:"phx-hook"] || "Prompt"],
         is_show && ["phx-mounted": JS.exec("data-open", to: id_selector)],
         show_state == "default" &&
           [
