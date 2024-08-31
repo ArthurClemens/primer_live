@@ -801,6 +801,11 @@ span[data-color-mode] {
     font-family: var(--fontStack-monospace, "ui-monospace", "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace);
 }
 
+/* Fix wide dialog overflowing window */
+.Box-overlay--wide {
+    width: min(90vw, 640px);
+}
+
 /* Use "aligned" start / end instead of left / right */
 .pl-aligned-end,
 [dir="rtl"] .pl-aligned-start {

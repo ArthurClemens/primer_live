@@ -27355,6 +27355,9 @@ span[data-color-mode] {
 .FormControl-textarea.FormControl-monospace {
   font-family: var(--fontStack-monospace, "ui-monospace", "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace);
 }
+.Box-overlay--wide {
+  width: min(90vw, 640px);
+}
 .pl-aligned-end,
 [dir=rtl] .pl-aligned-start {
   left: auto;
