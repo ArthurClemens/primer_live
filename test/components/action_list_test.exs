@@ -107,13 +107,7 @@ defmodule PrimerLive.TestComponents.ActionListTest do
            """)
            |> format_html() ==
              """
-             <ul aria-labelledby="title-01" class="ActionList" role="listbox">
-             <li class="ActionList-sectionDivider">
-             <h3 class="ActionList-sectionDivider-title" id="title-01">Title</h3>
-             </li>
-             <li class="ActionList-item"><span class="ActionList-content"><span class="ActionList-item-label">Item</span></span>
-             </li>
-             </ul>
+             <ul aria-labelledby="title-01" class="ActionList" role="listbox"><li class="ActionList-sectionDivider" tabidex="-1"><h3 class="ActionList-sectionDivider-title" id="title-01">Title</h3></li><li class="ActionList-item"><span class="ActionList-content"><span class="ActionList-item-label">Item</span></span></li></ul>
              """
              |> format_html()
   end

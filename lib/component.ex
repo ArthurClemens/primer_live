@@ -575,7 +575,7 @@ defmodule PrimerLive.Component do
 
     attributes =
       AttributeHelpers.append_attributes(assigns.rest, [
-        [class: classes.section_divider],
+        [class: classes.section_divider, tabidex: "-1"],
         !has_title && [role: "separator", "aria-hidden": "true"]
       ])
 
@@ -1084,6 +1084,7 @@ defmodule PrimerLive.Component do
               ["aria-expanded": is_expanded |> Atom.to_string()],
             [role: "menuitem"],
             is_selected && ["aria-selected": "true"],
+            not is_selected && [tabindex: "0"],
             if is_selected do
               if is_anchor_link do
                 ["aria-current": "location"]
@@ -1316,6 +1317,7 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_tabindex()
     DeclarationHelpers.slot_phx()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -1383,6 +1385,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.append_attributes(rest, [
           [class: classes.tab.(slot)],
           [role: "tab"],
+          [tabindex: slot[:tabindex] || "0"],
           slot[:is_selected] && ["aria-selected": "true"],
           slot[:is_selected] && ["aria-current": "page"]
         ])
@@ -1436,7 +1439,7 @@ defmodule PrimerLive.Component do
 
     tabnav_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
-        [class: classes.tabnav]
+        [class: classes.tabnav, role: "tablist"]
       ])
 
     assigns =

@@ -47,13 +47,7 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item ActionList-item--navActive" role="none"><a href="/url" target="_blank" role="menuitem"
-             class="ActionList-content" aria-selected="true" aria-current="page"><span class="ActionList-item-label">href
-             link</span></a></li>
-             <li class="ActionList-item" role="none"><a href="/url" data-phx-link="redirect" data-phx-link-state="push"
-             role="menuitem" class="ActionList-content"><span class="ActionList-item-label">navigate link</span></a></li>
-             <li class="ActionList-item" role="none"><a href="/url" data-phx-link="patch" data-phx-link-state="push" role="menuitem"
-             class="ActionList-content"><span class="ActionList-item-label">patch link</span></a></li>
+             <li class="ActionList-item ActionList-item--navActive" role="none"><a href="/url" target="_blank" role="menuitem" class="ActionList-content" aria-selected="true" aria-current="page"><span class="ActionList-item-label">href link</span></a></li><li class="ActionList-item" role="none"><a href="/url" data-phx-link="redirect" data-phx-link-state="push" role="menuitem" class="ActionList-content" tabindex="0"><span class="ActionList-item-label">navigate link</span></a></li><li class="ActionList-item" role="none"><a href="/url" data-phx-link="patch" data-phx-link-state="push" role="menuitem" class="ActionList-content" tabindex="0"><span class="ActionList-item-label">patch link</span></a></li>
              """
              |> format_html()
   end
@@ -80,13 +74,7 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item ActionList-item--navActive" role="none"><a href="#url" role="menuitem"
-             class="ActionList-content" aria-selected="true" aria-current="location"><span class="ActionList-item-label">href
-             link</span></a></li>
-             <li class="ActionList-item" role="none"><a href="#url" data-phx-link="redirect" data-phx-link-state="push"
-             role="menuitem" class="ActionList-content"><span class="ActionList-item-label">navigate link</span></a></li>
-             <li class="ActionList-item" role="none"><a href="#url" data-phx-link="patch" data-phx-link-state="push" role="menuitem"
-             class="ActionList-content"><span class="ActionList-item-label">patch link</span></a></li>
+             <li class="ActionList-item ActionList-item--navActive" role="none"><a href="#url" role="menuitem" class="ActionList-content" aria-selected="true" aria-current="location"><span class="ActionList-item-label">href link</span></a></li><li class="ActionList-item" role="none"><a href="#url" data-phx-link="redirect" data-phx-link-state="push" role="menuitem" class="ActionList-content" tabindex="0"><span class="ActionList-item-label">navigate link</span></a></li><li class="ActionList-item" role="none"><a href="#url" data-phx-link="patch" data-phx-link-state="push" role="menuitem" class="ActionList-content" tabindex="0"><span class="ActionList-item-label">patch link</span></a></li>
              """
              |> format_html()
   end
@@ -490,72 +478,7 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-sectionDivider">
-             <h3 class="ActionList-sectionDivider-title" id="title-01">Section title</h3>
-             </li>
-             <li class="ActionList-item ActionList-item--hasSubItem"><span aria-expanded="true" class="ActionList-content"><span
-             class="ActionList-item-label">Not collapsible item, default expanded</span></span>
-             <ul aria-labelledby="title-01" class="ActionList ActionList--subGroup" role="list">
-             <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-             class="ActionList-item-label">Sub item</span></span></li>
-             <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-             class="ActionList-item-label">Sub item</span></span></li>
-             </ul>
-             </li>
-             <li class="ActionList-sectionDivider">
-             <h3 class="ActionList-sectionDivider-title">Section title</h3>
-             </li>
-             <li class="ActionList-item ActionList-item--hasSubItem"><button aria-expanded="false"
-             class="ActionList-content ActionList-content--visual16"><span
-             class="ActionList-item-visual ActionList-item-visual--leading"><svg class="octicon"
-             xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-             viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Collapsible, not expanded
-             item</span><span class="ActionList-item-visual ActionList-item-visual--trailing"><svg viewBox="0 0 16 16"
-             xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16" height="16"
-             class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button>
-             <ul class="ActionList ActionList--subGroup" role="list">
-             <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-             class="ActionList-item-label">Sub item</span></span></li>
-             <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-             class="ActionList-item-label">Sub item</span></span></li>
-             </ul>
-             </li>
-             <li class="ActionList-sectionDivider">
-             <h3 class="ActionList-sectionDivider-title">Section title</h3>
-             </li>
-             <li class="ActionList-item ActionList-item--hasSubItem"><button aria-expanded="true"
-             class="ActionList-content ActionList-content--hasActiveSubItem ActionList-content--visual16"><span
-             class="ActionList-item-visual ActionList-item-visual--leading"><svg class="octicon"
-             xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-             viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Collapsible and expanded
-             item</span><span class="ActionList-item-visual ActionList-item-visual--trailing"><svg viewBox="0 0 16 16"
-             xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16" height="16"
-             class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button>
-             <ul class="ActionList ActionList--subGroup" role="list">
-             <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-             class="ActionList-item-label">Sub item</span></span></li>
-             <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-             class="ActionList-item-label">Sub item</span></span></li>
-             </ul>
-             </li>
-             <li class="ActionList-sectionDivider">
-             <h3 class="ActionList-sectionDivider-title">Section title</h3>
-             </li>
-             <li class="ActionList-item ActionList-item--hasSubItem"><button aria-expanded="true"
-             class="ActionList-content ActionList-content--hasActiveSubItem ActionList-content--visual24"><span
-             class="ActionList-item-visual ActionList-item-visual--leading"><svg class="octicon"
-             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-             viewBox="0 0 24 24">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Collapsible and expanded
-             item, wide visual</span><span class="ActionList-item-visual ActionList-item-visual--trailing"><svg
-             viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16"
-             height="16" class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button>
-             <ul class="ActionList ActionList--subGroup" role="list">
-             <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-             class="ActionList-item-label">Sub item</span></span></li>
-             <li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span
-             class="ActionList-item-label">Sub item</span></span></li>
-             </ul>
-             </li>
+             <li class="ActionList-sectionDivider" tabidex="-1"><h3 class="ActionList-sectionDivider-title" id="title-01">Section title</h3></li><li class="ActionList-item ActionList-item--hasSubItem"><span aria-expanded="true" class="ActionList-content"><span class="ActionList-item-label">Not collapsible item, default expanded</span></span><ul aria-labelledby="title-01" class="ActionList ActionList--subGroup" role="list"><li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span class="ActionList-item-label">Sub item</span></span></li><li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span class="ActionList-item-label">Sub item</span></span></li></ul></li><li class="ActionList-sectionDivider" tabidex="-1"><h3 class="ActionList-sectionDivider-title">Section title</h3></li><li class="ActionList-item ActionList-item--hasSubItem"><button aria-expanded="false" class="ActionList-content ActionList-content--visual16"><span class="ActionList-item-visual ActionList-item-visual--leading"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Collapsible, not expanded item</span><span class="ActionList-item-visual ActionList-item-visual--trailing"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16" height="16" class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button><ul class="ActionList ActionList--subGroup" role="list"><li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span class="ActionList-item-label">Sub item</span></span></li><li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span class="ActionList-item-label">Sub item</span></span></li></ul></li><li class="ActionList-sectionDivider" tabidex="-1"><h3 class="ActionList-sectionDivider-title">Section title</h3></li><li class="ActionList-item ActionList-item--hasSubItem"><button aria-expanded="true" class="ActionList-content ActionList-content--hasActiveSubItem ActionList-content--visual16"><span class="ActionList-item-visual ActionList-item-visual--leading"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Collapsible and expanded item</span><span class="ActionList-item-visual ActionList-item-visual--trailing"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16" height="16" class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button><ul class="ActionList ActionList--subGroup" role="list"><li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span class="ActionList-item-label">Sub item</span></span></li><li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span class="ActionList-item-label">Sub item</span></span></li></ul></li><li class="ActionList-sectionDivider" tabidex="-1"><h3 class="ActionList-sectionDivider-title">Section title</h3></li><li class="ActionList-item ActionList-item--hasSubItem"><button aria-expanded="true" class="ActionList-content ActionList-content--hasActiveSubItem ActionList-content--visual24"><span class="ActionList-item-visual ActionList-item-visual--leading"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">STRIPPED_SVG_PATHS</svg></span><span class="ActionList-item-label">Collapsible and expanded item, wide visual</span><span class="ActionList-item-visual ActionList-item-visual--trailing"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16" height="16" class="ActionList-item-collapseIcon">STRIPPED_SVG_PATHS</svg></span></button><ul class="ActionList ActionList--subGroup" role="list"><li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span class="ActionList-item-label">Sub item</span></span></li><li class="ActionList-item ActionList-item--subItem"><span class="ActionList-content"><span class="ActionList-item-label">Sub item</span></span></li></ul></li>
              """
              |> format_html()
   end
@@ -600,18 +523,7 @@ defmodule PrimerLive.TestComponents.ActionListItemTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-item ActionList-item--hasSubItem action_list_item-x my-action-list-item" role="none"><a
-             href="/url" role="menuitem" class="ActionList-content content-x my-link" aria-expanded="true"><span
-             class="ActionList-item-visual ActionList-item-visual--leading leading_visual-x">Leading visual</span><span
-             class="ActionList-item-descriptionWrap ActionList-item-blockDescription description_container-x"><span
-                class="ActionList-item-label label-x">Content</span><span
-                class="ActionList-item-description description-x">A descriptive text</span></span><span
-             class="ActionList-item-visual ActionList-item-visual--trailing trailing_visual-x">Trailing visual</span></a>
-             <ul class="ActionList ActionList--subGroup sub_group-x my-sub-group" role="list">
-             <li class="ActionList-item ActionList-item--subItem my-sub-item"><span class="ActionList-content"><span
-                    class="ActionList-item-label">Sub item</span></span></li>
-             </ul>
-             </li>
+             <li class="ActionList-item ActionList-item--hasSubItem action_list_item-x my-action-list-item" role="none"><a href="/url" role="menuitem" class="ActionList-content content-x my-link" tabindex="0" aria-expanded="true"><span class="ActionList-item-visual ActionList-item-visual--leading leading_visual-x">Leading visual</span><span class="ActionList-item-descriptionWrap ActionList-item-blockDescription description_container-x"><span class="ActionList-item-label label-x">Content</span><span class="ActionList-item-description description-x">A descriptive text</span></span><span class="ActionList-item-visual ActionList-item-visual--trailing trailing_visual-x">Trailing visual</span></a><ul class="ActionList ActionList--subGroup sub_group-x my-sub-group" role="list"><li class="ActionList-item ActionList-item--subItem my-sub-item"><span class="ActionList-content"><span class="ActionList-item-label">Sub item</span></span></li></ul></li>
              """
              |> format_html()
   end

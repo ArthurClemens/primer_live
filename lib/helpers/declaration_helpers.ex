@@ -23,6 +23,12 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
+  defmacro slot_tabindex do
+    quote do
+      attr(:tabindex, :string, doc: "Tab index. Default \"0\".")
+    end
+  end
+
   defmacro slot_phx do
     quote do
       attr(:"phx-click", :string)

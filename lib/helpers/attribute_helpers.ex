@@ -1280,11 +1280,14 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     is_show = assigns.is_show || is_show_on_mount
 
     is_opening_transitions_disabled = show_state == "hold" || is_show_on_mount
-    is_focus_first_disabled = show_state == "hold" 
+    is_focus_first_disabled = show_state == "hold"
 
     prompt_attrs =
       append_attributes(assigns.rest |> Map.drop([:id]), [
-        [class: classnames([menu_class, is_show_on_mount && "is-open is-showing is-show_on_mount"])],
+        [
+          class:
+            classnames([menu_class, is_show_on_mount && "is-open is-showing is-show_on_mount"])
+        ],
         ["data-prompt": ""],
         [id: prompt_id],
         ["phx-hook": "Prompt"],
