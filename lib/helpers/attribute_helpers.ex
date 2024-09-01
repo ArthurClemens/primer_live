@@ -796,9 +796,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>       id: "some-id"
       ...>     },
       ...>     is_fast: false,
-      ...>     is_dark_backdrop: false,
-      ...>     is_medium_backdrop: false,
-      ...>     is_light_backdrop: false,
+      ...>     backdrop_strength: nil,
       ...>     is_backdrop: false,
       ...>     is_show: false,
       ...>     show_state: nil,
@@ -842,9 +840,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>       id: "some-id"
       ...>     },
       ...>     is_fast: false,
-      ...>     is_dark_backdrop: false,
-      ...>     is_medium_backdrop: false,
-      ...>     is_light_backdrop: false,
+      ...>     backdrop_strength: nil,
       ...>     is_show: true,
       ...>     show_state: nil,
       ...>     is_show_on_mount: true,
@@ -887,9 +883,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>       id: "some-id"
       ...>     },
       ...>     is_fast: false,
-      ...>     is_dark_backdrop: false,
-      ...>     is_medium_backdrop: false,
-      ...>     is_light_backdrop: false,
+      ...>     backdrop_strength: nil,
       ...>     is_show: true,
       ...>     show_state: nil,
       ...>     is_show_on_mount: true,
@@ -932,9 +926,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>       id: "some-id"
       ...>     },
       ...>     is_fast: false,
-      ...>     is_dark_backdrop: false,
-      ...>     is_medium_backdrop: false,
-      ...>     is_light_backdrop: false,
+      ...>     backdrop_strength: nil,
       ...>     is_show: true,
       ...>     show_state: "onset",
       ...>     is_show_on_mount: nil,
@@ -976,9 +968,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>       id: "some-id"
       ...>     },
       ...>     is_fast: false,
-      ...>     is_dark_backdrop: false,
-      ...>     is_medium_backdrop: false,
-      ...>     is_light_backdrop: false,
+      ...>     backdrop_strength: nil,
       ...>     is_show: true,
       ...>     show_state: "hold",
       ...>     is_show_on_mount: true,
@@ -1020,9 +1010,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>       id: "some-id"
       ...>     },
       ...>     is_fast: true,
-      ...>     is_dark_backdrop: false,
-      ...>     is_medium_backdrop: true,
-      ...>     is_light_backdrop: false,
+      ...>     backdrop_strength: nil,
       ...>     is_backdrop: true,
       ...>     is_show: false,
       ...>     show_state: nil,
@@ -1041,7 +1029,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_menu: false
       ...>   })
       %{
-        backdrop_attrs: ["data-backdrop": "", "data-ismedium": ""],
+        backdrop_attrs: ["data-backdrop": "", "data-backdrop_strength": "medium"],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         prompt_attrs: [
           class: nil,
@@ -1080,9 +1068,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>       id: "some-id"
       ...>     },
       ...>     is_fast: true,
-      ...>     is_dark_backdrop: false,
-      ...>     is_medium_backdrop: true,
-      ...>     is_light_backdrop: false,
+      ...>     backdrop_strength: nil,
       ...>     is_backdrop: true,
       ...>     is_show: false,
       ...>     show_state: nil,
@@ -1101,7 +1087,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_menu: false
       ...>   })
       %{
-        backdrop_attrs: ["data-backdrop": "", "data-ismedium": ""],
+        backdrop_attrs: ["data-backdrop": "", "data-backdrop_strength": "medium"],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         prompt_attrs: [
           class: nil,
@@ -1128,10 +1114,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>       id: "some-id"
       ...>     },
       ...>     is_fast: true,
-      ...>     is_dark_backdrop: false,
-      ...>     is_medium_backdrop: true,
-      ...>     is_light_backdrop: false,
       ...>     is_backdrop: true,
+      ...>     backdrop_strength: "medium",
       ...>     is_show: false,
       ...>     show_state: nil,
       ...>     is_show_on_mount: false,
@@ -1149,7 +1133,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_menu: true
       ...>   })
       %{
-        backdrop_attrs: ["data-backdrop": "", "data-ismedium": ""],
+        backdrop_attrs: ["data-backdrop": "", "data-backdrop_strength": "medium"],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         prompt_attrs: [
           class: nil,
@@ -1292,17 +1276,17 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     backdrop_attrs =
       append_attributes([
         cond do
-          assigns[:is_dark_backdrop] ->
-            ["data-backdrop": "", "data-isdark": ""]
+          assigns[:backdrop_strength] == "strong" ->
+            ["data-backdrop": "", "data-backdrop-strength": "strong"]
 
-          assigns[:is_medium_backdrop] ->
-            ["data-backdrop": "", "data-ismedium": ""]
+          assigns[:backdrop_strength] == "medium" ->
+            ["data-backdrop": "", "data-backdrop-strength": "medium"]
 
-          assigns[:is_light_backdrop] ->
-            ["data-backdrop": "", "data-islight": ""]
+          assigns[:backdrop_strength] == "light" ->
+            ["data-backdrop": "", "data-backdrop-strength": "light"]
 
           assigns[:is_backdrop] ->
-            if is_menu, do: ["data-backdrop": "", "data-islight": ""], else: ["data-backdrop": ""]
+            if is_menu, do: ["data-backdrop": "", "data-backdrop-strength": "light"], else: ["data-backdrop": ""]
 
           true ->
             []

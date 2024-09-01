@@ -45,75 +45,33 @@ See for update instructions: "Updating to 0.8" below.
 - Renamed attribute `focus_first` to `focus_after_opening_selector`. Focus on the first interactive element is now default; with `focus_after_opening_selector` a specific element can be appointed.
 - Removed attrs `form` and `field` from all prompt components.
 - Added separate `z-index` settings for menus, so that the menu panel (and optional backdrop) are closer to the page, allowing them to be covered by other elements such as top bars. Using a `z-index` of `100` for a top bar ensures that it sits in between menus and dialogs/drawers.
+- Replaced backdrop attributes `is_dark_backdrop`, `is_medium_backdrop` and `is_light_backdrop` with `backdrop_strength` and values `"strong"`, `"medium"` and `"light"`.
+- Menus and dialogs can now be closed with Escape by default.
 
 ### Updating to 0.8
 
 - Replace `Promp.show` and `Prompt.hide`:
 
-For example:
+  - For example:
 
-```
-onclick="Prompt.show('#my-dialog')"
-onclick="Prompt.hide('#my-dialog')"
-```
+        onclick="Prompt.show('#my-dialog')"
+        onclick="Prompt.hide('#my-dialog')"
 
-Becomes:
+  - Becomes:
 
-```
-phx-click={open_dialog("my-dialog")}
-phx-click={close_dialog("my-dialog")}
-```
+        phx-click={open_dialog("my-dialog")}
+        phx-click={close_dialog("my-dialog")}
 
-- Form state: the previous method to preserve state, using "a fictitious and unique field name" can be removed. Remove `form` and `field` from menu and dialog component attributes.
-- Because `focus_first` (without a selector) is now the default, nothing needs to be changed when using this attribute. If in existing code a selector value is used, rename the attribute to `focus_after_opening_selector`.
-- Replace `prompt_options` and `phx_click_touch` with `status_callback_selector`. There's no simple way to replace `prompt_options`, because passing JavaScript functions is no longer supported. A solution could be very similar to the previous `phx_click_touch` method. This example LiveComponent may give some ideas how to approach the update:
-
-```
-defmodule MyAppWeb.Page do
-  def render(assigns) do
-    ~H"""
-      <.live_component id="status_component" module={MyAppWeb.StatusComponent} />
-
-      <.dialog id="my-dialog" status_callback_selector="#dialog_status">
-        <:body>Body</:body>
-      </.dialog>
-    """
-  end
-end
-
-defmodule MyAppWeb.StatusComponent do
-  use MyAppWeb, :live_component
-
-  def render(assigns) do
-    ~H"""
-    <div id="dialog_status">
-      <p>Status: <%= @status %></p>
-    </div>
-    """
-  end
-
-  def update(assigns, socket) do
-    socket =
-      socket
-      |> assign(assigns)
-      |> assign(:status, "initial")
-
-    {:ok, socket}
-  end
-
-  def handle_event(
-    "primer_live:prompt",
-    %{"elementId" => _dialog_id, "status" => status},
-    socket
-  ) do
-    socket =
-      socket
-      |> assign(:status, status)
-
-    {:noreply, socket}
-  end
-end
-```
+- Replace backdrop darkness attributes:
+  - `is_dark_backdrop` becomes `backdrop_strength="strong"`
+  - `is_medium_backdrop` becomes `backdrop_strength="medium"`
+  - `is_light_backdrop` becomes `backdrop_strength="light"`
+- Attribute `is_escapable` can be removed because this is now the default. If the component should not be removed using Escape, use `is_escapable={false}`.
+- Form state: the previous method to preserve state, using "a fictitious and unique field name" can be removed.
+  - Remove `form` and `field` from menu and dialog component attributes.
+- Because `focus_first` (without a selector) is now the default, nothing needs to be changed when using this attribute.
+  - If in existing code a selector value is used, rename the attribute to `focus_after_opening_selector`.
+- Replace `prompt_options` and `phx_click_touch` with `status_callback_selector`. There's no simple way to replace `prompt_options`, because passing JavaScript functions is no longer supported. A solution could be very similar to the previous `phx_click_touch` method. See [Status callbacks](menus-and-dialogs.html#status-callbacks) for an example.
 
 ## 0.7.2
 

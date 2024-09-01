@@ -26519,7 +26519,7 @@ a.branch-name .octicon {
 /* css/prompt.css */
 [data-prompt] {
   --prompt-background-color-backdrop: black;
-  --prompt-background-opacity-backdrop-dark: 0.5;
+  --prompt-background-opacity-backdrop-strong: 0.5;
   --prompt-background-opacity-backdrop-medium: 0.2;
   --prompt-background-opacity-backdrop-light: 0.07;
   --prompt-transition-timing-function: ease-in-out;
@@ -26624,10 +26624,10 @@ a.branch-name .octicon {
 [data-prompt].is-showing [data-backdrop] {
   opacity: var(--prompt-background-opacity-backdrop-medium);
 }
-[data-prompt].is-showing [data-backdrop][data-isdark] {
-  opacity: var(--prompt-background-opacity-backdrop-dark);
+[data-prompt].is-showing [data-backdrop][data-backdrop-strength=strong] {
+  opacity: var(--prompt-background-opacity-backdrop-strong);
 }
-[data-prompt].is-showing [data-backdrop][data-islight] {
+[data-prompt].is-showing [data-backdrop][data-backdrop-strength=light] {
   opacity: var(--prompt-background-opacity-backdrop-light);
 }
 [data-prompt]:not([data-isdrawer], [data-ismenu]) [data-content] {
@@ -26764,12 +26764,12 @@ a.branch-name .octicon {
   transform: translateX(var(--push-drawer-width));
 }
 [data-color-mode=dark] [data-prompt] {
-  --prompt-background-opacity-backdrop-dark: 0.7;
+  --prompt-background-opacity-backdrop-strong: 0.7;
   --prompt-background-opacity-backdrop-medium: 0.5;
   --prompt-background-opacity-backdrop-light: 0.3;
 }
 [data-color-mode=dark][data-dark-theme=dark_dimmed] [data-prompt] {
-  --prompt-background-opacity-backdrop-dark: 0.5;
+  --prompt-background-opacity-backdrop-strong: 0.5;
   --prompt-background-opacity-backdrop-medium: 0.35;
   --prompt-background-opacity-backdrop-light: 0.2;
 }

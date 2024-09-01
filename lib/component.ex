@@ -6750,12 +6750,10 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.focus_after_opening_selector("the dropdown")
   PromptDeclarationHelpers.id("Dropdown element id", "the dropdown", false)
   PromptDeclarationHelpers.is_backdrop()
-  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.backdrop_strength()
   PromptDeclarationHelpers.is_dropdown_caret(true)
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.is_fast(true)
-  PromptDeclarationHelpers.is_light_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_show("the dropdown", "dropdown")
   PromptDeclarationHelpers.show_state("the dropdown")
   PromptDeclarationHelpers.is_show_on_mount("the dropdown", "dropdown")
@@ -7177,12 +7175,10 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.focus_after_opening_selector("the select menu")
   PromptDeclarationHelpers.id("Select menu element id", "the select menu", false)
   PromptDeclarationHelpers.is_backdrop()
-  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.backdrop_strength()
   PromptDeclarationHelpers.is_dropdown_caret(false)
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.is_fast(true)
-  PromptDeclarationHelpers.is_light_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_show("the select menu", "select_menu")
   PromptDeclarationHelpers.show_state("the select menu")
   PromptDeclarationHelpers.is_show_on_mount("the select menu", "select_menu")
@@ -7812,12 +7808,10 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.focus_after_opening_selector("the menu")
   PromptDeclarationHelpers.id("Menu element id", "the menu", false)
   PromptDeclarationHelpers.is_backdrop()
-  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.backdrop_strength()
   PromptDeclarationHelpers.is_dropdown_caret(false)
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.is_fast(true)
-  PromptDeclarationHelpers.is_light_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_show("the menu", "action_menu")
   PromptDeclarationHelpers.show_state("the menu")
   PromptDeclarationHelpers.is_show_on_mount("the menu", "action_menu")
@@ -11268,10 +11262,10 @@ defmodule PrimerLive.Component do
 
   ## Other attributes
 
-  Add a backdrop. Optionally add `is_light_backdrop` or `is_dark_backdrop`:
+  Add a backdrop. Optionally add `backdrop_strength` with value "strong" or "light":
 
   ```
-  <.dialog is_backdrop is_dark_backdrop>
+  <.dialog is_backdrop backdrop_strength="light">
     ...
   </.dialog>
   ```
@@ -11386,11 +11380,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.focus_after_opening_selector("the dialog")
   PromptDeclarationHelpers.id("Dialog element id", "the dialog", true)
   PromptDeclarationHelpers.is_backdrop()
-  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.backdrop_strength()
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.is_fast(false)
-  PromptDeclarationHelpers.is_light_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_modal("the dialog")
   PromptDeclarationHelpers.is_show("the dialog", "dialog")
   PromptDeclarationHelpers.show_state("the dialog")
@@ -11759,10 +11751,10 @@ defmodule PrimerLive.Component do
   </.drawer>
   ```
 
-  Add a backdrop. Optionally add `is_light_backdrop` or `is_dark_backdrop`:
+  Add a backdrop. Optionally add `backdrop_strength` with value "strong" or "light":
 
   ```
-  <.drawer is_backdrop is_dark_backdrop>
+  <.drawer is_backdrop backdrop_strength="strong">
     ...
   </.drawer>
   ```
@@ -11828,11 +11820,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.focus_after_opening_selector("the drawer")
   PromptDeclarationHelpers.id("Drawer element id", "the drawer", true)
   PromptDeclarationHelpers.is_backdrop()
-  PromptDeclarationHelpers.is_dark_backdrop()
+  PromptDeclarationHelpers.backdrop_strength()
   PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.is_fast(false)
-  PromptDeclarationHelpers.is_light_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_modal("the drawer")
   PromptDeclarationHelpers.is_show("the drawer", "drawer")
   PromptDeclarationHelpers.show_state("the drawer")

@@ -61,10 +61,8 @@ The following attributes are common for all menus and dialogs.
 
 ### Appearance
 
-- `is_backdrop` - Generates a backdrop background (default with medium darkness).
-- `is_dark_backdrop` - Generates a darker backdrop background color.
-- `is_medium_backdrop` - Generates a medium backdrop background color.
-- `is_light_backdrop` - Generates a lighter backdrop background color. Default for menus.
+- `is_backdrop` - Generates a backdrop background. Default backdrop strenght: `"medium"` for dialog and drawer; `"light"` for menus.
+- `backdrop_strength` - Backdrop strenght: stronger is less transparent. Overrides the default value from `is_backdrop`.
 - `transition_duration` - The number of milliseconds to fade-in/out the backdrop and content. Adds a CSS style attribute to component HTML.
 - `is_fast` - Generates fast fade transitions for backdrop and content.
 - `is_dropdown_caret` - For menus: adds a dropdown caret to the toggle button.
@@ -197,7 +195,7 @@ Example:
 [data-prompt] {
   /* Colors and opacity */
   --prompt-background-color-backdrop: black;
-  --prompt-background-opacity-backdrop-dark: 0.5;
+  --prompt-background-opacity-backdrop-strong: 0.5;
   --prompt-background-opacity-backdrop-medium: 0.2;
   --prompt-background-opacity-backdrop-light: 0.07;
 

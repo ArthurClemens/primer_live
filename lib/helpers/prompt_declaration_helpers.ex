@@ -35,43 +35,28 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
         doc: "Adds a dropdown caret icon to the toggle button."
     end
   end
-
+  
   defmacro is_backdrop do
     quote do
       attr :is_backdrop, :boolean,
         default: false,
         doc: """
-        Generates a backdrop background (default with medium darkness).
+        Generates a backdrop background with a default strength value. 
+
+        Default backdrop strenght:
+        - dialog and drawer: `"medium"`
+        - menus: `"light"`
         """
     end
   end
 
-  defmacro is_dark_backdrop do
+  defmacro backdrop_strength do
     quote do
-      attr :is_dark_backdrop, :boolean,
-        default: false,
+      attr :backdrop_strength, :string,
+        values: ["medium", "strong", "light", nil],
+        default: nil,
         doc: """
-        Generates a darker backdrop background color.
-        """
-    end
-  end
-
-  defmacro is_medium_backdrop do
-    quote do
-      attr :is_medium_backdrop, :boolean,
-        default: false,
-        doc: """
-        Generates a medium backdrop background color.
-        """
-    end
-  end
-
-  defmacro is_light_backdrop do
-    quote do
-      attr :is_light_backdrop, :boolean,
-        default: false,
-        doc: """
-        Generates a lighter backdrop background color. Default for menus.
+        Backdrop strenght. Overrides the default value from `is_backdrop`.
         """
     end
   end
