@@ -1262,7 +1262,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         assigns.is_escapable != false && ["data-isescapable": ""]
       ])
 
-    focus_wrap_id = "focus-wrap-#{id || id}"
+    focus_wrap_id = "focus-wrap-#{id}"
 
     focus_wrap_attrs =
       append_attributes([
