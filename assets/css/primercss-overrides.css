@@ -1,158 +1,143 @@
 :root {
-  /* Provide a value for the monospace var. */
-  --primer-fontStack-monospace: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-
-  /* Provide a value for max height of dialog content. */
-  --prompt-max-height-content: 80vh;
-}
-
-/* Set max height on dialog content. */
-[data-prompt]:not([data-isdrawer]) [data-content]:not([aria-role="menu"]) {
-  max-height: var(--prompt-max-height-content);
-}
-
-/* Adjusted backdrop opacities for dark theme. */
-[data-color-mode=dark] [data-prompt] {
-  --prompt-background-opacity-backdrop-dark: 0.7;
-  --prompt-background-opacity-backdrop-medium: 0.5;
-  --prompt-background-opacity-backdrop-light: 0.3;
-}
-
-/* Adjusted backdrop opacities for dimmed dark theme. */
-[data-color-mode=dark][data-dark-theme=dark_dimmed] [data-prompt] {
-  --prompt-background-opacity-backdrop-dark: 0.5;
-  --prompt-background-opacity-backdrop-medium: 0.35;
-  --prompt-background-opacity-backdrop-light: 0.2;
+    /* Provide a value for the monospace var. */
+    --primer-fontStack-monospace: ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+        Consolas, "Liberation Mono", monospace;
 }
 
 /* Remove SelectMenu backdrop. */
 .SelectMenu::before {
-  display: none;
+    display: none;
 }
 
 /* Remove SelectMenu animation (conflicts with appear transition). */
 .SelectMenu-modal {
-  animation: none;
+    animation: none;
 }
 
 /* Reset `margin-bottom: -1px` which causes a scrollbar. Replace with removal of bottom border. */
 .Box-body:last-of-type {
-  margin-bottom: 0;
-  border-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
 }
 
 /* Remove redundant top spacing of first form group. */
 .Box-body>.form-group:first-child {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 /* Prevent row border styles from interfering with the box danger border style. */
 .Box.Box--danger .Box-row,
 .Box.color-border-danger .Box-row {
-  border-color: inherit;
+    border-color: inherit;
 }
 
 /* Add the right octicon styles for underline nav items, to avoid having to add class `UnderlineNav-octicon`. */
 .UnderlineNav-item>.octicon {
-  display: inline !important;
-  margin-right: var(--base-size-8, 8px);
-  color: var(--color-fg-muted);
-  fill: var(--color-fg-muted);
+    display: inline !important;
+    margin-right: var(--base-size-8, 8px);
+    color: var(--color-fg-muted);
+    fill: var(--color-fg-muted);
 }
 
 /* Add the right octicon styles for side nav items, to avoid having to add class `SideNav-icon`. */
 .SideNav-item>.octicon,
 .SideNav-subItem>.octicon {
-  width: var(--base-size-16, 16px);
-  margin-right: var(--base-size-8, 8px);
-  color: var(--color-fg-muted);
+    width: var(--base-size-16, 16px);
+    margin-right: var(--base-size-8, 8px);
+    color: var(--color-fg-muted);
 }
 
 /* Support leading and trailing icons. */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
 .pl-button__content {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* -- idem (medium button) */
 .btn {
-  height: 32px;
-  padding: 0 var(--base-size-12, 12px);
-  gap: var(--base-size-8, 8px);
+    height: 32px;
+    padding: 0 var(--base-size-12, 12px);
+    gap: var(--base-size-8, 8px);
 }
 
 .btn .pl-button__content {
-  gap: var(--base-size-8, 8px);
+    gap: var(--base-size-8, 8px);
 }
 
 /* -- idem (small button) */
 .btn.btn-sm {
-  height: 28px;
-  padding: 0 var(--base-size-8, 8px);
-  gap: var(--base-size-4, 4px);
+    height: 28px;
+    padding: 0 var(--base-size-8, 8px);
+    gap: var(--base-size-4, 4px);
 }
 
 .btn.btn-sm .pl-button__content {
-  gap: var(--base-size-4, 4px);
+    gap: var(--base-size-4, 4px);
 }
 
 /* -- idem (large button) */
 .btn.btn-large {
-  height: var(--primer-control-large-size, 40px);
-  padding: 0 var(--base-size-16, 16px);
-  gap: var(--base-size-8, 8px);
+    height: var(--primer-control-large-size, 40px);
+    padding: 0 var(--base-size-16, 16px);
+    gap: var(--base-size-8, 8px);
 }
 
 .btn.btn-large .pl-button__content {
-  gap: var(--base-size-8, 8px);
+    gap: var(--base-size-8, 8px);
 }
 
 /* -- idem */
 .btn .octicon,
 .btn .dropdown-caret,
 .btn .Counter {
-  margin-left: 0;
-  margin-right: 0;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 /* Support aligning content at the start. */
 .btn.pl-button-aligned--start {
-  display: grid;
-  grid-template-columns: minmax(0, auto) var(--base-size-8, 8px);
-  justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, auto) var(--base-size-8, 8px);
+    justify-content: space-between;
 }
 
 /* Resize octicon in a small button. */
 .btn-sm .octicon[width="16"],
 .btn-sm .octicon[height="16"] {
-  width: 14px;
-  height: 14px;
+    width: 14px;
+    height: 14px;
 }
 
 /* Use consistent height for large buttons. */
 .btn-large {
-  height: var(--primer-control-large-size, 40px);
-  padding-top: 0;
-  padding-bottom: 0;
+    height: var(--primer-control-large-size, 40px);
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* Fix too small dropdown menu */
+.dropdown-menu {
+    width: auto;
+    min-width: 160px;
 }
 
 /* Deprecation support (0.5.0). Make deprecated .form-group co-exist with FormControl to keep the layout (remove inline-flex). */
 .form-group.FormControl {
-  display: flex;
+    display: flex;
 }
 
 /* Deprecation support (0.5.0). Give validation message and caption not inside a .FormControl a default top margin. */
 .FormControl-inlineValidation,
 .FormControl-caption {
-  margin-top: var(--base-size-4, 4px);
+    margin-top: var(--base-size-4, 4px);
 }
 
 /* -- and reset it when inside a form control. */
@@ -162,29 +147,29 @@
 .FormControl .FormControl-caption,
 .FormControl-radio-labelWrap .FormControl-caption,
 .FormControl-checkbox-labelWrap .FormControl-caption {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 /* -- idem for caption */
 .FormControl .FormControl-caption {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 /* -- idem for form group header and bottom margin. */
 .FormControl.form-group .form-group-header {
-  margin: 0;
+    margin: 0;
 }
 
 /* Prevent that FormControl each child element grows with the widest */
 .FormControl {
-  align-items: flex-start;
+    align-items: flex-start;
 }
 
 /* -- idem */
 .FormControl-input,
 .FormControl-select,
 .FormControl-textarea {
-  width: auto;
+    width: auto;
 }
 
 /* -- idem (restore full width) */
@@ -192,7 +177,7 @@
 .FormControl--fullWidth .FormControl-select-wrap,
 .FormControl--fullWidth .FormControl-select,
 .FormControl--fullWidth .FormControl-textarea {
-  width: 100%;
+    width: 100%;
 }
 
 /* Set disabled state to FormControl. */
@@ -201,15 +186,15 @@
 fieldset[disabled] .form-group-header,
 fieldset[disabled] .FormControl-caption,
 fieldset[disabled] .FormControl-label {
-  color: var(--color-primer-fg-disabled);
-  cursor: not-allowed;
+    color: var(--color-primer-fg-disabled);
+    cursor: not-allowed;
 }
 
 /* -- idem for checkbox and radio. */
 .FormControl.pl-FormControl-disabled .FormControl-checkbox,
 .FormControl.pl-FormControl-disabled .FormControl-radio {
-  border-color: var(--color-border-default);
-  cursor: not-allowed;
+    border-color: var(--color-border-default);
+    cursor: not-allowed;
 }
 
 /* Allow inputs without FormControl to set full width. */
@@ -217,611 +202,619 @@ fieldset[disabled] .FormControl-label {
 .FormControl-select-wrap.FormControl--fullWidth,
 .FormControl-select.FormControl--fullWidth,
 .FormControl-textarea.FormControl--fullWidth {
-  width: 100%;
+    width: 100%;
 }
 
 /* Don't set height on textareas. */
 .FormControl-textarea.FormControl-small,
 .FormControl-textarea.FormControl-medium,
 .FormControl-textarea.FormControl-large {
-  height: auto;
+    height: auto;
 }
 
 /* Don't set height on multiple selects. */
 .FormControl-select[multiple].FormControl-small,
 .FormControl-select[multiple].FormControl-medium,
 .FormControl-select[multiple].FormControl-large {
-  height: auto;
+    height: auto;
 }
 
 /* Set auto width on select wrapper. */
 .FormControl-select-wrap {
-  grid-template-columns: minmax(0, min-content) var(--base-size-16, 16px);
+    grid-template-columns: minmax(0, min-content) var(--base-size-16, 16px);
 }
 
 /* -- and set to full width when FormControl--fullWidth. */
 .FormControl-select-wrap.FormControl--fullWidth {
-  grid-template-columns: minmax(0, auto) var(--base-size-16, 16px);
+    grid-template-columns: minmax(0, auto) var(--base-size-16, 16px);
 }
 
 /* Mute arrow icon when disabled. */
 .pl-FormControl-select-wrap--disabled:after {
-  background-color: var(--color-primer-fg-disabled);
+    background-color: var(--color-primer-fg-disabled);
 }
 
 /* Don't create space for dropdown icon on multiple selects. */
 .FormControl-select-wrap.pl-multiple-select .FormControl-select {
-  padding-inline: var(--primer-control-medium-paddingInline-condensed, 8px);
+    padding-inline: var(--primer-control-medium-paddingInline-condensed, 8px);
 }
 
 /* Don't show dropdown icon on multiple selects. */
 .FormControl-select-wrap.pl-multiple-select:after {
-  display: none;
+    display: none;
 }
 
 /* Support input-group with group button when using FormControl-x elements. */
 .input-group .FormControl-input[type="text"] {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 /* -- idem */
 .input-group .FormControl-input {
-  width: 100%;
+    width: 100%;
 }
 
 /* Provide default values for trailing action separator. */
 .FormControl-input-wrap .FormControl-input-trailingAction.FormControl-input-trailingAction--divider:before {
-  height: var(--base-size-16, 16px);
-  width: var(--primer-borderWidth-thin, 1px);
+    height: var(--base-size-16, 16px);
+    width: var(--primer-borderWidth-thin, 1px);
 }
 
 /* Remove padding and margin for "icon only" button inside a trailing action. */
 .FormControl-input-trailingAction .btn-octicon {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 /* Make button clicks work inside a trailing action. */
 .FormControl-input-trailingAction button {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
 
 /* Conditional trailing action. */
 input:placeholder-shown+.FormControl-input-trailingAction.pl-trailingAction--if-value {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 /* -- idem */
 input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingAction--if-value {
-  visibility: visible;
+    visibility: visible;
 }
 
 /* -- idem */
 .FormControl-inlineValidation--success {
-  color: var(--color-success-fg);
-  fill: var(--color-success-fg);
+    color: var(--color-success-fg);
+    fill: var(--color-success-fg);
 }
 
 /* Reset error state to initial if element has class phx-no-feedback (but show success message when shown in form group with valid state). */
 .FormControl-inlineValidation.phx-no-feedback {
-  display: none;
+    display: none;
 }
 
 .pl-valid+.FormControl-inlineValidation--success.phx-no-feedback {
-  display: block;
+    display: block;
 }
 
 /* Style links inside validation messages. */
 .FormControl-inlineValidation a[href] {
-  color: inherit;
-  text-decoration: underline;
+    color: inherit;
+    text-decoration: underline;
 }
 
 /* Style links inside caption messages. */
 .FormControl-caption a[href] {
-  color: inherit;
-  text-decoration: underline;
+    color: inherit;
+    text-decoration: underline;
 }
 
 /* Reset error state to initial if preceding marker element has class phx-no-feedback. */
 .phx-no-feedback .FormControl-input[invalid]:not(:focus),
 .phx-no-feedback .FormControl-select[invalid]:not(:focus),
 .phx-no-feedback .FormControl-textarea[invalid]:not(:focus) {
-  border-color: var(--color-border-default);
+    border-color: var(--color-border-default);
 }
 
 /* -- idem */
 .phx-no-feedback .FormControl-input:not(:focus)[invalid],
 .phx-no-feedback .FormControl-select:not(:focus)[invalid] {
-  border-color: var(--color-border-default);
+    border-color: var(--color-border-default);
 }
 
 /* -- idem */
 .phx-no-feedback .FormControl-inlineValidation--error,
 .pl-valid+.FormControl-inlineValidation--error,
 .pl-neutral+.FormControl-inlineValidation--error {
-  display: none;
+    display: none;
 }
 
 .pl-invalid+.FormControl-inlineValidation--success {
-  display: none;
+    display: none;
 }
 
 /* Remove error color from radios and checkboxes. */
-input.FormControl-checkbox[type=checkbox][invalid]:not(:focus),
-input.FormControl-radio[type=radio][invalid]:not(:focus) {
-  border-color: var(--color-neutral-emphasis);
+input.FormControl-checkbox[type="checkbox"][invalid]:not(:focus),
+input.FormControl-radio[type="radio"][invalid]:not(:focus) {
+    border-color: var(--color-neutral-emphasis);
 }
 
 /* Set visual error state to neutral if preceding marker element has class pl-valid. */
 .pl-valid .FormControl-input:not(:focus)[invalid],
 .pl-valid .FormControl-select:not(:focus),
 .pl-valid .FormControl-select:not(:focus)[invalid] {
-  border-color: var(--color-success-emphasis);
+    border-color: var(--color-success-emphasis);
 }
 
 .pl-neutral .FormControl-input:not(:focus)[invalid],
 .pl-neutral .FormControl-select:not(:focus)[invalid] {
-  border-color: var(--color-border-default);
+    border-color: var(--color-border-default);
 }
 
 /* Copy checkbox emphasis style to FormControl checkbox and radio button.*/
 .FormControl-checkbox-wrap .FormControl-label em.highlight,
 .FormControl-radio-wrap .FormControl-label em.highlight {
-  position: relative;
-  left: calc(-1 * var(--base-size-4, 4px));
-  padding: 2px var(--base-size-4, 4px);
-  font-style: normal;
-  background: var(--color-attention-subtle);
-  border-radius: 6px;
+    position: relative;
+    left: calc(-1 * var(--base-size-4, 4px));
+    padding: 2px var(--base-size-4, 4px);
+    font-style: normal;
+    background: var(--color-attention-subtle);
+    border-radius: 6px;
 }
 
 /* Use the radio styling from FormControl-radio for radio-group inputs. */
-.radio-group input[type=radio].radio-input.FormControl-radio {
-  margin: 10px -32px 0 var(--base-size-16, 16px);
-  width: 13px;
-  height: 13px;
+.radio-group input[type="radio"].radio-input.FormControl-radio {
+    margin: 10px -32px 0 var(--base-size-16, 16px);
+    width: 13px;
+    height: 13px;
 }
 
 /* Remove checkbox animation dururation because the effect appears to lag compared to other page updates. */
 @media screen and (prefers-reduced-motion: no-preference) {
-  input.FormControl-checkbox[type=checkbox]:checked:before {
-    animation-duration: 0ms;
-    animation-delay: 0ms;
-  }
+    input.FormControl-checkbox[type="checkbox"]:checked:before {
+        animation-duration: 0ms;
+        animation-delay: 0ms;
+    }
 }
 
 /* Disable form elements when wrapping fieldset is disabled. */
 fieldset[disabled] * {
-  pointer-events: none;
+    pointer-events: none;
 }
 
-fieldset[disabled] input.FormControl-radio[type=radio]:not(:focus),
-fieldset[disabled] input.FormControl-checkbox[type=checkbox]:not(:focus) {
-  -webkit-text-fill-color: var(--color-primer-fg-disabled);
-  background-color: var(--color-input-disabled-bg);
-  border-color: var(--color-border-default);
-  color: var(--color-primer-fg-disabled);
-  cursor: not-allowed;
-  opacity: 1;
+fieldset[disabled] input.FormControl-radio[type="radio"]:not(:focus),
+fieldset[disabled] input.FormControl-checkbox[type="checkbox"]:not(:focus) {
+    -webkit-text-fill-color: var(--color-primer-fg-disabled);
+    background-color: var(--color-input-disabled-bg);
+    border-color: var(--color-border-default);
+    color: var(--color-primer-fg-disabled);
+    cursor: not-allowed;
+    opacity: 1;
 }
 
 /* -- idem */
 fieldset[disabled] legend.FormControl-label,
 fieldset[disabled] .FormControl-checkbox-labelWrap .FormControl-label,
 fieldset[disabled] .FormControl-radio-labelWrap .FormControl-label {
-  color: var(--color-primer-fg-disabled);
-  cursor: not-allowed;
+    color: var(--color-primer-fg-disabled);
+    cursor: not-allowed;
 }
 
 /* -- idem */
 fieldset[disabled] .FormControl-input,
 fieldset[disabled] .FormControl-textarea,
 fieldset[disabled] .FormControl-select {
-  color: var(--color-primer-fg-disabled);
-  background-color: var(--color-input-disabled-bg);
-  border-color: var(--color-border-default);
-  -webkit-text-fill-color: var(--color-primer-fg-disabled);
-  opacity: 1;
-  cursor: not-allowed;
+    color: var(--color-primer-fg-disabled);
+    background-color: var(--color-input-disabled-bg);
+    border-color: var(--color-border-default);
+    -webkit-text-fill-color: var(--color-primer-fg-disabled);
+    opacity: 1;
+    cursor: not-allowed;
 }
 
 /* -- idem */
 fieldset[disabled] .FormControl-input::placeholder,
 fieldset[disabled] .FormControl-textarea::placeholder {
-  color: var(--color-primer-fg-disabled);
+    color: var(--color-primer-fg-disabled);
 }
 
 /* Align checkbox styles with action list select icons. */
 /* Multiple select: use smaller checkboxes when shown in an action list (mimic ui icon "multiple-select-16") */
-.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type=checkbox],
-.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type=checkbox] {
-  height: 13px;
-  width: 13px;
-  margin: 0;
+.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type="checkbox"],
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type="checkbox"] {
+    height: 13px;
+    width: 13px;
+    margin: 0;
 }
 
 /* -- idem */
-.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type=checkbox] {
-  border-color: var(--color-border-default);
+.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type="checkbox"] {
+    border-color: var(--color-border-default);
 }
 
 /* -- idem */
-.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type=checkbox]:checked {
-  border-color: var(--color-accent-fg);
+.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type="checkbox"]:checked {
+    border-color: var(--color-accent-fg);
 }
 
 /* -- idem */
-.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type=checkbox]:before {
-  height: 12px;
-  width: 12px;
+.ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type="checkbox"]:before {
+    height: 12px;
+    width: 12px;
 }
 
 /* -- idem */
 .ActionList-item-visual .ActionList-item-multiSelectIcon.FormControl-checkbox-wrap,
 .ActionList-item-visual .ActionList-item-multiSelectIcon.FormControl-radio-wrap {
-  gap: 0;
-  width: var(--base-size-16, 16px);
+    gap: 0;
+    width: var(--base-size-16, 16px);
 }
 
 /* Use borderless checkboxes when shown in an action list, single select style (mimic ui icon "single-select-16") */
-.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type=checkbox] {
-  background: none;
-  border: none;
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type="checkbox"] {
+    background: none;
+    border: none;
 }
 
 /* -- idem */
-.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type=checkbox]:before {
-  background-color: var(--color-fg-muted);
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type="checkbox"]:before {
+    background-color: var(--color-fg-muted);
 }
 
 /* -- idem */
 .ActionList-item-visual .ActionList-item-singleSelectCheckmark.FormControl-checkbox-wrap,
 .ActionList-item-visual .ActionList-item-singleSelectCheckmark.FormControl-radio-wrap {
-  gap: 0;
-  width: var(--base-size-16, 16px);
+    gap: 0;
+    width: var(--base-size-16, 16px);
 }
 
 /* Hide radio inputs in an action list. */
-.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-radio[type=radio] {
-  visibility: hidden;
-  width: 0;
-  border: 0;
+.ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-radio[type="radio"] {
+    visibility: hidden;
+    width: 0;
+    border: 0;
 }
 
 /* -- idem - reduce label element height. */
 .ActionList-item-visual .ActionList-item-singleSelectCheckmark .FormControl-radio-labelWrap .FormControl-label {
-  display: grid;
+    display: grid;
 }
 
 /* -- idem - shorten animation duration. */
 @media screen and (prefers-reduced-motion: no-preference) {
 
-  .ActionList-item[aria-checked=false] .ActionList-item-singleSelectCheckmark,
-  .ActionList-item[aria-selected=false] .ActionList-item-singleSelectCheckmark,
-  .ActionList-item[aria-checked=true] .ActionList-item-singleSelectCheckmark,
-  .ActionList-item[aria-selected=true] .ActionList-item-singleSelectCheckmark {
-    animation-duration: 80ms;
-  }
+    .ActionList-item[aria-checked="false"] .ActionList-item-singleSelectCheckmark,
+    .ActionList-item[aria-selected="false"] .ActionList-item-singleSelectCheckmark,
+    .ActionList-item[aria-checked="true"] .ActionList-item-singleSelectCheckmark,
+    .ActionList-item[aria-selected="true"] .ActionList-item-singleSelectCheckmark {
+        animation-duration: 80ms;
+    }
 }
 
 /* Center SVG within leading visual. */
 .FormControl-input-wrap .FormControl-input-leadingVisualWrap {
-  display: grid;
+    display: grid;
 }
 
 /* Make the close button square. */
 .close-button {
-  width: inherit;
-  min-width: var(--base-size-16, 16px);
-  height: inherit;
-  min-height: var(--base-size-16, 16px);
-  line-height: var(--base-size-16, 16px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: inherit;
+    min-width: var(--base-size-16, 16px);
+    height: inherit;
+    min-height: var(--base-size-16, 16px);
+    line-height: var(--base-size-16, 16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Improve subnav layout on small screens. */
 .subnav {
-  display: flex;
+    display: flex;
 }
 
 .subnav-search {
-  display: flex;
-  flex-grow: 1;
+    display: flex;
+    flex-grow: 1;
 }
 
 /* -- idem */
 @media (min-width: 544px) {
-  .subnav-search {
-    flex-grow: unset;
-  }
+    .subnav-search {
+        flex-grow: unset;
+    }
 }
 
 /* Add the right styles for search input inside subnav, to avoid having to add class `subnav-search-input`. */
 /* input[type="search"] will display a search icon (when .octicon SVG exists). */
 .subnav-search input[type="text"],
 .subnav-search input[type="search"] {
-  color: var(--color-fg-muted);
-  flex-grow: 1;
+    color: var(--color-fg-muted);
+    flex-grow: 1;
 }
 
 /* -- idem */
 .subnav-search input[type="text"].input-block,
 .subnav-search input[type="search"].input-block {
-  width: 100%;
+    width: 100%;
 }
 
 /* -- idem */
 .subnav-search input[type="search"] {
-  padding-left: 32px;
+    padding-left: 32px;
 }
 
 /* -- idem */
 .subnav-search input+.octicon {
-  display: none;
+    display: none;
 }
 
 /* -- idem */
 .subnav-search input[type="search"]+.octicon {
-  position: absolute;
-  top: var(--base-size-8, 8px);
-  left: var(--base-size-8, 8px);
-  display: block;
-  color: var(--color-fg-muted);
-  text-align: center;
-  pointer-events: none;
+    position: absolute;
+    top: var(--base-size-8, 8px);
+    left: var(--base-size-8, 8px);
+    display: block;
+    color: var(--color-fg-muted);
+    text-align: center;
+    pointer-events: none;
 }
 
 /* -- idem */
 .subnav-search-context+.subnav-search input[type="text"],
 .subnav-search-context+.subnav-search input[type="search"] {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 /* Support wrapping of subnav child elements. */
 .subnav.pl-subnav--wrap {
-  gap: 12px;
-  flex-wrap: wrap;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 /* -- idem - remove float style */
 .subnav.pl-subnav--wrap:before,
 .subnav.pl-subnav--wrap:after {
-  display: none;
+    display: none;
 }
 
 /* -- idem - remove float style */
 .subnav.pl-subnav--wrap .subnav-search.float-left {
-  float: none !important;
-  margin-left: 0;
+    float: none !important;
+    margin-left: 0;
 }
 
 /* Tweak box header whitespace so that any adjacent buttons align nicely. */
 .Box-title {
-  line-height: 1.25;
+    line-height: 1.25;
 }
 
 /* Ensure that successive Box-row siblings don't show rounded top corners. */
 .Box-header+.Box-row,
 .Box-row+.Box-row {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }
 
 /* Don't show link menu appearance for non-link items such as single and multiple select items: */
 /* hide selection line at left and selection background. */
-.ActionList-item:not(.ActionList-item--navActive)[aria-selected="true"]:not(:hover) {
-  background: none;
+.ActionList-item:not(.ActionList-item--navActive)[aria-selected="true"]:not( :hover) {
+    background: none;
 }
 
 /* -- idem */
 .ActionList-item:not(.ActionList-item--navActive)[aria-selected="true"]::after {
-  display: none;
+    display: none;
 }
 
 /* Add space to label following an octicon. */
 .ActionList-item-label>.octicon+span {
-  margin-left: var(--base-size-8, 8px);
+    margin-left: var(--base-size-8, 8px);
 }
 
 /* Hide sub group toggles that are not button */
 span.ActionList-content[aria-expanded] {
-  display: none;
+    display: none;
 }
 
 /* Hide empty labels */
 .ActionList-item-label:empty {
-  display: none;
+    display: none;
 }
 
 /* For ActionMenu, take SelectMenu non-mobile style for all screen sizes. */
 .ActionMenu {
-  position: absolute;
-  top: auto;
-  right: auto;
-  bottom: auto;
-  left: auto;
-  padding: 0;
+    position: absolute;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    padding: 0;
+}
+
+/* Restore hover when ActionList-content is used on a label */
+label.ActionList-content {
+    cursor: inherit;
 }
 
 /* Reset extra padding for touch devices because lots of layouts break because of it. */
 @media (pointer: coarse) {
-  .ActionList-content {
-    padding-top: var(--base-size-8, 8px);
-    padding-bottom: var(--base-size-8, 8px);
-  }
+    .ActionList-content {
+        padding-top: var(--base-size-8, 8px);
+        padding-bottom: var(--base-size-8, 8px);
+    }
 }
 
 /* Mimic Primer/React's ActionMenu overlay style. */
 .ActionMenu-modal {
-  position: relative;
-  z-index: 99;
-  display: flex;
-  overflow: hidden;
-  pointer-events: auto;
-  flex-direction: column;
-  background-color: var(--color-canvas-overlay);
-  border-radius: 12px;
-  box-shadow: var(--color-overlay-shadow);
-  min-width: 192px;
-  max-width: 640px;
-  border: none;
-  margin: var(--base-size-8, 8px) 0 var(--base-size-16, 16px) 0;
+    position: relative;
+    z-index: 99;
+    display: flex;
+    overflow: hidden;
+    pointer-events: auto;
+    flex-direction: column;
+    background-color: var(--color-canvas-overlay);
+    border-radius: 12px;
+    box-shadow: var(--color-overlay-shadow);
+    min-width: 192px;
+    max-width: 640px;
+    border: none;
+    margin: var(--base-size-8, 8px) 0 var(--base-size-16, 16px) 0;
 }
 
 /* Header: make whitespace work on both sides. */
 .Header {
-  column-gap: var(--base-size-16, 16px);
+    column-gap: var(--base-size-16, 16px);
 }
 
 /* -- idem */
 .Header-item {
-  margin-left: 0;
-  margin-right: 0;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 /* Implement Primer React's IconButton. */
 .btn-icon {
-  padding: 5px var(--base-size-8, 8px);
+    padding: 5px var(--base-size-8, 8px);
 }
 
 /* -- idem */
 .btn-icon.btn-sm {
-  padding: 3px 6px;
+    padding: 3px 6px;
 }
 
 /* -- idem */
 .btn-icon.btn-large {
-  padding: 9px 12px;
+    padding: 9px 12px;
 }
 
 /* Remove whitespace introduced by the default display: inline-block */
 .btn-octicon {
-  font-size: 0;
+    font-size: 0;
 }
 
 /* Box--overlay: reduce width on small screens */
 @media (max-width: 480px) {
-  .Box--overlay {
-    max-width: 90vw;
-  }
-}
-
-/* Box--overlay: drawer width */
-[data-prompt][data-isdrawer] [data-drawer-content].Box--overlay {
-  width: initial;
-}
-
-/* Box--overlay: prevent shadow for push drawer when not showing. */
-[data-prompt][data-isdrawer] input[type="checkbox"]:not(:checked)+[data-prompt-content] [data-drawer-content] {
-  box-shadow: none;
+    .Box--overlay {
+        max-width: 90vw;
+    }
 }
 
 /* Small tabnav-tab items */
 .tabnav-tab--small {
-  padding: var(--base-size-8, 8px) var(--base-size-16, 16px);
-  font-size: 12px;
+    padding: var(--base-size-8, 8px) var(--base-size-16, 16px);
+    font-size: 12px;
 }
 
 /* -- idem */
 @media (min-width: 544px) {
-  .tabnav-tab--small {
-    padding: var(--base-size-4, 4px) var(--base-size-16, 16px);
-  }
+    .tabnav-tab--small {
+        padding: var(--base-size-4, 4px) var(--base-size-16, 16px);
+    }
 }
 
 /* Theming: prevent setting a background on inline elements. */
 span[data-color-mode] {
-  background: none;
+    background: none;
 }
-
 
 /* Radio/checkbox group styles. */
 .pl-FormControl--input-group {
-  display: flex;
+    display: flex;
 }
 
 /* -- container */
 .pl-FormControl--input-group__container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--base-size-8, 8px);
-  margin-top: var(--base-size-4, 4px);
-  margin-bottom: calc(var(--base-size-4, 4px) / 2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--base-size-8, 8px);
+    margin-top: var(--base-size-4, 4px);
+    margin-bottom: calc(var(--base-size-4, 4px) / 2);
 }
 
 /* -- label */
 .pl-FormControl--input-group .form-group-header .FormControl-label {
-  font-weight: var(--base-text-weight-normal, 400);
-  font-size: var(--h4-size, 16px);
+    font-weight: var(--base-text-weight-normal, 400);
+    font-size: var(--h4-size, 16px);
 }
 
 /* -- caption */
 .pl-FormControl--input-group .FormControl-caption {
-  margin-top: -3px;
-  font-size: var(--primer-text-body-size-medium, 14px);
+    margin-top: -3px;
+    font-size: var(--primer-text-body-size-medium, 14px);
 }
 
 /* Simplify button group with flex children. */
 
 .pl-button-group {
-  display: flex;
+    display: flex;
 }
 
 /* -- idem */
 .pl-button-group .btn:first-child {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 /* -- idem */
 .pl-button-group .btn:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-left-color: transparent;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left-color: transparent;
 }
 
 /* -- idem */
 .pl-button-group .btn:last-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 /* -- idem */
 .pl-button-group .btn:not(:last-child) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 /* Support round avatars. */
 .pl-avatar--round {
-  border-radius: 50%;
+    border-radius: 50%;
 }
 
 /* Support avatar pair inside a flex container. */
 .avatar-parent-child {
-  align-self: baseline;
+    align-self: baseline;
 }
 
 /* Add missing border in avatar child .*/
 .avatar-child {
-  box-shadow: 0 0 0 1px var(--color-avatar-border), var(--avatar-shadow, var(--color-avatar-child-shadow));
+    box-shadow:
+        0 0 0 1px var(--color-avatar-border),
+        var(--avatar-shadow, var(--color-avatar-child-shadow));
+}
+
+/* Fix monospace font */
+.FormControl-input.FormControl-monospace,
+.FormControl-select.FormControl-monospace,
+.FormControl-textarea.FormControl-monospace {
+    font-family: var(--fontStack-monospace, "ui-monospace", "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace);
+}
+
+/* Fix wide dialog overflowing window */
+.Box-overlay--wide {
+    width: min(90vw, 640px);
 }
 
 /* Use "aligned" start / end instead of left / right */
 .pl-aligned-end,
-[dir=rtl] .pl-aligned-start {
-  left: auto;
-  right: 0;
+[dir="rtl"] .pl-aligned-start {
+    left: auto;
+    right: 0;
 }
 
 .pl-aligned-start,
-[dir=rtl] .pl-aligned-end {
-  left: 0;
-  right: auto;
+[dir="rtl"] .pl-aligned-end {
+    left: 0;
+    right: auto;
 }

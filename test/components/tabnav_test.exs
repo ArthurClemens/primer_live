@@ -24,12 +24,7 @@ defmodule PrimerLive.Components.TabnavTest do
            """)
            |> format_html() ==
              """
-             <div class="tabnav">
-             <nav aria-label="Tabs" class="tabnav-tabs"><a href="#url" role="tab" class="tabnav-tab" aria-selected="true"
-             aria-current="page">href link</a><a href="#url" data-phx-link="redirect" data-phx-link-state="push" role="tab"
-             class="tabnav-tab">navigate link</a><a href="#url" data-phx-link="patch" data-phx-link-state="push" role="tab"
-             class="tabnav-tab">patch link</a></nav>
-             </div>
+             <div class="tabnav" role="tablist"><nav aria-label="Tabs" class="tabnav-tabs"><a href="#url" role="tab" class="tabnav-tab" tabindex="0" aria-selected="true" aria-current="page">href link</a><a href="#url" data-phx-link="redirect" data-phx-link-state="push" role="tab" class="tabnav-tab" tabindex="0">navigate link</a><a href="#url" data-phx-link="patch" data-phx-link-state="push" role="tab" class="tabnav-tab" tabindex="0">patch link</a></nav></div>
              """
              |> format_html()
   end
@@ -49,11 +44,7 @@ defmodule PrimerLive.Components.TabnavTest do
            """)
            |> format_html() ==
              """
-             <div class="tabnav">
-             <nav aria-label="Tabs" class="tabnav-tabs"><button aria-current="page" aria-selected="true"
-             class="tabnav-tab tabnav-tab--small" role="tab">One</button><button class="tabnav-tab tabnav-tab--small"
-             role="tab">Two</button></nav>
-             </div>
+             <div class="tabnav" role="tablist"><nav aria-label="Tabs" class="tabnav-tabs"><button aria-current="page" aria-selected="true" class="tabnav-tab tabnav-tab--small" role="tab" tabindex="0">One</button><button class="tabnav-tab tabnav-tab--small" role="tab" tabindex="0">Two</button></nav></div>
              """
              |> format_html()
   end
@@ -77,14 +68,7 @@ defmodule PrimerLive.Components.TabnavTest do
            """)
            |> format_html() ==
              """
-             <div class="tabnav">
-             <nav class="tabnav-tabs"><a href="#url" role="tab" class="tabnav-tab" aria-selected="true" aria-current="page"><svg
-             class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-             viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Conversation</span><span class="Counter">2</span></a><a
-             href="#url" role="tab" class="tabnav-tab"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16"
-             height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Done</span><span class="Counter">99</span></a>
-             </nav>
-             </div>
+             <div class="tabnav" role="tablist"><nav class="tabnav-tabs"><a href="#url" role="tab" class="tabnav-tab" tabindex="0" aria-selected="true" aria-current="page"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Conversation</span><span class="Counter">2</span></a><a href="#url" role="tab" class="tabnav-tab" tabindex="0"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Done</span><span class="Counter">99</span></a></nav></div>
              """
              |> format_html()
   end
@@ -104,10 +88,7 @@ defmodule PrimerLive.Components.TabnavTest do
            """)
            |> format_html() ==
              """
-             <div class="tabnav">
-             <nav aria-label="Tabs" class="tabnav-tabs"><button aria-current="page" aria-selected="true" class="tabnav-tab"
-             role="tab">Button 1</button><button class="tabnav-tab" role="tab">Button 2</button></nav>
-             </div>
+             <div class="tabnav" role="tablist"><nav aria-label="Tabs" class="tabnav-tabs"><button aria-current="page" aria-selected="true" class="tabnav-tab" role="tab" tabindex="0">Button 1</button><button class="tabnav-tab" role="tab" tabindex="0">Button 2</button></nav></div>
              """
              |> format_html()
   end
@@ -133,12 +114,7 @@ defmodule PrimerLive.Components.TabnavTest do
            """)
            |> format_html() ==
              """
-             <div class="tabnav">
-             <div class="float-right"><a class="btn btn-sm" href="#url" role="button">Button</a></div>
-             <nav class="tabnav-tabs"><a href="#url" role="tab" class="tabnav-tab" aria-selected="true"
-             aria-current="page">One</a><a href="#url" role="tab" class="tabnav-tab">Two</a><a href="#url" role="tab"
-             class="tabnav-tab">Three</a></nav>
-             </div>
+             <div class="tabnav" role="tablist"><div class="float-right"><a class="btn btn-sm" href="#url" role="button">Button</a></div><nav class="tabnav-tabs"><a href="#url" role="tab" class="tabnav-tab" tabindex="0" aria-selected="true" aria-current="page">One</a><a href="#url" role="tab" class="tabnav-tab" tabindex="0">Two</a><a href="#url" role="tab" class="tabnav-tab" tabindex="0">Three</a></nav></div>
              """
              |> format_html()
   end
@@ -164,12 +140,7 @@ defmodule PrimerLive.Components.TabnavTest do
            """)
            |> format_html() ==
              """
-             <div class="tabnav">
-             <div class="float-right tabnav-extra">Tabnav widget text here.</div>
-             <nav aria-label="Tabs" class="tabnav-tabs"><a href="#url" role="tab" class="tabnav-tab" aria-selected="true"
-             aria-current="page">One</a><a href="#url" role="tab" class="tabnav-tab">Two</a><a href="#url" role="tab"
-             class="tabnav-tab">Three</a></nav>
-             </div>
+             <div class="tabnav" role="tablist"><div class="float-right tabnav-extra">Tabnav widget text here.</div><nav aria-label="Tabs" class="tabnav-tabs"><a href="#url" role="tab" class="tabnav-tab" tabindex="0" aria-selected="true" aria-current="page">One</a><a href="#url" role="tab" class="tabnav-tab" tabindex="0">Two</a><a href="#url" role="tab" class="tabnav-tab" tabindex="0">Three</a></nav></div>
              """
              |> format_html()
   end
@@ -202,11 +173,7 @@ defmodule PrimerLive.Components.TabnavTest do
            """)
            |> format_html() ==
              """
-             <div class="tabnav tabnav-x my-tabnav">
-             <div class="float-right position_end-x my-position-end">Tabnav widget text here.</div>
-             <nav class="tabnav-tabs nav-x"><a href="#url" role="tab" class="tabnav-tab tab-x my-tab" aria-selected="true"
-             aria-current="page">One</a><a href="#url" role="tab" class="tabnav-tab tab-x">Two</a></nav>
-             </div>
+             <div class="tabnav tabnav-x my-tabnav" role="tablist"><div class="float-right position_end-x my-position-end">Tabnav widget text here.</div><nav class="tabnav-tabs nav-x"><a href="#url" role="tab" class="tabnav-tab tab-x my-tab" tabindex="0" aria-selected="true" aria-current="page">One</a><a href="#url" role="tab" class="tabnav-tab tab-x" tabindex="0">Two</a></nav></div>
              """
              |> format_html()
   end
@@ -229,12 +196,7 @@ defmodule PrimerLive.Components.TabnavTest do
            """)
            |> format_html() ==
              """
-             <div class="tabnav" dir="rtl">
-             <div aria-label="End content" class="float-right">Tabnav widget text here.</div>
-             <nav aria-label="Topics navigation" class="tabnav-tabs"><a href="#url" role="tab" class="tabnav-tab"
-             aria-label="View One" aria-selected="true" aria-current="page">One</a><a href="#url" role="tab"
-             class="tabnav-tab">Two</a></nav>
-             </div>
+             <div class="tabnav" dir="rtl" role="tablist"><div aria-label="End content" class="float-right">Tabnav widget text here.</div><nav aria-label="Topics navigation" class="tabnav-tabs"><a href="#url" role="tab" class="tabnav-tab" aria-label="View One" tabindex="0" aria-selected="true" aria-current="page">One</a><a href="#url" role="tab" class="tabnav-tab" tabindex="0">Two</a></nav></div>
              """
              |> format_html()
   end

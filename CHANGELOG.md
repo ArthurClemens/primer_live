@@ -1,5 +1,83 @@
 # Changelog
 
+## Next
+
+Refactoring of dialogs, drawers and menus, using the `Phoenix.LiveView.JS` API - and largely based on `CoreComponent`'s modal component. These changes reduce reliance on additional JavaScript, improve alignment with standard practice, and include accessibility improvements.
+
+Overview:
+
+- [Menus and dialogs](doc-extra/menus-and-dialogs.md)
+
+See component documentation for further details:
+
+- [Action menu](`PrimerLive.Component.action_menu/1`)
+- [Dialog](`PrimerLive.Component.dialog/1`)
+- [Drawer](`PrimerLive.Component.drawer/1`)
+- [Dropdown](`PrimerLive.Component.dropdown/1`)
+- [Select menu](`PrimerLive.Component.select_menu/1`)
+
+### Additions
+
+- Dialogs, drawers and menus can now be shown conditionally, for example on a `live_action` route:
+
+```
+<.dialog
+  :if={@live_action == :create}
+  is_show
+  id="new-post-dialog"
+  on_cancel={JS.patch(~p"/posts")}
+>
+  ...
+</.dialog>
+```
+
+- Added `PrimerLive.StatefulConditionComponent`.
+- Dialog state is now preserved on form updates.
+- Added attribute `focus_after_closing_selector`, mirroring the (renamed) `focus_after_opening_selector`.
+- Added attribute `on_cancel`.
+- Added attribute `transition_duration`.
+- Added attribute `show_state` to persist dialogs, drawers and menus across different LiveViews.
+- Added `backdrop_tint` with values "dark" (default) and "light". The latter (combined with `backdrop_strength="strong"`) (see below) creates a backdrop that is similar to the CoreComponent's modal.
+- Added focus trap.
+
+### Changes and removals
+
+See for update instructions: "Updating to 0.8" below.
+
+- Prompt functions `show` and `hide` are replaced with `open_dialog`, `close_dialog` and `cancel_dialog`.
+- Replaced attribute `prompt_options` for status callbacks with `status_callback_selector` that sends status events to the component, so that state changes can be used in Elixir code.
+- Removed attribute `phx_click_touch` in favor of using `status_callback_selector`, because closing can be initiated in several ways, not only through backdrop clicks, and we can't assume that the event handler always hosts the dialog/drawer as well.
+- Renamed attribute `focus_first` to `focus_after_opening_selector`. Focus on the first interactive element is now default; with `focus_after_opening_selector` a specific element can be appointed.
+- Removed attrs `form` and `field` from all prompt components.
+- Added separate `z-index` settings for menus, so that the menu panel (and optional backdrop) are closer to the page, allowing them to be covered by other elements such as top bars. Using a `z-index` of `100` for a top bar ensures that it sits in between menus and dialogs/drawers.
+- Replaced backdrop attributes `is_dark_backdrop`, `is_medium_backdrop` and `is_light_backdrop` with `backdrop_strength` and values `"strong"`, `"medium"` and `"light"`.
+- Menus and dialogs can now be closed with Escape by default.
+
+### Updating to 0.8
+
+- Replace `Promp.show` and `Prompt.hide`:
+
+  - For example:
+
+        onclick="Prompt.show('#my-dialog')"
+        onclick="Prompt.hide('#my-dialog')"
+
+  - Becomes:
+
+        phx-click={open_dialog("my-dialog")}
+        phx-click={close_dialog("my-dialog")}
+
+- Replace backdrop darkness attributes:
+  - `is_dark_backdrop` becomes `backdrop_strength="strong"`
+  - `is_medium_backdrop` becomes `backdrop_strength="medium"`
+  - `is_light_backdrop` becomes `backdrop_strength="light"`
+- Attribute `is_escapable` can be removed because this is now the default. If the component should not be removed using Escape, use `is_escapable={false}`.
+- Form state: the previous method to preserve state, using "a fictitious and unique field name" can be removed.
+  - Remove `form` and `field` from menu and dialog component attributes.
+- Because `focus_first` (without a selector) is now the default, nothing needs to be changed when using this attribute.
+  - If in existing code a selector value is used, rename the attribute to `focus_after_opening_selector`.
+- Replace `prompt_options` and `phx_click_touch` with `status_callback_selector`. There's no simple way to replace `prompt_options`, because passing JavaScript functions is no longer supported. A solution could be very similar to the previous `phx_click_touch` method. See [Status callbacks](menus-and-dialogs.html#status-callbacks) for an example.
+
 ## 0.7.2
 
 ### Changes
@@ -131,7 +209,7 @@ For all listed deprecations below: existing syntax will keep working, but log wa
 
 ### Improvements
 
-- The open state of menus and dialogs can now be maintained when used inside forms - see [Menus and dialogs](doc-extra/menus-and-dialogs.md).
+- The open state of menus and dialogs can now be maintained when used inside forms.
 - Improved validation message logic.
 - Updated components:
   - `theme_menu_options`: added attr `update_theme_event`: the event name to be called for updating the theme.

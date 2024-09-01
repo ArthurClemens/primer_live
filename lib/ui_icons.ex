@@ -14,6 +14,9 @@ defmodule PrimerLive.UIIcons do
     focusable: "false"
   ]
 
+  @doc """
+  Internal use: attributes used in all SVG's.
+  """
   def common_svg_attrs, do: @common_svg_attrs
 
   @doc """
@@ -27,9 +30,11 @@ defmodule PrimerLive.UIIcons do
   ## All UI icons
 
   ```
-  <.ui_icon name="single-select-16" />
-  <.ui_icon name="multiple-select-16" />
   <.ui_icon name="collapse-16" />
+  <.ui_icon name="multiple-select-16" />
+  <.ui_icon name="single-select-16" />
+  <.ui_icon name="toggle-switch-off-16" />
+  <.ui_icon name="toggle-switch-on-16" />
   ```
   """
 

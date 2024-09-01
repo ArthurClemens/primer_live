@@ -5,6 +5,7 @@ defmodule PrimerLive.MixProject do
     [
       app: :primer_live,
       version: "0.7.2",
+      elixir: "~> 1.17",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       elixirc_paths: elixirc_paths(Mix.env()),
       description: description(),
@@ -39,7 +40,9 @@ defmodule PrimerLive.MixProject do
       {:ecto, "~> 3.10", runtime: false},
       {:esbuild, "~> 0.8", only: [:dev, :test]},
       {:ex_doc, "~> 0.34", only: :dev},
+      {:github_workflows_generator, "~> 0.1", only: :dev, runtime: false},
       {:jason, "~> 1.4"},
+      {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       {:phoenix_ecto, "~> 4.5", only: :test, runtime: false},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_html_helpers, "~> 1.0"},
@@ -60,7 +63,9 @@ defmodule PrimerLive.MixProject do
         Breadcrumbs: &(&1[:section] == :breadcrumbs),
         Buttons: &(&1[:section] == :buttons),
         Dialog: &(&1[:section] == :dialog),
+        "Dialog functions": &(&1[:section] == :dialog_functions),
         Drawer: &(&1[:section] == :drawer),
+        "Drawer functions": &(&1[:section] == :drawer_functions),
         "Styled HTML": &(&1[:section] == :styled_html),
         Forms: &(&1[:section] == :forms),
         Header: &(&1[:section] == :header),
@@ -71,6 +76,7 @@ defmodule PrimerLive.MixProject do
         Loaders: &(&1[:section] == :loaders),
         Markdown: &(&1[:section] == :markdown),
         Menus: &(&1[:section] == :menus),
+        "Menu functions": &(&1[:section] == :menu_functions),
         Navigation: &(&1[:section] == :navigation),
         Pagination: &(&1[:section] == :pagination),
         Popover: &(&1[:section] == :popover),
@@ -83,7 +89,6 @@ defmodule PrimerLive.MixProject do
         Truncate: &(&1[:section] == :truncate)
       ],
       extras: [
-        "doc-extra/overview.md",
         "doc-extra/installation.md",
         "doc-extra/usage.md",
         "doc-extra/menus-and-dialogs.md",
@@ -120,18 +125,30 @@ defmodule PrimerLive.MixProject do
         "credo --strict",
         "docs"
       ],
+      doc: [
+        "cmd rm -rf ./doc",
+        "cmd mix docs"
+      ],
       "assets.build": [
-        "cmd npm --prefix assets run build:clear -- ../priv/static/*",
-        "cmd npm --prefix assets run build -- --format=esm --sourcemap --outfile=../priv/static/primer-live.esm.js",
-        "cmd npm --prefix assets run build -- --format=cjs --sourcemap --outfile=../priv/static/primer-live.cjs.js",
+        "cmd rm -rf priv/static/*",
+        "cmd npm --prefix assets run build:types",
+        "cmd npm --prefix assets run build -- --bundle --format=esm --sourcemap --outfile=../priv/static/primer-live.esm.js",
         "cmd npm --prefix assets run build -- --format=iife --target=es2016 --outfile=../priv/static/primer-live.js",
+        "cmd npm --prefix assets run build -- --format=cjs --sourcemap --outfile=../priv/static/primer-live.cjs.js",
         "cmd npm --prefix assets run build -- --format=iife --target=es2016 --minify --outfile=../priv/static/primer-live.min.js",
-        # Prompt only
-        "cmd npm --prefix assets run build -- --format=esm --sourcemap --outfile=../priv/static/primer-live-prompt.esm.js",
-        "cmd npm --prefix assets run build -- --format=cjs --sourcemap --outfile=../priv/static/primer-live-prompt.cjs.js",
-        "cmd npm --prefix assets run build -- --format=iife --target=es2016 --outfile=../priv/static/primer-live-prompt.js",
-        "cmd npm --prefix assets run build -- --format=iife --target=es2016 --minify --outfile=../priv/static/primer-live-prompt.min.js",
-        "cmd npm --prefix assets run build:types"
+        "cmd rm -rf priv/static/*.cjs.css*",
+        "cmd rm -rf priv/static/*.esm.css*"
+      ],
+      # CI
+      ci: [
+        "deps.unlock --check-unused",
+        "deps.audit",
+        "hex.audit",
+        "sobelow --config",
+        "format --check-formatted",
+        "credo --strict",
+        # "dialyzer",
+        "cmd MIX_ENV=test mix test"
       ]
     ]
   end

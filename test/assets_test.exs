@@ -11,15 +11,7 @@ defmodule PrimerLiveAssetsTest do
       "primer-live.esm.js.map",
       "primer-live.js",
       "primer-live.min.css",
-      "primer-live.min.js",
-      "primer-live-prompt.cjs.js",
-      "primer-live-prompt.cjs.js.map",
-      "primer-live-prompt.css",
-      "primer-live-prompt.esm.js",
-      "primer-live-prompt.esm.js.map",
-      "primer-live-prompt.js",
-      "primer-live-prompt.min.css",
-      "primer-live-prompt.min.js"
+      "primer-live.min.js"
     ]
 
     filenames

@@ -1,4 +1,6 @@
 defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
+  @moduledoc false
+
   use ExUnit.Case
   use PrimerLive
   import PrimerLive.Helpers.TestHelpers
@@ -14,7 +16,7 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
            """)
            |> format_html() ==
              """
-             <li aria-hidden="true" class="ActionList-sectionDivider" role="separator"></li>
+             <li aria-hidden="true" class="ActionList-sectionDivider" role="separator" tabidex="-1"></li>
              """
              |> format_html()
   end
@@ -27,7 +29,7 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
            """)
            |> format_html() ==
              """
-             <li aria-hidden="true" class="ActionList-sectionDivider ActionList-sectionDivider--filled" role="separator"></li>
+             <li aria-hidden="true" class="ActionList-sectionDivider ActionList-sectionDivider--filled" role="separator" tabidex="-1"></li>
              """
              |> format_html()
   end
@@ -42,9 +44,7 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-sectionDivider">
-             <h3 class="ActionList-sectionDivider-title">Title</h3>
-             </li>
+             <li class="ActionList-sectionDivider" tabidex="-1"><h3 class="ActionList-sectionDivider-title">Title</h3></li>
              """
              |> format_html()
   end
@@ -59,9 +59,7 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-sectionDivider ActionList-sectionDivider--filled">
-             <h3 class="ActionList-sectionDivider-title">Title</h3>
-             </li>
+             <li class="ActionList-sectionDivider ActionList-sectionDivider--filled" tabidex="-1"><h3 class="ActionList-sectionDivider-title">Title</h3></li>
              """
              |> format_html()
   end
@@ -77,10 +75,7 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-sectionDivider">
-              <h3 class="ActionList-sectionDivider-title">Title</h3>
-              <span class="ActionList-item-description">Descriptive title</span>
-             </li>
+             <li class="ActionList-sectionDivider" tabidex="-1"><h3 class="ActionList-sectionDivider-title">Title</h3><span class="ActionList-item-description">Descriptive title</span></li>
              """
              |> format_html()
   end
@@ -95,7 +90,7 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
            """)
            |> format_html() ==
              """
-             <li aria-hidden="true" class="ActionList-sectionDivider" role="separator"></li>
+             <li aria-hidden="true" class="ActionList-sectionDivider" role="separator" tabidex="-1"></li>
              """
              |> format_html()
   end
@@ -120,10 +115,7 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
            """)
            |> format_html() ==
              """
-             <li class="ActionList-sectionDivider section_divider-x my-section-divider">
-             <h3 class="ActionList-sectionDivider-title title-x my-title">Title</h3>
-             <span class="ActionList-item-description description-x my-description">Descriptive title</span>
-             </li>
+             <li class="ActionList-sectionDivider section_divider-x my-section-divider" tabidex="-1"><h3 class="ActionList-sectionDivider-title title-x my-title">Title</h3><span class="ActionList-item-description description-x my-description">Descriptive title</span></li>
              """
              |> format_html()
   end

@@ -1,26 +1,262 @@
-on: [push, pull_request]
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
-    strategy:
-      matrix:
-        otp: ["26"]
-        elixir: ["1.15.4"]
+  compile:
     steps:
-      - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v1
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
         with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
-      - run: mix deps.get
-      - run: mix deps.clean --unlock --unused
-      - run: mix format
-      - run: mix format --check-formatted
-      - run: mix compile
-      - run: mix sobelow --config
-      - run: mix credo --strict
-      - run: mix test
-      - run: npm --prefix assets install --legacy-peer-deps
-      - run: npm --prefix assets run test
+          elixir-version: ${{ matrix.versions.elixir }}
+          otp-version: ${{ matrix.versions.otp }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            _build
+            deps
+          key: mix-${{ matrix.versions.runner-image }}-${{ matrix.versions.otp }}-${{ matrix.versions.elixir }}-${{ github.sha }}
+          restore-keys: |
+            mix-${{ matrix.versions.runner-image }}-
+      - name: Install Elixir dependencies
+        env:
+          MIX_ENV: test
+        run: mix deps.get
+      - name: Compile
+        env:
+          MIX_ENV: test
+        run: mix compile
+    name: Install deps and compile
+    runs-on: ${{ matrix.versions.runner-image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - elixir: 1.17
+            otp: 27.0
+            runner-image: ubuntu-22.04
+  credo:
+    needs: compile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.versions.elixir }}
+          otp-version: ${{ matrix.versions.otp }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            _build
+            deps
+          key: mix-${{ matrix.versions.runner-image }}-${{ matrix.versions.otp }}-${{ matrix.versions.elixir }}-${{ github.sha }}
+          restore-keys: |
+            mix-${{ matrix.versions.runner-image }}-
+      - name: Check code style
+        env:
+          MIX_ENV: test
+        run: mix credo --strict
+    name: Credo
+    runs-on: ${{ matrix.versions.runner-image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - elixir: 1.17
+            otp: 27.0
+            runner-image: ubuntu-22.04
+  deps_audit:
+    needs: compile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.versions.elixir }}
+          otp-version: ${{ matrix.versions.otp }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            _build
+            deps
+          key: mix-${{ matrix.versions.runner-image }}-${{ matrix.versions.otp }}-${{ matrix.versions.elixir }}-${{ github.sha }}
+          restore-keys: |
+            mix-${{ matrix.versions.runner-image }}-
+      - name: Check for vulnerable Mix dependencies
+        env:
+          MIX_ENV: test
+        run: mix deps.audit
+    name: Deps audit
+    runs-on: ${{ matrix.versions.runner-image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - elixir: 1.17
+            otp: 27.0
+            runner-image: ubuntu-22.04
+  format:
+    needs: compile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.versions.elixir }}
+          otp-version: ${{ matrix.versions.otp }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            _build
+            deps
+          key: mix-${{ matrix.versions.runner-image }}-${{ matrix.versions.otp }}-${{ matrix.versions.elixir }}-${{ github.sha }}
+          restore-keys: |
+            mix-${{ matrix.versions.runner-image }}-
+      - name: Check Elixir formatting
+        env:
+          MIX_ENV: test
+        run: mix format --check-formatted
+    name: Format
+    runs-on: ${{ matrix.versions.runner-image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - elixir: 1.17
+            otp: 27.0
+            runner-image: ubuntu-22.04
+  hex_audit:
+    needs: compile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.versions.elixir }}
+          otp-version: ${{ matrix.versions.otp }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            _build
+            deps
+          key: mix-${{ matrix.versions.runner-image }}-${{ matrix.versions.otp }}-${{ matrix.versions.elixir }}-${{ github.sha }}
+          restore-keys: |
+            mix-${{ matrix.versions.runner-image }}-
+      - name: Check for retired Hex packages
+        env:
+          MIX_ENV: test
+        run: mix hex.audit
+    name: Hex audit
+    runs-on: ${{ matrix.versions.runner-image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - elixir: 1.17
+            otp: 27.0
+            runner-image: ubuntu-22.04
+  test:
+    needs: compile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.versions.elixir }}
+          otp-version: ${{ matrix.versions.otp }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            _build
+            deps
+          key: mix-${{ matrix.versions.runner-image }}-${{ matrix.versions.otp }}-${{ matrix.versions.elixir }}-${{ github.sha }}
+          restore-keys: |
+            mix-${{ matrix.versions.runner-image }}-
+      - name: Run tests
+        env:
+          MIX_ENV: test
+        run: mix test --warnings-as-errors
+    name: Test
+    runs-on: ${{ matrix.versions.runner-image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - elixir: 1.17
+            otp: 27.0
+            runner-image: ubuntu-22.04
+  unused_deps:
+    needs: compile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.versions.elixir }}
+          otp-version: ${{ matrix.versions.otp }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            _build
+            deps
+          key: mix-${{ matrix.versions.runner-image }}-${{ matrix.versions.otp }}-${{ matrix.versions.elixir }}-${{ github.sha }}
+          restore-keys: |
+            mix-${{ matrix.versions.runner-image }}-
+      - name: Check for unused Mix dependencies
+        env:
+          MIX_ENV: test
+        run: mix deps.unlock --check-unused
+    name: Check unused deps
+    runs-on: ${{ matrix.versions.runner-image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - elixir: 1.17
+            otp: 27.0
+            runner-image: ubuntu-22.04
+  ci_status:
+    needs:
+      - credo
+      - deps_audit
+      - format
+      - hex_audit
+      - unused_deps
+      - test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.versions.elixir }}
+          otp-version: ${{ matrix.versions.otp }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            _build
+            deps
+          key: mix-${{ matrix.versions.runner-image }}-${{ matrix.versions.otp }}-${{ matrix.versions.elixir }}-${{ github.sha }}
+          restore-keys: |
+            mix-${{ matrix.versions.runner-image }}-
+    name: CI status
+    runs-on: ${{ matrix.versions.runner-image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - elixir: 1.17
+            otp: 27.0
+            runner-image: ubuntu-22.04

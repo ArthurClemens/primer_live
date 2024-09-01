@@ -14,11 +14,12 @@ defmodule PrimerLive.Component do
 
   alias PrimerLive.Helpers.{
     AttributeHelpers,
-    FormHelpers,
-    SchemaHelpers,
     ComponentHelpers,
+    DeclarationHelpers,
+    FormHelpers,
     PromptDeclarationHelpers,
-    DeclarationHelpers
+    PromptHelpers,
+    SchemaHelpers
   }
 
   alias PrimerLive.Theme
@@ -366,8 +367,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Action list](https://primer.style/design/components/action-list)
-  [Primer Nav list](https://primer.style/design/components/nav-list)
+  - [Primer Action list](https://primer.style/design/components/action-list)
+  - [Primer Nav list](https://primer.style/design/components/nav-list)
 
   """
 
@@ -574,7 +575,7 @@ defmodule PrimerLive.Component do
 
     attributes =
       AttributeHelpers.append_attributes(assigns.rest, [
-        [class: classes.section_divider],
+        [class: classes.section_divider, tabidex: "-1"],
         !has_title && [role: "separator", "aria-hidden": "true"]
       ])
 
@@ -804,7 +805,7 @@ defmodule PrimerLive.Component do
 
     attr(:onclick, :string,
       doc: """
-      Onclick event.
+      JavaScript onclick event.
       """
     )
 
@@ -989,6 +990,7 @@ defmodule PrimerLive.Component do
               checked_value={@checked_value}
               is_omit_label
               hidden_input={@form || @field}
+              tabindex="0"
               class={
                 if @is_checkmark_icon or @is_single_select,
                   do: @classes.leading_visual_single_select_checkmark,
@@ -1082,6 +1084,7 @@ defmodule PrimerLive.Component do
               ["aria-expanded": is_expanded |> Atom.to_string()],
             [role: "menuitem"],
             is_selected && ["aria-selected": "true"],
+            not is_selected && [tabindex: "0"],
             if is_selected do
               if is_anchor_link do
                 ["aria-current": "location"]
@@ -1314,6 +1317,7 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_tabindex()
     DeclarationHelpers.slot_phx()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -1381,6 +1385,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.append_attributes(rest, [
           [class: classes.tab.(slot)],
           [role: "tab"],
+          [tabindex: slot[:tabindex] || "0"],
           slot[:is_selected] && ["aria-selected": "true"],
           slot[:is_selected] && ["aria-current": "page"]
         ])
@@ -1434,7 +1439,7 @@ defmodule PrimerLive.Component do
 
     tabnav_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
-        [class: classes.tabnav]
+        [class: classes.tabnav, role: "tablist"]
       ])
 
     assigns =
@@ -1872,7 +1877,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer mentioned on https://primer.style/design/components
+  [Primer Menu (deprecated)](https://primer.style/deprecated-components/menu)
 
   """
 
@@ -2024,7 +2029,7 @@ defmodule PrimerLive.Component do
       """
     end
 
-    menu_attrs =
+    prompt_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.menu],
         ["aria-label": assigns.aria_label],
@@ -2036,10 +2041,10 @@ defmodule PrimerLive.Component do
       |> assign(:classes, classes)
       |> assign(:render_item, render_item)
       |> assign(:render_heading, render_heading)
-      |> assign(:menu_attrs, menu_attrs)
+      |> assign(:prompt_attrs, prompt_attrs)
 
     ~H"""
-    <nav {@menu_attrs}>
+    <nav {@prompt_attrs}>
       <%= if @heading && @heading !== [] do %>
         <%= for slot <- @heading do %>
           <%= @render_heading.(slot) %>
@@ -2153,7 +2158,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer mentioned on https://primer.style/design/components
+  No longer referenced on https://primer.style/design/components
 
   """
 
@@ -2675,7 +2680,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer mentioned on https://primer.style/design/components
+  No longer referenced on https://primer.style/design/components
 
   """
 
@@ -6737,22 +6742,30 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Dropdown](https://primer.style/design/components/dropdown)
+  [Primer Dropdown (deprecated)](https://primer.style/deprecated-components/dropdown)
 
   """
 
-  PromptDeclarationHelpers.id("Dropdown element id", false)
-  PromptDeclarationHelpers.form("the dropdown element")
-  PromptDeclarationHelpers.field("the dropdown")
-  PromptDeclarationHelpers.is_dropdown_caret(true)
+  PromptDeclarationHelpers.focus_after_closing_selector("the dropdown")
+  PromptDeclarationHelpers.focus_after_opening_selector("the dropdown")
+  PromptDeclarationHelpers.id("Dropdown element id", "the dropdown", false)
   PromptDeclarationHelpers.is_backdrop()
-  PromptDeclarationHelpers.is_dark_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.backdrop_strength()
+  PromptDeclarationHelpers.backdrop_tint()
+  PromptDeclarationHelpers.is_dropdown_caret(true)
+  PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.is_fast(true)
-  PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.phx_click_touch()
-  PromptDeclarationHelpers.toggle_slot("the dropdown component")
+  PromptDeclarationHelpers.is_show("the dropdown", "dropdown")
+  PromptDeclarationHelpers.show_state("the dropdown")
+  PromptDeclarationHelpers.is_show_on_mount("the dropdown", "dropdown")
+  PromptDeclarationHelpers.on_cancel("the dropdown")
+  PromptDeclarationHelpers.status_callback_selector("the dropdown")
+  PromptDeclarationHelpers.toggle_slot()
+
+  PromptDeclarationHelpers.transition_duration(
+    "the dropdown",
+    PromptHelpers.default_menu_transition_duration()
+  )
 
   DeclarationHelpers.class()
 
@@ -6838,11 +6851,6 @@ defmodule PrimerLive.Component do
   end
 
   def dropdown(assigns) do
-    %{
-      form: form,
-      field: field
-    } = AttributeHelpers.common_input_attrs(assigns)
-
     # Get the first menu slot, if any
     menu_slot = if assigns[:menu] && assigns[:menu] !== [], do: hd(assigns[:menu]), else: []
 
@@ -6900,15 +6908,13 @@ defmodule PrimerLive.Component do
     }
 
     %{
-      toggle_attrs: toggle_attrs,
-      checkbox_attrs: checkbox_attrs,
-      menu_attrs: dropdown_menu_attrs,
       backdrop_attrs: backdrop_attrs,
+      focus_wrap_attrs: focus_wrap_attrs,
+      prompt_attrs: prompt_attrs,
+      toggle_attrs: toggle_attrs,
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
-        form: form,
-        field: field,
         toggle_slot: toggle_slot,
         toggle_class: classes.toggle,
         menu_class: classes.dropdown,
@@ -6950,7 +6956,7 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:dropdown_menu_attrs, dropdown_menu_attrs)
+      |> assign(:prompt_attrs, prompt_attrs)
       |> assign(:toggle_attrs, toggle_attrs)
       |> assign(:classes, classes)
       |> assign(:toggle_slot, toggle_slot)
@@ -6982,17 +6988,20 @@ defmodule PrimerLive.Component do
       assigns
       |> assign(:render_item, render_item)
 
-    render_menu = fn menu_attrs ->
+    render_menu = fn prompt_attrs ->
       assigns =
         assigns
-        |> assign(:menu_attrs, menu_attrs)
+        |> assign(:prompt_attrs, prompt_attrs)
+        |> assign(:focus_wrap_attrs, focus_wrap_attrs)
 
       ~H"""
-      <ul {@menu_attrs}>
-        <%= for item <- @item do %>
-          <%= @render_item.(item) %>
-        <% end %>
-      </ul>
+      <.focus_wrap {@focus_wrap_attrs}>
+        <ul {@prompt_attrs}>
+          <%= for item <- @item do %>
+            <%= @render_item.(item) %>
+          <% end %>
+        </ul>
+      </.focus_wrap>
       """
     end
 
@@ -7006,39 +7015,33 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:form, form)
-      |> assign(:field, field)
       |> assign(:menu_container_attrs, menu_container_attrs)
       |> assign(:render_menu, render_menu)
-      |> assign(:checkbox_attrs, checkbox_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:touch_layer_attrs, touch_layer_attrs)
 
     ~H"""
-    <div {@dropdown_menu_attrs}>
+    <div {@prompt_attrs}>
       <label {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
       </label>
-      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
-      <div data-prompt-content>
-        <%= if @backdrop_attrs !== [] do %>
-          <div {@backdrop_attrs}></div>
-        <% end %>
-        <div {@touch_layer_attrs}></div>
-        <%= if not is_nil(@menu_title) do %>
-          <div {@menu_container_attrs}>
-            <div class={@classes.header}>
-              <%= @menu_title %>
-            </div>
-            <%= @render_menu.([]) %>
+      <%= if @backdrop_attrs !== [] do %>
+        <div {@backdrop_attrs}></div>
+      <% end %>
+      <div {@touch_layer_attrs}></div>
+      <%= if not is_nil(@menu_title) do %>
+        <div {@menu_container_attrs}>
+          <div class={@classes.header}>
+            <%= @menu_title %>
           </div>
-        <% else %>
-          <%= @render_menu.(@menu_container_attrs) %>
-        <% end %>
-      </div>
+          <%= @render_menu.([]) %>
+        </div>
+      <% else %>
+        <%= @render_menu.(@menu_container_attrs) %>
+      <% end %>
     </div>
     """
   end
@@ -7165,22 +7168,31 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Select menu](https://primer.style/design/components/select-menu)
+  [Primer Select menu (deprecated)](https://primer.style/deprecated-components/select-menu)
 
   """
 
-  PromptDeclarationHelpers.id("Select menu element id", false)
-  PromptDeclarationHelpers.form("the menu element")
-  PromptDeclarationHelpers.field("the menu")
-  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.focus_after_closing_selector("the select menu")
+  PromptDeclarationHelpers.focus_after_opening_selector("the select menu")
+  PromptDeclarationHelpers.id("Select menu element id", "the select menu", false)
   PromptDeclarationHelpers.is_backdrop()
-  PromptDeclarationHelpers.is_dark_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.backdrop_strength()
+  PromptDeclarationHelpers.backdrop_tint()
+  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.is_fast(true)
-  PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.phx_click_touch()
-  PromptDeclarationHelpers.toggle_slot("the select menu component")
+  PromptDeclarationHelpers.is_show("the select menu", "select_menu")
+  PromptDeclarationHelpers.show_state("the select menu")
+  PromptDeclarationHelpers.is_show_on_mount("the select menu", "select_menu")
+  PromptDeclarationHelpers.on_cancel("the select menu")
+  PromptDeclarationHelpers.status_callback_selector("the select menu")
+  PromptDeclarationHelpers.toggle_slot()
+
+  PromptDeclarationHelpers.transition_duration(
+    "the select menu",
+    PromptHelpers.default_menu_transition_duration()
+  )
+
   DeclarationHelpers.is_aligned_end("the menu")
 
   attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
@@ -7358,11 +7370,6 @@ defmodule PrimerLive.Component do
       !is_nil(assigns[:is_right_aligned])
     )
 
-    %{
-      form: form,
-      field: field
-    } = AttributeHelpers.common_input_attrs(assigns)
-
     assigns_classes =
       Map.merge(
         %{
@@ -7517,15 +7524,13 @@ defmodule PrimerLive.Component do
     }
 
     %{
-      toggle_attrs: toggle_attrs,
-      checkbox_attrs: checkbox_attrs,
-      menu_attrs: select_menu_attrs,
       backdrop_attrs: backdrop_attrs,
+      focus_wrap_attrs: focus_wrap_attrs,
+      prompt_attrs: prompt_attrs,
+      toggle_attrs: toggle_attrs,
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
-        form: form,
-        field: field,
         toggle_slot: toggle_slot,
         toggle_class: classes.toggle,
         menu_class: classes.select_menu,
@@ -7654,41 +7659,42 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:form, form)
-      |> assign(:field, field)
-      |> assign(:classes, classes)
-      |> assign(:select_menu_attrs, select_menu_attrs)
-      |> assign(:checkbox_attrs, checkbox_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
-      |> assign(:touch_layer_attrs, touch_layer_attrs)
-      |> assign(:toggle_attrs, toggle_attrs)
-      |> assign(:toggle_slot, toggle_slot)
+      |> assign(:classes, classes)
+      |> assign(:focus_wrap_attrs, focus_wrap_attrs)
+      |> assign(:item_slots, item_slots)
       |> assign(:menu_container_attrs, menu_container_attrs)
       |> assign(:menu_title, menu_title)
-      |> assign(:item_slots, item_slots)
+      |> assign(:prompt_attrs, prompt_attrs)
       |> assign(:render_item, render_item)
       |> assign(:render_tab, render_tab)
+      |> assign(:toggle_attrs, toggle_attrs)
+      |> assign(:toggle_slot, toggle_slot)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
 
     ~H"""
-    <div {@select_menu_attrs}>
+    <div {@prompt_attrs}>
       <label {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
       </label>
-      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
-      <div data-prompt-content>
-        <%= if @backdrop_attrs !== [] do %>
-          <div {@backdrop_attrs}></div>
-        <% end %>
-        <div {@touch_layer_attrs}></div>
-        <div class={@classes.menu}>
-          <div {@menu_container_attrs}>
+      <%= if @backdrop_attrs !== [] do %>
+        <div {@backdrop_attrs}></div>
+      <% end %>
+      <div {@touch_layer_attrs}></div>
+      <div class={@classes.menu}>
+        <div {@menu_container_attrs}>
+          <.focus_wrap {@focus_wrap_attrs}>
             <%= if not is_nil(@menu_title) do %>
               <header class={@classes.header}>
                 <h3 class={@classes.menu_title}><%= @menu_title %></h3>
-                <button class={@classes.header_close_button} type="button" onclick="Prompt.hide(this)">
+                <button
+                  class={@classes.header_close_button}
+                  type="button"
+                  phx-click={cancel_menu(@prompt_attrs[:id])}
+                >
                   <.octicon name="x-16" />
                 </button>
               </header>
@@ -7739,7 +7745,7 @@ defmodule PrimerLive.Component do
                 </div>
               <% end %>
             <% end %>
-          </div>
+          </.focus_wrap>
         </div>
       </div>
     </div>
@@ -7800,18 +7806,27 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.id("Menu element id", false)
-  PromptDeclarationHelpers.form("the menu element")
-  PromptDeclarationHelpers.field("the menu")
-  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.focus_after_closing_selector("the menu")
+  PromptDeclarationHelpers.focus_after_opening_selector("the menu")
+  PromptDeclarationHelpers.id("Menu element id", "the menu", false)
   PromptDeclarationHelpers.is_backdrop()
-  PromptDeclarationHelpers.is_dark_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_light_backdrop()
+  PromptDeclarationHelpers.backdrop_strength()
+  PromptDeclarationHelpers.backdrop_tint()
+  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.is_escapable()
   PromptDeclarationHelpers.is_fast(true)
-  PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.phx_click_touch()
-  PromptDeclarationHelpers.toggle_slot("the menu component")
+  PromptDeclarationHelpers.is_show("the menu", "action_menu")
+  PromptDeclarationHelpers.show_state("the menu")
+  PromptDeclarationHelpers.is_show_on_mount("the menu", "action_menu")
+  PromptDeclarationHelpers.on_cancel("the menu")
+  PromptDeclarationHelpers.status_callback_selector("the menu")
+  PromptDeclarationHelpers.toggle_slot()
+
+  PromptDeclarationHelpers.transition_duration(
+    "the menu",
+    PromptHelpers.default_menu_transition_duration()
+  )
+
   DeclarationHelpers.is_aligned_end("the menu")
 
   attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
@@ -7885,11 +7900,6 @@ defmodule PrimerLive.Component do
       !is_nil(assigns[:is_right_aligned])
     )
 
-    %{
-      form: form,
-      field: field
-    } = AttributeHelpers.common_input_attrs(assigns)
-
     assigns_classes =
       Map.merge(
         %{
@@ -7949,15 +7959,13 @@ defmodule PrimerLive.Component do
     }
 
     %{
-      toggle_attrs: toggle_attrs,
-      checkbox_attrs: checkbox_attrs,
-      menu_attrs: action_menu_attrs,
       backdrop_attrs: backdrop_attrs,
+      focus_wrap_attrs: focus_wrap_attrs,
+      prompt_attrs: prompt_attrs,
+      toggle_attrs: toggle_attrs,
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
-        form: form,
-        field: field,
         toggle_slot: toggle_slot,
         toggle_class: classes.toggle,
         menu_class: classes.action_menu,
@@ -7974,42 +7982,116 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:form, form)
-      |> assign(:field, field)
+      |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:classes, classes)
-      |> assign(:action_menu_attrs, action_menu_attrs)
-      |> assign(:checkbox_attrs, checkbox_attrs)
+      |> assign(:focus_wrap_attrs, focus_wrap_attrs)
+      |> assign(:menu_container_attrs, menu_container_attrs)
+      |> assign(:prompt_attrs, prompt_attrs)
       |> assign(:toggle_attrs, toggle_attrs)
       |> assign(:toggle_slot, toggle_slot)
-      |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:touch_layer_attrs, touch_layer_attrs)
-      |> assign(:menu_container_attrs, menu_container_attrs)
 
     ~H"""
-    <div {@action_menu_attrs}>
+    <div {@prompt_attrs}>
       <label {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
       </label>
-      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
-      <div data-prompt-content>
-        <%= if @backdrop_attrs !== [] do %>
-          <div {@backdrop_attrs}></div>
-        <% end %>
-        <div {@touch_layer_attrs}></div>
-        <div class={@classes.menu}>
-          <div {@menu_container_attrs}>
-            <div class={@classes.menu_list}>
+      <%= if @backdrop_attrs !== [] do %>
+        <div {@backdrop_attrs}></div>
+      <% end %>
+      <div {@touch_layer_attrs}></div>
+      <div class={@classes.menu}>
+        <div {@menu_container_attrs}>
+          <div class={@classes.menu_list}>
+            <.focus_wrap {@focus_wrap_attrs}>
               <%= render_slot(@inner_block) %>
-            </div>
+            </.focus_wrap>
           </div>
         </div>
       </div>
     </div>
     """
   end
+
+  @doc section: :menu_functions
+
+  @doc """
+  Opens a menu.
+
+  ## Examples
+
+      <.button phx-click={open_menu("my-menu")}>Open</.button>
+  """
+  def open_menu(id) when is_binary(id), do: PromptHelpers.open_prompt(id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Opens a menu as part of a `Phoenix.LiveView.JS` command chain.
+  """
+  def open_menu(js, id), do: PromptHelpers.open_prompt(js, id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Closes a menu.
+  Note that this won't call `on_cancel`. Any time `on_cancel` is provided and you still need a close button, `cancel_menu/1` will be a better choice.
+
+  ## Examples
+
+      <.button phx-click={close_menu("my-menu")}>Close</.button>
+  """
+  def close_menu(id), do: PromptHelpers.close_prompt(id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Closes a menu as part of a `Phoenix.LiveView.JS` command chain.
+
+  ## Examples
+
+      <.button phx-click={
+        close_menu("confirmation-menu")
+        |> close_menu("base-menu")
+      }>Open</.button>
+  """
+  def close_menu(js, id), do: PromptHelpers.close_prompt(js, id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Cancels a menu: closes the menu after executing the `on_cancel` attribute.
+
+  ## Examples
+
+      <.button phx-click={cancel_menu("my-menu")}>Cancel</.button>
+  """
+
+  def cancel_menu(id), do: PromptHelpers.cancel_prompt(id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Cancels a menu as part of a `Phoenix.LiveView.JS` command chain.
+  """
+  def cancel_menu(js, id), do: PromptHelpers.cancel_prompt(js, id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Toggles the open state of the menu.
+  """
+  def toggle_menu(id), do: PromptHelpers.toggle_prompt(id)
+
+  @doc section: :menu_functions
+
+  @doc """
+  Toggles a menu as part of a `Phoenix.LiveView.JS` command chain.
+  """
+  def toggle_menu(js, id), do: PromptHelpers.toggle_prompt(js, id)
 
   # ------------------------------------------------------------------------------------
   # button
@@ -8319,8 +8401,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Button group](https://primer.style/design/components/button-group)
-  [Primer Button](https://primer.style/design/components/button)
+  - [Primer Button group](https://primer.style/design/components/button-group)
+  - [Primer Button](https://primer.style/design/components/button)
 
   """
 
@@ -8845,7 +8927,6 @@ defmodule PrimerLive.Component do
 
   - [Primer Icon](https://primer.style/design/components/icon)
   - [List of Primer icons](https://primer.style/octicons/)
-  - [Primer/Octicons Usage](https://primer.style/octicons/guidelines/usage)
 
   """
 
@@ -9136,7 +9217,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Labels](https://primer.style/design/components/labels)
+  No longer referenced on https://primer.style/design/components
 
   """
 
@@ -9990,8 +10071,8 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  [Primer Avatar](https://primer.style/design/components/avatars)
-  [Primer Avatar pair](https://primer.style/design/components/avatar-pair)
+  - [Primer Avatar](https://primer.style/design/components/avatars)
+  - [Primer Avatar pair](https://primer.style/design/components/avatar-pair)
 
   """
 
@@ -10349,7 +10430,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer mentioned on https://primer.style/design/components
+  No longer referenced on https://primer.style/design/components
 
   """
 
@@ -11142,26 +11223,52 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Showing and hiding is done with JS function `Prompt`, included in PrimerLive.
-  Function `Prompt.show` requires a selector. When placed inside the dialog component, the selector can be replaced with `this`:
+  ## Opening and closing the dialog
+
+  ### Invoking open and close
+
+  Functions `open_dialog/1` and `close_dialog/1` can be called with `phx-click`, passing the dialog's id (the alternative approach is to conditionally render - see below).
 
   ```
+  <.button phx-click={open_dialog("my-dialog")}>Open</.button>
+
   <.dialog id="my-dialog">
     <:body>
       Message in a dialog
-      <.button onclick="Prompt.hide(this)">Close</.button>
+      <.button phx-click={close_dialog("my-dialog")}>Close</.button>
     </:body>
   </.dialog>
-
-  <.button onclick="Prompt.show('#my-dialog')">Open dialog</.button>
   ```
 
-  ## Examples
+  Clicking the backdrop will automatically invoke `cancel_dialog`.
 
-  Add a backdrop. Optionally add `is_light_backdrop` or `is_dark_backdrop`:
+  Pressing Escape will close the open dialog (unless `is_escapable` is explicitly set to false). In case of stacked dialogs, the included `Prompt` hook ensures that only the top dialog will be closed.
+
+  ### Routes and other conditionals
+
+  To show the dialog at a specific route (or with any other condition), use Phoenix's `:if` attribute, combined with `is_show`. The `on_cancel` attribute can then be used to redirect to the originating route:
 
   ```
-  <.dialog is_backdrop is_dark_backdrop>
+  <.dialog
+    id="new-post-dialog"
+    :if={@live_action == :create}
+    is_show
+    on_cancel={JS.patch(~p"/posts")}
+  >
+    <:body>
+      Post form
+    </:body>
+  </.dialog>
+  ```
+
+  To display the dialog on page load *without* a fade-in transition, add attribute `is_show_on_mount`. See `PrimerLive.StatefulConditionComponent` for an example.
+
+  ## Other attributes
+
+  Add a backdrop. Optionally add `backdrop_strength` with value "strong" or "light":
+
+  ```
+  <.dialog is_backdrop backdrop_strength="light">
     ...
   </.dialog>
   ```
@@ -11170,14 +11277,6 @@ defmodule PrimerLive.Component do
 
   ```
   <.dialog is_modal>
-    ...
-  </.dialog>
-  ```
-
-  Close the dialog with the Escape key:
-
-  ```
-  <.dialog is_escapable>
     ...
   </.dialog>
   ```
@@ -11206,18 +11305,20 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Focus the first element after opening the dialog. Pass a selector to match the element.
+  The dialog will focus the first element after opening. Pass `focus_after_opening_selector` with a selector to give focus to a different element.
 
   ```
-  <.dialog focus_first="#login_first_name">
+  <.dialog focus_after_opening_selector="#login_first_name">
     ...
   </.dialog>
   ```
 
-  or
+  After closing the dialog, return the focus to the originating element. Improve accessibility by implementing this [ARIA Dialog Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
 
   ```
-  <.dialog focus_first="[name=login\[first_name\]]">
+  <.button id="opens-dialog" phx-click={open_dialog("my-dialog")}>Open</.button>
+
+  <.dialog id="my-dialog" focus_after_closing_selector="#opens-dialog">
     ...
   </.dialog>
   ```
@@ -11255,7 +11356,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Dialog content is wrapped inside a `Phoenix.Component.focus_wrap/1` so that navigating with Tab won't leave the dialog.
+  Dialog content is automatically wrapped inside a `Phoenix.Component.focus_wrap/1` so that navigating with Tab won't leave the dialog.
 
   ```
   <.dialog is_backdrop is_modal>
@@ -11275,25 +11376,27 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.id("Dialog element id", true)
-  PromptDeclarationHelpers.form("the dialog element")
-  PromptDeclarationHelpers.field("the dialog")
-  PromptDeclarationHelpers.is_dropdown_caret(false)
-  PromptDeclarationHelpers.is_backdrop()
-  PromptDeclarationHelpers.is_dark_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_light_backdrop()
-  PromptDeclarationHelpers.is_fast(false)
-  PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.phx_click_touch()
-  PromptDeclarationHelpers.is_modal("the dialog")
-  PromptDeclarationHelpers.is_escapable()
-  PromptDeclarationHelpers.focus_first("the dialog")
+  @default_dialog_max_height_css "80vh"
+  @default_dialog_max_width_css "90vw"
 
-  attr(:is_show_on_mount, :boolean,
-    default: false,
-    doc:
-      "Displays the dialog on mount. Control conditional display by using the regular `:if={}` attribute."
+  PromptDeclarationHelpers.focus_after_closing_selector("the dialog")
+  PromptDeclarationHelpers.focus_after_opening_selector("the dialog")
+  PromptDeclarationHelpers.id("Dialog element id", "the dialog", true)
+  PromptDeclarationHelpers.is_backdrop()
+  PromptDeclarationHelpers.backdrop_strength()
+  PromptDeclarationHelpers.backdrop_tint()
+  PromptDeclarationHelpers.is_escapable()
+  PromptDeclarationHelpers.is_fast(false)
+  PromptDeclarationHelpers.is_modal("the dialog")
+  PromptDeclarationHelpers.is_show("the dialog", "dialog")
+  PromptDeclarationHelpers.show_state("the dialog")
+  PromptDeclarationHelpers.is_show_on_mount("the dialog", "dialog")
+  PromptDeclarationHelpers.on_cancel("the dialog")
+  PromptDeclarationHelpers.status_callback_selector("the dialog")
+
+  PromptDeclarationHelpers.transition_duration(
+    "the dialog",
+    PromptHelpers.default_dialog_transition_duration()
   )
 
   DeclarationHelpers.class()
@@ -11406,15 +11509,7 @@ defmodule PrimerLive.Component do
     doc: "Unstructured dialog content. Uses `box/1` `inner_block` slot."
   )
 
-  @default_dialog_max_height_css "80vh"
-  @default_dialog_max_width_css "90vw"
-
   def dialog(assigns) do
-    %{
-      form: form,
-      field: field
-    } = AttributeHelpers.common_input_attrs(assigns)
-
     classes = %{
       dialog_wrapper:
         AttributeHelpers.classnames([
@@ -11427,19 +11522,17 @@ defmodule PrimerLive.Component do
           assigns.is_narrow && "Box-overlay--narrow",
           assigns.is_wide && "Box-overlay--wide",
           assigns[:classes][:dialog]
-        ])
+        ]),
+      header: "d-flex flex-justify-between flex-items-start"
     }
 
     %{
-      checkbox_attrs: checkbox_attrs,
-      menu_attrs: wrapper_attrs,
       backdrop_attrs: backdrop_attrs,
-      touch_layer_attrs: touch_layer_attrs,
-      focus_wrap_id: focus_wrap_id
+      focus_wrap_attrs: focus_wrap_attrs,
+      prompt_attrs: prompt_attrs,
+      touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
-        form: form,
-        field: field,
         toggle_slot: nil,
         toggle_class: nil,
         menu_class: classes.dialog_wrapper,
@@ -11451,13 +11544,13 @@ defmodule PrimerLive.Component do
         [is_close_button: true],
         ["aria-label": "Close"],
         [class: "Box-btn-octicon btn-octicon flex-shrink-0"],
-        [onclick: "Prompt.hide(this)"]
+        ["phx-click": cancel_dialog(assigns.id)]
       ])
 
     max_height_css = assigns.max_height || @default_dialog_max_height_css
     max_width_css = assigns.max_width || @default_dialog_max_width_css
 
-    box_attrs =
+    content_attrs =
       AttributeHelpers.append_attributes([
         [class: classes.dialog],
         [classes: assigns.classes |> Map.drop([:dialog_wrapper, :dialog])],
@@ -11481,42 +11574,117 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:form, form)
-      |> assign(:field, field)
-      |> assign(:checkbox_attrs, checkbox_attrs)
-      |> assign(:wrapper_attrs, wrapper_attrs)
-      |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
-      |> assign(:box_attrs, box_attrs)
+      |> assign(:classes, classes)
       |> assign(:close_button_attrs, close_button_attrs)
-      |> assign(:focus_wrap_id, focus_wrap_id)
+      |> assign(:content_attrs, content_attrs)
+      |> assign(:focus_wrap_attrs, focus_wrap_attrs)
+      |> assign(:prompt_attrs, prompt_attrs)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
 
     ~H"""
-    <div {@wrapper_attrs}>
-      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
-      <div data-prompt-content>
-        <div {@touch_layer_attrs}>
-          <%= if @backdrop_attrs !== [] do %>
-            <div {@backdrop_attrs} />
-          <% end %>
-          <.focus_wrap id={@focus_wrap_id}>
-            <.box {@box_attrs}>
-              <:header
-                :if={@header_title && @header_title !== []}
-                class="d-flex flex-justify-between flex-items-start"
-              >
-                <.button {@close_button_attrs}>
-                  <.octicon name="x-16" />
-                </.button>
-              </:header>
-              <%= render_slot(@inner_block) %>
-            </.box>
-          </.focus_wrap>
-        </div>
-      </div>
+    <div {@prompt_attrs}>
+      <%= if @backdrop_attrs !== [] do %>
+        <div {@backdrop_attrs} />
+      <% end %>
+      <div {@touch_layer_attrs}></div>
+      <.focus_wrap {@focus_wrap_attrs}>
+        <.box {@content_attrs}>
+          <:header :if={@header_title && @header_title !== []} class={@classes.header}>
+            <.button {@close_button_attrs}>
+              <.octicon name="x-16" />
+            </.button>
+          </:header>
+          <%= render_slot(@inner_block) %>
+        </.box>
+      </.focus_wrap>
     </div>
     """
   end
+
+  @doc section: :dialog_functions
+
+  @doc """
+  Opens a dialog.
+
+  ## Examples
+
+      <.button phx-click={open_dialog("my-dialog")}>Open</.button>
+  """
+  def open_dialog(id) when is_binary(id), do: PromptHelpers.open_prompt(id)
+
+  @doc section: :dialog_functions
+
+  @doc """
+  Opens a dialog as part of a `Phoenix.LiveView.JS` command chain.
+
+  ## Examples
+
+      <.button phx-click={
+        open_dialog("base-dialog")
+        |> open_dialog("confirmation-dialog")
+      }>Open</.button>
+  """
+  def open_dialog(js, id), do: PromptHelpers.open_prompt(js, id)
+
+  @doc section: :dialog_functions
+
+  @doc """
+  Closes a dialog.
+  Note that this won't call `on_cancel`. Any time `on_cancel` is provided and you still need a close button, `cancel_dialog/1` will be a better choice.
+
+  ## Examples
+
+      <.button phx-click={close_dialog("my-dialog")}>Close</.button>
+  """
+  def close_dialog(id), do: PromptHelpers.close_prompt(id)
+
+  @doc section: :dialog_functions
+
+  @doc """
+  Closes a dialog as part of a `Phoenix.LiveView.JS` command chain.
+
+  ## Examples
+
+      <.button phx-click={
+        close_dialog("confirmation-dialog")
+        |> close_dialog("base-dialog")
+      }>Open</.button>
+  """
+  def close_dialog(js, id), do: PromptHelpers.close_prompt(js, id)
+
+  @doc section: :dialog_functions
+
+  @doc """
+  Cancels a dialog: closes the dialog after executing the `on_cancel` attribute.
+
+  ## Examples
+
+      <.button phx-click={cancel_dialog("my-dialog")}>Cancel</.button>
+  """
+
+  def cancel_dialog(id), do: PromptHelpers.cancel_prompt(id)
+
+  @doc section: :dialog_functions
+
+  @doc """
+  Cancels a dialog as part of a `Phoenix.LiveView.JS` command chain.
+  """
+  def cancel_dialog(js, id), do: PromptHelpers.cancel_prompt(js, id)
+
+  @doc section: :dialog_functions
+
+  @doc """
+  Toggles the open state of the dialog.
+  """
+  def toggle_dialog(id), do: PromptHelpers.toggle_prompt(id)
+
+  @doc section: :dialog_functions
+
+  @doc """
+  Toggles a dialog as part of a `Phoenix.LiveView.JS` command chain.
+  """
+  def toggle_dialog(js, id), do: PromptHelpers.toggle_prompt(js, id)
 
   # ------------------------------------------------------------------------------------
   # drawer
@@ -11535,21 +11703,47 @@ defmodule PrimerLive.Component do
   </.drawer>
   ```
 
-  Showing and hiding is done with JS function `Prompt`, included in PrimerLive.
-  Function `Prompt.show` requires a selector. When placed inside the drawer component, the selector can be replaced with `this`:
+  ## Opening and closing the drawer
+
+  ### Invoking open and close
+
+  Functions `open_drawer/1` and `close_drawer/1` can be called with `phx-click`, passing the drawer's id (the alternative approach is to conditionally render - see below).
+  Alternatively use `toggle_drawer/1` for simply toggling open and close.
 
   ```
+  <.button phx-click={open_drawer("my-drawer")}>Open</.button>
+
   <.drawer id="my-drawer">
-    <:body>
-      <.button onclick="Prompt.hide(this)">Close</.button>
-      Content
+    <:body width="300px">
+      <.button phx-click={close_drawer("my-drawer")}>Close</.button>
     </:body>
   </.drawer>
-
-  <.button onclick="Prompt.show('#my-drawer')">Open drawer</.button>
   ```
 
-  ## Examples
+  Clicking the backdrop will automatically invoke `cancel_drawer`.
+
+  Pressing Escape will close the open drawer (unless `is_escapable` is explicitly set to false).
+
+  ### Routes and other conditionals
+
+  To show the drawer at a specific route (or with any other condition), use Phoenix's `:if` attribute, combined with `is_show`. The `on_cancel` attribute can then be used to redirect to the originating route:
+
+  ```
+  <.drawer
+    id="my-drawer"
+    :if={@live_action == :create}
+    is_show
+    on_cancel={JS.patch(~p"/posts")}
+  >
+    <:body>
+      Post form
+    </:body>
+  </.drawer>
+  ```
+
+  To display the drawer on page load *without* a fade-in transition, add attribute `is_show_on_mount`. See `PrimerLive.StatefulConditionComponent` for an example.
+
+  ## Other attributes
 
   By default the drawer width is defined by its content. To set an explicit width of the drawer content:
 
@@ -11561,10 +11755,10 @@ defmodule PrimerLive.Component do
   </.drawer>
   ```
 
-  Add a backdrop. Optionally add `is_light_backdrop` or `is_dark_backdrop`:
+  Add a backdrop. Optionally add `backdrop_strength` with value "strong" or "light":
 
   ```
-  <.drawer is_backdrop is_dark_backdrop>
+  <.drawer is_backdrop backdrop_strength="strong">
     ...
   </.drawer>
   ```
@@ -11577,14 +11771,6 @@ defmodule PrimerLive.Component do
   </.drawer>
   ```
 
-  Close the drawer with the Escape key:
-
-  ```
-  <.drawer is_escapable>
-    ...
-  </.drawer>
-  ```
-
   Create faster slide in and out:
 
   ```
@@ -11593,18 +11779,10 @@ defmodule PrimerLive.Component do
   </.drawer>
   ```
 
-  Focus the first element after opening the drawer. Pass a selector to match the element.
+  The drawer will focus the first element after opening. Pass `focus_after_opening_selector` with a selector to give focus to a different element.
 
   ```
-  <.drawer focus_first="#login_first_name">
-    ...
-  </.drawer>
-  ```
-
-  or
-
-  ```
-  <.drawer focus_first="[name=login\[first_name\]]">
+  <.drawer focus_after_opening_selector="#login_first_name">
     ...
   </.drawer>
   ```
@@ -11642,20 +11820,25 @@ defmodule PrimerLive.Component do
   Neither Primer CSS nor Primer React provide a drawer component. However, a drawer is used on their documentation site (mobile view).
   """
 
-  PromptDeclarationHelpers.id("Drawer element id", true)
-  PromptDeclarationHelpers.form("the drawer element")
-  PromptDeclarationHelpers.field("the drawer")
-  PromptDeclarationHelpers.is_dropdown_caret(false)
+  PromptDeclarationHelpers.focus_after_closing_selector("the drawer")
+  PromptDeclarationHelpers.focus_after_opening_selector("the drawer")
+  PromptDeclarationHelpers.id("Drawer element id", "the drawer", true)
   PromptDeclarationHelpers.is_backdrop()
-  PromptDeclarationHelpers.is_dark_backdrop()
-  PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_light_backdrop()
-  PromptDeclarationHelpers.is_fast(false)
-  PromptDeclarationHelpers.prompt_options()
-  PromptDeclarationHelpers.phx_click_touch()
-  PromptDeclarationHelpers.is_modal("the drawer")
+  PromptDeclarationHelpers.backdrop_strength()
+  PromptDeclarationHelpers.backdrop_tint()
   PromptDeclarationHelpers.is_escapable()
-  PromptDeclarationHelpers.focus_first("the drawer")
+  PromptDeclarationHelpers.is_fast(false)
+  PromptDeclarationHelpers.is_modal("the drawer")
+  PromptDeclarationHelpers.is_show("the drawer", "drawer")
+  PromptDeclarationHelpers.show_state("the drawer")
+  PromptDeclarationHelpers.is_show_on_mount("the drawer", "drawer")
+  PromptDeclarationHelpers.on_cancel("the drawer")
+  PromptDeclarationHelpers.status_callback_selector("the drawer")
+
+  PromptDeclarationHelpers.transition_duration(
+    "the drawer",
+    PromptHelpers.default_dialog_transition_duration()
+  )
 
   DeclarationHelpers.class()
 
@@ -11729,11 +11912,6 @@ defmodule PrimerLive.Component do
   )
 
   def drawer(assigns) do
-    %{
-      form: form,
-      field: field
-    } = AttributeHelpers.common_input_attrs(assigns)
-
     # Get the body slot, if any
     body_slot = if assigns.body && assigns.body !== [], do: hd(assigns.body), else: []
 
@@ -11760,23 +11938,20 @@ defmodule PrimerLive.Component do
     }
 
     %{
-      checkbox_attrs: checkbox_attrs,
-      menu_attrs: wrapper_attrs,
       backdrop_attrs: backdrop_attrs,
-      touch_layer_attrs: touch_layer_attrs,
-      focus_wrap_id: focus_wrap_id
+      focus_wrap_attrs: focus_wrap_attrs,
+      prompt_attrs: prompt_attrs,
+      touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
-        form: form,
-        field: field,
         toggle_slot: nil,
         toggle_class: nil,
         menu_class: nil,
         is_menu: false
       })
 
-    wrapper_attrs =
-      AttributeHelpers.append_attributes(wrapper_attrs, [
+    prompt_attrs =
+      AttributeHelpers.append_attributes(prompt_attrs, [
         ["data-isdrawer": ""],
         classes.drawer_wrapper && [class: classes.drawer_wrapper],
         if assigns.is_far_side do
@@ -11805,52 +11980,44 @@ defmodule PrimerLive.Component do
           classes.body && [class: classes.body],
           body_slot[:width] &&
             [
-              style: "width: #{body_slot[:width]}"
+              style: "--prompt-drawer-content-width: #{body_slot[:width]}"
             ]
         ]
       )
 
     assigns =
       assigns
-      |> assign(:form, form)
-      |> assign(:field, field)
-      |> assign(:checkbox_attrs, checkbox_attrs)
-      |> assign(:wrapper_attrs, wrapper_attrs)
-      |> assign(:touch_layer_attrs, touch_layer_attrs)
       |> assign(:backdrop_attrs, backdrop_attrs)
-      |> assign(:content_attrs, content_attrs)
-      |> assign(:body_slot, body_slot)
       |> assign(:body_attrs, body_attrs)
-      |> assign(:focus_wrap_id, focus_wrap_id)
+      |> assign(:body_slot, body_slot)
+      |> assign(:content_attrs, content_attrs)
+      |> assign(:focus_wrap_attrs, focus_wrap_attrs)
+      |> assign(:prompt_attrs, prompt_attrs)
+      |> assign(:touch_layer_attrs, touch_layer_attrs)
 
     ~H"""
-    <div {@wrapper_attrs}>
-      <%= PhoenixHTMLHelpers.Form.checkbox(@form, @field, @checkbox_attrs) %>
-      <div data-prompt-content>
-        <%= if !@is_push do %>
+    <div {@prompt_attrs}>
+      <%= if !@is_push do %>
+        <%= if @backdrop_attrs !== [] do %>
+          <div {@backdrop_attrs}></div>
+        <% end %>
+        <div {@touch_layer_attrs}></div>
+      <% end %>
+      <div {@content_attrs}>
+        <%= if @is_push do %>
           <%= if @backdrop_attrs !== [] do %>
             <div {@backdrop_attrs}></div>
           <% end %>
           <div {@touch_layer_attrs}></div>
         <% end %>
-        <div {@content_attrs}>
-          <%= if @is_push do %>
-            <%= if @backdrop_attrs !== [] do %>
-              <div {@backdrop_attrs}></div>
-            <% end %>
-            <div {@touch_layer_attrs}></div>
-          <% end %>
-          <% # START DEPRECATED %>
-          <%= render_slot(@inner_block) %>
-          <% # END DEPRECATED %>
-          <%= if @body && @body !== [] do %>
-            <div {@body_attrs}>
-              <.focus_wrap id={@focus_wrap_id}>
-                <%= render_slot(@body) %>
-              </.focus_wrap>
-            </div>
-          <% end %>
-        </div>
+        <%= render_slot(@inner_block) %>
+        <%= if @body && @body !== [] do %>
+          <div {@body_attrs}>
+            <.focus_wrap {@focus_wrap_attrs}>
+              <%= render_slot(@body) %>
+            </.focus_wrap>
+          </div>
+        <% end %>
       </div>
     </div>
     """
@@ -11893,16 +12060,27 @@ defmodule PrimerLive.Component do
     )
 
     %{
-      focus_wrap_id: focus_wrap_id
+      focus_wrap_attrs: focus_wrap_attrs
     } =
-      AttributeHelpers.prompt_attrs(assigns, %{
-        form: nil,
-        field: nil,
-        toggle_slot: nil,
-        toggle_class: nil,
-        menu_class: nil,
-        is_menu: nil
-      })
+      AttributeHelpers.prompt_attrs(
+        Map.merge(assigns, %{
+          is_show: true,
+          show_state: "default",
+          is_show_on_mount: nil,
+          on_cancel: nil,
+          focus_after_closing_selector: nil,
+          focus_after_opening_selector: nil,
+          is_escapable: nil,
+          transition_duration: nil,
+          status_callback_selector: nil
+        }),
+        %{
+          toggle_slot: nil,
+          toggle_class: nil,
+          menu_class: nil,
+          is_menu: nil
+        }
+      )
 
     class =
       AttributeHelpers.classnames([
@@ -11923,16 +12101,100 @@ defmodule PrimerLive.Component do
     assigns =
       assigns
       |> assign(:content_attrs, content_attrs)
-      |> assign(:focus_wrap_id, focus_wrap_id)
+      |> assign(:focus_wrap_attrs, focus_wrap_attrs)
 
     ~H"""
     <div {@content_attrs}>
-      <.focus_wrap id={@focus_wrap_id}>
+      <.focus_wrap {@focus_wrap_attrs}>
         <%= render_slot(@inner_block) %>
       </.focus_wrap>
     </div>
     """
   end
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Opens a drawer.
+
+  ## Examples
+
+      <.button phx-click={open_drawer("my-drawer")}>Open</.button>
+  """
+  def open_drawer(id) when is_binary(id), do: PromptHelpers.open_prompt(id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Opens a drawer as part of a `Phoenix.LiveView.JS` command chain.
+
+  ## Examples
+
+      <.button phx-click={
+        open_drawer("base-drawer")
+        |> open_drawer("confirmation-drawer")
+      }>Open</.button>
+  """
+  def open_drawer(js, id), do: PromptHelpers.open_prompt(js, id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Closes a drawer.
+  Note that this won't call `on_cancel`. Any time `on_cancel` is provided and you still need a close button, `cancel_drawer/1` will be a better choice.
+
+  ## Examples
+
+      <.button phx-click={close_drawer("my-drawer")}>Close</.button>
+  """
+  def close_drawer(id), do: PromptHelpers.close_prompt(id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Closes a drawer as part of a `Phoenix.LiveView.JS` command chain.
+
+  ## Examples
+
+      <.button phx-click={
+        close_drawer("confirmation-drawer")
+        |> close_drawer("base-drawer")
+      }>Open</.button>
+  """
+  def close_drawer(js, id), do: PromptHelpers.close_prompt(js, id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Cancels a drawer: closes the drawer after executing the `on_cancel` attribute.
+
+  ## Examples
+
+      <.button phx-click={cancel_drawer("my-drawer")}>Cancel</.button>
+  """
+
+  def cancel_drawer(id), do: PromptHelpers.cancel_prompt(id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Cancels a drawer as part of a `Phoenix.LiveView.JS` command chain.
+  """
+  def cancel_drawer(js, id), do: PromptHelpers.cancel_prompt(js, id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Toggles the open state of the drawer.
+  """
+  def toggle_drawer(id), do: PromptHelpers.toggle_prompt(id)
+
+  @doc section: :drawer_functions
+
+  @doc """
+  Toggles a drawer as part of a `Phoenix.LiveView.JS` command chain.
+  """
+  def toggle_drawer(js, id), do: PromptHelpers.toggle_prompt(js, id)
 
   # ------------------------------------------------------------------------------------
   # branch_name
@@ -12710,7 +12972,7 @@ defmodule PrimerLive.Component do
 
   ## Reference
 
-  No longer mentioned on https://primer.style/design/components
+  No longer referenced on https://primer.style/design/components
 
   """
 

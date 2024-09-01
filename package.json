@@ -10,31 +10,13 @@
   "exports": {
     ".": {
       "import": "./priv/static/primer-live.esm.js",
-      "require": "./priv/static/primer-live.cjs.js",
       "default": "./priv/static/primer-live.js"
     },
     "./primer-live.css": {
-      "import": "./priv/static/primer-live.css",
       "default": "./priv/static/primer-live.css"
     },
     "./primer-live.min.css": {
       "default": "./priv/static/primer-live.min.css"
-    },
-    "./primer-live-prompt": {
-      "import": "./priv/static/primer-live-prompt.esm.js",
-      "require": "./priv/static/primer-live-prompt.cjs.js",
-      "default": "./priv/static/primer-live-prompt.js"
-    },
-    "./primer-live-prompt.min.js": {
-      "import": "./priv/static/primer-live-prompt.min.js",
-      "default": "./priv/static/primer-live-prompt.min.js"
-    },
-    "./primer-live-prompt.css": {
-      "import": "./priv/static/primer-live-prompt.css",
-      "default": "./priv/static/primer-live-prompt.css"
-    },
-    "./primer-live-prompt.min.css": {
-      "default": "./priv/static/primer-live-prompt.min.css"
     }
   },
   "types": "./priv/static",

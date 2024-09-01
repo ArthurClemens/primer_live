@@ -54,4 +54,8 @@ defmodule PrimerLive.Helpers.ComponentHelpers do
       IO.puts(message)
     end
   end
+
+  def missing_attribute(name) do
+    IO.puts("Missing attribute: #{name}")
+  end
 end

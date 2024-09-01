@@ -1,72 +1,67 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+import { ViewHook, LiveSocket } from "phoenix_live_view";
 
-// index.ts
-var assets_exports = {};
-__export(assets_exports, {
-  Prompt: () => Prompt
-});
-module.exports = __toCommonJS(assets_exports);
+/**
+Prompt Hook handles status callbacks.
+*/
+export type TPrompt = Partial<ViewHook> & {
+  handlePromptOpen?: (evt: CustomEvent) => void;
+  handlePromptClose?: (evt: CustomEvent) => void;
+  handlePromptToggle?: (evt: CustomEvent) => void;
+  liveSocket?: LiveSocket;
+};
 
-// javascript/prompt.ts
-var Prompt = {
+export const Prompt: TPrompt = {
   mounted() {
-    const el = this.el;
+    const el = this.el as HTMLElement;
     const contentEl = el.querySelector("[data-content]");
+
     if (!(contentEl instanceof HTMLElement)) {
       console.error("Missing element with attribute [data-content]");
       return;
     }
-    const pushEvent = (selector, status) => {
-      var _a;
-      (_a = this.pushEventTo) == null ? void 0 : _a.call(this, selector, "primer_live:prompt", {
+
+    const pushEvent = (selector: string, status: string) => {
+      this.pushEventTo?.(selector, "primer_live:prompt", {
         elementId: el.id,
-        selector,
-        status
+        selector: selector,
+        status: status,
       });
     };
-    const createStatusHandler = (startStatus, endStatus) => {
-      return (evt) => {
+
+    const createStatusHandler = (startStatus: string, endStatus: string) => {
+      return (evt: CustomEvent) => {
         const { selector, transitionDuration } = evt.detail;
+
         if (!selector) {
           console.error("Missing status_callback_selector");
           return;
         }
+
         pushEvent(selector, startStatus);
+
         setTimeout(() => {
           pushEvent(selector, endStatus);
         }, transitionDuration);
       };
     };
-    this.handlePromptToggle = (evt) => {
-      var _a;
-      const cmd = el.classList.contains("is-open") ? el.dataset.close : el.dataset.open;
+
+    this.handlePromptToggle = (evt: CustomEvent) => {
+      const cmd = el.classList.contains("is-open")
+        ? el.dataset.close
+        : el.dataset.open;
       if (cmd) {
-        (_a = this.liveSocket) == null ? void 0 : _a.execJS(el, cmd);
+        this.liveSocket?.execJS(el, cmd as string);
       } else {
         console.error("No command found in element dataset");
       }
     };
+
     this.handlePromptOpen = createStatusHandler("opening", "opened");
     el.addEventListener("prompt:open", this.handlePromptOpen);
+
     this.handlePromptClose = createStatusHandler("closing", "closed");
     el.addEventListener("prompt:close", this.handlePromptClose);
+
     el.addEventListener("prompt:toggle", this.handlePromptToggle);
   },
   destroyed() {
@@ -82,21 +77,38 @@ var Prompt = {
     if (this.handlePromptToggle) {
       this.el.removeEventListener("prompt:toggle", this.handlePromptToggle);
     }
-  }
+  },
 };
+
+declare global {
+  interface Window {
+    Prompt: TPrompt;
+  }
+}
+
 if (typeof window !== "undefined") {
   window.Prompt = Prompt;
 }
+
+/**
+Handle closing prompts using the Escape key. The listener function ensures that only
+the top prompt is closed, so stacked prompts can be closed one by one.
+*/
+
 window.addEventListener("keydown", maybeCloseFromEscapeKey);
-function maybeCloseFromEscapeKey(evt) {
+
+function maybeCloseFromEscapeKey(evt: KeyboardEvent) {
   if (evt.key === "Escape") {
+    // Only close the top element if its root dataset contains "is escapable" data attr
     const openPrompts = Array.from(
-      document.querySelectorAll("[data-prompt].is-open")
-    ).filter((el) => el.dataset.isescapable !== void 0);
+      document.querySelectorAll<HTMLElement>("[data-prompt].is-open"),
+    ).filter((el) => el.dataset.isescapable !== undefined);
+
     let topOpenPrompt = openPrompts.reverse()[0];
     if (!(topOpenPrompt instanceof HTMLElement)) {
       return;
     }
+
     openPrompts.forEach((el) => {
       const focusWrapEl = el.querySelector("[data-focuswrap]");
       if (focusWrapEl instanceof HTMLElement) {
@@ -106,4 +118,3 @@ function maybeCloseFromEscapeKey(evt) {
     });
   }
 }
-//# sourceMappingURL=primer-live.cjs.js.map

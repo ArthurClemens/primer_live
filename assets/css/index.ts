@@ -1,5 +1,5 @@
-import './primercss.scss';
-import './actionlist/index.scss';
-import './prompt.css';
-import './primercss-overrides.css';
-import './toggle-switch.css';
+import "./primercss.scss";
+import "./actionlist/index.scss";
+import "./prompt.css";
+import "./primercss-overrides.css";
+import "./toggle-switch.css";

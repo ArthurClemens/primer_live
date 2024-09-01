@@ -1,26 +1,20 @@
 defmodule PrimerLive do
   @moduledoc ~S"""
-  <p>
+
   An implementation of GitHub's <a href="https://primer.style/design/" target="blank">Primer Design System</a> for Phoenix LiveView.
-  </p>
 
-  <p>
   Primer Design provides a strong base for creating data driven applications such as rich CRUD applications with interactive forms.
-  </p>
 
-  <p>
-  All PrimerLive components accept the <code>class</code> attribute for customisations (and often the <code>classes</code> struct to address inner elements). <a href="https://primer.style/design/foundations/css-utilities/getting-started" target="blank">Primer's utility classes</a> allow a wide range of customisations without having to write custom styles.
-  </p>
+  All PrimerLive components accept the `class` attribute for customisations (and often the `classes` struct to address inner elements). <a href="https://primer.style/design/foundations/css-utilities/getting-started" target="blank">Primer's utility classes</a> allow a wide range of customisations without having to write custom styles.
 
-  <p>
   PrimerLive components can be used in <a href="https://github.com/phoenixframework/phoenix_live_view" target="_blank">Phoenix LiveView pages</a> and regular (non-LiveView) views in Phoenix applications.
-  </p>
 
   ## Documentation
 
-  - [Component documentation](`PrimerLive.Component`)
   - [Installation](doc-extra/installation.md)
   - [Usage](doc-extra/usage.md)
+  - [Components](`PrimerLive.Component`)
+  - [Menus and dialogs](doc-extra/menus-and-dialogs.md)
 
   ## Resources
 
@@ -32,6 +26,7 @@ defmodule PrimerLive do
     quote do
       import PrimerLive.Component
       import PrimerLive.Octicons
+      import PrimerLive.StatefulConditionComponent
       alias PrimerLive.Theme
     end
   end
