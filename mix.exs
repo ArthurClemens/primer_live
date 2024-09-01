@@ -89,9 +89,9 @@ defmodule PrimerLive.MixProject do
         Truncate: &(&1[:section] == :truncate)
       ],
       extras: [
-        "doc-extra/overview.md",
         "doc-extra/installation.md",
         "doc-extra/usage.md",
+        "doc-extra/menus-and-dialogs.md",
         "CHANGELOG.md",
         "LICENSE.md"
       ]

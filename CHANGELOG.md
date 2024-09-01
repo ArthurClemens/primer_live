@@ -30,10 +30,10 @@ See component documentation for further details:
 - Added `PrimerLive.StatefulConditionComponent`.
 - Dialog state is now preserved on form updates.
 - Added attribute `focus_after_closing_selector`, mirroring the (renamed) `focus_after_opening_selector`.
-- Added attribute `on_cancel`
-- Added attribute `transition_duration`
-- Added attribute `show_state` to persist dialogs, drawers and menus across different LiveViews
-- Added focus trap
+- Added attribute `on_cancel`.
+- Added attribute `transition_duration`.
+- Added attribute `show_state` to persist dialogs, drawers and menus across different LiveViews.
+- Added focus trap.
 
 ### Changes and removals
 
@@ -43,7 +43,7 @@ See for update instructions: "Updating to 0.8" below.
 - Replaced attribute `prompt_options` for status callbacks with `status_callback_selector` that sends status events to the component, so that state changes can be used in Elixir code.
 - Removed attribute `phx_click_touch` in favor of using `status_callback_selector`, because closing can be initiated in several ways, not only through backdrop clicks, and we can't assume that the event handler always hosts the dialog/drawer as well.
 - Renamed attribute `focus_first` to `focus_after_opening_selector`. Focus on the first interactive element is now default; with `focus_after_opening_selector` a specific element can be appointed.
-- Reduced the size of the `Prompt` hook script.
+- Removed attrs `form` and `field` from all prompt components.
 - Added separate `z-index` settings for menus, so that the menu panel (and optional backdrop) are closer to the page, allowing them to be covered by other elements such as top bars. Using a `z-index` of `100` for a top bar ensures that it sits in between menus and dialogs/drawers.
 
 ### Updating to 0.8
@@ -64,9 +64,9 @@ phx-click={open_dialog("my-dialog")}
 phx-click={close_dialog("my-dialog")}
 ```
 
-- Form state: the previous method to preserve state, using "a fictitious and unique field name" can be removed.
+- Form state: the previous method to preserve state, using "a fictitious and unique field name" can be removed. Remove `form` and `field` from menu and dialog component attributes.
 - Because `focus_first` (without a selector) is now the default, nothing needs to be changed when using this attribute. If in existing code a selector value is used, rename the attribute to `focus_after_opening_selector`.
-- Replace `prompt_options` and `phx_click_touch` with `status_callback_selector`. There's no simple way to replace `prompt_options`, because passing JavaScript functions is no longer supported. A solution coiuld be very similar to the previous `phx_click_touch` method. This example LiveComponent may give some ideas how to approach the update:
+- Replace `prompt_options` and `phx_click_touch` with `status_callback_selector`. There's no simple way to replace `prompt_options`, because passing JavaScript functions is no longer supported. A solution could be very similar to the previous `phx_click_touch` method. This example LiveComponent may give some ideas how to approach the update:
 
 ```
 defmodule MyAppWeb.Page do
