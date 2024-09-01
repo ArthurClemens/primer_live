@@ -9,6 +9,8 @@
   - [Behavior](#behavior)
 - [Generated HTML](#generated-html)
 - [Conditional state](#conditional-state)
+- [Persisting dialogs and drawers](#persisting-dialogs-and-drawers)
+  - [Refinements](#refinements)
 - [Status callbacks](#status-callbacks)
 - [Prompt hook](#prompt-hook)
 - [CSS](#css)
@@ -61,8 +63,9 @@ The following attributes are common for all menus and dialogs.
 
 ### Appearance
 
-- `is_backdrop` - Generates a backdrop background. Default backdrop strenght: `"medium"` for dialog and drawer; `"light"` for menus.
+- `is_backdrop` - Generates a backdrop background with a default strength and tint values. Default backdrop strenght: `"medium"` for dialog and drawer; `"light"` for menus. Default backdrop tint: `"dark"`.
 - `backdrop_strength` - Backdrop strenght: stronger is less transparent. Overrides the default value from `is_backdrop`.
+- `backdrop_tint` - Backdrop tint: `"dark"` or `"light"`. Overrides the default value from `is_backdrop`.
 - `transition_duration` - The number of milliseconds to fade-in/out the backdrop and content. Adds a CSS style attribute to component HTML.
 - `is_fast` - Generates fast fade transitions for backdrop and content.
 - `is_dropdown_caret` - For menus: adds a dropdown caret to the toggle button.
@@ -76,7 +79,7 @@ The following attributes are common for all menus and dialogs.
 - `on_cancel` - `Phoenix.LiveView.JS` command to configure the closing/cancel event of the component, for example: `on_cancel={JS.navigate(~p"/posts")}`.
 - `is_show` - Sets the display state of the component. Control conditional display by using Phoenix's `:if` attribute.
 - `is_show_on_mount` - Displays the component on mount without fade-in transition. Control conditional display by using Phoenix's `:if` attribute. See [Conditional state](#conditional-state) below for details.
-- `show_state` - Use when the component is already displayed, and should be persisted when navigating to another LiveViews (for example to hide the component with a transition after having navigated to a new route). This method does require that the component is available on the other LiveView page, so it is best suited for "global" components such as navigation panels and app header menus.
+- `show_state` - Use when the component is already displayed, and should be persisted when navigating to another LiveViews. See [Persisting dialogs and drawers](#persisting-dialogs-and-drawers) below.
 - `status_callback_selector` - Receiver to get status callback events. Events are passed from the Prompt hook using `pushEventTo`.
 
 ## Generated HTML
@@ -102,6 +105,92 @@ A practical example is to conditionally render a dialog at a specific route.
 To make that happen, we can set `is_show_on_mount` to `true` only when the current route (where the dialog opens) is equal to the route the `StatefulConditionComponent` was located from the beginning.
 
 See `PrimerLive.StatefulConditionComponent` for example code, and [primer-live.org/dialog](https://primer-live.org/dialog#conditional-dialog-show-on-mount) for a working example.
+
+## Persisting dialogs and drawers
+
+To keep a dialog or drawer on screen when navigating to a different LiveView (using `navigate` instead of `patch`), the component must be available on the destination route. This approach is best suited for "global" components, such as navigation panels and app header menus.
+
+Attribute `show_state` assists in rendering the component slightly different, depending on the context.
+
+Let's use the side drawer navigation on [primer-live.org](https://primer-live.org) as an example (accessible on smaller screens via the top-right menu button).
+
+The drawer's `show_state` is set using the URL search param "menu":
+
+```
+menu_param = assigns.params["menu"]
+
+show_state =
+  case menu_param do
+    "1" -> "onset"
+    "2" -> "hold"
+    _ -> "default"
+end
+
+assigns =
+  assigns
+  |> assign(:show_drawer, menu_param in ["1", "2"])
+  |> assign(:show_state, show_state)
+```
+
+We set the drawer attributes `:if={@show_drawer}`, `is_show`, and `show_state={@show_state}`, and add `on_cancel`, which removes the URL search parameters to hide the drawer.
+
+The top bar menu button sets the search parameter "menu=1":
+
+- `show_state` is "onset": This intermediate state prepares for the "hold" state. It removes the `phx-remove` attribute, ensuring that navigating away doesn't trigger a close transition. Other than that, the drawer's opening behavior remains unchanged.
+
+Drawer links set the search parameter "menu=2":
+
+- `show_state` is "hold": This state removes the `phx-remove` attribute, as well as any opening transitions and the first focus. When navigating to a linked page, the drawer is recreated without transitions.
+
+This will keep the drawer in place when clicking the drawer links. Closing is done by clicking outside (this uses the touch layer).
+
+### Refinements
+
+**Auto closing the drawer**
+
+Clicking a link dispatches a custom event "drawer:selected" that is picked up by the app's JavaScript, which - after a delay - calls the drawer's cancel instruction.
+
+```
+# Drawer link
+phx-click={JS.dispatch("drawer:selected", to: "##{drawer_id}")}
+```
+
+```js
+// app.js
+
+window.addEventListener("drawer:selected", (evt) => {
+  const id = evt.target.id;
+  setTimeout(() => {
+    // Get a fresh reference with updated data attributes:
+    const el = document.getElementById(id);
+    liveSocket.execJS(el, el.dataset.cancel);
+  }, 650);
+});
+```
+
+**Maintaining the scroll position**
+
+When in "hold" state, the drawer is not really persisted; with each click the drawer is recreated, losing the scroll position. Not ideal, when clicking items at the bottom of the list. We need to recreate the scroll position in JavaScript.
+
+This is the behavior we want:
+
+- Open the drawer (`show_state` is "onset"):
+  - Restore the last stored scroll position.
+  - Find the selected item an scroll the item into view (without animation).
+- When clicking a link, the drawer is unmounted. We use a hook to store the scroll position at that point.
+
+Using a hook for all these steps would be the logical choice, but the `onmount` callback turns out to be just a bit too late, resulting in a slight flickering of the drawer contents inbetween the first render and the desired scroll position.
+
+A better choice is the "phx:page-loading-stop" event:
+
+```js
+// app.js
+
+window.addEventListener("phx:page-loading-stop", (_info) => {
+  setDrawerScrollPosition();
+  window.viewReady = true;
+});
+```
 
 ## Status callbacks
 
@@ -194,10 +283,18 @@ Example:
 ```css
 [data-prompt] {
   /* Colors and opacity */
-  --prompt-background-color-backdrop: black;
-  --prompt-background-opacity-backdrop-strong: 0.5;
-  --prompt-background-opacity-backdrop-medium: 0.2;
-  --prompt-background-opacity-backdrop-light: 0.07;
+
+  /* - Dark */
+  --prompt-background-color-backdrop-dark: black;
+  --prompt-background-opacity-backdrop-dark-strong: 0.5;
+  --prompt-background-opacity-backdrop-dark-medium: 0.2;
+  --prompt-background-opacity-backdrop-dark-light: 0.07;
+
+  /* - Light */
+  --prompt-background-color-backdrop-light: white;
+  --prompt-background-opacity-backdrop-light-strong: 0.9;
+  --prompt-background-opacity-backdrop-light-medium: 0.7;
+  --prompt-background-opacity-backdrop-light-light: 0.6;
 
   /* Transitions */
   --prompt-transition-timing-function: ease-in-out;

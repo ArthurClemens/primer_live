@@ -4,6 +4,10 @@
 
 Refactoring of dialogs, drawers and menus, using the `Phoenix.LiveView.JS` API - and largely based on `CoreComponent`'s modal component. These changes reduce reliance on additional JavaScript, improve alignment with standard practice, and include accessibility improvements.
 
+Overview:
+
+- [Menus and dialogs](doc-extra/menus-and-dialogs.md)
+
 See component documentation for further details:
 
 - [Action menu](`PrimerLive.Component.action_menu/1`)
@@ -33,6 +37,7 @@ See component documentation for further details:
 - Added attribute `on_cancel`.
 - Added attribute `transition_duration`.
 - Added attribute `show_state` to persist dialogs, drawers and menus across different LiveViews.
+- Added `backdrop_tint` with values "dark" (default) and "light". The latter (combined with `backdrop_strength="strong"`) (see below) creates a backdrop that is similar to the CoreComponent's modal.
 - Added focus trap.
 
 ### Changes and removals
