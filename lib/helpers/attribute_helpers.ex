@@ -1029,7 +1029,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_menu: false
       ...>   })
       %{
-        backdrop_attrs: ["data-backdrop": "", "data-backdrop_strength": "medium"],
+        backdrop_attrs: ["data-backdrop": ""],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         prompt_attrs: [
           class: nil,
@@ -1087,7 +1087,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_menu: false
       ...>   })
       %{
-        backdrop_attrs: ["data-backdrop": "", "data-backdrop_strength": "medium"],
+        backdrop_attrs: ["data-backdrop": ""],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         prompt_attrs: [
           class: nil,
@@ -1116,6 +1116,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_fast: true,
       ...>     is_backdrop: true,
       ...>     backdrop_strength: "medium",
+      ...>     backdrop_tint: "light",
       ...>     is_show: false,
       ...>     show_state: nil,
       ...>     is_show_on_mount: false,
@@ -1133,7 +1134,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_menu: true
       ...>   })
       %{
-        backdrop_attrs: ["data-backdrop": "", "data-backdrop_strength": "medium"],
+        backdrop_attrs: [{:"data-backdrop", ""}, {:"data-backdrop-strength", "medium"}, {:"data-backdrop-tint", "light"}],
         focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
         prompt_attrs: [
           class: nil,
@@ -1273,24 +1274,27 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         ]
       ])
 
+    is_backdrop = !!assigns[:is_backdrop]
+
+    backdrop_strength =
+      cond do
+        is_backdrop && assigns[:backdrop_strength] -> assigns[:backdrop_strength]
+        is_backdrop && is_menu -> "light"
+        true -> nil
+      end
+
+    backdrop_tint =
+      if is_backdrop && assigns[:backdrop_tint] do
+        assigns[:backdrop_tint]
+      else
+        nil
+      end
+
     backdrop_attrs =
       append_attributes([
-        cond do
-          assigns[:backdrop_strength] == "strong" ->
-            ["data-backdrop": "", "data-backdrop-strength": "strong"]
-
-          assigns[:backdrop_strength] == "medium" ->
-            ["data-backdrop": "", "data-backdrop-strength": "medium"]
-
-          assigns[:backdrop_strength] == "light" ->
-            ["data-backdrop": "", "data-backdrop-strength": "light"]
-
-          assigns[:is_backdrop] ->
-            if is_menu, do: ["data-backdrop": "", "data-backdrop-strength": "light"], else: ["data-backdrop": ""]
-
-          true ->
-            []
-        end
+        is_backdrop && ["data-backdrop": ""],
+        backdrop_strength && ["data-backdrop-strength": backdrop_strength],
+        backdrop_tint && ["data-backdrop-tint": backdrop_tint]
       ])
 
     is_modal = assigns[:is_modal] || false

@@ -125,11 +125,11 @@ defmodule PrimerLive.TestComponents.DrawerContentDeprecatedTest do
              |> format_html()
   end
 
-  test "Attribute: is_strong_backdrop" do
+  test "Attribute: backdrop_strength (strong)" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.drawer id="my-drawer-id" is_strong_backdrop>
+           <.drawer id="my-drawer-id" is_backdrop backdrop_strength="strong">
              <.drawer_content id="my-drawer-content-id">
                Content
              </.drawer_content>
@@ -137,16 +137,16 @@ defmodule PrimerLive.TestComponents.DrawerContentDeprecatedTest do
            """)
            |> format_html() ==
              """
-             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:170,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;,&quot;transition&quot;:[[&quot;duration-170&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isdrawer="" data-isescapable="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#my-drawer-id [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><div data-backdrop="" data-is_strong_backdrop=""></div><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-drawer-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div data-content=""><div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id"><div id="focus-wrap-my-drawer-content-id" phx-hook="Phoenix.FocusWrap" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-my-drawer-content-id-start" tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-content-id-end" tabindex="0" aria-hidden="true"></span></div></div></div></div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:170,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;,&quot;transition&quot;:[[&quot;duration-170&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isdrawer="" data-isescapable="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#my-drawer-id [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><div data-backdrop="" data-backdrop-strength="strong"></div><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-drawer-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div data-content=""><div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id"><div id="focus-wrap-my-drawer-content-id" phx-hook="Phoenix.FocusWrap" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-my-drawer-content-id-start" tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-content-id-end" tabindex="0" aria-hidden="true"></span></div></div></div></div>
              """
              |> format_html()
   end
 
-  test "Attribute: is_light_backdrop" do
+  test "Attribute: backdrop_strength (light)" do
     assigns = %{}
 
     assert rendered_to_string(~H"""
-           <.drawer id="my-drawer-id" is_light_backdrop>
+           <.drawer id="my-drawer-id" is_backdrop backdrop_strength="light">
              <.drawer_content id="my-drawer-content-id">
                Content
              </.drawer_content>
@@ -154,7 +154,7 @@ defmodule PrimerLive.TestComponents.DrawerContentDeprecatedTest do
            """)
            |> format_html() ==
              """
-             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:170,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;,&quot;transition&quot;:[[&quot;duration-170&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isdrawer="" data-isescapable="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#my-drawer-id [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><div data-backdrop="" data-is_light_backdrop=""></div><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-drawer-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div data-content=""><div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id"><div id="focus-wrap-my-drawer-content-id" phx-hook="Phoenix.FocusWrap" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-my-drawer-content-id-start" tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-content-id-end" tabindex="0" aria-hidden="true"></span></div></div></div></div>
+             <div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:170,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;,&quot;transition&quot;:[[&quot;duration-170&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isdrawer="" data-isescapable="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#my-drawer-id [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#my-drawer-id&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="my-drawer-id" phx-hook="Prompt"><div data-backdrop="" data-backdrop-strength="light"></div><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#my-drawer-id&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div data-content=""><div class="Box--overlay" data-drawer-content="" id="my-drawer-content-id"><div id="focus-wrap-my-drawer-content-id" phx-hook="Phoenix.FocusWrap" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-my-drawer-content-id-start" tabindex="0" aria-hidden="true"></span>Content<span id="focus-wrap-my-drawer-content-id-end" tabindex="0" aria-hidden="true"></span></div></div></div></div>
              """
              |> format_html()
   end

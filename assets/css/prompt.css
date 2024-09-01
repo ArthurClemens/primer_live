@@ -1,9 +1,17 @@
 [data-prompt] {
     /* Colors and opacity */
-    --prompt-background-color-backdrop: black;
-    --prompt-background-opacity-backdrop-strong: 0.5;
-    --prompt-background-opacity-backdrop-medium: 0.2;
-    --prompt-background-opacity-backdrop-light: 0.07;
+
+    /* - Dark */
+    --prompt-background-color-backdrop-dark: black;
+    --prompt-background-opacity-backdrop-dark-strong: 0.5;
+    --prompt-background-opacity-backdrop-dark-medium: 0.2;
+    --prompt-background-opacity-backdrop-dark-light: 0.07;
+
+    /* - Light */
+    --prompt-background-color-backdrop-light: white;
+    --prompt-background-opacity-backdrop-light-strong: 0.9;
+    --prompt-background-opacity-backdrop-light-medium: 0.7;
+    --prompt-background-opacity-backdrop-light-light: 0.6;
 
     /* Transitions */
     --prompt-transition-timing-function: ease-in-out;
@@ -159,24 +167,43 @@ TOUCH AND BACKDROP
 
 /* Set up backdrop fade */
 [data-prompt] [data-backdrop] {
-    background: var(--prompt-background-color-backdrop);
     opacity: 0;
     transition-property: opacity;
 }
 
+[data-prompt] [data-backdrop]:not([data-backdrop-tint=light]) {
+    background: var(--prompt-background-color-backdrop-dark);
+}
+
+[data-prompt] [data-backdrop][data-backdrop-tint=light] {
+    background: var(--prompt-background-color-backdrop-light);
+}
+
 /* Backdrop medium opacity */
-[data-prompt].is-showing [data-backdrop] {
-    opacity: var(--prompt-background-opacity-backdrop-medium);
+[data-prompt].is-showing [data-backdrop]:not([data-backdrop-tint=light]) {
+    opacity: var(--prompt-background-opacity-backdrop-dark-medium);
+}
+
+[data-prompt].is-showing [data-backdrop][data-backdrop-tint=light] {
+    opacity: var(--prompt-background-opacity-backdrop-light-medium);
 }
 
 /* Backdrop dark opacity */
-[data-prompt].is-showing [data-backdrop][data-backdrop-strength=strong] {
-    opacity: var(--prompt-background-opacity-backdrop-strong);
+[data-prompt].is-showing [data-backdrop][data-backdrop-strength=strong]:not([data-backdrop-tint=light]) {
+    opacity: var(--prompt-background-opacity-backdrop-dark-strong);
+}
+
+[data-prompt].is-showing [data-backdrop][data-backdrop-strength=strong][data-backdrop-tint=light] {
+    opacity: var(--prompt-background-opacity-backdrop-light-strong);
 }
 
 /* Backdrop light opacity */
-[data-prompt].is-showing [data-backdrop][data-backdrop-strength=light] {
-    opacity: var(--prompt-background-opacity-backdrop-light);
+[data-prompt].is-showing [data-backdrop][data-backdrop-strength=light]:not([data-backdrop-tint=light]) {
+    opacity: var(--prompt-background-opacity-backdrop-dark-light);
+}
+
+[data-prompt].is-showing [data-backdrop][data-backdrop-strength=light][data-backdrop-tint=light] {
+    opacity: var(--prompt-background-opacity-backdrop-light-light);
 }
 
 /* -----------------------------------------------------
@@ -385,16 +412,16 @@ DRAWER
 
 /* Adjusted backdrop opacities for dark theme. */
 [data-color-mode="dark"] [data-prompt] {
-    --prompt-background-opacity-backdrop-strong: 0.7;
-    --prompt-background-opacity-backdrop-medium: 0.5;
-    --prompt-background-opacity-backdrop-light: 0.3;
+    --prompt-background-opacity-backdrop-dark-strong: 0.7;
+    --prompt-background-opacity-backdrop-dark-medium: 0.5;
+    --prompt-background-opacity-backdrop-dark-light: 0.3;
 }
 
 /* Adjusted backdrop opacities for dimmed dark theme. */
 [data-color-mode="dark"][data-dark-theme="dark_dimmed"] [data-prompt] {
-    --prompt-background-opacity-backdrop-strong: 0.5;
-    --prompt-background-opacity-backdrop-medium: 0.35;
-    --prompt-background-opacity-backdrop-light: 0.2;
+    --prompt-background-opacity-backdrop-dark-strong: 0.5;
+    --prompt-background-opacity-backdrop-dark-medium: 0.35;
+    --prompt-background-opacity-backdrop-dark-light: 0.2;
 }
 
 /* Set max height on dialog content. */
