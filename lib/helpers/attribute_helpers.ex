@@ -1281,12 +1281,17 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     is_opening_transitions_disabled = show_state == "hold" || is_show_on_mount
     is_focus_first_disabled = show_state == "hold"
+    is_push_drawer = !!assigns[:is_push]
 
     prompt_attrs =
       append_attributes(assigns.rest |> Map.drop([:id]), [
         [
           class:
-            classnames([menu_class, is_show_on_mount && "is-open is-showing is-show_on_mount"])
+            classnames([
+              menu_class,
+              is_show_on_mount && "is-open is-showing is-show_on_mount",
+              is_push_drawer && "is-show_on_mount"
+            ])
         ],
         ["data-prompt": ""],
         [id: prompt_id],
@@ -1317,7 +1322,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
             |> maybe_focus_first(id_selector, is_focus_first_disabled)
             |> maybe_focus_after_opening_selector(assigns.focus_after_opening_selector)
             |> maybe_add_delay_to_show(id_selector, is_opening_transitions_disabled)
-            |> maybe_remove_classes(id_selector, is_show_on_mount)
+            |> maybe_remove_classes(id_selector, %{is_show_on_mount: is_show_on_mount, is_push_drawer: is_push_drawer})
         ],
         [
           "data-close":
@@ -1481,7 +1486,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     )
   end
 
-  defp maybe_remove_classes(js, id_selector, is_show_on_mount) when is_show_on_mount do
+  defp maybe_remove_classes(js, id_selector, %{is_show_on_mount: is_show_on_mount, is_push_drawer: is_push_drawer}) when is_show_on_mount or is_push_drawer do
     JS.remove_class(js, "is-show_on_mount", to: id_selector)
   end
 
