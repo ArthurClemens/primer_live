@@ -811,8 +811,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
-      ...>     form: nil,
-      ...>     field: nil,
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -858,8 +856,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
-      ...>     form: nil,
-      ...>     field: nil,
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -905,8 +901,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
-      ...>     form: nil,
-      ...>     field: nil,
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -952,8 +946,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
-      ...>     form: nil,
-      ...>     field: nil,
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -998,8 +990,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
-      ...>     form: nil,
-      ...>     field: nil,
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -1045,8 +1035,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
-      ...>     form: nil,
-      ...>     field: nil,
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -1107,8 +1095,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
-      ...>     form: nil,
-      ...>     field: nil,
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -1157,8 +1143,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
-      ...>     form: nil,
-      ...>     field: nil,
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -1183,67 +1167,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
         touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
       }
-
-      # With form:
-      iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
-      ...>   %{
-      ...>     rest: %{
-      ...>       id: "some-id"
-      ...>     },
-      ...>     is_fast: true,
-      ...>     is_dark_backdrop: true,
-      ...>     is_medium_backdrop: false,
-      ...>     is_light_backdrop: false,
-      ...>     is_backdrop: true,
-      ...>     is_show: false,
-      ...>     show_state: nil,
-      ...>     is_show_on_mount: false,
-      ...>     on_cancel: nil,
-      ...>     focus_after_opening_selector: nil,
-      ...>     focus_after_closing_selector: nil,
-      ...>     transition_duration: nil,
-      ...>     status_callback_selector: nil,
-      ...>     is_escapable: true
-      ...>   },
-      ...>   %{
-      ...>     form: %Phoenix.HTML.Form{
-      ...>       source: %Ecto.Changeset{
-      ...>         action: :update,
-      ...>         changes: [],
-      ...>         errors: [],
-      ...>         data: nil,
-      ...>         valid?: true
-      ...>       },
-      ...>     },
-      ...>     field: :job,
-      ...>     toggle_slot: nil,
-      ...>     toggle_class: "btn",
-      ...>     menu_class: "my-menu",
-      ...>     is_menu: true
-      ...>   })
-      %{
-        backdrop_attrs: ["data-backdrop": "", "data-isdark": ""],
-        focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        prompt_attrs: [
-          class: "my-menu",
-          "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
-          "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
-          "data-isescapable": "",
-          "data-isfast": "",
-          "data-ismenu": "",
-          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]]},
-          "data-prompt": "",
-          id: "some-id",
-          "phx-hook": "Prompt",
-          "phx-remove": nil
-        ],
-        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
-        touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
-      }
   """
   def prompt_attrs(assigns, %{
-        form: form,
-        field: field,
         toggle_slot: toggle_slot,
         toggle_class: toggle_class,
         menu_class: menu_class,
@@ -1253,13 +1178,10 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     if is_nil(id), do: ComponentHelpers.missing_attribute("id")
 
-    input_name = if field, do: Phoenix.HTML.Form.input_name(form, field), else: nil
-    generated_id = id || input_name || random_string()
-
     toggle_id =
       if id,
         do: "#{id}-toggle",
-        else: generated_id
+        else: id
 
     toggle_rest = assigns_to_attributes_sorted(toggle_slot || [], [:class, :for, :options])
 
@@ -1322,7 +1244,10 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
             |> maybe_focus_first(id_selector, is_focus_first_disabled)
             |> maybe_focus_after_opening_selector(assigns.focus_after_opening_selector)
             |> maybe_add_delay_to_show(id_selector, is_opening_transitions_disabled)
-            |> maybe_remove_classes(id_selector, %{is_show_on_mount: is_show_on_mount, is_push_drawer: is_push_drawer})
+            |> maybe_remove_classes(id_selector, %{
+              is_show_on_mount: is_show_on_mount,
+              is_push_drawer: is_push_drawer
+            })
         ],
         [
           "data-close":
@@ -1352,7 +1277,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         assigns.is_escapable != false && ["data-isescapable": ""]
       ])
 
-    focus_wrap_id = "focus-wrap-#{id || generated_id}"
+    focus_wrap_id = "focus-wrap-#{id || id}"
 
     focus_wrap_attrs =
       append_attributes([
@@ -1486,7 +1411,11 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     )
   end
 
-  defp maybe_remove_classes(js, id_selector, %{is_show_on_mount: is_show_on_mount, is_push_drawer: is_push_drawer}) when is_show_on_mount or is_push_drawer do
+  defp maybe_remove_classes(js, id_selector, %{
+         is_show_on_mount: is_show_on_mount,
+         is_push_drawer: is_push_drawer
+       })
+       when is_show_on_mount or is_push_drawer do
     JS.remove_class(js, "is-show_on_mount", to: id_selector)
   end
 

@@ -10,7 +10,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
         doc:
           if unquote(is_required) do
             """
-            {name_element_id}, used for opening and closing.
+            {name_element_id}, used for opening and closing from the outside.
             """
             |> String.replace("{name_element_id}", unquote(name_element_id))
           else
@@ -28,29 +28,11 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro form do
-    quote do
-      attr :form, :any,
-        doc: """
-        Either a [Phoenix.HTML.Form](https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html) or an atom.
-        """
-    end
-  end
-
-  defmacro field do
-    quote do
-      attr :field, :any,
-        doc: """
-        Field name (atom or string). Use an atom when used with a form.
-        """
-    end
-  end
-
   defmacro is_dropdown_caret(default) do
     quote do
       attr :is_dropdown_caret, :boolean,
         default: unquote(default),
-        doc: "Adds a dropdown caret to the prompt button."
+        doc: "Adds a dropdown caret icon to the toggle button."
     end
   end
 
@@ -143,15 +125,24 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
 
   # Dialog, drawer and menu specific
 
-  defmacro is_show(the_element) do
+  defmacro is_show(the_element, component_tag) do
     quote do
       attr :is_show, :boolean,
         default: false,
         doc:
           """
           Sets the display state of {the_element}. Control conditional display by using Phoenix's `:if` attribute.
+
+          Example:
+
+          ```
+          <{component_tag} is_show :if={@live_action in [:new, :edit]}>
+            ...
+          </{component_tag}>
+          ```
           """
           |> String.replace("{the_element}", unquote(the_element))
+          |> String.replace("{component_tag}", unquote(component_tag))
     end
   end
 
@@ -162,26 +153,37 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
         default: "default",
         doc:
           """
-          Use when {the_element} is already displayed, and should be persisted when navigating to another LiveViews. Use together with `is_show`.
+          Use when {the_element} is already displayed, and should be persisted when navigating to another LiveViews (for example to hide {the_element} with a transition after having navigated to a new route). This method does require that {the_element} is available on the other LiveView page, so it is best suited for "global" components such as navigation panels and app header menus.
+
+          Use together with `is_show`.
 
           Values:
           - "default": No change.
           - "onset": Preparation for the "hold" state. Removes the "phx-remove" attribute so that navigating away doesn't cause a close transition.
-          - "hold": Temoves the "phx-remove" attribute as well as opening transitions and first focus.
+          - "hold": Removes the "phx-remove" attribute as well as opening transitions and first focus.
           """
           |> String.replace("{the_element}", unquote(the_element))
     end
   end
 
-  defmacro is_show_on_mount(the_element) do
+  defmacro is_show_on_mount(the_element, component_tag) do
     quote do
       attr(:is_show_on_mount, :boolean,
         default: false,
         doc:
           """
-          Displays {the_element} on mount. Control conditional display by using Phoenix's `:if` attribute.
+          Displays {the_element} on mount without fade-in transition. Control conditional display by using Phoenix's `:if` attribute.
+
+          Example:
+
+          ```
+          <{component_tag} is_show is_show_on_mount :if={@live_action in [:new, :edit]}>
+            ...
+          </{component_tag}>
+          ```
           """
           |> String.replace("{the_element}", unquote(the_element))
+          |> String.replace("{component_tag}", unquote(component_tag))
       )
     end
   end
@@ -192,7 +194,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
         default: nil,
         doc:
           """
-          JS command to configure the closing/cancel event of {the_element}, for example: `on_cancel={JS.navigate(~p\"/posts\")}`.
+          `Phoenix.LiveView.JS` command to configure the closing/cancel event of {the_element}, for example: `on_cancel={JS.navigate(~p"/posts")}`.
           """
           |> String.replace("{the_element}", unquote(the_element))
     end
@@ -204,7 +206,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
         default: unquote(default_value),
         doc:
           """
-          The number of milliseconds to fade-in/out {the_element}.
+          The number of milliseconds to fade-in/out {the_element}. Adds a CSS style attribute to {the_element} HTML.
           """
           |> String.replace("{the_element}", unquote(the_element))
     end
@@ -218,7 +220,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
         default: false,
         doc:
           """
-          Generates a modal {the_element}; clicking the backdrop (if used) or outside of {the_element} will not close {the_element}.
+          Sets modal behavior: {the_element} can only be closed with Escape or by clicking a close button.
           """
           |> String.replace("{the_element}", unquote(the_element))
     end
@@ -240,7 +242,8 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
         default: nil,
         doc:
           """
-          Gives focus to the specified element after opening {the_element}. Pass the element selector.
+          By default, the first interactive element gets focus after opening {the_element}.
+          Use to set focus to a different element after opening. Pass the element selector.
           """
           |> String.replace("{the_element}", unquote(the_element))
     end

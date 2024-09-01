@@ -6746,10 +6746,8 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.field()
   PromptDeclarationHelpers.focus_after_closing_selector("the dropdown")
   PromptDeclarationHelpers.focus_after_opening_selector("the dropdown")
-  PromptDeclarationHelpers.form()
   PromptDeclarationHelpers.id("Dropdown element id", "the dropdown", false)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
@@ -6758,9 +6756,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_show("the dropdown")
+  PromptDeclarationHelpers.is_show("the dropdown", "dropdown")
   PromptDeclarationHelpers.show_state("the dropdown")
-  PromptDeclarationHelpers.is_show_on_mount("the dropdown")
+  PromptDeclarationHelpers.is_show_on_mount("the dropdown", "dropdown")
   PromptDeclarationHelpers.on_cancel("the dropdown")
   PromptDeclarationHelpers.status_callback_selector("the dropdown")
   PromptDeclarationHelpers.toggle_slot()
@@ -6854,11 +6852,6 @@ defmodule PrimerLive.Component do
   end
 
   def dropdown(assigns) do
-    %{
-      form: form,
-      field: field
-    } = AttributeHelpers.common_input_attrs(assigns)
-
     # Get the first menu slot, if any
     menu_slot = if assigns[:menu] && assigns[:menu] !== [], do: hd(assigns[:menu]), else: []
 
@@ -6923,8 +6916,6 @@ defmodule PrimerLive.Component do
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
-        form: form,
-        field: field,
         toggle_slot: toggle_slot,
         toggle_class: classes.toggle,
         menu_class: classes.dropdown,
@@ -7025,8 +7016,6 @@ defmodule PrimerLive.Component do
 
     assigns =
       assigns
-      |> assign(:form, form)
-      |> assign(:field, field)
       |> assign(:menu_container_attrs, menu_container_attrs)
       |> assign(:render_menu, render_menu)
       |> assign(:backdrop_attrs, backdrop_attrs)
@@ -7184,10 +7173,8 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.field()
   PromptDeclarationHelpers.focus_after_closing_selector("the select menu")
   PromptDeclarationHelpers.focus_after_opening_selector("the select menu")
-  PromptDeclarationHelpers.form()
   PromptDeclarationHelpers.id("Select menu element id", "the select menu", false)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
@@ -7196,9 +7183,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_show("the select menu")
+  PromptDeclarationHelpers.is_show("the select menu", "select_menu")
   PromptDeclarationHelpers.show_state("the select menu")
-  PromptDeclarationHelpers.is_show_on_mount("the select menu")
+  PromptDeclarationHelpers.is_show_on_mount("the select menu", "select_menu")
   PromptDeclarationHelpers.on_cancel("the select menu")
   PromptDeclarationHelpers.status_callback_selector("the select menu")
   PromptDeclarationHelpers.toggle_slot()
@@ -7385,11 +7372,6 @@ defmodule PrimerLive.Component do
       !is_nil(assigns[:is_right_aligned])
     )
 
-    %{
-      form: form,
-      field: field
-    } = AttributeHelpers.common_input_attrs(assigns)
-
     assigns_classes =
       Map.merge(
         %{
@@ -7551,8 +7533,6 @@ defmodule PrimerLive.Component do
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
-        form: form,
-        field: field,
         toggle_slot: toggle_slot,
         toggle_class: classes.toggle,
         menu_class: classes.select_menu,
@@ -7828,10 +7808,8 @@ defmodule PrimerLive.Component do
 
   """
 
-  PromptDeclarationHelpers.field()
   PromptDeclarationHelpers.focus_after_closing_selector("the menu")
   PromptDeclarationHelpers.focus_after_opening_selector("the menu")
-  PromptDeclarationHelpers.form()
   PromptDeclarationHelpers.id("Menu element id", "the menu", false)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
@@ -7840,9 +7818,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_fast(true)
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_medium_backdrop()
-  PromptDeclarationHelpers.is_show("the menu")
+  PromptDeclarationHelpers.is_show("the menu", "action_menu")
   PromptDeclarationHelpers.show_state("the menu")
-  PromptDeclarationHelpers.is_show_on_mount("the menu")
+  PromptDeclarationHelpers.is_show_on_mount("the menu", "action_menu")
   PromptDeclarationHelpers.on_cancel("the menu")
   PromptDeclarationHelpers.status_callback_selector("the menu")
   PromptDeclarationHelpers.toggle_slot()
@@ -7925,11 +7903,6 @@ defmodule PrimerLive.Component do
       !is_nil(assigns[:is_right_aligned])
     )
 
-    %{
-      form: form,
-      field: field
-    } = AttributeHelpers.common_input_attrs(assigns)
-
     assigns_classes =
       Map.merge(
         %{
@@ -7996,8 +7969,6 @@ defmodule PrimerLive.Component do
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
-        form: form,
-        field: field,
         toggle_slot: toggle_slot,
         toggle_class: classes.toggle,
         menu_class: classes.action_menu,
@@ -11411,10 +11382,8 @@ defmodule PrimerLive.Component do
   @default_dialog_max_height_css "80vh"
   @default_dialog_max_width_css "90vw"
 
-  PromptDeclarationHelpers.field()
   PromptDeclarationHelpers.focus_after_closing_selector("the dialog")
   PromptDeclarationHelpers.focus_after_opening_selector("the dialog")
-  PromptDeclarationHelpers.form()
   PromptDeclarationHelpers.id("Dialog element id", "the dialog", true)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
@@ -11423,9 +11392,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_modal("the dialog")
-  PromptDeclarationHelpers.is_show("the dialog")
+  PromptDeclarationHelpers.is_show("the dialog", "dialog")
   PromptDeclarationHelpers.show_state("the dialog")
-  PromptDeclarationHelpers.is_show_on_mount("the dialog")
+  PromptDeclarationHelpers.is_show_on_mount("the dialog", "dialog")
   PromptDeclarationHelpers.on_cancel("the dialog")
   PromptDeclarationHelpers.status_callback_selector("the dialog")
 
@@ -11545,11 +11514,6 @@ defmodule PrimerLive.Component do
   )
 
   def dialog(assigns) do
-    %{
-      form: form,
-      field: field
-    } = AttributeHelpers.common_input_attrs(assigns)
-
     classes = %{
       dialog_wrapper:
         AttributeHelpers.classnames([
@@ -11573,8 +11537,6 @@ defmodule PrimerLive.Component do
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
-        form: form,
-        field: field,
         toggle_slot: nil,
         toggle_class: nil,
         menu_class: classes.dialog_wrapper,
@@ -11780,7 +11742,7 @@ defmodule PrimerLive.Component do
     <:body>
       Post form
     </:body>
-  </.dialog>
+  </.drawer>
   ```
 
   To display the drawer on page load *without* a fade-in transition, add attribute `is_show_on_mount`. See `PrimerLive.StatefulConditionComponent` for an example.
@@ -11862,10 +11824,8 @@ defmodule PrimerLive.Component do
   Neither Primer CSS nor Primer React provide a drawer component. However, a drawer is used on their documentation site (mobile view).
   """
 
-  PromptDeclarationHelpers.field()
   PromptDeclarationHelpers.focus_after_closing_selector("the drawer")
   PromptDeclarationHelpers.focus_after_opening_selector("the drawer")
-  PromptDeclarationHelpers.form()
   PromptDeclarationHelpers.id("Drawer element id", "the drawer", true)
   PromptDeclarationHelpers.is_backdrop()
   PromptDeclarationHelpers.is_dark_backdrop()
@@ -11874,9 +11834,9 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_light_backdrop()
   PromptDeclarationHelpers.is_medium_backdrop()
   PromptDeclarationHelpers.is_modal("the drawer")
-  PromptDeclarationHelpers.is_show("the drawer")
+  PromptDeclarationHelpers.is_show("the drawer", "drawer")
   PromptDeclarationHelpers.show_state("the drawer")
-  PromptDeclarationHelpers.is_show_on_mount("the drawer")
+  PromptDeclarationHelpers.is_show_on_mount("the drawer", "drawer")
   PromptDeclarationHelpers.on_cancel("the drawer")
   PromptDeclarationHelpers.status_callback_selector("the drawer")
 
@@ -11957,11 +11917,6 @@ defmodule PrimerLive.Component do
   )
 
   def drawer(assigns) do
-    %{
-      form: form,
-      field: field
-    } = AttributeHelpers.common_input_attrs(assigns)
-
     # Get the body slot, if any
     body_slot = if assigns.body && assigns.body !== [], do: hd(assigns.body), else: []
 
@@ -11994,8 +11949,6 @@ defmodule PrimerLive.Component do
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
-        form: form,
-        field: field,
         toggle_slot: nil,
         toggle_class: nil,
         menu_class: nil,
@@ -12127,8 +12080,6 @@ defmodule PrimerLive.Component do
           status_callback_selector: nil
         }),
         %{
-          form: nil,
-          field: nil,
           toggle_slot: nil,
           toggle_class: nil,
           menu_class: nil,
