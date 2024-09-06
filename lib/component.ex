@@ -6214,6 +6214,11 @@ defmodule PrimerLive.Component do
     """
   )
 
+  attr(:row_data, :list, default: nil, doc: "An enumerable of steam items to insert.")
+  attr(:row_id, :any, default: nil, doc: "The function for generating the row id.")
+  attr(:row_item, :any, default: &Function.identity/1, doc: "The function for mapping each row.")
+  attr(:row_click, :any, default: nil, doc: "The function for handling `phx-click` on each row.")
+
   DeclarationHelpers.rest()
 
   slot :header,
@@ -6356,7 +6361,7 @@ defmodule PrimerLive.Component do
       """
     end
 
-    render_row = fn slot ->
+    render_row = fn slot, row_entry ->
       is_link = AttributeHelpers.link?(slot)
       class = classes.row.(slot, is_link)
 
@@ -6374,26 +6379,39 @@ defmodule PrimerLive.Component do
           :is_unread
         ])
 
+      row_id_fn = row_entry && (assigns.row_id || fn {id, _item} -> id end)
+
       attributes =
         AttributeHelpers.append_attributes(rest, [
-          [class: class]
+          [class: class],
+          row_entry && [id: row_id_fn.(row_entry)],
+          assigns.row_click && ["phx-click": assigns.row_click.(row_entry)]
         ])
+
+      slot_data =
+        if row_entry && assigns.row_item do
+          {id, data} = assigns.row_item.(row_entry)
+          {id, data |> Map.merge(%{classes: classes})}
+        else
+          %{classes: classes}
+        end
 
       assigns =
         assigns
         |> assign(:is_link, is_link)
         |> assign(:attributes, attributes)
         |> assign(:slot, slot)
-        |> assign(:classes, classes)
+        |> assign(:row_entry, row_entry)
+        |> assign(:slot_data, slot_data)
 
       ~H"""
       <%= if @is_link do %>
         <Phoenix.Component.link {@attributes}>
-          <%= render_slot(@slot, @classes) %>
+          <%= render_slot(@slot, @slot_data) %>
         </Phoenix.Component.link>
       <% else %>
         <div {@attributes}>
-          <%= render_slot(@slot, @classes) %>
+          <%= render_slot(@slot, @slot_data) %>
         </div>
       <% end %>
       """
@@ -6423,6 +6441,13 @@ defmodule PrimerLive.Component do
       assigns
       |> assign(:render_body, render_body)
       |> assign(:render_row, render_row)
+      |> assign(
+        :stream_attrs,
+        if(assigns.row_data,
+          do: ["phx-update": "stream", id: "stream-#{assigns[:id]}"],
+          else: nil
+        )
+      )
 
     # Render inner_block, body and rows
     render_inner_content = fn ->
@@ -6432,8 +6457,16 @@ defmodule PrimerLive.Component do
         <%= @render_body.() %>
       <% end %>
       <%= if @row && @row !== [] do %>
-        <%= for slot <- @row do %>
-          <%= @render_row.(slot) %>
+        <%= if @row_data && @row_data !== [] do %>
+          <div {@stream_attrs}>
+            <%= for row_entry <- @row_data do %>
+              <%= @render_row.(List.first(@row), row_entry) %>
+            <% end %>
+          </div>
+        <% else %>
+          <%= for slot <- @row do %>
+            <%= @render_row.(slot, nil) %>
+          <% end %>
         <% end %>
       <% end %>
       """
