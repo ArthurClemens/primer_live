@@ -2,7 +2,9 @@
 
 ## Next
 
-Refactoring of dialogs, drawers and menus, using the `Phoenix.LiveView.JS` API - and largely based on `CoreComponent`'s modal component. These changes reduce reliance on additional JavaScript, improve alignment with standard practice, and include accessibility improvements.
+### Refactoring of dialogs, drawers and menus
+
+This refactoring builds on the `Phoenix.LiveView.JS` API - taking example from `CoreComponent`'s modal component. These changes reduce reliance on additional JavaScript, improve alignment with standard practice, and include accessibility improvements.
 
 Overview:
 
@@ -16,7 +18,7 @@ See component documentation for further details:
 - [Dropdown](`PrimerLive.Component.dropdown/1`)
 - [Select menu](`PrimerLive.Component.select_menu/1`)
 
-### Additions
+#### Additions
 
 - Dialogs, drawers and menus can now be shown conditionally, for example on a `live_action` route:
 
@@ -40,7 +42,7 @@ See component documentation for further details:
 - Added `backdrop_tint` with values "dark" (default) and "light". The latter (combined with `backdrop_strength="strong"`) (see below) creates a backdrop that is similar to the CoreComponent's modal.
 - Added focus trap.
 
-### Changes and removals
+#### Changes and removals
 
 See for update instructions: "Updating to 0.8" below.
 
@@ -53,7 +55,7 @@ See for update instructions: "Updating to 0.8" below.
 - Replaced backdrop attributes `is_dark_backdrop`, `is_medium_backdrop` and `is_light_backdrop` with `backdrop_strength` and values `"strong"`, `"medium"` and `"light"`.
 - Menus and dialogs can now be closed with Escape by default.
 
-### Updating to 0.8
+#### Updating to 0.8
 
 - Replace `Promp.show` and `Prompt.hide`:
 
@@ -77,6 +79,10 @@ See for update instructions: "Updating to 0.8" below.
 - Because `focus_first` (without a selector) is now the default, nothing needs to be changed when using this attribute.
   - If in existing code a selector value is used, rename the attribute to `focus_after_opening_selector`.
 - Replace `prompt_options` and `phx_click_touch` with `status_callback_selector`. There's no simple way to replace `prompt_options`, because passing JavaScript functions is no longer supported. A solution could be very similar to the previous `phx_click_touch` method. See [Status callbacks](menus-and-dialogs.html#status-callbacks) for an example.
+
+### Other changes
+
+- Updated octicons to `19.11.0`
 
 ## 0.7.2
 

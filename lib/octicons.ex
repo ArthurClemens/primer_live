@@ -13,15 +13,22 @@ defmodule PrimerLive.Octicons do
 
   ### All octicons
 
+  See [primer-live.org/octicon](https://primer-live.org/octicon) for visuals.
+
   ```
   <.octicon name="accessibility-16" />
+  <.octicon name="accessibility-24" />
   <.octicon name="accessibility-inset-16" />
+  <.octicon name="accessibility-inset-24" />
+  <.octicon name="ai-model-16" />
+  <.octicon name="ai-model-24" />
   <.octicon name="alert-16" />
   <.octicon name="alert-24" />
   <.octicon name="alert-fill-12" />
   <.octicon name="alert-fill-16" />
   <.octicon name="alert-fill-24" />
   <.octicon name="apps-16" />
+  <.octicon name="apps-24" />
   <.octicon name="archive-16" />
   <.octicon name="archive-24" />
   <.octicon name="arrow-both-16" />
@@ -61,8 +68,10 @@ defmodule PrimerLive.Octicons do
   <.octicon name="bookmark-16" />
   <.octicon name="bookmark-24" />
   <.octicon name="bookmark-fill-24" />
+  <.octicon name="bookmark-filled-16" />
   <.octicon name="bookmark-slash-16" />
   <.octicon name="bookmark-slash-24" />
+  <.octicon name="bookmark-slash-fill-16" />
   <.octicon name="bookmark-slash-fill-24" />
   <.octicon name="briefcase-16" />
   <.octicon name="briefcase-24" />
@@ -73,6 +82,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="bug-16" />
   <.octicon name="bug-24" />
   <.octicon name="cache-16" />
+  <.octicon name="cache-24" />
   <.octicon name="calendar-16" />
   <.octicon name="calendar-24" />
   <.octicon name="check-16" />
@@ -89,6 +99,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="chevron-down-12" />
   <.octicon name="chevron-down-16" />
   <.octicon name="chevron-down-24" />
+  <.octicon name="chevron-left-12" />
   <.octicon name="chevron-left-16" />
   <.octicon name="chevron-left-24" />
   <.octicon name="chevron-right-12" />
@@ -131,7 +142,6 @@ defmodule PrimerLive.Octicons do
   <.octicon name="comment-24" />
   <.octicon name="comment-discussion-16" />
   <.octicon name="comment-discussion-24" />
-  <.octicon name="commit-24" />
   <.octicon name="container-16" />
   <.octicon name="container-24" />
   <.octicon name="copilot-16" />
@@ -157,6 +167,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="desktop-download-16" />
   <.octicon name="desktop-download-24" />
   <.octicon name="device-camera-16" />
+  <.octicon name="device-camera-24" />
   <.octicon name="device-camera-video-16" />
   <.octicon name="device-camera-video-24" />
   <.octicon name="device-desktop-16" />
@@ -170,10 +181,15 @@ defmodule PrimerLive.Octicons do
   <.octicon name="diff-16" />
   <.octicon name="diff-24" />
   <.octicon name="diff-added-16" />
+  <.octicon name="diff-added-24" />
   <.octicon name="diff-ignored-16" />
+  <.octicon name="diff-ignored-24" />
   <.octicon name="diff-modified-16" />
+  <.octicon name="diff-modified-24" />
   <.octicon name="diff-removed-16" />
+  <.octicon name="diff-removed-24" />
   <.octicon name="diff-renamed-16" />
+  <.octicon name="diff-renamed-24" />
   <.octicon name="discussion-closed-16" />
   <.octicon name="discussion-closed-24" />
   <.octicon name="discussion-duplicate-16" />
@@ -189,6 +205,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="duplicate-16" />
   <.octicon name="duplicate-24" />
   <.octicon name="ellipsis-16" />
+  <.octicon name="ellipsis-24" />
   <.octicon name="eye-16" />
   <.octicon name="eye-24" />
   <.octicon name="eye-closed-16" />
@@ -196,8 +213,17 @@ defmodule PrimerLive.Octicons do
   <.octicon name="feed-discussion-16" />
   <.octicon name="feed-forked-16" />
   <.octicon name="feed-heart-16" />
+  <.octicon name="feed-issue-closed-16" />
+  <.octicon name="feed-issue-draft-16" />
+  <.octicon name="feed-issue-open-16" />
+  <.octicon name="feed-issue-reopen-16" />
   <.octicon name="feed-merged-16" />
   <.octicon name="feed-person-16" />
+  <.octicon name="feed-plus-16" />
+  <.octicon name="feed-public-16" />
+  <.octicon name="feed-pull-request-closed-16" />
+  <.octicon name="feed-pull-request-draft-16" />
+  <.octicon name="feed-pull-request-open-16" />
   <.octicon name="feed-repo-16" />
   <.octicon name="feed-rocket-16" />
   <.octicon name="feed-star-16" />
@@ -206,7 +232,9 @@ defmodule PrimerLive.Octicons do
   <.octicon name="file-16" />
   <.octicon name="file-24" />
   <.octicon name="file-added-16" />
+  <.octicon name="file-added-24" />
   <.octicon name="file-badge-16" />
+  <.octicon name="file-badge-24" />
   <.octicon name="file-binary-16" />
   <.octicon name="file-binary-24" />
   <.octicon name="file-code-16" />
@@ -218,11 +246,15 @@ defmodule PrimerLive.Octicons do
   <.octicon name="file-directory-fill-16" />
   <.octicon name="file-directory-fill-24" />
   <.octicon name="file-directory-open-fill-16" />
+  <.octicon name="file-directory-open-fill-24" />
   <.octicon name="file-directory-symlink-16" />
   <.octicon name="file-directory-symlink-24" />
+  <.octicon name="file-media-16" />
   <.octicon name="file-media-24" />
   <.octicon name="file-moved-16" />
+  <.octicon name="file-moved-24" />
   <.octicon name="file-removed-16" />
+  <.octicon name="file-removed-24" />
   <.octicon name="file-submodule-16" />
   <.octicon name="file-submodule-24" />
   <.octicon name="file-symlink-file-16" />
@@ -231,7 +263,10 @@ defmodule PrimerLive.Octicons do
   <.octicon name="file-zip-24" />
   <.octicon name="filter-16" />
   <.octicon name="filter-24" />
+  <.octicon name="filter-remove-16" />
+  <.octicon name="filter-remove-24" />
   <.octicon name="fiscal-host-16" />
+  <.octicon name="fiscal-host-24" />
   <.octicon name="flame-16" />
   <.octicon name="flame-24" />
   <.octicon name="fold-16" />
@@ -280,6 +315,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="history-24" />
   <.octicon name="home-16" />
   <.octicon name="home-24" />
+  <.octicon name="home-fill-16" />
   <.octicon name="home-fill-24" />
   <.octicon name="horizontal-rule-16" />
   <.octicon name="horizontal-rule-24" />
@@ -288,6 +324,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="hubot-16" />
   <.octicon name="hubot-24" />
   <.octicon name="id-badge-16" />
+  <.octicon name="id-badge-24" />
   <.octicon name="image-16" />
   <.octicon name="image-24" />
   <.octicon name="inbox-16" />
@@ -317,6 +354,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="key-16" />
   <.octicon name="key-24" />
   <.octicon name="key-asterisk-16" />
+  <.octicon name="key-asterisk-24" />
   <.octicon name="law-16" />
   <.octicon name="law-24" />
   <.octicon name="light-bulb-16" />
@@ -336,16 +374,21 @@ defmodule PrimerLive.Octicons do
   <.octicon name="log-16" />
   <.octicon name="log-24" />
   <.octicon name="logo-gist-16" />
+  <.octicon name="logo-gist-24" />
   <.octicon name="logo-github-16" />
+  <.octicon name="logo-github-24" />
   <.octicon name="mail-16" />
   <.octicon name="mail-24" />
   <.octicon name="mark-github-16" />
+  <.octicon name="mark-github-24" />
   <.octicon name="markdown-16" />
+  <.octicon name="markdown-24" />
   <.octicon name="megaphone-16" />
   <.octicon name="megaphone-24" />
   <.octicon name="mention-16" />
   <.octicon name="mention-24" />
   <.octicon name="meter-16" />
+  <.octicon name="meter-24" />
   <.octicon name="milestone-16" />
   <.octicon name="milestone-24" />
   <.octicon name="mirror-16" />
@@ -384,6 +427,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="package-dependents-16" />
   <.octicon name="package-dependents-24" />
   <.octicon name="paintbrush-16" />
+  <.octicon name="paintbrush-24" />
   <.octicon name="paper-airplane-16" />
   <.octicon name="paper-airplane-24" />
   <.octicon name="paperclip-16" />
@@ -433,6 +477,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="read-16" />
   <.octicon name="read-24" />
   <.octicon name="redo-16" />
+  <.octicon name="redo-24" />
   <.octicon name="rel-file-path-16" />
   <.octicon name="rel-file-path-24" />
   <.octicon name="reply-16" />
@@ -441,6 +486,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="repo-24" />
   <.octicon name="repo-clone-16" />
   <.octicon name="repo-clone-24" />
+  <.octicon name="repo-delete-24" />
   <.octicon name="repo-deleted-16" />
   <.octicon name="repo-forked-16" />
   <.octicon name="repo-forked-24" />
@@ -499,6 +545,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="skip-fill-16" />
   <.octicon name="skip-fill-24" />
   <.octicon name="sliders-16" />
+  <.octicon name="sliders-24" />
   <.octicon name="smiley-16" />
   <.octicon name="smiley-24" />
   <.octicon name="sort-asc-16" />
@@ -506,6 +553,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="sort-desc-16" />
   <.octicon name="sort-desc-24" />
   <.octicon name="sparkle-fill-16" />
+  <.octicon name="sparkle-fill-24" />
   <.octicon name="sponsor-tiers-16" />
   <.octicon name="sponsor-tiers-24" />
   <.octicon name="square-16" />
@@ -530,8 +578,10 @@ defmodule PrimerLive.Octicons do
   <.octicon name="sun-24" />
   <.octicon name="sync-16" />
   <.octicon name="sync-24" />
+  <.octicon name="tab-16" />
   <.octicon name="tab-24" />
   <.octicon name="tab-external-16" />
+  <.octicon name="tab-external-24" />
   <.octicon name="table-16" />
   <.octicon name="table-24" />
   <.octicon name="tag-16" />
@@ -545,6 +595,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="terminal-16" />
   <.octicon name="terminal-24" />
   <.octicon name="three-bars-16" />
+  <.octicon name="three-bars-24" />
   <.octicon name="thumbsdown-16" />
   <.octicon name="thumbsdown-24" />
   <.octicon name="thumbsup-16" />
@@ -570,6 +621,7 @@ defmodule PrimerLive.Octicons do
   <.octicon name="typography-16" />
   <.octicon name="typography-24" />
   <.octicon name="undo-16" />
+  <.octicon name="undo-24" />
   <.octicon name="unfold-16" />
   <.octicon name="unfold-24" />
   <.octicon name="unlink-16" />
@@ -626,6 +678,18 @@ defmodule PrimerLive.Octicons do
         <path d="M9.923 5.302c.063.063.122.129.178.198H14A.75.75 0 0 1 14 7h-3.3l.578 5.163.362 2.997a.75.75 0 0 1-1.49.18L9.868 13H6.132l-.282 2.34a.75.75 0 0 1-1.49-.18l.362-2.997L5.3 7H2a.75.75 0 0 1 0-1.5h3.9a2.54 2.54 0 0 1 .176-.198 3 3 0 1 1 3.847 0ZM9.2 7.073h-.001a1.206 1.206 0 0 0-2.398 0L6.305 11.5h3.39ZM9.5 3a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 9.5 3Z" />
       </svg>
       """,
+      "accessibility-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M13.974 8.114a3.573 3.573 0 1 0-3.947 0c-.302.21-.57.467-.79.762H3.708a.75.75 0 1 0 0 1.5h4.885a2.93 2.93 0 0 0-.026.188l-.814 7.267-.499 4.142a.75.75 0 1 0 1.49.18l.42-3.486h5.67l.42 3.485a.75.75 0 0 0 1.49-.18l-.5-4.142-.813-7.266a3.502 3.502 0 0 0-.026-.188h4.885a.75.75 0 1 0 0-1.5h-5.527a3.466 3.466 0 0 0-.79-.762Zm.099-2.979a2.073 2.073 0 1 1-4.146 0 2.073 2.073 0 0 1 4.146 0Zm-.131 5.596.72 6.436H9.338l.72-6.436a1.954 1.954 0 0 1 3.884 0Z" />
+      </svg>
+      """,
       "accessibility-inset-16" => ~H"""
       <svg
         class={@class}
@@ -635,7 +699,43 @@ defmodule PrimerLive.Octicons do
         height="16"
         viewBox="0 0 16 16"
       >
-        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0Zm2 4a2 2 0 1 0-2.95 1.76 1.87 1.87 0 0 0-.32.24H3.75a.75.75 0 0 0 0 1.5h2.363l-.607 5.67a.75.75 0 1 0 1.49.16l.25-2.33h1.508l.25 2.33a.75.75 0 0 0 1.492-.16L9.888 7.5h2.362a.75.75 0 0 0 0-1.5H9.27a1.98 1.98 0 0 0-.32-.24A2 2 0 0 0 10 4Z" />
+        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM3.75 6a.75.75 0 0 0 0 1.5h2.409a1.9 1.9 0 0 0-.025.151l-.307 2.508-.323 3.011a.75.75 0 0 0 1.492.16l.25-2.33h1.509l.25 2.33a.748.748 0 0 0 1.199.552.75.75 0 0 0 .291-.712l-.32-3-.309-2.519a1.9 1.9 0 0 0-.025-.151h2.409a.75.75 0 0 0 0-1.5h-8.5ZM8 6a2 2 0 1 0 .001-3.999A2 2 0 0 0 8 6Z" />
+      </svg>
+      """,
+      "accessibility-inset-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0Zm2.5 6.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM12 9h6.375a.75.75 0 0 1 0 1.5h-4.028l.542 4.42.482 4.5a.75.75 0 1 1-1.492.16l-.41-3.83H10.53l-.41 3.83a.75.75 0 1 1-1.492-.16l.484-4.511.54-4.409H5.625a.75.75 0 0 1 0-1.5H12Z" />
+      </svg>
+      """,
+      "ai-model-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M10.628 7.25a2.25 2.25 0 1 1 0 1.5H8.622a2.25 2.25 0 0 1-2.513 1.466L5.03 12.124a2.25 2.25 0 1 1-1.262-.814l1.035-1.832A2.245 2.245 0 0 1 4.25 8c0-.566.209-1.082.553-1.478L3.768 4.69a2.25 2.25 0 1 1 1.262-.814l1.079 1.908A2.25 2.25 0 0 1 8.622 7.25ZM2.5 2.5a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Zm4 4.75a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm6.25 0a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm-9.5 5.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Z" />
+      </svg>
+      """,
+      "ai-model-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M19.375 8.5a3.25 3.25 0 1 1-3.163 4h-3a3.252 3.252 0 0 1-4.443 2.509L7.214 17.76a3.25 3.25 0 1 1-1.342-.674l1.672-2.957A3.238 3.238 0 0 1 6.75 12c0-.907.371-1.727.97-2.316L6.117 6.846A3.253 3.253 0 0 1 1.875 3.75a3.25 3.25 0 1 1 5.526 2.32l1.603 2.836A3.25 3.25 0 0 1 13.093 11h3.119a3.252 3.252 0 0 1 3.163-2.5ZM10 10.25a1.75 1.75 0 1 0-.001 3.499A1.75 1.75 0 0 0 10 10.25ZM5.125 2a1.75 1.75 0 1 0 0 3.5 1.75 1.75 0 0 0 0-3.5Zm12.5 9.75a1.75 1.75 0 1 0 3.5 0 1.75 1.75 0 0 0-3.5 0Zm-14.25 8.5a1.75 1.75 0 1 0 3.501-.001 1.75 1.75 0 0 0-3.501.001Z" />
       </svg>
       """,
       "alert-16" => ~H"""
@@ -708,6 +808,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M1.5 3.25c0-.966.784-1.75 1.75-1.75h2.5c.966 0 1.75.784 1.75 1.75v2.5A1.75 1.75 0 0 1 5.75 7.5h-2.5A1.75 1.75 0 0 1 1.5 5.75Zm7 0c0-.966.784-1.75 1.75-1.75h2.5c.966 0 1.75.784 1.75 1.75v2.5a1.75 1.75 0 0 1-1.75 1.75h-2.5A1.75 1.75 0 0 1 8.5 5.75Zm-7 7c0-.966.784-1.75 1.75-1.75h2.5c.966 0 1.75.784 1.75 1.75v2.5a1.75 1.75 0 0 1-1.75 1.75h-2.5a1.75 1.75 0 0 1-1.75-1.75Zm7 0c0-.966.784-1.75 1.75-1.75h2.5c.966 0 1.75.784 1.75 1.75v2.5a1.75 1.75 0 0 1-1.75 1.75h-2.5a1.75 1.75 0 0 1-1.75-1.75ZM3.25 3a.25.25 0 0 0-.25.25v2.5c0 .138.112.25.25.25h2.5A.25.25 0 0 0 6 5.75v-2.5A.25.25 0 0 0 5.75 3Zm7 0a.25.25 0 0 0-.25.25v2.5c0 .138.112.25.25.25h2.5a.25.25 0 0 0 .25-.25v-2.5a.25.25 0 0 0-.25-.25Zm-7 7a.25.25 0 0 0-.25.25v2.5c0 .138.112.25.25.25h2.5a.25.25 0 0 0 .25-.25v-2.5a.25.25 0 0 0-.25-.25Zm7 0a.25.25 0 0 0-.25.25v2.5c0 .138.112.25.25.25h2.5a.25.25 0 0 0 .25-.25v-2.5a.25.25 0 0 0-.25-.25Z" />
+      </svg>
+      """,
+      "apps-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M5.5 2.75A2.75 2.75 0 0 0 2.75 5.5v3a2.75 2.75 0 0 0 2.75 2.75h3a2.75 2.75 0 0 0 2.75-2.75v-3A2.75 2.75 0 0 0 8.5 2.75h-3ZM4.25 5.5c0-.69.56-1.25 1.25-1.25h3c.69 0 1.25.56 1.25 1.25v3c0 .69-.56 1.25-1.25 1.25h-3c-.69 0-1.25-.56-1.25-1.25v-3Zm1.25 7.25a2.75 2.75 0 0 0-2.75 2.75v3a2.75 2.75 0 0 0 2.75 2.75h3a2.75 2.75 0 0 0 2.75-2.75v-3a2.75 2.75 0 0 0-2.75-2.75h-3ZM4.25 15.5c0-.69.56-1.25 1.25-1.25h3c.69 0 1.25.56 1.25 1.25v3c0 .69-.56 1.25-1.25 1.25h-3c-.69 0-1.25-.56-1.25-1.25v-3Zm8.5-10a2.75 2.75 0 0 1 2.75-2.75h3a2.75 2.75 0 0 1 2.75 2.75v3a2.75 2.75 0 0 1-2.75 2.75h-3a2.75 2.75 0 0 1-2.75-2.75v-3Zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v3c0 .69.56 1.25 1.25 1.25h3c.69 0 1.25-.56 1.25-1.25v-3c0-.69-.56-1.25-1.25-1.25h-3Zm0 8.5a2.75 2.75 0 0 0-2.75 2.75v3a2.75 2.75 0 0 0 2.75 2.75h3a2.75 2.75 0 0 0 2.75-2.75v-3a2.75 2.75 0 0 0-2.75-2.75h-3Zm-1.25 2.75c0-.69.56-1.25 1.25-1.25h3c.69 0 1.25.56 1.25 1.25v3c0 .69-.56 1.25-1.25 1.25h-3c-.69 0-1.25-.56-1.25-1.25v-3Z" />
       </svg>
       """,
       "archive-16" => ~H"""
@@ -1178,6 +1290,18 @@ defmodule PrimerLive.Octicons do
         <path d="M6.69 2h10.56c.966 0 1.75.784 1.75 1.75v17.5a.75.75 0 0 1-1.218.585L12 17.21l-5.781 4.626A.75.75 0 0 1 5 21.253L4.94 3.756A1.748 1.748 0 0 1 6.69 2Z" />
       </svg>
       """,
+      "bookmark-filled-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 0 1-1.227.579L8 11.722l-3.773 3.107A.75.75 0 0 1 3 14.25V2.75Z" />
+      </svg>
+      """,
       "bookmark-slash-16" => ~H"""
       <svg
         class={@class}
@@ -1200,6 +1324,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 24 24"
       >
         <path d="M1.565 2.018v-.001l21.75 15.75a.75.75 0 1 1-.88 1.215L19 16.495v4.764a.748.748 0 0 1-1.219.584L12 17.21l-5.781 4.634A.75.75 0 0 1 5 21.259V6.357L.685 3.232a.75.75 0 0 1 .88-1.214ZM17.5 15.408l-11-7.965v12.254l5.031-4.032a.749.749 0 0 1 .938 0l5.031 4.032ZM7.25 2a.75.75 0 0 0 0 1.5h10a.25.25 0 0 1 .25.25v6.5a.75.75 0 0 0 1.5 0v-6.5A1.75 1.75 0 0 0 17.25 2h-10Z" />
+      </svg>
+      """,
+      "bookmark-slash-fill-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M1.19 1.143a.75.75 0 1 0-.88 1.215L3 4.305v9.945a.75.75 0 0 0 1.206.596L8 11.944l3.794 2.902A.75.75 0 0 0 13 14.25v-2.703l1.81 1.31a.75.75 0 1 0 .88-1.214l-2.994-2.168a1.09 1.09 0 0 0-.014-.01L4.196 3.32a.712.712 0 0 0-.014-.01L1.19 1.143Zm2.934.203A.5.5 0 0 1 4.6 1h7.233C12.478 1 13 1.522 13 2.167v5.05a.5.5 0 0 1-.793.405l-7.9-5.717a.5.5 0 0 1-.183-.559Z" />
       </svg>
       """,
       "bookmark-slash-fill-24" => ~H"""
@@ -1320,6 +1456,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M2.5 5.724V8c0 .248.238.7 1.169 1.159.874.43 2.144.745 3.62.822a.75.75 0 1 1-.078 1.498c-1.622-.085-3.102-.432-4.204-.975a5.565 5.565 0 0 1-.507-.28V12.5c0 .133.058.318.282.551.227.237.591.483 1.101.707 1.015.447 2.47.742 4.117.742.406 0 .802-.018 1.183-.052a.751.751 0 1 1 .134 1.494C8.89 15.98 8.45 16 8 16c-1.805 0-3.475-.32-4.721-.869-.623-.274-1.173-.619-1.579-1.041-.408-.425-.7-.964-.7-1.59v-9c0-.626.292-1.165.7-1.591.406-.42.956-.766 1.579-1.04C4.525.32 6.195 0 8 0c1.806 0 3.476.32 4.721.869.623.274 1.173.619 1.579 1.041.408.425.7.964.7 1.59 0 .626-.292 1.165-.7 1.591-.406.42-.956.766-1.578 1.04C11.475 6.68 9.805 7 8 7c-1.805 0-3.475-.32-4.721-.869a6.15 6.15 0 0 1-.779-.407Zm0-2.224c0 .133.058.318.282.551.227.237.591.483 1.101.707C4.898 5.205 6.353 5.5 8 5.5c1.646 0 3.101-.295 4.118-.742.508-.224.873-.471 1.1-.708.224-.232.282-.417.282-.55 0-.133-.058-.318-.282-.551-.227-.237-.591-.483-1.101-.707C11.102 1.795 9.647 1.5 8 1.5c-1.646 0-3.101.295-4.118.742-.508.224-.873.471-1.1.708-.224.232-.282.417-.282.55Z" /><path d="M14.49 7.582a.375.375 0 0 0-.66-.313l-3.625 4.625a.375.375 0 0 0 .295.606h2.127l-.619 2.922a.375.375 0 0 0 .666.304l3.125-4.125A.375.375 0 0 0 15.5 11h-1.778l.769-3.418Z" />
+      </svg>
+      """,
+      "cache-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M5.505 9.117a7.723 7.723 0 0 1-1.497-.852V12c0 .524.473 1.23 1.8 1.883 1.267.625 3.085 1.071 5.18 1.182a.76.76 0 0 1-.08 1.517c-2.242-.118-4.274-.598-5.772-1.336a7.264 7.264 0 0 1-1.128-.68V18.3c0 .282.127.61.476.973.352.366.899.732 1.633 1.055 1.466.645 3.545 1.063 5.881 1.063.577 0 1.14-.025 1.683-.074a.76.76 0 0 1 .135 1.513 20.47 20.47 0 0 1-1.818.08c-2.496 0-4.792-.443-6.493-1.192-.849-.374-1.584-.838-2.117-1.393-.536-.558-.9-1.244-.9-2.025V5.7c0-.782.364-1.467.9-2.025.533-.555 1.268-1.02 2.117-1.393 1.7-.749 3.997-1.193 6.493-1.193 2.497 0 4.793.444 6.493 1.193.85.373 1.585.838 2.117 1.393.537.558.9 1.243.9 2.025 0 .781-.363 1.467-.9 2.025-.532.554-1.267 1.02-2.117 1.393-1.7.748-3.996 1.192-6.493 1.192-2.496 0-4.792-.444-6.493-1.192Zm-1.021-4.39c-.35.362-.476.69-.476.972 0 .282.127.61.476.972.352.367.899.732 1.633 1.055 1.466.646 3.545 1.064 5.881 1.064 2.337 0 4.415-.418 5.882-1.064.734-.323 1.28-.688 1.633-1.055.35-.363.476-.69.476-.972 0-.282-.127-.61-.476-.973-.353-.367-.9-.732-1.633-1.055-1.467-.645-3.545-1.063-5.882-1.063-2.336 0-4.415.418-5.88 1.063-.735.323-1.282.688-1.634 1.055Z" /><path d="M21.425 11.11a.5.5 0 0 0-.881-.418l-5.438 6.937a.5.5 0 0 0 .394.808h3.268l-.945 4.46a.5.5 0 0 0 .888.405l4.688-6.188a.5.5 0 0 0-.399-.802h-2.745l1.17-5.202Z" />
       </svg>
       """,
       "calendar-16" => ~H"""
@@ -1512,6 +1660,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 24 24"
       >
         <path d="M5.22 8.22a.749.749 0 0 0 0 1.06l6.25 6.25a.749.749 0 0 0 1.06 0l6.25-6.25a.749.749 0 1 0-1.06-1.06L12 13.939 6.28 8.22a.749.749 0 0 0-1.06 0Z" />
+      </svg>
+      """,
+      "chevron-left-12" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+        viewBox="0 0 12 12"
+      >
+        <path d="M3.587 6.025c0 .2.1.4.2.5l3.3 3.3c.3.3.8.3 1.1 0 .3-.3.3-.8 0-1.1l-2.7-2.7 2.7-2.7c.3-.3.3-.8 0-1.1-.3-.3-.8-.3-1.1 0l-3.2 3.2c-.2.2-.3.4-.3.6Z" />
       </svg>
       """,
       "chevron-left-16" => ~H"""
@@ -2018,18 +2178,6 @@ defmodule PrimerLive.Octicons do
         <path d="M1.75 1h12.5c.966 0 1.75.784 1.75 1.75v9.5A1.75 1.75 0 0 1 14.25 14H8.061l-2.574 2.573A1.458 1.458 0 0 1 3 15.543V14H1.75A1.75 1.75 0 0 1 0 12.25v-9.5C0 1.784.784 1 1.75 1ZM1.5 2.75v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25Z" /><path d="M22.5 8.75a.25.25 0 0 0-.25-.25h-3.5a.75.75 0 0 1 0-1.5h3.5c.966 0 1.75.784 1.75 1.75v9.5A1.75 1.75 0 0 1 22.25 20H21v1.543a1.457 1.457 0 0 1-2.487 1.03L15.939 20H10.75A1.75 1.75 0 0 1 9 18.25v-1.465a.75.75 0 0 1 1.5 0v1.465c0 .138.112.25.25.25h5.5a.75.75 0 0 1 .53.22l2.72 2.72v-2.19a.75.75 0 0 1 .75-.75h2a.25.25 0 0 0 .25-.25v-9.5Z" />
       </svg>
       """,
-      "commit-24" => ~H"""
-      <svg
-        class={@class}
-        {@rest}
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-      >
-        <path d="M0 11.75A.75.75 0 0 1 .75 11h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75Zm17.5 0a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75Z" /><path d="M12 17.75a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm0-1.5a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z" />
-      </svg>
-      """,
       "container-16" => ~H"""
       <svg
         class={@class}
@@ -2330,6 +2478,18 @@ defmodule PrimerLive.Octicons do
         <path d="M15 3c.55 0 1 .45 1 1v9c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1 0-.55.45-1 1-1h4c.55 0 1 .45 1 1Zm-4.5 9c1.94 0 3.5-1.56 3.5-3.5S12.44 5 10.5 5 7 6.56 7 8.5 8.56 12 10.5 12ZM13 8.5c0 1.38-1.13 2.5-2.5 2.5S8 9.87 8 8.5 9.13 6 10.5 6 13 7.13 13 8.5ZM6 5V4H2v1Z" />
       </svg>
       """,
+      "device-camera-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M21.333 5.333c.734 0 1.334.6 1.334 1.334v12c0 .733-.6 1.333-1.334 1.333H2.667c-.734 0-1.334-.6-1.334-1.333v-12c0-.734.6-1.334 1.334-1.334C2.667 4.6 3.267 4 4 4h5.333c.734 0 1.334.6 1.334 1.333h10.666Zm-6 12A4.655 4.655 0 0 0 20 12.667 4.655 4.655 0 0 0 15.333 8a4.655 4.655 0 0 0-4.666 4.667 4.655 4.655 0 0 0 4.666 4.666Zm3.334-4.666A3.343 3.343 0 0 1 15.333 16 3.352 3.352 0 0 1 12 12.667a3.352 3.352 0 0 1 3.333-3.334 3.352 3.352 0 0 1 3.334 3.334ZM9.333 8V6.667H4V8h5.333Z" />
+      </svg>
+      """,
       "device-camera-video-16" => ~H"""
       <svg
         class={@class}
@@ -2486,6 +2646,18 @@ defmodule PrimerLive.Octicons do
         <path d="M2.75 1h10.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 13.25 15H2.75A1.75 1.75 0 0 1 1 13.25V2.75C1 1.784 1.784 1 2.75 1Zm10.5 1.5H2.75a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25ZM8 4a.75.75 0 0 1 .75.75v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5A.75.75 0 0 1 8 4Z" />
       </svg>
       """,
+      "diff-added-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M12.75 7a.75.75 0 0 0-1.5 0v4.25H7a.75.75 0 0 0 0 1.5h4.25V17a.75.75 0 0 0 1.5 0v-4.25H17a.75.75 0 0 0 0-1.5h-4.25V7Z" /><path d="M3.75 2A1.75 1.75 0 0 0 2 3.75v16.5c0 .966.784 1.75 1.75 1.75h16.5A1.75 1.75 0 0 0 22 20.25V3.75A1.75 1.75 0 0 0 20.25 2H3.75ZM3.5 3.75a.25.25 0 0 1 .25-.25h16.5a.25.25 0 0 1 .25.25v16.5a.25.25 0 0 1-.25.25H3.75a.25.25 0 0 1-.25-.25V3.75Z" />
+      </svg>
+      """,
       "diff-ignored-16" => ~H"""
       <svg
         class={@class}
@@ -2496,6 +2668,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M13.25 1c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 13.25 15H2.75A1.75 1.75 0 0 1 1 13.25V2.75C1 1.784 1.784 1 2.75 1ZM2.75 2.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25Zm8.53 3.28-5.5 5.5a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734l5.5-5.5a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Z" />
+      </svg>
+      """,
+      "diff-ignored-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M3.75 2A1.75 1.75 0 0 0 2 3.75v16.5c0 .966.784 1.75 1.75 1.75h16.5A1.75 1.75 0 0 0 22 20.25V3.75A1.75 1.75 0 0 0 20.25 2H3.75ZM3.5 3.75a.25.25 0 0 1 .25-.25h16.5a.25.25 0 0 1 .25.25v16.5a.25.25 0 0 1-.25.25H3.75a.25.25 0 0 1-.25-.25V3.75Zm4.737 11.233a.75.75 0 0 0 1.061 1.06l7.027-7.026a.75.75 0 0 0-1.06-1.06l-7.028 7.026Z" />
       </svg>
       """,
       "diff-modified-16" => ~H"""
@@ -2510,6 +2694,18 @@ defmodule PrimerLive.Octicons do
         <path d="M13.25 1c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 13.25 15H2.75A1.75 1.75 0 0 1 1 13.25V2.75C1 1.784 1.784 1 2.75 1ZM2.75 2.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25ZM8 10a2 2 0 1 1-.001-3.999A2 2 0 0 1 8 10Z" />
       </svg>
       """,
+      "diff-modified-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M2 3.75C2 2.784 2.784 2 3.75 2h16.5c.966 0 1.75.784 1.75 1.75v16.5A1.75 1.75 0 0 1 20.25 22H3.75A1.75 1.75 0 0 1 2 20.25V3.75Zm1.75-.25a.25.25 0 0 0-.25.25v16.5c0 .138.112.25.25.25h16.5a.25.25 0 0 0 .25-.25V3.75a.25.25 0 0 0-.25-.25H3.75Z" /><path d="M14.5 12a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
+      </svg>
+      """,
       "diff-removed-16" => ~H"""
       <svg
         class={@class}
@@ -2522,6 +2718,18 @@ defmodule PrimerLive.Octicons do
         <path d="M13.25 1c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 13.25 15H2.75A1.75 1.75 0 0 1 1 13.25V2.75C1 1.784 1.784 1 2.75 1ZM2.75 2.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25Zm8.5 6.25h-6.5a.75.75 0 0 1 0-1.5h6.5a.75.75 0 0 1 0 1.5Z" />
       </svg>
       """,
+      "diff-removed-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M7.313 11.25a.75.75 0 0 0 0 1.5h9.937a.75.75 0 0 0 0-1.5H7.312Z" /><path d="M3.75 2A1.75 1.75 0 0 0 2 3.75v16.5c0 .966.784 1.75 1.75 1.75h16.5A1.75 1.75 0 0 0 22 20.25V3.75A1.75 1.75 0 0 0 20.25 2H3.75ZM3.5 3.75a.25.25 0 0 1 .25-.25h16.5a.25.25 0 0 1 .25.25v16.5a.25.25 0 0 1-.25.25H3.75a.25.25 0 0 1-.25-.25V3.75Z" />
+      </svg>
+      """,
       "diff-renamed-16" => ~H"""
       <svg
         class={@class}
@@ -2532,6 +2740,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M13.25 1c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 13.25 15H2.75A1.75 1.75 0 0 1 1 13.25V2.75C1 1.784 1.784 1 2.75 1ZM2.75 2.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25Zm9.03 6.03-3.25 3.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734l1.97-1.97H4.75a.75.75 0 0 1 0-1.5h4.69L7.47 5.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l3.25 3.25a.75.75 0 0 1 0 1.06Z" />
+      </svg>
+      """,
+      "diff-renamed-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M13.75 12.75v3.347a.25.25 0 0 0 .436.166l3.672-4.096a.25.25 0 0 0 0-.334l-3.672-4.096a.25.25 0 0 0-.436.166v3.347h-7a.75.75 0 0 0 0 1.5h7Z" /><path d="M2 3.75C2 2.784 2.784 2 3.75 2h16.5c.966 0 1.75.784 1.75 1.75v16.5A1.75 1.75 0 0 1 20.25 22H3.75A1.75 1.75 0 0 1 2 20.25V3.75Zm1.75-.25a.25.25 0 0 0-.25.25v16.5c0 .138.112.25.25.25h16.5a.25.25 0 0 0 .25-.25V3.75a.25.25 0 0 0-.25-.25H3.75Z" />
       </svg>
       """,
       "discussion-closed-16" => ~H"""
@@ -2714,6 +2934,18 @@ defmodule PrimerLive.Octicons do
         <path d="M0 5.75C0 4.784.784 4 1.75 4h12.5c.966 0 1.75.784 1.75 1.75v4.5A1.75 1.75 0 0 1 14.25 12H1.75A1.75 1.75 0 0 1 0 10.25ZM12 7a1 1 0 1 0 0 2 1 1 0 0 0 0-2ZM7 8a1 1 0 1 0 2 0 1 1 0 0 0-2 0ZM4 7a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z" />
       </svg>
       """,
+      "ellipsis-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M22 9.75v5.5A1.75 1.75 0 0 1 20.25 17H3.75A1.75 1.75 0 0 1 2 15.25v-5.5C2 8.784 2.784 8 3.75 8h16.5c.966 0 1.75.784 1.75 1.75Zm-8.75 2.75a1.25 1.25 0 1 0-2.5 0 1.25 1.25 0 0 0 2.5 0Zm-6.5 1.25a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5Zm10.5 0a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5Z" />
+      </svg>
+      """,
       "eye-16" => ~H"""
       <svg
         class={@class}
@@ -2798,6 +3030,54 @@ defmodule PrimerLive.Octicons do
         <path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm2.33-11.5c-1.22 0-1.83.5-2.323 1.136C7.513 5 6.903 4.5 5.682 4.5c-1.028 0-2.169.784-2.169 2.5 0 1.499 1.493 3.433 3.246 4.517.52.321.89.479 1.248.484.357-.005.728-.163 1.247-.484C11.007 10.433 12.5 8.5 12.5 7c0-1.716-1.14-2.5-2.17-2.5Z" />
       </svg>
       """,
+      "feed-issue-closed-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0Zm3.457 6.957a.999.999 0 1 0-1.414-1.414L7.25 8.336 5.957 7.043a.999.999 0 1 0-1.414 1.414l2 2a.999.999 0 0 0 1.414 0Z" />
+      </svg>
+      """,
+      "feed-issue-draft-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM3.802 7.334a.75.75 0 0 0-1.482-.233 5.8 5.8 0 0 0 0 1.798.749.749 0 1 0 1.482-.233 4.296 4.296 0 0 1 0-1.332ZM8 2.25a5.8 5.8 0 0 0-.899.07.749.749 0 1 0 .233 1.482 4.296 4.296 0 0 1 1.332 0 .75.75 0 0 0 .233-1.482A5.8 5.8 0 0 0 8 2.25Zm-.666 9.948a.75.75 0 0 0-.233 1.482 5.8 5.8 0 0 0 1.798 0 .749.749 0 1 0-.233-1.482 4.296 4.296 0 0 1-1.332 0Zm6.346-5.097a.749.749 0 1 0-1.482.233 4.296 4.296 0 0 1 0 1.332.75.75 0 0 0 1.482.233 5.8 5.8 0 0 0 0-1.798Zm-8.178-2.54a.75.75 0 0 0-.882-1.213A5.77 5.77 0 0 0 3.348 4.62a.749.749 0 1 0 1.213.882c.263-.361.58-.678.941-.941Zm-.941 5.937a.75.75 0 0 0-1.213.882 5.77 5.77 0 0 0 1.272 1.272.749.749 0 1 0 .882-1.213 4.285 4.285 0 0 1-.941-.941Zm6.819-7.15a.749.749 0 1 0-.882 1.213c.36.263.679.58.941.941a.75.75 0 0 0 1.213-.882 5.77 5.77 0 0 0-1.272-1.272Zm1.272 8.032a.749.749 0 1 0-1.213-.882c-.262.36-.581.679-.941.941a.75.75 0 0 0 .882 1.213 5.77 5.77 0 0 0 1.272-1.272Z" />
+      </svg>
+      """,
+      "feed-issue-open-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M3.75 8a4.25 4.25 0 1 1 8.5 0 4.25 4.25 0 0 1-8.5 0ZM9.5 8a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 9.5 8Z" /><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-5.75a5.75 5.75 0 1 0 0 11.5 5.75 5.75 0 1 0 0-11.5Z" />
+      </svg>
+      """,
+      "feed-issue-reopen-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="17"
+        height="16"
+        viewBox="0 0 17 16"
+      >
+        <path d="M.5 8a8 8 0 1 1 16 0 8 8 0 0 1-16 0Zm3.427-4.323a.25.25 0 0 0-.427.177V6c0 .138.112.25.25.25h2.146a.25.25 0 0 0 .177-.427l-.524-.524a4.003 4.003 0 0 1 6.862 1.858.75.75 0 0 0 1.467-.314 5.502 5.502 0 0 0-9.39-2.605Zm9.573 8.469V10a.25.25 0 0 0-.25-.25h-2.146a.25.25 0 0 0-.177.427l.524.524a4.002 4.002 0 0 1-6.862-1.858.75.75 0 0 0-1.467.314 5.502 5.502 0 0 0 9.39 2.605l.561.561a.25.25 0 0 0 .427-.177ZM10 8a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 10 8Z" />
+      </svg>
+      """,
       "feed-merged-16" => ~H"""
       <svg
         class={@class}
@@ -2820,6 +3100,66 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm.847-8.145a2.502 2.502 0 1 0-1.694 0C5.471 8.261 4 9.775 4 11c0 .395.145.995 1 .995h6c.855 0 1-.6 1-.995 0-1.224-1.47-2.74-3.153-3.145Z" />
+      </svg>
+      """,
+      "feed-plus-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0Zm1.062 4.312a1 1 0 1 0-2 0v2.75h-2.75a1 1 0 0 0 0 2h2.75v2.75a1 1 0 1 0 2 0v-2.75h2.75a1 1 0 1 0 0-2h-2.75Z" />
+      </svg>
+      """,
+      "feed-public-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm4.5.25v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H7v-1.5a1.5 1.5 0 0 1 2.443-1.167.75.75 0 0 0 .943-1.166A3 3 0 0 0 5.5 5.75v1.5a1 1 0 0 0-1 1Z" />
+      </svg>
+      """,
+      "feed-pull-request-closed-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM5.5 12.25A1.75 1.75 0 0 0 6 8.822V6.928A1.752 1.752 0 0 0 5.5 3.5 1.75 1.75 0 0 0 5 6.928v1.894a1.752 1.752 0 0 0 .5 3.428Zm5-5a.5.5 0 0 0-.5.5v1.072a1.752 1.752 0 0 0 .5 3.428 1.75 1.75 0 0 0 .5-3.428V7.75a.5.5 0 0 0-.5-.5Zm1.255-2.763a.5.5 0 0 0-.707-.707l-.53.531-.531-.531a.5.5 0 0 0-.707.707l.531.531-.531.53a.5.5 0 0 0 .707.707l.531-.53.53.53a.5.5 0 0 0 .707-.707l-.53-.53Z" />
+      </svg>
+      """,
+      "feed-pull-request-draft-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm7.25 2.5c0-.793-.527-1.462-1.25-1.678V6.928A1.752 1.752 0 0 0 5.5 3.5 1.75 1.75 0 0 0 5 6.928v1.894a1.752 1.752 0 0 0 .5 3.428 1.75 1.75 0 0 0 1.75-1.75Zm3.25 1.75a1.75 1.75 0 1 0 .001-3.499 1.75 1.75 0 0 0-.001 3.499Zm0-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm.75-3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z" />
+      </svg>
+      """,
+      "feed-pull-request-open-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm6.75 2.5c0-.793-.527-1.462-1.25-1.678V6.928A1.752 1.752 0 0 0 5 3.5a1.75 1.75 0 0 0-.5 3.428v1.894A1.752 1.752 0 0 0 5 12.25a1.75 1.75 0 0 0 1.75-1.75Zm3.25-5h.25a.5.5 0 0 1 .5.5v2.822a1.752 1.752 0 0 0 .5 3.428 1.75 1.75 0 0 0 .5-3.428V6a1.5 1.5 0 0 0-1.5-1.5H10V3.129a.25.25 0 0 0-.427-.177L7.702 4.823a.25.25 0 0 0 0 .354l1.871 1.871A.25.25 0 0 0 10 6.871Z" />
       </svg>
       """,
       "feed-repo-16" => ~H"""
@@ -2918,6 +3258,18 @@ defmodule PrimerLive.Octicons do
         <path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V4.664a.25.25 0 0 0-.073-.177l-2.914-2.914a.25.25 0 0 0-.177-.073Zm4.48 3.758a.75.75 0 0 1 .755.745l.01 1.497h1.497a.75.75 0 0 1 0 1.5H9v1.507a.75.75 0 0 1-1.5 0V9.005l-1.502.01a.75.75 0 0 1-.01-1.5l1.507-.01-.01-1.492a.75.75 0 0 1 .745-.755Z" />
       </svg>
       """,
+      "file-added-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M12 8.25a.75.75 0 0 1 .75.75v2.25H15a.75.75 0 0 1 0 1.5h-2.25V15a.75.75 0 0 1-1.5 0v-2.25H9a.75.75 0 0 1 0-1.5h2.25V9a.75.75 0 0 1 .75-.75Z" /><path d="M3 3a2 2 0 0 1 2-2h9.982a2 2 0 0 1 1.414.586l4.018 4.018A2 2 0 0 1 21 7.018V21a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3Zm2-.5a.5.5 0 0 0-.5.5v18a.5.5 0 0 0 .5.5h14a.5.5 0 0 0 .5-.5V7.018a.5.5 0 0 0-.146-.354l-4.018-4.018a.5.5 0 0 0-.354-.146H5Z" />
+      </svg>
+      """,
       "file-badge-16" => ~H"""
       <svg
         class={@class}
@@ -2928,6 +3280,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M2.75 1.5a.25.25 0 0 0-.25.25v11.5c0 .138.112.25.25.25h3.5a.75.75 0 0 1 0 1.5h-3.5A1.75 1.75 0 0 1 1 13.25V1.75C1 .784 1.784 0 2.75 0h8a1.75 1.75 0 0 1 1.508.862.75.75 0 1 1-1.289.768.25.25 0 0 0-.219-.13h-8Z" /><path d="M8 7a3.999 3.999 0 0 1 7.605-1.733 4 4 0 0 1-1.115 4.863l.995 4.973a.75.75 0 0 1-.991.852l-2.409-.876a.248.248 0 0 0-.17 0l-2.409.876a.75.75 0 0 1-.991-.852l.994-4.973A3.994 3.994 0 0 1 8 7Zm4-2.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Zm0 6.5c-.373 0-.745-.051-1.104-.154l-.649 3.243 1.155-.42c.386-.14.81-.14 1.196 0l1.155.42-.649-3.243A4.004 4.004 0 0 1 12 11Z" />
+      </svg>
+      """,
+      "file-badge-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M4 2.5a.5.5 0 0 0-.5.5v18a.5.5 0 0 0 .5.5h6a.75.75 0 0 1 0 1.5H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10.982a2 2 0 0 1 1.414.586l.064.064.01.008.31.312a.75.75 0 0 1-1.06 1.06l-.078-.078-.004-.003-.093-.093c-.003-.003 0 0 0 0l-.21-.21a.5.5 0 0 0-.353-.146H4Z" /><path d="M18 6.25a4.25 4.25 0 1 0 0 8.5 4.25 4.25 0 0 0 0-8.5Zm-5.75 4.25a5.75 5.75 0 1 1 11.5 0 5.75 5.75 0 0 1-11.5 0Z" /><path d="m21.283 14.866 1.455 8a.75.75 0 0 1-1.002.836l-3.296-1.24a1.25 1.25 0 0 0-.88 0l-3.296 1.24a.75.75 0 0 1-1.002-.836l1.455-8 1.475.268-1.217 6.698 2.056-.774a2.75 2.75 0 0 1 1.938 0l2.056.774-1.217-6.698 1.475-.268Z" />
       </svg>
       """,
       "file-binary-16" => ~H"""
@@ -3062,6 +3426,18 @@ defmodule PrimerLive.Octicons do
         <path d="M.513 1.513A1.75 1.75 0 0 1 1.75 1h3.5c.55 0 1.07.26 1.4.7l.9 1.2a.25.25 0 0 0 .2.1H13a1 1 0 0 1 1 1v.5H2.75a.75.75 0 0 0 0 1.5h11.978a1 1 0 0 1 .994 1.117L15 13.25A1.75 1.75 0 0 1 13.25 15H1.75A1.75 1.75 0 0 1 0 13.25V2.75c0-.464.184-.91.513-1.237Z" />
       </svg>
       """,
+      "file-directory-open-fill-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M2 4.75C2 3.784 2.784 3 3.75 3h4.971c.58 0 1.12.286 1.447.765l1.404 2.063a.25.25 0 0 0 .207.11h6.224c.966 0 1.75.783 1.75 1.75v.117H5.408a.848.848 0 0 0 0 1.695h15.484a1 1 0 0 1 .995 1.102L21 19.25c-.106 1.05-.784 1.75-1.75 1.75H3.75A1.75 1.75 0 0 1 2 19.25V4.75Z" />
+      </svg>
+      """,
       "file-directory-symlink-16" => ~H"""
       <svg
         class={@class}
@@ -3084,6 +3460,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 24 24"
       >
         <path d="M2 4.75C2 3.784 2.784 3 3.75 3h4.971a1.75 1.75 0 0 1 1.447.765l1.404 2.063a.25.25 0 0 0 .207.11h8.471c.966 0 1.75.783 1.75 1.75V19.25A1.75 1.75 0 0 1 20.25 21H4.75a.75.75 0 0 1 0-1.5h15.5a.25.25 0 0 0 .25-.25V7.688a.25.25 0 0 0-.25-.25h-8.471a1.751 1.751 0 0 1-1.447-.766L8.928 4.609a.252.252 0 0 0-.207-.109H3.75a.25.25 0 0 0-.25.25v3.5a.75.75 0 0 1-1.5 0v-3.5Z" /><path d="m9.308 12.5-2.104-2.236a.75.75 0 1 1 1.092-1.028l3.294 3.5a.75.75 0 0 1 0 1.028l-3.294 3.5a.75.75 0 1 1-1.092-1.028L9.308 14H4.09a2.59 2.59 0 0 0-2.59 2.59v3.16a.75.75 0 0 1-1.5 0v-3.16a4.09 4.09 0 0 1 4.09-4.09h5.218Z" />
+      </svg>
+      """,
+      "file-media-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M16 13.25A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25V2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75ZM1.75 2.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h.94l.03-.03 6.077-6.078a1.75 1.75 0 0 1 2.412-.06L14.5 10.31V2.75a.25.25 0 0 0-.25-.25Zm12.5 11a.25.25 0 0 0 .25-.25v-.917l-4.298-3.889a.25.25 0 0 0-.344.009L4.81 13.5ZM7 6a2 2 0 1 1-3.999.001A2 2 0 0 1 7 6ZM5.5 6a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0Z" />
       </svg>
       """,
       "file-media-24" => ~H"""
@@ -3110,6 +3498,18 @@ defmodule PrimerLive.Octicons do
         <path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-3.5a.75.75 0 0 1 0-1.5h3.5a.25.25 0 0 0 .25-.25V4.664a.25.25 0 0 0-.073-.177l-2.914-2.914a.25.25 0 0 0-.177-.073H3.75a.25.25 0 0 0-.25.25v6.5a.75.75 0 0 1-1.5 0v-6.5Z" /><path d="m5.427 15.573 3.146-3.146a.25.25 0 0 0 0-.354L5.427 8.927A.25.25 0 0 0 5 9.104V11.5H.75a.75.75 0 0 0 0 1.5H5v2.396c0 .223.27.335.427.177Z" />
       </svg>
       """,
+      "file-moved-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M3 3a2 2 0 0 1 2-2h9.982a2 2 0 0 1 1.414.586l4.018 4.018A2 2 0 0 1 21 7.018V21a2 2 0 0 1-2 2H4.75a.75.75 0 0 1 0-1.5H19a.5.5 0 0 0 .5-.5V7a.5.5 0 0 0-.146-.336l-4.018-4.018A.5.5 0 0 0 15 2.5H5a.5.5 0 0 0-.5.5v6.25a.75.75 0 0 1-1.5 0V3Z" /><path d="M7.21 14.25H1.75a.75.75 0 0 0 0 1.5h5.46s-.008 2.249 0 3.256a.75.75 0 0 0 1.262.542l4.285-4a.75.75 0 0 0 0-1.096l-4.285-4A.75.75 0 0 0 7.21 11v3.249Z" />
+      </svg>
+      """,
       "file-removed-16" => ~H"""
       <svg
         class={@class}
@@ -3120,6 +3520,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V4.664a.25.25 0 0 0-.073-.177l-2.914-2.914a.25.25 0 0 0-.177-.073Zm4.5 6h2.242a.75.75 0 0 1 0 1.5h-2.24l-2.254.015a.75.75 0 0 1-.01-1.5Z" />
+      </svg>
+      """,
+      "file-removed-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M3 3a2 2 0 0 1 2-2h9.982a2 2 0 0 1 1.414.586l4.018 4.018A2 2 0 0 1 21 7.018V21a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3Zm2-.5a.5.5 0 0 0-.5.5v18a.5.5 0 0 0 .5.5h14a.5.5 0 0 0 .5-.5V7.018a.5.5 0 0 0-.146-.354l-4.018-4.018a.5.5 0 0 0-.354-.146H5Z" /><path d="M8 12c0-.414.358-.75.8-.75h6.4c.442 0 .8.336.8.75s-.358.75-.8.75H8.8c-.442 0-.8-.336-.8-.75Z" />
       </svg>
       """,
       "file-submodule-16" => ~H"""
@@ -3218,6 +3630,30 @@ defmodule PrimerLive.Octicons do
         <path d="M2.75 6a.75.75 0 0 0 0 1.5h18.5a.75.75 0 0 0 0-1.5H2.75ZM6 11.75a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H6.75a.75.75 0 0 1-.75-.75Zm4 4.938a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z" />
       </svg>
       """,
+      "filter-remove-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M14.384 4.57a.752.752 0 0 0 1.061 0 .752.752 0 0 0 0-1.061l-.884-.884.883-.884A.75.75 0 0 0 14.384.68l-.884.884-.884-.884a.75.75 0 0 0-1.06 1.061l.883.884-.883.884a.75.75 0 0 0 1.06 1.061l.884-.884.884.884ZM.75 3a.75.75 0 0 0 0 1.5H9A.75.75 0 0 0 9 3H.75ZM3 7.75A.75.75 0 0 1 3.75 7h8.5a.75.75 0 0 1 0 1.5h-8.5A.75.75 0 0 1 3 7.75Zm3 4a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z" />
+      </svg>
+      """,
+      "filter-remove-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M21.587 9.273a.75.75 0 1 0 1.061-1.061l-1.591-1.591 1.591-1.591a.749.749 0 1 0-1.061-1.06l-1.591 1.591-1.591-1.591a.749.749 0 1 0-1.06 1.06l1.591 1.591-1.591 1.591a.75.75 0 0 0 1.06 1.061l1.591-1.591 1.591 1.591ZM1.75 6a.75.75 0 0 0 0 1.5H14.5a.75.75 0 0 0 0-1.5H1.75ZM5 11.75a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H5.75a.75.75 0 0 1-.75-.75Zm4 4.938a.75.75 0 0 1 .75-.75h2.5a.75.75 0 1 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z" />
+      </svg>
+      """,
       "fiscal-host-16" => ~H"""
       <svg
         class={@class}
@@ -3228,6 +3664,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M10 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" /><path d="M4 9.25h-.75a.75.75 0 0 1 0-1.5H4v-1.5h-.75a.75.75 0 0 1 0-1.5H4V3.5a1 1 0 0 1 1-1h7.5a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1ZM5.5 4v.793a.75.75 0 0 1 0 1.414v1.586a.75.75 0 0 1 0 1.414V10H12V4Z" /><path d="M12.75 14.25V14h-9.5v.25a.75.75 0 0 1-1.5 0V14A1.75 1.75 0 0 1 0 12.25V1.75C0 .784.784 0 1.75 0h12.5C15.217 0 16 .784 16 1.75v10.5A1.75 1.75 0 0 1 14.25 14v.25a.75.75 0 0 1-1.5 0ZM1.75 1.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25Z" />
+      </svg>
+      """,
+      "fiscal-host-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M2 3.75C2 2.784 2.784 2 3.75 2h16.5c.966 0 1.75.784 1.75 1.75v14.5A1.75 1.75 0 0 1 20.25 20H19v.25a1 1 0 1 1-2 0V20H6.997v.25a1 1 0 1 1-2 0V20H3.75A1.75 1.75 0 0 1 2 18.25V3.75Zm1.75-.25a.25.25 0 0 0-.25.25v14.5c0 .138.112.25.25.25h16.5a.25.25 0 0 0 .25-.25V3.75a.25.25 0 0 0-.25-.25H3.75ZM14.318 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM6 8.5A.75.75 0 1 0 6 10h1.5v2H6a.75.75 0 0 0 0 1.5h1.5V15A1.5 1.5 0 0 0 9 16.5h8a1.5 1.5 0 0 0 1.5-1.5V7A1.5 1.5 0 0 0 17 5.5H9A1.5 1.5 0 0 0 7.5 7v1.5H6ZM9 10a.75.75 0 0 0 0-1.5V7h8v8H9v-1.5A.75.75 0 0 0 9 12v-2Z" />
       </svg>
       """,
       "flame-16" => ~H"""
@@ -3806,6 +4254,18 @@ defmodule PrimerLive.Octicons do
         <path d="M11.03 2.59a1.501 1.501 0 0 1 1.94 0l7.5 6.363a1.5 1.5 0 0 1 .53 1.144V19.5a1.5 1.5 0 0 1-1.5 1.5h-5.75a.75.75 0 0 1-.75-.75V14h-2v6.25a.75.75 0 0 1-.75.75H4.5A1.5 1.5 0 0 1 3 19.5v-9.403c0-.44.194-.859.53-1.144ZM12 3.734l-7.5 6.363V19.5h5v-6.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v6.25h5v-9.403Z" />
       </svg>
       """,
+      "home-fill-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="M6.906.384a1.75 1.75 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019a1.75 1.75 0 0 1-1.75 1.75h-2.5a.75.75 0 0 1-.75-.75V8.72H6v5.25a.75.75 0 0 1-.75.75h-2.5A1.75 1.75 0 0 1 1 12.97V5.95c0-.531.242-1.034.657-1.366l5.249-4.2Z" />
+      </svg>
+      """,
       "home-fill-24" => ~H"""
       <svg
         class={@class}
@@ -3900,6 +4360,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M3 7.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-3Zm10 .25a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5h4.5a.75.75 0 0 1 .75.75ZM10.25 11a.75.75 0 0 0 0-1.5h-2.5a.75.75 0 0 0 0 1.5h2.5Z" /><path d="M7.25 0h1.5c.966 0 1.75.784 1.75 1.75V3h3.75c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25v-8.5C0 3.784.784 3 1.75 3H5.5V1.75C5.5.784 6.284 0 7.25 0Zm3.232 4.5A1.75 1.75 0 0 1 8.75 6h-1.5a1.75 1.75 0 0 1-1.732-1.5H1.75a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25ZM7 1.75v2.5c0 .138.112.25.25.25h1.5A.25.25 0 0 0 9 4.25v-2.5a.25.25 0 0 0-.25-.25h-1.5a.25.25 0 0 0-.25.25Z" />
+      </svg>
+      """,
+      "id-badge-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M11 11.75a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75Zm0 2.525a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75ZM6.5 10a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-5a.5.5 0 0 0-.5-.5h-3Z" /><path d="M10.75 2A1.75 1.75 0 0 0 9 3.75V6H3.75A1.75 1.75 0 0 0 2 7.75v10.5c0 .966.784 1.75 1.75 1.75h16.5A1.75 1.75 0 0 0 22 18.25V7.75A1.75 1.75 0 0 0 20.25 6H15V3.75A1.75 1.75 0 0 0 13.25 2h-2.5Zm-.25 1.75a.25.25 0 0 1 .25-.25h2.5a.25.25 0 0 1 .25.25v3.5a.25.25 0 0 1-.25.25h-2.5a.25.25 0 0 1-.25-.25v-3.5Zm4.482 3.75A1.75 1.75 0 0 1 13.25 9h-2.5a1.75 1.75 0 0 1-1.732-1.5H3.75a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h16.5a.25.25 0 0 0 .25-.25V7.75a.25.25 0 0 0-.25-.25h-5.268Z" />
       </svg>
       """,
       "image-16" => ~H"""
@@ -4250,6 +4722,18 @@ defmodule PrimerLive.Octicons do
         <path d="M0 2.75A2.75 2.75 0 0 1 2.75 0h10.5A2.75 2.75 0 0 1 16 2.75v10.5A2.75 2.75 0 0 1 13.25 16H2.75A2.75 2.75 0 0 1 0 13.25ZM2.75 1.5c-.69 0-1.25.56-1.25 1.25v10.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25V2.75c0-.69-.56-1.25-1.25-1.25Z" /><path d="M8 4a.75.75 0 0 1 .75.75V6.7l1.69-.975a.75.75 0 0 1 .75 1.3L9.5 8l1.69.976a.75.75 0 0 1-.75 1.298L8.75 9.3v1.951a.75.75 0 0 1-1.5 0V9.299l-1.69.976a.75.75 0 0 1-.75-1.3L6.5 8l-1.69-.975a.75.75 0 0 1 .75-1.3l1.69.976V4.75A.75.75 0 0 1 8 4Z" />
       </svg>
       """,
+      "key-asterisk-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M12.75 8a.75.75 0 0 0-1.5 0v2.701l-2.34-1.35a.75.75 0 0 0-.75 1.298L10.5 12l-2.34 1.35a.75.75 0 1 0 .75 1.3l2.34-1.35V16a.75.75 0 0 0 1.5 0v-2.701l2.34 1.35a.75.75 0 0 0 .75-1.298L13.5 12l2.34-1.35a.75.75 0 0 0-.75-1.3l-2.34 1.351V8Z" /><path d="M2 3.75C2 2.784 2.784 2 3.75 2h16.5c.966 0 1.75.784 1.75 1.75v16.5A1.75 1.75 0 0 1 20.25 22H3.75A1.75 1.75 0 0 1 2 20.25V3.75Zm1.75-.25a.25.25 0 0 0-.25.25v16.5c0 .138.112.25.25.25h16.5a.25.25 0 0 0 .25-.25V3.75a.25.25 0 0 0-.25-.25H3.75Z" />
+      </svg>
+      """,
       "law-16" => ~H"""
       <svg
         class={@class}
@@ -4478,6 +4962,18 @@ defmodule PrimerLive.Octicons do
         <path d="M4.7 8.73v-1h3.52v5.69c-.78.37-1.95.64-3.59.64C1.11 14.06 0 11.37 0 8.03 0 4.69 1.13 2 4.63 2c1.62 0 2.64.33 3.28.66v1.05c-1.22-.5-2-.73-3.28-.73-2.57 0-3.48 2.21-3.48 5.06 0 2.85.91 5.05 3.47 5.05.89 0 1.98-.07 2.53-.34V8.73Zm10.98.69h.03c2.22.2 2.75.95 2.75 2.23 0 1.21-.76 2.41-3.14 2.41-.75 0-1.83-.19-2.33-.39v-.94c.47.17 1.22.36 2.33.36 1.62 0 2.06-.69 2.06-1.42 0-.71-.22-1.21-1.77-1.34-2.26-.2-2.73-1-2.73-2.08 0-1.11.72-2.31 2.92-2.31.73 0 1.56.09 2.25.39v.94c-.61-.2-1.22-.36-2.27-.36-1.55 0-1.88.57-1.88 1.34 0 .69.28 1.04 1.78 1.17Zm8.58-3.33v.85h-2.42v4.87c0 .95.53 1.34 1.5 1.34.2 0 .42 0 .61-.03v.89c-.17.03-.5.05-.69.05-1.31 0-2.5-.6-2.5-2.13v-5H19.2v-.48l1.56-.44V3.9l1.08-.31v2.5h2.42Zm-13.17-.03v6.41c0 .54.19.7.67.7v.89c-1.14 0-1.72-.47-1.72-1.72V6.06h1.05Zm.25-2.33c0 .44-.34.78-.78.78a.76.76 0 0 1-.77-.78c0-.44.32-.78.77-.78s.78.34.78.78Z" />
       </svg>
       """,
+      "logo-gist-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="38"
+        height="24"
+        viewBox="0 0 38 24"
+      >
+        <path d="M7.05 13.095v-1.5h5.28v8.535c-1.17.555-2.925.96-5.385.96C1.665 21.09 0 17.055 0 12.045S1.695 3 6.945 3c2.43 0 3.96.495 4.92.99v1.575c-1.83-.75-3-1.095-4.92-1.095-3.855 0-5.22 3.315-5.22 7.59s1.365 7.575 5.205 7.575c1.335 0 2.97-.105 3.795-.51v-6.03H7.05Zm16.47 1.035h.045c3.33.3 4.125 1.425 4.125 3.345 0 1.815-1.14 3.615-4.71 3.615-1.125 0-2.745-.285-3.495-.585v-1.41c.705.255 1.83.54 3.495.54 2.43 0 3.09-1.035 3.09-2.13 0-1.065-.33-1.815-2.655-2.01-3.39-.3-4.095-1.5-4.095-3.12 0-1.665 1.08-3.465 4.38-3.465 1.095 0 2.34.135 3.375.585v1.41c-.915-.3-1.83-.54-3.405-.54-2.325 0-2.82.855-2.82 2.01 0 1.035.42 1.56 2.67 1.755Zm12.87-4.995v1.275h-3.63v7.305c0 1.425.795 2.01 2.25 2.01.3 0 .63 0 .915-.045v1.335c-.255.045-.75.075-1.035.075-1.965 0-3.75-.9-3.75-3.195v-7.5H28.8v-.72l2.34-.66V5.85l1.62-.465v3.75h3.63ZM16.635 9.09v9.615c0 .81.285 1.05 1.005 1.05v1.335c-1.71 0-2.58-.705-2.58-2.58V9.09h1.575Zm.375-3.495c0 .66-.51 1.17-1.17 1.17a1.14 1.14 0 0 1-1.155-1.17c0-.66.48-1.17 1.155-1.17s1.17.51 1.17 1.17Z" />
+      </svg>
+      """,
       "logo-github-16" => ~H"""
       <svg
         class={@class}
@@ -4488,6 +4984,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 45 16"
       >
         <path d="M8.81 7.35v5.74c0 .04-.01.11-.06.13 0 0-1.25.89-3.31.89-2.49 0-5.44-.78-5.44-5.92S2.58 1.99 5.1 2c2.18 0 3.06.49 3.2.58.04.05.06.09.06.14L7.94 4.5c0 .09-.09.2-.2.17-.36-.11-.9-.33-2.17-.33-1.47 0-3.05.42-3.05 3.73s1.5 3.7 2.58 3.7c.92 0 1.25-.11 1.25-.11v-2.3H4.88c-.11 0-.19-.08-.19-.17V7.35c0-.09.08-.17.19-.17h3.74c.11 0 .19.08.19.17Zm35.85 2.33c0 3.43-1.11 4.41-3.05 4.41-1.64 0-2.52-.83-2.52-.83s-.04.46-.09.52c-.03.06-.08.08-.14.08h-1.48c-.1 0-.19-.08-.19-.17l.02-11.11c0-.09.08-.17.17-.17h2.13c.09 0 .17.08.17.17v3.77s.82-.53 2.02-.53l-.01-.02c1.2 0 2.97.45 2.97 3.88ZM27.68 2.43c.09 0 .17.08.17.17v11.11c0 .09-.08.17-.17.17h-2.13c-.09 0-.17-.08-.17-.17l.02-4.75h-3.31v4.75c0 .09-.08.17-.17.17h-2.13c-.08 0-.17-.08-.17-.17V2.6c0-.09.08-.17.17-.17h2.13c.09 0 .17.08.17.17v4.09h3.31V2.6c0-.09.08-.17.17-.17Zm8.26 3.64c.11 0 .19.08.19.17l-.02 7.47c0 .09-.06.17-.17.17H34.6c-.07 0-.14-.04-.16-.09-.03-.06-.08-.45-.08-.45s-1.13.77-2.52.77c-1.69 0-2.92-.55-2.92-2.75V6.25c0-.09.08-.17.17-.17h2.14c.09 0 .17.08.17.17V11c0 .75.22 1.09.97 1.09s1.3-.39 1.3-.39V6.26c0-.11.06-.19.17-.19Zm-17.406 5.971h.005a.177.177 0 0 1 .141.179v1.5c0 .07-.03.14-.09.16-.1.05-.74.22-1.27.22-1.16 0-2.86-.25-2.86-2.69V8.13h-1.11c-.09 0-.17-.08-.17-.19V6.58c0-.08.05-.15.13-.17.07-.01 1.16-.28 1.16-.28V3.96c0-.08.05-.13.14-.13h2.16c.09 0 .14.05.14.13v2.11h1.59c.08 0 .16.08.16.17v1.7c0 .11-.07.19-.16.19h-1.59v3.131c0 .47.27.83 1.05.83.247 0 .481-.049.574-.05ZM12.24 6.06c.09 0 .17.08.17.17v7.37c0 .18-.05.27-.25.27h-1.92c-.17 0-.3-.07-.3-.27V6.26c0-.11.08-.2.17-.2Zm29.99 3.78c0-1.81-.73-2.05-1.5-1.97-.6.04-1.08.34-1.08.34v3.52s.49.34 1.22.36c1.03.03 1.36-.34 1.36-2.25ZM11.19 2.68c.75 0 1.36.61 1.36 1.38 0 .77-.61 1.38-1.36 1.38-.77 0-1.38-.61-1.38-1.38 0-.77.61-1.38 1.38-1.38Zm7.34 9.35v.001l.01.01h-.001l-.005-.001v.001c-.009-.001-.015-.011-.024-.011Z" />
+      </svg>
+      """,
+      "logo-github-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="68"
+        height="24"
+        viewBox="0 0 68 24"
+      >
+        <path d="M27.8 17.908h-.03c.013 0 .022.014.035.017l.01-.002-.016-.015Zm.005.017c-.14.001-.49.073-.861.073-1.17 0-1.575-.536-1.575-1.234v-4.652h2.385c.135 0 .24-.12.24-.283V9.302c0-.133-.12-.252-.24-.252H25.37V5.913c0-.119-.075-.193-.21-.193h-3.24c-.136 0-.21.074-.21.193V9.14s-1.636.401-1.741.416a.255.255 0 0 0-.195.253v2.021c0 .164.12.282.255.282h1.665v4.876c0 3.627 2.55 3.998 4.29 3.998.796 0 1.756-.252 1.906-.327.09-.03.135-.134.135-.238v-2.23a.264.264 0 0 0-.219-.265Zm35.549-3.272c0-2.69-1.095-3.047-2.25-2.928-.9.06-1.62.505-1.62.505v5.232s.735.506 1.83.536c1.545.044 2.04-.506 2.04-3.345ZM67 14.415c0 5.099-1.665 6.555-4.576 6.555-2.46 0-3.78-1.233-3.78-1.233s-.06.683-.135.773c-.045.089-.12.118-.21.118h-2.22c-.15 0-.286-.119-.286-.252l.03-16.514a.26.26 0 0 1 .255-.252h3.196a.26.26 0 0 1 .255.252v5.604s1.23-.788 3.03-.788l-.015-.03c1.8 0 4.456.67 4.456 5.767ZM53.918 9.05h-3.15c-.165 0-.255.119-.255.282v8.086s-.826.58-1.95.58c-1.126 0-1.456-.506-1.456-1.62v-7.06a.262.262 0 0 0-.255-.254h-3.21a.262.262 0 0 0-.256.253v7.596c0 3.27 1.846 4.087 4.381 4.087 2.085 0 3.78-1.145 3.78-1.145s.076.58.12.67c.03.074.136.133.24.133h2.011a.243.243 0 0 0 .255-.253l.03-11.103c0-.133-.12-.252-.285-.252Zm-35.556-.015h-3.195c-.135 0-.255.134-.255.297v10.91c0 .297.195.401.45.401h2.88c.3 0 .375-.134.375-.401V9.287a.262.262 0 0 0-.255-.252ZM16.787 4.01c-1.155 0-2.07.907-2.07 2.051 0 1.145.915 2.051 2.07 2.051a2.04 2.04 0 0 0 2.04-2.05 2.04 2.04 0 0 0-2.04-2.052Zm24.74-.372H38.36a.262.262 0 0 0-.255.253v6.08H33.14v-6.08a.262.262 0 0 0-.255-.253h-3.196a.262.262 0 0 0-.255.253v16.514c0 .133.135.252.255.252h3.196a.262.262 0 0 0 .255-.253v-7.06h4.966l-.03 7.06c0 .134.12.253.255.253h3.195a.262.262 0 0 0 .255-.253V3.892a.262.262 0 0 0-.255-.253Zm-28.31 7.313v8.532c0 .06-.015.163-.09.193 0 0-1.875 1.323-4.966 1.323C4.426 21 0 19.84 0 12.2S3.87 2.986 7.651 3c3.27 0 4.59.728 4.8.862.06.075.09.134.09.208l-.63 2.646c0 .134-.134.297-.3.253-.54-.164-1.35-.49-3.255-.49-2.205 0-4.575.623-4.575 5.543s2.25 5.5 3.87 5.5c1.38 0 1.875-.164 1.875-.164V13.94H7.321c-.165 0-.285-.12-.285-.253v-2.735c0-.134.12-.252.285-.252h5.61c.166 0 .286.118.286.252Z" />
       </svg>
       """,
       "mail-16" => ~H"""
@@ -4526,6 +5034,18 @@ defmodule PrimerLive.Octicons do
         <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" />
       </svg>
       """,
+      "mark-github-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M12.5.75C6.146.75 1 5.896 1 12.25c0 5.089 3.292 9.387 7.863 10.91.575.101.79-.244.79-.546 0-.273-.014-1.178-.014-2.142-2.889.532-3.636-.704-3.866-1.35-.13-.331-.69-1.352-1.18-1.625-.402-.216-.977-.748-.014-.762.906-.014 1.553.834 1.769 1.179 1.035 1.74 2.688 1.25 3.349.948.1-.747.402-1.25.733-1.538-2.559-.287-5.232-1.279-5.232-5.678 0-1.25.445-2.285 1.178-3.09-.115-.288-.517-1.467.115-3.048 0 0 .963-.302 3.163 1.179.92-.259 1.897-.388 2.875-.388.977 0 1.955.13 2.875.388 2.2-1.495 3.162-1.179 3.162-1.179.633 1.581.23 2.76.115 3.048.733.805 1.179 1.825 1.179 3.09 0 4.413-2.688 5.39-5.247 5.678.417.36.776 1.05.776 2.128 0 1.538-.014 2.774-.014 3.162 0 .302.216.662.79.547C20.709 21.637 24 17.324 24 12.25 24 5.896 18.854.75 12.5.75Z" />
+      </svg>
+      """,
       "markdown-16" => ~H"""
       <svg
         class={@class}
@@ -4536,6 +5056,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M14.85 3c.63 0 1.15.52 1.14 1.15v7.7c0 .63-.51 1.15-1.15 1.15H1.15C.52 13 0 12.48 0 11.84V4.15C0 3.52.52 3 1.15 3ZM9 11V5H7L5.5 7 4 5H2v6h2V8l1.5 1.92L7 8v3Zm2.99.5L14.5 8H13V5h-2v3H9.5Z" />
+      </svg>
+      """,
+      "markdown-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M22.289 4.5A1.71 1.71 0 0 1 24 6.226v11.557c0 .946-.766 1.726-1.726 1.726H1.726A1.74 1.74 0 0 1 0 17.768V6.226C0 5.28.78 4.5 1.726 4.5Zm-8.781 12.007V7.501h-3.002l-2.251 3.002-2.252-3.002H3.002v9.006h3.001v-4.503l2.252 2.882 2.251-2.882v4.503Zm4.489.75 3.767-5.253h-2.251V7.501h-3.002v4.503h-2.252Z" />
       </svg>
       """,
       "megaphone-16" => ~H"""
@@ -4596,6 +5128,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M8 1.5a6.5 6.5 0 1 0 6.016 4.035.75.75 0 0 1 1.388-.57 8 8 0 1 1-4.37-4.37.75.75 0 1 1-.569 1.389A6.473 6.473 0 0 0 8 1.5Zm6.28.22a.75.75 0 0 1 0 1.06l-4.063 4.064a2.5 2.5 0 1 1-1.06-1.06L13.22 1.72a.75.75 0 0 1 1.06 0ZM7 8a1 1 0 1 0 2 0 1 1 0 0 0-2 0Z" />
+      </svg>
+      """,
+      "meter-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M12 2.5a9.5 9.5 0 1 0 9.5 9.5c0-1.406-.305-2.74-.852-3.939a.75.75 0 0 1 1.364-.622C22.648 8.829 23 10.374 23 12c0 6.075-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1c1.626 0 3.17.353 4.561.988a.75.75 0 1 1-.622 1.364A9.463 9.463 0 0 0 12 2.5Zm9.03.47a.75.75 0 0 1 0 1.06l-6.445 6.446a3 3 0 1 1-1.06-1.06L19.97 2.97a.75.75 0 0 1 1.06 0ZM12 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z" />
       </svg>
       """,
       "milestone-16" => ~H"""
@@ -5052,6 +5596,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M11.134 1.535c.7-.509 1.416-.942 2.076-1.155.649-.21 1.463-.267 2.069.34.603.601.568 1.411.368 2.07-.202.668-.624 1.39-1.125 2.096-1.011 1.424-2.496 2.987-3.775 4.249-1.098 1.084-2.132 1.839-3.04 2.3a3.744 3.744 0 0 1-1.055 3.217c-.431.431-1.065.691-1.657.861-.614.177-1.294.287-1.914.357A21.151 21.151 0 0 1 .797 16H.743l.007-.75H.749L.742 16a.75.75 0 0 1-.743-.742l.743-.008-.742.007v-.054a21.25 21.25 0 0 1 .13-2.284c.067-.647.187-1.287.358-1.914.17-.591.43-1.226.86-1.657a3.746 3.746 0 0 1 3.227-1.054c.466-.893 1.225-1.907 2.314-2.982 1.271-1.255 2.833-2.75 4.245-3.777ZM1.62 13.089c-.051.464-.086.929-.104 1.395.466-.018.932-.053 1.396-.104a10.511 10.511 0 0 0 1.668-.309c.526-.151.856-.325 1.011-.48a2.25 2.25 0 1 0-3.182-3.182c-.155.155-.329.485-.48 1.01a10.515 10.515 0 0 0-.309 1.67Zm10.396-10.34c-1.224.89-2.605 2.189-3.822 3.384l1.718 1.718c1.21-1.205 2.51-2.597 3.387-3.833.47-.662.78-1.227.912-1.662.134-.444.032-.551.009-.575h-.001V1.78c-.014-.014-.113-.113-.548.027-.432.14-.995.462-1.655.942Zm-4.832 7.266-.001.001a9.859 9.859 0 0 0 1.63-1.142L7.155 7.216a9.7 9.7 0 0 0-1.161 1.607c.482.302.889.71 1.19 1.192Z" />
+      </svg>
+      """,
+      "paintbrush-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M19.642 6.653c-1.31 1.812-3.251 3.86-4.945 5.575l-.091.092-2.69-2.69.098-.098c1.69-1.71 3.732-3.656 5.544-4.962.911-.657 1.715-1.115 2.353-1.318.652-.207.915-.091 1.039.033.113.113.231.367.019 1.02-.207.635-.668 1.436-1.327 2.348ZM10.9 10.736l2.605 2.605c-.88.754-1.684 1.294-2.378 1.655a4.832 4.832 0 0 0-1.892-1.89c.36-.69.903-1.482 1.665-2.37Zm-3.086 1.856a4.825 4.825 0 0 0-4.33 1.328c-.525.525-.88 1.302-1.13 2.079-.256.795-.43 1.682-.541 2.507a19.055 19.055 0 0 0-.173 2.216c-.004.3.003.567.022.778.009.104.022.212.044.31.01.05.027.113.053.18.02.051.074.178.19.295.117.117.245.17.297.19.066.026.13.043.178.054.099.021.207.035.31.044.211.019.479.025.779.021.603-.008 1.39-.06 2.216-.172.825-.112 1.711-.285 2.507-.54.776-.25 1.553-.606 2.079-1.132a4.825 4.825 0 0 0 1.327-4.333c1.209-.6 2.622-1.618 4.121-3.135 1.694-1.714 3.709-3.835 5.093-5.75.688-.952 1.258-1.904 1.538-2.764.274-.842.334-1.826-.384-2.544-.72-.719-1.703-.672-2.555-.401-.865.275-1.822.843-2.776 1.53-1.92 1.384-4.036 3.407-5.733 5.125-1.5 1.518-2.53 2.896-3.132 4.114Zm1.44 2.388a3.33 3.33 0 0 1 0 4.71c-.271.27-.774.537-1.478.763-.684.22-1.477.378-2.248.482-.769.104-1.495.152-2.035.16a9.247 9.247 0 0 1-.351-.002 9.182 9.182 0 0 1-.002-.35c.007-.542.055-1.267.16-2.036.104-.771.261-1.564.481-2.249.227-.703.493-1.206.764-1.478a3.33 3.33 0 0 1 4.71 0Z" />
       </svg>
       """,
       "paper-airplane-16" => ~H"""
@@ -5642,6 +6198,18 @@ defmodule PrimerLive.Octicons do
         <path d="M14.78 6.28a.749.749 0 0 0 0-1.06l-3.5-3.5a.749.749 0 1 0-1.06 1.06L12.439 5H5.251l-.001.007L5.251 5a.8.8 0 0 0-.171.019A4.501 4.501 0 0 0 5.5 14h1.704a.75.75 0 0 0 0-1.5H5.5a3 3 0 1 1 0-6h6.939L10.22 8.72a.749.749 0 1 0 1.06 1.06l3.5-3.5Z" />
       </svg>
       """,
+      "redo-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M14.72 2.22a.75.75 0 0 1 1.06 0l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 1 1-1.06-1.06l4.97-4.97H8.25c-.797 0-2.008.245-3 .959-.952.686-1.75 1.835-1.75 3.791s.798 3.105 1.75 3.791c.992.714 2.203.959 3 .959h3a.75.75 0 0 1 0 1.5h-3c-1.037 0-2.575-.305-3.876-1.241C3.035 18.545 2 16.944 2 14.5c0-2.444 1.035-4.045 2.374-5.009C5.675 8.555 7.214 8.25 8.25 8.25h11.44l-4.97-4.97a.75.75 0 0 1 0-1.06Z" />
+      </svg>
+      """,
       "rel-file-path-16" => ~H"""
       <svg
         class={@class}
@@ -5736,6 +6304,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 24 24"
       >
         <path d="M4.375.375a2.5 2.5 0 0 0-2.5 2.5v15.25a2.5 2.5 0 0 0 2.5 2.5h5.187a.75.75 0 1 0 0-1.5H4.375a1 1 0 0 1-1-1v-1.75a1 1 0 0 1 1-1h5.687a.75.75 0 1 0 0-1.5H4.375c-.356 0-.694.074-1 .208V2.875a1 1 0 0 1 1-1h13.25v5.25a.75.75 0 0 0 1.5 0v-6a.75.75 0 0 0-.75-.75h-14Z" /><path d="M12.375 12.087c0-1.396 1.005-2.712 2.456-2.712h8.044a.75.75 0 0 1 .75.75v12.75a.75.75 0 0 1-.75.75h-7.5a3 3 0 0 1-3-3Zm9.75 5.538v-6.75h-7.294c-.433 0-.956.441-.956 1.212v5.939a2.989 2.989 0 0 1 1.5-.401Zm-8.25 3a1.5 1.5 0 0 0 1.5 1.5h6.75v-3h-6.75a1.5 1.5 0 0 0-1.5 1.5Z" />
+      </svg>
+      """,
+      "repo-delete-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M4.75 0A2.75 2.75 0 0 0 2 2.75v16.5A2.75 2.75 0 0 0 4.75 22h8a.75.75 0 0 0 0-1.5h-8c-.69 0-1.25-.56-1.25-1.25V18A1.5 1.5 0 0 1 5 16.5h7.75a.75.75 0 0 0 0-1.5H5c-.546 0-1.059.146-1.5.401V2.75c0-.69.56-1.25 1.25-1.25H18.5v12.25a.75.75 0 0 0 1.5 0v-13a.75.75 0 0 0-.75-.75H4.75Z" /><path d="M15.22 16.22a.75.75 0 0 1 1.06 0L19 18.94l2.72-2.72a.75.75 0 1 1 1.06 1.06L20.06 20l2.72 2.72a.75.75 0 1 1-1.06 1.06L19 21.06l-2.72 2.72a.75.75 0 1 1-1.06-1.06L17.94 20l-2.72-2.72a.75.75 0 0 1 0-1.06Z" />
       </svg>
       """,
       "repo-deleted-16" => ~H"""
@@ -6434,6 +7014,18 @@ defmodule PrimerLive.Octicons do
         <path d="M15 2.75a.75.75 0 0 1-.75.75h-4a.75.75 0 0 1 0-1.5h4a.75.75 0 0 1 .75.75Zm-8.5.75v1.25a.75.75 0 0 0 1.5 0v-4a.75.75 0 0 0-1.5 0V2H1.75a.75.75 0 0 0 0 1.5H6.5Zm1.25 5.25a.75.75 0 0 0 0-1.5h-6a.75.75 0 0 0 0 1.5h6ZM15 8a.75.75 0 0 1-.75.75H11.5V10a.75.75 0 1 1-1.5 0V6a.75.75 0 0 1 1.5 0v1.25h2.75A.75.75 0 0 1 15 8Zm-9 5.25v-2a.75.75 0 0 0-1.5 0v1.25H1.75a.75.75 0 0 0 0 1.5H4.5v1.25a.75.75 0 0 0 1.5 0v-2Zm9 0a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Z" />
       </svg>
       """,
+      "sliders-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M11 18.25a.75.75 0 0 1 .75-.75h8.5a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1-.75-.75Zm-8-12a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 3 6.25Zm13 6a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75ZM8.75 16a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3a.75.75 0 0 1 .75-.75Z" /><path d="M3 18.25a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Zm0-6a.75.75 0 0 1 .75-.75h8.5a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1-.75-.75ZM16.75 10a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3a.75.75 0 0 1 .75-.75ZM14 6.25a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75ZM11.25 4a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3a.75.75 0 0 1 .75-.75Z" />
+      </svg>
+      """,
       "smiley-16" => ~H"""
       <svg
         class={@class}
@@ -6516,6 +7108,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M7.53 1.282a.5.5 0 0 1 .94 0l.478 1.306a7.492 7.492 0 0 0 4.464 4.464l1.305.478a.5.5 0 0 1 0 .94l-1.305.478a7.492 7.492 0 0 0-4.464 4.464l-.478 1.305a.5.5 0 0 1-.94 0l-.478-1.305a7.492 7.492 0 0 0-4.464-4.464L1.282 8.47a.5.5 0 0 1 0-.94l1.306-.478a7.492 7.492 0 0 0 4.464-4.464Z" />
+      </svg>
+      """,
+      "sparkle-fill-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M11.296 1.924c.24-.656 1.168-.656 1.408 0l.717 1.958a11.25 11.25 0 0 0 6.697 6.697l1.958.717c.657.24.657 1.168 0 1.408l-1.958.717a11.25 11.25 0 0 0-6.697 6.697l-.717 1.958c-.24.657-1.168.657-1.408 0l-.717-1.958a11.25 11.25 0 0 0-6.697-6.697l-1.958-.717c-.656-.24-.656-1.168 0-1.408l1.958-.717a11.25 11.25 0 0 0 6.697-6.697l.717-1.958Z" />
       </svg>
       """,
       "sponsor-tiers-16" => ~H"""
@@ -6806,6 +7410,18 @@ defmodule PrimerLive.Octicons do
         <path d="M3.38 8A9.502 9.502 0 0 1 12 2.5a9.502 9.502 0 0 1 9.215 7.182.75.75 0 1 0 1.456-.364C21.473 4.539 17.15 1 12 1a10.995 10.995 0 0 0-9.5 5.452V4.75a.75.75 0 0 0-1.5 0V8.5a1 1 0 0 0 1 1h3.75a.75.75 0 0 0 0-1.5H3.38Zm-.595 6.318a.75.75 0 0 0-1.455.364C2.527 19.461 6.85 23 12 23c4.052 0 7.592-2.191 9.5-5.451v1.701a.75.75 0 0 0 1.5 0V15.5a1 1 0 0 0-1-1h-3.75a.75.75 0 0 0 0 1.5h2.37A9.502 9.502 0 0 1 12 21.5c-4.446 0-8.181-3.055-9.215-7.182Z" />
       </svg>
       """,
+      "tab-16" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
+        <path d="m10.78 8.53-3.75 3.75a.749.749 0 1 1-1.06-1.06l2.469-2.47H1.75a.75.75 0 0 1 0-1.5h6.689L5.97 4.78a.749.749 0 1 1 1.06-1.06l3.75 3.75a.749.749 0 0 1 0 1.06ZM13 12.25v-8.5a.75.75 0 0 1 1.5 0v8.5a.75.75 0 0 1-1.5 0Z" />
+      </svg>
+      """,
       "tab-24" => ~H"""
       <svg
         class={@class}
@@ -6828,6 +7444,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M3.25 4a.25.25 0 0 0-.25.25v9a.75.75 0 0 1-.75.75H.75a.75.75 0 0 1 0-1.5h.75V4.25c0-.966.784-1.75 1.75-1.75h9.5c.966 0 1.75.784 1.75 1.75v8.25h.75a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75v-9a.25.25 0 0 0-.25-.25h-9.5Z" /><path d="m7.97 7.97-2.75 2.75a.75.75 0 1 0 1.06 1.06l2.75-2.75 1.543 1.543a.25.25 0 0 0 .427-.177V6.25a.25.25 0 0 0-.25-.25H6.604a.25.25 0 0 0-.177.427L7.97 7.97Z" />
+      </svg>
+      """,
+      "tab-external-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M3 5.75C3 4.784 3.784 4 4.75 4h14.5c.966 0 1.75.784 1.75 1.75V18.5h2a.75.75 0 0 1 0 1.5h-2.65a.85.85 0 0 1-.85-.85V5.75a.25.25 0 0 0-.25-.25H4.75a.25.25 0 0 0-.25.25v13.4c0 .47-.38.85-.85.85H1a.75.75 0 0 1 0-1.5h2V5.75Z" /><path d="M16.404 13.7a.75.75 0 0 1-1.29.547 689.448 689.448 0 0 0-1.92-1.976l-4.141 4.14a.75.75 0 0 1-1.061-1.06l4.14-4.14-1.94-1.94A.75.75 0 0 1 10.703 8h4.95a.75.75 0 0 1 .75.75v4.95Z" />
       </svg>
       """,
       "table-16" => ~H"""
@@ -6984,6 +7612,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z" />
+      </svg>
+      """,
+      "three-bars-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M3.75 5.25a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5H3.75Zm0 6a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5H3.75Zm0 6a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5H3.75Z" />
       </svg>
       """,
       "thumbsdown-16" => ~H"""
@@ -7284,6 +7924,18 @@ defmodule PrimerLive.Octicons do
         viewBox="0 0 16 16"
       >
         <path d="M1.22 6.28a.749.749 0 0 1 0-1.06l3.5-3.5a.749.749 0 1 1 1.06 1.06L3.561 5h7.188l.001.007L10.749 5c.058 0 .116.007.171.019A4.501 4.501 0 0 1 10.5 14H8.796a.75.75 0 0 1 0-1.5H10.5a3 3 0 1 0 0-6H3.561L5.78 8.72a.749.749 0 1 1-1.06 1.06l-3.5-3.5Z" />
+      </svg>
+      """,
+      "undo-24" => ~H"""
+      <svg
+        class={@class}
+        {@rest}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M9.53 2.22a.75.75 0 0 0-1.06 0L2.22 8.47a.75.75 0 0 0 0 1.06l6.25 6.25a.75.75 0 0 0 1.06-1.06L4.56 9.75H16c.797 0 2.008.245 3 .959.952.686 1.75 1.835 1.75 3.791s-.798 3.105-1.75 3.791c-.992.714-2.203.959-3 .959h-3a.75.75 0 0 0 0 1.5h3c1.037 0 2.575-.305 3.876-1.241 1.339-.964 2.374-2.565 2.374-5.009 0-2.444-1.035-4.045-2.374-5.009C18.575 8.555 17.036 8.25 16 8.25H4.56l4.97-4.97a.75.75 0 0 0 0-1.06Z" />
       </svg>
       """,
       "unfold-16" => ~H"""
