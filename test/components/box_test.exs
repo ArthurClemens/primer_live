@@ -319,7 +319,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
 
     assert rendered_to_string(~H"""
            <.box classes={%{link: "link-x"}}>
-             <:row :let={classes}>
+             <:row :let={%{classes: classes}}>
                <.link href="/" class={["my-link", classes.link]}>Home</.link>
              </:row>
            </.box>
