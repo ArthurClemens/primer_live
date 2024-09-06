@@ -8893,13 +8893,14 @@ defmodule PrimerLive.Component do
   @doc section: :icons
 
   @doc ~S"""
-  Renders an icon from the set of GitHub icons, 512 including all size variations.
-
-  See `PrimerLive.Octicons` for the complete list.
+  Renders an icon from the set of GitHub icons, 643 including all size variations.
 
   ```
   <.octicon name="comment-16" />
   ```
+
+  - [List of all icons](`PrimerLive.Octicons`)
+  - [primer-live.org/octicon](https://primer-live.org/octicon) contains visual examples
 
   ## Examples
 

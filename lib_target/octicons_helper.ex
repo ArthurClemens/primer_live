@@ -29,6 +29,8 @@ defmodule PrimerLive.Helpers.OcticonsHelper do
 
       ### All octicons
 
+      See [primer-live.org/octicon](https://primer-live.org/octicon) for visuals.
+
       ```
       <%= for %{name: name} <- icons do %><.octicon name="<%= name %>" />
       <% end %>```
