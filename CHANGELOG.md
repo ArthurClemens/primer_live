@@ -1,8 +1,8 @@
 # Changelog
 
-## Next
+## 0.8.0 (not released)
 
-### Refactoring of dialogs, drawers and menus
+### Refactoring of dialogs, drawers, and menus
 
 This refactoring builds on the `Phoenix.LiveView.JS` API - taking example from `CoreComponent`'s modal component. These changes reduce reliance on additional JavaScript, improve alignment with standard practice, and include accessibility improvements.
 
@@ -82,7 +82,21 @@ See for update instructions: "Updating to 0.8" below.
 
 ### Other changes
 
-- Updated octicons to `19.11.0`
+#### Added support for streams to [Box](`PrimerLive.Component.box/1`)
+
+This includes a breaking change in the `let` callback attribute. To support the provided `classes` data with or without using streams, this is now wrapped in a map.
+
+- Previous:
+
+      <:row :let={classes}>
+
+- Becomes:
+
+      <:row :let={%{classes: classes}}>
+
+#### Updated octicons
+
+This update to version `19.11.0` includes around 50 additions.
 
 ## 0.7.2
 

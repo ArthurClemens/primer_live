@@ -5946,11 +5946,8 @@ defmodule PrimerLive.Component do
   @doc section: :box
 
   @doc ~S"""
-  Box is a basic wrapper component for most layout related needs.
-
-  A `box` is a container with rounded corners, a white background, and a light gray border.
-  By default, there are no other styles, such as padding; however, these can be introduced
-  with utility classes as needed.
+  A box is a simple container with rounded corners, a white background, and a light gray border.
+  It can be used to display a single item or a list of items, with an optional header and footer.
 
   ```
   <.box>
@@ -5958,7 +5955,7 @@ defmodule PrimerLive.Component do
   </.box>
   ```
 
-  Slots allow for the creation of alternative styles and layouts.
+  Organize content using table-style slots:
 
   ```
   <.box>
@@ -5969,7 +5966,47 @@ defmodule PrimerLive.Component do
   </.box>
   ```
 
+  Rows can be populated using streams.
+
   ## Examples
+
+  A box containing a `blankslate/1`:
+
+  ```
+  <.box>
+    <.blankslate>
+      <:heading>
+        No Data Available
+      </:heading>
+      <p>
+        Info
+      </p>
+    </.blankslate>
+  </.box>
+  ```
+
+  A box containing a list of rows:
+
+  ```
+  <.box>
+    <:row>Row</:row>
+    <:row>Row</:row>
+    <:row>Row</:row>
+  </.box>
+  ```
+
+  To generate rows using streams:
+  - Pass an `id`.
+  - Provide a single `row` slot for displaying the stream data, using `:let` to get the stream data.
+  - When displaying multiple components with the same stream data, provide a unique id generation function for `row_id` attribute.
+
+  ```
+  <.box stream={@streams.clients} id="clients">
+    <:row :let={{_dom_id, data}}>
+      <%= data.name %>
+    </:row>
+  </.box>
+  ```
 
   Row themes:
 
@@ -6071,7 +6108,7 @@ defmodule PrimerLive.Component do
 
   ```
   <.box>
-    <:row :let={classes}>
+    <:row :let={%{classes: classes}}>
       <.link href="/" class={classes.link}>Home</.link>
     </:row>
   </.box>
@@ -6118,15 +6155,17 @@ defmodule PrimerLive.Component do
 
   ## Lets
 
+  ### Let without streams
+
   ```
-  <:item :let={classes} />
+  <:item :let={%{classes: classes}} />
   ```
 
   Yields a `classes` map, containing the merged values of default classnames, plus any value supplied to the `classes` component attribute.
 
   ```
-  <.box classes={%{ link: "link-x" }}>
-    <:row :let={classes}>
+  <.box classes={%{link: "link-x"}}>
+    <:row :let={%{classes: classes}}>
       <.link href="/" class={["my-link", classes.link]}>Home</.link>
     </:row>
   </.box>
@@ -6142,10 +6181,38 @@ defmodule PrimerLive.Component do
   </div>
   ```
 
+  ### Let with streams
+
+  When using a stream, the `let` callback attribute yields the dom ID and stream item data, merged with the classes map.
+  For example, when the input stream item contains:
+
+  ```
+  %{
+    id: 1,
+    name: "Mark"
+  }
+  ```
+
+  the callback data contains:
+
+  ```
+  {_dom_id, %{
+    id: 1,
+    name: "Mark",
+    classes: %{...}
+  }}
+  ```
+  
+  ```
+  <:row :let={{_dom_id, %{classes: classes, name: name}}}>
+    <%= name %>
+  </:row>
+  ```
+
   ## Reference
 
-  [Primer Box](https://primer.style/design/components/box)
-  [Primer Border box](https://primer.style/design/components/border-box)
+  - [Primer Box](https://primer.style/design/components/box)
+  - [Primer Border box](https://primer.style/components/border-box)
 
   """
 
@@ -6214,7 +6281,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  attr(:row_data, :list, default: nil, doc: "An enumerable of steam items to insert.")
+  attr(:stream, :list, default: nil, doc: "An enumerable of stream items to insert.")
   attr(:row_id, :any, default: nil, doc: "The function for generating the row id.")
   attr(:row_item, :any, default: &Function.identity/1, doc: "The function for mapping each row.")
   attr(:row_click, :any, default: nil, doc: "The function for handling `phx-click` on each row.")
@@ -6401,7 +6468,6 @@ defmodule PrimerLive.Component do
         |> assign(:is_link, is_link)
         |> assign(:attributes, attributes)
         |> assign(:slot, slot)
-        |> assign(:row_entry, row_entry)
         |> assign(:slot_data, slot_data)
 
       ~H"""
@@ -6443,7 +6509,7 @@ defmodule PrimerLive.Component do
       |> assign(:render_row, render_row)
       |> assign(
         :stream_attrs,
-        if(assigns.row_data,
+        if(assigns.stream,
           do: ["phx-update": "stream", id: "stream-#{assigns[:id]}"],
           else: nil
         )
@@ -6457,9 +6523,9 @@ defmodule PrimerLive.Component do
         <%= @render_body.() %>
       <% end %>
       <%= if @row && @row !== [] do %>
-        <%= if @row_data && @row_data !== [] do %>
+        <%= if @stream && @stream !== [] do %>
           <div {@stream_attrs}>
-            <%= for row_entry <- @row_data do %>
+            <%= for row_entry <- @stream do %>
               <%= @render_row.(List.first(@row), row_entry) %>
             <% end %>
           </div>
