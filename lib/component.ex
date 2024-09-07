@@ -13288,6 +13288,11 @@ defmodule PrimerLive.Component do
     """
   )
 
+  attr(:id_prefix, :string,
+    default: nil,
+    doc: "Prefixes generated DOM ids to prevent \"duplicate id\" errors in the browser."
+  )
+
   DeclarationHelpers.rest()
 
   def theme_menu_options(assigns) do
@@ -13319,6 +13324,7 @@ defmodule PrimerLive.Component do
           is_show_group_labels={@is_show_group_labels}
           is_click_disabled={@is_click_disabled}
           update_theme_event={@update_theme_event}
+          id_prefix={@id_prefix}
         />
       <% end %>
       <%= if @is_show_reset_link && assigns.labels[:reset] do %>
@@ -13342,6 +13348,11 @@ defmodule PrimerLive.Component do
   attr(:is_click_disabled, :boolean, required: true)
   attr(:update_theme_event, :string, required: true)
 
+  attr(:id_prefix, :string,
+    default: nil,
+    doc: "Prefixes generated DOM ids to prevent \"duplicate id\" errors in the browser."
+  )
+
   defp theme_menu_option_items(assigns) do
     group = assigns.menu_items[assigns.key]
 
@@ -13356,13 +13367,15 @@ defmodule PrimerLive.Component do
       </.action_list_section_divider>
     <% end %>
     <%= for {value, label} <- @group.labeled_options do %>
+      <% dom_id = AttributeHelpers.create_dom_id(value, @group.title) %>
+      <% input_id = if @id_prefix, do: "#{@id_prefix}-#{dom_id}", else: dom_id %>
       <.action_list_item
         is_single_select
         is_selected={@group.selected && value === @group.selected}
         phx-click={!@is_click_disabled && @update_theme_event}
         phx-value-key={@key}
         phx-value-data={value}
-        input_id={AttributeHelpers.create_dom_id(value, @group.title)}
+        input_id={input_id}
       >
         <%= label %>
       </.action_list_item>

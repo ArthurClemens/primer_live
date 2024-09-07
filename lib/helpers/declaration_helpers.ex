@@ -3,7 +3,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
 
   defmacro id do
     quote do
-      attr(:id, :string, default: nil, doc: "Component DOM ID.")
+      attr(:id, :string, default: nil, doc: "Component DOM id.")
     end
   end
 
