@@ -855,6 +855,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
           class: toggle_class,
           "aria-haspopup": "true",
           "aria-owns": focus_wrap_id,
+          "type": "button",
           "phx-click": Keyword.get(toggle_rest, :"phx-click", PromptHelpers.toggle_prompt(id))
         ]
       ])

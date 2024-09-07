@@ -7080,12 +7080,12 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@prompt_attrs}>
-      <label {@toggle_attrs}>
+      <button {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
-      </label>
+      </button>
       <%= if @backdrop_attrs !== [] do %>
         <div {@backdrop_attrs}></div>
       <% end %>
@@ -7733,12 +7733,12 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@prompt_attrs}>
-      <label {@toggle_attrs}>
+      <button {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
-      </label>
+      </button>
       <%= if @backdrop_attrs !== [] do %>
         <div {@backdrop_attrs}></div>
       <% end %>
@@ -8053,12 +8053,12 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@prompt_attrs}>
-      <label {@toggle_attrs}>
+      <button {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
-      </label>
+      </button>
       <%= if @backdrop_attrs !== [] do %>
         <div {@backdrop_attrs}></div>
       <% end %>
