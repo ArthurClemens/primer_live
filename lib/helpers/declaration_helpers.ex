@@ -291,6 +291,15 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
+  defmacro form_control_legend_label do
+    quote do
+      attr(:label, :string,
+        default: nil,
+        doc: "Fieldset legend label."
+      )
+    end
+  end
+
   defmacro form_control_is_hide_label do
     quote do
       attr(:is_hide_label, :boolean,

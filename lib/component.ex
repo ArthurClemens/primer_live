@@ -2941,7 +2941,8 @@ defmodule PrimerLive.Component do
       field: field,
       validation_marker_class: validation_marker_class,
       caption: caption,
-      required?: required?
+      required?: required?,
+      input_id: input_id
     } = AttributeHelpers.common_input_attrs(assigns)
 
     classes = %{
@@ -2982,7 +2983,7 @@ defmodule PrimerLive.Component do
     label_attributes =
       AttributeHelpers.append_attributes([
         [class: classes[:label]],
-        [for: assigns[:for] || nil]
+        [for: assigns[:for] || input_id]
       ])
 
     label =
@@ -3082,7 +3083,7 @@ defmodule PrimerLive.Component do
   @doc section: :forms
 
   @doc ~S"""
-  Checkbox group renders a set of [`checkboxes`](`checkbox/1`).
+  Checkbox group renders a set of [`checkboxes`](`checkbox/1`) and wraps it in a `fieldset`. The `label` attribute generates a `legend` element.
 
   ```
   <.checkbox_group>
@@ -3094,10 +3095,12 @@ defmodule PrimerLive.Component do
   This is equivalent to:
 
   ```
-  <.form_control is_input_group>
-    <.checkbox name="roles[]" checked_value="admin" />
-    <.checkbox name="roles[]" checked_value="editor" />
-  </.form_control>
+  <fieldset>
+    <.form_control is_input_group>
+      <.checkbox name="roles[]" checked_value="admin" />
+      <.checkbox name="roles[]" checked_value="editor" />
+    </.form_control>
+  </fieldset>
   ```
 
   `is_input_group` (and hence `checkbox_group`) adds specific styling: a larger label font size, and layout for inputs, captions and validation.
@@ -3138,7 +3141,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.field()
   DeclarationHelpers.validation_message()
   DeclarationHelpers.caption("the checkbox group label")
-  DeclarationHelpers.form_control_label()
+  DeclarationHelpers.form_control_legend_label()
   DeclarationHelpers.form_control_is_hide_label()
   DeclarationHelpers.form_control_is_disabled()
   DeclarationHelpers.form_control_required_marker()
@@ -3148,17 +3151,11 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form_control_slot_inner_block("The checkbox group")
 
   def checkbox_group(assigns) do
-    ~H"""
-    <.form_control is_input_group {assigns}>
-      <%= render_slot(@inner_block) %>
-      <.input_validation_message
-        form={@form}
-        field={@field}
-        validation_message={@validation_message}
-        is_multiple
-      />
-    </.form_control>
-    """
+    fieldset_form_group(
+      Map.merge(assigns, %{
+        is_multiple: true
+      })
+    )
   end
 
   # ------------------------------------------------------------------------------------
@@ -3168,7 +3165,7 @@ defmodule PrimerLive.Component do
   @doc section: :forms
 
   @doc ~S"""
-  Radio group renders a set of [`radio buttons`](`radio_button/1`).
+  Radio group renders a set of [`radio buttons`](`radio_button/1`) and wraps it in a `fieldset`. The `label` attribute generates a `legend` element.
 
   ```
   <.radio_group>
@@ -3180,10 +3177,12 @@ defmodule PrimerLive.Component do
   This is equivalent to:
 
   ```
-  <.form_control is_input_group>
-    <.radio_button name="role" value="admin" />
-    <.radio_button name="role" value="editor" />
-  </.form_control>
+  <fieldset>
+    <.form_control is_input_group>
+      <.radio_button name="role" value="admin" />
+      <.radio_button name="role" value="editor" />
+    </.form_control>
+  </fieldset>
   ```
 
   `is_input_group` (and hence `radio_group`) adds specific styling: a larger label font size, and layout for inputs, captions and validation.
@@ -3217,7 +3216,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.field()
   DeclarationHelpers.validation_message()
   DeclarationHelpers.caption("the radio group label")
-  DeclarationHelpers.form_control_label()
+  DeclarationHelpers.form_control_legend_label()
   DeclarationHelpers.form_control_is_hide_label()
   DeclarationHelpers.form_control_is_disabled()
   DeclarationHelpers.form_control_required_marker()
@@ -3227,11 +3226,62 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form_control_slot_inner_block("The radio group")
 
   def radio_group(assigns) do
+    fieldset_form_group(
+      Map.merge(assigns, %{
+        is_multiple: false
+      })
+    )
+  end
+
+  attr :is_multiple, :boolean, required: true
+
+  defp fieldset_form_group(assigns) do
+    %{
+      derived_label: derived_label
+    } = AttributeHelpers.common_input_attrs(assigns)
+
+    classes = %{
+      fieldset: assigns.classes[:fieldset],
+      legend:
+        AttributeHelpers.classnames([
+          "FormControl-label",
+          assigns.classes[:label]
+        ])
+    }
+
+    fieldset_attrs =
+      AttributeHelpers.append_attributes(
+        class: classes.fieldset,
+        disabled: assigns.is_disabled
+      )
+
+    assigns =
+      assigns
+      |> assign(:fieldset_attrs, fieldset_attrs)
+      |> assign(:classes, classes)
+      |> assign(:label, not assigns.is_hide_label && (assigns.label || derived_label))
+      |> assign(
+        :form_control_attrs,
+        AttributeHelpers.assigns_to_attributes_sorted(assigns, [
+          :label
+        ])
+      )
+
     ~H"""
-    <.form_control is_input_group {assigns}>
-      <%= render_slot(@inner_block) %>
-      <.input_validation_message form={@form} field={@field} validation_message={@validation_message} />
-    </.form_control>
+    <fieldset {@fieldset_attrs}>
+      <%= if @label do %>
+        <legend class={@classes.legend}><%= @label %></legend>
+      <% end %>
+      <.form_control is_input_group {@form_control_attrs}>
+        <%= render_slot(@inner_block) %>
+        <.input_validation_message
+          form={@form}
+          field={@field}
+          validation_message={@validation_message}
+          is_multiple={@is_multiple}
+        />
+      </.form_control>
+    </fieldset>
     """
   end
 
@@ -4625,7 +4675,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Convenience checkbox component for use inside `checkbox_group/1`.
 
-  Sets attr `is_multiple` to true, so that the server receives an array of strings for the checked values.
+  Sets attribute `is_multiple` to true, so that the server receives an array of strings for the checked values.
 
   ```
   <.checkbox_in_group form={@form} field={@field} />

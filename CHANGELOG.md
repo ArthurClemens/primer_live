@@ -55,7 +55,31 @@ See for update instructions: "Updating to 0.8" below.
 - Replaced backdrop attributes `is_dark_backdrop`, `is_medium_backdrop` and `is_light_backdrop` with `backdrop_strength` and values `"strong"`, `"medium"` and `"light"`.
 - Menus and dialogs can now be closed with Escape by default.
 
-#### Updating to 0.8
+### Other changes
+
+#### Box with streams
+
+The [box](`PrimerLive.Component.box/1`) component now supports streams:
+
+```
+<.box stream={@streams.clients} id="clients">
+  <:row :let={{_dom_id, data}}>
+    <%= data.name %>
+  </:row>
+</.box>
+```
+
+This includes a breaking change: `let` is now reserved for stream data, so the callback data no longer contains `classes`.
+
+#### Fieldset wrapper for checkbox_group and radio_group
+
+The form group created by [checkbox_group](`PrimerLive.Component.checkbox_group/1`) and [radio_group](`PrimerLive.Component.radio_group/1`) is now automatically wrapped in a fieldset. The `label` attribute generates a `legend` element.
+
+#### Updated Octicons
+
+This update to version `19.11.0` includes around 50 additions. See [primer-live.org/octicon](https://primer-live.org/octicon) for a visual list.
+
+### Updating to 0.8
 
 - Replace `Promp.show` and `Prompt.hide`:
 
@@ -74,41 +98,28 @@ See for update instructions: "Updating to 0.8" below.
   - `is_medium_backdrop` becomes `backdrop_strength="medium"`
   - `is_light_backdrop` becomes `backdrop_strength="light"`
 - Attribute `is_escapable` can be removed because this is now the default. If the component should not be removed using Escape, use `is_escapable={false}`.
+
+#### Less used attributes
+
 - Form state: the previous method to preserve state, using "a fictitious and unique field name" can be removed.
   - Remove `form` and `field` from menu and dialog component attributes.
 - Because `focus_first` (without a selector) is now the default, nothing needs to be changed when using this attribute.
   - If in existing code a selector value is used, rename the attribute to `focus_after_opening_selector`.
 - Replace `prompt_options` and `phx_click_touch` with `status_callback_selector`. There's no simple way to replace `prompt_options`, because passing JavaScript functions is no longer supported. A solution could be very similar to the previous `phx_click_touch` method. See [Status callbacks](menus-and-dialogs.html#status-callbacks) for an example.
+- If you use `checkbox_group` or `radio_group` inside a `fieldset`, remove the fieldset as it is now redundant.
+- If you are using `box` with a `:let` callback:
 
-### Other changes
+  - Previous:
 
-#### Added support for streams to [Box](`PrimerLive.Component.box/1`)
+        <:row :let={classes}>
+          <.link href="/" class={classes.link}>Home</.link>
+        </:row>
 
-```
-<.box stream={@streams.clients} id="clients">
-  <:row :let={{_dom_id, data}}>
-    <%= data.name %>
-  </:row>
-</.box>
-```
+  - Becomes:
 
-This includes a breaking change: `let` is now reserved for stream data, so the callback data no longer contains `classes`.
-
-- Previous:
-
-      <:row :let={classes}>
-        <.link href="/" class={classes.link}>Home</.link>
-      </:row>
-
-- Becomes:
-
-      <:row>
-        <.link href="/" class="Box-row-link">Home</.link>
-      </:row>
-
-#### Updated Octicons
-
-This update to version `19.11.0` includes around 50 additions. See [primer-live.org/octicon](https://primer-live.org/octicon) for a visual list.
+        <:row>
+          <.link href="/" class="Box-row-link">Home</.link>
+        </:row>
 
 ## 0.7.2
 
