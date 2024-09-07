@@ -3056,7 +3056,7 @@ defmodule PrimerLive.Component do
 
   def form_group(assigns) do
     ComponentHelpers.deprecated_message(
-      "Deprecated component form_group: use form_control. Since 0.5.0."
+      "Deprecated component 'form_group': use 'form_control'. Since 0.5.0."
     )
 
     assigns = assigns |> assign(:deprecated_has_form_group, true)
@@ -4374,7 +4374,7 @@ defmodule PrimerLive.Component do
     input_type = assigns[:input_type]
 
     ComponentHelpers.deprecated_message(
-      "Deprecated attr hint used in #{input_type}: use caption. Since 0.5.0.",
+      "Deprecated attr 'hint' used in #{input_type}: use 'caption'. Since 0.5.0.",
       assigns[:hint] && assigns[:hint] !== []
     )
 
@@ -5121,7 +5121,7 @@ defmodule PrimerLive.Component do
 
   def alert(assigns) do
     ComponentHelpers.deprecated_message(
-      "Deprecated attr is_full used in alert: use is_full_width. Since 0.5.0.",
+      "Deprecated attr 'is_full' used in alert: use 'is_full_width'. Since 0.5.0.",
       !is_nil(assigns[:is_full])
     )
 
@@ -5946,11 +5946,14 @@ defmodule PrimerLive.Component do
   @doc section: :box
 
   @doc ~S"""
-  Box is a basic wrapper component for most layout related needs.
+  A box is a simple container with rounded corners, a white background, and a light gray border.
+  It can be used to display a single item or a list of items, with an optional header and footer.
 
-  A `box` is a container with rounded corners, a white background, and a light gray border.
-  By default, there are no other styles, such as padding; however, these can be introduced
-  with utility classes as needed.
+  Rows can be populated using streams.
+
+  ## Examples
+
+  ### Basic structure
 
   ```
   <.box>
@@ -5958,18 +5961,49 @@ defmodule PrimerLive.Component do
   </.box>
   ```
 
-  Slots allow for the creation of alternative styles and layouts.
+  A box containing a `blankslate/1`:
+
+  ```
+  <.box>
+    <.blankslate>
+      <:heading>
+        No Data Available
+      </:heading>
+      <p>
+        Info
+      </p>
+    </.blankslate>
+  </.box>
+  ```
+
+  A box containing a header, a list of rows and a footer:
 
   ```
   <.box>
     <:header>Header</:header>
-    <:body>Body</:body>
+    <:row>Row</:row>
+    <:row>Row</:row>
     <:row>Row</:row>
     <:footer>Footer</:footer>
   </.box>
   ```
 
-  ## Examples
+  ### Streams
+
+  To generate rows using streams:
+  - Pass an `id`.
+  - Provide a single `row` slot for displaying the stream data, using `:let` to get the stream data.
+  - When displaying multiple components with the same stream data, provide a unique id generation function for `row_id` attribute.
+
+  ```
+  <.box stream={@streams.clients} id="clients">
+    <:row :let={{_dom_id, data}}>
+      <%= data.name %>
+    </:row>
+  </.box>
+  ```
+
+  ### Other attributes
 
   Row themes:
 
@@ -6071,7 +6105,7 @@ defmodule PrimerLive.Component do
 
   ```
   <.box>
-    <:row :let={classes}>
+    <:row :let={%{classes: classes}}>
       <.link href="/" class={classes.link}>Home</.link>
     </:row>
   </.box>
@@ -6116,39 +6150,14 @@ defmodule PrimerLive.Component do
 
   [INSERT LVATTRDOCS]
 
-  ## Lets
-
-  ```
-  <:item :let={classes} />
-  ```
-
-  Yields a `classes` map, containing the merged values of default classnames, plus any value supplied to the `classes` component attribute.
-
-  ```
-  <.box classes={%{ link: "link-x" }}>
-    <:row :let={classes}>
-      <.link href="/" class={["my-link", classes.link]}>Home</.link>
-    </:row>
-  </.box>
-  ```
-
-  Results in:
-
-  ```
-  <div class="Box">
-    <div class="Box-row">
-      <a href="/" class="my-link Box-row-link link-x">Home</a>
-    </div>
-  </div>
-  ```
-
   ## Reference
 
-  [Primer Box](https://primer.style/design/components/box)
-  [Primer Border box](https://primer.style/design/components/border-box)
+  - [Primer Box](https://primer.style/design/components/box)
+  - [Primer Border box](https://primer.style/components/border-box)
 
   """
 
+  DeclarationHelpers.id()
   DeclarationHelpers.class()
 
   attr(:classes, :map,
@@ -6214,6 +6223,11 @@ defmodule PrimerLive.Component do
     """
   )
 
+  attr(:stream, :list, default: nil, doc: "An enumerable of stream items to insert.")
+  attr(:row_id, :any, default: nil, doc: "The function for generating the row id.")
+  attr(:row_item, :any, default: &Function.identity/1, doc: "The function for mapping each row.")
+  attr(:row_click, :any, default: nil, doc: "The function for handling `phx-click` on each row.")
+
   DeclarationHelpers.rest()
 
   slot :header,
@@ -6268,6 +6282,10 @@ defmodule PrimerLive.Component do
   slot(:inner_block, required: true, doc: "Unstructured content.")
 
   def box(assigns) do
+    if not is_nil(assigns.stream) && is_nil(assigns.id),
+      do:
+        ComponentHelpers.missing_attribute("box", "id", "An id is required when using a stream.")
+
     classes = %{
       box:
         AttributeHelpers.classnames([
@@ -6356,7 +6374,7 @@ defmodule PrimerLive.Component do
       """
     end
 
-    render_row = fn slot ->
+    render_row = fn slot, row_entry ->
       is_link = AttributeHelpers.link?(slot)
       class = classes.row.(slot, is_link)
 
@@ -6374,26 +6392,32 @@ defmodule PrimerLive.Component do
           :is_unread
         ])
 
+      row_id_fn = row_entry && (assigns.row_id || fn {id, _item} -> id end)
+
       attributes =
         AttributeHelpers.append_attributes(rest, [
-          [class: class]
+          [class: class],
+          row_entry && [id: row_id_fn.(row_entry)],
+          assigns.row_click && ["phx-click": assigns.row_click.(row_entry)]
         ])
+
+      slot_data = if row_entry && assigns.row_item, do: assigns.row_item.(row_entry), else: nil
 
       assigns =
         assigns
         |> assign(:is_link, is_link)
         |> assign(:attributes, attributes)
         |> assign(:slot, slot)
-        |> assign(:classes, classes)
+        |> assign(:slot_data, slot_data)
 
       ~H"""
       <%= if @is_link do %>
         <Phoenix.Component.link {@attributes}>
-          <%= render_slot(@slot, @classes) %>
+          <%= render_slot(@slot, @slot_data) %>
         </Phoenix.Component.link>
       <% else %>
         <div {@attributes}>
-          <%= render_slot(@slot, @classes) %>
+          <%= render_slot(@slot, @slot_data) %>
         </div>
       <% end %>
       """
@@ -6423,6 +6447,13 @@ defmodule PrimerLive.Component do
       assigns
       |> assign(:render_body, render_body)
       |> assign(:render_row, render_row)
+      |> assign(
+        :stream_attrs,
+        if(match?(%Phoenix.LiveView.LiveStream{}, assigns.stream) && "stream",
+          do: ["phx-update": "stream", id: "stream-#{assigns.id}"],
+          else: nil
+        )
+      )
 
     # Render inner_block, body and rows
     render_inner_content = fn ->
@@ -6432,8 +6463,16 @@ defmodule PrimerLive.Component do
         <%= @render_body.() %>
       <% end %>
       <%= if @row && @row !== [] do %>
-        <%= for slot <- @row do %>
-          <%= @render_row.(slot) %>
+        <%= if @stream && @stream !== [] do %>
+          <div {@stream_attrs}>
+            <%= for row_entry <- @stream do %>
+              <%= @render_row.(List.first(@row), row_entry) %>
+            <% end %>
+          </div>
+        <% else %>
+          <%= for slot <- @row do %>
+            <%= @render_row.(slot, nil) %>
+          <% end %>
         <% end %>
       <% end %>
       """
@@ -6621,7 +6660,7 @@ defmodule PrimerLive.Component do
         ])
 
       ComponentHelpers.deprecated_message(
-        "Deprecated attr is_full used in header slot item: use is_full_width. Since 0.5.0.",
+        "Deprecated attr 'is_full' used in header slot 'item': use 'is_full_width'. Since 0.5.0.",
         !is_nil(item[:is_full])
       )
 
@@ -6915,6 +6954,7 @@ defmodule PrimerLive.Component do
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
+        component: "dropdown",
         toggle_slot: toggle_slot,
         toggle_class: classes.toggle,
         menu_class: classes.dropdown,
@@ -7366,7 +7406,7 @@ defmodule PrimerLive.Component do
 
   def select_menu(assigns) do
     ComponentHelpers.deprecated_message(
-      "Deprecated attr is_right_aligned used in select_menu: use is_aligned_end. Since 0.5.1.",
+      "Deprecated attr 'is_right_aligned' used in select_menu: use 'is_aligned_end'. Since 0.5.1.",
       !is_nil(assigns[:is_right_aligned])
     )
 
@@ -7531,6 +7571,7 @@ defmodule PrimerLive.Component do
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
+        component: "select_menu",
         toggle_slot: toggle_slot,
         toggle_class: classes.toggle,
         menu_class: classes.select_menu,
@@ -7896,7 +7937,7 @@ defmodule PrimerLive.Component do
 
   def action_menu(assigns) do
     ComponentHelpers.deprecated_message(
-      "Deprecated attr is_right_aligned used in action_menu: use is_aligned_end. Since 0.5.1.",
+      "Deprecated attr 'is_right_aligned' used in action_menu: use 'is_aligned_end'. Since 0.5.1.",
       !is_nil(assigns[:is_right_aligned])
     )
 
@@ -7966,6 +8007,7 @@ defmodule PrimerLive.Component do
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
+        component: "action_menu",
         toggle_slot: toggle_slot,
         toggle_class: classes.toggle,
         menu_class: classes.action_menu,
@@ -8441,7 +8483,7 @@ defmodule PrimerLive.Component do
 
   def button_group(assigns) do
     ComponentHelpers.deprecated_message(
-      "Deprecated slot button used in button_group: use button components as children. Since 0.5.0.",
+      "Deprecated slot 'button' used in button_group: use button components as children. Since 0.5.0.",
       assigns[:button] && assigns[:button] !== []
     )
 
@@ -10173,7 +10215,7 @@ defmodule PrimerLive.Component do
 
   def parent_child_avatar(assigns) do
     ComponentHelpers.deprecated_message(
-      "Deprecated component parent_child_avatar: use avatar_pair. Since 0.5.1."
+      "Deprecated component 'parent_child_avatar': use 'avatar_pair'. Since 0.5.1."
     )
 
     avatar_pair(assigns)
@@ -10529,7 +10571,7 @@ defmodule PrimerLive.Component do
 
   def spinner(assigns) do
     ComponentHelpers.deprecated_message(
-      "Deprecated attr gap_color: use highlight_color. Since 0.5.1.",
+      "Deprecated attr 'gap_color': use 'highlight_color'. Since 0.5.1.",
       !is_nil(assigns[:gap_color])
     )
 
@@ -11534,6 +11576,7 @@ defmodule PrimerLive.Component do
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
+        component: "dialog",
         toggle_slot: nil,
         toggle_class: nil,
         menu_class: classes.dialog_wrapper,
@@ -11945,6 +11988,7 @@ defmodule PrimerLive.Component do
       touch_layer_attrs: touch_layer_attrs
     } =
       AttributeHelpers.prompt_attrs(assigns, %{
+        component: "drawer",
         toggle_slot: nil,
         toggle_class: nil,
         menu_class: nil,
@@ -12057,7 +12101,7 @@ defmodule PrimerLive.Component do
 
   def drawer_content(assigns) do
     ComponentHelpers.deprecated_message(
-      "Deprecated component drawer_content: use drawer's 'body' slot. Since 0.4.0."
+      "Deprecated component 'drawer_content': use drawer's 'body' slot. Since 0.4.0."
     )
 
     %{
@@ -12076,6 +12120,7 @@ defmodule PrimerLive.Component do
           status_callback_selector: nil
         }),
         %{
+          component: "drawer_content",
           toggle_slot: nil,
           toggle_class: nil,
           menu_class: nil,

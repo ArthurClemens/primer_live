@@ -314,27 +314,6 @@ defmodule PrimerLive.TestComponents.BoxTest do
              |> format_html()
   end
 
-  test "Row with link" do
-    assigns = %{}
-
-    assert rendered_to_string(~H"""
-           <.box classes={%{link: "link-x"}}>
-             <:row :let={classes}>
-               <.link href="/" class={["my-link", classes.link]}>Home</.link>
-             </:row>
-           </.box>
-           """)
-           |> format_html() ==
-             """
-             <div class="Box">
-             <div class="Box-row">
-             <a href="/" class="my-link Box-row-link link-x">Home</a>
-             </div>
-             </div>
-             """
-             |> format_html()
-  end
-
   test "Attribute: is_scrollable" do
     assigns = %{}
 
@@ -392,6 +371,48 @@ defmodule PrimerLive.TestComponents.BoxTest do
            |> format_html() ==
              """
              <div class="Box" style="border: 1px solid red;"></div>
+             """
+             |> format_html()
+  end
+
+  test "Stream" do
+    assigns = %{
+      streams: %{
+        __changed__: MapSet.new([:clients]),
+        clients: %Phoenix.LiveView.LiveStream{
+          name: :clients,
+          dom_id: fn {id, _item} -> id end,
+          ref: "0",
+          inserts: [
+            {"clients-1", -1, %{id: "1", first_name: "Ruth", last_name: "Saddlemore"}, nil},
+            {"clients-2", -1, %{id: "2", first_name: "John", last_name: "Bishop"}, nil},
+            {"clients-3", -1, %{id: "3", first_name: "Laura", last_name: "Manach"}, nil},
+            {"clients-4", -1, %{id: "4", first_name: "Julian", last_name: "Newton"}, nil},
+            {"clients-5", -1, %{id: "5", first_name: "Melissa", last_name: "Noakes"}, nil},
+            {"clients-6", -1, %{id: "6", first_name: "Quincy", last_name: "Pritchard"}, nil},
+            {"clients-7", -1, %{id: "7", first_name: "Melinda", last_name: "Crocket"}, nil},
+            {"clients-8", -1, %{id: "8", first_name: "Derek", last_name: "Samuel"}, nil}
+          ],
+          deletes: [],
+          reset?: false,
+          consumable?: false
+        },
+        __configured__: %{},
+        __ref__: 1
+      }
+    }
+
+    assert rendered_to_string(~H"""
+           <.box stream={@streams.clients} id="client-row-slot">
+             <:row :let={{_dom_id, client}}>
+               <%= client.last_name %>
+             </:row>
+             <:row>This row is ignored</:row>
+           </.box>
+           """)
+           |> format_html() ==
+             """
+             <div class="Box"><div phx-update="stream" id="stream-client-row-slot"><div class="Box-row" id="clients-1">Saddlemore</div><div class="Box-row" id="clients-2">Bishop</div><div class="Box-row" id="clients-3">Manach</div><div class="Box-row" id="clients-4">Newton</div><div class="Box-row" id="clients-5">Noakes</div><div class="Box-row" id="clients-6">Pritchard</div><div class="Box-row" id="clients-7">Crocket</div><div class="Box-row" id="clients-8">Samuel</div></div></div>
              """
              |> format_html()
   end

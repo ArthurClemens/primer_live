@@ -13,7 +13,7 @@ defmodule PrimerLive.Octicons do
 
   ### All octicons
 
-  See [primer-live.org/octicon](https://primer-live.org/octicon) for visuals.
+  See [primer-live.org/octicon](https://primer-live.org/octicon) for a visual list.
 
   ```
   <.octicon name="accessibility-16" />

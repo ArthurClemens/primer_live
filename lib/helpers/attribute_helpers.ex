@@ -809,6 +809,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
+      ...>     component: "some-component-name",
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -852,6 +853,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
+      ...>     component: "some-component-name",  
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -895,6 +897,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
+      ...>     component: "some-component-name",
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -938,6 +941,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
+      ...>     component: "some-component-name",
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -980,6 +984,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
+      ...>     component: "some-component-name",
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -1023,6 +1028,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
+      ...>     component: "some-component-name",
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -1081,6 +1087,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
+      ...>     component: "some-component-name",
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -1128,6 +1135,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ...>     is_escapable: true
       ...>   },
       ...>   %{
+      ...>     component: "some-component-name",
       ...>     toggle_slot: nil,
       ...>     toggle_class: "btn",
       ...>     menu_class: "",
@@ -1154,6 +1162,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       }
   """
   def prompt_attrs(assigns, %{
+        component: component,
         toggle_slot: toggle_slot,
         toggle_class: toggle_class,
         menu_class: menu_class,
@@ -1161,7 +1170,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       }) do
     id = assigns[:id] || assigns.rest[:id] || random_string()
 
-    if is_nil(id), do: ComponentHelpers.missing_attribute("id")
+    if is_nil(id), do: ComponentHelpers.missing_attribute(component, "id")
 
     toggle_id =
       if id,

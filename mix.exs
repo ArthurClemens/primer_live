@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.7.2",
+      version: "0.8.0-alpha",
       elixir: "~> 1.17",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       elixirc_paths: elixirc_paths(Mix.env()),
