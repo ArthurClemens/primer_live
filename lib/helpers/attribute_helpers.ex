@@ -421,6 +421,38 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   end
 
   @doc """
+  Creates a DOM-safe ID string from a label and optional prefix.
+
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("hello")
+          "hello"
+
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("hello", "pre")
+          "pre-hello"
+
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("dark_high_contrast")
+          "dark-high-contrast"
+
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("hello 123 bye (465) #$!", "pre")
+          "pre-hello-123-bye-465"
+
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("hello 123 bye (465) #$!", "form-01910f69-5f44-7603-bef1-475485871486")
+          "form-01910f69-5f44-7603-bef1-475485871486-hello-123-bye-465"
+
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("hello 123 bye (465) #$!", "999-form-01910f69-5f44-7603-bef1-475485871486")
+          "form-01910f69-5f44-7603-bef1-475485871486-hello-123-bye-465"
+  """
+  def create_dom_id(label, prefix \\ "") do
+    prefix = String.replace(prefix, ~r/^[0-9]+/, "-")
+
+    [prefix, label]
+    |> Enum.join("-")
+    |> String.replace(~r/[^A-Za-z0-9]/, "-")
+    |> String.replace(~r/[-]+/, "-")
+    |> String.trim("-")
+    |> String.downcase()
+  end
+
+  @doc """
   Generates the input name of a form field, using `Phoenix.HTML.Form.input_name/2` with support for multiple inputs (e.g. checkboxes).
   Param opts accepts
   - name: the field name
@@ -796,7 +828,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       }) do
     id = assigns[:id] || assigns.rest[:id] || random_string()
 
-    if is_nil(id), do: ComponentHelpers.missing_attribute(component, "id")
+    if is_nil(id), do: ComponentHelpers.missing_attribute(component, "'id'")
 
     focus_wrap_id = "focus-wrap-#{id}"
 

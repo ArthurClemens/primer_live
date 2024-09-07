@@ -31,7 +31,7 @@ defmodule PrimerLive.Component do
   @doc section: :menus
 
   @doc ~S"""
-  Action list is a vertical list of interactive actions or options. It's composed of items presented in a consistent. single-column format, with room for icons, descriptions, side information, and other rich visuals.
+  Action list is a vertical list of interactive actions or options. It's composed of items presented in a consistent, single-column format, with room for icons, descriptions, side information, and other rich visuals.
 
   Action list is composed of one or more child components:
   - `action_list_section_divider/1` - a divider with optional title
@@ -850,6 +850,15 @@ defmodule PrimerLive.Component do
   end
 
   def action_list_item(assigns) do
+    if (assigns.is_single_select || assigns.is_multiple_select) &&
+         not Enum.any?([assigns[:id], assigns.input_id, assigns.field]),
+       do:
+         ComponentHelpers.missing_attribute(
+           "action_list_item",
+           "'id', 'input_id' or 'field'",
+           "Any of these is used to create a unique input name."
+         )
+
     %{
       input_id: input_id
     } = AttributeHelpers.common_input_attrs(assigns, :checkbox)
@@ -963,16 +972,17 @@ defmodule PrimerLive.Component do
 
       assigns =
         assigns
-        |> assign(:content, content)
-        |> assign(:has_description, has_description)
+        |> assign(:checked_value, assigns[:checked_value])
         |> assign(:classes, classes)
-        |> assign(:render_content_elements, render_content_elements)
+        |> assign(:content, content)
+        |> assign(:field, assigns[:field])
+        |> assign(:form, assigns[:form])
+        |> assign(:has_description, has_description)
         |> assign(:has_leading_visual, has_leading_visual)
         |> assign(:has_trailing_visual, has_trailing_visual)
+        |> assign(:input_id, input_id)
         |> assign(:is_select, is_select)
-        |> assign(:form, assigns[:form])
-        |> assign(:field, assigns[:field])
-        |> assign(:checked_value, assigns[:checked_value])
+        |> assign(:render_content_elements, render_content_elements)
 
       ~H"""
       <%= if @is_select do %>
@@ -985,6 +995,7 @@ defmodule PrimerLive.Component do
             <.checkbox
               is_multiple
               checked={@is_selected}
+              name={!@field && @input_id}
               form={@form}
               field={@field}
               checked_value={@checked_value}
@@ -6286,7 +6297,7 @@ defmodule PrimerLive.Component do
       do:
         ComponentHelpers.missing_attribute(
           "box",
-          "id",
+          "'id'",
           "Attribute 'id' is required when using a stream."
         )
 
@@ -11561,7 +11572,7 @@ defmodule PrimerLive.Component do
 
   def dialog(assigns) do
     if is_nil(assigns.id),
-      do: ComponentHelpers.missing_attribute("dialog", "id")
+      do: ComponentHelpers.missing_attribute("dialog", "'id'")
 
     classes = %{
       dialog_wrapper:
@@ -11967,7 +11978,7 @@ defmodule PrimerLive.Component do
 
   def drawer(assigns) do
     if is_nil(assigns.id),
-      do: ComponentHelpers.missing_attribute("drawer", "id")
+      do: ComponentHelpers.missing_attribute("drawer", "'id'")
 
     # Get the body slot, if any
     body_slot = if assigns.body && assigns.body !== [], do: hd(assigns.body), else: []
@@ -13351,6 +13362,7 @@ defmodule PrimerLive.Component do
         phx-click={!@is_click_disabled && @update_theme_event}
         phx-value-key={@key}
         phx-value-data={value}
+        input_id={AttributeHelpers.create_dom_id(value, @group.title)}
       >
         <%= label %>
       </.action_list_item>
