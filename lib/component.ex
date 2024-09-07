@@ -6284,7 +6284,11 @@ defmodule PrimerLive.Component do
   def box(assigns) do
     if not is_nil(assigns.stream) && is_nil(assigns.id),
       do:
-        ComponentHelpers.missing_attribute("box", "id", "An id is required when using a stream.")
+        ComponentHelpers.missing_attribute(
+          "box",
+          "id",
+          "Attribute 'id' is required when using a stream."
+        )
 
     classes = %{
       box:
@@ -6478,7 +6482,10 @@ defmodule PrimerLive.Component do
       """
     end
 
-    box_attrs = AttributeHelpers.append_attributes(assigns.rest, [[class: assigns.classes.box]])
+    box_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [id: assigns.id, class: assigns.classes.box]
+      ])
 
     assigns =
       assigns
@@ -11553,6 +11560,9 @@ defmodule PrimerLive.Component do
   )
 
   def dialog(assigns) do
+    if is_nil(assigns.id),
+      do: ComponentHelpers.missing_attribute("dialog", "id")
+
     classes = %{
       dialog_wrapper:
         AttributeHelpers.classnames([
@@ -11956,6 +11966,9 @@ defmodule PrimerLive.Component do
   )
 
   def drawer(assigns) do
+    if is_nil(assigns.id),
+      do: ComponentHelpers.missing_attribute("drawer", "id")
+
     # Get the body slot, if any
     body_slot = if assigns.body && assigns.body !== [], do: hd(assigns.body), else: []
 

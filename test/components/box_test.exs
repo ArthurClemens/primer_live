@@ -412,7 +412,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
            """)
            |> format_html() ==
              """
-             <div class="Box"><div phx-update="stream" id="stream-client-row-slot"><div class="Box-row" id="clients-1">Saddlemore</div><div class="Box-row" id="clients-2">Bishop</div><div class="Box-row" id="clients-3">Manach</div><div class="Box-row" id="clients-4">Newton</div><div class="Box-row" id="clients-5">Noakes</div><div class="Box-row" id="clients-6">Pritchard</div><div class="Box-row" id="clients-7">Crocket</div><div class="Box-row" id="clients-8">Samuel</div></div></div>
+             <div class="Box" id="client-row-slot"><div phx-update="stream" id="stream-client-row-slot"><div class="Box-row" id="clients-1">Saddlemore</div><div class="Box-row" id="clients-2">Bishop</div><div class="Box-row" id="clients-3">Manach</div><div class="Box-row" id="clients-4">Newton</div><div class="Box-row" id="clients-5">Noakes</div><div class="Box-row" id="clients-6">Pritchard</div><div class="Box-row" id="clients-7">Crocket</div><div class="Box-row" id="clients-8">Samuel</div></div></div>
              """
              |> format_html()
   end
