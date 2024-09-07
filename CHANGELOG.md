@@ -84,19 +84,31 @@ See for update instructions: "Updating to 0.8" below.
 
 #### Added support for streams to [Box](`PrimerLive.Component.box/1`)
 
-This includes a breaking change in the `let` callback attribute. To support the provided `classes` data with or without using streams, this is now wrapped in a map.
+```
+<.box stream={@streams.clients} id="clients">
+  <:row :let={{_dom_id, data}}>
+    <%= data.name %>
+  </:row>
+</.box>
+```
+
+This includes a breaking change: `let` is now reserved for stream data, so the callback data no longer contains `classes`.
 
 - Previous:
 
       <:row :let={classes}>
+        <.link href="/" class={classes.link}>Home</.link>
+      </:row>
 
 - Becomes:
 
-      <:row :let={%{classes: classes}}>
+      <:row>
+        <.link href="/" class="Box-row-link">Home</.link>
+      </:row>
 
-#### Updated octicons
+#### Updated Octicons
 
-This update to version `19.11.0` includes around 50 additions.
+This update to version `19.11.0` includes around 50 additions. See [primer-live.org/octicon](https://primer-live.org/octicon) for a visual list.
 
 ## 0.7.2
 

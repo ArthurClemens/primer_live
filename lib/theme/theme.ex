@@ -11,7 +11,7 @@ defmodule PrimerLive.Theme do
 
   There is no easy way to save persistent session data in LiveView because LiveView's state is stored in a process that ends when the page is left.
 
-  ### Session for theme state has been removed
+  ### Session for theme state has been removed (as of 0.4.0)
 
   Using the session to store the theme state (for example [using a AJAX call roundtrip](https://thepugautomatic.com/2020/05/persistent-session-data-in-phoenix-liveview/)) does not work as expected: when navigating to another LiveView page, the updated session data is not refetched and only becomes available after a page refresh. This means that the previous offered solution with `PrimerLive.ThemeSessionController` is no longer recommended and in fact removed.
 

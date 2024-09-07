@@ -1,6 +1,12 @@
 defmodule PrimerLive.Helpers.DeclarationHelpers do
   @moduledoc false
 
+  defmacro id do
+    quote do
+      attr(:id, :string, default: nil, doc: "Component DOM ID.")
+    end
+  end
+
   defmacro class do
     quote do
       attr(:class, :any, default: nil, doc: "Additional classname.")
