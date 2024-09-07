@@ -798,6 +798,18 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     if is_nil(id), do: ComponentHelpers.missing_attribute(component, "id")
 
+    focus_wrap_id = "focus-wrap-#{id}"
+
+    focus_wrap_attrs =
+      append_attributes([
+        [
+          id: focus_wrap_id,
+          "data-focuswrap": "",
+          "phx-window-keydown": assigns.is_escapable && PromptHelpers.cancel_prompt(id),
+          "phx-key": "Escape"
+        ]
+      ])
+
     toggle_id =
       if id,
         do: "#{id}-toggle",
@@ -810,7 +822,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         [
           class: toggle_class,
           "aria-haspopup": "true",
-          for: toggle_id,
+          "aria-owns": focus_wrap_id,
           "phx-click": Keyword.get(toggle_rest, :"phx-click", PromptHelpers.toggle_prompt(id))
         ]
       ])
@@ -895,18 +907,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         is_menu && ["data-ismenu": ""],
         assigns[:is_fast] && ["data-isfast": ""],
         assigns.is_escapable != false && ["data-isescapable": ""]
-      ])
-
-    focus_wrap_id = "focus-wrap-#{id}"
-
-    focus_wrap_attrs =
-      append_attributes([
-        [
-          id: focus_wrap_id,
-          "data-focuswrap": "",
-          "phx-window-keydown": assigns.is_escapable && PromptHelpers.cancel_prompt(id),
-          "phx-key": "Escape"
-        ]
       ])
 
     is_backdrop = !!assigns[:is_backdrop]
