@@ -741,6 +741,11 @@ legend.FormControl-label {
     font-size: var(--h4-size, 16px);
 }
 
+/* -- copy form-group-header margin */
+legend.FormControl-label {
+    margin: 0 0 6px;
+}
+
 /* -- caption */
 .pl-FormControl--input-group .FormControl-caption {
     margin-top: -3px;

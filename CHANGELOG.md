@@ -79,6 +79,11 @@ The form group created by [checkbox_group](`PrimerLive.Component.checkbox_group/
 
 This update to version `19.11.0` includes around 50 additions. See [primer-live.org/octicon](https://primer-live.org/octicon) for a visual list.
 
+#### Accessibility
+
+- Added ARIA tags `aria-haspopup` and `aria-owns`.
+- DOM ids are reformatted to a DOM-safe ID string.
+
 ### Updating to 0.8
 
 - Replace `Promp.show` and `Prompt.hide`:

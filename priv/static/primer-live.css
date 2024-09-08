@@ -27327,6 +27327,9 @@ legend.FormControl-label {
   font-weight: var(--base-text-weight-normal, 400);
   font-size: var(--h4-size, 16px);
 }
+legend.FormControl-label {
+  margin: 0 0 6px;
+}
 .pl-FormControl--input-group .FormControl-caption {
   margin-top: -3px;
   font-size: var(--primer-text-body-size-medium, 14px);

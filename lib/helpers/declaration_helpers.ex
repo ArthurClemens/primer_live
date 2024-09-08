@@ -367,7 +367,9 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
           header: nil,
           label: nil,
           input_group_container: nil,
-          caption: nil
+          caption: nil,
+          fieldset: nil,
+          legend: nil
         },
         doc:
           """
@@ -384,6 +386,8 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
             label: "",                 # {component_name_title} label
             input_group_container: "", # Input group container (for checkbox_group and radio_group)
             caption: "",               # {component_name_title} caption
+            fieldset: "",              # Fieldset wrapper (for checkbox_group and radio_group) 
+            legend: "",                # Legend (for checkbox_group and radio_group)
           }
           ```
           """

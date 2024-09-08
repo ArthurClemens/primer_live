@@ -423,6 +423,12 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   @doc """
   Creates a DOM-safe ID string from a label and optional prefix.
 
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id(nil)
+          nil
+          
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("")
+          nil
+
           iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("hello")
           "hello"
 
@@ -444,12 +450,15 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   def create_dom_id(label, prefix \\ "") do
     prefix = String.replace(prefix, ~r/^[0-9]+/, "-")
 
-    [prefix, label]
-    |> Enum.join("-")
-    |> String.replace(~r/[^A-Za-z0-9]/, "-")
-    |> String.replace(~r/[-]+/, "-")
-    |> String.trim("-")
-    |> String.downcase()
+    dom_id =
+      [prefix, label]
+      |> Enum.join("-")
+      |> String.replace(~r/[^A-Za-z0-9]/, "-")
+      |> String.replace(~r/[-]+/, "-")
+      |> String.trim("-")
+      |> String.downcase()
+
+    if dom_id == "", do: nil, else: dom_id
   end
 
   @doc """
@@ -684,6 +693,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
          %{form: form, field: field, rest: rest, name: name}
        ) do
     id = cleanup_id(assigns[:id] || rest[:id])
+
     is_multiple = !!assigns[:is_multiple]
     checked_value = assigns[:checked_value]
 
@@ -699,7 +709,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     input_id =
       input_id(assigns[:input_id], id, input_type, input_name, value_for_derived_label)
-      |> cleanup_id()
+      |> create_dom_id()
 
     derived_label =
       case input_type do

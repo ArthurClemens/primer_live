@@ -860,7 +860,8 @@ defmodule PrimerLive.Component do
          )
 
     %{
-      input_id: input_id
+      input_id: input_id,
+      rest: rest
     } = AttributeHelpers.common_input_attrs(assigns, :checkbox)
 
     is_selected = assigns.is_selected
@@ -1075,7 +1076,8 @@ defmodule PrimerLive.Component do
 
       attributes =
         AttributeHelpers.append_attributes([
-          [class: classes.content, for: input_id],
+          [class: classes.content],
+          is_form_input && [for: AttributeHelpers.create_dom_id(rest[:for] || input_id)],
           !is_nil(is_expanded) &&
             ["aria-expanded": is_expanded |> Atom.to_string()]
         ])
@@ -2913,6 +2915,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form_control_required_marker()
   DeclarationHelpers.class()
   DeclarationHelpers.form_control_classes("form control")
+  attr :is_wrap_in_fieldset, :boolean, default: false
   DeclarationHelpers.rest()
   DeclarationHelpers.form_control_deprecated_has_form_group()
   DeclarationHelpers.form_control_for()
@@ -2975,40 +2978,67 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "FormControl-caption",
           assigns.classes[:caption]
+        ]),
+      fieldset:
+        AttributeHelpers.classnames([
+          assigns.classes[:fieldset]
+        ]),
+      legend:
+        AttributeHelpers.classnames([
+          "FormControl-label",
+          assigns.classes[:legend]
         ])
     }
 
-    # If label is supplied, wrap it inside a label element
-    # else use the default generated label
-    label_attributes =
-      AttributeHelpers.append_attributes([
-        [class: classes[:label]],
-        [for: assigns[:for] || input_id]
-      ])
-
-    label =
+    label_text =
       cond do
         assigns.is_hide_label ->
           nil
 
         assigns[:label] ->
+          assigns[:label]
+
+        field ->
+          humanize_label = Phoenix.Naming.humanize(field)
+
+          if humanize_label === "Nil" do
+            nil
+          else
+            humanize_label
+          end
+
+        true ->
+          nil
+      end
+
+    # If label is supplied, wrap it inside a label element
+    # else use the default generated label
+    label_attributes =
+      AttributeHelpers.append_attributes([
+        [
+          class: classes[:label],
+          for: AttributeHelpers.create_dom_id(assigns[:for] || input_id)
+        ]
+      ])
+
+    label =
+      cond do
+        assigns.is_wrap_in_fieldset ->
+          label_text
+
+        field ->
           PhoenixHTMLHelpers.Form.label(
             form,
             field,
-            assigns[:label],
+            label_text,
             label_attributes
           )
 
         true ->
-          humanize_label = Phoenix.Naming.humanize(field)
-
-          case humanize_label === "Nil" do
-            true -> nil
-            false -> PhoenixHTMLHelpers.Form.label(form, field, label_attributes)
-          end
+          nil
       end
 
-    has_header_label = label && label !== "Nil"
+    has_header_label = label && label !== "Nil" && not assigns.is_wrap_in_fieldset
 
     show_required_marker =
       required? && !is_nil(assigns.required_marker) && assigns.required_marker !== ""
@@ -3018,38 +3048,88 @@ defmodule PrimerLive.Component do
         [class: AttributeHelpers.classnames([classes.control, validation_marker_class])]
       ])
 
+    render_header_label = fn ->
+      assigns =
+        assigns
+        |> assign(:classes, classes)
+        |> assign(:label, label)
+        |> assign(:show_required_marker, show_required_marker)
+
+      ~H"""
+      <div class={@classes.header}>
+        <%= @label %>
+        <%= if @show_required_marker do %>
+          <span aria-hidden="true"><%= @required_marker %></span>
+        <% end %>
+      </div>
+      """
+    end
+
+    render_content = fn ->
+      assigns =
+        assigns
+        |> assign(:classes, classes)
+        |> assign(:render_header_label, render_header_label)
+        |> assign(:control_attributes, control_attributes)
+        |> assign(:has_header_label, has_header_label)
+        |> assign(:caption, caption)
+
+      ~H"""
+      <div {@control_attributes}>
+        <%= if @has_header_label do %>
+          <%= @render_header_label.() %>
+        <% end %>
+        <%= if @caption do %>
+          <div class={@classes.caption}>
+            <%= @caption %>
+          </div>
+        <% end %>
+        <%= if @is_input_group do %>
+          <div class={@classes.input_group_container}>
+            <%= render_slot(@inner_block) %>
+          </div>
+        <% else %>
+          <%= render_slot(@inner_block) %>
+        <% end %>
+      </div>
+      """
+    end
+
+    render_fieldset = fn ->
+      fieldset_attrs =
+        AttributeHelpers.append_attributes(
+          class: classes.fieldset,
+          disabled: assigns.is_disabled
+        )
+
+      assigns =
+        assigns
+        |> assign(:label, label)
+        |> assign(:classes, classes)
+        |> assign(:fieldset_attrs, fieldset_attrs)
+        |> assign(:render_content, render_content)
+
+      ~H"""
+      <fieldset {@fieldset_attrs}>
+        <%= if @label do %>
+          <legend class={@classes.legend}><%= @label %></legend>
+        <% end %>
+        <%= @render_content.() %>
+      </fieldset>
+      """
+    end
+
     assigns =
       assigns
-      |> assign(:classes, classes)
-      |> assign(:control_attributes, control_attributes)
-      |> assign(:has_header_label, has_header_label)
-      |> assign(:show_required_marker, show_required_marker)
-      |> assign(:label, label)
-      |> assign(:caption, caption)
+      |> assign(:render_fieldset, render_fieldset)
+      |> assign(:render_content, render_content)
 
     ~H"""
-    <div {@control_attributes}>
-      <%= if @has_header_label do %>
-        <div class={@classes.header}>
-          <%= @label %>
-          <%= if @show_required_marker do %>
-            <span aria-hidden="true"><%= @required_marker %></span>
-          <% end %>
-        </div>
-      <% end %>
-      <%= if @caption do %>
-        <div class={@classes.caption}>
-          <%= @caption %>
-        </div>
-      <% end %>
-      <%= if @is_input_group do %>
-        <div class={@classes.input_group_container}>
-          <%= render_slot(@inner_block) %>
-        </div>
-      <% else %>
-        <%= render_slot(@inner_block) %>
-      <% end %>
-    </div>
+    <%= if @is_wrap_in_fieldset do %>
+      <%= @render_fieldset.() %>
+    <% else %>
+      <%= @render_content.() %>
+    <% end %>
     """
   end
 
@@ -3064,6 +3144,8 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.class()
   DeclarationHelpers.form_control_classes("form group")
   DeclarationHelpers.rest()
+  DeclarationHelpers.form_control_deprecated_has_form_group()
+  DeclarationHelpers.form_control_for()
   DeclarationHelpers.form_control_slot_inner_block("The form group")
 
   def form_group(assigns) do
@@ -3151,9 +3233,10 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form_control_slot_inner_block("The checkbox group")
 
   def checkbox_group(assigns) do
-    fieldset_form_group(
+    form_control(
       Map.merge(assigns, %{
-        is_multiple: true
+        is_multiple: true,
+        is_wrap_in_fieldset: true
       })
     )
   end
@@ -3226,63 +3309,12 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form_control_slot_inner_block("The radio group")
 
   def radio_group(assigns) do
-    fieldset_form_group(
+    form_control(
       Map.merge(assigns, %{
-        is_multiple: false
+        is_multiple: false,
+        is_wrap_in_fieldset: true
       })
     )
-  end
-
-  attr :is_multiple, :boolean, required: true
-
-  defp fieldset_form_group(assigns) do
-    %{
-      derived_label: derived_label
-    } = AttributeHelpers.common_input_attrs(assigns)
-
-    classes = %{
-      fieldset: assigns.classes[:fieldset],
-      legend:
-        AttributeHelpers.classnames([
-          "FormControl-label",
-          assigns.classes[:label]
-        ])
-    }
-
-    fieldset_attrs =
-      AttributeHelpers.append_attributes(
-        class: classes.fieldset,
-        disabled: assigns.is_disabled
-      )
-
-    assigns =
-      assigns
-      |> assign(:fieldset_attrs, fieldset_attrs)
-      |> assign(:classes, classes)
-      |> assign(:label, not assigns.is_hide_label && (assigns.label || derived_label))
-      |> assign(
-        :form_control_attrs,
-        AttributeHelpers.assigns_to_attributes_sorted(assigns, [
-          :label
-        ])
-      )
-
-    ~H"""
-    <fieldset {@fieldset_attrs}>
-      <%= if @label do %>
-        <legend class={@classes.legend}><%= @label %></legend>
-      <% end %>
-      <.form_control is_input_group {@form_control_attrs}>
-        <%= render_slot(@inner_block) %>
-        <.input_validation_message
-          form={@form}
-          field={@field}
-          validation_message={@validation_message}
-          is_multiple={@is_multiple}
-        />
-      </.form_control>
-    </fieldset>
-    """
   end
 
   # ------------------------------------------------------------------------------------
