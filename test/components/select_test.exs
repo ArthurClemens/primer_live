@@ -28,6 +28,11 @@ defmodule PrimerLive.TestComponents.SelectTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: id" do
@@ -50,6 +55,11 @@ defmodule PrimerLive.TestComponents.SelectTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_monospace" do
@@ -69,6 +79,11 @@ defmodule PrimerLive.TestComponents.SelectTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_small" do
@@ -88,6 +103,11 @@ defmodule PrimerLive.TestComponents.SelectTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_large" do
@@ -107,6 +127,11 @@ defmodule PrimerLive.TestComponents.SelectTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_full_width" do
@@ -126,6 +151,11 @@ defmodule PrimerLive.TestComponents.SelectTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: selected" do
@@ -148,6 +178,11 @@ defmodule PrimerLive.TestComponents.SelectTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "With form data: options as list" do
@@ -165,15 +200,14 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl-select-wrap pl-invalid"><select class="FormControl-select FormControl-medium" id="todo_statuses"
-             name="todo[statuses]">
-             <option value="admin">admin</option>
-             <option value="editor">editor</option>
-             </select></div>
-             </form>
+             <form method="post"><div class="FormControl-select-wrap pl-invalid"><select class="FormControl-select FormControl-medium" id="todo-statuses" name="todo[statuses]"><option value="admin">admin</option><option value="editor">editor</option></select></div></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "With form data: options as keyword list" do
@@ -191,16 +225,14 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl-select-wrap pl-invalid">
-             <select class="FormControl-select FormControl-medium" id="todo_statuses" name="todo[statuses]">
-             <option value="admin">Admin</option>
-             <option value="user">User</option>
-             </select>
-             </div>
-             </form>
+             <form method="post"><div class="FormControl-select-wrap pl-invalid"><select class="FormControl-select FormControl-medium" id="todo-statuses" name="todo[statuses]"><option value="admin">Admin</option><option value="user">User</option></select></div></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "With form data: options as nested keyword list" do
@@ -222,16 +254,14 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl-select-wrap pl-invalid">
-             <select class="FormControl-select FormControl-medium" id="todo_statuses" name="todo[statuses]">
-             <option disabled value="admin">Admin</option>
-             <option value="user">User</option>
-             </select>
-             </div>
-             </form>
+             <form method="post"><div class="FormControl-select-wrap pl-invalid"><select class="FormControl-select FormControl-medium" id="todo-statuses" name="todo[statuses]"><option disabled value="admin">Admin</option><option value="user">User</option></select></div></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: input_id" do
@@ -259,6 +289,11 @@ defmodule PrimerLive.TestComponents.SelectTest do
              </form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: prompt" do
@@ -281,16 +316,14 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl-select-wrap pl-invalid"><select class="FormControl-select FormControl-medium"
-             id="todo_statuses" name="todo[statuses]">
-             <option value="">Choose your role</option>
-             <option value="admin">Admin</option>
-             <option value="user">User</option>
-             </select></div>
-             </form>
+             <form method="post"><div class="FormControl-select-wrap pl-invalid"><select class="FormControl-select FormControl-medium" id="todo-statuses" name="todo[statuses]"><option value="">Choose your role</option><option value="admin">Admin</option><option value="user">User</option></select></div></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: prompt (disabled)" do
@@ -313,16 +346,14 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl-select-wrap pl-invalid"><select class="FormControl-select FormControl-medium"
-             id="todo_statuses" name="todo[statuses]">
-             <option disabled value="">Choose your role</option>
-             <option value="admin">Admin</option>
-             <option value="user">User</option>
-             </select></div>
-             </form>
+             <form method="post"><div class="FormControl-select-wrap pl-invalid"><select class="FormControl-select FormControl-medium" id="todo-statuses" name="todo[statuses]"><option disabled value="">Choose your role</option><option value="admin">Admin</option><option value="user">User</option></select></div></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: caption" do
@@ -380,6 +411,11 @@ defmodule PrimerLive.TestComponents.SelectTest do
              </select></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_multiple" do
@@ -412,21 +448,14 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl-select-wrap pl-multiple-select pl-invalid"><select
-             class="FormControl-select FormControl-medium" id="todo_statuses" multiple="" name="todo[statuses][]"
-             size="7">
-             <option value="admin">Admin</option>
-             <option selected value="user">User</option>
-             <option value="editor">Editor</option>
-             <option value="copywriter">Copywriter</option>
-             <option selected value="tester">Tester</option>
-             <option value="project_owner">Project owner</option>
-             <option value="developer">Developer</option>
-             </select></div>
-             </form>
+             <form method="post"><div class="FormControl-select-wrap pl-multiple-select pl-invalid"><select class="FormControl-select FormControl-medium" id="todo-statuses" multiple="" name="todo[statuses][]" size="7"><option value="admin">Admin</option><option selected value="user">User</option><option value="editor">Editor</option><option value="copywriter">Copywriter</option><option selected value="tester">Tester</option><option value="project_owner">Project owner</option><option value="developer">Developer</option></select></div></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Default validation" do
@@ -456,19 +485,14 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl-select-wrap pl-multiple-select pl-invalid" phx-feedback-for="todo[statuses][]"><select
-                     aria-describedby="todo_statuses-validation" class="FormControl-select FormControl-medium" id="todo_statuses"
-                     invalid="" multiple="" name="todo[statuses][]">
-                     <option value="admin">Admin</option>
-                     <option value="user">User</option>
-                 </select></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="todo_statuses-validation"
-                 phx-feedback-for="todo[statuses][]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12"
-                     height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>must select a status</span></div>
-             </form>
+             <form method="post"><div class="FormControl-select-wrap pl-multiple-select pl-invalid" phx-feedback-for="todo[statuses][]"><select aria-describedby="todo-statuses-validation" class="FormControl-select FormControl-medium" id="todo-statuses" invalid="" multiple="" name="todo[statuses][]"><option value="admin">Admin</option><option value="user">User</option></select></div><div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="todo-statuses-validation" phx-feedback-for="todo[statuses][]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>must select a status</span></div></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Classes" do
@@ -518,25 +542,14 @@ defmodule PrimerLive.TestComponents.SelectTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl group-x control-x pl-invalid">
-             <div class="form-group-header header-x"><label class="FormControl-label label-x"
-                for="todo_statuses">Statuses</label><span aria-hidden="true">*</span></div>
-             <div class="FormControl-select-wrap pl-invalid select_container-x my-select-container"><select aria-label="Role"
-                class="FormControl-select FormControl-medium select-x" id="todo_statuses" name="todo[statuses]">
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
-                <option value="editor">Editor</option>
-                <option value="copywriter">Copywriter</option>
-                <option value="tester">Tester</option>
-                <option value="project_owner">Project owner</option>
-                <option value="developer">Developer</option>
-             </select></div>
-             <div class="FormControl-caption caption-x">Caption</div>
-             </div>
-             </form>
+             <form method="post"><div class="FormControl group-x control-x pl-invalid"><div class="form-group-header header-x"><label class="FormControl-label label-x" for="todo-statuses">Statuses</label><span aria-hidden="true">*</span></div><div class="FormControl-select-wrap pl-invalid select_container-x my-select-container"><select aria-label="Role" class="FormControl-select FormControl-medium select-x" id="todo-statuses" name="todo[statuses]"><option value="admin">Admin</option><option value="user">User</option><option value="editor">Editor</option><option value="copywriter">Copywriter</option><option value="tester">Tester</option><option value="project_owner">Project owner</option><option value="developer">Developer</option></select></div><div class="FormControl-caption caption-x">Caption</div></div></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Other attributes" do
@@ -559,5 +572,10 @@ defmodule PrimerLive.TestComponents.SelectTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

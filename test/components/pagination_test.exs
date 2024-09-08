@@ -122,6 +122,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
              """
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "With page_count 2: should render the component" do
@@ -144,6 +149,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Many pages" do
@@ -168,6 +178,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: side_count" do
@@ -197,6 +212,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: sibling_count" do
@@ -224,6 +244,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_numbered false" do
@@ -246,6 +271,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: class" do
@@ -269,6 +299,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: classes" do
@@ -309,6 +344,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: labels" do
@@ -347,6 +387,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: link_options" do
@@ -374,6 +419,11 @@ defmodule PrimerLive.TestComponents.PaginationTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -397,5 +447,10 @@ defmodule PrimerLive.TestComponents.PaginationTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

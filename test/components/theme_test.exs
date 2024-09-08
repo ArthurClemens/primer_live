@@ -19,6 +19,11 @@ defmodule PrimerLive.TestComponents.ThemeTest do
              <div data-color-mode="auto" data-dark-theme="dark" data-light-theme="light">Content</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: theme_state" do
@@ -40,6 +45,11 @@ defmodule PrimerLive.TestComponents.ThemeTest do
              <div data-color-mode="dark" data-dark-theme="dark_high_contrast" data-light-theme="light_colorblind">Content</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: color_mode" do
@@ -63,6 +73,11 @@ defmodule PrimerLive.TestComponents.ThemeTest do
              <div data-color-mode="auto" data-dark-theme="dark" data-light-theme="light">Content</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: light_theme, dark_theme" do
@@ -114,6 +129,11 @@ defmodule PrimerLive.TestComponents.ThemeTest do
              <div data-color-mode="auto" data-dark-theme="dark_tritanopia" data-light-theme="light">dark_tritanopia</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: inline" do
@@ -129,6 +149,11 @@ defmodule PrimerLive.TestComponents.ThemeTest do
              <span data-color-mode="auto" data-dark-theme="dark" data-light-theme="light">Content</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Additional attributes" do
@@ -144,5 +169,10 @@ defmodule PrimerLive.TestComponents.ThemeTest do
              <div class="my-theme" data-color-mode="auto" data-dark-theme="dark" data-light-theme="light" dir="rtl">Content</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

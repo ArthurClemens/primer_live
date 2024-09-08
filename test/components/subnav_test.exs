@@ -19,6 +19,11 @@ defmodule PrimerLive.Components.SubnavTest do
              <div class="subnav pl-subnav--wrap">Content</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Subnav with component subnav_links" do
@@ -51,6 +56,11 @@ defmodule PrimerLive.Components.SubnavTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Subnav with component subnav_search" do
@@ -73,6 +83,11 @@ defmodule PrimerLive.Components.SubnavTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Subnav with component subnav_search_context" do
@@ -95,9 +110,14 @@ defmodule PrimerLive.Components.SubnavTest do
            """)
            |> format_html() ==
              """
-             <div class="subnav"><div class="subnav-search-context float-left"><div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-ismenu="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu<div class="dropdown-caret"></div></label><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button class="SelectMenu-item" role="menuitem">Item 2</button><button class="SelectMenu-item" role="menuitem">Item 3</button></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div><div class="subnav-search float-left"><input class="FormControl-input FormControl-medium" type="search" /><svg class="octicon subnav-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></div></div>
+             <div class="subnav"><div class="subnav-search-context float-left"><div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-ismenu="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><button aria-haspopup="true" aria-owns="focus-wrap-querty" class="btn" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]" type="button">Menu<div class="dropdown-caret"></div></button><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button class="SelectMenu-item" role="menuitem">Item 2</button><button class="SelectMenu-item" role="menuitem">Item 3</button></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div><div class="subnav-search float-left"><input class="FormControl-input FormControl-medium" type="search" /><svg class="octicon subnav-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></div></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: classes" do
@@ -130,8 +150,13 @@ defmodule PrimerLive.Components.SubnavTest do
            """)
            |> format_html() ==
              """
-             <div class="subnav my-links-subnav"><nav class="subnav-links my-subnav-links"><a href="#url" class="subnav-item" aria-current="page">Link 1</a><a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="subnav-item">Link 2</a></nav></div><div class="subnav my-search-subnav"><div class="subnav-search-context float-left my-subnav-search-context"><div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-ismenu="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><label aria-haspopup="true" class="btn" for="querty-toggle" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]">Menu<div class="dropdown-caret"></div></label><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button class="SelectMenu-item" role="menuitem">Item 2</button><button class="SelectMenu-item" role="menuitem">Item 3</button></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div><div class="subnav-search float-left my-subnav-search"><input class="FormControl-input FormControl-medium" id="site-search" name="site-search" type="search" /><svg class="octicon subnav-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></div></div>
+             <div class="subnav my-links-subnav"><nav class="subnav-links my-subnav-links"><a href="#url" class="subnav-item" aria-current="page">Link 1</a><a href="#url" data-phx-link="redirect" data-phx-link-state="push" class="subnav-item">Link 2</a></nav></div><div class="subnav my-search-subnav"><div class="subnav-search-context float-left my-subnav-search-context"><div data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-close&quot;}]]" data-close="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;remove_class&quot;,{&quot;time&quot;:130,&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-130&quot;],[&quot;&quot;],[&quot;&quot;]]}],[&quot;pop_focus&quot;,{}]]" data-isescapable="" data-isfast="" data-ismenu="" data-open="[[&quot;add_class&quot;,{&quot;names&quot;:[&quot;is-open&quot;],&quot;to&quot;:&quot;#querty&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#querty [data-content]&quot;}],[&quot;add_class&quot;,{&quot;time&quot;:30,&quot;names&quot;:[&quot;is-showing&quot;],&quot;to&quot;:&quot;#querty&quot;,&quot;transition&quot;:[[&quot;duration-30&quot;],[&quot;&quot;],[&quot;&quot;]]}]]" data-prompt="" id="querty" phx-hook="Prompt"><button aria-haspopup="true" aria-owns="focus-wrap-querty" class="btn" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;event&quot;:&quot;prompt:toggle&quot;}]]" type="button">Menu<div class="dropdown-caret"></div></button><div data-touch="" phx-click="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]"></div><div class="SelectMenu"><div aria-role="menu" class="SelectMenu-modal" data-content=""><div id="focus-wrap-querty" phx-hook="Phoenix.FocusWrap" phx-window-keydown="[[&quot;exec&quot;,{&quot;to&quot;:&quot;#querty&quot;,&quot;attr&quot;:&quot;data-cancel&quot;}]]" phx-key="Escape" data-focuswrap=""><span id="focus-wrap-querty-start" tabindex="0" aria-hidden="true"></span><div class="SelectMenu-list"><button class="SelectMenu-item" role="menuitem">Item 1</button><button class="SelectMenu-item" role="menuitem">Item 2</button><button class="SelectMenu-item" role="menuitem">Item 3</button></div><span id="focus-wrap-querty-end" tabindex="0" aria-hidden="true"></span></div></div></div></div></div><div class="subnav-search float-left my-subnav-search"><input class="FormControl-input FormControl-medium" id="site-search" name="site-search" type="search" /><svg class="octicon subnav-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg></div></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

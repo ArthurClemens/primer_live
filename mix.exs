@@ -115,6 +115,16 @@ defmodule PrimerLive.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "cmd --cd assets npm install --legacy-peer-deps"],
+      # Testing
+      #
+      # Test with writing error results to file:
+      #    WRITE_TO_FILE=1 mix test
+      #    WRITE_TO_FILE=1 mix test some-file.exs
+      #
+      test: [
+        "cmd scripts/tests/clean_test_results.sh",
+        "test"
+      ],
       # Quality check
       qa: [
         "deps.clean --unlock --unused",

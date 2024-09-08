@@ -81,12 +81,13 @@ defmodule AttributeHelpersTest do
                  ],
                  toggle_attrs: [
                    {:"aria-haspopup", "true"},
+                   {:"aria-owns", "focus-wrap-some-id"},
                    {:class, "btn"},
-                   {:for, "some-id-toggle"},
                    {:"phx-click",
                     %Phoenix.LiveView.JS{
-                      ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]
-                    }}
+                      ops: [["dispatch", %{event: "prompt:toggle", to: "#some-id"}]]
+                    }},
+                   {:type, "button"}
                  ],
                  touch_layer_attrs: [
                    "data-touch": "",
@@ -168,12 +169,13 @@ defmodule AttributeHelpersTest do
                ],
                toggle_attrs: [
                  {:"aria-haspopup", "true"},
+                 {:"aria-owns", "focus-wrap-some-id"},
                  {:class, "btn"},
-                 {:for, "some-id-toggle"},
                  {:"phx-click",
                   %Phoenix.LiveView.JS{
-                    ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]
-                  }}
+                    ops: [["dispatch", %{event: "prompt:toggle", to: "#some-id"}]]
+                  }},
+                 {:type, "button"}
                ],
                touch_layer_attrs: [
                  "data-touch": "",
@@ -259,12 +261,13 @@ defmodule AttributeHelpersTest do
                ],
                toggle_attrs: [
                  {:"aria-haspopup", "true"},
+                 {:"aria-owns", "focus-wrap-some-id"},
                  {:class, "btn"},
-                 {:for, "some-id-toggle"},
                  {:"phx-click",
                   %Phoenix.LiveView.JS{
-                    ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]
-                  }}
+                    ops: [["dispatch", %{event: "prompt:toggle", to: "#some-id"}]]
+                  }},
+                 {:type, "button"}
                ],
                touch_layer_attrs: [
                  "data-touch": "",
@@ -354,12 +357,13 @@ defmodule AttributeHelpersTest do
                ],
                toggle_attrs: [
                  {:"aria-haspopup", "true"},
+                 {:"aria-owns", "focus-wrap-some-id"},
                  {:class, "btn"},
-                 {:for, "some-id-toggle"},
                  {:"phx-click",
                   %Phoenix.LiveView.JS{
-                    ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]
-                  }}
+                    ops: [["dispatch", %{event: "prompt:toggle", to: "#some-id"}]]
+                  }},
+                 {:type, "button"}
                ],
                touch_layer_attrs: [
                  "data-touch": "",
@@ -441,12 +445,13 @@ defmodule AttributeHelpersTest do
                ],
                toggle_attrs: [
                  {:"aria-haspopup", "true"},
+                 {:"aria-owns", "focus-wrap-some-id"},
                  {:class, "btn"},
-                 {:for, "some-id-toggle"},
                  {:"phx-click",
                   %Phoenix.LiveView.JS{
-                    ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]
-                  }}
+                    ops: [["dispatch", %{event: "prompt:toggle", to: "#some-id"}]]
+                  }},
+                 {:type, "button"}
                ],
                touch_layer_attrs: [
                  "data-touch": "",
@@ -555,12 +560,13 @@ defmodule AttributeHelpersTest do
                ],
                toggle_attrs: [
                  {:"aria-haspopup", "true"},
+                 {:"aria-owns", "focus-wrap-some-id"},
                  {:class, "btn"},
-                 {:for, "some-id-toggle"},
                  {:"phx-click",
                   %Phoenix.LiveView.JS{
-                    ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]
-                  }}
+                    ops: [["dispatch", %{event: "prompt:toggle", to: "#some-id"}]]
+                  }},
+                 {:type, "button"}
                ],
                touch_layer_attrs: [
                  "data-touch": "",
@@ -649,12 +655,13 @@ defmodule AttributeHelpersTest do
                ],
                toggle_attrs: [
                  {:"aria-haspopup", "true"},
+                 {:"aria-owns", "focus-wrap-some-id"},
                  {:class, "btn"},
-                 {:for, "some-id-toggle"},
                  {:"phx-click",
                   %Phoenix.LiveView.JS{
-                    ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]
-                  }}
+                    ops: [["dispatch", %{event: "prompt:toggle", to: "#some-id"}]]
+                  }},
+                 {:type, "button"}
                ],
                touch_layer_attrs: [
                  "data-touch": "",
@@ -748,12 +755,13 @@ defmodule AttributeHelpersTest do
                ],
                toggle_attrs: [
                  {:"aria-haspopup", "true"},
+                 {:"aria-owns", "focus-wrap-some-id"},
                  {:class, "btn"},
-                 {:for, "some-id-toggle"},
                  {:"phx-click",
                   %Phoenix.LiveView.JS{
-                    ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]
-                  }}
+                    ops: [["dispatch", %{event: "prompt:toggle", to: "#some-id"}]]
+                  }},
+                 {:type, "button"}
                ],
                touch_layer_attrs: [
                  "data-touch": "",

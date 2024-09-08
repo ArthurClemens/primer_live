@@ -17,6 +17,11 @@ defmodule PrimerLive.TestComponents.AvatarTest do
              <img class="avatar avatar-3" src="user.jpg" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: size" do
@@ -44,6 +49,11 @@ defmodule PrimerLive.TestComponents.AvatarTest do
              <img class="avatar avatar-8" src="user.jpg" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: size (unsupported values)" do
@@ -65,6 +75,11 @@ defmodule PrimerLive.TestComponents.AvatarTest do
              <img class="avatar avatar-3" src="user.jpg" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: size plus width or height" do
@@ -82,6 +97,11 @@ defmodule PrimerLive.TestComponents.AvatarTest do
              <img class="avatar" height="40" src="user.jpg" width="40" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_round" do
@@ -95,6 +115,11 @@ defmodule PrimerLive.TestComponents.AvatarTest do
              <img class="avatar avatar-3 pl-avatar--round" src="user.jpg" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Class" do
@@ -108,6 +133,11 @@ defmodule PrimerLive.TestComponents.AvatarTest do
              <img class="avatar avatar-3 my-avatar" src="user.jpg" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: style" do
@@ -121,5 +151,10 @@ defmodule PrimerLive.TestComponents.AvatarTest do
              <img class="avatar avatar-3" src="user.jpg" style="border: 1px solid red;" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

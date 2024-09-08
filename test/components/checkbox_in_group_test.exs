@@ -28,15 +28,14 @@ defmodule PrimerLive.TestComponents.CheckboxInGroupTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="[available_for_hire][]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="available_for_hire" name="[available_for_hire][]" type="checkbox" value="true" />
-             <span class="FormControl-checkbox-labelWrap">
-             <label class="FormControl-label" for="available_for_hire">Available for hire</label>
-             </span>
-             </span>
+             <span class="FormControl-checkbox-wrap"><input name="[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="available-for-hire" name="[available_for_hire][]" type="checkbox" value="true" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available-for-hire">Available for hire</label></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Form atom and field as string: should render with is_multiple" do
@@ -47,15 +46,14 @@ defmodule PrimerLive.TestComponents.CheckboxInGroupTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="user[available_for_hire][]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="user_available_for_hire" name="user[available_for_hire][]" type="checkbox" value="true" />
-             <span class="FormControl-checkbox-labelWrap">
-             <label class="FormControl-label" for="user_available_for_hire">Available for hire</label>
-             </span>
-             </span>
+             <span class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire" name="user[available_for_hire][]" type="checkbox" value="true" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire">Available for hire</label></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Phoenix form: should render with is_multiple" do
@@ -69,15 +67,13 @@ defmodule PrimerLive.TestComponents.CheckboxInGroupTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input
-             class="FormControl-checkbox" id="user_available_for_hire_coding" name="user[available_for_hire][]" type="checkbox"
-             value="coding" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="user_available_for_hire_coding">Coding</label></span></span>
-             <span class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input
-             class="FormControl-checkbox" id="user_available_for_hire_music" name="user[available_for_hire][]" type="checkbox"
-             value="music" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="user_available_for_hire_music">Music</label></span></span>
+             <span class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire-coding" name="user[available_for_hire][]" type="checkbox" value="coding" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire-coding">Coding</label></span></span><span class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire-music" name="user[available_for_hire][]" type="checkbox" value="music" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire-music">Music</label></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

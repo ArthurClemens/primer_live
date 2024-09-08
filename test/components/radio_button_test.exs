@@ -33,6 +33,11 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
              </span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Called with invalid form value" do
@@ -46,6 +51,11 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
              attr form: invalid value
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes: value" do
@@ -57,16 +67,14 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="role_admin" name="role" type="radio" value="admin" />
-             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role_admin">Admin</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="role_editor" name="role" type="radio" value="editor" />
-             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role_editor">Editor</label></span>
-             </span>
+             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role-admin" name="role" type="radio" value="admin" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role-admin">Admin</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role-editor" name="role" type="radio" value="editor" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role-editor">Editor</label></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: form, field and value" do
@@ -78,14 +86,14 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="user_role_admin" name="user[role]" type="radio" value="admin" />
-             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="user_role_admin">Admin</label></span>
-             </span>
-             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="user_role_editor" name="user[role]" type="radio" value="editor" />
-             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="user_role_editor">Editor</label></span>
-             </span>
+             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="user-role-admin" name="user[role]" type="radio" value="admin" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="user-role-admin">Admin</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="user-role-editor" name="user[role]" type="radio" value="editor" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="user-role-editor">Editor</label></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: field as string" do
@@ -97,14 +105,14 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="user_role_admin" name="user[role]" type="radio" value="admin" />
-             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="user_role_admin">Admin</label></span>
-             </span>
-             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="user_role_editor" name="user[role]" type="radio" value="editor" />
-             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="user_role_editor">Editor</label></span>
-             </span>
+             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="user-role-admin" name="user[role]" type="radio" value="admin" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="user-role-admin">Admin</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="user-role-editor" name="user[role]" type="radio" value="editor" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="user-role-editor">Editor</label></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: name only" do
@@ -116,14 +124,19 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role_admin" name="role" type="radio" value="admin" />
-             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role_admin">Admin</label></span>
+             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role-admin" name="role" type="radio" value="admin" />
+             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role-admin">Admin</label></span>
              </span>
-             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role_editor" name="role" type="radio" value="editor" />
-             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role_editor">Editor</label></span>
+             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role-editor" name="role" type="radio" value="editor" />
+             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role-editor">Editor</label></span>
              </span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: types" do
@@ -149,58 +162,14 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_x" name="types" type="radio" value="x" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_x">X</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_color" name="types" type="radio" value="color" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_color">Color</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_date" name="types" type="radio" value="date" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_date">Date</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_datetime-local" name="types" type="radio" value="datetime-local" />
-             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_datetime-local">Datetime-local</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_email" name="types" type="radio" value="email" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_email">Email</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_file" name="types" type="radio" value="file" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_file">File</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_hidden" name="types" type="radio" value="hidden" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_hidden">Hidden</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_number" name="types" type="radio" value="number" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_number">Number</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_password" name="types" type="radio" value="password" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_password">Password</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_range" name="types" type="radio" value="range" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_range">Range</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_search" name="types" type="radio" value="search" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_search">Search</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_telephone" name="types" type="radio" value="telephone" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_telephone">Telephone</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_text" name="types" type="radio" value="text" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_text">Text</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_textarea" name="types" type="radio" value="textarea" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_textarea">Textarea</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_time" name="types" type="radio" value="time" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_time">Time</label></span>
-             </span>
-             <span class="FormControl-radio-wrap">
-             <input class="FormControl-radio" id="types_url" name="types" type="radio" value="url" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types_url">Url</label></span>
-             </span>
-
+             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-x" name="types" type="radio" value="x" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-x">X</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-color" name="types" type="radio" value="color" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-color">Color</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-date" name="types" type="radio" value="date" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-date">Date</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-datetime-local" name="types" type="radio" value="datetime-local" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-datetime-local">Datetime-local</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-email" name="types" type="radio" value="email" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-email">Email</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-file" name="types" type="radio" value="file" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-file">File</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-hidden" name="types" type="radio" value="hidden" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-hidden">Hidden</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-number" name="types" type="radio" value="number" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-number">Number</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-password" name="types" type="radio" value="password" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-password">Password</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-range" name="types" type="radio" value="range" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-range">Range</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-search" name="types" type="radio" value="search" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-search">Search</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-telephone" name="types" type="radio" value="telephone" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-telephone">Telephone</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-text" name="types" type="radio" value="text" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-text">Text</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-textarea" name="types" type="radio" value="textarea" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-textarea">Textarea</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-time" name="types" type="radio" value="time" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-time">Time</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="types-url" name="types" type="radio" value="url" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="types-url">Url</label></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: checked" do
@@ -212,14 +181,19 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role_admin" name="role" type="radio" value="admin" />
-             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role_admin">Admin</label></span>
+             <span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role-admin" name="role" type="radio" value="admin" />
+             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role-admin">Admin</label></span>
              </span>
-             <span class="FormControl-radio-wrap"><input checked class="FormControl-radio" id="role_editor" name="role" type="radio" value="editor" />
-             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role_editor">Editor</label></span>
+             <span class="FormControl-radio-wrap"><input checked class="FormControl-radio" id="role-editor" name="role" type="radio" value="editor" />
+             <span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role-editor">Editor</label></span>
              </span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: classes" do
@@ -252,14 +226,14 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-radio-wrap pl-neutral container-x my-radio-button"><input
-             class="form-checkbox-details-trigger FormControl-radio input-x" id="user_role" name="user[role]" type="radio"
-             value="" /><span class="FormControl-radio-labelWrap label_container-x"><label aria-live="polite"
-             class="FormControl-label label-x my-label" for="user_role">Some label</label><span
-             class="FormControl-caption caption-x my-caption">Some caption</span><span
-             class="form-checkbox-details text-normal disclosure-x my-disclosure">Disclosed</span></span></span>
+             <span class="FormControl-radio-wrap pl-neutral container-x my-radio-button"><input class="form-checkbox-details-trigger FormControl-radio input-x" id="user-role" name="user[role]" type="radio" value="" /><span class="FormControl-radio-labelWrap label_container-x"><label aria-live="polite" class="FormControl-label label-x my-label" for="user-role">Some label</label><span class="FormControl-caption caption-x my-caption">Some caption</span><span class="form-checkbox-details text-normal disclosure-x my-disclosure">Disclosed</span></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes: tabindex" do
@@ -273,6 +247,11 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
              <span class="FormControl-radio-wrap"><input checked class="FormControl-radio" id="role" name="role" tabindex="1" type="radio" value="" /></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Label slot" do
@@ -290,6 +269,11 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
              label</label></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Label slot with attribute is_emphasised_label" do
@@ -307,6 +291,11 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
              </span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Disclosure slot" do
@@ -328,6 +317,11 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
              class="form-checkbox-details text-normal"><span>disclosure content</span></span></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Hint slot (deprecated)" do
@@ -352,6 +346,11 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
              </span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Caption slot" do
@@ -376,6 +375,11 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
              </span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Hint slot without label (not shown)" do
@@ -393,5 +397,10 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
              <span class="FormControl-radio-wrap"><input checked class="FormControl-radio" id="role" name="role" type="radio" value="" /></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

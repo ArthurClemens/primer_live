@@ -58,6 +58,11 @@ defmodule PrimerLive.Components.ToggleSwitchTest do
              height="16">STRIPPED_SVG_PATHS</svg></span></span><span class="ToggleSwitch-knob"></span></span></label>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: status_on_label, status_off_label" do
@@ -79,6 +84,11 @@ defmodule PrimerLive.Components.ToggleSwitchTest do
              height="16">STRIPPED_SVG_PATHS</svg></span></span><span class="ToggleSwitch-knob"></span></span></label>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_label_position_end" do
@@ -100,6 +110,11 @@ defmodule PrimerLive.Components.ToggleSwitchTest do
              height="16">STRIPPED_SVG_PATHS</svg></span></span><span class="ToggleSwitch-knob"></span></span></label>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_small" do
@@ -121,6 +136,11 @@ defmodule PrimerLive.Components.ToggleSwitchTest do
              height="16">STRIPPED_SVG_PATHS</svg></span></span><span class="ToggleSwitch-knob"></span></span></label>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_loading" do
@@ -146,6 +166,11 @@ defmodule PrimerLive.Components.ToggleSwitchTest do
              height="16">STRIPPED_SVG_PATHS</svg></span></span><span class="ToggleSwitch-knob"></span></span></label>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_derived_label" do
@@ -158,17 +183,14 @@ defmodule PrimerLive.Components.ToggleSwitchTest do
            """)
            |> format_html() ==
              """
-             <label class="ToggleSwitch"><input name="user[available_for_hire]" type="hidden" value="false" /><input checked
-             id="user_available_for_hire" name="user[available_for_hire]" type="checkbox" value="true" /><span
-             class="pl-ToggleSwitch__status-label-container"><span class="ToggleSwitch-status ToggleSwitch-statusOn">Available
-             for hire</span><span class="ToggleSwitch-status ToggleSwitch-statusOff">Available for hire</span></span><span
-             class="ToggleSwitch-track"><span class="ToggleSwitch-icons"><span class="ToggleSwitch-lineIcon"><svg
-             viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16"
-             height="16">STRIPPED_SVG_PATHS</svg></span><span class="ToggleSwitch-circleIcon"><svg viewBox="0 0 16 16"
-             xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16"
-             height="16">STRIPPED_SVG_PATHS</svg></span></span><span class="ToggleSwitch-knob"></span></span></label>
+             <label class="ToggleSwitch"><input name="user[available_for_hire]" type="hidden" value="false" /><input checked id="user-available-for-hire" name="user[available_for_hire]" type="checkbox" value="true" /><span class="pl-ToggleSwitch__status-label-container"><span class="ToggleSwitch-status ToggleSwitch-statusOn">Available for hire</span><span class="ToggleSwitch-status ToggleSwitch-statusOff">Available for hire</span></span><span class="ToggleSwitch-track"><span class="ToggleSwitch-icons"><span class="ToggleSwitch-lineIcon"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16" height="16">STRIPPED_SVG_PATHS</svg></span><span class="ToggleSwitch-circleIcon"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="16" height="16">STRIPPED_SVG_PATHS</svg></span></span><span class="ToggleSwitch-knob"></span></span></label>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -188,6 +210,11 @@ defmodule PrimerLive.Components.ToggleSwitchTest do
              class="ToggleSwitch-knob"></span></span></label>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Classes" do
@@ -234,5 +261,10 @@ defmodule PrimerLive.Components.ToggleSwitchTest do
              class="ToggleSwitch-knob toggle_knob-x"></span></span></label>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

@@ -17,6 +17,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="Label">Label</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Regular label: Attributes" do
@@ -54,6 +59,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="Label Label--inline">Label</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Regular label: Attribute: class" do
@@ -67,6 +77,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="Label my-label">Label</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Regular label: Other attributes" do
@@ -80,6 +95,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="Label" dir="rtl">Label</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Issue label: without attributes" do
@@ -93,6 +113,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="IssueLabel">Label</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Issue label: Attribute: is_big" do
@@ -106,6 +131,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="IssueLabel IssueLabel--big">Label</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Issue label: Attribute: class" do
@@ -119,6 +149,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="IssueLabel color-bg-accent-emphasis color-fg-on-emphasis">Label</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Issue label:Other attributes" do
@@ -132,6 +167,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="IssueLabel" dir="rtl">Label</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "State label: without attributes" do
@@ -145,6 +185,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="State">Label</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "State label: Attributes" do
@@ -167,6 +212,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
 
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "State label: Attribute: class" do
@@ -180,6 +230,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="State color-bg-accent-emphasis color-fg-on-emphasis">Label</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "State label:Other attributes" do
@@ -193,6 +248,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="State" dir="rtl">Label</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Counter label: without attributes" do
@@ -206,6 +266,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="Counter">12</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Counter label: Attributes" do
@@ -221,6 +286,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="Counter Counter--secondary">12</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Counter label: Attribute: class" do
@@ -234,6 +304,11 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="Counter color-bg-accent-emphasis color-fg-on-emphasis">12</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Counter label:Other attributes" do
@@ -247,5 +322,10 @@ defmodule PrimerLive.TestComponents.LabelTest do
              <span class="Counter" dir="rtl">12</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

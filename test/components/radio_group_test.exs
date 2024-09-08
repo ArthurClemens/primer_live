@@ -21,19 +21,14 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            """)
            |> format_html() ==
              """
-             <form>
-             <div class="FormControl pl-FormControl--input-group">
-             <div class="pl-FormControl--input-group__container"><span class="FormControl-radio-wrap"><input
-             class="FormControl-radio" id="role_admin" name="role" type="radio" value="admin" /><span
-             class="FormControl-radio-labelWrap"><label class="FormControl-label"
-             for="role_admin">Admin</label></span></span><span class="FormControl-radio-wrap"><input
-             class="FormControl-radio" id="role_editor" name="role" type="radio" value="editor" /><span
-             class="FormControl-radio-labelWrap"><label class="FormControl-label"
-             for="role_editor">Editor</label></span></span></div>
-             </div>
-             </form>
+             <form><fieldset><div class="FormControl"><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role-admin" name="role" type="radio" value="admin" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role-admin">Admin</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role-editor" name="role" type="radio" value="editor" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role-editor">Editor</label></span></span></div></fieldset></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Disabled" do
@@ -49,19 +44,14 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            """)
            |> format_html() ==
              """
-             <form>
-             <div class="FormControl pl-FormControl-disabled pl-FormControl--input-group">
-             <div class="pl-FormControl--input-group__container"><span class="FormControl-radio-wrap"><input
-             class="FormControl-radio" id="role_admin" name="role" type="radio" value="admin" /><span
-             class="FormControl-radio-labelWrap"><label class="FormControl-label"
-             for="role_admin">Admin</label></span></span><span class="FormControl-radio-wrap"><input
-             class="FormControl-radio" id="role_editor" name="role" type="radio" value="editor" /><span
-             class="FormControl-radio-labelWrap"><label class="FormControl-label"
-             for="role_editor">Editor</label></span></span></div>
-             </div>
-             </form>
+             <form><fieldset disabled><div class="FormControl pl-FormControl-disabled"><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role-admin" name="role" type="radio" value="admin" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role-admin">Admin</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role-editor" name="role" type="radio" value="editor" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role-editor">Editor</label></span></span></div></fieldset></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Caption" do
@@ -77,21 +67,14 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            """)
            |> format_html() ==
              """
-             <form>
-             <div class="FormControl pl-FormControl--input-group">
-             <div class="form-group-header"><label class="FormControl-label">Role</label></div>
-             <div class="FormControl-caption">Select one</div>
-             <div class="pl-FormControl--input-group__container"><span class="FormControl-radio-wrap"><input
-             class="FormControl-radio" id="role-caption_admin" name="role-caption" type="radio" value="admin" /><span
-             class="FormControl-radio-labelWrap"><label class="FormControl-label"
-             for="role-caption_admin">Admin</label></span></span><span class="FormControl-radio-wrap"><input
-             class="FormControl-radio" id="role-caption_editor" name="role-caption" type="radio" value="editor" /><span
-             class="FormControl-radio-labelWrap"><label class="FormControl-label"
-             for="role-caption_editor">Editor</label></span></span></div>
-             </div>
-             </form>
+             <form><fieldset><legend class="FormControl-label">Role</legend><div class="FormControl"><div class="FormControl-caption">Select one</div><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role-caption-admin" name="role-caption" type="radio" value="admin" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role-caption-admin">Admin</label></span></span><span class="FormControl-radio-wrap"><input class="FormControl-radio" id="role-caption-editor" name="role-caption" type="radio" value="editor" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="role-caption-editor">Editor</label></span></span></div></fieldset></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Derived label" do
@@ -121,25 +104,14 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl pl-FormControl--input-group pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label">Statuses</label>
-             <span aria-hidden="true">*</span>
-             </div>
-             <div class="pl-FormControl--input-group__container"><span class="FormControl-radio-wrap pl-invalid"><input
-             class="FormControl-radio" id="in-progress-derived-label" name="todo[statuses]" type="radio"
-             value="in-progress" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label"
-             for="in-progress-derived-label">In-progress</label></span></span><span
-             class="FormControl-radio-wrap pl-invalid"><input class="FormControl-radio" id="needs-review-derived-label"
-             name="todo[statuses]" type="radio" value="needs-review" /><span class="FormControl-radio-labelWrap"><label
-             class="FormControl-label" for="needs-review-derived-label">Needs-review</label></span></span><span
-             class="FormControl-radio-wrap pl-invalid"><input class="FormControl-radio" id="complete-derived-label"
-             name="todo[statuses]" type="radio" value="complete" /><span class="FormControl-radio-labelWrap"><label
-             class="FormControl-label" for="complete-derived-label">Complete</label></span></span></div>
-             </div>
-             </form>
+             <form method="post"><fieldset><legend class="FormControl-label">Statuses</legend><div class="FormControl pl-invalid"><span class="FormControl-radio-wrap pl-invalid"><input class="FormControl-radio" id="in-progress-derived-label" name="todo[statuses]" type="radio" value="in-progress" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="in-progress-derived-label">In-progress</label></span></span><span class="FormControl-radio-wrap pl-invalid"><input class="FormControl-radio" id="needs-review-derived-label" name="todo[statuses]" type="radio" value="needs-review" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="needs-review-derived-label">Needs-review</label></span></span><span class="FormControl-radio-wrap pl-invalid"><input class="FormControl-radio" id="complete-derived-label" name="todo[statuses]" type="radio" value="complete" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="complete-derived-label">Complete</label></span></span></div></fieldset></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Custom label" do
@@ -173,25 +145,14 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl pl-FormControl--input-group pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label">Statuses</label>
-             <span aria-hidden="true">*</span>
-             </div>
-             <div class="pl-FormControl--input-group__container"><span class="FormControl-radio-wrap pl-invalid"><input
-             class="FormControl-radio" id="in-progress-custom-label" name="todo[statuses]" type="radio"
-             value="in-progress" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label"
-             for="in-progress-custom-label">in progress</label></span></span><span
-             class="FormControl-radio-wrap pl-invalid"><input class="FormControl-radio" id="needs-review-custom-label"
-             name="todo[statuses]" type="radio" value="needs-review" /><span class="FormControl-radio-labelWrap"><label
-             class="FormControl-label" for="needs-review-custom-label">needs review</label></span></span><span
-             class="FormControl-radio-wrap pl-invalid"><input class="FormControl-radio" id="complete-custom-label"
-             name="todo[statuses]" type="radio" value="complete" /><span class="FormControl-radio-labelWrap"><label
-             class="FormControl-label" for="complete-custom-label">complete</label></span></span></div>
-             </div>
-             </form>
+             <form method="post"><fieldset><legend class="FormControl-label">Statuses</legend><div class="FormControl pl-invalid"><span class="FormControl-radio-wrap pl-invalid"><input class="FormControl-radio" id="in-progress-custom-label" name="todo[statuses]" type="radio" value="in-progress" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="in-progress-custom-label">in progress</label></span></span><span class="FormControl-radio-wrap pl-invalid"><input class="FormControl-radio" id="needs-review-custom-label" name="todo[statuses]" type="radio" value="needs-review" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="needs-review-custom-label">needs review</label></span></span><span class="FormControl-radio-wrap pl-invalid"><input class="FormControl-radio" id="complete-custom-label" name="todo[statuses]" type="radio" value="complete" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="complete-custom-label">complete</label></span></span></div></fieldset></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Default error" do
@@ -228,32 +189,13 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl pl-FormControl--input-group pl-invalid">
-                 <div class="form-group-header"><label class="FormControl-label">Statuses</label><span
-                         aria-hidden="true">*</span></div>
-                 <div class="FormControl-caption">Select one</div>
-                 <div class="pl-FormControl--input-group__container"><span class="FormControl-radio-wrap pl-invalid"
-                         phx-feedback-for="todo[statuses]"><input class="FormControl-radio" id="in-progress-default-error"
-                             invalid="" name="todo[statuses]" type="radio" value="in-progress" /><span
-                             class="FormControl-radio-labelWrap"><label class="FormControl-label"
-                                 for="in-progress-default-error">In progress</label></span></span><span
-                         class="FormControl-radio-wrap pl-invalid" phx-feedback-for="todo[statuses]"><input
-                             class="FormControl-radio" id="needs-review-default-error" invalid="" name="todo[statuses]"
-                             type="radio" value="needs-review" /><span class="FormControl-radio-labelWrap"><label
-                                 class="FormControl-label" for="needs-review-default-error">Needs
-                                 review</label></span></span><span class="FormControl-radio-wrap pl-invalid"
-                         phx-feedback-for="todo[statuses]"><input class="FormControl-radio" id="complete-default-error"
-                             invalid="" name="todo[statuses]" type="radio" value="complete" /><span
-                             class="FormControl-radio-labelWrap"><label class="FormControl-label"
-                                 for="complete-default-error">Complete</label></span></span>
-                     <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="todo_statuses-validation"
-                         phx-feedback-for="todo[statuses]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12"
-                             height="12" viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>must select a status</span></div>
-                 </div>
-             </div>
-             </form>
+             <form method="post"><fieldset><legend class="FormControl-label">Statuses</legend><div class="FormControl pl-invalid"><div class="FormControl-caption">Select one</div><span class="FormControl-radio-wrap pl-invalid" phx-feedback-for="todo[statuses]"><input class="FormControl-radio" id="in-progress-default-error" invalid="" name="todo[statuses]" type="radio" value="in-progress" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="in-progress-default-error">In progress</label></span></span><span class="FormControl-radio-wrap pl-invalid" phx-feedback-for="todo[statuses]"><input class="FormControl-radio" id="needs-review-default-error" invalid="" name="todo[statuses]" type="radio" value="needs-review" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="needs-review-default-error">Needs review</label></span></span><span class="FormControl-radio-wrap pl-invalid" phx-feedback-for="todo[statuses]"><input class="FormControl-radio" id="complete-default-error" invalid="" name="todo[statuses]" type="radio" value="complete" /><span class="FormControl-radio-labelWrap"><label class="FormControl-label" for="complete-default-error">Complete</label></span></span></div></fieldset></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

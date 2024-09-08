@@ -19,6 +19,11 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
              <div class="FormControl form-group">inputs</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: form and field (atoms)" do
@@ -29,11 +34,14 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl form-group">
-             <div class="form-group-header"><label class="FormControl-label">First name</label></div>inputs
-             </div>
+             <div class="FormControl form-group"><div class="form-group-header"><label class="FormControl-label" for="user-first-name">First name</label></div>inputs</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: field as string" do
@@ -44,11 +52,14 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl form-group">
-             <div class="form-group-header"><label class="FormControl-label">First name</label></div>inputs
-             </div>
+             <div class="FormControl form-group"><div class="form-group-header"><label class="FormControl-label" for="user-first-name">First name</label></div>inputs</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_hide_label" do
@@ -62,6 +73,11 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
              <div class="FormControl form-group">inputs</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_disabled" do
@@ -75,6 +91,11 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
              <div class="FormControl form-group pl-FormControl-disabled">inputs</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -88,6 +109,11 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
              <div class="FormControl form-group" dir="rtl">inputs</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Classes" do
@@ -119,13 +145,14 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl form-group my-form-group group-x control-x pl-invalid">
-             <div class="form-group-header header-x"><label class="FormControl-label label-x">First name</label><span aria-hidden="true">*</span></div>inputs
-             </div>
-             </form>
+             <form method="post"><div class="FormControl form-group my-form-group group-x control-x pl-invalid"><div class="form-group-header header-x"><label class="FormControl-label label-x" for="user-first-name">First name</label><span aria-hidden="true">*</span></div>inputs</div></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Checkboxes" do
@@ -146,22 +173,13 @@ defmodule PrimerLive.TestComponents.FormGroupDeprecatedTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl form-group pl-invalid">
-                 <div class="form-group-header"><label class="FormControl-label">Available for hire</label><span
-                         aria-hidden="true">*</span></div><span class="FormControl-checkbox-wrap pl-invalid"><input
-                         name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox"
-                         id="user_available_for_hire_admin" name="user[available_for_hire]" type="checkbox" value="admin" /><span
-                         class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-                             for="user_available_for_hire_admin">Admin</label></span></span><span
-                     class="FormControl-checkbox-wrap pl-invalid"><input name="user[available_for_hire]" type="hidden"
-                         value="false" /><input class="FormControl-checkbox" id="user_available_for_hire_editor"
-                         name="user[available_for_hire]" type="checkbox" value="editor" /><span
-                         class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-                             for="user_available_for_hire_editor">Editor</label></span></span>
-             </div>
-             </form>
+             <form method="post"><div class="FormControl form-group pl-invalid"><div class="form-group-header"><label class="FormControl-label" for="user-available-for-hire">Available for hire</label><span aria-hidden="true">*</span></div><span class="FormControl-checkbox-wrap pl-invalid"><input name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire-admin" name="user[available_for_hire]" type="checkbox" value="admin" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire-admin">Admin</label></span></span><span class="FormControl-checkbox-wrap pl-invalid"><input name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire-editor" name="user[available_for_hire]" type="checkbox" value="editor" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire-editor">Editor</label></span></span></div></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

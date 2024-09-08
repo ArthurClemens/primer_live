@@ -32,3 +32,4 @@ node_modules
 .DS_Store
 .elixir-tools
 .elixir_ls
+/priv/test_results

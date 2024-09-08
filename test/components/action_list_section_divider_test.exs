@@ -19,6 +19,11 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
              <li aria-hidden="true" class="ActionList-sectionDivider" role="separator" tabidex="-1"></li>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Without slots, attr is_filled" do
@@ -32,6 +37,11 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
              <li aria-hidden="true" class="ActionList-sectionDivider ActionList-sectionDivider--filled" role="separator" tabidex="-1"></li>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Title slot" do
@@ -47,6 +57,11 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
              <li class="ActionList-sectionDivider" tabidex="-1"><h3 class="ActionList-sectionDivider-title">Title</h3></li>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Title slot, attr is_filled" do
@@ -62,6 +77,11 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
              <li class="ActionList-sectionDivider ActionList-sectionDivider--filled" tabidex="-1"><h3 class="ActionList-sectionDivider-title">Title</h3></li>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Title with description" do
@@ -78,6 +98,11 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
              <li class="ActionList-sectionDivider" tabidex="-1"><h3 class="ActionList-sectionDivider-title">Title</h3><span class="ActionList-item-description">Descriptive title</span></li>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Description without title (draws a line)" do
@@ -93,6 +118,11 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
              <li aria-hidden="true" class="ActionList-sectionDivider" role="separator" tabidex="-1"></li>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Classes" do
@@ -118,5 +148,10 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
              <li class="ActionList-sectionDivider section_divider-x my-section-divider" tabidex="-1"><h3 class="ActionList-sectionDivider-title title-x my-title">Title</h3><span class="ActionList-item-description description-x my-description">Descriptive title</span></li>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

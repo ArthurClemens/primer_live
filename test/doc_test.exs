@@ -1,4 +1,4 @@
-defmodule PrimerLiveHelpersTest do
+defmodule PrimerLiveDocTest do
   @moduledoc false
 
   use ExUnit.Case

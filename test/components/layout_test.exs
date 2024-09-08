@@ -31,6 +31,11 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              <div class="Layout"></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slots" do
@@ -54,6 +59,11 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Specific order of slots: should maintain order" do
@@ -80,6 +90,11 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot attribute: order" do
@@ -122,6 +137,11 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Nested layout 1" do
@@ -157,6 +177,11 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Nested layout 2" do
@@ -192,6 +217,11 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Modifiers" do
@@ -229,6 +259,11 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              <div class="Layout Layout--flowRow-until-lg"></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Modifiers: is_centered_md, is_centered_lg, is_centered_xl" do
@@ -246,6 +281,11 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              <div class="Layout"><div class="Layout-sidebar">Sidebar content</div><div class="Layout-divider"></div><div class="Layout-main"><div class="Layout-main-centered-xl">Main content</div></div></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Modifiers: is_flow_row_shallow, is_flow_row_hidden" do
@@ -261,6 +301,11 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              <div class="Layout Layout--divided"><div class="Layout-sidebar">Sidebar content</div><div class="Layout-divider Layout-divider--flowRow-hidden"></div><div class="Layout-main">Main content</div></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: classes" do
@@ -292,6 +337,11 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -305,5 +355,10 @@ defmodule PrimerLive.TestComponents.LayoutTest do
              <div class="Layout" dir="rtl"></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

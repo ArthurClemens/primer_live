@@ -17,6 +17,11 @@ defmodule PrimerLive.TestComponents.AlertTest do
              <div class="flash"> Message </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Alert modifiers" do
@@ -40,6 +45,11 @@ defmodule PrimerLive.TestComponents.AlertTest do
              <div class="flash flash-full">Message</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Class" do
@@ -53,6 +63,11 @@ defmodule PrimerLive.TestComponents.AlertTest do
              <div class="flash flash-error alert-x">Message</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Classes" do
@@ -98,6 +113,11 @@ defmodule PrimerLive.TestComponents.AlertTest do
              <div class="flash flash-error error-x my-alert">Error</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -111,5 +131,10 @@ defmodule PrimerLive.TestComponents.AlertTest do
              <div class="flash" dir="rtl"> Message </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end
