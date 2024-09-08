@@ -110,6 +110,26 @@ defmodule PrimerLive.TestComponents.ButtonTest do
       reraise e, __STACKTRACE__
   end
 
+  test "Attribute: form" do
+    assigns = %{}
+
+    assert rendered_to_string(~H"""
+           <.button form="my-form" type="submit">
+             Submit
+           </.button>
+           """)
+           |> format_html() ==
+             """
+             <button class="btn" form="my-form" type="submit"><span class="pl-button__content">Submit</span></button>
+             """
+             |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
+  end
+
   test "Attribute: is_aligned_start" do
     assigns = %{}
 
