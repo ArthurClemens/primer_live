@@ -809,11 +809,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:"phx-*", :string,
-      doc: """
-      phx attributes.
-      """
-    )
+    attr(:"phx-click", :any)
+    attr(:"phx-target", :any)
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()

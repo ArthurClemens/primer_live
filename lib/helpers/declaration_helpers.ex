@@ -38,6 +38,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
   defmacro slot_phx do
     quote do
       attr(:"phx-click", :string)
+      attr(:"phx-target", :any)
     end
   end
 
