@@ -13465,9 +13465,15 @@ defmodule PrimerLive.Component do
   # Copy of Phoenix.Component.focus_wrap that ensures sorted attributes to aid testing
 
   defp pl_focus_wrap(assigns) do
-    assigns = assigns |> assign(:attrs, AttributeHelpers.assigns_to_attributes_sorted(assigns, [
-      id: assigns[:id], "phx-hook": "Phoenix.FocusWrap"
-      ]))
+    assigns =
+      assigns
+      |> assign(
+        :attrs,
+        AttributeHelpers.assigns_to_attributes_sorted(assigns,
+          id: assigns[:id],
+          "phx-hook": "Phoenix.FocusWrap"
+        )
+      )
 
     ~H"""
     <div {@attrs}>
