@@ -27225,7 +27225,8 @@ fieldset[disabled] .FormControl-textarea::placeholder {
   line-height: 1.25;
 }
 .Box-header + .Box-row,
-.Box-row + .Box-row {
+.Box-row + .Box-row,
+.Box-header + [data-stream-container] > .Box-row:first-of-type {
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
 }

@@ -111,6 +111,7 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
           Phoenix click function. Overrides the default toggle function.
           """
         )
+
         attr(:"phx-target", :any)
 
         attr(:"aria-label", :string)

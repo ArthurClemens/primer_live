@@ -6558,7 +6558,7 @@ defmodule PrimerLive.Component do
       <% end %>
       <%= if @row && @row !== [] do %>
         <%= if @stream && @stream !== [] do %>
-          <div {@stream_attrs}>
+          <div {@stream_attrs} data-stream-container="">
             <%= for row_entry <- @stream do %>
               <%= @render_row.(List.first(@row), row_entry) %>
             <% end %>
