@@ -19,6 +19,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              <div class="Box">Content</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Row slots" do
@@ -40,6 +45,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slots header, body, row, footer - should be placed in this order" do
@@ -69,6 +79,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Classes" do
@@ -116,6 +131,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Body slot with alert" do
@@ -134,6 +154,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              <div class="Box"><div class="flash">Alert message</div><div class="Box-body">Body</div></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Header title without header slot" do
@@ -156,6 +181,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Header title with header slot" do
@@ -180,6 +210,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Header title with icon button" do
@@ -214,6 +249,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Render result rows" do
@@ -235,6 +275,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Box modifiers" do
@@ -256,6 +301,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              <div class="Box Box--spacious">Content</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Row modifiers" do
@@ -285,6 +335,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Rows as links" do
@@ -312,6 +367,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_scrollable" do
@@ -347,6 +407,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -360,6 +425,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              <div class="Box" dir="rtl">Content</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: style" do
@@ -373,6 +443,11 @@ defmodule PrimerLive.TestComponents.BoxTest do
              <div class="Box" style="border: 1px solid red;"></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Stream" do
@@ -412,8 +487,13 @@ defmodule PrimerLive.TestComponents.BoxTest do
            """)
            |> format_html() ==
              """
-             <div class="Box"><div phx-update="stream" id="stream-client-row-slot"><div class="Box-row" id="clients-1">Saddlemore</div><div class="Box-row" id="clients-2">Bishop</div><div class="Box-row" id="clients-3">Manach</div><div class="Box-row" id="clients-4">Newton</div><div class="Box-row" id="clients-5">Noakes</div><div class="Box-row" id="clients-6">Pritchard</div><div class="Box-row" id="clients-7">Crocket</div><div class="Box-row" id="clients-8">Samuel</div></div></div>
+             <div class="Box" id="client-row-slot"><div phx-update="stream" id="stream-client-row-slot" data-stream-container=""><div class="Box-row" id="clients-1">Saddlemore</div><div class="Box-row" id="clients-2">Bishop</div><div class="Box-row" id="clients-3">Manach</div><div class="Box-row" id="clients-4">Newton</div><div class="Box-row" id="clients-5">Noakes</div><div class="Box-row" id="clients-6">Pritchard</div><div class="Box-row" id="clients-7">Crocket</div><div class="Box-row" id="clients-8">Samuel</div></div></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

@@ -19,6 +19,11 @@ defmodule PrimerLive.TestComponents.StyledHtmlTest do
              <div class="markdown-body">Content</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: class" do
@@ -34,6 +39,11 @@ defmodule PrimerLive.TestComponents.StyledHtmlTest do
              <div class="markdown-body my-content">Content</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -49,5 +59,10 @@ defmodule PrimerLive.TestComponents.StyledHtmlTest do
              <div class="markdown-body" dir="rtl">Content</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

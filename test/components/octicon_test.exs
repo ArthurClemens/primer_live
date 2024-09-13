@@ -21,6 +21,11 @@ defmodule PrimerLive.TestComponents.OcticonTest do
              </svg>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "With an incorrect name: should render an error message" do
@@ -34,6 +39,11 @@ defmodule PrimerLive.TestComponents.OcticonTest do
              Icon with name x does not exist.
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: class" do
@@ -51,6 +61,11 @@ defmodule PrimerLive.TestComponents.OcticonTest do
              </svg>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -68,5 +83,10 @@ defmodule PrimerLive.TestComponents.OcticonTest do
              </svg>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

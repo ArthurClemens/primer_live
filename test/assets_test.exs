@@ -1,4 +1,5 @@
 defmodule PrimerLiveAssetsTest do
+  @moduledoc false
   use ExUnit.Case
 
   test "priv/static files" do

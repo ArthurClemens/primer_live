@@ -593,7 +593,8 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 
 /* Ensure that successive Box-row siblings don't show rounded top corners. */
 .Box-header+.Box-row,
-.Box-row+.Box-row {
+.Box-row+.Box-row,
+.Box-header+[data-stream-container]>.Box-row:first-of-type {
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
 }
@@ -735,9 +736,15 @@ span[data-color-mode] {
 }
 
 /* -- label */
-.pl-FormControl--input-group .form-group-header .FormControl-label {
+.pl-FormControl--input-group .form-group-header .FormControl-label,
+legend.FormControl-label {
     font-weight: var(--base-text-weight-normal, 400);
     font-size: var(--h4-size, 16px);
+}
+
+/* -- copy form-group-header margin */
+legend.FormControl-label {
+    margin: 0 0 6px;
 }
 
 /* -- caption */

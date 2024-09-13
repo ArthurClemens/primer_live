@@ -19,6 +19,11 @@ defmodule PrimerLive.TestComponents.BranchNameTest do
              <span class="branch-name">some-name</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Link" do
@@ -42,6 +47,11 @@ defmodule PrimerLive.TestComponents.BranchNameTest do
              <a href="#url" data-phx-link="patch" data-phx-link-state="push" class="branch-name">patch</a>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Icon" do
@@ -64,6 +74,11 @@ defmodule PrimerLive.TestComponents.BranchNameTest do
              </span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Class" do
@@ -79,6 +94,11 @@ defmodule PrimerLive.TestComponents.BranchNameTest do
              <span class="branch-name my-branch-name">some-name</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra" do
@@ -94,5 +114,10 @@ defmodule PrimerLive.TestComponents.BranchNameTest do
              <span aria-label="Current branch" class="branch-name" dir="rtl">some-name</span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

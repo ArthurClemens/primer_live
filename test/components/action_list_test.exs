@@ -22,6 +22,11 @@ defmodule PrimerLive.TestComponents.ActionListTest do
              <ul class="ActionList" role="listbox">content</ul>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attributes: aria_label, role" do
@@ -37,6 +42,11 @@ defmodule PrimerLive.TestComponents.ActionListTest do
              <ul aria-label="Menu" class="ActionList" role="list">content</ul>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attributes: is_divided, is_full_bleed, is_multiple_select" do
@@ -60,6 +70,11 @@ defmodule PrimerLive.TestComponents.ActionListTest do
              <ul aria-multiselectable="true" class="ActionList" role="listbox">content</ul>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Class" do
@@ -75,6 +90,11 @@ defmodule PrimerLive.TestComponents.ActionListTest do
              <ul class="ActionList my-action-list" role="listbox">content</ul>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -90,6 +110,11 @@ defmodule PrimerLive.TestComponents.ActionListTest do
              <ul class="ActionList" dir="rtl" role="listbox">content</ul>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "With divider and aria-labelledby" do
@@ -110,6 +135,11 @@ defmodule PrimerLive.TestComponents.ActionListTest do
              <ul aria-labelledby="title-01" class="ActionList" role="listbox"><li class="ActionList-sectionDivider" tabidex="-1"><h3 class="ActionList-sectionDivider-title" id="title-01">Title</h3></li><li class="ActionList-item"><span class="ActionList-content"><span class="ActionList-item-label">Item</span></span></li></ul>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "With form" do
@@ -141,18 +171,14 @@ defmodule PrimerLive.TestComponents.ActionListTest do
            """)
            |> format_html() ==
              """
-             <form method="post" phx-submit="save" phx-change="validate">
-             <ul aria-multiselectable="true" class="ActionList" role="listbox">
-             <li class="ActionList-item"><label class="ActionList-content" for="todo_statuses_in-progress"><span
-                    class="ActionList-item-label">In progress</span></label></li>
-             <li class="ActionList-item"><label class="ActionList-content" for="todo_statuses_needs-review"><span
-                    class="ActionList-item-label">Needs review</span></label></li>
-             <li class="ActionList-item"><label class="ActionList-content" for="todo_statuses_complete"><span
-                    class="ActionList-item-label">Complete</span></label></li>
-             </ul>
-             </form>
+             <form method="post" phx-submit="save" phx-change="validate"><ul aria-multiselectable="true" class="ActionList" role="listbox"><li class="ActionList-item"><label class="ActionList-content" for="todo-statuses-in-progress"><span class="ActionList-item-label">In progress</span></label></li><li class="ActionList-item"><label class="ActionList-content" for="todo-statuses-needs-review"><span class="ActionList-item-label">Needs review</span></label></li><li class="ActionList-item"><label class="ActionList-content" for="todo-statuses-complete"><span class="ActionList-item-label">Complete</span></label></li></ul></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "With form, is_multiple_select" do
@@ -185,8 +211,13 @@ defmodule PrimerLive.TestComponents.ActionListTest do
            """)
            |> format_html() ==
              """
-             <form method="post" phx-submit="save" phx-change="validate"><ul aria-multiselectable="true" class="ActionList" role="listbox"><li class="ActionList-item" role="option"><label class="ActionList-content" for="todo_statuses_in-progress"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo_statuses_in-progress" name="todo[statuses][]" tabindex="0" type="checkbox" value="in-progress" /></span></span><span class="ActionList-item-label">In progress</span></label></li><li class="ActionList-item" role="option"><label class="ActionList-content" for="todo_statuses_needs-review"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo_statuses_needs-review" name="todo[statuses][]" tabindex="0" type="checkbox" value="needs-review" /></span></span><span class="ActionList-item-label">Needs review</span></label></li><li class="ActionList-item" role="option"><label class="ActionList-content" for="todo_statuses_complete"><span class="ActionList-item-visual ActionList-item-visual--leading"><span class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo_statuses_complete" name="todo[statuses][]" tabindex="0" type="checkbox" value="complete" /></span></span><span class="ActionList-item-label">Complete</span></label></li></ul></form>
+             <form method="post" phx-submit="save" phx-change="validate"><ul aria-multiselectable="true" class="ActionList" role="listbox"><li class="ActionList-item" role="option"><label class="ActionList-content" for="todo-statuses-in-progress"><span class="ActionList-item-visual ActionList-item-visual--leading"><div class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo-statuses-in-progress" name="todo[statuses][]" tabindex="0" type="checkbox" value="in-progress" /></div></span><span class="ActionList-item-label">In progress</span></label></li><li class="ActionList-item" role="option"><label class="ActionList-content" for="todo-statuses-needs-review"><span class="ActionList-item-visual ActionList-item-visual--leading"><div class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo-statuses-needs-review" name="todo[statuses][]" tabindex="0" type="checkbox" value="needs-review" /></div></span><span class="ActionList-item-label">Needs review</span></label></li><li class="ActionList-item" role="option"><label class="ActionList-content" for="todo-statuses-complete"><span class="ActionList-item-visual ActionList-item-visual--leading"><div class="FormControl-checkbox-wrap pl-invalid ActionList-item-multiSelectIcon"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo-statuses-complete" name="todo[statuses][]" tabindex="0" type="checkbox" value="complete" /></div></span><span class="ActionList-item-label">Complete</span></label></li></ul></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

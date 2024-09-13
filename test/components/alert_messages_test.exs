@@ -29,6 +29,11 @@ defmodule PrimerLive.TestComponents.AlertMessagesTest do
              Rest of content
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Class" do
@@ -42,6 +47,11 @@ defmodule PrimerLive.TestComponents.AlertMessagesTest do
              <div class="flash-messages x">Messages</div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -55,5 +65,10 @@ defmodule PrimerLive.TestComponents.AlertMessagesTest do
              <div class="flash-messages" dir="rtl"> Messages </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

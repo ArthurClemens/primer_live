@@ -21,19 +21,14 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
            """)
            |> format_html() ==
              """
-             <form>
-             <div class="FormControl pl-FormControl--input-group">
-             <div class="pl-FormControl--input-group__container"><span class="FormControl-checkbox-wrap"><input name="roles[]"
-             type="hidden" value="false" /><input class="FormControl-checkbox" id="roles_admin" name="roles[]"
-             type="checkbox" value="admin" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="roles_admin">Admin</label></span></span><span class="FormControl-checkbox-wrap"><input name="roles[]"
-             type="hidden" value="false" /><input class="FormControl-checkbox" id="roles_editor" name="roles[]"
-             type="checkbox" value="editor" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="roles_editor">Editor</label></span></span></div>
-             </div>
-             </form>
+             <form><fieldset><div class="FormControl"><div class="FormControl-checkbox-wrap"><input name="roles[]" type="hidden" value="false" /><input class="FormControl-checkbox" id="roles-admin" name="roles[]" type="checkbox" value="admin" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="roles-admin">Admin</label></div></div><div class="FormControl-checkbox-wrap"><input name="roles[]" type="hidden" value="false" /><input class="FormControl-checkbox" id="roles-editor" name="roles[]" type="checkbox" value="editor" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="roles-editor">Editor</label></div></div></div></fieldset></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Disabled" do
@@ -49,19 +44,14 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
            """)
            |> format_html() ==
              """
-             <form>
-             <div class="FormControl pl-FormControl-disabled pl-FormControl--input-group">
-               <div class="pl-FormControl--input-group__container"><span class="FormControl-checkbox-wrap"><input name="roles[]"
-                     type="hidden" value="false" /><input class="FormControl-checkbox" id="roles_admin" name="roles[]"
-                     type="checkbox" value="admin" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-                       for="roles_admin">Admin</label></span></span><span class="FormControl-checkbox-wrap"><input name="roles[]"
-                     type="hidden" value="false" /><input class="FormControl-checkbox" id="roles_editor" name="roles[]"
-                     type="checkbox" value="editor" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-                       for="roles_editor">Editor</label></span></span></div>
-             </div>
-             </form>
+             <form><fieldset disabled><div class="FormControl pl-FormControl-disabled"><div class="FormControl-checkbox-wrap"><input name="roles[]" type="hidden" value="false" /><input class="FormControl-checkbox" id="roles-admin" name="roles[]" type="checkbox" value="admin" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="roles-admin">Admin</label></div></div><div class="FormControl-checkbox-wrap"><input name="roles[]" type="hidden" value="false" /><input class="FormControl-checkbox" id="roles-editor" name="roles[]" type="checkbox" value="editor" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="roles-editor">Editor</label></div></div></div></fieldset></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Caption" do
@@ -77,23 +67,14 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
            """)
            |> format_html() ==
              """
-             <form>
-             <div class="FormControl pl-FormControl--input-group">
-             <div class="form-group-header"><label class="FormControl-label">Role</label></div>
-             <div class="FormControl-caption">Select one</div>
-             <div class="pl-FormControl--input-group__container"><span class="FormControl-checkbox-wrap"><input
-             name="role-caption[]" type="hidden" value="false" /><input class="FormControl-checkbox"
-             id="role-caption_admin" name="role-caption[]" type="checkbox" value="admin" /><span
-             class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="role-caption_admin">Admin</label></span></span><span class="FormControl-checkbox-wrap"><input
-             name="role-caption[]" type="hidden" value="false" /><input class="FormControl-checkbox"
-             id="role-caption_editor" name="role-caption[]" type="checkbox" value="editor" /><span
-             class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="role-caption_editor">Editor</label></span></span></div>
-             </div>
-             </form>
+             <form><fieldset><legend class="FormControl-label">Role</legend><div class="FormControl"><div class="FormControl-caption">Select one</div><div class="FormControl-checkbox-wrap"><input name="role-caption[]" type="hidden" value="false" /><input class="FormControl-checkbox" id="role-caption-admin" name="role-caption[]" type="checkbox" value="admin" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role-caption-admin">Admin</label></div></div><div class="FormControl-checkbox-wrap"><input name="role-caption[]" type="hidden" value="false" /><input class="FormControl-checkbox" id="role-caption-editor" name="role-caption[]" type="checkbox" value="editor" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role-caption-editor">Editor</label></div></div></div></fieldset></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Derived label" do
@@ -122,28 +103,14 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl pl-FormControl--input-group pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label">Statuses</label>
-             <span aria-hidden="true">*</span>
-             </div>
-             <div class="pl-FormControl--input-group__container"><span class="FormControl-checkbox-wrap pl-invalid"><input
-             name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox"
-             id="todo_statuses_in-progress" name="todo[statuses][]" type="checkbox" value="in-progress" /><span
-             class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="todo_statuses_in-progress">In-progress</label></span></span><span
-             class="FormControl-checkbox-wrap pl-invalid"><input name="todo[statuses][]" type="hidden" value="false" /><input
-             class="FormControl-checkbox" id="todo_statuses_needs-review" name="todo[statuses][]" type="checkbox"
-             value="needs-review" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="todo_statuses_needs-review">Needs-review</label></span></span><span
-             class="FormControl-checkbox-wrap pl-invalid"><input name="todo[statuses][]" type="hidden" value="false" /><input
-             class="FormControl-checkbox" id="todo_statuses_complete" name="todo[statuses][]" type="checkbox"
-             value="complete" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="todo_statuses_complete">Complete</label></span></span></div>
-             </div>
-             </form>
+             <form method="post"><fieldset><legend class="FormControl-label">Statuses</legend><div class="FormControl pl-invalid"><div class="FormControl-checkbox-wrap pl-invalid"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo-statuses-in-progress" name="todo[statuses][]" type="checkbox" value="in-progress" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="todo-statuses-in-progress">In-progress</label></div></div><div class="FormControl-checkbox-wrap pl-invalid"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo-statuses-needs-review" name="todo[statuses][]" type="checkbox" value="needs-review" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="todo-statuses-needs-review">Needs-review</label></div></div><div class="FormControl-checkbox-wrap pl-invalid"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo-statuses-complete" name="todo[statuses][]" type="checkbox" value="complete" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="todo-statuses-complete">Complete</label></div></div></div></fieldset></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Custom label" do
@@ -176,28 +143,14 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
            """)
            |> format_html() ==
              """
-             <form method="post">
-             <div class="FormControl pl-FormControl--input-group pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label">Statuses</label>
-             <span aria-hidden="true">*</span>
-             </div>
-             <div class="pl-FormControl--input-group__container"><span class="FormControl-checkbox-wrap pl-invalid"><input
-             name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox"
-             id="todo_statuses_in-progress" name="todo[statuses][]" type="checkbox" value="in-progress" /><span
-             class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="todo_statuses_in-progress">in
-             progress</label></span></span><span class="FormControl-checkbox-wrap pl-invalid"><input
-             name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox"
-             id="todo_statuses_needs-review" name="todo[statuses][]" type="checkbox" value="needs-review" /><span
-             class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="todo_statuses_needs-review">needs
-             review</label></span></span><span class="FormControl-checkbox-wrap pl-invalid"><input
-             name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox"
-             id="todo_statuses_complete" name="todo[statuses][]" type="checkbox" value="complete" /><span
-             class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="todo_statuses_complete">complete</label></span></span></div>
-             </div>
-             </form>
+             <form method="post"><fieldset><legend class="FormControl-label">Statuses</legend><div class="FormControl pl-invalid"><div class="FormControl-checkbox-wrap pl-invalid"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo-statuses-in-progress" name="todo[statuses][]" type="checkbox" value="in-progress" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="todo-statuses-in-progress">in progress</label></div></div><div class="FormControl-checkbox-wrap pl-invalid"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo-statuses-needs-review" name="todo[statuses][]" type="checkbox" value="needs-review" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="todo-statuses-needs-review">needs review</label></div></div><div class="FormControl-checkbox-wrap pl-invalid"><input name="todo[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="todo-statuses-complete" name="todo[statuses][]" type="checkbox" value="complete" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="todo-statuses-complete">complete</label></div></div></div></fieldset></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Default error" do
@@ -238,29 +191,13 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl pl-FormControl--input-group pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label">Status</label><span aria-hidden="true">*</span></div>
-             <div class="FormControl-caption">Pick any of these choices</div>
-             <div class="pl-FormControl--input-group__container"><span class="FormControl-checkbox-wrap pl-invalid"
-             phx-feedback-for="user[statuses][]"><input name="user[statuses][]" type="hidden" value="false" /><input
-             class="FormControl-checkbox" id="user_statuses_in-progress" invalid="" name="user[statuses][]" type="checkbox"
-             value="in-progress" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="user_statuses_in-progress">In progress</label></span></span><span
-             class="FormControl-checkbox-wrap pl-invalid" phx-feedback-for="user[statuses][]"><input name="user[statuses][]"
-             type="hidden" value="false" /><input class="FormControl-checkbox" id="user_statuses_needs-review" invalid=""
-             name="user[statuses][]" type="checkbox" value="needs-review" /><span
-             class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user_statuses_needs-review">Needs
-             review</label></span></span><span class="FormControl-checkbox-wrap pl-invalid"
-             phx-feedback-for="user[statuses][]"><input name="user[statuses][]" type="hidden" value="false" /><input
-             class="FormControl-checkbox" id="user_statuses_complete" invalid="" name="user[statuses][]" type="checkbox"
-             value="complete" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label"
-             for="user_statuses_complete">Complete</label></span></span>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_statuses-validation"
-             phx-feedback-for="user[statuses][]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-             viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>must select a status</span></div>
-             </div>
-             </div>
+             <fieldset><legend class="FormControl-label">Status</legend><div class="FormControl pl-invalid"><div class="FormControl-caption">Pick any of these choices</div><div class="FormControl-checkbox-wrap pl-invalid" phx-feedback-for="user[statuses][]"><input name="user[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-statuses-in-progress" invalid="" name="user[statuses][]" type="checkbox" value="in-progress" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-statuses-in-progress">In progress</label></div></div><div class="FormControl-checkbox-wrap pl-invalid" phx-feedback-for="user[statuses][]"><input name="user[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-statuses-needs-review" invalid="" name="user[statuses][]" type="checkbox" value="needs-review" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-statuses-needs-review">Needs review</label></div></div><div class="FormControl-checkbox-wrap pl-invalid" phx-feedback-for="user[statuses][]"><input name="user[statuses][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-statuses-complete" invalid="" name="user[statuses][]" type="checkbox" value="complete" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-statuses-complete">Complete</label></div></div></div></fieldset>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

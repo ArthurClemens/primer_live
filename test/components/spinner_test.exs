@@ -18,6 +18,11 @@ defmodule PrimerLive.Components.SpinnerTest do
              class="anim-rotate" height="32" width="32">STRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: size" do
@@ -35,6 +40,11 @@ defmodule PrimerLive.Components.SpinnerTest do
              width="40">STRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: color" do
@@ -54,6 +64,11 @@ defmodule PrimerLive.Components.SpinnerTest do
              focusable="false" fill="none" class="anim-rotate" height="32" width="32">STRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: highlight_color" do
@@ -73,6 +88,11 @@ defmodule PrimerLive.Components.SpinnerTest do
              focusable="false" fill="none" class="anim-rotate" height="32" width="32">STRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: gap_color (deprecated)" do
@@ -92,6 +112,11 @@ defmodule PrimerLive.Components.SpinnerTest do
              focusable="false" fill="none" class="anim-rotate" height="32" width="32">STRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Other attributes" do
@@ -106,5 +131,10 @@ defmodule PrimerLive.Components.SpinnerTest do
              class="anim-rotate my-spinner" dir="rtl" height="32" width="32" dir="rtl">STRIPPED_SVG_PATHS</svg>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

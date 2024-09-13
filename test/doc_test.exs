@@ -1,4 +1,6 @@
-defmodule PrimerLiveHelpersTest do
+defmodule PrimerLiveDocTest do
+  @moduledoc false
+
   use ExUnit.Case
   doctest PrimerLive.Helpers.AttributeHelpers
   doctest PrimerLive.Helpers.ComponentHelpers

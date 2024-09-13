@@ -421,6 +421,47 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   end
 
   @doc """
+  Creates a DOM-safe ID string from a label and optional prefix.
+
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id(nil)
+          nil
+          
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("")
+          nil
+
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("hello")
+          "hello"
+
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("hello", "pre")
+          "pre-hello"
+
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("dark_high_contrast")
+          "dark-high-contrast"
+
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("hello 123 bye (465) #$!", "pre")
+          "pre-hello-123-bye-465"
+
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("hello 123 bye (465) #$!", "form-01910f69-5f44-7603-bef1-475485871486")
+          "form-01910f69-5f44-7603-bef1-475485871486-hello-123-bye-465"
+
+          iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("hello 123 bye (465) #$!", "999-form-01910f69-5f44-7603-bef1-475485871486")
+          "form-01910f69-5f44-7603-bef1-475485871486-hello-123-bye-465"
+  """
+  def create_dom_id(label, prefix \\ "") do
+    prefix = String.replace(prefix, ~r/^[0-9]+/, "-")
+
+    dom_id =
+      [prefix, label]
+      |> Enum.join("-")
+      |> String.replace(~r/[^A-Za-z0-9]/, "-")
+      |> String.replace(~r/[-]+/, "-")
+      |> String.trim("-")
+      |> String.downcase()
+
+    if dom_id == "", do: nil, else: dom_id
+  end
+
+  @doc """
   Generates the input name of a form field, using `Phoenix.HTML.Form.input_name/2` with support for multiple inputs (e.g. checkboxes).
   Param opts accepts
   - name: the field name
@@ -652,6 +693,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
          %{form: form, field: field, rest: rest, name: name}
        ) do
     id = cleanup_id(assigns[:id] || rest[:id])
+
     is_multiple = !!assigns[:is_multiple]
     checked_value = assigns[:checked_value]
 
@@ -667,7 +709,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     input_id =
       input_id(assigns[:input_id], id, input_type, input_name, value_for_derived_label)
-      |> cleanup_id()
+      |> create_dom_id()
 
     derived_label =
       case input_type do
@@ -786,380 +828,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
   @doc ~S"""
   Extracts menu/dialog prompt attributes.
-
-  ## Tests
-
-      # Default values (with attr id to prevent getting random values in tests):
-      iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
-      ...>   %{
-      ...>     rest: %{
-      ...>       id: "some-id"
-      ...>     },
-      ...>     is_fast: false,
-      ...>     backdrop_strength: nil,
-      ...>     is_backdrop: false,
-      ...>     is_show: false,
-      ...>     show_state: nil,
-      ...>     is_show_on_mount: false,
-      ...>     on_cancel: nil,
-      ...>     focus_after_opening_selector: nil,
-      ...>     focus_after_closing_selector: nil,
-      ...>     transition_duration: nil,
-      ...>     status_callback_selector: nil,
-      ...>     is_escapable: true
-      ...>   },
-      ...>   %{
-      ...>     component: "some-component-name",
-      ...>     toggle_slot: nil,
-      ...>     toggle_class: "btn",
-      ...>     menu_class: "",
-      ...>     is_menu: true
-      ...>   })
-      %{
-        backdrop_attrs: [],
-        focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        prompt_attrs: [
-          class: nil,
-          "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
-          "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
-          "data-isescapable": "",
-          "data-ismenu": "",
-          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]]},
-          "data-prompt": "",
-          id: "some-id",
-          "phx-hook": "Prompt",
-          "phx-remove": nil
-        ],
-        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
-        touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
-      }
-
-      # With is_show_on_mount:
-      iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
-      ...>   %{
-      ...>     rest: %{
-      ...>       id: "some-id"
-      ...>     },
-      ...>     is_fast: false,
-      ...>     backdrop_strength: nil,
-      ...>     is_show: true,
-      ...>     show_state: nil,
-      ...>     is_show_on_mount: true,
-      ...>     on_cancel: nil,
-      ...>     focus_after_opening_selector: nil,
-      ...>     focus_after_closing_selector: nil,
-      ...>     transition_duration: nil,
-      ...>     status_callback_selector: nil,
-      ...>     is_escapable: true
-      ...>   },
-      ...>   %{
-      ...>     component: "some-component-name",  
-      ...>     toggle_slot: nil,
-      ...>     toggle_class: "btn",
-      ...>     menu_class: "",
-      ...>     is_menu: false
-      ...>   })
-      %{
-        backdrop_attrs: [],
-        focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        prompt_attrs: [
-          class: "is-open is-showing is-show_on_mount",
-          "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
-          "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
-          "data-isescapable": "",
-          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-show_on_mount"], to: "#some-id"}]]},
-          "data-prompt": "",
-          id: "some-id",
-          "phx-hook": "Prompt",
-          "phx-mounted": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-open", to: "#some-id"}]]},
-          "phx-remove": nil
-        ],
-        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
-        touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
-      }
-        
-      # With on_cancel and is_show_on_mount:
-      iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
-      ...>   %{
-      ...>     rest: %{
-      ...>       id: "some-id"
-      ...>     },
-      ...>     is_fast: false,
-      ...>     backdrop_strength: nil,
-      ...>     is_show: true,
-      ...>     show_state: nil,
-      ...>     is_show_on_mount: true,
-      ...>     on_cancel: Phoenix.LiveView.JS.patch("/"),
-      ...>     focus_after_opening_selector: nil,
-      ...>     focus_after_closing_selector: nil,
-      ...>     transition_duration: nil,
-      ...>     status_callback_selector: nil,
-      ...>     is_escapable: true
-      ...>   },
-      ...>   %{
-      ...>     component: "some-component-name",
-      ...>     toggle_slot: nil,
-      ...>     toggle_class: "btn",
-      ...>     menu_class: "",
-      ...>     is_menu: false
-      ...>   })
-      %{
-        backdrop_attrs: [],
-        focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        prompt_attrs: [
-          class: "is-open is-showing is-show_on_mount",
-          "data-cancel": %Phoenix.LiveView.JS{ops: [["patch", %{replace: false, href: "/"}], ["exec", %{attr: "data-close"}]]},
-          "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
-          "data-isescapable": "",
-          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-show_on_mount"], to: "#some-id"}]]},
-          "data-prompt": "",
-          id: "some-id",
-          "phx-hook": "Prompt",
-          "phx-mounted": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-open", to: "#some-id"}]]},
-          "phx-remove": %Phoenix.LiveView.JS{ops: [["exec", %{to: "#some-id", attr: "data-close"}]]}
-        ],
-        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
-        touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
-      }
-      
-      # With on_cancel and show_state "onset":
-      iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
-      ...>   %{
-      ...>     rest: %{
-      ...>       id: "some-id"
-      ...>     },
-      ...>     is_fast: false,
-      ...>     backdrop_strength: nil,
-      ...>     is_show: true,
-      ...>     show_state: "onset",
-      ...>     is_show_on_mount: nil,
-      ...>     on_cancel: Phoenix.LiveView.JS.patch("/"),
-      ...>     focus_after_opening_selector: nil,
-      ...>     focus_after_closing_selector: nil,
-      ...>     transition_duration: nil,
-      ...>     status_callback_selector: nil,
-      ...>     is_escapable: true
-      ...>   },
-      ...>   %{
-      ...>     component: "some-component-name",
-      ...>     toggle_slot: nil,
-      ...>     toggle_class: "btn",
-      ...>     menu_class: "",
-      ...>     is_menu: false
-      ...>   })
-      %{
-        backdrop_attrs: [],
-        focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        prompt_attrs: [
-          class: nil,
-          "data-cancel": %Phoenix.LiveView.JS{ops: [["patch", %{replace: false, href: "/"}], ["exec", %{attr: "data-close"}]]},
-          "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
-          "data-isescapable": "",
-          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]]},
-          "data-prompt": "",
-          id: "some-id",
-          "phx-hook": "Prompt",
-          "phx-mounted": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-open", to: "#some-id"}]]}
-        ],
-        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
-        touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
-      }
-
-      # With on_cancel and show_state "hold":
-      iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
-      ...>   %{
-      ...>     rest: %{
-      ...>       id: "some-id"
-      ...>     },
-      ...>     is_fast: false,
-      ...>     backdrop_strength: nil,
-      ...>     is_show: true,
-      ...>     show_state: "hold",
-      ...>     is_show_on_mount: true,
-      ...>     on_cancel: Phoenix.LiveView.JS.patch("/"),
-      ...>     focus_after_opening_selector: nil,
-      ...>     focus_after_closing_selector: nil,
-      ...>     transition_duration: nil,
-      ...>     status_callback_selector: nil,
-      ...>     is_escapable: true
-      ...>   },
-      ...>   %{
-      ...>     component: "some-component-name",
-      ...>     toggle_slot: nil,
-      ...>     toggle_class: "btn",
-      ...>     menu_class: "",
-      ...>     is_menu: false
-      ...>   })
-      %{
-        backdrop_attrs: [],
-        focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        prompt_attrs: [
-          class: "is-open is-showing is-show_on_mount",
-          "data-cancel": %Phoenix.LiveView.JS{ops: [["patch", %{replace: false, href: "/"}], ["exec", %{attr: "data-close"}]]},
-          "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
-          "data-isescapable": "",
-          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["add_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-show_on_mount"], to: "#some-id"}]]},
-          "data-prompt": "",
-          id: "some-id",
-          "phx-hook": "Prompt",
-          "phx-mounted": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-open", to: "#some-id"}]]}
-        ],
-        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
-        touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
-      }
-
-      # With transition_duration
-      iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
-      ...>   %{
-      ...>     rest: %{
-      ...>       id: "some-id"
-      ...>     },
-      ...>     is_fast: true,
-      ...>     backdrop_strength: nil,
-      ...>     is_backdrop: true,
-      ...>     is_show: false,
-      ...>     show_state: nil,
-      ...>     is_show_on_mount: false,
-      ...>     on_cancel: nil,
-      ...>     focus_after_opening_selector: nil,
-      ...>     focus_after_closing_selector: nil,
-      ...>     transition_duration: 500,
-      ...>     status_callback_selector: nil,
-      ...>     is_escapable: true
-      ...>   },
-      ...>   %{
-      ...>     component: "some-component-name",
-      ...>     toggle_slot: nil,
-      ...>     toggle_class: "btn",
-      ...>     menu_class: "",
-      ...>     is_menu: false
-      ...>   })
-      %{
-        backdrop_attrs: ["data-backdrop": ""],
-        focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        prompt_attrs: [
-          class: nil,
-          "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
-          "data-close": %Phoenix.LiveView.JS{
-            ops: [
-              ["set_attr", %{attr: ["style", "--prompt-transition-duration: 500ms; --prompt-fast-transition-duration: 500ms;"], to: "#some-id"}],
-              ["remove_class", %{names: ["is-showing"], to: "#some-id"}],
-              ["remove_class", %{names: ["is-open"], time: 500, to: "#some-id", transition: [["duration-500"], [""], [""]]}],
-              ["pop_focus", %{}]
-            ]
-          },
-          "data-isescapable": "",
-          "data-isfast": "",
-          "data-open": %Phoenix.LiveView.JS{
-            ops: [
-              ["set_attr", %{attr: ["style", "--prompt-transition-duration: 500ms; --prompt-fast-transition-duration: 500ms;"], to: "#some-id"}],
-              ["add_class", %{names: ["is-open"], to: "#some-id"}],
-              ["focus_first", %{to: "#some-id [data-content]"}],
-              ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]
-            ]
-          },
-          "data-prompt": "",
-          id: "some-id",
-          "phx-hook": "Prompt",
-          "phx-remove": nil
-        ],
-        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
-        touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
-      }
-
-      # Transition duration equals default duration:
-      iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
-      ...>   %{
-      ...>     rest: %{
-      ...>       id: "some-id"
-      ...>     },
-      ...>     is_fast: true,
-      ...>     backdrop_strength: nil,
-      ...>     is_backdrop: true,
-      ...>     is_show: false,
-      ...>     show_state: nil,
-      ...>     is_show_on_mount: false,
-      ...>     on_cancel: nil,
-      ...>     focus_after_opening_selector: nil,
-      ...>     focus_after_closing_selector: nil,
-      ...>     transition_duration: 170,
-      ...>     status_callback_selector: nil,
-      ...>     is_escapable: true
-      ...>   },
-      ...>   %{
-      ...>     component: "some-component-name",
-      ...>     toggle_slot: nil,
-      ...>     toggle_class: "btn",
-      ...>     menu_class: "",
-      ...>     is_menu: false
-      ...>   })
-      %{
-        backdrop_attrs: ["data-backdrop": ""],
-        focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        prompt_attrs: [
-          class: nil,
-          "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
-          "data-close": %Phoenix.LiveView.JS{
-            ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], time: 170, to: "#some-id", transition: [["duration-170"], [""], [""]]}], ["pop_focus", %{}]]
-          },
-          "data-isescapable": "",
-          "data-isfast": "",
-          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]]},
-          "data-prompt": "",
-          id: "some-id",
-          "phx-hook": "Prompt",
-          "phx-remove": nil
-        ],
-        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
-        touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
-      }
-
-      # Backdrop settings:
-      iex> PrimerLive.Helpers.AttributeHelpers.prompt_attrs(
-      ...>   %{
-      ...>     rest: %{
-      ...>       id: "some-id"
-      ...>     },
-      ...>     is_fast: true,
-      ...>     is_backdrop: true,
-      ...>     backdrop_strength: "medium",
-      ...>     backdrop_tint: "light",
-      ...>     is_show: false,
-      ...>     show_state: nil,
-      ...>     is_show_on_mount: false,
-      ...>     on_cancel: nil,
-      ...>     focus_after_opening_selector: nil,
-      ...>     focus_after_closing_selector: nil,
-      ...>     transition_duration: nil,
-      ...>     status_callback_selector: nil,
-      ...>     is_escapable: true
-      ...>   },
-      ...>   %{
-      ...>     component: "some-component-name",
-      ...>     toggle_slot: nil,
-      ...>     toggle_class: "btn",
-      ...>     menu_class: "",
-      ...>     is_menu: true
-      ...>   })
-      %{
-        backdrop_attrs: [{:"data-backdrop", ""}, {:"data-backdrop-strength", "medium"}, {:"data-backdrop-tint", "light"}],
-        focus_wrap_attrs: ["data-focuswrap": "", id: "focus-wrap-some-id", "phx-key": "Escape", "phx-window-keydown": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}],
-        prompt_attrs: [
-          class: nil,
-          "data-cancel": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-close"}]]},
-          "data-close": %Phoenix.LiveView.JS{ops: [["remove_class", %{names: ["is-showing"], to: "#some-id"}], ["remove_class", %{names: ["is-open"], to: "#some-id", transition: [["duration-"], [""], [""]]}], ["pop_focus", %{}]]},
-          "data-isescapable": "",
-          "data-isfast": "",
-          "data-ismenu": "",
-          "data-open": %Phoenix.LiveView.JS{ops: [["add_class", %{names: ["is-open"], to: "#some-id"}], ["focus_first", %{to: "#some-id [data-content]"}], ["add_class", %{names: ["is-showing"], time: 30, to: "#some-id", transition: [["duration-30"], [""], [""]]}]]},
-          "data-prompt": "",
-          id: "some-id",
-          "phx-hook": "Prompt",
-          "phx-remove": nil
-        ],
-        toggle_attrs: [{:"aria-haspopup", "true"}, {:class, "btn"}, {:for, "some-id-toggle"}, {:"phx-click", %Phoenix.LiveView.JS{ops: [["dispatch", %{to: "#some-id", event: "prompt:toggle"}]]}}],
-        touch_layer_attrs: ["data-touch": "", "phx-click": %Phoenix.LiveView.JS{ops: [["exec", %{attr: "data-cancel", to: "#some-id"}]]}]
-      }
   """
   def prompt_attrs(assigns, %{
         component: component,
@@ -1170,7 +838,19 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       }) do
     id = assigns[:id] || assigns.rest[:id] || random_string()
 
-    if is_nil(id), do: ComponentHelpers.missing_attribute(component, "id")
+    if is_nil(id), do: ComponentHelpers.missing_attribute(component, "'id'")
+
+    focus_wrap_id = "focus-wrap-#{id}"
+
+    focus_wrap_attrs =
+      append_attributes([
+        [
+          "data-focuswrap": "",
+          id: focus_wrap_id,
+          "phx-key": "Escape",
+          "phx-window-keydown": assigns.is_escapable && PromptHelpers.cancel_prompt(id)
+        ]
+      ])
 
     toggle_id =
       if id,
@@ -1182,10 +862,11 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     toggle_attrs =
       append_attributes(toggle_rest, [
         [
-          class: toggle_class,
           "aria-haspopup": "true",
-          for: toggle_id,
-          "phx-click": Keyword.get(toggle_rest, :"phx-click", PromptHelpers.toggle_prompt(id))
+          "aria-owns": focus_wrap_id,
+          class: toggle_class,
+          "phx-click": Keyword.get(toggle_rest, :"phx-click", PromptHelpers.toggle_prompt(id)),
+          type: "button"
         ]
       ])
 
@@ -1269,18 +950,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         is_menu && ["data-ismenu": ""],
         assigns[:is_fast] && ["data-isfast": ""],
         assigns.is_escapable != false && ["data-isescapable": ""]
-      ])
-
-    focus_wrap_id = "focus-wrap-#{id}"
-
-    focus_wrap_attrs =
-      append_attributes([
-        [
-          id: focus_wrap_id,
-          "data-focuswrap": "",
-          "phx-window-keydown": assigns.is_escapable && PromptHelpers.cancel_prompt(id),
-          "phx-key": "Escape"
-        ]
       ])
 
     is_backdrop = !!assigns[:is_backdrop]

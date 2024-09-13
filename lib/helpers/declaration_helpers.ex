@@ -3,7 +3,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
 
   defmacro id do
     quote do
-      attr(:id, :string, default: nil, doc: "Component DOM ID.")
+      attr(:id, :string, default: nil, doc: "Component DOM id.")
     end
   end
 
@@ -38,6 +38,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
   defmacro slot_phx do
     quote do
       attr(:"phx-click", :string)
+      attr(:"phx-target", :any)
     end
   end
 
@@ -291,6 +292,15 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
+  defmacro form_control_legend_label do
+    quote do
+      attr(:label, :string,
+        default: nil,
+        doc: "Fieldset legend label."
+      )
+    end
+  end
+
   defmacro form_control_is_hide_label do
     quote do
       attr(:is_hide_label, :boolean,
@@ -358,7 +368,9 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
           header: nil,
           label: nil,
           input_group_container: nil,
-          caption: nil
+          caption: nil,
+          fieldset: nil,
+          legend: nil
         },
         doc:
           """
@@ -375,6 +387,8 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
             label: "",                 # {component_name_title} label
             input_group_container: "", # Input group container (for checkbox_group and radio_group)
             caption: "",               # {component_name_title} caption
+            fieldset: "",              # Fieldset wrapper (for checkbox_group and radio_group) 
+            legend: "",                # Legend (for checkbox_group and radio_group)
           }
           ```
           """

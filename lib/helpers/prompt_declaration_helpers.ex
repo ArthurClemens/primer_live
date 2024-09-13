@@ -112,6 +112,10 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
           """
         )
 
+        attr(:"phx-target", :any)
+
+        attr(:"aria-label", :string)
+
         attr(:rest, :any,
           doc: """
           Additional HTML attributes added to the item element.

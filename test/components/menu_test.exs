@@ -32,6 +32,11 @@ defmodule PrimerLive.Components.MenuTest do
              data-phx-link="patch" data-phx-link-state="push" class="menu-item">patch link</a>Other content</nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot: item links (with various content)" do
@@ -60,6 +65,11 @@ defmodule PrimerLive.Components.MenuTest do
              viewBox="0 0 16 16">STRIPPED_SVG_PATHS</svg><span>Done</span><span class="Counter">99</span></a></nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot: heading" do
@@ -83,6 +93,11 @@ defmodule PrimerLive.Components.MenuTest do
              2</a></nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Classes" do
@@ -118,6 +133,11 @@ defmodule PrimerLive.Components.MenuTest do
              class="menu-item item-x my-item" aria-current="page">One</a><a href="#url" class="menu-item item-x">Two</a></nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -143,5 +163,10 @@ defmodule PrimerLive.Components.MenuTest do
              aria-current="page">One</a><a href="#url" class="menu-item">Two</a></nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

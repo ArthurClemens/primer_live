@@ -24,6 +24,11 @@ defmodule PrimerLive.Components.TruncateTest do
              </span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Custom tags" do
@@ -47,6 +52,11 @@ defmodule PrimerLive.Components.TruncateTest do
              </ol>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Links" do
@@ -72,6 +82,11 @@ defmodule PrimerLive.Components.TruncateTest do
              data-phx-link-state="push" name="span" class="Truncate-text">branch-name</a></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot: text, attribute is_primary" do
@@ -99,6 +114,11 @@ defmodule PrimerLive.Components.TruncateTest do
              </span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot: text, attribute is_expandable" do
@@ -122,6 +142,11 @@ defmodule PrimerLive.Components.TruncateTest do
              </span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Classes" do
@@ -149,6 +174,11 @@ defmodule PrimerLive.Components.TruncateTest do
              </span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: style" do

@@ -32,6 +32,11 @@ defmodule PrimerLive.Components.UnderlineNavTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot: item links (with various content)" do
@@ -63,6 +68,11 @@ defmodule PrimerLive.Components.UnderlineNavTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot: item buttons" do
@@ -87,6 +97,11 @@ defmodule PrimerLive.Components.UnderlineNavTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot: position_end" do
@@ -114,6 +129,11 @@ defmodule PrimerLive.Components.UnderlineNavTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_container_width" do
@@ -148,6 +168,11 @@ defmodule PrimerLive.Components.UnderlineNavTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_reversed" do
@@ -175,6 +200,11 @@ defmodule PrimerLive.Components.UnderlineNavTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Classes" do
@@ -218,6 +248,11 @@ defmodule PrimerLive.Components.UnderlineNavTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -247,5 +282,10 @@ defmodule PrimerLive.Components.UnderlineNavTest do
              </nav>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

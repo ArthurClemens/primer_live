@@ -19,6 +19,11 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              <textarea class="FormControl-textarea FormControl-medium"></textarea>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_large" do
@@ -32,6 +37,11 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              <textarea class="FormControl-textarea FormControl-large"></textarea>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_small" do
@@ -45,6 +55,11 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              <textarea class="FormControl-textarea FormControl-small"></textarea>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: class" do
@@ -58,6 +73,11 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              <textarea class="FormControl-textarea FormControl-medium my-textarea"></textarea>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: caption" do
@@ -102,22 +122,27 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            """)
            |> format_html() ==
              """
-             <form method="post"><textarea class="FormControl-textarea FormControl-medium" id="user_first_name"
+             <form method="post"><textarea class="FormControl-textarea FormControl-medium" id="user-first-name"
              name="user[first_name]"></textarea>
              <div class="FormControl-caption">Caption 1</div>
              </form>
              <form method="post">
              <div class="FormControl pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label><span
+             <div class="form-group-header"><label class="FormControl-label" for="user-first-name">First name</label><span
                 aria-hidden="true">*</span></div><textarea class="FormControl-textarea FormControl-medium"
-             id="user_first_name" name="user[first_name]"></textarea>
+             id="user-first-name" name="user[first_name]"></textarea>
              <div class="FormControl-caption">Caption 2</div>
              </div>
              </form>
-             <form method="post"><textarea class="FormControl-textarea FormControl-medium" id="user_first_name"
+             <form method="post"><textarea class="FormControl-textarea FormControl-medium" id="user-first-name"
              name="user[first_name]"></textarea></form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_form_control" do
@@ -129,11 +154,16 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            |> format_html() ==
              """
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label></div>
-             <textarea class="FormControl-textarea FormControl-medium" id="user_first_name" name="user[first_name]"></textarea>
+             <div class="form-group-header"><label class="FormControl-label" for="user-first-name">First name</label></div>
+             <textarea class="FormControl-textarea FormControl-medium" id="user-first-name" name="user[first_name]"></textarea>
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: form_control (label)" do
@@ -153,11 +183,16 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            |> format_html() ==
              """
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label></div>
-             <textarea class="FormControl-textarea FormControl-medium" id="user_first_name" name="user[first_name]"></textarea>
+             <div class="form-group-header"><label class="FormControl-label" for="user-first-name">Some label</label></div>
+             <textarea class="FormControl-textarea FormControl-medium" id="user-first-name" name="user[first_name]"></textarea>
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: validation_message" do
@@ -190,15 +225,20 @@ defmodule PrimerLive.TestComponents.TextareaTest do
            |> format_html() ==
              """
              <form method="post">
-             <div class="pl-invalid" phx-feedback-for="user[first_name]"><textarea aria-describedby="user_first_name-validation"
-             class="FormControl-textarea FormControl-medium" id="user_first_name" invalid="" name="user[first_name]"></textarea>
+             <div class="pl-invalid" phx-feedback-for="user[first_name]"><textarea aria-describedby="user-first-name-validation"
+             class="FormControl-textarea FormControl-medium" id="user-first-name" invalid="" name="user[first_name]"></textarea>
              </div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation"
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user-first-name-validation"
              phx-feedback-for="user[first_name]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
              viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>Please enter your first name</span></div>
              </form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: classes" do
@@ -239,14 +279,19 @@ defmodule PrimerLive.TestComponents.TextareaTest do
              """
              <form method="post">
              <div class="FormControl group-x control-x pl-invalid">
-             <div class="form-group-header header-x"><label class="FormControl-label label-x" for="user_first_name">First
+             <div class="form-group-header header-x"><label class="FormControl-label label-x" for="user-first-name">First
                 name</label><span aria-hidden="true">*</span></div><textarea
-             class="FormControl-textarea FormControl-medium input-x my-text-input" id="user_first_name"
+             class="FormControl-textarea FormControl-medium input-x my-text-input" id="user-first-name"
              name="user[first_name]"></textarea>
              <div class="FormControl-caption caption-x">Caption</div>
              </div>
              </form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

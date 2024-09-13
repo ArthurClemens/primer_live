@@ -57,7 +57,7 @@ defmodule PrimerLive.Helpers.ComponentHelpers do
 
   def missing_attribute(component, name, info \\ "") do
     message =
-      ["Missing attribute: '#{name}' for component '#{component}'.", info] |> Enum.join(" ")
+      ["Missing attribute: #{name} for component '#{component}'.", info] |> Enum.join(" ")
 
     IO.puts(message)
   end

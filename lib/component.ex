@@ -31,7 +31,7 @@ defmodule PrimerLive.Component do
   @doc section: :menus
 
   @doc ~S"""
-  Action list is a vertical list of interactive actions or options. It's composed of items presented in a consistent. single-column format, with room for icons, descriptions, side information, and other rich visuals.
+  Action list is a vertical list of interactive actions or options. It's composed of items presented in a consistent, single-column format, with room for icons, descriptions, side information, and other rich visuals.
 
   Action list is composed of one or more child components:
   - `action_list_section_divider/1` - a divider with optional title
@@ -809,11 +809,8 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:"phx-*", :string,
-      doc: """
-      phx attributes.
-      """
-    )
+    attr(:"phx-click", :any)
+    attr(:"phx-target", :any)
 
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
@@ -850,8 +847,18 @@ defmodule PrimerLive.Component do
   end
 
   def action_list_item(assigns) do
+    if (assigns.is_single_select || assigns.is_multiple_select) &&
+         not Enum.any?([assigns[:id], assigns.input_id, assigns.field]),
+       do:
+         ComponentHelpers.missing_attribute(
+           "action_list_item",
+           "'id', 'input_id' or 'field'",
+           "Any of these is used to create a unique input name."
+         )
+
     %{
-      input_id: input_id
+      input_id: input_id,
+      rest: rest
     } = AttributeHelpers.common_input_attrs(assigns, :checkbox)
 
     is_selected = assigns.is_selected
@@ -963,16 +970,17 @@ defmodule PrimerLive.Component do
 
       assigns =
         assigns
-        |> assign(:content, content)
-        |> assign(:has_description, has_description)
+        |> assign(:checked_value, assigns[:checked_value])
         |> assign(:classes, classes)
-        |> assign(:render_content_elements, render_content_elements)
+        |> assign(:content, content)
+        |> assign(:field, assigns[:field])
+        |> assign(:form, assigns[:form])
+        |> assign(:has_description, has_description)
         |> assign(:has_leading_visual, has_leading_visual)
         |> assign(:has_trailing_visual, has_trailing_visual)
+        |> assign(:input_id, input_id)
         |> assign(:is_select, is_select)
-        |> assign(:form, assigns[:form])
-        |> assign(:field, assigns[:field])
-        |> assign(:checked_value, assigns[:checked_value])
+        |> assign(:render_content_elements, render_content_elements)
 
       ~H"""
       <%= if @is_select do %>
@@ -985,6 +993,7 @@ defmodule PrimerLive.Component do
             <.checkbox
               is_multiple
               checked={@is_selected}
+              name={!@field && @input_id}
               form={@form}
               field={@field}
               checked_value={@checked_value}
@@ -1064,7 +1073,8 @@ defmodule PrimerLive.Component do
 
       attributes =
         AttributeHelpers.append_attributes([
-          [class: classes.content, for: input_id],
+          [class: classes.content],
+          is_form_input && [for: AttributeHelpers.create_dom_id(rest[:for] || input_id)],
           !is_nil(is_expanded) &&
             ["aria-expanded": is_expanded |> Atom.to_string()]
         ])
@@ -2902,6 +2912,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form_control_required_marker()
   DeclarationHelpers.class()
   DeclarationHelpers.form_control_classes("form control")
+  attr :is_wrap_in_fieldset, :boolean, default: false
   DeclarationHelpers.rest()
   DeclarationHelpers.form_control_deprecated_has_form_group()
   DeclarationHelpers.form_control_for()
@@ -2930,7 +2941,8 @@ defmodule PrimerLive.Component do
       field: field,
       validation_marker_class: validation_marker_class,
       caption: caption,
-      required?: required?
+      required?: required?,
+      input_id: input_id
     } = AttributeHelpers.common_input_attrs(assigns)
 
     classes = %{
@@ -2963,40 +2975,67 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "FormControl-caption",
           assigns.classes[:caption]
+        ]),
+      fieldset:
+        AttributeHelpers.classnames([
+          assigns.classes[:fieldset]
+        ]),
+      legend:
+        AttributeHelpers.classnames([
+          "FormControl-label",
+          assigns.classes[:legend]
         ])
     }
 
-    # If label is supplied, wrap it inside a label element
-    # else use the default generated label
-    label_attributes =
-      AttributeHelpers.append_attributes([
-        [class: classes[:label]],
-        [for: assigns[:for] || nil]
-      ])
-
-    label =
+    label_text =
       cond do
         assigns.is_hide_label ->
           nil
 
         assigns[:label] ->
+          assigns[:label]
+
+        field ->
+          humanize_label = Phoenix.Naming.humanize(field)
+
+          if humanize_label === "Nil" do
+            nil
+          else
+            humanize_label
+          end
+
+        true ->
+          nil
+      end
+
+    # If label is supplied, wrap it inside a label element
+    # else use the default generated label
+    label_attributes =
+      AttributeHelpers.append_attributes([
+        [
+          class: classes[:label],
+          for: AttributeHelpers.create_dom_id(assigns[:for] || input_id)
+        ]
+      ])
+
+    label =
+      cond do
+        assigns.is_wrap_in_fieldset ->
+          label_text
+
+        field ->
           PhoenixHTMLHelpers.Form.label(
             form,
             field,
-            assigns[:label],
+            label_text,
             label_attributes
           )
 
         true ->
-          humanize_label = Phoenix.Naming.humanize(field)
-
-          case humanize_label === "Nil" do
-            true -> nil
-            false -> PhoenixHTMLHelpers.Form.label(form, field, label_attributes)
-          end
+          nil
       end
 
-    has_header_label = label && label !== "Nil"
+    has_header_label = label && label !== "Nil" && not assigns.is_wrap_in_fieldset
 
     show_required_marker =
       required? && !is_nil(assigns.required_marker) && assigns.required_marker !== ""
@@ -3006,38 +3045,88 @@ defmodule PrimerLive.Component do
         [class: AttributeHelpers.classnames([classes.control, validation_marker_class])]
       ])
 
+    render_header_label = fn ->
+      assigns =
+        assigns
+        |> assign(:classes, classes)
+        |> assign(:label, label)
+        |> assign(:show_required_marker, show_required_marker)
+
+      ~H"""
+      <div class={@classes.header}>
+        <%= @label %>
+        <%= if @show_required_marker do %>
+          <span aria-hidden="true"><%= @required_marker %></span>
+        <% end %>
+      </div>
+      """
+    end
+
+    render_content = fn ->
+      assigns =
+        assigns
+        |> assign(:classes, classes)
+        |> assign(:render_header_label, render_header_label)
+        |> assign(:control_attributes, control_attributes)
+        |> assign(:has_header_label, has_header_label)
+        |> assign(:caption, caption)
+
+      ~H"""
+      <div {@control_attributes}>
+        <%= if @has_header_label do %>
+          <%= @render_header_label.() %>
+        <% end %>
+        <%= if @caption do %>
+          <div class={@classes.caption}>
+            <%= @caption %>
+          </div>
+        <% end %>
+        <%= if @is_input_group do %>
+          <div class={@classes.input_group_container}>
+            <%= render_slot(@inner_block) %>
+          </div>
+        <% else %>
+          <%= render_slot(@inner_block) %>
+        <% end %>
+      </div>
+      """
+    end
+
+    render_fieldset = fn ->
+      fieldset_attrs =
+        AttributeHelpers.append_attributes(
+          class: classes.fieldset,
+          disabled: assigns.is_disabled
+        )
+
+      assigns =
+        assigns
+        |> assign(:label, label)
+        |> assign(:classes, classes)
+        |> assign(:fieldset_attrs, fieldset_attrs)
+        |> assign(:render_content, render_content)
+
+      ~H"""
+      <fieldset {@fieldset_attrs}>
+        <%= if @label do %>
+          <legend class={@classes.legend}><%= @label %></legend>
+        <% end %>
+        <%= @render_content.() %>
+      </fieldset>
+      """
+    end
+
     assigns =
       assigns
-      |> assign(:classes, classes)
-      |> assign(:control_attributes, control_attributes)
-      |> assign(:has_header_label, has_header_label)
-      |> assign(:show_required_marker, show_required_marker)
-      |> assign(:label, label)
-      |> assign(:caption, caption)
+      |> assign(:render_fieldset, render_fieldset)
+      |> assign(:render_content, render_content)
 
     ~H"""
-    <div {@control_attributes}>
-      <%= if @has_header_label do %>
-        <div class={@classes.header}>
-          <%= @label %>
-          <%= if @show_required_marker do %>
-            <span aria-hidden="true"><%= @required_marker %></span>
-          <% end %>
-        </div>
-      <% end %>
-      <%= if @caption do %>
-        <div class={@classes.caption}>
-          <%= @caption %>
-        </div>
-      <% end %>
-      <%= if @is_input_group do %>
-        <div class={@classes.input_group_container}>
-          <%= render_slot(@inner_block) %>
-        </div>
-      <% else %>
-        <%= render_slot(@inner_block) %>
-      <% end %>
-    </div>
+    <%= if @is_wrap_in_fieldset do %>
+      <%= @render_fieldset.() %>
+    <% else %>
+      <%= @render_content.() %>
+    <% end %>
     """
   end
 
@@ -3052,6 +3141,8 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.class()
   DeclarationHelpers.form_control_classes("form group")
   DeclarationHelpers.rest()
+  DeclarationHelpers.form_control_deprecated_has_form_group()
+  DeclarationHelpers.form_control_for()
   DeclarationHelpers.form_control_slot_inner_block("The form group")
 
   def form_group(assigns) do
@@ -3071,7 +3162,7 @@ defmodule PrimerLive.Component do
   @doc section: :forms
 
   @doc ~S"""
-  Checkbox group renders a set of [`checkboxes`](`checkbox/1`).
+  Checkbox group renders a set of [`checkboxes`](`checkbox/1`) and wraps it in a `fieldset`. The `label` attribute generates a `legend` element.
 
   ```
   <.checkbox_group>
@@ -3083,10 +3174,12 @@ defmodule PrimerLive.Component do
   This is equivalent to:
 
   ```
-  <.form_control is_input_group>
-    <.checkbox name="roles[]" checked_value="admin" />
-    <.checkbox name="roles[]" checked_value="editor" />
-  </.form_control>
+  <fieldset>
+    <.form_control is_input_group>
+      <.checkbox name="roles[]" checked_value="admin" />
+      <.checkbox name="roles[]" checked_value="editor" />
+    </.form_control>
+  </fieldset>
   ```
 
   `is_input_group` (and hence `checkbox_group`) adds specific styling: a larger label font size, and layout for inputs, captions and validation.
@@ -3127,7 +3220,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.field()
   DeclarationHelpers.validation_message()
   DeclarationHelpers.caption("the checkbox group label")
-  DeclarationHelpers.form_control_label()
+  DeclarationHelpers.form_control_legend_label()
   DeclarationHelpers.form_control_is_hide_label()
   DeclarationHelpers.form_control_is_disabled()
   DeclarationHelpers.form_control_required_marker()
@@ -3137,17 +3230,12 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form_control_slot_inner_block("The checkbox group")
 
   def checkbox_group(assigns) do
-    ~H"""
-    <.form_control is_input_group {assigns}>
-      <%= render_slot(@inner_block) %>
-      <.input_validation_message
-        form={@form}
-        field={@field}
-        validation_message={@validation_message}
-        is_multiple
-      />
-    </.form_control>
-    """
+    form_control(
+      Map.merge(assigns, %{
+        is_multiple: true,
+        is_wrap_in_fieldset: true
+      })
+    )
   end
 
   # ------------------------------------------------------------------------------------
@@ -3157,7 +3245,7 @@ defmodule PrimerLive.Component do
   @doc section: :forms
 
   @doc ~S"""
-  Radio group renders a set of [`radio buttons`](`radio_button/1`).
+  Radio group renders a set of [`radio buttons`](`radio_button/1`) and wraps it in a `fieldset`. The `label` attribute generates a `legend` element.
 
   ```
   <.radio_group>
@@ -3169,10 +3257,12 @@ defmodule PrimerLive.Component do
   This is equivalent to:
 
   ```
-  <.form_control is_input_group>
-    <.radio_button name="role" value="admin" />
-    <.radio_button name="role" value="editor" />
-  </.form_control>
+  <fieldset>
+    <.form_control is_input_group>
+      <.radio_button name="role" value="admin" />
+      <.radio_button name="role" value="editor" />
+    </.form_control>
+  </fieldset>
   ```
 
   `is_input_group` (and hence `radio_group`) adds specific styling: a larger label font size, and layout for inputs, captions and validation.
@@ -3206,7 +3296,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.field()
   DeclarationHelpers.validation_message()
   DeclarationHelpers.caption("the radio group label")
-  DeclarationHelpers.form_control_label()
+  DeclarationHelpers.form_control_legend_label()
   DeclarationHelpers.form_control_is_hide_label()
   DeclarationHelpers.form_control_is_disabled()
   DeclarationHelpers.form_control_required_marker()
@@ -3216,12 +3306,12 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form_control_slot_inner_block("The radio group")
 
   def radio_group(assigns) do
-    ~H"""
-    <.form_control is_input_group {assigns}>
-      <%= render_slot(@inner_block) %>
-      <.input_validation_message form={@form} field={@field} validation_message={@validation_message} />
-    </.form_control>
-    """
+    form_control(
+      Map.merge(assigns, %{
+        is_multiple: false,
+        is_wrap_in_fieldset: true
+      })
+    )
   end
 
   # ------------------------------------------------------------------------------------
@@ -4586,10 +4676,10 @@ defmodule PrimerLive.Component do
       |> assign(:validation_marker_attrs, validation_marker_attrs)
 
     ~H"""
-    <span {@container_attrs}>
+    <div {@container_attrs}>
       <%= @input %>
       <%= if @has_label do %>
-        <span {@label_container_attributes}>
+        <div {@label_container_attributes}>
           <label {@label_attributes}>
             <%= @label %>
           </label>
@@ -4599,9 +4689,9 @@ defmodule PrimerLive.Component do
           <%= if @has_disclosure_slot do %>
             <%= @render_disclosure.() %>
           <% end %>
-        </span>
+        </div>
       <% end %>
-    </span>
+    </div>
     """
   end
 
@@ -4614,7 +4704,7 @@ defmodule PrimerLive.Component do
   @doc ~S"""
   Convenience checkbox component for use inside `checkbox_group/1`.
 
-  Sets attr `is_multiple` to true, so that the server receives an array of strings for the checked values.
+  Sets attribute `is_multiple` to true, so that the server receives an array of strings for the checked values.
 
   ```
   <.checkbox_in_group form={@form} field={@field} />
@@ -6284,7 +6374,11 @@ defmodule PrimerLive.Component do
   def box(assigns) do
     if not is_nil(assigns.stream) && is_nil(assigns.id),
       do:
-        ComponentHelpers.missing_attribute("box", "id", "An id is required when using a stream.")
+        ComponentHelpers.missing_attribute(
+          "box",
+          "'id'",
+          "Attribute 'id' is required when using a stream."
+        )
 
     classes = %{
       box:
@@ -6464,7 +6558,7 @@ defmodule PrimerLive.Component do
       <% end %>
       <%= if @row && @row !== [] do %>
         <%= if @stream && @stream !== [] do %>
-          <div {@stream_attrs}>
+          <div {@stream_attrs} data-stream-container="">
             <%= for row_entry <- @stream do %>
               <%= @render_row.(List.first(@row), row_entry) %>
             <% end %>
@@ -6478,7 +6572,10 @@ defmodule PrimerLive.Component do
       """
     end
 
-    box_attrs = AttributeHelpers.append_attributes(assigns.rest, [[class: assigns.classes.box]])
+    box_attrs =
+      AttributeHelpers.append_attributes(assigns.rest, [
+        [id: assigns.id, class: assigns.classes.box]
+      ])
 
     assigns =
       assigns
@@ -7035,13 +7132,13 @@ defmodule PrimerLive.Component do
         |> assign(:focus_wrap_attrs, focus_wrap_attrs)
 
       ~H"""
-      <.focus_wrap {@focus_wrap_attrs}>
+      <.pl_focus_wrap {@focus_wrap_attrs}>
         <ul {@prompt_attrs}>
           <%= for item <- @item do %>
             <%= @render_item.(item) %>
           <% end %>
         </ul>
-      </.focus_wrap>
+      </.pl_focus_wrap>
       """
     end
 
@@ -7062,12 +7159,12 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@prompt_attrs}>
-      <label {@toggle_attrs}>
+      <button {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
-      </label>
+      </button>
       <%= if @backdrop_attrs !== [] do %>
         <div {@backdrop_attrs}></div>
       <% end %>
@@ -7715,19 +7812,19 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@prompt_attrs}>
-      <label {@toggle_attrs}>
+      <button {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
-      </label>
+      </button>
       <%= if @backdrop_attrs !== [] do %>
         <div {@backdrop_attrs}></div>
       <% end %>
       <div {@touch_layer_attrs}></div>
       <div class={@classes.menu}>
         <div {@menu_container_attrs}>
-          <.focus_wrap {@focus_wrap_attrs}>
+          <.pl_focus_wrap {@focus_wrap_attrs}>
             <%= if not is_nil(@menu_title) do %>
               <header class={@classes.header}>
                 <h3 class={@classes.menu_title}><%= @menu_title %></h3>
@@ -7786,7 +7883,7 @@ defmodule PrimerLive.Component do
                 </div>
               <% end %>
             <% end %>
-          </.focus_wrap>
+          </.pl_focus_wrap>
         </div>
       </div>
     </div>
@@ -8035,12 +8132,12 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@prompt_attrs}>
-      <label {@toggle_attrs}>
+      <button {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
           <div class={@classes.caret}></div>
         <% end %>
-      </label>
+      </button>
       <%= if @backdrop_attrs !== [] do %>
         <div {@backdrop_attrs}></div>
       <% end %>
@@ -8048,9 +8145,9 @@ defmodule PrimerLive.Component do
       <div class={@classes.menu}>
         <div {@menu_container_attrs}>
           <div class={@classes.menu_list}>
-            <.focus_wrap {@focus_wrap_attrs}>
+            <.pl_focus_wrap {@focus_wrap_attrs}>
               <%= render_slot(@inner_block) %>
-            </.focus_wrap>
+            </.pl_focus_wrap>
           </div>
         </div>
       </div>
@@ -8316,7 +8413,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  DeclarationHelpers.rest(include: ~w(name type disabled))
+  DeclarationHelpers.rest(include: ~w(name type disabled form))
 
   slot(:inner_block, required: false, doc: "Button content.")
 
@@ -11399,7 +11496,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Dialog content is automatically wrapped inside a `Phoenix.Component.focus_wrap/1` so that navigating with Tab won't leave the dialog.
+  Dialog content is automatically wrapped inside a `Phoenix.Component.pl_focus_wrap/1` so that navigating with Tab won't leave the dialog.
 
   ```
   <.dialog is_backdrop is_modal>
@@ -11553,6 +11650,9 @@ defmodule PrimerLive.Component do
   )
 
   def dialog(assigns) do
+    if is_nil(assigns.id),
+      do: ComponentHelpers.missing_attribute("dialog", "'id'")
+
     classes = %{
       dialog_wrapper:
         AttributeHelpers.classnames([
@@ -11632,7 +11732,7 @@ defmodule PrimerLive.Component do
         <div {@backdrop_attrs} />
       <% end %>
       <div {@touch_layer_attrs}></div>
-      <.focus_wrap {@focus_wrap_attrs}>
+      <.pl_focus_wrap {@focus_wrap_attrs}>
         <.box {@content_attrs}>
           <:header :if={@header_title && @header_title !== []} class={@classes.header}>
             <.button {@close_button_attrs}>
@@ -11641,7 +11741,7 @@ defmodule PrimerLive.Component do
           </:header>
           <%= render_slot(@inner_block) %>
         </.box>
-      </.focus_wrap>
+      </.pl_focus_wrap>
     </div>
     """
   end
@@ -11956,6 +12056,9 @@ defmodule PrimerLive.Component do
   )
 
   def drawer(assigns) do
+    if is_nil(assigns.id),
+      do: ComponentHelpers.missing_attribute("drawer", "'id'")
+
     # Get the body slot, if any
     body_slot = if assigns.body && assigns.body !== [], do: hd(assigns.body), else: []
 
@@ -12058,9 +12161,9 @@ defmodule PrimerLive.Component do
         <%= render_slot(@inner_block) %>
         <%= if @body && @body !== [] do %>
           <div {@body_attrs}>
-            <.focus_wrap {@focus_wrap_attrs}>
+            <.pl_focus_wrap {@focus_wrap_attrs}>
               <%= render_slot(@body) %>
-            </.focus_wrap>
+            </.pl_focus_wrap>
           </div>
         <% end %>
       </div>
@@ -12151,9 +12254,9 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@content_attrs}>
-      <.focus_wrap {@focus_wrap_attrs}>
+      <.pl_focus_wrap {@focus_wrap_attrs}>
         <%= render_slot(@inner_block) %>
-      </.focus_wrap>
+      </.pl_focus_wrap>
     </div>
     """
   end
@@ -13264,6 +13367,11 @@ defmodule PrimerLive.Component do
     """
   )
 
+  attr(:id_prefix, :string,
+    default: nil,
+    doc: "Prefixes generated DOM ids to prevent \"duplicate id\" errors in the browser."
+  )
+
   DeclarationHelpers.rest()
 
   def theme_menu_options(assigns) do
@@ -13295,6 +13403,7 @@ defmodule PrimerLive.Component do
           is_show_group_labels={@is_show_group_labels}
           is_click_disabled={@is_click_disabled}
           update_theme_event={@update_theme_event}
+          id_prefix={@id_prefix}
         />
       <% end %>
       <%= if @is_show_reset_link && assigns.labels[:reset] do %>
@@ -13318,6 +13427,11 @@ defmodule PrimerLive.Component do
   attr(:is_click_disabled, :boolean, required: true)
   attr(:update_theme_event, :string, required: true)
 
+  attr(:id_prefix, :string,
+    default: nil,
+    doc: "Prefixes generated DOM ids to prevent \"duplicate id\" errors in the browser."
+  )
+
   defp theme_menu_option_items(assigns) do
     group = assigns.menu_items[assigns.key]
 
@@ -13332,16 +13446,41 @@ defmodule PrimerLive.Component do
       </.action_list_section_divider>
     <% end %>
     <%= for {value, label} <- @group.labeled_options do %>
+      <% dom_id = AttributeHelpers.create_dom_id(value, @group.title) %>
+      <% input_id = if @id_prefix, do: "#{@id_prefix}-#{dom_id}", else: dom_id %>
       <.action_list_item
         is_single_select
         is_selected={@group.selected && value === @group.selected}
         phx-click={!@is_click_disabled && @update_theme_event}
         phx-value-key={@key}
         phx-value-data={value}
+        input_id={input_id}
       >
         <%= label %>
       </.action_list_item>
     <% end %>
+    """
+  end
+
+  # Copy of Phoenix.Component.focus_wrap that ensures sorted attributes to aid testing
+
+  defp pl_focus_wrap(assigns) do
+    assigns =
+      assigns
+      |> assign(
+        :attrs,
+        AttributeHelpers.assigns_to_attributes_sorted(assigns,
+          id: assigns[:id],
+          "phx-hook": "Phoenix.FocusWrap"
+        )
+      )
+
+    ~H"""
+    <div {@attrs}>
+      <span id={"#{@id}-start"} tabindex="0" aria-hidden="true"></span>
+      <%= render_slot(@inner_block) %>
+      <span id={"#{@id}-end"} tabindex="0" aria-hidden="true"></span>
+    </div>
     """
   end
 end

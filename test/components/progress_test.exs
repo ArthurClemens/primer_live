@@ -19,6 +19,11 @@ defmodule PrimerLive.TestComponents.ProgressTest do
              <span class="Progress"><span class="Progress-item color-bg-success-emphasis" style="width:0%;"></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: width" do
@@ -38,6 +43,11 @@ defmodule PrimerLive.TestComponents.ProgressTest do
              <span class="Progress"><span class="Progress-item color-bg-success-emphasis" style="width:50%;"></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: aria_label" do
@@ -54,6 +64,11 @@ defmodule PrimerLive.TestComponents.ProgressTest do
              style="width:50%;"></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: state" do
@@ -95,6 +110,11 @@ defmodule PrimerLive.TestComponents.ProgressTest do
              <div><span class="Progress"><span class="Progress-item color-bg-danger-emphasis" style="width:50%;"></span></span></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Multiple bars" do
@@ -118,6 +138,11 @@ defmodule PrimerLive.TestComponents.ProgressTest do
              </span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_large, is_small, is_inline" do
@@ -150,6 +175,11 @@ defmodule PrimerLive.TestComponents.ProgressTest do
              class="Progress-item color-bg-success-emphasis" style="width:50%;"></span></span></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attribute: style" do
@@ -165,6 +195,11 @@ defmodule PrimerLive.TestComponents.ProgressTest do
              <span class="Progress"><span class="Progress-item color-bg-success-emphasis" style="height: 10px; width:50%;"></span></span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Classes" do
@@ -202,5 +237,10 @@ defmodule PrimerLive.TestComponents.ProgressTest do
              </span>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

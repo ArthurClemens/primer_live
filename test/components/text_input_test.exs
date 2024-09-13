@@ -19,6 +19,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <input class="FormControl-input FormControl-medium" type="text" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Called with invalid form value" do
@@ -32,6 +37,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              attr form: invalid value
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: form and field (atoms)" do
@@ -42,9 +52,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
+             <input class="FormControl-input FormControl-medium" id="user-first-name" name="user[first_name]" type="text" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: name, value" do
@@ -55,9 +70,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium" id="first_name" name="first_name" type="text" value="Greta" />
+             <input class="FormControl-input FormControl-medium" id="first-name" name="first_name" type="text" value="Greta" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: field as string" do
@@ -68,9 +88,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
+             <input class="FormControl-input FormControl-medium" id="user-first-name" name="user[first_name]" type="text" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: name only" do
@@ -81,9 +106,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium" id="first_name" name="first_name" type="text" />
+             <input class="FormControl-input FormControl-medium" id="first-name" name="first_name" type="text" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: size" do
@@ -99,6 +129,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <input class="FormControl-input FormControl-medium" size="3" type="text" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: types" do
@@ -142,6 +177,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <input class="FormControl-input FormControl-medium" type="url" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attributes: is_monospace, is_contrast, is_full_width, is_hide_webkit_autofill, is_large, is_small" do
@@ -165,6 +205,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <input class="FormControl-input FormControl-small" type="text" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: caption" do
@@ -202,6 +247,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <input class="FormControl-input FormControl-medium" type="text" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_form_control" do
@@ -213,11 +263,16 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label></div><input
-             class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
+             <div class="form-group-header"><label class="FormControl-label" for="user-first-name">First name</label></div><input
+             class="FormControl-input FormControl-medium" id="user-first-name" name="user[first_name]" type="text" />
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_form_group (deprecatd)" do
@@ -229,11 +284,16 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="FormControl form-group">
-             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">First name</label></div><input
-             class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
+             <div class="form-group-header"><label class="FormControl-label" for="user-first-name">First name</label></div><input
+             class="FormControl-input FormControl-medium" id="user-first-name" name="user[first_name]" type="text" />
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: is_form_group with input_id" do
@@ -250,6 +310,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: form_control (label)" do
@@ -269,11 +334,16 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label></div><input
-             class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
+             <div class="form-group-header"><label class="FormControl-label" for="user-first-name">Some label</label></div><input
+             class="FormControl-input FormControl-medium" id="user-first-name" name="user[first_name]" type="text" />
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: form_group (label) (deprecated)" do
@@ -293,11 +363,16 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <div class="FormControl form-group">
-             <div class="form-group-header"><label class="FormControl-label" for="user_first_name">Some label</label></div><input
-             class="FormControl-input FormControl-medium" id="user_first_name" name="user[first_name]" type="text" />
+             <div class="form-group-header"><label class="FormControl-label" for="user-first-name">Some label</label></div><input
+             class="FormControl-input FormControl-medium" id="user-first-name" name="user[first_name]" type="text" />
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Default validation message" do
@@ -322,14 +397,19 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <form method="post">
-             <div class="pl-invalid" phx-feedback-for="user[first_name]"><input aria-describedby="user_first_name-validation"
-             class="FormControl-input FormControl-medium" id="user_first_name" invalid="" name="user[first_name]" type="text" /></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation"
+             <div class="pl-invalid" phx-feedback-for="user[first_name]"><input aria-describedby="user-first-name-validation"
+             class="FormControl-input FormControl-medium" id="user-first-name" invalid="" name="user[first_name]" type="text" /></div>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user-first-name-validation"
              phx-feedback-for="user[first_name]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
              viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>can&#39;t be blank</span></div>
              </form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: validation_message (custom error message)" do
@@ -362,14 +442,19 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <form method="post">
-             <div class="pl-invalid" phx-feedback-for="user[first_name]"><input aria-describedby="user_first_name-validation"
-             class="FormControl-input FormControl-medium" id="user_first_name" invalid="" name="user[first_name]" type="text" /></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user_first_name-validation"
+             <div class="pl-invalid" phx-feedback-for="user[first_name]"><input aria-describedby="user-first-name-validation"
+             class="FormControl-input FormControl-medium" id="user-first-name" invalid="" name="user[first_name]" type="text" /></div>
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user-first-name-validation"
              phx-feedback-for="user[first_name]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
              viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>Please enter your first name</span></div>
              </form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: validation_message (custom success message)" do
@@ -404,15 +489,20 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            |> format_html() ==
              """
              <form method="post">
-             <div class="pl-valid" phx-feedback-for="user[first_name]"><input aria-describedby="user_first_name-validation"
-             class="FormControl-input FormControl-medium" id="user_first_name" invalid="" name="user[first_name]" type="text"
+             <div class="pl-valid" phx-feedback-for="user[first_name]"><input aria-describedby="user-first-name-validation"
+             class="FormControl-input FormControl-medium" id="user-first-name" invalid="" name="user[first_name]" type="text"
              value="anna" /></div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="user_first_name-validation"
+             <div class="FormControl-inlineValidation FormControl-inlineValidation--success" id="user-first-name-validation"
              phx-feedback-for="user[first_name]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
              viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>Available!</span></div>
              </form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -423,9 +513,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium" id="first_name" name="first_name" type="text" />
+             <input class="FormControl-input FormControl-medium" id="first-name" name="first_name" type="text" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes: disabled with is_form_control" do
@@ -436,12 +531,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <div class="FormControl pl-FormControl-disabled">
-             <div class="form-group-header"><label class="FormControl-label" for="first_name">First name</label></div><input
-               class="FormControl-input FormControl-medium" disabled id="first_name" name="first_name" type="text" />
-             </div>
+             <div class="FormControl pl-FormControl-disabled"><div class="form-group-header"><label class="FormControl-label" for="first-name">First name</label></div><input class="FormControl-input FormControl-medium" disabled id="first-name" name="first_name" type="text" /></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes: placeholder (and implicit aria-label)" do
@@ -452,9 +549,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input aria-label="Enter your first name" class="FormControl-input FormControl-medium" id="first_name" name="first_name" placeholder="Enter your first name" type="text" />
+             <input aria-label="Enter your first name" class="FormControl-input FormControl-medium" id="first-name" name="first_name" placeholder="Enter your first name" type="text" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes: explicit aria_label" do
@@ -465,9 +567,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input aria-label="Enter your first name" class="FormControl-input FormControl-medium" id="first_name" name="first_name" type="text" />
+             <input aria-label="Enter your first name" class="FormControl-input FormControl-medium" id="first-name" name="first_name" type="text" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes: tabindex" do
@@ -478,9 +585,14 @@ defmodule PrimerLive.TestComponents.TextInputTest do
            """)
            |> format_html() ==
              """
-             <input class="FormControl-input FormControl-medium" id="first_name" name="first_name" tabindex="1" type="text" />
+             <input class="FormControl-input FormControl-medium" id="first-name" name="first_name" tabindex="1" type="text" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: class" do
@@ -494,6 +606,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <input class="FormControl-input FormControl-medium my-input" type="text" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: classes" do
@@ -561,16 +678,16 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              """
              <form method="post">
              <div class="FormControl group-x control-x pl-invalid">
-             <div class="form-group-header header-x"><label class="FormControl-label label-x" for="user_first_name">First
+             <div class="form-group-header header-x"><label class="FormControl-label label-x" for="user-first-name">First
              name</label><span aria-hidden="true">*</span></div>
              <div class="input-group input_group-x">
-             <div class="pl-invalid" phx-feedback-for="user[first_name]"><input aria-describedby="user_first_name-validation"
-             class="FormControl-input FormControl-medium input-x my-text-input" id="user_first_name" invalid=""
+             <div class="pl-invalid" phx-feedback-for="user[first_name]"><input aria-describedby="user-first-name-validation"
+             class="FormControl-input FormControl-medium input-x my-text-input" id="user-first-name" invalid=""
              name="user[first_name]" type="text" /></div><span
              class="input-group-button input_group_button-x"><button class="btn" type="button"><span class="pl-button__content">Send</span></button></span>
              </div>
              <div class="FormControl-inlineValidation FormControl-inlineValidation--error validation_message-x"
-             id="user_first_name-validation" phx-feedback-for="user[first_name]"><svg class="octicon"
+             id="user-first-name-validation" phx-feedback-for="user[first_name]"><svg class="octicon"
              xmlns="http://www.w3.org/2000/svg" width="12" height="12"
              viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>can&#39;t be blank</span></div>
              <div class="FormControl-caption caption-x">Caption</div>
@@ -593,6 +710,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              </form>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: style" do
@@ -606,6 +728,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              <input class="FormControl-input FormControl-medium" style="border: 1px solid red;" type="text" />
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot: leading_visual" do
@@ -628,6 +755,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot: trailing_action" do
@@ -653,6 +785,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot: trailing_action, attr is_divider" do
@@ -679,6 +816,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot: trailing_action, attr is_visible_with_value" do
@@ -705,6 +847,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot: group_button" do
@@ -742,6 +889,11 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Slot: leading_visual, trailing_action" do
@@ -780,5 +932,10 @@ defmodule PrimerLive.TestComponents.TextInputTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end

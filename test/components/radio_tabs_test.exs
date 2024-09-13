@@ -24,6 +24,11 @@ defmodule PrimerLive.TestComponents.RadioTabsTest do
              <label class="radio-label" for="__editor">Editor</label></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: id" do
@@ -45,6 +50,11 @@ defmodule PrimerLive.TestComponents.RadioTabsTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Called with invalid form value" do
@@ -58,6 +68,11 @@ defmodule PrimerLive.TestComponents.RadioTabsTest do
              attr form: invalid value
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "With radio_buttons in inner slot" do
@@ -78,6 +93,11 @@ defmodule PrimerLive.TestComponents.RadioTabsTest do
              <label class="radio-label" for="__editor">Some label B</label></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "With radio_button label" do
@@ -108,6 +128,11 @@ defmodule PrimerLive.TestComponents.RadioTabsTest do
              <label class="radio-label" for="__editor">EDITOR</label></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: form and field (atoms)" do
@@ -129,6 +154,11 @@ defmodule PrimerLive.TestComponents.RadioTabsTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: field as string" do
@@ -150,6 +180,11 @@ defmodule PrimerLive.TestComponents.RadioTabsTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Attribute: id_prefix" do
@@ -171,6 +206,11 @@ defmodule PrimerLive.TestComponents.RadioTabsTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Classes" do
@@ -201,6 +241,11 @@ defmodule PrimerLive.TestComponents.RadioTabsTest do
              </div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 
   test "Extra attributes" do
@@ -221,5 +266,10 @@ defmodule PrimerLive.TestComponents.RadioTabsTest do
              <label class="radio-label" for="__editor">Editor</label></div>
              """
              |> format_html()
+  rescue
+    e in ExUnit.AssertionError ->
+      %{expr: {:assert, [line: line], _}} = e
+      to_file(e.left, __ENV__.file, line + 2)
+      reraise e, __STACKTRACE__
   end
 end
