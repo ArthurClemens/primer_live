@@ -28,10 +28,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input type="hidden" value="false" />
-             <input class="FormControl-checkbox" type="checkbox" value="true" />
-             </span>
+             <div class="FormControl-checkbox-wrap"><input type="hidden" value="false" /><input class="FormControl-checkbox" type="checkbox" value="true" /></div>
              """
              |> format_html()
   rescue
@@ -67,7 +64,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap"><input name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire" name="user[available_for_hire]" type="checkbox" value="true" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire">Available for hire</label></span></span>
+             <div class="FormControl-checkbox-wrap"><input name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire" name="user[available_for_hire]" type="checkbox" value="true" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire">Available for hire</label></div></div>
              """
              |> format_html()
   rescue
@@ -85,7 +82,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap"><input name="[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox" id="available-for-hire" name="[available_for_hire]" type="checkbox" value="true" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available-for-hire">Available for hire</label></span></span>
+             <div class="FormControl-checkbox-wrap"><input name="[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox" id="available-for-hire" name="[available_for_hire]" type="checkbox" value="true" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available-for-hire">Available for hire</label></div></div>
              """
              |> format_html()
   rescue
@@ -103,13 +100,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="user[available_for_hire]" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="xyz" name="user[available_for_hire]" type="checkbox" value="true" />
-             <span class="FormControl-checkbox-labelWrap">
-             <label class="FormControl-label" for="xyz">Available for hire</label>
-             </span>
-             </span>
+             <div class="FormControl-checkbox-wrap"><input name="user[available_for_hire]" type="hidden" value="false" /><input class="FormControl-checkbox" id="xyz" name="user[available_for_hire]" type="checkbox" value="true" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="xyz">Available for hire</label></div></div>
              """
              |> format_html()
   rescue
@@ -127,10 +118,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="available_for_hire" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" />
-             </span>
+             <div class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" /></div>
              """
              |> format_html()
   rescue
@@ -151,7 +139,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire-coding" name="user[available_for_hire][]" type="checkbox" value="coding" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire-coding">Coding</label></span></span><span class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire-music" name="user[available_for_hire][]" type="checkbox" value="music" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire-music">Music</label></span></span>
+             <div class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire-coding" name="user[available_for_hire][]" type="checkbox" value="coding" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire-coding">Coding</label></div></div><div class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire-music" name="user[available_for_hire][]" type="checkbox" value="music" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire-music">Music</label></div></div>
              """
              |> format_html()
   rescue
@@ -184,22 +172,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
-             <span class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></span>
+             <div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div><div class="FormControl-checkbox-wrap"><input name="input-type" type="hidden" value="false" /><input class="FormControl-checkbox" id="input-type" name="input-type" type="checkbox" value="true" /></div>
              """
              |> format_html()
   rescue
@@ -217,10 +190,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="available_for_hire" type="hidden" value="false" />
-             <input checked class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" />
-             </span>
+             <div class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input checked class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" /></div>
              """
              |> format_html()
   rescue
@@ -260,13 +230,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap pl-neutral container-x my-checkbox"><input name="user[available_for_hire]"
-             type="hidden" value="false" /><input checked class="form-checkbox-details-trigger FormControl-checkbox input-x"
-             id="user-available-for-hire" name="user[available_for_hire]" type="checkbox" value="true" /><span
-             class="FormControl-checkbox-labelWrap label_container-x"><label aria-live="polite"
-             class="FormControl-label label-x my-label" for="user-available-for-hire">Some label</label><span
-             class="FormControl-caption caption-x my-caption">Some caption</span><span
-             class="form-checkbox-details text-normal disclosure-x my-disclosure">Disclosed</span></span></span>
+             <div class="FormControl-checkbox-wrap pl-neutral container-x my-checkbox"><input name="user[available_for_hire]" type="hidden" value="false" /><input checked class="form-checkbox-details-trigger FormControl-checkbox input-x" id="user-available-for-hire" name="user[available_for_hire]" type="checkbox" value="true" /><div class="FormControl-checkbox-labelWrap label_container-x"><label aria-live="polite" class="FormControl-label label-x my-label" for="user-available-for-hire">Some label</label><span class="FormControl-caption caption-x my-caption">Some caption</span><span class="form-checkbox-details text-normal disclosure-x my-disclosure">Disclosed</span></div></div>
              """
              |> format_html()
   rescue
@@ -284,11 +248,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="role" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="role-editor" name="role" type="checkbox" value="true" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role-editor">Editor</label></span>
-             </span>
+             <div class="FormControl-checkbox-wrap"><input name="role" type="hidden" value="false" /><input class="FormControl-checkbox" id="role-editor" name="role" type="checkbox" value="true" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role-editor">Editor</label></div></div>
              """
              |> format_html()
   rescue
@@ -307,17 +267,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="role" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="role-editor" name="role" type="checkbox" value="editor" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role-editor">Editor</label></span>
-             </span>
-
-             <span class="FormControl-checkbox-wrap">
-             <input name="role" type="hidden" value="false" />
-             <input checked class="FormControl-checkbox" id="role-editor" name="role" type="checkbox" value="editor" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role-editor">Editor</label></span>
-             </span>
+             <div class="FormControl-checkbox-wrap"><input name="role" type="hidden" value="false" /><input class="FormControl-checkbox" id="role-editor" name="role" type="checkbox" value="editor" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role-editor">Editor</label></div></div><div class="FormControl-checkbox-wrap"><input name="role" type="hidden" value="false" /><input checked class="FormControl-checkbox" id="role-editor" name="role" type="checkbox" value="editor" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="role-editor">Editor</label></div></div>
              """
              |> format_html()
   rescue
@@ -335,10 +285,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="available_for_hire" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" tabindex="1" type="checkbox" value="true" />
-             </span>
+             <div class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" tabindex="1" type="checkbox" value="true" /></div>
              """
              |> format_html()
   rescue
@@ -358,10 +305,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input
-             class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox"
-             value="true" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" dir="rtl"
-             for="available-for-hire">Some label</label></span></span>
+             <div class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" dir="rtl" for="available-for-hire">Some label</label></div></div>
              """
              |> format_html()
   rescue
@@ -381,11 +325,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="available_for_hire" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available-for-hire"><em class="highlight">Some label</em></label></span>
-             </span>
+             <div class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available-for-hire"><em class="highlight">Some label</em></label></div></div>
              """
              |> format_html()
   rescue
@@ -408,11 +348,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input
-             class="form-checkbox-details-trigger FormControl-checkbox" id="available-for-hire" name="available_for_hire"
-             type="checkbox" value="true" /><span class="FormControl-checkbox-labelWrap"><label aria-live="polite"
-             class="FormControl-label" for="available-for-hire">Some label</label><span
-             class="form-checkbox-details text-normal"><span>disclosure content</span></span></span></span>
+             <div class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input class="form-checkbox-details-trigger FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" /><div class="FormControl-checkbox-labelWrap"><label aria-live="polite" class="FormControl-label" for="available-for-hire">Some label</label><span class="form-checkbox-details text-normal"><span>disclosure content</span></span></div></div>
              """
              |> format_html()
   rescue
@@ -437,13 +373,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="available_for_hire" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available-for-hire">Some label</label>
-             <span class="FormControl-caption">Add your<strong>resume</strong>below</span>
-             </span>
-             </span>
+             <div class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available-for-hire">Some label</label><span class="FormControl-caption">Add your<strong>resume</strong>below</span></div></div>
              """
              |> format_html()
   rescue
@@ -465,10 +395,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="available_for_hire" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" />
-             </span>
+             <div class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" /></div>
              """
              |> format_html()
   rescue
@@ -493,13 +420,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="available_for_hire" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" />
-             <span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available-for-hire">Some label</label>
-             <span class="FormControl-caption">Add your<strong>resume</strong>below</span>
-             </span>
-             </span>
+             <div class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available-for-hire">Some label</label><span class="FormControl-caption">Add your<strong>resume</strong>below</span></div></div>
              """
              |> format_html()
   rescue
@@ -521,10 +442,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap">
-             <input name="available_for_hire" type="hidden" value="false" />
-             <input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" />
-             </span>
+             <div class="FormControl-checkbox-wrap"><input name="available_for_hire" type="hidden" value="false" /><input class="FormControl-checkbox" id="available-for-hire" name="available_for_hire" type="checkbox" value="true" /></div>
              """
              |> format_html()
   rescue

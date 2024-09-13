@@ -4676,10 +4676,10 @@ defmodule PrimerLive.Component do
       |> assign(:validation_marker_attrs, validation_marker_attrs)
 
     ~H"""
-    <span {@container_attrs}>
+    <div {@container_attrs}>
       <%= @input %>
       <%= if @has_label do %>
-        <span {@label_container_attributes}>
+        <div {@label_container_attributes}>
           <label {@label_attributes}>
             <%= @label %>
           </label>
@@ -4689,9 +4689,9 @@ defmodule PrimerLive.Component do
           <%= if @has_disclosure_slot do %>
             <%= @render_disclosure.() %>
           <% end %>
-        </span>
+        </div>
       <% end %>
-    </span>
+    </div>
     """
   end
 

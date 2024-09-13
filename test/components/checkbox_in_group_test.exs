@@ -28,7 +28,7 @@ defmodule PrimerLive.TestComponents.CheckboxInGroupTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap"><input name="[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="available-for-hire" name="[available_for_hire][]" type="checkbox" value="true" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available-for-hire">Available for hire</label></span></span>
+             <div class="FormControl-checkbox-wrap"><input name="[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="available-for-hire" name="[available_for_hire][]" type="checkbox" value="true" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="available-for-hire">Available for hire</label></div></div>
              """
              |> format_html()
   rescue
@@ -46,7 +46,7 @@ defmodule PrimerLive.TestComponents.CheckboxInGroupTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire" name="user[available_for_hire][]" type="checkbox" value="true" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire">Available for hire</label></span></span>
+             <div class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire" name="user[available_for_hire][]" type="checkbox" value="true" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire">Available for hire</label></div></div>
              """
              |> format_html()
   rescue
@@ -67,7 +67,7 @@ defmodule PrimerLive.TestComponents.CheckboxInGroupTest do
            """)
            |> format_html() ==
              """
-             <span class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire-coding" name="user[available_for_hire][]" type="checkbox" value="coding" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire-coding">Coding</label></span></span><span class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire-music" name="user[available_for_hire][]" type="checkbox" value="music" /><span class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire-music">Music</label></span></span>
+             <div class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire-coding" name="user[available_for_hire][]" type="checkbox" value="coding" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire-coding">Coding</label></div></div><div class="FormControl-checkbox-wrap"><input name="user[available_for_hire][]" type="hidden" value="false" /><input class="FormControl-checkbox" id="user-available-for-hire-music" name="user[available_for_hire][]" type="checkbox" value="music" /><div class="FormControl-checkbox-labelWrap"><label class="FormControl-label" for="user-available-for-hire-music">Music</label></div></div>
              """
              |> format_html()
   rescue
