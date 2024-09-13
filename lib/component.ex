@@ -7132,13 +7132,13 @@ defmodule PrimerLive.Component do
         |> assign(:focus_wrap_attrs, focus_wrap_attrs)
 
       ~H"""
-      <.focus_wrap {@focus_wrap_attrs}>
+      <.pl_focus_wrap {@focus_wrap_attrs}>
         <ul {@prompt_attrs}>
           <%= for item <- @item do %>
             <%= @render_item.(item) %>
           <% end %>
         </ul>
-      </.focus_wrap>
+      </.pl_focus_wrap>
       """
     end
 
@@ -7824,7 +7824,7 @@ defmodule PrimerLive.Component do
       <div {@touch_layer_attrs}></div>
       <div class={@classes.menu}>
         <div {@menu_container_attrs}>
-          <.focus_wrap {@focus_wrap_attrs}>
+          <.pl_focus_wrap {@focus_wrap_attrs}>
             <%= if not is_nil(@menu_title) do %>
               <header class={@classes.header}>
                 <h3 class={@classes.menu_title}><%= @menu_title %></h3>
@@ -7883,7 +7883,7 @@ defmodule PrimerLive.Component do
                 </div>
               <% end %>
             <% end %>
-          </.focus_wrap>
+          </.pl_focus_wrap>
         </div>
       </div>
     </div>
@@ -8145,9 +8145,9 @@ defmodule PrimerLive.Component do
       <div class={@classes.menu}>
         <div {@menu_container_attrs}>
           <div class={@classes.menu_list}>
-            <.focus_wrap {@focus_wrap_attrs}>
+            <.pl_focus_wrap {@focus_wrap_attrs}>
               <%= render_slot(@inner_block) %>
-            </.focus_wrap>
+            </.pl_focus_wrap>
           </div>
         </div>
       </div>
@@ -11496,7 +11496,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Dialog content is automatically wrapped inside a `Phoenix.Component.focus_wrap/1` so that navigating with Tab won't leave the dialog.
+  Dialog content is automatically wrapped inside a `Phoenix.Component.pl_focus_wrap/1` so that navigating with Tab won't leave the dialog.
 
   ```
   <.dialog is_backdrop is_modal>
@@ -11732,7 +11732,7 @@ defmodule PrimerLive.Component do
         <div {@backdrop_attrs} />
       <% end %>
       <div {@touch_layer_attrs}></div>
-      <.focus_wrap {@focus_wrap_attrs}>
+      <.pl_focus_wrap {@focus_wrap_attrs}>
         <.box {@content_attrs}>
           <:header :if={@header_title && @header_title !== []} class={@classes.header}>
             <.button {@close_button_attrs}>
@@ -11741,7 +11741,7 @@ defmodule PrimerLive.Component do
           </:header>
           <%= render_slot(@inner_block) %>
         </.box>
-      </.focus_wrap>
+      </.pl_focus_wrap>
     </div>
     """
   end
@@ -12161,9 +12161,9 @@ defmodule PrimerLive.Component do
         <%= render_slot(@inner_block) %>
         <%= if @body && @body !== [] do %>
           <div {@body_attrs}>
-            <.focus_wrap {@focus_wrap_attrs}>
+            <.pl_focus_wrap {@focus_wrap_attrs}>
               <%= render_slot(@body) %>
-            </.focus_wrap>
+            </.pl_focus_wrap>
           </div>
         <% end %>
       </div>
@@ -12254,9 +12254,9 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@content_attrs}>
-      <.focus_wrap {@focus_wrap_attrs}>
+      <.pl_focus_wrap {@focus_wrap_attrs}>
         <%= render_slot(@inner_block) %>
-      </.focus_wrap>
+      </.pl_focus_wrap>
     </div>
     """
   end
@@ -13459,6 +13459,22 @@ defmodule PrimerLive.Component do
         <%= label %>
       </.action_list_item>
     <% end %>
+    """
+  end
+
+  # Copy of Phoenix.Component.focus_wrap that ensures sorted attributes to aid testing
+
+  defp pl_focus_wrap(assigns) do
+    assigns = assigns |> assign(:attrs, AttributeHelpers.assigns_to_attributes_sorted(assigns, [
+      id: assigns[:id], "phx-hook": "Phoenix.FocusWrap"
+      ]))
+
+    ~H"""
+    <div {@attrs}>
+      <span id={"#{@id}-start"} tabindex="0" aria-hidden="true"></span>
+      <%= render_slot(@inner_block) %>
+      <span id={"#{@id}-end"} tabindex="0" aria-hidden="true"></span>
+    </div>
     """
   end
 end

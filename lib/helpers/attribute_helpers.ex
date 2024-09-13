@@ -845,10 +845,10 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     focus_wrap_attrs =
       append_attributes([
         [
-          id: focus_wrap_id,
           "data-focuswrap": "",
-          "phx-window-keydown": assigns.is_escapable && PromptHelpers.cancel_prompt(id),
-          "phx-key": "Escape"
+          id: focus_wrap_id,
+          "phx-key": "Escape",
+          "phx-window-keydown": assigns.is_escapable && PromptHelpers.cancel_prompt(id)
         ]
       ])
 
@@ -862,11 +862,11 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     toggle_attrs =
       append_attributes(toggle_rest, [
         [
-          class: toggle_class,
           "aria-haspopup": "true",
           "aria-owns": focus_wrap_id,
-          type: "button",
-          "phx-click": Keyword.get(toggle_rest, :"phx-click", PromptHelpers.toggle_prompt(id))
+          class: toggle_class,
+          "phx-click": Keyword.get(toggle_rest, :"phx-click", PromptHelpers.toggle_prompt(id)),
+          type: "button"
         ]
       ])
 
