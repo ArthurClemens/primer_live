@@ -22,11 +22,6 @@ defmodule PrimerLive.UIIcons do
   @doc """
   Internal use: generates a map of SVG's.
 
-  To use the `PrimerLive.Component.ui_icon/1` component, write:
-  ```
-  <.ui_icon name="icon-name" />
-  ```
-
   ## All UI icons
 
   ```

@@ -3130,6 +3130,11 @@ defmodule PrimerLive.Component do
     """
   end
 
+  @doc section: :forms
+
+  @doc """
+  Deprecated: use `form_control/1`. Since 0.5.0.
+  """
   DeclarationHelpers.form()
   DeclarationHelpers.field()
   DeclarationHelpers.form_control_is_input_group()
@@ -9104,47 +9109,6 @@ defmodule PrimerLive.Component do
   end
 
   # ------------------------------------------------------------------------------------
-  # ui_icon
-  # ------------------------------------------------------------------------------------
-
-  @doc section: :icons
-
-  @doc ~S"""
-  Renders an interface icon.
-
-  These icons, while not part of the `octicon/1` icons, are used in interface elements.
-
-  ```
-  <.ui_icon name="single-select-16" />
-  <.ui_icon name="multiple-select-16" />
-  <.ui_icon name="collapse-16" />
-  ```
-
-  [INSERT LVATTRDOCS]
-
-  """
-
-  attr(:name, :string,
-    required: true,
-    doc: "Icon name, e.g. \"single-select-16\"."
-  )
-
-  DeclarationHelpers.rest()
-
-  def ui_icon(assigns) do
-    assigns =
-      assigns |> assign(:icon, PrimerLive.UIIcons.ui_icons(assigns) |> Map.get(assigns[:name]))
-
-    ~H"""
-    <%= if @icon do %>
-      <%= @icon %>
-    <% else %>
-      Icon with name <%= @name %> does not exist.
-    <% end %>
-    """
-  end
-
-  # ------------------------------------------------------------------------------------
   # label
   # ------------------------------------------------------------------------------------
 
@@ -10074,7 +10038,7 @@ defmodule PrimerLive.Component do
   # avatar
   # ------------------------------------------------------------------------------------
 
-  @doc section: :avatar
+  @doc section: :avatars
 
   @doc ~S"""
   User profile image.
@@ -10191,7 +10155,7 @@ defmodule PrimerLive.Component do
   # avatar_pair
   # ------------------------------------------------------------------------------------
 
-  @doc section: :avatar
+  @doc section: :avatars
 
   @doc ~S"""
   Generates a larger "parent" avatar with a smaller "child" overlaid on top.
@@ -10310,6 +10274,11 @@ defmodule PrimerLive.Component do
     """
   end
 
+  @doc section: :avatars
+
+  @doc """
+  Deprecated: use `avatar_pair/1`. Since 0.5.1.
+  """
   def parent_child_avatar(assigns) do
     ComponentHelpers.deprecated_message(
       "Deprecated component 'parent_child_avatar': use 'avatar_pair'. Since 0.5.1."
@@ -11496,7 +11465,7 @@ defmodule PrimerLive.Component do
   </.dialog>
   ```
 
-  Dialog content is automatically wrapped inside a `Phoenix.Component.pl_focus_wrap/1` so that navigating with Tab won't leave the dialog.
+  Dialog content is automatically wrapped inside a `Phoenix.Component.focus_wrap/1` so that navigating with Tab won't leave the dialog.
 
   ```
   <.dialog is_backdrop is_modal>
@@ -12178,9 +12147,7 @@ defmodule PrimerLive.Component do
   @doc section: :drawer
 
   @doc ~S"""
-  Drawer content (DEPRECATED).
-
-  Use `:body` slot with `drawer/1`.
+  Drawer content. Deprecated: use `:body` slot with `drawer/1`. Since 0.4.0.
 
   [INSERT LVATTRDOCS]
   """
@@ -13462,7 +13429,37 @@ defmodule PrimerLive.Component do
     """
   end
 
-  # Copy of Phoenix.Component.focus_wrap that ensures sorted attributes to aid testing
+  # ------------------------------------------------------------------------------------
+  # ui_icon
+  # Used internally
+  # Renders an interface icon that is not part of the Octicons icon set.
+  # ------------------------------------------------------------------------------------
+
+  attr(:name, :string,
+    required: true,
+    doc: "Icon name, e.g. \"single-select-16\"."
+  )
+
+  DeclarationHelpers.rest()
+
+  defp ui_icon(assigns) do
+    assigns =
+      assigns |> assign(:icon, PrimerLive.UIIcons.ui_icons(assigns) |> Map.get(assigns[:name]))
+
+    ~H"""
+    <%= if @icon do %>
+      <%= @icon %>
+    <% else %>
+      Icon with name <%= @name %> does not exist.
+    <% end %>
+    """
+  end
+
+  # ------------------------------------------------------------------------------------
+  # pl_focus_wrap
+  # Used internally
+  # Copy of Phoenix.Component.focus_wrap that ensures sorted attributes to aid testing.
+  # ------------------------------------------------------------------------------------
 
   defp pl_focus_wrap(assigns) do
     assigns =
