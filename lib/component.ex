@@ -1865,7 +1865,7 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.underline_nav]
       ])
-      
+
     assigns =
       assigns
       |> assign(:underline_nav_attrs, underline_nav_attrs)
@@ -13567,5 +13567,4 @@ defmodule PrimerLive.Component do
     <% end %>
     """
   end
-
 end
