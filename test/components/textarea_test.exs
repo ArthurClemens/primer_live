@@ -1,83 +1,51 @@
 defmodule PrimerLive.TestComponents.TextareaTest do
-  use ExUnit.Case
-  use PrimerLive
-  import PrimerLive.Helpers.TestHelpers
+  @moduledoc false
 
-  import Phoenix.Component
-  import Phoenix.LiveViewTest
-
+  use PrimerLive.TestBase
   alias PrimerLive.TestHelpers.Repo.Users
 
   test "Called without options: should render the component" do
     assigns = %{}
 
-    assert rendered_to_string(~H"""
-           <.textarea />
-           """)
-           |> format_html() ==
-             """
-             <textarea class="FormControl-textarea FormControl-medium"></textarea>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.textarea />
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: is_large" do
     assigns = %{}
 
-    assert rendered_to_string(~H"""
-           <.textarea is_large />
-           """)
-           |> format_html() ==
-             """
-             <textarea class="FormControl-textarea FormControl-large"></textarea>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.textarea is_large />
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: is_small" do
     assigns = %{}
 
-    assert rendered_to_string(~H"""
-           <.textarea is_small />
-           """)
-           |> format_html() ==
-             """
-             <textarea class="FormControl-textarea FormControl-small"></textarea>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.textarea is_small />
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: class" do
     assigns = %{}
 
-    assert rendered_to_string(~H"""
-           <.textarea class="my-textarea" />
-           """)
-           |> format_html() ==
-             """
-             <textarea class="FormControl-textarea FormControl-medium my-textarea"></textarea>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.textarea class="my-textarea" />
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: caption" do
@@ -88,111 +56,71 @@ defmodule PrimerLive.TestComponents.TextareaTest do
       field: :first_name
     }
 
-    assert rendered_to_string(~H"""
-           <.form :let={f} for={@changeset}>
-             <.textarea form={f} field={@field} caption="Caption 1" />
-           </.form>
-           <.form :let={f} for={@changeset}>
-             <.textarea
-               form={f}
-               field={@field}
-               caption={
-                 fn ->
-                   ~H'''
-                   Caption 2
-                   '''
-                 end
-               }
-               is_form_control
-             />
-           </.form>
-           <.form :let={f} for={@changeset}>
-             <.textarea
-               form={f}
-               field={@field}
-               caption={
-                 fn field_state ->
-                   if !field_state.valid?,
-                     # Hide this text because the error validation message will show similar content
-                     do: nil
-                 end
-               }
-             />
-           </.form>
-           """)
-           |> format_html() ==
-             """
-             <form method="post"><textarea class="FormControl-textarea FormControl-medium" id="user-first-name"
-             name="user[first_name]"></textarea>
-             <div class="FormControl-caption">Caption 1</div>
-             </form>
-             <form method="post">
-             <div class="FormControl pl-invalid">
-             <div class="form-group-header"><label class="FormControl-label" for="user-first-name">First name</label><span
-                aria-hidden="true">*</span></div><textarea class="FormControl-textarea FormControl-medium"
-             id="user-first-name" name="user[first_name]"></textarea>
-             <div class="FormControl-caption">Caption 2</div>
-             </div>
-             </form>
-             <form method="post"><textarea class="FormControl-textarea FormControl-medium" id="user-first-name"
-             name="user[first_name]"></textarea></form>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.form :let={f} for={@changeset}>
+        <.textarea form={f} field={@field} caption="Caption 1" />
+      </.form>
+      <.form :let={f} for={@changeset}>
+        <.textarea
+          form={f}
+          field={@field}
+          caption={
+            fn ->
+              ~H'''
+              Caption 2
+              '''
+            end
+          }
+          is_form_control
+        />
+      </.form>
+      <.form :let={f} for={@changeset}>
+        <.textarea
+          form={f}
+          field={@field}
+          caption={
+            fn field_state ->
+              if !field_state.valid?,
+                # Hide this text because the error validation message will show similar content
+                do: nil
+            end
+          }
+        />
+      </.form>
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: is_form_control" do
     assigns = %{}
 
-    assert rendered_to_string(~H"""
-           <.textarea form={:user} name="first_name" is_form_control />
-           """)
-           |> format_html() ==
-             """
-             <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label" for="user-first-name">First name</label></div>
-             <textarea class="FormControl-textarea FormControl-medium" id="user-first-name" name="user[first_name]"></textarea>
-             </div>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.textarea form={:user} name="first_name" is_form_control />
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: form_control (label)" do
     assigns = %{}
 
-    assert rendered_to_string(~H"""
-           <.textarea
-             form={:user}
-             field="first_name"
-             form_control={
-               %{
-                 label: "Some label"
-               }
-             }
-           />
-           """)
-           |> format_html() ==
-             """
-             <div class="FormControl">
-             <div class="form-group-header"><label class="FormControl-label" for="user-first-name">Some label</label></div>
-             <textarea class="FormControl-textarea FormControl-medium" id="user-first-name" name="user[first_name]"></textarea>
-             </div>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.textarea
+        form={:user}
+        field="first_name"
+        form_control={
+          %{
+            label: "Some label"
+          }
+        }
+      />
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: validation_message" do
@@ -209,36 +137,22 @@ defmodule PrimerLive.TestComponents.TextareaTest do
       field: :first_name
     }
 
-    assert rendered_to_string(~H"""
-           <.form :let={f} for={@changeset}>
-             <.textarea
-               form={f}
-               field={@field}
-               validation_message={
-                 fn field_state ->
-                   if !field_state.valid?, do: "Please enter your first name"
-                 end
-               }
-             />
-           </.form>
-           """)
-           |> format_html() ==
-             """
-             <form method="post">
-             <div class="pl-invalid" phx-feedback-for="user[first_name]"><textarea aria-describedby="user-first-name-validation"
-             class="FormControl-textarea FormControl-medium" id="user-first-name" invalid="" name="user[first_name]"></textarea>
-             </div>
-             <div class="FormControl-inlineValidation FormControl-inlineValidation--error" id="user-first-name-validation"
-             phx-feedback-for="user[first_name]"><svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-             viewBox="0 0 12 12">STRIPPED_SVG_PATHS</svg><span>Please enter your first name</span></div>
-             </form>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.form :let={f} for={@changeset}>
+        <.textarea
+          form={f}
+          field={@field}
+          validation_message={
+            fn field_state ->
+              if !field_state.valid?, do: "Please enter your first name"
+            end
+          }
+        />
+      </.form>
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: classes" do
@@ -263,35 +177,20 @@ defmodule PrimerLive.TestComponents.TextareaTest do
       class: "my-text-input"
     }
 
-    assert rendered_to_string(~H"""
-           <.form :let={f} for={@changeset}>
-             <.textarea
-               classes={@classes}
-               form_control={@form_control_attrs}
-               class={@class}
-               caption={fn -> "Caption" end}
-               form={f}
-               field={@field}
-             />
-           </.form>
-           """)
-           |> format_html() ==
-             """
-             <form method="post">
-             <div class="FormControl group-x control-x pl-invalid">
-             <div class="form-group-header header-x"><label class="FormControl-label label-x" for="user-first-name">First
-                name</label><span aria-hidden="true">*</span></div><textarea
-             class="FormControl-textarea FormControl-medium input-x my-text-input" id="user-first-name"
-             name="user[first_name]"></textarea>
-             <div class="FormControl-caption caption-x">Caption</div>
-             </div>
-             </form>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.form :let={f} for={@changeset}>
+        <.textarea
+          classes={@classes}
+          form_control={@form_control_attrs}
+          class={@class}
+          caption={fn -> "Caption" end}
+          form={f}
+          field={@field}
+        />
+      </.form>
+      """,
+      __ENV__
+    )
   end
 end

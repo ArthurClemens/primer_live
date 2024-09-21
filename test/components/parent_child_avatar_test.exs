@@ -1,56 +1,33 @@
 defmodule PrimerLive.TestComponents.ParentChildAvatarTest do
-  use ExUnit.Case
-  use PrimerLive
-  import PrimerLive.Helpers.TestHelpers
+  @moduledoc false
 
-  import Phoenix.Component
-  import Phoenix.LiveViewTest
+  use PrimerLive.TestBase
 
   test "Parent and child slots" do
     assigns = %{}
 
-    assert rendered_to_string(~H"""
-           <.parent_child_avatar>
-             <:parent src="parent.jpg" size="7" />
-             <:child src="child.jpg" size="2" />
-           </.parent_child_avatar>
-           """)
-           |> format_html() ==
-             """
-             <div class="avatar-parent-child d-inline-flex">
-             <img class="avatar avatar-7" src="parent.jpg" />
-             <img class="avatar avatar-2 avatar-child" src="child.jpg" />
-             </div>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.parent_child_avatar>
+        <:parent src="parent.jpg" size="7" />
+        <:child src="child.jpg" size="2" />
+      </.parent_child_avatar>
+      """,
+      __ENV__
+    )
   end
 
   test "Classes" do
     assigns = %{}
 
-    assert rendered_to_string(~H"""
-           <.parent_child_avatar class="my-parent-child">
-             <:parent src="parent.jpg" size="7" class="my-parent" />
-             <:child src="child.jpg" size="2" class="my-child" />
-           </.parent_child_avatar>
-           """)
-           |> format_html() ==
-             """
-             <div class="avatar-parent-child d-inline-flex my-parent-child">
-             <img class="avatar avatar-7 my-parent" src="parent.jpg" />
-             <img class="avatar avatar-2 avatar-child my-child" src="child.jpg" />
-             </div>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.parent_child_avatar class="my-parent-child">
+        <:parent src="parent.jpg" size="7" class="my-parent" />
+        <:child src="child.jpg" size="2" class="my-child" />
+      </.parent_child_avatar>
+      """,
+      __ENV__
+    )
   end
 end

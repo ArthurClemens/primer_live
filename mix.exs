@@ -117,15 +117,8 @@ defmodule PrimerLive.MixProject do
     [
       setup: ["deps.get", "cmd --cd assets npm install --legacy-peer-deps"],
       # Testing
-      #
-      # Test with writing error results to file:
-      #    WRITE_TO_FILE=1 mix test
-      #    WRITE_TO_FILE=1 mix test some-file.exs
-      #
-      test: [
-        "cmd scripts/tests/clean_test_results.sh",
-        "test"
-      ],
+      "test:clean": "cmd scripts/tests/clean_assertion_failures.sh",
+      "test:accept": "cmd scripts/tests/accept_assertions.sh",
       # Quality check
       qa: [
         "deps.clean --unlock --unused",

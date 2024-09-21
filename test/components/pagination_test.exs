@@ -1,10 +1,7 @@
 defmodule PrimerLive.TestComponents.PaginationTest do
-  use ExUnit.Case
-  use PrimerLive
-  import PrimerLive.Helpers.TestHelpers
+  @moduledoc false
 
-  import Phoenix.Component
-  import Phoenix.LiveViewTest
+  use PrimerLive.TestBase
 
   test "get_pagination_numbers: zeroes" do
     page_count = 0
@@ -115,342 +112,189 @@ defmodule PrimerLive.TestComponents.PaginationTest do
   test "With page_count 1: should render nothing" do
     assigns = %{}
 
-    assert rendered_to_string(~H"""
-           <.pagination page_count={1} current_page={1} link_path={&"/page/#{&1}"} />
-           """)
-           |> format_html() ==
-             """
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.pagination page_count={1} current_page={1} link_path={&"/page/#{&1}"} />
+      """,
+      __ENV__
+    )
   end
 
   test "With page_count 2: should render the component" do
     assigns = %{page_count: 2, current_page: 1}
 
-    assert rendered_to_string(~H"""
-           <.pagination
-             page_count={@page_count}
-             current_page={@current_page}
-             link_path={fn page_num -> "/page/#{page_num}" end}
-           />
-           """)
-           |> format_html() ==
-             """
-             <nav aria-label="Pagination navigation" class="paginate-container" role="navigation">
-             <div class="pagination"><span class="previous_page" aria-disabled="true">Previous</span><em
-             aria-current="page" aria-label="Current page, page 1" class="">1</em><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push"
-             aria-label="Go to page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push" rel="next"
-             class="next_page" aria-label="Go to next page">Next</a></div>
-             </nav>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.pagination
+        page_count={@page_count}
+        current_page={@current_page}
+        link_path={fn page_num -> "/page/#{page_num}" end}
+      />
+      """,
+      __ENV__
+    )
   end
 
   test "Many pages" do
     assigns = %{}
 
-    assert rendered_to_string(~H"""
-           <.pagination page_count={99} current_page={9} link_path={&"/page/#{&1}"} />
-           """)
-           |> format_html() ==
-             """
-             <nav aria-label="Pagination navigation" class="paginate-container" role="navigation">
-             <div class="pagination"><a href="/page/8" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
-             class="previous_page" aria-label="Go to previous page">Previous</a><a href="/page/1" data-phx-link="redirect"
-             data-phx-link-state="push" aria-label="Go to page 1">1</a><span class="gap">…</span><a href="/page/7"
-             data-phx-link="redirect" data-phx-link-state="push" aria-label="Go to page 7">7</a><a href="/page/8"
-             data-phx-link="redirect" data-phx-link-state="push" aria-label="Go to page 8">8</a><em aria-current="page" aria-label="Current page, page 9" class="">9</em><a
-             href="/page/10" data-phx-link="redirect" data-phx-link-state="push" aria-label="Go to page 10">10</a><a href="/page/11"
-             data-phx-link="redirect" data-phx-link-state="push" aria-label="Go to page 11">11</a><span class="gap">…</span><a
-             href="/page/99" data-phx-link="redirect" data-phx-link-state="push" aria-label="Go to page 99">99</a><a href="/page/10"
-             data-phx-link="redirect" data-phx-link-state="push" rel="next" class="next_page" aria-label="Go to next page">Next</a>
-             </div>
-             </nav>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.pagination page_count={99} current_page={9} link_path={&"/page/#{&1}"} />
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: side_count" do
     assigns = %{page_count: 10, current_page: 5}
 
-    assert rendered_to_string(~H"""
-           <.pagination
-             page_count={@page_count}
-             current_page={@current_page}
-             link_path={fn page_num -> "/page/#{page_num}" end}
-             side_count="1"
-           />
-           """)
-           |> format_html() ==
-             """
-             <nav aria-label="Pagination navigation" class="paginate-container" role="navigation">
-             <div class="pagination"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
-             class="previous_page" aria-label="Go to previous page">Previous</a><a href="/page/1" data-phx-link="redirect"
-             data-phx-link-state="push" aria-label="Go to page 1">1</a><span class="gap">…</span><a href="/page/3"
-             data-phx-link="redirect" data-phx-link-state="push" aria-label="Go to page 3">3</a><a href="/page/4"
-             data-phx-link="redirect" data-phx-link-state="push" aria-label="Go to page 4">4</a><em aria-current="page" aria-label="Current page, page 5" class="">5</em><a
-             href="/page/6" data-phx-link="redirect" data-phx-link-state="push" aria-label="Go to page 6">6</a><a href="/page/7"
-             data-phx-link="redirect" data-phx-link-state="push" aria-label="Go to page 7">7</a><span class="gap">…</span><a
-             href="/page/10" data-phx-link="redirect" data-phx-link-state="push" aria-label="Go to page 10">10</a><a href="/page/6"
-             data-phx-link="redirect" data-phx-link-state="push" rel="next" class="next_page" aria-label="Go to next page">Next</a>
-             </div>
-             </nav>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.pagination
+        page_count={@page_count}
+        current_page={@current_page}
+        link_path={fn page_num -> "/page/#{page_num}" end}
+        side_count="1"
+      />
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: sibling_count" do
     assigns = %{page_count: 10, current_page: 5}
 
-    assert rendered_to_string(~H"""
-           <.pagination
-             page_count={@page_count}
-             current_page={@current_page}
-             link_path={fn page_num -> "/page/#{page_num}" end}
-             sibling_count="1"
-           />
-           """)
-           |> format_html() ==
-             """
-             <nav aria-label="Pagination navigation" class="paginate-container" role="navigation">
-             <div class="pagination"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
-             class="previous_page" aria-label="Go to previous page">Previous</a><a href="/page/1" data-phx-link="redirect"
-             data-phx-link-state="push" aria-label="Go to page 1">1</a><span class="gap">…</span><a href="/page/4"
-             data-phx-link="redirect" data-phx-link-state="push" aria-label="Go to page 4">4</a><em aria-current="page" aria-label="Current page, page 5" class="">5</em><a
-             href="/page/6" data-phx-link="redirect" data-phx-link-state="push" aria-label="Go to page 6">6</a><span
-             class="gap">…</span><a href="/page/10" data-phx-link="redirect" data-phx-link-state="push"
-             aria-label="Go to page 10">10</a><a href="/page/6" data-phx-link="redirect" data-phx-link-state="push" rel="next"
-             class="next_page" aria-label="Go to next page">Next</a></div>
-             </nav>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.pagination
+        page_count={@page_count}
+        current_page={@current_page}
+        link_path={fn page_num -> "/page/#{page_num}" end}
+        sibling_count="1"
+      />
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: is_numbered false" do
     assigns = %{page_count: 10, current_page: 5}
 
-    assert rendered_to_string(~H"""
-           <.pagination
-             page_count={@page_count}
-             current_page={@current_page}
-             link_path={fn page_num -> "/page/#{page_num}" end}
-             is_numbered="false"
-           />
-           """)
-           |> format_html() ==
-             """
-             <nav aria-label="Pagination navigation" class="paginate-container" role="navigation">
-             <div class="pagination"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
-             class="previous_page" aria-label="Go to previous page">Previous</a><a href="/page/6" data-phx-link="redirect"
-             data-phx-link-state="push" rel="next" class="next_page" aria-label="Go to next page">Next</a></div>
-             </nav>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.pagination
+        page_count={@page_count}
+        current_page={@current_page}
+        link_path={fn page_num -> "/page/#{page_num}" end}
+        is_numbered="false"
+      />
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: class" do
     assigns = %{page_count: 2, current_page: 1}
 
-    assert rendered_to_string(~H"""
-           <.pagination
-             page_count={@page_count}
-             current_page={@current_page}
-             link_path={fn page_num -> "/page/#{page_num}" end}
-             class="nav"
-           />
-           """)
-           |> format_html() ==
-             """
-             <nav aria-label="Pagination navigation" class="paginate-container nav" role="navigation">
-             <div class="pagination"><span class="previous_page" aria-disabled="true">Previous</span><em
-             aria-current="page" aria-label="Current page, page 1" class="">1</em><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push"
-             aria-label="Go to page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push" rel="next"
-             class="next_page" aria-label="Go to next page">Next</a></div>
-             </nav>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.pagination
+        page_count={@page_count}
+        current_page={@current_page}
+        link_path={fn page_num -> "/page/#{page_num}" end}
+        class="nav"
+      />
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: classes" do
     assigns = %{page_count: 10, current_page: 5}
 
-    assert rendered_to_string(~H"""
-           <.pagination
-             page_count={@page_count}
-             current_page={@current_page}
-             link_path={fn page_num -> "/page/#{page_num}" end}
-             classes={
-               %{
-                 gap: "gap-x",
-                 pagination_container: "pagination_container-x",
-                 pagination: "pagination-x",
-                 previous_page: "previous_page-x",
-                 next_page: "next_page-x",
-                 page: "page-x",
-                 current_page: "current_page-x"
-               }
-             }
-           />
-           """)
-           |> format_html() ==
-             """
-             <nav aria-label="Pagination navigation" class="paginate-container pagination_container-x" role="navigation">
-             <div class="pagination pagination-x"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push"
-             rel="previous" class="previous_page previous_page-x" aria-label="Go to previous page">Previous</a><a href="/page/1"
-             data-phx-link="redirect" data-phx-link-state="push" class="page-x" aria-label="Go to page 1">1</a><span
-             class="gap gap-x">…</span><a href="/page/3" data-phx-link="redirect" data-phx-link-state="push" class="page-x"
-             aria-label="Go to page 3">3</a><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" class="page-x"
-             aria-label="Go to page 4">4</a><em aria-current="page" aria-label="Current page, page 5" class="current_page-x">5</em><a href="/page/6" data-phx-link="redirect"
-             data-phx-link-state="push" class="page-x" aria-label="Go to page 6">6</a><a href="/page/7" data-phx-link="redirect"
-             data-phx-link-state="push" class="page-x" aria-label="Go to page 7">7</a><span class="gap gap-x">…</span><a
-             href="/page/10" data-phx-link="redirect" data-phx-link-state="push" class="page-x" aria-label="Go to page 10">10</a><a
-             href="/page/6" data-phx-link="redirect" data-phx-link-state="push" rel="next" class="next_page next_page-x"
-             aria-label="Go to next page">Next</a></div>
-             </nav>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.pagination
+        page_count={@page_count}
+        current_page={@current_page}
+        link_path={fn page_num -> "/page/#{page_num}" end}
+        classes={
+          %{
+            gap: "gap-x",
+            pagination_container: "pagination_container-x",
+            pagination: "pagination-x",
+            previous_page: "previous_page-x",
+            next_page: "next_page-x",
+            page: "page-x",
+            current_page: "current_page-x"
+          }
+        }
+      />
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: labels" do
     assigns = %{page_count: 10, current_page: 5}
 
-    assert rendered_to_string(~H"""
-           <.pagination
-             page_count={@page_count}
-             current_page={@current_page}
-             link_path={fn page_num -> "/page/#{page_num}" end}
-             labels={
-               %{
-                 aria_label_container: "A",
-                 aria_label_next_page: "B",
-                 aria_label_page: "C",
-                 aria_label_previous_page: "D",
-                 gap: "E",
-                 next_page: "F",
-                 previous_page: "G"
-               }
-             }
-           />
-           """)
-           |> format_html() ==
-             """
-             <nav aria-label="A" class="paginate-container" role="navigation">
-             <div class="pagination"><a href="/page/4" data-phx-link="redirect" data-phx-link-state="push" rel="previous"
-             class="previous_page" aria-label="D">G</a><a href="/page/1" data-phx-link="redirect" data-phx-link-state="push"
-             aria-label="C">1</a><span class="gap">E</span><a href="/page/3" data-phx-link="redirect"
-             data-phx-link-state="push" aria-label="C">3</a><a href="/page/4" data-phx-link="redirect"
-             data-phx-link-state="push" aria-label="C">4</a><em aria-current="page" aria-label="Current page, page 5" class="">5</em><a href="/page/6"
-             data-phx-link="redirect" data-phx-link-state="push" aria-label="C">6</a><a href="/page/7" data-phx-link="redirect"
-             data-phx-link-state="push" aria-label="C">7</a><span class="gap">E</span><a href="/page/10"
-             data-phx-link="redirect" data-phx-link-state="push" aria-label="C">10</a><a href="/page/6"
-             data-phx-link="redirect" data-phx-link-state="push" rel="next" class="next_page" aria-label="B">F</a></div>
-             </nav>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.pagination
+        page_count={@page_count}
+        current_page={@current_page}
+        link_path={fn page_num -> "/page/#{page_num}" end}
+        labels={
+          %{
+            aria_label_container: "A",
+            aria_label_next_page: "B",
+            aria_label_page: "C",
+            aria_label_previous_page: "D",
+            gap: "E",
+            next_page: "F",
+            previous_page: "G"
+          }
+        }
+      />
+      """,
+      __ENV__
+    )
   end
 
   test "Attribute: link_options" do
     assigns = %{page_count: 2, current_page: 1}
 
-    assert rendered_to_string(~H"""
-           <.pagination
-             page_count={@page_count}
-             current_page={@current_page}
-             link_path={fn page_num -> "/page/#{page_num}" end}
-             link_options={
-               %{
-                 replace: true
-               }
-             }
-           />
-           """)
-           |> format_html() ==
-             """
-             <nav aria-label="Pagination navigation" class="paginate-container" role="navigation">
-             <div class="pagination"><span class="previous_page" aria-disabled="true">Previous</span><em
-             aria-current="page" aria-label="Current page, page 1" class="">1</em><a href="/page/2" data-phx-link="redirect" data-phx-link-state="replace"
-             aria-label="Go to page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="replace" rel="next"
-             class="next_page" aria-label="Go to next page">Next</a></div>
-             </nav>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.pagination
+        page_count={@page_count}
+        current_page={@current_page}
+        link_path={fn page_num -> "/page/#{page_num}" end}
+        link_options={
+          %{
+            replace: true
+          }
+        }
+      />
+      """,
+      __ENV__
+    )
   end
 
   test "Extra attributes" do
     assigns = %{page_count: 2, current_page: 1}
 
-    assert rendered_to_string(~H"""
-           <.pagination
-             page_count={@page_count}
-             current_page={@current_page}
-             link_path={fn page_num -> "/page/#{page_num}" end}
-             dir="rtl"
-           />
-           """)
-           |> format_html() ==
-             """
-             <nav aria-label="Pagination navigation" class="paginate-container" dir="rtl" role="navigation">
-             <div class="pagination"><span class="previous_page" aria-disabled="true">Previous</span><em
-             aria-current="page" aria-label="Current page, page 1" class="">1</em><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push"
-             aria-label="Go to page 2">2</a><a href="/page/2" data-phx-link="redirect" data-phx-link-state="push" rel="next"
-             class="next_page" aria-label="Go to next page">Next</a></div>
-             </nav>
-             """
-             |> format_html()
-  rescue
-    e in ExUnit.AssertionError ->
-      %{expr: {:assert, [line: line], _}} = e
-      to_file(e.left, __ENV__.file, line + 2)
-      reraise e, __STACKTRACE__
+    run_test(
+      ~H"""
+      <.pagination
+        page_count={@page_count}
+        current_page={@current_page}
+        link_path={fn page_num -> "/page/#{page_num}" end}
+        dir="rtl"
+      />
+      """,
+      __ENV__
+    )
   end
 end
