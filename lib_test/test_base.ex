@@ -35,20 +35,6 @@ defmodule PrimerLive.TestBase do
         |> String.trim()
       end
 
-      def to_file(result, filename, line) do
-        if System.get_env("WRITE_TO_FILE") do
-          dir =
-            [
-              @priv_test_result_dir,
-              filename |> String.trim_trailing(".exs") |> String.split("/") |> List.last()
-            ]
-            |> Enum.join("/")
-
-          File.mkdir_p(dir)
-          File.write("#{dir}/line-#{line}.html", result)
-        end
-      end
-
       def read_test_assertion(filename, env_function) do
         path = get_test_assertion_path(@assertions_test_result_dir, filename, env_function)
         File.read!(path) |> String.trim()
