@@ -84,16 +84,18 @@ defmodule PrimerLive.Helpers.PromptDeclarationHelpers do
     end
   end
 
-  defmacro toggle_slot do
+  defmacro toggle_slot(the_element) do
     quote do
       slot :toggle,
         required: true,
-        doc: """
-        Generates a toggle element (default with button appearance) using the slot content as label.
-        A `phx-click` attribute is added automatically if it is not passed in the slot attributes.
+        doc:
+          """
+          Generates a button to open {the_element}.
+          A `phx-click` attribute is added automatically if it is not passed in the slot attributes.
 
-        Any custom class will override the default class "btn".
-        """ do
+          Any custom class will override the default class "btn".
+          """
+          |> String.replace("{the_element}", unquote(the_element)) do
         attr(:class, :any,
           doc: """
           Additional classname.

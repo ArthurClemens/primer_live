@@ -117,7 +117,7 @@ defmodule PrimerLive.Component do
     Disabled item
   </.action_list_item>
 
-  <.action_list_item is_button phx-click="remove">
+  <.action_list_item is_button phx-click="remove" phx-value-item={item_id}>
     Button
   </.action_list_item>
 
@@ -178,14 +178,14 @@ defmodule PrimerLive.Component do
   </.action_list_item>
   ```
 
-  Items are by default rendered as span elements. To create link elements, place the label text inside slot `link` and pass attribute `href`, `navigate` or `patch`.
+  Items are by default rendered as `div` elements. To create link elements, place the label text inside slot `link` and pass attribute `href`, `navigate` or `patch`.
   When a link attribute is supplied to the link slot, links are created with `Phoenix.Component.link/1`, passing all other slot attributes to the link. Link examples:
 
   ```
   <.action_list_item>
     <:link href="/url" target="_blank">
       href link
-    </:link>
+    </:link
   </.action_list_item>
   <.action_list_item>
     <:link navigate={Routes.page_path(@socket, :index)}>
@@ -809,9 +809,7 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:"phx-click", :any)
-    attr(:"phx-target", :any)
-
+    DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -985,11 +983,11 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @is_select do %>
         <%= if @has_leading_visual do %>
-          <span class={@classes.leading_visual}>
+          <div class={@classes.leading_visual}>
             <%= render_slot(@leading_visual) %>
-          </span>
+          </div>
         <% else %>
-          <span class={@classes.leading_visual}>
+          <div class={@classes.leading_visual}>
             <.checkbox
               is_multiple
               checked={@is_selected}
@@ -1007,31 +1005,31 @@ defmodule PrimerLive.Component do
               }
               input_id={@input_id}
             />
-          </span>
+          </div>
         <% end %>
       <% else %>
         <%= if @has_leading_visual do %>
-          <span class={@classes.leading_visual}>
+          <div class={@classes.leading_visual}>
             <%= render_slot(@leading_visual) %>
-          </span>
+          </div>
         <% end %>
       <% end %>
       <%= if @has_description do %>
-        <span class={@classes.description_container}>
+        <div class={@classes.description_container}>
           <%= @render_content_elements.(@content) %>
-        </span>
+        </div>
       <% else %>
         <%= @render_content_elements.(@content) %>
       <% end %>
       <%= if @has_trailing_visual do %>
-        <span class={@classes.trailing_visual}>
+        <div class={@classes.trailing_visual}>
           <%= render_slot(@trailing_visual) %>
-        </span>
+        </div>
       <% else %>
         <%= if @is_collapsible do %>
-          <span class={@classes.trailing_visual}>
+          <div class={@classes.trailing_visual}>
             <.ui_icon name="collapse-16" class="ActionList-item-collapseIcon" />
-          </span>
+          </div>
         <% end %>
       <% end %>
       """
@@ -1265,6 +1263,35 @@ defmodule PrimerLive.Component do
   </.tabnav>
   ```
 
+  ## Persistent tabs
+
+  Wrap the tabnav component inside a live_component to store the selected tab state. Pass the tab id in the event payload using `phx-value-item`.
+
+  ```
+  # render function
+  <.tabnav>
+    <:item
+      :for={%{label: label, id: id} <- @tabs}
+      is_selected={id == @current_tab}
+      phx-value-item={id}
+      phx-click="set_tab"
+      phx-target={@myself}
+    >
+      <%= label %>
+    </:item>      
+  </.tabnav>
+
+  ...
+
+  def handle_event("set_tab", %{"item" => tab_id}, socket) do
+    socket =
+      socket
+      |> assign(:current_tab, tab_id)
+
+    {:noreply, socket}
+  end
+  ```
+
   [INSERT LVATTRDOCS]
 
   ## Reference
@@ -1307,7 +1334,10 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Tab item content. Tabs are by default rendered as buttons. To create a link element, pass attribute `href`, `navigate` or `patch`.
+    Tab item content. Tabs are by default rendered as buttons.
+
+    - To create a link element, pass attribute `href`, `navigate` or `patch`.
+    - To pass event data, use `phx-click` and `phx-value-item`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -1326,9 +1356,10 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_href()
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
-    DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_tabindex()
-    DeclarationHelpers.slot_phx()
+    DeclarationHelpers.slot_phx_click_and_target()
+    DeclarationHelpers.slot_phx_value_item(:tab_item)
+    DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
   end
@@ -1562,6 +1593,35 @@ defmodule PrimerLive.Component do
   </.underline_nav>
   ```
 
+  ## Persistent tabs
+
+  Wrap the tabnav component inside a live_component to store the selected tab state. Pass the tab id in the event payload using `phx-value-item`.
+
+  ```
+  # render function
+  <.underline_nav>
+    <:item
+      :for={%{label: label, id: id} <- @tabs}
+      is_selected={id == @current_tab}
+      phx-value-item={id}
+      phx-click="set_tab"
+      phx-target={@myself}
+    >
+      <%= label %>
+    </:item>      
+  </.underline_nav>
+
+  ...
+
+  def handle_event("set_tab", %{"item" => tab_id}, socket) do
+    socket =
+      socket
+      |> assign(:current_tab, tab_id)
+
+    {:noreply, socket}
+  end
+  ```
+
   [INSERT LVATTRDOCS]
 
   ## Reference
@@ -1629,9 +1689,10 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Tab item content: either a link or a button.
+    Tab item content. Tabs are by default rendered as buttons.
 
-    Tab item content. Tabs are by default rendered as buttons. To create a link element, pass attribute `href`, `navigate` or `patch`.
+    - To create a link element, pass attribute `href`, `navigate` or `patch`.
+    - To pass event data, use `phx-click` and `phx-value-item`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -1642,6 +1703,9 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_href()
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_tabindex()
+    DeclarationHelpers.slot_phx_click_and_target()
+    DeclarationHelpers.slot_phx_value_item(:tab_item)
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -1711,6 +1775,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.append_attributes(rest, [
           [class: classes.tab.(slot)],
           [role: "tab"],
+          [tabindex: slot[:tabindex] || "0"],
           slot[:is_selected] && ["aria-selected": "true"],
           slot[:is_selected] && ["aria-current": "page"]
         ])
@@ -1800,7 +1865,7 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.underline_nav]
       ])
-
+      
     assigns =
       assigns
       |> assign(:underline_nav_attrs, underline_nav_attrs)
@@ -1900,7 +1965,7 @@ defmodule PrimerLive.Component do
       heading: nil
     },
     doc: """
-    Additional classnames for underline nav elements.
+    Additional classnames for menu elements.
 
     Any provided value will be appended to the default classname.
 
@@ -1925,7 +1990,10 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Menu content. To create a link element, pass attribute `href`, `navigate` or `patch`.
+    Menu content.
+
+    - To create a link element, pass attribute `href`, `navigate` or `patch`.
+    - To pass event data, use `phx-click` and `phx-value-item`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -1936,6 +2004,8 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_href()
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_phx_click_and_target()
+    DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -2217,7 +2287,10 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Menu content. To create a link element, pass attribute `href`, `navigate` or `patch`.
+    Menu content.
+
+    - To create a link element, pass attribute `href`, `navigate` or `patch`.
+    - To pass event data, use `phx-click` and `phx-value-item`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -2228,6 +2301,8 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_href()
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_phx_click_and_target()
+    DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -2471,7 +2546,10 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Subnav buttons item. To create a link element, pass attribute `href`, `navigate` or `patch`.
+    Subnav buttons item. 
+
+    - To create a link element, pass attribute `href`, `navigate` or `patch`.
+    - To pass event data, use `phx-click` and `phx-value-item`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -2482,6 +2560,8 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_href()
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_phx_click_and_target()
+    DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -2728,7 +2808,10 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Filter list item content. To create a link element, pass attribute `href`, `navigate` or `patch`.
+    Filter list item content.
+
+    - To create a link element, pass attribute `href`, `navigate` or `patch`.
+    - To pass event data, use `phx-click` and `phx-value-item`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -2745,6 +2828,8 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_href()
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_phx_click_and_target()
+    DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -6338,8 +6423,12 @@ defmodule PrimerLive.Component do
   end
 
   slot :row,
-    doc:
-      "Generates a content row element. To create a link element, pass attribute `href`, `navigate` or `patch`." do
+    doc: """
+    Generates a content row element.
+
+    - To create a link element, pass attribute `href`, `navigate` or `patch`.
+    - To pass event data, use `phx-click` and `phx-value-item`.
+    """ do
     attr(:is_blue, :boolean, doc: "Blue row theme.")
     attr(:is_gray, :boolean, doc: "Gray row theme.")
     attr(:is_yellow, :boolean, doc: "Yellow row theme.")
@@ -6359,6 +6448,8 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_href()
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_phx_click_and_target()
+    DeclarationHelpers.slot_phx_value_item(:row)
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -6726,6 +6817,11 @@ defmodule PrimerLive.Component do
     attr(:is_full_width, :boolean, doc: "Stretches the item to maximum.")
     attr(:is_full, :boolean, doc: "Deprecated: use is_full_width")
 
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_phx_click_and_target()
+    DeclarationHelpers.slot_phx_value_item(:header_item)
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -6901,7 +6997,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_show_on_mount("the dropdown", "dropdown")
   PromptDeclarationHelpers.on_cancel("the dropdown")
   PromptDeclarationHelpers.status_callback_selector("the dropdown")
-  PromptDeclarationHelpers.toggle_slot()
+  PromptDeclarationHelpers.toggle_slot("the dropdown")
 
   PromptDeclarationHelpers.transition_duration(
     "the dropdown",
@@ -6965,7 +7061,10 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Menu item content. To create a link element, pass attribute `href`, `navigate` or `patch`.
+    Menu item content. 
+
+    - To create a link element, pass attribute `href`, `navigate` or `patch`.
+    - To pass event data, use `phx-click` and `phx-value-item`.
     """ do
     attr(:is_divider, :boolean,
       doc: """
@@ -6973,19 +7072,14 @@ defmodule PrimerLive.Component do
       """
     )
 
-    DeclarationHelpers.slot_href()
-    DeclarationHelpers.patch()
-    DeclarationHelpers.navigate()
-
-    attr(:phx_click, :string,
-      doc: """
-      See https://hexdocs.pm/phoenix_live_view/bindings.html
-      """
-    )
-
     attr(:name, :string)
     attr(:type, :string)
 
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_phx_click_and_target()
+    DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -7137,13 +7231,13 @@ defmodule PrimerLive.Component do
         |> assign(:focus_wrap_attrs, focus_wrap_attrs)
 
       ~H"""
-      <.pl_focus_wrap {@focus_wrap_attrs}>
+      <.focus_wrap {@focus_wrap_attrs}>
         <ul {@prompt_attrs}>
           <%= for item <- @item do %>
             <%= @render_item.(item) %>
           <% end %>
         </ul>
-      </.pl_focus_wrap>
+      </.focus_wrap>
       """
     end
 
@@ -7328,7 +7422,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_show_on_mount("the select menu", "select_menu")
   PromptDeclarationHelpers.on_cancel("the select menu")
   PromptDeclarationHelpers.status_callback_selector("the select menu")
-  PromptDeclarationHelpers.toggle_slot()
+  PromptDeclarationHelpers.toggle_slot("the select menu")
 
   PromptDeclarationHelpers.transition_duration(
     "the select menu",
@@ -7466,7 +7560,10 @@ defmodule PrimerLive.Component do
 
   slot :item,
     doc: """
-    Menu item content. To create a link element, pass attribute `href`, `navigate` or `patch`.
+    Menu item content.
+
+    - To create a link element, pass attribute `href`, `navigate` or `patch`.
+    - To pass event data, use `phx-click` and `phx-value-item`.
     """ do
     attr(:is_selected, :boolean,
       doc: """
@@ -7500,7 +7597,8 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_href()
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
-    DeclarationHelpers.slot_phx()
+    DeclarationHelpers.slot_phx_click_and_target()
+    DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -7684,6 +7782,8 @@ defmodule PrimerLive.Component do
       is_selected = item[:is_selected]
       is_disabled = item[:is_disabled]
       is_link = AttributeHelpers.link?(item)
+      is_divider = !!item[:is_divider]
+      is_button = !is_link && !is_divider
 
       # Don't pass item attributes to the HTML
       item_rest =
@@ -7699,7 +7799,8 @@ defmodule PrimerLive.Component do
         !is_selected && [role: "menuitem"],
         is_selected && [role: "menuitemcheckbox", "aria-checked": "true"],
         is_link && is_disabled && ["aria-disabled": "true"],
-        !is_link && is_disabled && [disabled: "true"]
+        !is_link && is_disabled && [disabled: "true"],
+        is_button && [type: "button"]
       ])
     end
 
@@ -7829,7 +7930,7 @@ defmodule PrimerLive.Component do
       <div {@touch_layer_attrs}></div>
       <div class={@classes.menu}>
         <div {@menu_container_attrs}>
-          <.pl_focus_wrap {@focus_wrap_attrs}>
+          <.focus_wrap {@focus_wrap_attrs}>
             <%= if not is_nil(@menu_title) do %>
               <header class={@classes.header}>
                 <h3 class={@classes.menu_title}><%= @menu_title %></h3>
@@ -7888,7 +7989,7 @@ defmodule PrimerLive.Component do
                 </div>
               <% end %>
             <% end %>
-          </.pl_focus_wrap>
+          </.focus_wrap>
         </div>
       </div>
     </div>
@@ -7963,7 +8064,7 @@ defmodule PrimerLive.Component do
   PromptDeclarationHelpers.is_show_on_mount("the menu", "action_menu")
   PromptDeclarationHelpers.on_cancel("the menu")
   PromptDeclarationHelpers.status_callback_selector("the menu")
-  PromptDeclarationHelpers.toggle_slot()
+  PromptDeclarationHelpers.toggle_slot("the menu")
 
   PromptDeclarationHelpers.transition_duration(
     "the menu",
@@ -8150,9 +8251,9 @@ defmodule PrimerLive.Component do
       <div class={@classes.menu}>
         <div {@menu_container_attrs}>
           <div class={@classes.menu_list}>
-            <.pl_focus_wrap {@focus_wrap_attrs}>
+            <.focus_wrap {@focus_wrap_attrs}>
               <%= render_slot(@inner_block) %>
-            </.pl_focus_wrap>
+            </.focus_wrap>
           </div>
         </div>
       </div>
@@ -9780,11 +9881,16 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Breadcrumb item content. To create a link element, pass attribute `href`, `navigate` or `patch`.
+    Breadcrumb item content.
+
+    - To create a link element, pass attribute `href`, `navigate` or `patch`.
+    - To pass event data, use `phx-click` and `phx-value-item`.
     """ do
     DeclarationHelpers.slot_href()
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_phx_click_and_target()
+    DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -11213,6 +11319,8 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_href()
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_phx_click_and_target()
+    DeclarationHelpers.slot_phx_value_item(:any)
 
     attr(:is_primary, :boolean,
       doc: """
@@ -11600,6 +11708,11 @@ defmodule PrimerLive.Component do
     doc: """
     Dialog row. Uses `box/1` `row` slot.
     """ do
+    DeclarationHelpers.slot_href()
+    DeclarationHelpers.patch()
+    DeclarationHelpers.navigate()
+    DeclarationHelpers.slot_phx_click_and_target()
+    DeclarationHelpers.slot_phx_value_item(:row)
     DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_style()
     DeclarationHelpers.slot_rest()
@@ -11701,7 +11814,7 @@ defmodule PrimerLive.Component do
         <div {@backdrop_attrs} />
       <% end %>
       <div {@touch_layer_attrs}></div>
-      <.pl_focus_wrap {@focus_wrap_attrs}>
+      <.focus_wrap {@focus_wrap_attrs}>
         <.box {@content_attrs}>
           <:header :if={@header_title && @header_title !== []} class={@classes.header}>
             <.button {@close_button_attrs}>
@@ -11710,7 +11823,7 @@ defmodule PrimerLive.Component do
           </:header>
           <%= render_slot(@inner_block) %>
         </.box>
-      </.pl_focus_wrap>
+      </.focus_wrap>
     </div>
     """
   end
@@ -12130,9 +12243,9 @@ defmodule PrimerLive.Component do
         <%= render_slot(@inner_block) %>
         <%= if @body && @body !== [] do %>
           <div {@body_attrs}>
-            <.pl_focus_wrap {@focus_wrap_attrs}>
+            <.focus_wrap {@focus_wrap_attrs}>
               <%= render_slot(@body) %>
-            </.pl_focus_wrap>
+            </.focus_wrap>
           </div>
         <% end %>
       </div>
@@ -12221,9 +12334,9 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@content_attrs}>
-      <.pl_focus_wrap {@focus_wrap_attrs}>
+      <.focus_wrap {@focus_wrap_attrs}>
         <%= render_slot(@inner_block) %>
-      </.pl_focus_wrap>
+      </.focus_wrap>
     </div>
     """
   end
@@ -13455,29 +13568,4 @@ defmodule PrimerLive.Component do
     """
   end
 
-  # ------------------------------------------------------------------------------------
-  # pl_focus_wrap
-  # Used internally
-  # Copy of Phoenix.Component.focus_wrap that ensures sorted attributes to aid testing.
-  # ------------------------------------------------------------------------------------
-
-  defp pl_focus_wrap(assigns) do
-    assigns =
-      assigns
-      |> assign(
-        :attrs,
-        AttributeHelpers.assigns_to_attributes_sorted(assigns,
-          id: assigns[:id],
-          "phx-hook": "Phoenix.FocusWrap"
-        )
-      )
-
-    ~H"""
-    <div {@attrs}>
-      <span id={"#{@id}-start"} tabindex="0" aria-hidden="true"></span>
-      <%= render_slot(@inner_block) %>
-      <span id={"#{@id}-end"} tabindex="0" aria-hidden="true"></span>
-    </div>
-    """
-  end
 end
