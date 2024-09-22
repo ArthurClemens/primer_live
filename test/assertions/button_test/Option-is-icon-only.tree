@@ -1,0 +1,1 @@
+[{"button", %{"aria-label" => "Desktop", "class" => "btn-octicon", "type" => "button"}, [{"span", %{"class" => "pl-button__content"}, [{"svg", %{"class" => "octicon", "height" => "16", "viewbox" => "0 0 16 16", "width" => "16", "xmlns" => "http://www.w3.org/2000/svg"}, ["STRIPPED_SVG_PATHS"]}]}]}]

@@ -1,0 +1,1 @@
+[{"span", %{"class" => "Counter Counter--primary"}, ["12"]}, {"span", %{"class" => "Counter Counter--secondary"}, ["12"]}]

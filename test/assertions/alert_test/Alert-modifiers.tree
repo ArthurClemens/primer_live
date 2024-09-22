@@ -1,0 +1,1 @@
+[{"div", %{"class" => "flash"}, ["Message"]}, {"div", %{"class" => "flash"}, ["Message"]}, {"div", %{"class" => "flash flash-error"}, ["Message"]}, {"div", %{"class" => "flash flash-success"}, ["Message"]}, {"div", %{"class" => "flash flash-warn"}, ["Message"]}, {"div", %{"class" => "flash flash-full"}, ["Message"]}]

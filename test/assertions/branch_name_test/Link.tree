@@ -1,0 +1,1 @@
+[{"a", %{"class" => "branch-name", "href" => "#url"}, ["href"]}, {"a", %{"class" => "branch-name", "data-phx-link" => "redirect", "data-phx-link-state" => "push", "href" => "#url"}, ["navigate"]}, {"a", %{"class" => "branch-name", "data-phx-link" => "patch", "data-phx-link-state" => "push", "href" => "#url"}, ["patch"]}]

@@ -1,0 +1,1 @@
+[{"div", %{"class" => "tabnav", "role" => "tablist"}, [{"nav", %{"aria-label" => "Tabs", "class" => "tabnav-tabs"}, [{"button", %{"aria-current" => "page", "aria-selected" => "true", "class" => "tabnav-tab", "role" => "tab", "tabindex" => "0"}, ["Button 1"]}, {"button", %{"class" => "tabnav-tab", "role" => "tab", "tabindex" => "0"}, ["Button 2"]}]}]}]

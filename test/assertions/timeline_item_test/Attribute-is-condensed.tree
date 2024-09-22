@@ -1,0 +1,1 @@
+[{"div", %{"class" => "TimelineItem TimelineItem--condensed"}, [{"div", %{"class" => "TimelineItem-badge"}, ["icon"]}, {"div", %{"class" => "TimelineItem-body"}, ["Message"]}]}]

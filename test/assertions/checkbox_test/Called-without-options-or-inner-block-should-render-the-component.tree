@@ -1,0 +1,1 @@
+[{"div", %{"class" => "FormControl-checkbox-wrap"}, [{"input", %{"type" => "hidden", "value" => "false"}, []}, {"input", %{"class" => "FormControl-checkbox", "type" => "checkbox", "value" => "true"}, []}]}]

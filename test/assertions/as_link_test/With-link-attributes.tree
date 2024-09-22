@@ -1,0 +1,1 @@
+[{"a", %{"class" => "Link", "href" => "/home"}, ["label"]}, {"a", %{"class" => "Link", "data-phx-link" => "redirect", "data-phx-link-state" => "push", "href" => "/account"}, ["label"]}, {"a", %{"class" => "Link", "data-phx-link" => "patch", "data-phx-link-state" => "push", "href" => "/history"}, ["label"]}]

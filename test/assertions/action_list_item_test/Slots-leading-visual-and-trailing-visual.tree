@@ -1,0 +1,1 @@
+[{"li", %{"class" => "ActionList-item"}, [{"span", %{"class" => "ActionList-content"}, [{"div", %{"class" => "ActionList-item-visual ActionList-item-visual--leading"}, ["Icon"]}, {"span", %{"class" => "ActionList-item-label"}, ["Item"]}, {"div", %{"class" => "ActionList-item-visual ActionList-item-visual--trailing"}, ["Trailing visual"]}]}]}]

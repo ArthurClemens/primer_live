@@ -1,0 +1,1 @@
+[{"span", %{"class" => "Link Link--primary"}, ["label"]}, {"span", %{"class" => "Link Link--secondary"}, ["label"]}, {"span", %{"class" => "Link no-underline"}, ["label"]}, {"span", %{"class" => "Link color-fg-muted"}, ["label"]}, {"span", %{"class" => "Link Link--onHover"}, ["label"]}]

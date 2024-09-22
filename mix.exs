@@ -41,12 +41,13 @@ defmodule PrimerLive.MixProject do
       {:ecto, "~> 3.10", runtime: false},
       {:esbuild, "~> 0.8", only: [:dev, :test]},
       {:ex_doc, "~> 0.34", only: :dev},
+      {:floki, "~> 0.36", only: :test, runtime: false},
       {:github_workflows_generator, "~> 0.1", only: :dev, runtime: false},
       {:jason, "~> 1.4"},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       {:phoenix_ecto, "~> 4.5", only: :test, runtime: false},
-      {:phoenix_html, "~> 4.1"},
       {:phoenix_html_helpers, "~> 1.0"},
+      {:phoenix_html, "~> 4.1"},
       {:phoenix_live_view, "~> 0.20"},
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false}
     ]
@@ -117,8 +118,13 @@ defmodule PrimerLive.MixProject do
     [
       setup: ["deps.get", "cmd --cd assets npm install --legacy-peer-deps"],
       # Testing
-      "test:clean": "cmd scripts/tests/clean_assertion_failures.sh",
+      #
+      # Test with writing failing test results to test/assertion_failures:
+      #    WRITE_FAILURES=1 mix test
+      #    WRITE_FAILURES=1 mix test some-file.exs
+      #
       "test:accept": "cmd scripts/tests/accept_assertions.sh",
+      "test:reject": "cmd scripts/tests/clean_assertion_failures.sh",
       # Quality check
       qa: [
         "deps.clean --unlock --unused",

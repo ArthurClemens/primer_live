@@ -1,0 +1,1 @@
+[{"div", %{"class" => "Layout"}, [{"div", %{"class" => "Layout-sidebar"}, ["Sidebar content"]}, {"div", %{"class" => "Layout-divider"}, []}, {"div", %{"class" => "Layout-main"}, ["Main content"]}]}]

@@ -1,0 +1,1 @@
+[{"div", %{"class" => "FormControl-select-wrap FormControl--fullWidth"}, [{"select", %{"class" => "FormControl-select FormControl-medium", "id" => "age", "name" => "age"}, [{"option", %{"value" => "25"}, ["25"]}, {"option", %{"value" => "26"}, ["26"]}, {"option", %{"value" => "27"}, ["27"]}]}]}]
