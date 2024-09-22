@@ -953,10 +953,10 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <%= if @content && @content !== [] do %>
-        <span class={@classes.label}><%= render_slot(@content) %></span>
+        <div class={@classes.label}><%= render_slot(@content) %></div>
       <% end %>
       <%= if @description && @description !== [] do %>
-        <span class={@classes.description}><%= render_slot(@description) %></span>
+        <div class={@classes.description}><%= render_slot(@description) %></div>
       <% end %>
       """
     end
@@ -1131,9 +1131,9 @@ defmodule PrimerLive.Component do
               <%= @render_maybe_wrap_content_elements.(@inner_block) %>
             </label>
           <% else %>
-            <span {@attributes}>
+            <div {@attributes}>
               <%= @render_maybe_wrap_content_elements.(@inner_block) %>
-            </span>
+            </div>
           <% end %>
         <% end %>
       <% end %>

@@ -9,8 +9,8 @@ defmodule PrimerLive.TestComponents.ParentChildAvatarTest do
     run_test(
       ~H"""
       <.parent_child_avatar>
-        <:parent src="parent.jpg" size="7" />
-        <:child src="child.jpg" size="2" />
+        <:parent src="images/parent.jpg" size="7" />
+        <:child src="images/child.jpg" size="2" />
       </.parent_child_avatar>
       """,
       __ENV__
@@ -23,8 +23,8 @@ defmodule PrimerLive.TestComponents.ParentChildAvatarTest do
     run_test(
       ~H"""
       <.parent_child_avatar class="my-parent-child">
-        <:parent src="parent.jpg" size="7" class="my-parent" />
-        <:child src="child.jpg" size="2" class="my-child" />
+        <:parent src="images/parent.jpg" size="7" class="my-parent" />
+        <:child src="images/child.jpg" size="2" class="my-child" />
       </.parent_child_avatar>
       """,
       __ENV__

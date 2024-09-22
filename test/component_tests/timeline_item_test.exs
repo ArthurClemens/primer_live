@@ -35,18 +35,17 @@ defmodule PrimerLive.TestComponents.TimelineItemTest do
 
     run_test(
       ~H"""
-      <.timeline_item>
-        <:badge href="#url">href</:badge>
-        href link
-      </.timeline_item>
-      <.timeline_item>
-        <:badge navigate="#url">navigate</:badge>
-        navigate link
-      </.timeline_item>
-      <.timeline_item>
-        <:badge patch="#url">patch</:badge>
-        patch link
-      </.timeline_item>
+      <div>
+        <.timeline_item>
+          <:badge href="#url"><.octicon name="flame-16" /></:badge>
+        </.timeline_item>
+        <.timeline_item>
+          <:badge navigate="#url"><.octicon name="flame-16" /></:badge>
+        </.timeline_item>
+        <.timeline_item>
+          <:badge patch="#url"><.octicon name="flame-16" /></:badge>
+        </.timeline_item>
+      </div>
       """,
       __ENV__
     )
@@ -62,7 +61,7 @@ defmodule PrimerLive.TestComponents.TimelineItemTest do
           <.octicon name="git-commit-16" />
         </:badge>
         <:avatar>
-          <.avatar size="6" src="user.jpg" />
+          <.avatar size="6" src="/images/user.jpg" />
         </:avatar>
         Someone's commit
       </.timeline_item>
@@ -76,30 +75,32 @@ defmodule PrimerLive.TestComponents.TimelineItemTest do
 
     run_test(
       ~H"""
-      <.timeline_item>
-        <:badge>icon</:badge>
-        Message
-      </.timeline_item>
-      <.timeline_item state="default">
-        <:badge>icon</:badge>
-        Message
-      </.timeline_item>
-      <.timeline_item state="info">
-        <:badge>icon</:badge>
-        Message
-      </.timeline_item>
-      <.timeline_item state="success">
-        <:badge>icon</:badge>
-        Message
-      </.timeline_item>
-      <.timeline_item state="warning">
-        <:badge>icon</:badge>
-        Message
-      </.timeline_item>
-      <.timeline_item state="error">
-        <:badge>icon</:badge>
-        Message
-      </.timeline_item>
+      <div>
+        <.timeline_item>
+          <:badge><.octicon name="flame-16" /></:badge>
+          Message
+        </.timeline_item>
+        <.timeline_item state="default">
+          <:badge><.octicon name="flame-16" /></:badge>
+          Message
+        </.timeline_item>
+        <.timeline_item state="info">
+          <:badge><.octicon name="flame-16" /></:badge>
+          Message
+        </.timeline_item>
+        <.timeline_item state="success">
+          <:badge><.octicon name="flame-16" /></:badge>
+          Message
+        </.timeline_item>
+        <.timeline_item state="warning">
+          <:badge><.octicon name="flame-16" /></:badge>
+          Message
+        </.timeline_item>
+        <.timeline_item state="error">
+          <:badge><.octicon name="flame-16" /></:badge>
+          Message
+        </.timeline_item>
+      </div>
       """,
       __ENV__
     )
@@ -111,7 +112,7 @@ defmodule PrimerLive.TestComponents.TimelineItemTest do
     run_test(
       ~H"""
       <.timeline_item is_condensed>
-        <:badge>icon</:badge>
+        <:badge><.octicon name="flame-16" /></:badge>
         Message
       </.timeline_item>
       """,
@@ -124,15 +125,17 @@ defmodule PrimerLive.TestComponents.TimelineItemTest do
 
     run_test(
       ~H"""
-      <.timeline_item state="error">
-        <:badge>icon</:badge>
-        Everything will be fine
-      </.timeline_item>
-      <.timeline_item is_break>Ignored content</.timeline_item>
-      <.timeline_item state="success">
-        <:badge>icon</:badge>
-        Everything is fine
-      </.timeline_item>
+      <div>
+        <.timeline_item state="error">
+          <:badge><.octicon name="flame-16" /></:badge>
+          Everything will be fine
+        </.timeline_item>
+        <.timeline_item is_break>Ignored content</.timeline_item>
+        <.timeline_item state="success">
+          <:badge><.octicon name="flame-16" /></:badge>
+          Everything is fine
+        </.timeline_item>
+      </div>
       """,
       __ENV__
     )
@@ -159,9 +162,9 @@ defmodule PrimerLive.TestComponents.TimelineItemTest do
         }
         class="my-timeline-item"
       >
-        <:badge class="my-badge">icon</:badge>
+        <:badge class="my-badge"><.octicon name="flame-16" /></:badge>
         <:avatar class="my-avatar">
-          <.avatar size="6" src="user.jpg" />
+          <.avatar size="6" src="/images/user.jpg" />
         </:avatar>
         <a href="#" class="text-bold Link--primary mr-1">Monalisa</a>
         created one <a href="#" class="text-bold Link--primary">hot potato</a>
@@ -178,8 +181,8 @@ defmodule PrimerLive.TestComponents.TimelineItemTest do
     run_test(
       ~H"""
       <.timeline_item dir="rtl">
-        <:badge aria-label="Badge">icon</:badge>
-        <:avatar aria-label="Avatar">avatar</:avatar>
+        <:badge aria-label="Badge"><.octicon name="flame-16" /></:badge>
+        <:avatar aria-label="Avatar"><.avatar size="6" src="/images/user.jpg" /></:avatar>
       </.timeline_item>
       """,
       __ENV__

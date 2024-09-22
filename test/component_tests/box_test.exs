@@ -268,7 +268,9 @@ defmodule PrimerLive.TestComponents.BoxTest do
 
     run_test(
       ~H"""
-      <.box style="border: 1px solid red;"></.box>
+      <.box style="border: 1px solid red;">
+        Content
+      </.box>
       """,
       __ENV__
     )

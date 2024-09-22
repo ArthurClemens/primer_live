@@ -8,7 +8,9 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
 
     run_test(
       ~H"""
-      <.action_list_section_divider />
+      <ul>
+        <.action_list_section_divider />
+      </ul>
       """,
       __ENV__
     )
@@ -19,7 +21,9 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
 
     run_test(
       ~H"""
-      <.action_list_section_divider is_filled />
+      <ul>
+        <.action_list_section_divider is_filled />
+      </ul>
       """,
       __ENV__
     )
@@ -30,9 +34,11 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
 
     run_test(
       ~H"""
-      <.action_list_section_divider>
-        <:title>Title</:title>
-      </.action_list_section_divider>
+      <ul>
+        <.action_list_section_divider>
+          <:title>Title</:title>
+        </.action_list_section_divider>
+      </ul>
       """,
       __ENV__
     )
@@ -43,9 +49,11 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
 
     run_test(
       ~H"""
-      <.action_list_section_divider is_filled>
-        <:title>Title</:title>
-      </.action_list_section_divider>
+      <ul>
+        <.action_list_section_divider is_filled>
+          <:title>Title</:title>
+        </.action_list_section_divider>
+      </ul>
       """,
       __ENV__
     )
@@ -56,10 +64,12 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
 
     run_test(
       ~H"""
-      <.action_list_section_divider>
-        <:title>Title</:title>
-        <:description>Descriptive title</:description>
-      </.action_list_section_divider>
+      <ul>
+        <.action_list_section_divider>
+          <:title>Title</:title>
+          <:description>Descriptive title</:description>
+        </.action_list_section_divider>
+      </ul>
       """,
       __ENV__
     )
@@ -70,9 +80,11 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
 
     run_test(
       ~H"""
-      <.action_list_section_divider>
-        <:description>Descriptive title</:description>
-      </.action_list_section_divider>
+      <ul>
+        <.action_list_section_divider>
+          <:description>Descriptive title</:description>
+        </.action_list_section_divider>
+      </ul>
       """,
       __ENV__
     )
@@ -83,19 +95,21 @@ defmodule PrimerLive.TestComponents.ActionListSectionDividerTest do
 
     run_test(
       ~H"""
-      <.action_list_section_divider
-        classes={
-          %{
-            section_divider: "section_divider-x",
-            title: "title-x",
-            description: "description-x"
+      <ul>
+        <.action_list_section_divider
+          classes={
+            %{
+              section_divider: "section_divider-x",
+              title: "title-x",
+              description: "description-x"
+            }
           }
-        }
-        class="my-section-divider"
-      >
-        <:title class="my-title">Title</:title>
-        <:description class="my-description">Descriptive title</:description>
-      </.action_list_section_divider>
+          class="my-section-divider"
+        >
+          <:title class="my-title">Title</:title>
+          <:description class="my-description">Descriptive title</:description>
+        </.action_list_section_divider>
+      </ul>
       """,
       __ENV__
     )

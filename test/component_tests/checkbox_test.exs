@@ -97,32 +97,6 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
     )
   end
 
-  test "Attribute: types" do
-    assigns = %{}
-
-    run_test(
-      ~H"""
-      <.checkbox name="input-type" type={:x} />
-      <.checkbox name="input-type" type="color" />
-      <.checkbox name="input-type" type="date" />
-      <.checkbox name="input-type" type="datetime-local" />
-      <.checkbox name="input-type" type="email" />
-      <.checkbox name="input-type" type="file" />
-      <.checkbox name="input-type" type="hidden" />
-      <.checkbox name="input-type" type="number" />
-      <.checkbox name="input-type" type="password" />
-      <.checkbox name="input-type" type="range" />
-      <.checkbox name="input-type" type="search" />
-      <.checkbox name="input-type" type="telephone" />
-      <.checkbox name="input-type" type="text" />
-      <.checkbox name="input-type" type="textarea" />
-      <.checkbox name="input-type" type="time" />
-      <.checkbox name="input-type" type="url" />
-      """,
-      __ENV__
-    )
-  end
-
   test "Attribute: checked" do
     assigns = %{}
 

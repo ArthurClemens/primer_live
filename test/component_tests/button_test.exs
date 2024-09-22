@@ -19,9 +19,15 @@ defmodule PrimerLive.TestComponents.ButtonTest do
 
     run_test(
       ~H"""
-      <.button type="reset">Reset</.button>
-      <.button type="submit">Submit</.button>
-      <.button type="button">Button</.button>
+      <p>
+        <.button type="reset">Reset</.button>
+      </p>
+      <p>
+        <.button type="submit">Submit</.button>
+      </p>
+      <p>
+        <.button type="button">Button</.button>
+      </p>
       """,
       __ENV__
     )
@@ -32,9 +38,15 @@ defmodule PrimerLive.TestComponents.ButtonTest do
 
     run_test(
       ~H"""
-      <.button href="/home">href link</.button>
-      <.button navigate="/home">navigate link</.button>
-      <.button patch="/home">patch link</.button>
+      <p>
+        <.button href="/home">href link</.button>
+      </p>
+      <p>
+        <.button navigate="/home">navigate link</.button>
+      </p>
+      <p>
+        <.button patch="/home">patch link</.button>
+      </p>
       """,
       __ENV__
     )
@@ -45,19 +57,42 @@ defmodule PrimerLive.TestComponents.ButtonTest do
 
     run_test(
       ~H"""
-      <.button is_full_width>Button</.button>
-      <.button is_close_button>Button</.button>
-      <.button is_danger>Button</.button>
-      <.button is_disabled>Button</.button>
-      <.button is_icon_only>Button</.button>
-      <.button is_invisible>Button</.button>
-      <.button is_large>Button</.button>
-      <.button is_link>Button</.button>
-      <.button is_outline>Button</.button>
-      <.button is_primary>Button</.button>
-      <.button is_selected>Button</.button>
-      <.button is_small>Button</.button>
-      <.button is_submit>Button</.button>
+      <p>
+        <.button is_full_width>Button</.button>
+      </p>
+      <p>
+        <.button is_close_button>Button</.button>
+      </p>
+      <p>
+        <.button is_danger>Button</.button>
+      </p>
+      <p>
+        <.button is_disabled>Button</.button>
+      </p>
+      <p>
+        <.button is_invisible>Button</.button>
+      </p>
+      <p>
+        <.button is_large>Button</.button>
+      </p>
+      <p>
+        <.button is_link>Button</.button>
+      </p>
+      <p>
+        <.button is_outline>Button</.button>
+      </p>
+      <p>
+        <.button is_primary>Button</.button>
+      </p>
+      <p>
+        <.button is_selected>Button</.button>
+      </p>
+      <p>
+        <.button is_small>Button</.button>
+      </p>
+      <p>
+        <.button is_submit>Button</.button>
+      </p>
       """,
       __ENV__
     )
@@ -178,14 +213,14 @@ defmodule PrimerLive.TestComponents.ButtonTest do
     )
   end
 
-  test "Extra attributes" do
-    assigns = %{
-      myself: nil
-    }
+  test "RTL" do
+    assigns = %{}
 
     run_test(
       ~H"""
-      <.button dir="rtl" phx-click="remove">Button</.button>
+      <p dir="rtl">
+        <.button phx-click="remove">Button</.button>
+      </p>
       """,
       __ENV__
     )

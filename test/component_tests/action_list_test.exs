@@ -10,7 +10,7 @@ defmodule PrimerLive.TestComponents.ActionListTest do
     run_test(
       ~H"""
       <.action_list>
-        content
+        <.action_list_item>content</.action_list_item>
       </.action_list>
       """,
       __ENV__
@@ -23,7 +23,7 @@ defmodule PrimerLive.TestComponents.ActionListTest do
     run_test(
       ~H"""
       <.action_list aria_label="Menu" role="list">
-        content
+        <.action_list_item>content</.action_list_item>
       </.action_list>
       """,
       __ENV__
@@ -36,13 +36,13 @@ defmodule PrimerLive.TestComponents.ActionListTest do
     run_test(
       ~H"""
       <.action_list is_divided>
-        content
+        <.action_list_item>content</.action_list_item>
       </.action_list>
       <.action_list is_full_bleed>
-        content
+        <.action_list_item>content</.action_list_item>
       </.action_list>
       <.action_list is_multiple_select>
-        content
+        <.action_list_item>content</.action_list_item>
       </.action_list>
       """,
       __ENV__
@@ -55,7 +55,7 @@ defmodule PrimerLive.TestComponents.ActionListTest do
     run_test(
       ~H"""
       <.action_list class="my-action-list">
-        content
+        <.action_list_item>content</.action_list_item>
       </.action_list>
       """,
       __ENV__
@@ -68,7 +68,7 @@ defmodule PrimerLive.TestComponents.ActionListTest do
     run_test(
       ~H"""
       <.action_list dir="rtl">
-        content
+        <.action_list_item>content</.action_list_item>
       </.action_list>
       """,
       __ENV__

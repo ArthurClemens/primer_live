@@ -1,1 +1,1 @@
-[{"img", %{"class" => "avatar", "src" => "user.jpg", "width" => "40"}, []}, {"img", %{"class" => "avatar", "height" => "40", "src" => "user.jpg"}, []}, {"img", %{"class" => "avatar", "height" => "40", "src" => "user.jpg", "width" => "40"}, []}]
+[{"div", %{}, [{"img", %{"class" => "avatar", "src" => "/images/user.jpg", "width" => "40"}, []}]}, {"div", %{}, [{"img", %{"class" => "avatar", "height" => "40", "src" => "/images/user.jpg"}, []}]}, {"div", %{}, [{"img", %{"class" => "avatar", "height" => "40", "src" => "/images/user.jpg", "width" => "40"}, []}]}]

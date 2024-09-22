@@ -1,1 +1,1 @@
-[{"img", %{"class" => "avatar avatar-3 my-avatar", "src" => "user.jpg"}, []}]
+[{"img", %{"class" => "avatar avatar-3 my-avatar", "src" => "/images/user.jpg"}, []}]

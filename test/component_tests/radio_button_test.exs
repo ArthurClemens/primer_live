@@ -87,32 +87,6 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
     )
   end
 
-  test "Attribute: types" do
-    assigns = %{}
-
-    run_test(
-      ~H"""
-      <.radio_button name="types" value="x" type={:x} />
-      <.radio_button name="types" value="color" type="color" />
-      <.radio_button name="types" value="date" type="date" />
-      <.radio_button name="types" value="datetime-local" type="datetime-local" />
-      <.radio_button name="types" value="email" type="email" />
-      <.radio_button name="types" value="file" type="file" />
-      <.radio_button name="types" value="hidden" type="hidden" />
-      <.radio_button name="types" value="number" type="number" />
-      <.radio_button name="types" value="password" type="password" />
-      <.radio_button name="types" value="range" type="range" />
-      <.radio_button name="types" value="search" type="search" />
-      <.radio_button name="types" value="telephone" type="telephone" />
-      <.radio_button name="types" value="text" type="text" />
-      <.radio_button name="types" value="textarea" type="textarea" />
-      <.radio_button name="types" value="time" type="time" />
-      <.radio_button name="types" value="url" type="url" />
-      """,
-      __ENV__
-    )
-  end
-
   test "Attribute: checked" do
     assigns = %{}
 

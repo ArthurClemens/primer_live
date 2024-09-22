@@ -49,15 +49,17 @@ defmodule PrimerLive.TestComponents.ButtonGroupTest do
     )
   end
 
-  test "Extra attributes" do
+  test "RTL" do
     assigns = %{}
 
     run_test(
       ~H"""
-      <.button_group dir="rtl">
-        <.button>Button 1</.button>
-        <.button>Button 2</.button>
-      </.button_group>
+      <div dir="rtl">
+        <.button_group>
+          <.button>Button 1</.button>
+          <.button>Button 2</.button>
+        </.button_group>
+      </div>
       """,
       __ENV__
     )

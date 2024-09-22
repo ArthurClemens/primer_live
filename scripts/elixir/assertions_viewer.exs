@@ -22,7 +22,7 @@ defmodule PrimerLiveWeb.ComponentLive do
   use Phoenix.LiveView, layout: {__MODULE__, :live}
   alias PrimerLive.Component, as: Primer
 
-  def mount(params, _session, socket) do
+  def mount(_params, _session, socket) do
     assertion_groups =
       Path.wildcard("./test/assertions/*/*.html")
       |> Enum.map(fn path ->
@@ -45,23 +45,13 @@ defmodule PrimerLiveWeb.ComponentLive do
       end)
       |> Enum.sort()
 
-    path = (params["path"] || []) |> List.first()
-    path = if is_nil(path), do: assertions |> List.first() |> List.first(), else: path
-    not_found = not Map.has_key?(assertion_groups, path)
-
-    current_assertions =
-      if not not_found do
-        Map.get(assertion_groups, path)
-      else
-        []
-      end
-
     socket =
       socket
       |> assign(:assertions, assertions)
-      |> assign(:current_assertions, current_assertions)
-      |> assign(:path, path)
-      |> assign(:not_found, not_found)
+      |> assign(:assertion_groups, assertion_groups)
+      |> assign(:current_assertions, [])
+      |> assign(:path, nil)
+      |> assign(:not_found, false)
 
     {:ok, socket}
   end
@@ -85,11 +75,35 @@ defmodule PrimerLiveWeb.ComponentLive do
     <script defer phx-track-static type="text/javascript" src="/primer_live/primer-live.min.js">
     </script>
     <style>
+      :root {
+        --topbar-height: 53px;
+      }
+      .page[data-component=textarea] .FormControl-inlineValidation.phx-no-feedback,
+      .page[data-component=textinput] .FormControl-inlineValidation.phx-no-feedback,
+      .page[data-component=input_validation_message] .FormControl-inlineValidation.phx-no-feedback {
+        display: flex !important;
+      }
+
       .assertion-page {
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
         padding: 1rem 0 3rem 0;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        height: var(--topbar-height);
+      }
+
+      .side-menu {
+        position: sticky;
+        top: var(--topbar-height);
+        overflow-y: auto;
+        max-height: calc(100vh - var(--topbar-height));
+        max-height: calc(100dvh - var(--topbar-height));
       }
 
       .assertions {
@@ -104,10 +118,8 @@ defmodule PrimerLiveWeb.ComponentLive do
         gap: 1rem;
       }
 
-      .assertion-html {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
+      .assertion-html > * + * {
+        margin-top: 1rem !important;
       }
     </style>
     <%= @inner_content %>
@@ -116,36 +128,39 @@ defmodule PrimerLiveWeb.ComponentLive do
 
   def render(assigns) do
     ~H"""
-    <Primer.header>
-      <:item class="d-none d-md-flex">PrimerLive Assertions Viewer</:item>
-    </Primer.header>
-    <Primer.layout>
-      <:sidebar>
-        <Primer.action_list>
-          <%= for [component, _] <- @assertions do %>
-            <Primer.action_list_item is_selected={@path == component}>
-              <:link navigate={"/#{component}"}>
-                <%= component %>
-              </:link>
-            </Primer.action_list_item>
-          <% end %>
-        </Primer.action_list>
-      </:sidebar>
-      <:main>
-        <div class="assertion-page container-md">
-          <%= if @not_found do %>
-            <h1>Component not found</h1>
-          <% else %>
-            <h1><%= @path %></h1>
-            <div class="assertions">
-              <%= for assertion <- @current_assertions do %>
-                <.assertion {assertion} />
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-      </:main>
-    </Primer.layout>
+    <div class="page" data-component={@path}>
+      <Primer.header class="topbar">
+        <:item class="d-none d-md-flex">PrimerLive Assertions Viewer</:item>
+      </Primer.header>
+      <Primer.layout is_divided>
+        <:sidebar>
+          <Primer.action_list class="side-menu">
+            <%= for [component, _] <- @assertions do %>
+              <Primer.action_list_item is_selected={@path == component}>
+                <:link navigate={"/#{component}"}>
+                  <%= component %>
+                </:link>
+              </Primer.action_list_item>
+            <% end %>
+          </Primer.action_list>
+        </:sidebar>
+        <:divider></:divider>
+        <:main>
+          <div class="assertion-page container-md">
+            <%= if @not_found do %>
+              <h1>Component not found</h1>
+            <% else %>
+              <h1><%= @path %></h1>
+              <div class="assertions">
+                <%= for assertion <- @current_assertions do %>
+                  <.assertion {assertion} />
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </:main>
+      </Primer.layout>
+    </div>
     """
   end
 
@@ -167,6 +182,30 @@ defmodule PrimerLiveWeb.ComponentLive do
       </div>
     </section>
     """
+  end
+
+  def handle_params(params, _url, socket) do
+    path = (params["path"] || []) |> List.first()
+
+    path =
+      if is_nil(path), do: socket.assigns.assertions |> List.first() |> List.first(), else: path
+
+    not_found = not Map.has_key?(socket.assigns.assertion_groups, path)
+
+    current_assertions =
+      if not not_found do
+        Map.get(socket.assigns.assertion_groups, path)
+      else
+        []
+      end
+
+    socket =
+      socket
+      |> assign(:path, path)
+      |> assign(:not_found, not_found)
+      |> assign(:current_assertions, current_assertions)
+
+    {:noreply, socket}
   end
 end
 
@@ -194,6 +233,11 @@ defmodule PrimerLiveWeb.Endpoint do
   plug(Plug.Static,
     at: "/primer_live",
     from: {:primer_live, "priv/static"}
+  )
+
+  plug(Plug.Static,
+    at: "/images",
+    from: "scripts/elixir/assertions_viewer/images"
   )
 
   plug(PrimerLiveWeb.Router)

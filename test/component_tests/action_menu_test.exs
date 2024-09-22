@@ -150,7 +150,12 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
 
     run_test(
       ~H"""
-      <.action_menu :if={@condition} id="my-menu" is_show is_show_on_mount={@equals_initial_condition}>
+      <.action_menu
+        :if={@condition}
+        id="menu-show-on-mount"
+        is_show
+        is_show_on_mount={@equals_initial_condition}
+      >
         <:toggle phx-click={toggle_menu("my-menu")}>
           Menu
         </:toggle>

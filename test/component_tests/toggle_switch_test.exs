@@ -22,10 +22,10 @@ defmodule PrimerLive.Components.ToggleSwitchTest do
 
     run_test(
       ~H"""
-      <.toggle_switch />
-      <.toggle_switch checked />
-      <.toggle_switch disabled />
-      <.toggle_switch checked disabled />
+      <div><.toggle_switch /></div>
+      <div><.toggle_switch checked /></div>
+      <div><.toggle_switch disabled /></div>
+      <div><.toggle_switch checked disabled /></div>
       """,
       __ENV__
     )

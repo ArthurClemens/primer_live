@@ -75,8 +75,8 @@ defmodule PrimerLive.TestComponents.TextInputTest do
 
     run_test(
       ~H"""
-      <.text_input size="3" />
-      <.text_input size={3} />
+      <div><.text_input size="3" /></div>
+      <div><.text_input size={3} /></div>
       """,
       __ENV__
     )
@@ -87,22 +87,22 @@ defmodule PrimerLive.TestComponents.TextInputTest do
 
     run_test(
       ~H"""
-      <.text_input type={:x} />
-      <.text_input type="color" />
-      <.text_input type="date" />
-      <.text_input type="datetime-local" />
-      <.text_input type="email" />
-      <.text_input type="file" />
-      <.text_input type="hidden" />
-      <.text_input type="number" />
-      <.text_input type="password" />
-      <.text_input type="range" />
-      <.text_input type="search" />
-      <.text_input type="telephone" />
-      <.text_input type="text" />
-      <.text_input type="textarea" />
-      <.text_input type="time" />
-      <.text_input type="url" />
+      <div><.text_input type={:x} /></div>
+      <div><.text_input type="color" /></div>
+      <div><.text_input type="date" /></div>
+      <div><.text_input type="datetime-local" /></div>
+      <div><.text_input type="email" /></div>
+      <div><.text_input type="file" /></div>
+      <div><.text_input type="hidden" /></div>
+      <div><.text_input type="number" /></div>
+      <div><.text_input type="password" /></div>
+      <div><.text_input type="range" /></div>
+      <div><.text_input type="search" /></div>
+      <div><.text_input type="telephone" /></div>
+      <div><.text_input type="text" /></div>
+      <div><.text_input type="textarea" /></div>
+      <div><.text_input type="time" /></div>
+      <div><.text_input type="url" /></div>
       """,
       __ENV__
     )
@@ -113,12 +113,12 @@ defmodule PrimerLive.TestComponents.TextInputTest do
 
     run_test(
       ~H"""
-      <.text_input is_monospace />
-      <.text_input is_contrast />
-      <.text_input is_full_width />
-      <.text_input is_hide_webkit_autofill />
-      <.text_input is_large />
-      <.text_input is_small />
+      <div><.text_input is_monospace /></div>
+      <div><.text_input is_contrast /></div>
+      <div><.text_input is_full_width /></div>
+      <div><.text_input is_hide_webkit_autofill /></div>
+      <div><.text_input is_large /></div>
+      <div><.text_input is_small /></div>
       """,
       __ENV__
     )
@@ -129,24 +129,28 @@ defmodule PrimerLive.TestComponents.TextInputTest do
 
     run_test(
       ~H"""
-      <.text_input caption="Caption" />
-      <.text_input
-        caption={
-          fn ->
-            ~H'''
-            Caption
-            '''
+      <div><.text_input caption="Caption" /></div>
+      <div>
+        <.text_input
+          caption={
+            fn ->
+              ~H'''
+              Caption
+              '''
+            end
+          }
+          is_form_control
+        />
+      </div>
+      <div>
+        <.text_input caption={
+          fn field_state ->
+            if !field_state.valid?,
+              # Hide this text because the error validation message will show similar content
+              do: nil
           end
-        }
-        is_form_control
-      />
-      <.text_input caption={
-        fn field_state ->
-          if !field_state.valid?,
-            # Hide this text because the error validation message will show similar content
-            do: nil
-        end
-      } />
+        } />
+      </div>
       """,
       __ENV__
     )
@@ -413,32 +417,38 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     run_test(
       ~H"""
       <.form :let={f} for={@changeset}>
-        <.text_input
-          classes={@classes}
-          form_control={@form_control_attrs}
-          class={@class}
-          caption={fn -> "Caption" end}
-          form={f}
-          field={@field}
-        >
-          <:group_button>
-            <.button>Send</.button>
-          </:group_button>
-        </.text_input>
+        <div>
+          <.text_input
+            classes={@classes}
+            form_control={@form_control_attrs}
+            class={@class}
+            caption={fn -> "Caption" end}
+            form={f}
+            field={@field}
+          >
+            <:group_button>
+              <.button>Send</.button>
+            </:group_button>
+          </.text_input>
+        </div>
 
-        <.text_input classes={@classes} form_control={@form_control_attrs} class={@class}>
-          <:leading_visual class="my-leading-visual">
-            <.octicon name="mail-16" />
-          </:leading_visual>
-        </.text_input>
+        <div>
+          <.text_input classes={@classes} form_control={@form_control_attrs} class={@class}>
+            <:leading_visual class="my-leading-visual">
+              <.octicon name="mail-16" />
+            </:leading_visual>
+          </.text_input>
+        </div>
 
-        <.text_input classes={@classes} form_control={@form_control_attrs} class={@class}>
-          <:trailing_action>
-            <.button is_icon_only aria-label="Clear">
-              <.octicon name="x-16" />
-            </.button>
-          </:trailing_action>
-        </.text_input>
+        <div>
+          <.text_input classes={@classes} form_control={@form_control_attrs} class={@class}>
+            <:trailing_action>
+              <.button is_icon_only aria-label="Clear">
+                <.octicon name="x-16" />
+              </.button>
+            </:trailing_action>
+          </.text_input>
+        </div>
       </.form>
       """,
       __ENV__
@@ -527,18 +537,22 @@ defmodule PrimerLive.TestComponents.TextInputTest do
 
     run_test(
       ~H"""
-      <.text_input>
-        <:group_button>
-          <.button>Send</.button>
-        </:group_button>
-      </.text_input>
-      <.text_input>
-        <:group_button>
-          <.button aria-label="Copy">
-            <.octicon name="paste-16" />
-          </.button>
-        </:group_button>
-      </.text_input>
+      <div>
+        <.text_input>
+          <:group_button>
+            <.button>Send</.button>
+          </:group_button>
+        </.text_input>
+      </div>
+      <div>
+        <.text_input>
+          <:group_button>
+            <.button aria-label="Copy">
+              <.octicon name="paste-16" />
+            </.button>
+          </:group_button>
+        </.text_input>
+      </div>
       """,
       __ENV__
     )
@@ -549,18 +563,22 @@ defmodule PrimerLive.TestComponents.TextInputTest do
 
     run_test(
       ~H"""
-      <.text_input>
-        <:leading_visual>
-          <.octicon name="person-16" />
-        </:leading_visual>
-      </.text_input>
-      <.text_input>
-        <:trailing_action>
-          <.button is_close_button aria-label="Clear">
-            <.octicon name="x-16" />
-          </.button>
-        </:trailing_action>
-      </.text_input>
+      <div>
+        <.text_input>
+          <:leading_visual>
+            <.octicon name="person-16" />
+          </:leading_visual>
+        </.text_input>
+      </div>
+      <div>
+        <.text_input>
+          <:trailing_action>
+            <.button is_close_button aria-label="Clear">
+              <.octicon name="x-16" />
+            </.button>
+          </:trailing_action>
+        </.text_input>
+      </div>
       """,
       __ENV__
     )

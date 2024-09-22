@@ -106,9 +106,17 @@ defmodule PrimerLive.Components.BlankslateTest do
 
     run_test(
       ~H"""
-      <.blankslate is_narrow />
-      <.blankslate is_large />
-      <.blankslate is_spacious />
+      <.blankslate is_narrow>
+        <p>Use it to provide information when no dynamic content exists.</p>
+      </.blankslate>
+
+      <.blankslate is_large>
+        <p>Use it to provide information when no dynamic content exists.</p>
+      </.blankslate>
+
+      <.blankslate is_spacious>
+        <p>Use it to provide information when no dynamic content exists.</p>
+      </.blankslate>
       """,
       __ENV__
     )
