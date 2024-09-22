@@ -15,18 +15,21 @@ defmodule PrimerLive.TestBase do
       def run_test(rendered, env) do
         html = rendered_to_string(rendered) |> format_html()
         html_tree_string = create_html_tree_string(html)
-        {error, stacktrace} = try do
-          assert html_tree_string == read_test_assertion(env.file, env.function)
-          {nil, nil}
-        rescue
-          error in ExUnit.AssertionError ->
-            {error, __STACKTRACE__}
-        end
-        
+
+        {error, stacktrace} =
+          try do
+            assert html_tree_string == read_test_assertion(env.file, env.function)
+            {nil, nil}
+          rescue
+            error in ExUnit.AssertionError ->
+              {error, __STACKTRACE__}
+          end
+
         if error do
           if System.get_env("WRITE_FAILURES") do
             write_test_assertion_failure(html, env.file, env.function)
           end
+
           reraise error, stacktrace
         end
       end
@@ -57,9 +60,13 @@ defmodule PrimerLive.TestBase do
         _ ->
           "__ENOENT__"
       end
-      
+
       defp write_test_assertion_failure(html, filename, env_function) do
-        path = get_test_assertion_path(@assertion_failures_test_result_dir, filename, env_function, mkdir: true)
+        path =
+          get_test_assertion_path(@assertion_failures_test_result_dir, filename, env_function,
+            mkdir: true
+          )
+
         File.write!("#{path}.html", html)
 
         html_tree_string = create_html_tree_string(html)
@@ -68,22 +75,27 @@ defmodule PrimerLive.TestBase do
 
       defp get_test_assertion_path(root_dir, filename, env_function, opts \\ []) do
         is_mkdir = Keyword.get(opts, :mkdir, false)
+
         dir =
           [
             root_dir,
             filename |> String.trim_trailing(".exs") |> String.split("/") |> List.last()
           ]
           |> Enum.join("/")
-          
-          is_mkdir && File.mkdir_p(dir)
 
-          filename = get_filename_from_function(env_function)
-          "#{dir}/#{filename}"
+        is_mkdir && File.mkdir_p(dir)
+
+        filename = get_filename_from_function(env_function)
+        "#{dir}/#{filename}"
       end
 
       defp get_filename_from_function(env_function) do
         {test_name, _} = env_function
-        test_name |> to_string() |> String.trim_leading("test ") |> String.replace(~r/[[:punct:][:space:]]/, "-")
+
+        test_name
+        |> to_string()
+        |> String.trim_leading("test ")
+        |> String.replace(~r/[[:punct:][:space:]]/, "-")
         |> String.replace(~r/\-{2,}/, "-")
         |> String.trim()
         |> String.trim("-")

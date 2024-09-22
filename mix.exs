@@ -125,6 +125,8 @@ defmodule PrimerLive.MixProject do
       #
       "test:accept": "cmd scripts/tests/accept_assertions.sh",
       "test:reject": "cmd scripts/tests/clean_assertion_failures.sh",
+      "test:viewer": "cmd elixir scripts/elixir/assertions_viewer.exs",
+      "test:viewer:stop": "cmd lsof -t -i tcp:4001 | xargs kill",
       # Quality check
       qa: [
         "deps.clean --unlock --unused",
