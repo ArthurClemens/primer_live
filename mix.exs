@@ -19,7 +19,7 @@ defmodule PrimerLive.MixProject do
   end
 
   defp elixirc_paths(:dev), do: ["lib", "lib_dev"]
-  defp elixirc_paths(:test), do: ["lib", "lib_test"]
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
   defp description do
