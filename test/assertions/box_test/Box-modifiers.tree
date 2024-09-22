@@ -1,0 +1,1 @@
+[{"div", %{"class" => "Box Box--blue"}, ["Content"]}, {"div", %{"class" => "Box Box--danger"}, ["Content"]}, {"div", %{"class" => "Box border-dashed"}, ["Content"]}, {"div", %{"class" => "Box Box--condensed"}, ["Content"]}, {"div", %{"class" => "Box Box--spacious"}, ["Content"]}]

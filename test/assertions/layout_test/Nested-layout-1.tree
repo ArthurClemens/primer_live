@@ -1,0 +1,1 @@
+[{"div", %{"class" => "Layout"}, [{"div", %{"class" => "Layout-sidebar"}, ["Default sidebar"]}, {"div", %{"class" => "Layout-main"}, [{"div", %{"class" => "Layout Layout--sidebar-narrow Layout--sidebarPosition-end"}, [{"div", %{"class" => "Layout-sidebar"}, ["Metadata sidebar"]}, {"div", %{"class" => "Layout-main"}, ["Main content"]}]}]}]}]

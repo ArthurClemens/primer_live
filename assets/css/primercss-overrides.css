@@ -295,7 +295,7 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
 }
 
 .pl-valid+.FormControl-inlineValidation--success.phx-no-feedback {
-    display: block;
+    display: flex;
 }
 
 /* Style links inside validation messages. */

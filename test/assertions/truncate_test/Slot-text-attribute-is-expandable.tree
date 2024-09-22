@@ -1,0 +1,1 @@
+[{"span", %{"class" => "Truncate"}, [{"a", %{"class" => "Truncate-text Truncate-text--expandable"}, ["really-long-text"]}, {"a", %{"class" => "Truncate-text Truncate-text--expandable"}, ["really-long-text"]}]}]

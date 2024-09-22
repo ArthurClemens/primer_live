@@ -1,0 +1,1 @@
+[{"span", %{"class" => "Link my-link"}, ["label"]}, {"a", %{"class" => "Link my-link", "href" => "/home"}, ["label"]}]

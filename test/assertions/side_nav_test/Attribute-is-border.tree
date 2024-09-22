@@ -1,0 +1,1 @@
+[{"nav", %{"class" => "SideNav border"}, [{"a", %{"aria-current" => "page", "class" => "SideNav-item my-item", "href" => "#url"}, ["One"]}, {"a", %{"class" => "SideNav-item", "href" => "#url"}, ["Two"]}]}]

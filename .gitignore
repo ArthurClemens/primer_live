@@ -33,3 +33,6 @@ node_modules
 .elixir-tools
 .elixir_ls
 /priv/test_results
+
+/test/assertion_failures/*
+!/test/assertion_failures/README.md

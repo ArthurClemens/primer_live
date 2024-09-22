@@ -35,10 +35,89 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro slot_phx do
+  defmacro slot_phx_click_and_target do
     quote do
       attr(:"phx-click", :string)
       attr(:"phx-target", :any)
+    end
+  end
+
+  defmacro slot_phx_value_item(item) do
+    quote do
+      attr(:"phx-value-item", :any,
+        doc:
+          """
+          The payload parameter for the selected value to be sent with an event.
+
+          Examples:
+          """ <>
+            case unquote(item) do
+              :menu_item ->
+                """
+                ```
+                <:item :for={{label, role_id} <- @options}
+                  phx-click="set_role"
+                  phx-value-item={role_id}>
+                  ...
+
+                def handle_event(
+                  "set_role", %{"item" => role_id, "value" => ""}, socket
+                ) do
+                  ...
+                ```
+                """
+
+              :tab_item ->
+                """
+                ```
+                <:item
+                  :for={%{label: label, id: tab_id} <- @tabs}
+                  is_selected={id == @selected_tab}
+                  phx-click="set_tab"
+                  phx-value-item={tab_id}
+                >     
+                  ...
+
+                def handle_event(
+                  "set_tab", %{"item" => tab_id}, socket) do
+                  ...
+                ```
+                """
+
+              :row ->
+                """
+                ```
+                <:row
+                  phx-click="select_row"
+                  phx-value-item={row_id}
+                >     
+                  ...
+
+                def handle_event(
+                  "select_row", %{"item" => row_id}, socket) do
+                  ...
+                ```
+                """
+
+              :header_item ->
+                """
+                ```
+                <:item
+                  phx-click="set_preference"
+                  phx-value-item={preference_id}
+                >
+                  ...
+
+                def handle_event(
+                  "set_preference", %{"item" => preference_id}, socket) do
+                  ...
+                ```
+                """
+
+              _ ->
+                ""
+            end
+      )
     end
   end
 

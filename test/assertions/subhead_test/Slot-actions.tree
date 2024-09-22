@@ -1,0 +1,1 @@
+[{"div", %{"class" => "Subhead"}, [{"h2", %{"class" => "Subhead-heading"}, ["Heading"]}, {"div", %{"class" => "Subhead-actions"}, [{"button", %{"class" => "btn btn-primary", "type" => "button"}, [{"span", %{"class" => "pl-button__content"}, ["Action"]}]}]}]}]

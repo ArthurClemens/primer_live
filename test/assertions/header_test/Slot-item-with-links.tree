@@ -1,0 +1,1 @@
+[{"div", %{"class" => "Header"}, [{"div", %{"class" => "Header-item"}, [{"a", %{"class" => "Header-link", "href" => "/"}, ["Regular anchor link"]}]}, {"div", %{"class" => "Header-item"}, [{"a", %{"class" => "Header-link underline", "data-phx-link" => "redirect", "data-phx-link-state" => "push", "href" => "/"}, ["Home"]}]}]}]

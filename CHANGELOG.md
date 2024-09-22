@@ -71,6 +71,46 @@ The [box](`PrimerLive.Component.box/1`) component now supports streams:
 
 This includes a breaking change: `let` is now reserved for stream data, so the callback data no longer contains `classes`.
 
+#### Event attributes for slots
+
+Slots now accept these "all-purpose" event attributes:
+
+- `phx-click`
+- `phx-target`
+- `phx-value-item`
+
+Components:
+
+- `box`: slot `row`
+- `breadcrumb`: slot `item`
+- `dialog`: slot `row`
+- `dropdown`: slot `item`
+- `filter_list`: slot `item`
+- `header`: slot `item`
+- `menu`: slot `item`
+- `select_menu`: slot `item`
+- `side_nav`: slot `item`
+- `subnav_links`: slot `item`
+- `tabnav`: slot `item`
+- `truncate`: slot `item`
+- `underline_nav`: slot `item`
+
+Example with `tabnav`:
+
+```
+<:item
+  :for={%{label: label, id: tab_id} <- @tabs}
+  is_selected={id == @selected_tab}
+  phx-click="set_tab"
+  phx-value-item={tab_id}
+>
+  ...
+
+def handle_event(
+  "set_tab", %{"item" => tab_id}, socket) do
+  ...
+```
+
 #### Fieldset wrapper for checkbox_group and radio_group
 
 The form group created by [checkbox_group](`PrimerLive.Component.checkbox_group/1`) and [radio_group](`PrimerLive.Component.radio_group/1`) is now automatically wrapped in a fieldset. The `label` attribute generates a `legend` element.

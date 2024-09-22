@@ -27014,7 +27014,7 @@ input:not(:placeholder-shown) + .FormControl-input-trailingAction.pl-trailingAct
   display: none;
 }
 .pl-valid + .FormControl-inlineValidation--success.phx-no-feedback {
-  display: block;
+  display: flex;
 }
 .FormControl-inlineValidation a[href] {
   color: inherit;

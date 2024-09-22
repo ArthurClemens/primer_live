@@ -1,0 +1,1 @@
+[{"span", %{"class" => "State State--small"}, ["Label"]}, {"span", %{"class" => "State State--draft"}, ["Label"]}, {"span", %{"class" => "State State--open"}, ["Label"]}, {"span", %{"class" => "State State--merged"}, ["Label"]}, {"span", %{"class" => "State State--closed"}, ["Label"]}]

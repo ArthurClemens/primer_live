@@ -1,0 +1,1 @@
+[{"span", %{"class" => "Truncate"}, [{"span", %{"class" => "Truncate-text"}, ["really-long-text"]}, {"span", %{"class" => "Truncate-text Truncate-text--primary"}, [{"span", %{"class" => "text-normal"}, ["/"]}, "really-long-repository-name"]}]}]

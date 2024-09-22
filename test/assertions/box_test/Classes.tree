@@ -1,0 +1,1 @@
+[{"div", %{"class" => "Box box-x"}, [{"div", %{"class" => "Box-header header-x my-header"}, [{"h3", %{"class" => "Box-title header_title-x my-header-title"}, ["Title"]}, "Header"]}, {"div", %{"class" => "Box-body body-x my-body"}, ["Body"]}, {"div", %{"class" => "Box-row row-x my-row"}, ["Row"]}, {"div", %{"class" => "Box-footer footer-x my-footer"}, ["Footer"]}]}]

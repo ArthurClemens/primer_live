@@ -1,0 +1,1 @@
+[{"div", %{"class" => "CircleBadge CircleBadge--small"}, [{"img", %{"alt" => "", "class" => "CircleBadge-icon", "src" => "https://github.com/travis-ci.png"}, []}]}]
