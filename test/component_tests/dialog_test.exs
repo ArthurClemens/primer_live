@@ -235,7 +235,7 @@ defmodule PrimerLive.TestComponents.DialogTest do
       ~H"""
       <.dialog
         :if={@condition}
-        id="my-dialog-id"
+        id="dialog-show-on-mount"
         is_show
         is_show_on_mount={@equals_initial_condition}
         on_cancel={JS.patch("/dialog")}
