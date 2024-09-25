@@ -129,6 +129,11 @@
     min-width: 160px;
 }
 
+/* Remove bullets from ul */
+.dropdown-menu ul {
+    list-style: none;
+}
+
 /* Deprecation support (0.5.0). Make deprecated .form-group co-exist with FormControl to keep the layout (remove inline-flex). */
 .form-group.FormControl {
     display: flex;
