@@ -7224,15 +7224,15 @@ defmodule PrimerLive.Component do
       assigns
       |> assign(:render_item, render_item)
 
-    render_menu = fn prompt_attrs ->
+    render_menu = fn menu_attrs ->
       assigns =
         assigns
-        |> assign(:prompt_attrs, prompt_attrs)
+        |> assign(:menu_attrs, menu_attrs)
         |> assign(:focus_wrap_attrs, focus_wrap_attrs)
 
       ~H"""
       <.focus_wrap {@focus_wrap_attrs}>
-        <ul {@prompt_attrs}>
+        <ul {@menu_attrs}>
           <%= for item <- @item do %>
             <%= @render_item.(item) %>
           <% end %>
@@ -7249,9 +7249,15 @@ defmodule PrimerLive.Component do
         !is_nil(assigns[:menu_theme]) && Theme.html_attributes(assigns[:menu_theme])
       ])
 
+    menu_title_id = "#{prompt_attrs[:id]}-title"
+
     assigns =
       assigns
       |> assign(:menu_container_attrs, menu_container_attrs)
+      |> assign(:menu_title_id, menu_title_id)
+      |> assign(:menu_attrs, %{
+        "aria-describedby": menu_title_id
+      })
       |> assign(:render_menu, render_menu)
       |> assign(:backdrop_attrs, backdrop_attrs)
       |> assign(:touch_layer_attrs, touch_layer_attrs)
@@ -7261,7 +7267,7 @@ defmodule PrimerLive.Component do
       <button {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
-          <div class={@classes.caret}></div>
+          <span class={@classes.caret}></span>
         <% end %>
       </button>
       <%= if @backdrop_attrs !== [] do %>
@@ -7270,10 +7276,10 @@ defmodule PrimerLive.Component do
       <div {@touch_layer_attrs}></div>
       <%= if not is_nil(@menu_title) do %>
         <div {@menu_container_attrs}>
-          <div class={@classes.header}>
+          <div class={@classes.header} id={@menu_title_id}>
             <%= @menu_title %>
           </div>
-          <%= @render_menu.([]) %>
+          <%= @render_menu.(@menu_attrs) %>
         </div>
       <% else %>
         <%= @render_menu.(@menu_container_attrs) %>
@@ -7921,7 +7927,7 @@ defmodule PrimerLive.Component do
       <button {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
-          <div class={@classes.caret}></div>
+          <span class={@classes.caret}></span>
         <% end %>
       </button>
       <%= if @backdrop_attrs !== [] do %>
@@ -8241,7 +8247,7 @@ defmodule PrimerLive.Component do
       <button {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
-          <div class={@classes.caret}></div>
+          <span class={@classes.caret}></span>
         <% end %>
       </button>
       <%= if @backdrop_attrs !== [] do %>

@@ -26902,6 +26902,9 @@ a.branch-name .octicon {
   width: auto;
   min-width: 160px;
 }
+.dropdown-menu ul {
+  list-style: none;
+}
 .form-group.FormControl {
   display: flex;
 }
