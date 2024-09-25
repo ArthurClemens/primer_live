@@ -7267,7 +7267,7 @@ defmodule PrimerLive.Component do
       <button {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
-          <div class={@classes.caret}></div>
+          <span class={@classes.caret}></span>
         <% end %>
       </button>
       <%= if @backdrop_attrs !== [] do %>
@@ -7927,7 +7927,7 @@ defmodule PrimerLive.Component do
       <button {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
-          <div class={@classes.caret}></div>
+          <span class={@classes.caret}></span>
         <% end %>
       </button>
       <%= if @backdrop_attrs !== [] do %>
@@ -8247,7 +8247,7 @@ defmodule PrimerLive.Component do
       <button {@toggle_attrs}>
         <%= render_slot(@toggle_slot) %>
         <%= if @is_dropdown_caret do %>
-          <div class={@classes.caret}></div>
+          <span class={@classes.caret}></span>
         <% end %>
       </button>
       <%= if @backdrop_attrs !== [] do %>
