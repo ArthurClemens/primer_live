@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.8.0 (not released)
+## 0.8.0
 
 ### Refactoring of dialogs, drawers, and menus
 
