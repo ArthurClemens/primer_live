@@ -756,6 +756,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         form: form,
         field: field_or_name,
         for: input_id,
+        is_full_width: assigns[:is_full_width],
         deprecated_has_form_group: deprecated_has_form_group
       })
 

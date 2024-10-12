@@ -26934,11 +26934,17 @@ a.branch-name .octicon {
 .FormControl-textarea {
   width: auto;
 }
+.FormControl.FormControl--fullWidth,
 .FormControl--fullWidth .FormControl-input,
 .FormControl--fullWidth .FormControl-select-wrap,
 .FormControl--fullWidth .FormControl-select,
 .FormControl--fullWidth .FormControl-textarea {
   width: 100%;
+}
+.form-group-header {
+  display: flex;
+  gap: .25rem;
+  align-items: baseline;
 }
 .FormControl.pl-FormControl-disabled,
 .FormControl.pl-FormControl-disabled .FormControl-label,
@@ -26983,6 +26989,9 @@ fieldset[disabled] .FormControl-label {
 }
 .FormControl-select-wrap.pl-multiple-select:after {
   display: none;
+}
+.FormControl-input[readonly].FormControl-inset {
+  background-color: var(--color-input-disabled-bg);
 }
 .input-group .FormControl-input[type=text] {
   border-top-right-radius: 0;

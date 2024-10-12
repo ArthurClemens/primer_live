@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.8.1 (not released)
+
+### Bug fixes
+
+- [Form control](`PrimerLive.Component.form_control/1`):
+  - Add attribute `is_full_width` for proper rendering of the input, when the input is placed inside a container. The attribute is automatically added to the control when the input component has attributes `is_full_width` and `is_form_control`.
+  - Add whitespace for displaying the `required_marker` label next to the control title.
+- [Text input](`PrimerLive.Component.text_input/1`):
+  - Set disabled color on read-only field with inset style.
+
 ## 0.8.0
 
 ### Refactoring of dialogs, drawers, and menus

@@ -178,11 +178,19 @@
 }
 
 /* -- idem (restore full width) */
+.FormControl.FormControl--fullWidth,
 .FormControl--fullWidth .FormControl-input,
 .FormControl--fullWidth .FormControl-select-wrap,
 .FormControl--fullWidth .FormControl-select,
 .FormControl--fullWidth .FormControl-textarea {
     width: 100%;
+}
+
+/* Format form-group-header for required marker */
+.form-group-header {
+    display: flex;
+    gap: .25rem;
+    align-items: baseline;
 }
 
 /* Set disabled state to FormControl. */
@@ -247,6 +255,11 @@ fieldset[disabled] .FormControl-label {
 /* Don't show dropdown icon on multiple selects. */
 .FormControl-select-wrap.pl-multiple-select:after {
     display: none;
+}
+
+/* Set disabled color on read-only field with inset style */
+.FormControl-input[readonly].FormControl-inset {
+    background-color: var(--color-input-disabled-bg);
 }
 
 /* Support input-group with group button when using FormControl-x elements. */

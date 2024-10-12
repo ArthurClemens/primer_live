@@ -59,6 +59,17 @@ defmodule PrimerLive.TestComponents.FormControlTest do
     )
   end
 
+  test "Attribute: is_full_width" do
+    assigns = %{}
+
+    run_test(
+      ~H"""
+      <.form_control is_full_width>inputs</.form_control>
+      """,
+      __ENV__
+    )
+  end
+
   test "Attribute: required_marker" do
     changeset = Users.init()
 

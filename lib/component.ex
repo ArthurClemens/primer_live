@@ -2995,6 +2995,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form_control_is_hide_label()
   DeclarationHelpers.form_control_is_disabled()
   DeclarationHelpers.form_control_required_marker()
+  attr(:is_full_width, :boolean, default: false, doc: "Full width control.")
   DeclarationHelpers.class()
   DeclarationHelpers.form_control_classes("form control")
   attr :is_wrap_in_fieldset, :boolean, default: false
@@ -3034,6 +3035,7 @@ defmodule PrimerLive.Component do
       control:
         AttributeHelpers.classnames([
           "FormControl",
+          assigns.is_full_width && "FormControl--fullWidth",
           assigns.deprecated_has_form_group && "form-group",
           assigns.is_disabled && "pl-FormControl-disabled",
           assigns.is_input_group && "pl-FormControl--input-group",
@@ -3127,7 +3129,8 @@ defmodule PrimerLive.Component do
 
     control_attributes =
       AttributeHelpers.append_attributes(rest, [
-        [class: AttributeHelpers.classnames([classes.control, validation_marker_class])]
+        [class: AttributeHelpers.classnames([classes.control, validation_marker_class])],
+        required? && ["aria-required": "true"]
       ])
 
     render_header_label = fn ->
