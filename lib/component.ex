@@ -8528,7 +8528,7 @@ defmodule PrimerLive.Component do
     """
   )
 
-  DeclarationHelpers.rest(include: ~w(name type disabled form))
+  DeclarationHelpers.rest(include: ~w(name type disabled form method))
 
   slot(:inner_block, required: false, doc: "Button content.")
 
