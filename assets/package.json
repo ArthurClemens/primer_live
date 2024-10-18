@@ -9,7 +9,7 @@
     "build:types": "./node_modules/typescript/bin/tsc --p tsconfig.gen.json"
   },
   "dependencies": {
-    "@primer/css": "21.0.7",
+    "@primer/css": "21.5.0",
     "@types/phoenix_live_view": "^0.18.5"
   },
   "devDependencies": {
