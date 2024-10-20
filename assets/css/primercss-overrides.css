@@ -180,9 +180,9 @@
 /* -- idem (restore full width) */
 .FormControl.FormControl--fullWidth,
 .FormControl--fullWidth .FormControl-input,
+.FormControl--fullWidth .FormControl-textarea,
 .FormControl--fullWidth .FormControl-select-wrap,
-.FormControl--fullWidth .FormControl-select,
-.FormControl--fullWidth .FormControl-textarea {
+.FormControl--fullWidth .FormControl-select {
     width: 100%;
 }
 
@@ -212,9 +212,9 @@ fieldset[disabled] .FormControl-label {
 
 /* Allow inputs without FormControl to set full width. */
 .FormControl-input.FormControl--fullWidth,
+.FormControl-textarea.FormControl--fullWidth,
 .FormControl-select-wrap.FormControl--fullWidth,
-.FormControl-select.FormControl--fullWidth,
-.FormControl-textarea.FormControl--fullWidth {
+.FormControl-select.FormControl--fullWidth {
     width: 100%;
 }
 
@@ -330,8 +330,8 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
 
 /* Reset error state to initial if preceding marker element has class phx-no-feedback. */
 .phx-no-feedback .FormControl-input[invalid]:not(:focus),
-.phx-no-feedback .FormControl-select[invalid]:not(:focus),
-.phx-no-feedback .FormControl-textarea[invalid]:not(:focus) {
+.phx-no-feedback .FormControl-textarea[invalid]:not(:focus),
+.phx-no-feedback .FormControl-select[invalid]:not(:focus) {
     border-color: var(--color-border-default);
 }
 
@@ -360,12 +360,14 @@ input.FormControl-radio[type="radio"][invalid]:not(:focus) {
 
 /* Set visual error state to neutral if preceding marker element has class pl-valid. */
 .pl-valid .FormControl-input:not(:focus)[invalid],
+.pl-valid .FormControl-textarea:not(:focus)[invalid],
 .pl-valid .FormControl-select:not(:focus),
 .pl-valid .FormControl-select:not(:focus)[invalid] {
     border-color: var(--color-success-emphasis);
 }
 
 .pl-neutral .FormControl-input:not(:focus)[invalid],
+.pl-neutral .FormControl-textarea:not(:focus)[invalid],
 .pl-neutral .FormControl-select:not(:focus)[invalid] {
     border-color: var(--color-border-default);
 }
@@ -821,8 +823,8 @@ legend.FormControl-label {
 
 /* Fix monospace font */
 .FormControl-input.FormControl-monospace,
-.FormControl-select.FormControl-monospace,
-.FormControl-textarea.FormControl-monospace {
+.FormControl-textarea.FormControl-monospace,
+.FormControl-select.FormControl-monospace {
     font-family: var(--fontStack-monospace, "ui-monospace", "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace);
 }
 

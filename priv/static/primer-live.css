@@ -26936,9 +26936,9 @@ a.branch-name .octicon {
 }
 .FormControl.FormControl--fullWidth,
 .FormControl--fullWidth .FormControl-input,
+.FormControl--fullWidth .FormControl-textarea,
 .FormControl--fullWidth .FormControl-select-wrap,
-.FormControl--fullWidth .FormControl-select,
-.FormControl--fullWidth .FormControl-textarea {
+.FormControl--fullWidth .FormControl-select {
   width: 100%;
 }
 .form-group-header {
@@ -26960,9 +26960,9 @@ fieldset[disabled] .FormControl-label {
   cursor: not-allowed;
 }
 .FormControl-input.FormControl--fullWidth,
+.FormControl-textarea.FormControl--fullWidth,
 .FormControl-select-wrap.FormControl--fullWidth,
-.FormControl-select.FormControl--fullWidth,
-.FormControl-textarea.FormControl--fullWidth {
+.FormControl-select.FormControl--fullWidth {
   width: 100%;
 }
 .FormControl-textarea.FormControl-small,
@@ -27037,8 +27037,8 @@ input:not(:placeholder-shown) + .FormControl-input-trailingAction.pl-trailingAct
   text-decoration: underline;
 }
 .phx-no-feedback .FormControl-input[invalid]:not(:focus),
-.phx-no-feedback .FormControl-select[invalid]:not(:focus),
-.phx-no-feedback .FormControl-textarea[invalid]:not(:focus) {
+.phx-no-feedback .FormControl-textarea[invalid]:not(:focus),
+.phx-no-feedback .FormControl-select[invalid]:not(:focus) {
   border-color: var(--color-border-default);
 }
 .phx-no-feedback .FormControl-input:not(:focus)[invalid],
@@ -27058,11 +27058,13 @@ input.FormControl-radio[type=radio][invalid]:not(:focus) {
   border-color: var(--color-neutral-emphasis);
 }
 .pl-valid .FormControl-input:not(:focus)[invalid],
+.pl-valid .FormControl-textarea:not(:focus)[invalid],
 .pl-valid .FormControl-select:not(:focus),
 .pl-valid .FormControl-select:not(:focus)[invalid] {
   border-color: var(--color-success-emphasis);
 }
 .pl-neutral .FormControl-input:not(:focus)[invalid],
+.pl-neutral .FormControl-textarea:not(:focus)[invalid],
 .pl-neutral .FormControl-select:not(:focus)[invalid] {
   border-color: var(--color-border-default);
 }
@@ -27377,8 +27379,8 @@ legend.FormControl-label {
   box-shadow: 0 0 0 1px var(--color-avatar-border), var(--avatar-shadow, var(--color-avatar-child-shadow));
 }
 .FormControl-input.FormControl-monospace,
-.FormControl-select.FormControl-monospace,
-.FormControl-textarea.FormControl-monospace {
+.FormControl-textarea.FormControl-monospace,
+.FormControl-select.FormControl-monospace {
   font-family: var(--fontStack-monospace, "ui-monospace", "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace);
 }
 .Box-overlay--wide {
