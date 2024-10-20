@@ -27000,6 +27000,9 @@ fieldset[disabled] .FormControl-label {
 .input-group .FormControl-input {
   width: 100%;
 }
+.input-group > .FormControl-input[invalid][type=text] + .input-group-button > .btn {
+  border-left-color: var(--color-danger-emphasis);
+}
 .FormControl-input-wrap .FormControl-input-trailingAction.FormControl-input-trailingAction--divider:before {
   height: var(--base-size-16, 16px);
   width: var(--primer-borderWidth-thin, 1px);
