@@ -782,8 +782,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       caption: caption
     } = field_state
 
-    dbg(message)
-
     has_changeset? = !is_nil(field_state.changeset)
     show_message? = !!message && !ignore_errors? && assigns[:type] !== "hidden"
 

@@ -2965,10 +2965,7 @@ defmodule PrimerLive.Component do
       input_id: input_id,
       required?: required?,
       rest: rest,
-      message: message,
-      show_message?: show_message?,
-      validation_marker_class: validation_marker_class,
-      validation_message_id: validation_message_id
+      validation_marker_class: validation_marker_class
     } = common_input_attrs
 
     classes = %{
