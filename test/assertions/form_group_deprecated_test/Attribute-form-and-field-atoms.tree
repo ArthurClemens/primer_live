@@ -1,1 +1,0 @@
-[{"div", %{"class" => "FormControl form-group"}, [{"div", %{"class" => "form-group-header"}, [{"label", %{"class" => "FormControl-label", "for" => "user-first-name"}, ["First name"]}]}, "inputs"]}]
