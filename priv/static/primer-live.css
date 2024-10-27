@@ -26905,23 +26905,22 @@ a.branch-name .octicon {
 .dropdown-menu ul {
   list-style: none;
 }
-.form-group.FormControl {
-  display: flex;
-}
 .FormControl-inlineValidation,
 .FormControl-caption {
   margin-top: var(--base-size-4, 4px);
 }
 .FormControl .FormControl-inlineValidation,
 .FormControl-radio-labelWrap .FormControl-inlineValidation,
-.FormControl-checkbox-labelWrap .FormControl-inlineValidation,
-.FormControl .FormControl-caption,
-.FormControl-radio-labelWrap .FormControl-caption,
-.FormControl-checkbox-labelWrap .FormControl-caption {
+.FormControl-checkbox-labelWrap .FormControl-inlineValidation {
   margin-top: 0;
 }
 .FormControl .FormControl-caption {
   margin-top: 0;
+}
+.FormControl .FormControl-caption,
+.FormControl-radio-labelWrap .FormControl-caption,
+.FormControl-checkbox-labelWrap .FormControl-caption {
+  margin-top: 1px;
 }
 .FormControl.form-group .form-group-header {
   margin: 0;
@@ -27024,6 +27023,12 @@ input:not(:placeholder-shown) + .FormControl-input-trailingAction.pl-trailingAct
 .FormControl-inlineValidation--success {
   color: var(--color-success-fg);
   fill: var(--color-success-fg);
+}
+.FormControl-inlineValidation {
+  font-weight: 400;
+}
+.FormControl.pl-FormControl--input-group .FormControl-inlineValidation {
+  font-weight: var(--base-text-weight-semibold, 600);
 }
 .FormControl-inlineValidation.phx-no-feedback {
   display: none;
@@ -27349,7 +27354,7 @@ legend.FormControl-label {
   margin: 0 0 6px;
 }
 .pl-FormControl--input-group .FormControl-caption {
-  margin-top: -3px;
+  margin-top: -5px;
   font-size: var(--primer-text-body-size-medium, 14px);
 }
 .pl-button-group {

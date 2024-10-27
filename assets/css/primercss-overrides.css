@@ -134,12 +134,7 @@
     list-style: none;
 }
 
-/* Deprecation support (0.5.0). Make deprecated .form-group co-exist with FormControl to keep the layout (remove inline-flex). */
-.form-group.FormControl {
-    display: flex;
-}
-
-/* Deprecation support (0.5.0). Give validation message and caption not inside a .FormControl a default top margin. */
+/* Give validation message and caption not inside a .FormControl a default top margin. */
 .FormControl-inlineValidation,
 .FormControl-caption {
     margin-top: var(--base-size-4, 4px);
@@ -148,16 +143,20 @@
 /* -- and reset it when inside a form control. */
 .FormControl .FormControl-inlineValidation,
 .FormControl-radio-labelWrap .FormControl-inlineValidation,
-.FormControl-checkbox-labelWrap .FormControl-inlineValidation,
-.FormControl .FormControl-caption,
-.FormControl-radio-labelWrap .FormControl-caption,
-.FormControl-checkbox-labelWrap .FormControl-caption {
+.FormControl-checkbox-labelWrap .FormControl-inlineValidation {
     margin-top: 0;
 }
 
 /* -- idem for caption */
 .FormControl .FormControl-caption {
     margin-top: 0;
+}
+
+.FormControl .FormControl-caption,
+.FormControl-radio-labelWrap .FormControl-caption,
+.FormControl-checkbox-labelWrap .FormControl-caption {
+    /* Specification derived from screenshot in https://primer.style/components/checkbox-group */
+    margin-top: 1px;
 }
 
 /* -- idem for form group header and bottom margin. */
@@ -310,6 +309,14 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
 .FormControl-inlineValidation--success {
     color: var(--color-success-fg);
     fill: var(--color-success-fg);
+}
+
+/* Use bold font only when the control is an input group */
+.FormControl-inlineValidation {
+    font-weight: 400;
+}
+.FormControl.pl-FormControl--input-group .FormControl-inlineValidation {
+    font-weight: var(--base-text-weight-semibold, 600);
 }
 
 /* Reset error state to initial if element has class phx-no-feedback (but show success message when shown in form group with valid state). */
@@ -774,7 +781,7 @@ legend.FormControl-label {
 
 /* -- caption */
 .pl-FormControl--input-group .FormControl-caption {
-    margin-top: -3px;
+    margin-top: -5px;
     font-size: var(--primer-text-body-size-medium, 14px);
 }
 

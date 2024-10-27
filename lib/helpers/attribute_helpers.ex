@@ -733,8 +733,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
          form: form,
          field_or_name: field_or_name
        }) do
-
-
     form_control = assigns[:form_control]
     is_form_control = assigns[:is_form_control] || !!form_control
 

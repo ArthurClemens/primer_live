@@ -3106,7 +3106,7 @@ defmodule PrimerLive.Component do
         <%= if @has_header_label do %>
           <%= @render_header_label.() %>
         <% end %>
-        <%= if @caption do %>
+        <%= if @caption && @is_input_group do %>
           <div class={@classes.caption}>
             <%= @caption %>
           </div>
@@ -3119,6 +3119,11 @@ defmodule PrimerLive.Component do
           <%= render_slot(@inner_block) %>
         <% end %>
         <.input_validation_message common_input_attrs={@common_input_attrs} />
+        <%= if @caption && !@is_input_group do %>
+          <div class={@classes.caption}>
+            <%= @caption %>
+          </div>
+        <% end %>
       </div>
       """
     end
@@ -3227,6 +3232,7 @@ defmodule PrimerLive.Component do
   def checkbox_group(assigns) do
     render_form_control(
       Map.merge(assigns, %{
+        is_input_group: true,
         is_multiple: true,
         is_wrap_in_fieldset: true
       })
@@ -3290,6 +3296,7 @@ defmodule PrimerLive.Component do
   def radio_group(assigns) do
     render_form_control(
       Map.merge(assigns, %{
+        is_input_group: true,
         is_multiple: false,
         is_wrap_in_fieldset: true
       })
@@ -3856,11 +3863,11 @@ defmodule PrimerLive.Component do
 
       assigns =
         assigns
-        |> assign(:caption, caption)
+        |> assign(:caption, if(has_form_control, do: nil, else: caption))
         |> assign(:classes, classes)
         |> assign(:has_group_button, has_group_button)
         |> assign(:has_input_wrap, has_input_wrap)
-        |> assign(:hide_validation, assigns.is_form_control || assigns.form_control)
+        |> assign(:hide_validation, has_form_control)
         |> assign(:input_id, input_id)
         |> assign(:input, input)
         |> assign(:render_trailing_action, render_trailing_action)
@@ -4248,7 +4255,7 @@ defmodule PrimerLive.Component do
         |> assign(:classes, classes)
         |> assign(:validation_message_class, classes.validation_message)
         |> assign(:validation_marker_attrs, validation_marker_attrs)
-        |> assign(:hide_validation, !!assigns.is_form_control || !!assigns.form_control)
+        |> assign(:hide_validation, has_form_control)
         |> assign(:input_id, input_id)
         |> assign(:form, form)
         |> assign(:field, field)
