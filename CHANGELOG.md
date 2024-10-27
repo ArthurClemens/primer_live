@@ -16,7 +16,7 @@ See "Updating to 0.9" below.
 
 ### Changes
 
-- Removed `form_group` (was soft-deprecated in 0.5.0)
+- Removed `form_group` component (was soft-deprecated in 0.5.0). Component attributes `form_group` and `is_form_group` have been removed as well.
 
 ### Bug fixes
 

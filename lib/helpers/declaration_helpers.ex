@@ -223,16 +223,6 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
-  defmacro deprecated_form_group(_the_input_name) do
-    quote do
-      attr(:form_group, :map,
-        doc: """
-        Deprecated: use `form_control`. Since `0.5.0`.
-        """
-      )
-    end
-  end
-
   defmacro is_form_control(the_input_name) do
     quote do
       attr(:is_form_control, :boolean,
@@ -244,17 +234,6 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
           To configure the form control and label, use attr `form_control`.
           """
           |> String.replace("{the_input_name}", unquote(the_input_name))
-      )
-    end
-  end
-
-  defmacro deprecated_is_form_group(_the_input_name) do
-    quote do
-      attr(:is_form_group, :boolean,
-        default: false,
-        doc: """
-        Deprecated: use `is_form_control`. Since `0.5.0`.
-        """
       )
     end
   end

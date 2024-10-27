@@ -3648,9 +3648,7 @@ defmodule PrimerLive.Component do
   )
 
   DeclarationHelpers.form_control("the input")
-  DeclarationHelpers.deprecated_form_group("the input")
   DeclarationHelpers.is_form_control("the input")
-  DeclarationHelpers.deprecated_is_form_group("the input")
   DeclarationHelpers.validation_message()
   DeclarationHelpers.validation_message_id()
 
@@ -3860,8 +3858,6 @@ defmodule PrimerLive.Component do
         assigns
         |> assign(:caption, caption)
         |> assign(:classes, classes)
-        # |> assign(:field, field)
-        # |> assign(:form, form)
         |> assign(:has_group_button, has_group_button)
         |> assign(:has_input_wrap, has_input_wrap)
         |> assign(:hide_validation, assigns.is_form_control || assigns.form_control)
@@ -3869,10 +3865,6 @@ defmodule PrimerLive.Component do
         |> assign(:input, input)
         |> assign(:render_trailing_action, render_trailing_action)
         |> assign(:common_input_attrs, common_input_attrs)
-        # |> assign(:show_message?, show_message?)
-        # |> assign(:validation_message_class, classes.validation_message)
-        # |> assign(:validation_message_id, validation_message_id)
-        # |> assign(:validation_message, assigns[:validation_message])
         |> assign(:wrapper_attrs, wrapper_attrs)
 
       ~H"""
@@ -4145,9 +4137,7 @@ defmodule PrimerLive.Component do
   )
 
   DeclarationHelpers.form_control("the select input")
-  DeclarationHelpers.deprecated_form_group("the select input")
   DeclarationHelpers.is_form_control("the select input")
-  DeclarationHelpers.deprecated_is_form_group("the select input")
 
   DeclarationHelpers.rest(include: ~w(disabled))
 

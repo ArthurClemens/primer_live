@@ -733,21 +733,10 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
          form: form,
          field_or_name: field_or_name
        }) do
-    deprecated_form_group = assigns[:form_group]
-    deprecated_is_form_group = !!assigns[:is_form_group]
 
-    ComponentHelpers.deprecated_message(
-      "Deprecated attr form_group: use form_control. Since 0.5.0.",
-      !is_nil(assigns[:form_group])
-    )
 
-    ComponentHelpers.deprecated_message(
-      "Deprecated attr is_form_group: use is_form_control. Since 0.5.0.",
-      assigns[:is_form_group] == true
-    )
-
-    form_control = assigns[:form_control] || deprecated_form_group
-    is_form_control = assigns[:is_form_control] || !!form_control || deprecated_is_form_group
+    form_control = assigns[:form_control]
+    is_form_control = assigns[:is_form_control] || !!form_control
 
     has_form_control = is_form_control
 
@@ -787,6 +776,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
     validation_message_id =
       cond do
+        !show_message? -> nil
         assigns[:validation_message_id] -> assigns[:validation_message_id]
         input_id -> "#{input_id}-validation"
         id -> "#{id}-validation"
