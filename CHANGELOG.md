@@ -1,14 +1,53 @@
 # Changelog
 
-## 0.8.1 (not released)
+## 0.9.0 (not released)
+
+### Deprecated form_control
+
+Standalone `form_control` as wrapper is deprecated.
+
+The use of `form_control` as wrapper component around a form input component was causing compatibility issues with displaying validation messages. Since input components should be able to display a validation message even when not wrapped inside a `form_control`, it became difficult to distinguish between a validation messages originating from the `form_control` and one originating from the nested input.
+
+With the introduction of `checkbox_group` and `radio_group` in version 0.5, there has been less need for a standalone form control wrapper.
+
+Overall, moving `form_control` to the background and using it only as an internal component resolves a range of problems.
+
+See "Updating to 0.9" below.
+
+### Changes
+
+- Removed `form_group` (was soft-deprecated in 0.5.0)
 
 ### Bug fixes
 
-- [Form control](`PrimerLive.Component.form_control/1`):
-  - Add attribute `is_full_width` for proper rendering of the input, when the input is placed inside a container. The attribute is automatically added to the control when the input component has attributes `is_full_width` and `is_form_control`.
-  - Add whitespace for displaying the `required_marker` label next to the control title.
+- [Checkbox group](`PrimerLive.Component.checkbox_group/1`) and [Radio group](`PrimerLive.Component.radio_group/1`):
+  - Display validation message.
 - [Text input](`PrimerLive.Component.text_input/1`):
   - Set disabled color on read-only field with inset style.
+- [Textarea](`PrimerLive.Component.textarea/1`):
+  - Set correct success color when displaying success feedback.
+
+Removed previously deprecated `form_group`.
+
+### Updating to 0.9
+
+There have been several ways to create a form control. If you've been using `form_control` as wrapper around fields, change:
+
+```
+<.form :let={f} for={@changeset}>
+  <.form_control form={f} field={:first_name} for="first-name">
+    <.text_input form={f} field={:first_name} id="first-name" />
+  </.form_control>
+</.form>
+```
+
+to
+
+```
+<.form :let={f} for={@changeset}>
+  <.text_input form={f} field={:first_name} id="first-name" is_form_control />
+</.form>
+```
 
 ## 0.8.0
 
@@ -525,3 +564,7 @@ Bug fix:
 ## 0.1.1
 
 First release.
+
+```
+
+```

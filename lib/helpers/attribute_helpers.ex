@@ -650,10 +650,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     # ID and label
     id_attrs = common_id_attrs(assigns, input_type, common_shared_attrs)
 
-    # Form group
-    form_control_attrs =
-      common_form_control_attrs(assigns, id_attrs.input_id, common_shared_attrs)
-
     # Field state
     field_state_attrs =
       common_field_state_attrs(
@@ -661,6 +657,11 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         id_attrs,
         common_shared_attrs
       )
+
+    # Form control
+    form_control_attrs =
+      common_form_control_attrs(assigns, id_attrs.input_id, common_shared_attrs)
+      |> Map.merge(field_state_attrs |> Map.drop([:caption]))
 
     [
       common_shared_attrs,
@@ -734,7 +735,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
        }) do
     deprecated_form_group = assigns[:form_group]
     deprecated_is_form_group = !!assigns[:is_form_group]
-    deprecated_has_form_group = deprecated_is_form_group || !!deprecated_form_group
 
     ComponentHelpers.deprecated_message(
       "Deprecated attr form_group: use form_control. Since 0.5.0.",
@@ -749,15 +749,15 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     form_control = assigns[:form_control] || deprecated_form_group
     is_form_control = assigns[:is_form_control] || !!form_control || deprecated_is_form_group
 
-    has_form_control = is_form_control || deprecated_has_form_group
+    has_form_control = is_form_control
 
     form_control_attrs =
       Map.merge(form_control || %{}, %{
         form: form,
         field: field_or_name,
+        input_id: input_id,
         for: input_id,
-        is_full_width: assigns[:is_full_width],
-        deprecated_has_form_group: deprecated_has_form_group
+        is_full_width: assigns[:is_full_width]
       })
 
     %{
@@ -766,7 +766,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     }
   end
 
-  defp common_field_state_attrs(assigns, %{input_name: input_name, input_id: input_id}, %{
+  defp common_field_state_attrs(assigns, %{input_name: input_name, input_id: input_id, id: id}, %{
          form: form,
          field_or_name: field_or_name
        }) do
@@ -782,14 +782,18 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       caption: caption
     } = field_state
 
+    dbg(message)
+
     has_changeset? = !is_nil(field_state.changeset)
     show_message? = !!message && !ignore_errors? && assigns[:type] !== "hidden"
 
     validation_message_id =
-      if !is_nil(field_state.message),
-        do:
-          assigns[:validation_message_id] ||
-            "#{input_id}-validation"
+      cond do
+        assigns[:validation_message_id] -> assigns[:validation_message_id]
+        input_id -> "#{input_id}-validation"
+        id -> "#{id}-validation"
+        true -> random_string()
+      end
 
     validation_marker_class =
       if has_changeset? do

@@ -131,6 +131,15 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
+  defmacro common_input_attrs do
+    quote do
+      attr(:common_input_attrs, :map,
+        default: nil,
+        doc: "Used to pass calculated attributes from an input component to the form control."
+      )
+    end
+  end
+
   defmacro form do
     quote do
       attr(:form, :any,
@@ -190,7 +199,8 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
 
   defmacro validation_message_id do
     quote do
-      attr(:validation_message_id, :any,
+      attr(:validation_message_id, :string,
+        default: nil,
         doc: """
         Message ID that is usually passed from the form element component to `input_validation_message`. If not used, the ID will be generated.
         """
@@ -201,6 +211,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
   defmacro form_control(the_input_name) do
     quote do
       attr(:form_control, :map,
+        default: nil,
         doc:
           """
           Form control attributes. Places {the_input_name} inside a `form_control/1` component with given attributes, alongside `form` and `field` to generate a form control label.
@@ -394,16 +405,6 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
       attr(:is_disabled, :boolean,
         default: false,
         doc: "Adjusts the styling to indicate disabled state."
-      )
-    end
-  end
-
-  defmacro form_control_deprecated_has_form_group do
-    quote do
-      attr(:deprecated_has_form_group, :boolean,
-        default: false,
-        doc:
-          "Internal use: detects if deprecated `form_group` or `is_form_group` is used. Used to maintain consistent styling."
       )
     end
   end
@@ -675,6 +676,32 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
         DeclarationHelpers.slot_style()
         DeclarationHelpers.slot_rest()
       end
+    end
+  end
+
+  defmacro form_control_attrs do
+    quote do
+      alias PrimerLive.Helpers.DeclarationHelpers
+
+      DeclarationHelpers.form()
+      DeclarationHelpers.field()
+      DeclarationHelpers.form_control_is_input_group()
+      DeclarationHelpers.caption("the form control label")
+      DeclarationHelpers.input_id()
+      DeclarationHelpers.form_control_label()
+      DeclarationHelpers.form_control_is_hide_label()
+      DeclarationHelpers.form_control_is_disabled()
+      DeclarationHelpers.form_control_required_marker()
+      attr(:is_full_width, :boolean, default: false, doc: "Full width control.")
+      DeclarationHelpers.class()
+      DeclarationHelpers.form_control_classes("form control")
+      attr :is_wrap_in_fieldset, :boolean, default: false
+      DeclarationHelpers.rest()
+      DeclarationHelpers.form_control_for()
+      DeclarationHelpers.form_control_slot_inner_block("The form control")
+      DeclarationHelpers.validation_message()
+      DeclarationHelpers.validation_message_id()
+      DeclarationHelpers.common_input_attrs()
     end
   end
 end
