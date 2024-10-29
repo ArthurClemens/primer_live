@@ -662,25 +662,26 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     quote do
       alias PrimerLive.Helpers.DeclarationHelpers
 
-      DeclarationHelpers.form()
-      DeclarationHelpers.field()
-      DeclarationHelpers.form_control_is_input_group()
       DeclarationHelpers.caption("the form control label")
-      DeclarationHelpers.input_id()
-      DeclarationHelpers.form_control_label()
-      DeclarationHelpers.form_control_is_hide_label()
-      DeclarationHelpers.form_control_is_disabled()
-      DeclarationHelpers.form_control_required_marker()
-      attr(:is_full_width, :boolean, default: false, doc: "Full width control.")
+      DeclarationHelpers.checkbox_is_multiple()
       DeclarationHelpers.class()
-      DeclarationHelpers.form_control_classes("form control")
-      attr :is_wrap_in_fieldset, :boolean, default: false
-      DeclarationHelpers.rest()
-      DeclarationHelpers.form_control_for()
-      DeclarationHelpers.form_control_slot_inner_block("The form control")
-      DeclarationHelpers.validation_message()
-      DeclarationHelpers.validation_message_id()
       DeclarationHelpers.common_input_attrs()
+      DeclarationHelpers.field()
+      DeclarationHelpers.form_control_classes("form control")
+      DeclarationHelpers.form_control_for()
+      DeclarationHelpers.form_control_is_disabled()
+      DeclarationHelpers.form_control_is_hide_label()
+      DeclarationHelpers.form_control_is_input_group()
+      DeclarationHelpers.form_control_label()
+      DeclarationHelpers.form_control_required_marker()
+      DeclarationHelpers.form_control_slot_inner_block("The form control")
+      DeclarationHelpers.form()
+      DeclarationHelpers.input_id()
+      DeclarationHelpers.rest()
+      DeclarationHelpers.validation_message_id()
+      DeclarationHelpers.validation_message()
+      attr :is_wrap_in_fieldset, :boolean, default: false
+      attr(:is_full_width, :boolean, default: false, doc: "Full width control.")
     end
   end
 end

@@ -551,70 +551,80 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
   ## Tests
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id("my-input-id", nil, nil, "", nil)
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id("my-input-id", nil, nil, "", nil, false)
       "my-input-id"
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, "my-id", nil, "", nil)
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id("my-input-id", nil, nil, "", nil, true)
+      "my-input-id"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id("my-input-id", nil, nil, "", "my-value", true)
+      "my-input-id-my-value"
+
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, "my-id", nil, "", nil, false)
       "my-id"
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :select, "", nil)
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :select, "", nil, false)
       nil
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :select, "[my-input-name]", nil)
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :select, "[my-input-name]", nil, false)
       "[my-input-name]"
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :select, "[my-input-name][]", nil)
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :select, "[my-input-name][]", nil, false)
       "[my-input-name]"
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "", nil)
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "", nil, false)
       nil
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "my-input-name", nil)
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "my-input-name", nil, false)
       "my-input-name"
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "my-input-name", "my-value")
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "my-input-name", "my-value", false)
       "my-input-name[my-value]"
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "[my-input-name]", "my-value")
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "[my-input-name]", "my-value", false)
       "[my-input-name][my-value]"
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "[my-input-name][]", "my-value")
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "[my-input-name][]", "my-value", false)
       "[my-input-name][my-value]"
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "[my-input-name][]", nil)
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :checkbox, "[my-input-name][]", nil, false)
       "[my-input-name][]"
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :radio_button, "", nil)
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :radio_button, "", nil, false)
       nil
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :radio_button, "my-input-name", nil)
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :radio_button, "my-input-name", nil, false)
       "my-input-name"
 
-      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :radio_button, "my-input-name", "my-value")
+      iex> PrimerLive.Helpers.AttributeHelpers.input_id(nil, nil, :radio_button, "my-input-name", "my-value", false)
       "my-input-name[my-value]"
 
   """
-  def input_id(input_id, _id, _input_type, _input_name, _value_for_derived_label)
+  def input_id(input_id, _id, _input_type, _input_name, value_for_derived_label, is_multiple)
+      when not is_nil(input_id) and is_multiple and is_binary(value_for_derived_label),
+      do: "#{input_id}-#{value_for_derived_label}"
+
+  def input_id(input_id, _id, _input_type, _input_name, _value_for_derived_label, _is_multiple)
       when not is_nil(input_id),
       do: input_id
 
-  def input_id(_input_id, id, _input_type, _input_name, _value_for_derived_label)
+  def input_id(_input_id, id, _input_type, _input_name, _value_for_derived_label, _is_multiple)
       when not is_nil(id),
       do: id
 
-  def input_id(_input_id, _id, input_type, "", _value_for_derived_label)
+  def input_id(_input_id, _id, input_type, "", _value_for_derived_label, _is_multiple)
       when input_type === :select,
       do: nil
 
-  def input_id(_input_id, _id, input_type, input_name, _value_for_derived_label)
+  def input_id(_input_id, _id, input_type, input_name, _value_for_derived_label, _is_multiple)
       when input_type === :select,
       do: input_name |> String.replace(~r/\[\]$/, "")
 
-  def input_id(_input_id, _id, input_type, "", value_for_derived_label)
+  def input_id(_input_id, _id, input_type, "", value_for_derived_label, _is_multiple)
       when input_type === :checkbox or input_type === :radio_button,
       do: value_for_derived_label
 
-  def input_id(_input_id, _id, input_type, input_name, value_for_derived_label)
+  def input_id(_input_id, _id, input_type, input_name, value_for_derived_label, _is_multiple)
       when (input_type === :checkbox or input_type === :radio_button) and is_binary(input_name) do
     cond do
       String.match?(input_name, ~r/\[\]$/) ->
@@ -628,8 +638,10 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     end
   end
 
-  def input_id(_input_id, _id, _input_type, "", _value_for_derived_label), do: nil
-  def input_id(_input_id, _id, _input_type, input_name, _value_for_derived_label), do: input_name
+  def input_id(_input_id, _id, _input_type, "", _value_for_derived_label, _is_multiple), do: nil
+
+  def input_id(_input_id, _id, _input_type, input_name, _value_for_derived_label, _is_multiple),
+    do: input_name
 
   @spec cleanup_id(nil | binary) :: nil | binary
   def cleanup_id(id) when is_nil(id), do: nil
@@ -709,7 +721,14 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     value_for_derived_label = checked_value || value
 
     input_id =
-      input_id(assigns[:input_id], id, input_type, input_name, value_for_derived_label)
+      input_id(
+        assigns[:input_id],
+        id,
+        input_type,
+        input_name,
+        value_for_derived_label,
+        is_multiple
+      )
       |> create_dom_id()
 
     derived_label =
