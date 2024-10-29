@@ -21,7 +21,7 @@ See "Updating to 0.9" below.
 ### Bug fixes
 
 - [Checkbox group](`PrimerLive.Component.checkbox_group/1`) and [Radio group](`PrimerLive.Component.radio_group/1`):
-  - Display validation message.
+  - Restored display of validation message.
 - [Text input](`PrimerLive.Component.text_input/1`):
   - Set disabled color on read-only field with inset style.
 - [Textarea](`PrimerLive.Component.textarea/1`):
