@@ -3224,6 +3224,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form_control_is_hide_label()
   DeclarationHelpers.form_control_is_disabled()
   DeclarationHelpers.form_control_required_marker()
+  DeclarationHelpers.input_id()
   DeclarationHelpers.class()
   DeclarationHelpers.form_control_classes("checkbox group")
   DeclarationHelpers.rest()
@@ -3288,6 +3289,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.form_control_is_hide_label()
   DeclarationHelpers.form_control_is_disabled()
   DeclarationHelpers.form_control_required_marker()
+  DeclarationHelpers.input_id()
   DeclarationHelpers.class()
   DeclarationHelpers.form_control_classes("radio group")
   DeclarationHelpers.rest()
@@ -4250,33 +4252,26 @@ defmodule PrimerLive.Component do
 
       assigns =
         assigns
-        |> assign(:input, input)
-        |> assign(:container_attrs, container_attrs)
+        |> assign(:caption, if(has_form_control, do: nil, else: caption))
         |> assign(:classes, classes)
-        |> assign(:validation_message_class, classes.validation_message)
-        |> assign(:validation_marker_attrs, validation_marker_attrs)
+        |> assign(:common_input_attrs, common_input_attrs)
+        |> assign(:container_attrs, container_attrs)
+        |> assign(:field, field)
+        |> assign(:form, form)
         |> assign(:hide_validation, has_form_control)
         |> assign(:input_id, input_id)
-        |> assign(:form, form)
-        |> assign(:field, field)
+        |> assign(:input, input)
+        |> assign(:validation_marker_attrs, validation_marker_attrs)
         |> assign(:validation_message_class, classes.validation_message)
-        |> assign(:validation_message, assigns[:validation_message])
+        |> assign(:validation_message_class, classes.validation_message)
         |> assign(:validation_message_id, validation_message_id)
-        |> assign(:caption, caption)
+        |> assign(:validation_message, assigns[:validation_message])
 
       ~H"""
       <div {@container_attrs}>
         <%= @input %>
       </div>
-      <.input_validation_message
-        :if={!@hide_validation}
-        form={@form}
-        field={@field}
-        validation_message={@validation_message}
-        validation_message_id={@validation_message_id}
-        class={@validation_message_class}
-        is_multiple={@is_multiple}
-      />
+      <.input_validation_message :if={!@hide_validation} common_input_attrs={@common_input_attrs} />
       <%= if @caption do %>
         <div class={@classes.caption}>
           <%= @caption %>
