@@ -340,7 +340,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
             "Project owner": "project_owner",
             Developer: "developer"
           ]}
-          aria_label="Role"
+          aria-label="Role"
           classes={@classes}
           form_control={@form_control_attrs}
           class={@class}
@@ -357,7 +357,7 @@ defmodule PrimerLive.TestComponents.SelectTest do
 
     run_test(
       ~H"""
-      <.select name="age" options={25..30} aria_label="Age" dir="rtl" />
+      <.select name="age" options={25..30} aria-label="Age" dir="rtl" />
       """,
       __ENV__
     )

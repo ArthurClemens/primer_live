@@ -1,1 +1,1 @@
-[{"div", %{"class" => "Header", "dir" => "rtl"}, [{"div", %{"aria-disabled" => "aria-disabled", "class" => "Header-item"}, ["Item"]}]}]
+[{"div", %{"class" => "Header", "dir" => "rtl"}, [{"div", %{"aria-disabled" => "true", "class" => "Header-item"}, ["Item"]}]}]

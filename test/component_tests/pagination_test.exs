@@ -155,7 +155,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
         page_count={@page_count}
         current_page={@current_page}
         link_path={fn page_num -> "/page/#{page_num}" end}
-        side_count="1"
+        side_count={1}
       />
       """,
       __ENV__
@@ -171,7 +171,7 @@ defmodule PrimerLive.TestComponents.PaginationTest do
         page_count={@page_count}
         current_page={@current_page}
         link_path={fn page_num -> "/page/#{page_num}" end}
-        sibling_count="1"
+        sibling_count={1}
       />
       """,
       __ENV__

@@ -73,21 +73,21 @@ defmodule PrimerLive.TestComponents.LayoutTest do
     run_test(
       ~H"""
       <.layout>
-        <:sidebar order="2">
+        <:sidebar order={2}>
           Sidebar content
         </:sidebar>
-        <:divider order="0"></:divider>
+        <:divider></:divider>
         <:main order={1}>
           Main content
         </:main>
       </.layout>
 
       <.layout>
-        <:sidebar>
+        <:sidebar order={1}>
           Sidebar content
         </:sidebar>
         <:divider></:divider>
-        <:main order="1">
+        <:main order={2}>
           Main content
         </:main>
       </.layout>

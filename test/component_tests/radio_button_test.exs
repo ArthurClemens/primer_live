@@ -149,7 +149,7 @@ defmodule PrimerLive.TestComponents.RadioButtonTest do
     run_test(
       ~H"""
       <.radio_button name="role">
-        <:label dir="rtl">Some label</:label>
+        <:label>Some label</:label>
       </.radio_button>
       """,
       __ENV__

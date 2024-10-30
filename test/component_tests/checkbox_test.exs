@@ -181,7 +181,7 @@ defmodule PrimerLive.TestComponents.CheckboxTest do
     run_test(
       ~H"""
       <.checkbox name="available_for_hire">
-        <:label dir="rtl">Some label</:label>
+        <:label>Some label</:label>
       </.checkbox>
       """,
       __ENV__

@@ -309,17 +309,6 @@ defmodule PrimerLive.TestComponents.TextInputTest do
     )
   end
 
-  test "Extra attributes: explicit aria_label" do
-    assigns = %{}
-
-    run_test(
-      ~H"""
-      <.text_input name="first_name" aria_label="Enter your first name" />
-      """,
-      __ENV__
-    )
-  end
-
   test "Extra attributes: tabindex" do
     assigns = %{}
 

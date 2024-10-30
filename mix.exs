@@ -121,7 +121,7 @@ defmodule PrimerLive.MixProject do
       #
       # Test with writing failing test results to test/assertion_failures:
       #    WRITE_FAILURES=1 mix test
-      #    WRITE_FAILURES=1 mix test some-file.exs
+      #    WRITE_FAILURES=1 mix test test/component_tests/select_test.exs
       #
       # To view the assertions:
       #    elixir scripts/elixir/assertions_viewer.exs

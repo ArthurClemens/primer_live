@@ -109,7 +109,7 @@ defmodule PrimerLive.TestComponents.HeaderTest do
     run_test(
       ~H"""
       <.header dir="rtl">
-        <:item aria-disabled={true}>Item</:item>
+        <:item aria-disabled="true">Item</:item>
       </.header>
       """,
       __ENV__
