@@ -1,6 +1,6 @@
 {
   "name": "primer-live",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "JavaScript and CSS for PrimerLive",
   "license": "MIT",
   "module": "./priv/static/primer-live.esm.js",
