@@ -1,5 +1,27 @@
 @import "@primer/css/color-modes/index.scss";
 @import "@primer/css/core/index.scss";
+@import "@primer/css/product/index.scss";
+@import "@primer/css/marketing/index.scss";
+
+/* size/typography */
+@import '@primer/primitives/dist/css/base/size/size.css';
+@import '@primer/primitives/dist/css/base/typography/typography.css';
+@import '@primer/primitives/dist/css/functional/size/border.css';
+@import '@primer/primitives/dist/css/functional/size/breakpoints.css';
+@import '@primer/primitives/dist/css/functional/size/size.css';
+@import '@primer/primitives/dist/css/functional/size/viewport.css';
+@import '@primer/primitives/dist/css/functional/typography/typography.css';
+
+/* color */
+@import '@primer/primitives/dist/css/functional/themes/light.css';
+@import '@primer/primitives/dist/css/functional/themes/light-tritanopia.css';
+@import '@primer/primitives/dist/css/functional/themes/light-high-contrast.css';
+@import '@primer/primitives/dist/css/functional/themes/light-colorblind.css';
+@import '@primer/primitives/dist/css/functional/themes/dark.css';
+@import '@primer/primitives/dist/css/functional/themes/dark-colorblind.css';
+@import '@primer/primitives/dist/css/functional/themes/dark-dimmed.css';
+@import '@primer/primitives/dist/css/functional/themes/dark-high-contrast.css';
+@import '@primer/primitives/dist/css/functional/themes/dark-tritanopia.css';
 
 // Product specific css modules
 @import '@primer/css/alerts/index.scss';
@@ -17,5 +39,6 @@
 @import '@primer/css/select-menu/index.scss';
 @import '@primer/css/subhead/index.scss';
 @import '@primer/css/timeline/index.scss';
+
 // @import '@primer/css/toasts/index.scss';
 // @import '@primer/css/toggle-switch/index.scss';

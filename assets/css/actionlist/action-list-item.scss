@@ -7,7 +7,7 @@
   width: $spacer-1;
   height: $spacer-4;
   content: '';
-  background: var(--color-accent-fg);
+  background: var(--focus-outlineColor);
   border-radius: $border-radius;
 }
 
@@ -30,27 +30,25 @@
     @media (hover: hover) {
       &:hover {
         cursor: pointer;
-        background-color: var(--color-action-list-item-default-hover-bg);
+        background-color: var(--control-transparent-bgColor-hover);
 
         &:not(.ActionList-item--navActive):not(:focus-visible) {
           // Support for "Windows high contrast mode"
           outline: $border-style $border-width transparent;
           outline-offset: -$border-width;
           // stylelint-disable-next-line primer/box-shadow
-          box-shadow: inset 0 0 0 $border-width var(--color-action-list-item-default-active-border);
+          box-shadow: var(--boxShadow-thin) var(--control-transparent-borderColor-active);
         }
       }
     }
 
     &:active {
-      background: var(--color-action-list-item-default-active-bg);
+      background: var(--control-transparent-bgColor-active);
 
       &:not(.ActionList-item--navActive) {
-        // Support for "Windows high contrast mode" https://sarahmhigley.com/writing/whcm-quick-tips/
-        outline: $border-style $border-width transparent;
-        outline-offset: -$border-width;
-        // stylelint-disable-next-line primer/box-shadow
-        box-shadow: inset 0 0 0 $border-width var(--color-action-list-item-default-active-border);
+        box-shadow: var(--boxShadow-thin) var(--control-transparent-borderColor-active);
+        outline:solid var(--borderWidth-thin) #0000;
+        outline-offset: calc(var(--borderWidth-thin)*-1)
       }
     }
 
@@ -87,12 +85,12 @@
 
       @media (hover: hover) {
         &:hover {
-          background-color: var(--color-action-list-item-default-hover-bg);
+          background-color: var(--control-transparent-bgColor-hover);
         }
       }
 
       &:active {
-        background-color: var(--color-action-list-item-default-active-bg);
+        background-color: var(--control-transparent-bgColor-active);
       }
     }
   }
@@ -106,11 +104,11 @@
 
   &[aria-selected='true'] {
     font-weight: $font-weight-normal;
-    background: var(--color-action-list-item-default-selected-bg);
+    background: var(--control-transparent-bgColor-selected);
 
     @media (hover: hover) {
       &:hover {
-        background-color: var(--color-action-list-item-default-hover-bg);
+        background-color: var(--control-transparent-bgColor-hover);
       }
     }
 
@@ -135,11 +133,11 @@
     }
 
     &:not(.ActionList-item--danger) {
-      background: var(--color-action-list-item-default-selected-bg);
+      background: var(--control-transparent-bgColor-selected);
 
       @media (hover: hover) {
         &:hover {
-          background-color: var(--color-action-list-item-default-hover-bg);
+          background-color: var(--control-transparent-bgColor-hover);
         }
       }
 
@@ -179,13 +177,13 @@
     // checkbox
     .ActionList-item-multiSelectIcon {
       .ActionList-item-multiSelectIconRect {
-        fill: var(--color-accent-fg);
-        stroke: var(--color-accent-fg);
+        fill: var(--focus-outlineColor);
+        stroke: var(--focus-outlineColor);
         stroke-width: $border-width;
       }
 
       .ActionList-item-multiSelectCheckmark {
-        fill: var(--color-fg-on-emphasis);
+        fill: var(--fgColor-onEmphasis);
       }
     }
   }
@@ -215,15 +213,15 @@
     // checkbox
     .ActionList-item-multiSelectIcon {
       .ActionList-item-multiSelectIconRect {
-        fill: var(--color-canvas-default);
-        stroke: var(--color-border-default);
+        fill: var(--bgColor-default);
+        stroke: var(--control-borderColor-rest);
         stroke-width: $border-width;
       }
     }
 
     .ActionList-item-multiSelectIconRect {
-      fill: var(--color-canvas-default);
-      border: $border-width $border-style var(--color-border-default);
+      fill: var(--bgColor-default);
+      border: $border-width $border-style var(--control-borderColor-rest);
     }
   }
 
@@ -252,11 +250,11 @@
     .ActionList-content {
       .ActionList-item-label,
       .ActionList-item-description {
-        color: var(--color-primer-fg-disabled);
+        color: var(--fgColor-disabled);
       }
 
       .ActionList-item-visual {
-        fill: var(--color-primer-fg-disabled);
+        fill: var(--fgColor-disabled);
       }
     }
 
@@ -273,19 +271,19 @@
   // danger
   &.ActionList-item--danger {
     .ActionList-item-label {
-      color: var(--color-danger-fg);
+      color: var(--fgColor-danger);
     }
 
     .ActionList-item-visual {
-      color: var(--color-danger-fg);
+      color: var(--fgColor-danger);
     }
 
     @media (hover: hover) {
       &:hover {
-        background: var(--color-action-list-item-danger-hover-bg);
+        background: var(--control-danger-bgColor-hover);
 
         .ActionList-item-label {
-          color: var(--color-action-list-item-danger-hover-text);
+          color: var(--control-danger-fgColor-hover)
         }
       }
     }
@@ -313,7 +311,7 @@
   padding: $actionList-item-padding-vertical $actionList-item-padding-horizontal;
   font-size: $body-font-size;
   font-weight: $font-weight-normal;
-  color: var(--color-fg-default);
+  color: var(--fgColor-default);
   text-align: left;
   user-select: none;
   background-color: transparent;
@@ -358,11 +356,11 @@
   &[aria-disabled='true'] {
     .ActionList-item-label,
     .ActionList-item-description {
-      color: var(--color-primer-fg-disabled);
+      color: var(--fgColor-disabled);
     }
 
     .ActionList-item-visual {
-      fill: var(--color-primer-fg-disabled);
+      fill: var(--fgColor-disabled);
     }
 
     @media (hover: hover) {
@@ -447,7 +445,7 @@
 
     // show active indicator on parent collapse if child is active
     &.ActionList-content--hasActiveSubItem {
-      background: var(--color-action-list-item-default-selected-bg);
+      background: var(--control-transparent-bgColor-selected);
 
       .ActionList-item-label {
         font-weight: $font-weight-bold;
@@ -552,7 +550,7 @@
   font-size: $font-size-small;
   font-weight: $font-weight-normal;
   line-height: $lh-default;
-  color: var(--color-fg-muted);
+  color: var(--fgColor-muted);
 }
 
 // helper for grid alignment with multi-line content
@@ -561,9 +559,9 @@
 .ActionList-item-action {
   display: flex;
   min-height: $actionList-item-height-sm;
-  color: var(--color-fg-muted); // if visual is text
+  color: var(--fgColor-muted); // if visual is text
   pointer-events: none;
-  fill: var(--color-fg-muted);
+  fill: var(--fgColor-muted);
   align-items: center;
 }
 
@@ -575,7 +573,7 @@
   // we need a strict value here for grid alignment
   // stylelint-disable-next-line primer/typography
   line-height: $actionList-item-label-line-height;
-  color: var(--color-fg-default);
+  color: var(--fgColor-default);
 }
 
 .ActionList-item-label--truncate {

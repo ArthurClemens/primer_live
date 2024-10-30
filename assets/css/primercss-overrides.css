@@ -42,8 +42,8 @@ html[dir="rtl"] ol {
 /* Add the right octicon styles for underline nav items, to avoid having to add class `UnderlineNav-octicon`. */
 .UnderlineNav-item>.octicon {
     display: inline !important;
-    color: var(--color-fg-muted);
-    fill: var(--color-fg-muted);
+    color: var(--fgColor-muted);
+    fill: var(--fgColor-muted);
 }
 
 html:not([dir="rtl"]) .UnderlineNav-item>.octicon {
@@ -70,7 +70,7 @@ html[dir="rtl"] .UnderlineNav .Counter {
 .SideNav-item>.octicon,
 .SideNav-subItem>.octicon {
     width: var(--base-size-16, 16px);
-    color: var(--color-fg-muted);
+    color: var(--fgColor-muted);
 }
 
 /* Support leading and trailing icons. */
@@ -89,7 +89,7 @@ html[dir="rtl"] .UnderlineNav .Counter {
 
 /* -- idem (medium button) */
 .btn {
-    height: 32px;
+    height: var(--base-size-32, 32px);
     padding: 0 var(--base-size-12, 12px);
     gap: var(--base-size-8, 8px);
 }
@@ -175,14 +175,14 @@ html[dir="rtl"] .dropdown-menu-w {
 
 html[dir="rtl"] .dropdown-menu-w:before {
     border-color: rgba(0, 0, 0, 0);
-    border-right-color: var(--color-border-default);
+    border-right-color: var(--control-borderColor-rest);
     right: auto;
     left: -16px;
 }
 
 html[dir="rtl"] .dropdown-menu-w:after {
     border-color: rgba(0, 0, 0, 0);
-    border-right-color: var(--color-canvas-overlay);
+    border-right-color: var(--overlay-bgColor);
     right: auto;
     left: -14px;
 }
@@ -196,14 +196,14 @@ html[dir="rtl"] .dropdown-menu-e {
 
 html[dir="rtl"] .dropdown-menu-e:before {
     border-color: rgba(0, 0, 0, 0);
-    border-left-color: var(--color-border-default);
+    border-left-color: var(--control-borderColor-rest);
     right: -16px;
     left: auto;
 }
 
 html[dir="rtl"] .dropdown-menu-e:after {
     border-color: rgba(0, 0, 0, 0);
-    border-left-color: var(--color-canvas-overlay);
+    border-left-color: var(--overlay-bgColor);
     right: -14px;
     left: auto;
 }
@@ -314,6 +314,11 @@ html[dir="rtl"] .pagination .previous_page:before {
     margin-top: var(--base-size-4, 4px);
 }
 
+/* Align icon with text */
+.FormControl-inlineValidation>.octicon {
+    margin-top: 2px;
+}
+
 /* -- and reset it when inside a form control. */
 .FormControl .FormControl-inlineValidation,
 .FormControl-radio-labelWrap .FormControl-inlineValidation,
@@ -382,14 +387,14 @@ html[dir="rtl"] .FormControl-select-wrap:after {
 fieldset[disabled] .form-group-header,
 fieldset[disabled] .FormControl-caption,
 fieldset[disabled] .FormControl-label {
-    color: var(--color-primer-fg-disabled);
+    color: var(--fgColor-disabled);
     cursor: not-allowed;
 }
 
 /* -- idem for checkbox and radio. */
 .FormControl.pl-FormControl-disabled .FormControl-checkbox,
 .FormControl.pl-FormControl-disabled .FormControl-radio {
-    border-color: var(--color-border-default);
+    border-color: var(--control-borderColor-rest);
     cursor: not-allowed;
 }
 
@@ -427,12 +432,12 @@ fieldset[disabled] .FormControl-label {
 
 /* Mute arrow icon when disabled. */
 .pl-FormControl-select-wrap--disabled:after {
-    background-color: var(--color-primer-fg-disabled);
+    background-color: var(--fgColor-disabled);
 }
 
 /* Don't create space for dropdown icon on multiple selects. */
 .FormControl-select-wrap.pl-multiple-select .FormControl-select {
-    padding-inline: var(--primer-control-medium-paddingInline-condensed, 8px);
+    padding-inline: var(--base-size-8, 8px);
 }
 
 /* Don't show dropdown icon on multiple selects. */
@@ -442,7 +447,7 @@ fieldset[disabled] .FormControl-label {
 
 /* Set disabled color on read-only field with inset style */
 .FormControl-input[readonly].FormControl-inset {
-    background-color: var(--color-input-disabled-bg);
+    background-color: var(--control-bgColor-disabled);
 }
 
 /* Support input-group with group button when using FormControl-x elements. */
@@ -472,11 +477,11 @@ html[dir="rtl"] .input-group-button:last-child .btn {
 
 /* Show entire border on error */
 html:not([dir="rtl"]) .input-group>.FormControl-input[invalid][type="text"]+.input-group-button>.btn {
-    border-left-color: var(--color-danger-emphasis);
+    border-left-color: var(--borderColor-danger-emphasis);
 }
 
 html[dir="rtl"] .input-group>.FormControl-input[invalid][type="text"]+.input-group-button>.btn {
-    border-right-color: var(--color-danger-emphasis);
+    border-right-color: var(--borderColor-danger-emphasis);
 }
 
 html[dir="rtl"] .FormControl-input-trailingAction {
@@ -487,7 +492,7 @@ html[dir="rtl"] .FormControl-input-trailingAction {
 /* Provide default values for trailing action separator. */
 .FormControl-input-wrap .FormControl-input-trailingAction.FormControl-input-trailingAction--divider:before {
     height: var(--base-size-16, 16px);
-    width: var(--primer-borderWidth-thin, 1px);
+    width: var(--borderWidth-thin, 1px);
 }
 
 html[dir="rtl"] .FormControl-input-wrap .FormControl-input-trailingAction.FormControl-input-trailingAction--divider:before {
@@ -519,8 +524,8 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
 
 /* -- idem */
 .FormControl-inlineValidation--success {
-    color: var(--color-success-fg);
-    fill: var(--color-success-fg);
+    color: var(--fgColor-success);
+    fill: var(--fgColor-success);
 }
 
 /* Use bold font only when the control is an input group */
@@ -557,13 +562,13 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
 .phx-no-feedback .FormControl-input[invalid]:not(:focus),
 .phx-no-feedback .FormControl-textarea[invalid]:not(:focus),
 .phx-no-feedback .FormControl-select[invalid]:not(:focus) {
-    border-color: var(--color-border-default);
+    border-color: var(--control-borderColor-rest);
 }
 
 /* -- idem */
 .phx-no-feedback .FormControl-input:not(:focus)[invalid],
 .phx-no-feedback .FormControl-select:not(:focus)[invalid] {
-    border-color: var(--color-border-default);
+    border-color: var(--control-borderColor-rest);
 }
 
 /* -- idem */
@@ -580,7 +585,7 @@ input:not(:placeholder-shown)+.FormControl-input-trailingAction.pl-trailingActio
 /* Remove error color from radios and checkboxes. */
 input.FormControl-checkbox[type="checkbox"][invalid]:not(:focus),
 input.FormControl-radio[type="radio"][invalid]:not(:focus) {
-    border-color: var(--color-neutral-emphasis);
+    border-color: var(--bgColor-neutral-emphasis);
 }
 
 /* Set visual error state to neutral if preceding marker element has class pl-valid. */
@@ -588,13 +593,13 @@ input.FormControl-radio[type="radio"][invalid]:not(:focus) {
 .pl-valid .FormControl-textarea:not(:focus)[invalid],
 .pl-valid .FormControl-select:not(:focus),
 .pl-valid .FormControl-select:not(:focus)[invalid] {
-    border-color: var(--color-success-emphasis);
+    border-color: var(--borderColor-success-emphasis);
 }
 
 .pl-neutral .FormControl-input:not(:focus)[invalid],
 .pl-neutral .FormControl-textarea:not(:focus)[invalid],
 .pl-neutral .FormControl-select:not(:focus)[invalid] {
-    border-color: var(--color-border-default);
+    border-color: var(--control-borderColor-rest);
 }
 
 /* Copy checkbox emphasis style to FormControl checkbox and radio button.*/
@@ -604,7 +609,7 @@ input.FormControl-radio[type="radio"][invalid]:not(:focus) {
     left: calc(-1 * var(--base-size-4, 4px));
     padding: 2px var(--base-size-4, 4px);
     font-style: normal;
-    background: var(--color-attention-subtle);
+    background: var(--bgColor-attention-muted);
     border-radius: 6px;
 }
 
@@ -616,7 +621,7 @@ html[dir="rtl"] .FormControl-radio-wrap .FormControl-label em.highlight {
 
 /* Use the radio styling from FormControl-radio for radio-group inputs. */
 .radio-group input[type="radio"].radio-input.FormControl-radio {
-    margin: 10px -32px 0 var(--base-size-16, 16px);
+    margin: 10px calc(var(--base-size-32, 32px) * -1) 0 var(--base-size-16, 16px);
     width: 13px;
     height: 13px;
 }
@@ -636,10 +641,10 @@ fieldset[disabled] * {
 
 fieldset[disabled] input.FormControl-radio[type="radio"]:not(:focus),
 fieldset[disabled] input.FormControl-checkbox[type="checkbox"]:not(:focus) {
-    -webkit-text-fill-color: var(--color-primer-fg-disabled);
-    background-color: var(--color-input-disabled-bg);
-    border-color: var(--color-border-default);
-    color: var(--color-primer-fg-disabled);
+    -webkit-text-fill-color: var(--fgColor-disabled);
+    background-color: var(--control-bgColor-disabled);
+    border-color: var(--control-borderColor-rest);
+    color: var(--fgColor-disabled);
     cursor: not-allowed;
     opacity: 1;
 }
@@ -648,7 +653,7 @@ fieldset[disabled] input.FormControl-checkbox[type="checkbox"]:not(:focus) {
 fieldset[disabled] legend.FormControl-label,
 fieldset[disabled] .FormControl-checkbox-labelWrap .FormControl-label,
 fieldset[disabled] .FormControl-radio-labelWrap .FormControl-label {
-    color: var(--color-primer-fg-disabled);
+    color: var(--fgColor-disabled);
     cursor: not-allowed;
 }
 
@@ -656,10 +661,10 @@ fieldset[disabled] .FormControl-radio-labelWrap .FormControl-label {
 fieldset[disabled] .FormControl-input,
 fieldset[disabled] .FormControl-textarea,
 fieldset[disabled] .FormControl-select {
-    color: var(--color-primer-fg-disabled);
-    background-color: var(--color-input-disabled-bg);
-    border-color: var(--color-border-default);
-    -webkit-text-fill-color: var(--color-primer-fg-disabled);
+    color: var(--fgColor-disabled);
+    background-color: var(--control-bgColor-disabled);
+    border-color: var(--control-borderColor-rest);
+    -webkit-text-fill-color: var(--fgColor-disabled);
     opacity: 1;
     cursor: not-allowed;
 }
@@ -667,31 +672,32 @@ fieldset[disabled] .FormControl-select {
 /* -- idem */
 fieldset[disabled] .FormControl-input::placeholder,
 fieldset[disabled] .FormControl-textarea::placeholder {
-    color: var(--color-primer-fg-disabled);
+    color: var(--fgColor-disabled);
 }
 
 ul.ActionList:not(.ActionList--full, .ActionList--subGroup),
 html[dir="rtl"] ul.ActionList:not(.ActionList--full, .ActionList--subGroup) {
-    padding: 8px;
+    padding: var(--base-size-8, 8px);
 }
 
 /* Align checkbox styles with action list select icons. */
 /* Multiple select: use smaller checkboxes when shown in an action list (mimic ui icon "multiple-select-16") */
 .ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type="checkbox"],
 .ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type="checkbox"] {
-    height: 13px;
-    width: 13px;
+    width: var(--base-size-16, 16px);
+    height: var(--base-size-16, 16px);
     margin: 0;
+    box-shadow: none;
 }
 
 /* -- idem */
 .ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type="checkbox"] {
-    border-color: var(--color-border-default);
+    border-color: var(--control-borderColor-rest);
 }
 
 /* -- idem */
 .ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type="checkbox"]:checked {
-    border-color: var(--color-accent-fg);
+    border-color: var(--focus-outlineColor);
 }
 
 /* -- idem */
@@ -715,7 +721,7 @@ html[dir="rtl"] ul.ActionList:not(.ActionList--full, .ActionList--subGroup) {
 
 /* -- idem */
 .ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type="checkbox"]:before {
-    background-color: var(--color-fg-muted);
+    background-color: var(--fgColor-muted);
 }
 
 /* -- idem */
@@ -793,7 +799,7 @@ html[dir="rtl"] .FormControl-input-wrap .FormControl-input-leadingVisualWrap {
 /* input[type="search"] will display a search icon (when .octicon SVG exists). */
 .subnav-search input[type="text"],
 .subnav-search input[type="search"] {
-    color: var(--color-fg-muted);
+    color: var(--fgColor-muted);
     flex-grow: 1;
 }
 
@@ -805,11 +811,11 @@ html[dir="rtl"] .FormControl-input-wrap .FormControl-input-leadingVisualWrap {
 
 /* -- idem */
 .subnav-search input[type="search"] {
-    padding-left: 32px;
+    padding-left: var(--base-size-32, 32px);
 }
 
 html[dir="rtl"] .subnav-search input[type="search"] {
-    padding-right: 32px;
+    padding-right: var(--base-size-32, 32px);
     padding-left: 0;
 }
 
@@ -829,7 +835,7 @@ html[dir="rtl"] .subnav-search-icon {
     top: var(--base-size-8, 8px);
     left: var(--base-size-8, 8px);
     display: block;
-    color: var(--color-fg-muted);
+    color: var(--fgColor-muted);
     text-align: center;
     pointer-events: none;
 }
@@ -963,9 +969,9 @@ html[dir="rtl"] .ActionList-content> :not(:last-child) {
     overflow: hidden;
     pointer-events: auto;
     flex-direction: column;
-    background-color: var(--color-canvas-overlay);
+    background-color: var(--overlay-bgColor);
     border-radius: 12px;
-    box-shadow: var(--color-overlay-shadow);
+    box-shadow: var(--shadow-floating-legacy, var(--color-overlay-shadow));
     min-width: 192px;
     max-width: 640px;
     border: none;
@@ -1075,7 +1081,7 @@ legend.FormControl-label {
 /* -- caption */
 .pl-FormControl--input-group .FormControl-caption {
     margin-top: -5px;
-    font-size: var(--primer-text-body-size-medium, 14px);
+    font-size: var(--body-font-size, 14px);
 }
 
 /* Simplify button group with flex children. */
@@ -1142,8 +1148,7 @@ html[dir="rtl"] .pl-button-group .btn:not(:last-child) {
 
 /* Add missing border in avatar child .*/
 .avatar-child {
-    box-shadow: 0 0 0 1px var(--color-avatar-border),
-        var(--avatar-shadow, var(--color-avatar-child-shadow));
+    box-shadow: var(--avatar-shadow, var(--color-avatar-child-shadow));
 }
 
 /* Fix avatar-child styling with dir=rtl */
@@ -1207,7 +1212,7 @@ html[dir="rtl"] .flash-action:not(.Banner-actions) {
 }
 
 .SelectMenu-item {
-    gap: 8px;
+    gap: var(--base-size-8, 8px);
 }
 
 .SelectMenu-item .SelectMenu-icon {
