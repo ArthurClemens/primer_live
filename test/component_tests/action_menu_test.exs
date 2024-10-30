@@ -71,7 +71,7 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
       __ENV__
     )
   end
-  
+
   test "Attribute: offset_x" do
     assigns = %{}
 
@@ -96,8 +96,9 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
   end
 
   attr(:offset_x, :integer,
-      values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-        default: 0)
+    values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    default: 0
+  )
 
   defp offset_menu(assigns) do
     ~H"""

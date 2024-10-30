@@ -61,7 +61,8 @@ defmodule PrimerLiveWeb.ComponentLive do
 
   defp phx_vsn, do: Application.spec(:phoenix, :vsn)
   defp lv_vsn, do: Application.spec(:phoenix_live_view, :vsn)
-  defp pl_vsn, do: "0.8.0" # Application.spec(:primer_live, :vsn)
+  # Application.spec(:primer_live, :vsn)
+  defp pl_vsn, do: "0.8.0"
 
   def render("live.html", assigns) do
     ~H"""
@@ -71,9 +72,7 @@ defmodule PrimerLiveWeb.ComponentLive do
       src={"https://cdn.jsdelivr.net/npm/phoenix_live_view@#{lv_vsn()}/priv/static/phoenix_live_view.min.js"}
     >
     </script>
-    <script
-      src={"https://cdn.jsdelivr.net/npm/primer-live@#{pl_vsn()}/priv/static/primer-live.js"}
-    >
+    <script src={"https://cdn.jsdelivr.net/npm/primer-live@#{pl_vsn()}/priv/static/primer-live.js"}>
     </script>
     <script>
       let hooks = {};
