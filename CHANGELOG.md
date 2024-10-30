@@ -17,15 +17,14 @@ See "Updating to 0.9" below.
 ### Changes
 
 - Removed `form_group` component (was soft-deprecated in 0.5.0). Component attributes `form_group` and `is_form_group` have been removed as well.
+- [Text input](`PrimerLive.Component.text_input/1`): Set disabled color on read-only field with inset style.
+- [Checkbox group](`PrimerLive.Component.checkbox_group/1`) and [Radio group](`PrimerLive.Component.radio_group/1`): Show required marker in legend.
+- Added support for right-to-left languages.
 
 ### Bug fixes
 
-- [Checkbox group](`PrimerLive.Component.checkbox_group/1`) and [Radio group](`PrimerLive.Component.radio_group/1`):
-  - Restored display of validation message.
-- [Text input](`PrimerLive.Component.text_input/1`):
-  - Set disabled color on read-only field with inset style.
-- [Textarea](`PrimerLive.Component.textarea/1`):
-  - Set correct success color when displaying success feedback.
+- [Checkbox group](`PrimerLive.Component.checkbox_group/1`) and [Radio group](`PrimerLive.Component.radio_group/1`): Restored display of validation message.
+- [Textarea](`PrimerLive.Component.textarea/1`): Set correct success color when displaying success feedback.
 
 Removed previously deprecated `form_group`.
 

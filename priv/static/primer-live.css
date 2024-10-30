@@ -26813,6 +26813,20 @@ a.branch-name .octicon {
     "Liberation Mono",
     monospace;
 }
+html[dir=rtl] ul,
+html[dir=rtl] ol {
+  padding-left: unset;
+  padding-right: 0;
+}
+.pl-gap-1 {
+  gap: 4px;
+}
+.pl-gap-2 {
+  gap: 8px;
+}
+.pl-gap-3 {
+  gap: 12px;
+}
 .SelectMenu::before {
   display: none;
 }
@@ -26832,14 +26846,27 @@ a.branch-name .octicon {
 }
 .UnderlineNav-item > .octicon {
   display: inline !important;
-  margin-right: var(--base-size-8, 8px);
   color: var(--color-fg-muted);
   fill: var(--color-fg-muted);
+}
+html:not([dir=rtl]) .UnderlineNav-item > .octicon {
+  margin-right: var(--base-size-8, 8px);
+}
+html[dir=rtl] .UnderlineNav-item > .octicon {
+  margin-left: var(--base-size-8, 8px);
+}
+html[dir=rtl] .UnderlineNav .Counter {
+  margin-right: var(--control-medium-gap, 8px);
+  margin-left: 0;
+}
+.SideNav-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 .SideNav-item > .octicon,
 .SideNav-subItem > .octicon {
   width: var(--base-size-16, 16px);
-  margin-right: var(--base-size-8, 8px);
   color: var(--color-fg-muted);
 }
 .btn {
@@ -26905,6 +26932,123 @@ a.branch-name .octicon {
 .dropdown-menu ul {
   list-style: none;
 }
+html[dir=rtl] .dropdown-item {
+  padding-left: var(--control-medium-paddingInline-condensed, 8px);
+  padding-right: var(--control-medium-paddingInline-spacious, 16px);
+}
+html[dir=rtl] .dropdown-menu-w {
+  right: auto;
+  margin-left: 8px;
+  margin-right: 0;
+  left: 100%;
+}
+html[dir=rtl] .dropdown-menu-w:before {
+  border-color: rgba(0, 0, 0, 0);
+  border-right-color: var(--color-border-default);
+  right: auto;
+  left: -16px;
+}
+html[dir=rtl] .dropdown-menu-w:after {
+  border-color: rgba(0, 0, 0, 0);
+  border-right-color: var(--color-canvas-overlay);
+  right: auto;
+  left: -14px;
+}
+html[dir=rtl] .dropdown-menu-e {
+  left: auto;
+  right: 100%;
+  margin-right: 8px;
+  margin-left: 0;
+}
+html[dir=rtl] .dropdown-menu-e:before {
+  border-color: rgba(0, 0, 0, 0);
+  border-left-color: var(--color-border-default);
+  right: -16px;
+  left: auto;
+}
+html[dir=rtl] .dropdown-menu-e:after {
+  border-color: rgba(0, 0, 0, 0);
+  border-left-color: var(--color-canvas-overlay);
+  right: -14px;
+  left: auto;
+}
+html[dir=rtl] .dropdown-menu-ne {
+  right: 0;
+  left: auto;
+}
+html[dir=rtl] .dropdown-menu-ne:after,
+html[dir=rtl] .dropdown-menu-ne:before {
+  left: auto;
+}
+html[dir=rtl] .dropdown-menu-ne:before {
+  right: 9px;
+  left: auto;
+}
+html[dir=rtl] .dropdown-menu-ne:after {
+  right: 10px;
+  left: auto;
+}
+html[dir=rtl] .dropdown-menu-s {
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
+}
+html[dir=rtl] .dropdown-menu-s:before {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+html[dir=rtl] .dropdown-menu-s:after {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+html[dir=rtl] .dropdown-menu-sw {
+  right: auto;
+  left: 0;
+}
+html[dir=rtl] .dropdown-menu-sw:before {
+  right: auto;
+  left: 9px;
+}
+html[dir=rtl] .dropdown-menu-sw:after {
+  left: auto;
+  right: 10px;
+}
+html[dir=rtl] .dropdown-menu-se {
+  right: 0;
+  left: auto;
+}
+html[dir=rtl] .dropdown-menu-se:before {
+  right: 9px;
+  left: auto;
+}
+html[dir=rtl] .dropdown-menu-se:after {
+  right: 10px;
+  left: auto;
+}
+html[dir=rtl] .AnimatedEllipsis::after {
+  animation: AnimatedEllipsis-keyframes-rtl 1.2s steps(4, jump-none) infinite;
+}
+@keyframes AnimatedEllipsis-keyframes-rtl {
+  0% {
+    transform: translateX(100%);
+  }
+}
+html[dir=rtl] .filter-item .count {
+  float: left;
+}
+html[dir=rtl] .menu-item .octicon {
+  margin-right: 0;
+  margin-left: var(--control-medium-gap, 8px);
+}
+html[dir=rtl] .menu-item .Counter {
+  float: left;
+}
+html[dir=rtl] .pagination .next_page:after,
+html[dir=rtl] .pagination .previous_page:before {
+  transform: scaleX(-1);
+}
 .FormControl-inlineValidation,
 .FormControl-caption {
   margin-top: var(--base-size-4, 4px);
@@ -26940,9 +27084,17 @@ a.branch-name .octicon {
 .FormControl--fullWidth .FormControl-select {
   width: 100%;
 }
+html[dir=rtl] .FormControl-select-wrap .FormControl-select {
+  padding-left: var(--base-size-20, 20px);
+  padding-right: var(--base-size-8, 8px);
+}
+html[dir=rtl] .FormControl-select-wrap:after {
+  margin-left: var(--base-size-4, 4px);
+  padding-right: 0;
+}
 .form-group-header {
   display: flex;
-  gap: .25rem;
+  gap: 0.25rem;
   align-items: baseline;
 }
 .FormControl.pl-FormControl-disabled,
@@ -26992,19 +27144,42 @@ fieldset[disabled] .FormControl-label {
 .FormControl-input[readonly].FormControl-inset {
   background-color: var(--color-input-disabled-bg);
 }
-.input-group .FormControl-input[type=text] {
+html:not([dir=rtl]) .input-group .FormControl-input[type=text] {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+html[dir=rtl] .input-group .FormControl-input[type=text] {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+html[dir=rtl] .input-group-button:last-child .btn {
+  margin-right: -1px;
+  margin-left: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 .input-group .FormControl-input {
   width: 100%;
 }
-.input-group > .FormControl-input[invalid][type=text] + .input-group-button > .btn {
+html:not([dir=rtl]) .input-group > .FormControl-input[invalid][type=text] + .input-group-button > .btn {
   border-left-color: var(--color-danger-emphasis);
+}
+html[dir=rtl] .input-group > .FormControl-input[invalid][type=text] + .input-group-button > .btn {
+  border-right-color: var(--color-danger-emphasis);
+}
+html[dir=rtl] .FormControl-input-trailingAction {
+  left: var(--base-size-4, 4px);
+  right: auto;
 }
 .FormControl-input-wrap .FormControl-input-trailingAction.FormControl-input-trailingAction--divider:before {
   height: var(--base-size-16, 16px);
   width: var(--primer-borderWidth-thin, 1px);
+}
+html[dir=rtl] .FormControl-input-wrap .FormControl-input-trailingAction.FormControl-input-trailingAction--divider:before {
+  right: calc(var(--base-size-4, 4px)* -1);
+  left: auto;
 }
 .FormControl-input-trailingAction .btn-octicon {
   padding: 0;
@@ -27085,6 +27260,11 @@ input.FormControl-radio[type=radio][invalid]:not(:focus) {
   background: var(--color-attention-subtle);
   border-radius: 6px;
 }
+html[dir=rtl] .FormControl-checkbox-wrap .FormControl-label em.highlight,
+html[dir=rtl] .FormControl-radio-wrap .FormControl-label em.highlight {
+  right: calc(-1 * var(--base-size-4, 4px));
+  left: auto;
+}
 .radio-group input[type=radio].radio-input.FormControl-radio {
   margin: 10px -32px 0 var(--base-size-16, 16px);
   width: 13px;
@@ -27127,6 +27307,10 @@ fieldset[disabled] .FormControl-select {
 fieldset[disabled] .FormControl-input::placeholder,
 fieldset[disabled] .FormControl-textarea::placeholder {
   color: var(--color-primer-fg-disabled);
+}
+ul.ActionList:not(.ActionList--full, .ActionList--subGroup),
+html[dir=rtl] ul.ActionList:not(.ActionList--full, .ActionList--subGroup) {
+  padding: 8px;
 }
 .ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type=checkbox],
 .ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type=checkbox] {
@@ -27180,6 +27364,10 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 .FormControl-input-wrap .FormControl-input-leadingVisualWrap {
   display: grid;
 }
+html[dir=rtl] .FormControl-input-wrap .FormControl-input-leadingVisualWrap {
+  right: var(--base-size-8, 8px);
+  left: auto;
+}
 .close-button {
   width: inherit;
   min-width: var(--base-size-16, 16px);
@@ -27189,6 +27377,7 @@ fieldset[disabled] .FormControl-textarea::placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: none;
 }
 .subnav {
   display: flex;
@@ -27196,6 +27385,7 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 .subnav-search {
   display: flex;
   flex-grow: 1;
+  margin-left: 0;
 }
 @media (min-width: 544px) {
   .subnav-search {
@@ -27214,6 +27404,14 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 .subnav-search input[type=search] {
   padding-left: 32px;
 }
+html[dir=rtl] .subnav-search input[type=search] {
+  padding-right: 32px;
+  padding-left: 0;
+}
+html[dir=rtl] .subnav-search-icon {
+  right: var(--base-size-8, 8px);
+  left: auto;
+}
 .subnav-search input + .octicon {
   display: none;
 }
@@ -27226,10 +27424,30 @@ fieldset[disabled] .FormControl-textarea::placeholder {
   text-align: center;
   pointer-events: none;
 }
-.subnav-search-context + .subnav-search input[type=text],
-.subnav-search-context + .subnav-search input[type=search] {
+html:not([dir=rtl]) .subnav-search-context + .subnav-search input[type=text],
+html:not([dir=rtl]) .subnav-search-context + .subnav-search input[type=search] {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+html:not([dir=rtl]) .subnav-search-context .btn {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+html[dir=rtl] .subnav-search-context .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+html[dir=rtl] .subnav-search-context + .subnav-search input[type=text],
+html[dir=rtl] .subnav-search-context + .subnav-search input[type=search] {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+html:not([dir=rtl]) .subnav-search-context + .subnav-search {
+  margin-left: -1px;
+}
+html[dir=rtl] .subnav-search-context + .subnav-search {
+  margin-right: -1px;
+  margin-left: 0;
 }
 .subnav.pl-subnav--wrap {
   gap: 12px;
@@ -27239,21 +27457,21 @@ fieldset[disabled] .FormControl-textarea::placeholder {
 .subnav.pl-subnav--wrap:after {
   display: none;
 }
-.subnav.pl-subnav--wrap .subnav-search.float-left {
-  float: none !important;
-  margin-left: 0;
-}
 .Box-title {
   line-height: 1.25;
 }
 .Box-header + .Box-row,
 .Box-row + .Box-row,
 .Box-header + [data-stream-container] > .Box-row:first-of-type {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 .ActionList-item:not(.ActionList-item--navActive)[aria-selected=true]:not(:hover) {
   background: none;
+}
+html[dir=rtl] .ActionList-item.ActionList-item--navActive:not(.ActionList-item--danger):after {
+  right: -8px;
+  left: auto;
 }
 .ActionList-item:not(.ActionList-item--navActive)[aria-selected=true]::after {
   display: none;
@@ -27277,6 +27495,13 @@ span.ActionList-content[aria-expanded] {
 }
 label.ActionList-content {
   cursor: inherit;
+}
+html[dir=rtl] .ActionList-content {
+  text-align: right;
+}
+html[dir=rtl] .ActionList-content > :not(:last-child) {
+  margin-right: 0;
+  margin-left: var(--base-size-8, 8px);
 }
 @media (pointer: coarse) {
   .ActionList-content {
@@ -27332,6 +27557,20 @@ label.ActionList-content {
     padding: var(--base-size-4, 4px) var(--base-size-16, 16px);
   }
 }
+html[dir=rtl] .tabnav-tab .octicon {
+  margin-left: var(--control-small-gap, 4px);
+  margin-right: 0;
+}
+html[dir=rtl] .tabnav-tab .Counter {
+  margin-right: var(--control-small-gap, 4px);
+  margin-left: 0;
+}
+.pl-tabnav-end {
+  float: right;
+}
+html[dir=rtl] .pl-tabnav-end {
+  float: left;
+}
 span[data-color-mode] {
   background: none;
 }
@@ -27360,22 +27599,39 @@ legend.FormControl-label {
 .pl-button-group {
   display: flex;
 }
-.pl-button-group .btn:first-child {
+html:not([dir=rtl]) .pl-button-group .btn:first-child {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.pl-button-group .btn:not(:first-child) {
+html[dir=rtl] .pl-button-group .btn:first-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+html:not([dir=rtl]) .pl-button-group .btn:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-left-color: transparent;
 }
-.pl-button-group .btn:last-child {
+html[dir=rtl] .pl-button-group .btn:not(:first-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right-color: transparent;
+}
+html:not([dir=rtl]) .pl-button-group .btn:last-child {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-.pl-button-group .btn:not(:last-child) {
+html[dir=rtl] .pl-button-group .btn:last-child {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+html:not([dir=rtl]) .pl-button-group .btn:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+html[dir=rtl] .pl-button-group .btn:not(:last-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 .pl-avatar--round {
   border-radius: 50%;
@@ -27386,6 +27642,10 @@ legend.FormControl-label {
 .avatar-child {
   box-shadow: 0 0 0 1px var(--color-avatar-border), var(--avatar-shadow, var(--color-avatar-child-shadow));
 }
+html[dir=rtl] .avatar-child {
+  left: -15%;
+  right: auto;
+}
 .FormControl-input.FormControl-monospace,
 .FormControl-textarea.FormControl-monospace,
 .FormControl-select.FormControl-monospace {
@@ -27395,14 +27655,72 @@ legend.FormControl-label {
   width: min(90vw, 640px);
 }
 .pl-aligned-end,
-[dir=rtl] .pl-aligned-start {
+html[dir=rtl] .pl-aligned-start {
   left: auto;
   right: 0;
 }
 .pl-aligned-start,
-[dir=rtl] .pl-aligned-end {
+html[dir=rtl] .pl-aligned-end {
   left: 0;
   right: auto;
+}
+.flash-close:not(.Banner-close) {
+  display: block;
+  margin: -16px;
+  padding: 16px;
+}
+.flash-close:not(.Banner-close) {
+  box-shadow: none;
+}
+html[dir=rtl] .flash:not(.Banner) .octicon {
+  margin-right: 0;
+  margin-left: var(--base-size-12, 12px);
+}
+html[dir=rtl] .flash-close:not(.Banner-close) {
+  float: left;
+}
+html[dir=rtl] .flash-action:not(.Banner-actions) {
+  float: left;
+  margin-left: 0;
+  margin-right: var(--stack-gap-spacious, 24px);
+}
+.FormControl-input.SelectMenu-input {
+  width: 100%;
+}
+.SelectMenu-item {
+  gap: 8px;
+}
+.SelectMenu-item .SelectMenu-icon {
+  margin: 0;
+}
+@media (min-width: 544px) {
+  html[dir=rtl] .SelectMenu-header {
+    padding: 7px 16px 7px 7px;
+  }
+}
+html[dir=rtl] .SelectMenu-icon {
+  margin-right: 0;
+  margin-left: 16px;
+}
+html[dir=rtl] .TimelineItem {
+  margin-right: var(--stack-gap-normal, 16px);
+  margin-left: 0;
+}
+html[dir=rtl] .TimelineItem:before {
+  right: 0;
+  left: auto;
+}
+html[dir=rtl] .TimelineItem-badge {
+  margin-right: calc(var(--control-medium-size, 32px) / -2 + 1px);
+  margin-left: var(--controlStack-medium-gap-condensed, 8px);
+}
+html[dir=rtl] .TimelineItem-avatar {
+  right: -72px;
+  left: auto;
+}
+html[dir=rtl] .TimelineItem-break {
+  margin-right: -56px;
+  margin-left: 0;
 }
 
 /* css/toggle-switch.css */
@@ -27503,13 +27821,21 @@ label.ToggleSwitch {
 .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-knob {
   background-color: var(--color-switch-knob-checked-bg);
   border-color: var(--color-switch-knob-checked-border);
+}
+html:not([dir=rtl]) .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-knob {
   transform: translateX(100%);
+}
+html[dir=rtl] .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-knob {
+  transform: translateX(-100%);
 }
 .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-lineIcon {
   transform: translateX(0);
 }
-.ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-circleIcon {
+html:not([dir=rtl]) .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-circleIcon {
   transform: translateX(100%);
+}
+html[dir=rtl] .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-circleIcon {
+  transform: translateX(-100%);
 }
 .ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track {
   background-color: var(--color-switch-track-disabled-bg);
@@ -27534,7 +27860,12 @@ label.ToggleSwitch {
 }
 .ToggleSwitch-lineIcon {
   color: var(--color-switch-track-checked-fg);
+}
+html:not([dir=rtl]) .ToggleSwitch-lineIcon {
   transform: translateX(-100%);
+}
+html[dir=rtl] .ToggleSwitch-lineIcon {
+  transform: translateX(100%);
 }
 .ToggleSwitch-circleIcon,
 .ToggleSwitch-lineIcon {

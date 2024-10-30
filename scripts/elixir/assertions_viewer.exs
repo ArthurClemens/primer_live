@@ -21,6 +21,7 @@ end
 defmodule PrimerLiveWeb.ComponentLive do
   use Phoenix.LiveView, layout: {__MODULE__, :live}
   alias PrimerLive.Component, as: Primer
+  alias Phoenix.LiveView.JS
 
   def mount(_params, _session, socket) do
     assertion_groups =
@@ -131,6 +132,12 @@ defmodule PrimerLiveWeb.ComponentLive do
     <div class="page" data-component={@path}>
       <Primer.header class="topbar">
         <:item class="d-none d-md-flex">PrimerLive Assertions Viewer</:item>
+        <:item is_full_width />
+        <:item>
+          <Primer.button phx-click={JS.toggle_attribute({"dir", "rtl", ""}, to: "html")}>
+            Toggle RTL
+          </Primer.button>
+        </:item>
       </Primer.header>
       <Primer.layout is_divided>
         <:sidebar>

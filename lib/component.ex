@@ -1404,7 +1404,7 @@ defmodule PrimerLive.Component do
       end,
       position_end: fn slot ->
         AttributeHelpers.classnames([
-          "float-right",
+          "pl-tabnav-end",
           assigns.classes[:position_end],
           slot[:is_extra] && "tabnav-extra",
           slot[:class]
@@ -2657,7 +2657,6 @@ defmodule PrimerLive.Component do
     class =
       AttributeHelpers.classnames([
         "subnav-search",
-        "float-left",
         assigns[:class]
       ])
 
@@ -2697,7 +2696,6 @@ defmodule PrimerLive.Component do
     class =
       AttributeHelpers.classnames([
         "subnav-search-context",
-        "float-left",
         assigns[:class]
       ])
 
@@ -3005,7 +3003,7 @@ defmodule PrimerLive.Component do
         ]),
       legend:
         AttributeHelpers.classnames([
-          "FormControl-label",
+          "FormControl-label form-group-header",
           assigns.classes[:legend]
         ]),
       validation_message: assigns.classes[:validation_message]
@@ -3090,16 +3088,15 @@ defmodule PrimerLive.Component do
     render_content = fn ->
       assigns =
         assigns
+        |> assign(:caption, caption)
         |> assign(:classes, classes)
-        |> assign(:render_header_label, render_header_label)
+        |> assign(:common_input_attrs, common_input_attrs)
         |> assign(
           :control_attributes,
-          control_attributes
-          |> Keyword.drop([:input_id, :is_full_width])
+          control_attributes |> Keyword.drop([:input_id, :is_full_width])
         )
         |> assign(:has_header_label, has_header_label)
-        |> assign(:caption, caption)
-        |> assign(:common_input_attrs, common_input_attrs)
+        |> assign(:render_header_label, render_header_label)
 
       ~H"""
       <div {@control_attributes}>
@@ -3137,15 +3134,21 @@ defmodule PrimerLive.Component do
 
       assigns =
         assigns
-        |> assign(:label, label)
         |> assign(:classes, classes)
         |> assign(:fieldset_attrs, fieldset_attrs)
+        |> assign(:label, label)
         |> assign(:render_content, render_content)
+        |> assign(:show_required_marker, show_required_marker)
 
       ~H"""
       <fieldset {@fieldset_attrs}>
         <%= if @label do %>
-          <legend class={@classes.legend}><%= @label %></legend>
+          <legend class={@classes.legend}>
+            <%= @label %>
+            <%= if @show_required_marker do %>
+              <span aria-hidden="true"><%= @required_marker %></span>
+            <% end %>
+          </legend>
         <% end %>
         <%= @render_content.() %>
       </fieldset>
@@ -3880,9 +3883,9 @@ defmodule PrimerLive.Component do
       <%= if @has_group_button do %>
         <div class={@classes.input_group}>
           <%= @input %>
-          <span class={@classes.input_group_button}>
+          <div class={@classes.input_group_button}>
             <%= render_slot(@group_button) %>
-          </span>
+          </div>
         </div>
       <% else %>
         <%= if @has_input_wrap do %>
