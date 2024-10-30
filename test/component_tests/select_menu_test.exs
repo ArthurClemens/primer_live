@@ -249,6 +249,44 @@ defmodule PrimerLive.TestComponents.SelectMenuTest do
     )
   end
 
+  test "Attribute: offset_x" do
+    assigns = %{}
+
+    run_test(
+      ~H"""
+      <.offset_menu offset_x={0} />
+      <.offset_menu offset_x={1} />
+      <.offset_menu offset_x={2} />
+      <.offset_menu offset_x={3} />
+      <.offset_menu offset_x={4} />
+      <.offset_menu offset_x={5} />
+      <.offset_menu offset_x={6} />
+      <.offset_menu offset_x={7} />
+      <.offset_menu offset_x={8} />
+      <.offset_menu offset_x={9} />
+      <.offset_menu offset_x={10} />
+      <.offset_menu offset_x={11} />
+      <.offset_menu offset_x={12} />
+      """,
+      __ENV__
+    )
+  end
+
+  attr(:offset_x, :integer,
+      values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        default: 0)
+
+  defp offset_menu(assigns) do
+    ~H"""
+    <.select_menu offset_x={@offset_x} id="offset-x-#{@offset_x}">
+      <:toggle phx-click={toggle_menu("offset-x-#{@offset_x}")}>
+        Menu
+      </:toggle>
+      LIST
+    </.select_menu>
+    """
+  end
+
   test "Classes" do
     assigns = %{}
 

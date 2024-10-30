@@ -26818,15 +26818,6 @@ html[dir=rtl] ol {
   padding-left: unset;
   padding-right: 0;
 }
-.pl-gap-1 {
-  gap: 4px;
-}
-.pl-gap-2 {
-  gap: 8px;
-}
-.pl-gap-3 {
-  gap: 12px;
-}
 .SelectMenu::before {
   display: none;
 }
@@ -27654,16 +27645,6 @@ html[dir=rtl] .avatar-child {
 .Box-overlay--wide {
   width: min(90vw, 640px);
 }
-.pl-aligned-end,
-html[dir=rtl] .pl-aligned-start {
-  left: auto;
-  right: 0;
-}
-.pl-aligned-start,
-html[dir=rtl] .pl-aligned-end {
-  left: 0;
-  right: auto;
-}
 .flash-close:not(.Banner-close) {
   display: block;
   margin: -16px;
@@ -27938,6 +27919,161 @@ html[dir=rtl] .ToggleSwitch-lineIcon {
 }
 .ToggleSwitch--statusAtEnd .ToggleSwitch-status {
   text-align: left;
+}
+
+/* css/util.css */
+.pl-gap-0 {
+  gap: var(--base-size-0, 0);
+}
+.pl-gap-1 {
+  gap: var(--base-size-4, 4px);
+}
+.pl-gap-2 {
+  gap: var(--base-size-8, 8px);
+}
+.pl-gap-3 {
+  gap: var(--base-size-16, 16px);
+}
+.pl-gap-4 {
+  gap: var(--base-size-24, 24px);
+}
+.pl-gap-5 {
+  gap: var(--base-size-32, 32px);
+}
+.pl-gap-6 {
+  gap: var(--base-size-40, 40px);
+}
+.pl-gap-7 {
+  gap: var(--base-size-48, 48px);
+}
+.pl-gap-8 {
+  gap: var(--base-size-64, 64px);
+}
+.pl-gap-9 {
+  gap: var(--base-size-80, 80px);
+}
+.pl-gap-10 {
+  gap: var(--base-size-96, 96px);
+}
+.pl-gap-11 {
+  gap: var(--base-size-112, 112px);
+}
+.pl-gap-12 {
+  gap: var(--base-size-128, 128px);
+}
+html:not([dir=rtl]) .pl-aligned-start,
+html[dir=rtl] .pl-aligned-end {
+  right: auto;
+  left: 0;
+}
+html:not([dir=rtl]) .pl-aligned-end,
+html[dir=rtl] .pl-aligned-start {
+  left: auto;
+  right: 0;
+}
+html:not([dir=rtl]) .pl-offset-x-0:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-0.pl-aligned-end {
+  left: 0;
+}
+html:not([dir=rtl]) .pl-offset-x-0.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-0:not(.pl-aligned-end) {
+  right: 0;
+}
+html:not([dir=rtl]) .pl-offset-x-1:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-1.pl-aligned-end {
+  left: var(--base-size-4, 4px);
+}
+html:not([dir=rtl]) .pl-offset-x-1.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-1:not(.pl-aligned-end) {
+  right: var(--base-size-4, 4px);
+}
+html:not([dir=rtl]) .pl-offset-x-2:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-2.pl-aligned-end {
+  left: var(--base-size-8, 8px);
+}
+html:not([dir=rtl]) .pl-offset-x-2.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-2:not(.pl-aligned-end) {
+  right: var(--base-size-8, 8px);
+}
+html:not([dir=rtl]) .pl-offset-x-3:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-3.pl-aligned-end {
+  left: var(--base-size-16, 16px);
+}
+html:not([dir=rtl]) .pl-offset-x-3.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-3:not(.pl-aligned-end) {
+  right: var(--base-size-16, 16px);
+}
+html:not([dir=rtl]) .pl-offset-x-4:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-4.pl-aligned-end {
+  left: var(--base-size-24, 24px);
+}
+html:not([dir=rtl]) .pl-offset-x-4.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-4:not(.pl-aligned-end) {
+  right: var(--base-size-24, 24px);
+}
+html:not([dir=rtl]) .pl-offset-x-5:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-5.pl-aligned-end {
+  left: var(--base-size-32, 32px);
+}
+html:not([dir=rtl]) .pl-offset-x-5.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-5:not(.pl-aligned-end) {
+  right: var(--base-size-32, 32px);
+}
+html:not([dir=rtl]) .pl-offset-x-6:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-6.pl-aligned-end {
+  left: var(--base-size-40, 40px);
+}
+html:not([dir=rtl]) .pl-offset-x-6.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-6:not(.pl-aligned-end) {
+  right: var(--base-size-40, 40px);
+}
+html:not([dir=rtl]) .pl-offset-x-7:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-7.pl-aligned-end {
+  left: var(--base-size-48, 48px);
+}
+html:not([dir=rtl]) .pl-offset-x-7.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-7:not(.pl-aligned-end) {
+  right: var(--base-size-48, 48px);
+}
+html:not([dir=rtl]) .pl-offset-x-8:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-8.pl-aligned-end {
+  left: var(--base-size-64, 64px);
+}
+html:not([dir=rtl]) .pl-offset-x-8.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-8:not(.pl-aligned-end) {
+  right: var(--base-size-64, 64px);
+}
+html:not([dir=rtl]) .pl-offset-x-9:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-9.pl-aligned-end {
+  left: var(--base-size-80, 80px);
+}
+html:not([dir=rtl]) .pl-offset-x-9.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-9:not(.pl-aligned-end) {
+  right: var(--base-size-80, 80px);
+}
+html:not([dir=rtl]) .pl-offset-x-10:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-10.pl-aligned-end {
+  left: var(--base-size-96, 96px);
+}
+html:not([dir=rtl]) .pl-offset-x-10.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-10:not(.pl-aligned-end) {
+  right: var(--base-size-96, 96px);
+}
+html:not([dir=rtl]) .pl-offset-x-11:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-11.pl-aligned-end {
+  left: var(--base-size-112, 112px);
+}
+html:not([dir=rtl]) .pl-offset-x-11.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-11:not(.pl-aligned-end) {
+  right: var(--base-size-112, 112px);
+}
+html:not([dir=rtl]) .pl-offset-x-12:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-12.pl-aligned-end {
+  left: var(--base-size-128, 128px);
+}
+html:not([dir=rtl]) .pl-offset-x-12.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-12:not(.pl-aligned-end) {
+  right: var(--base-size-128, 128px);
 }
 /*!
  * @primer/css/core

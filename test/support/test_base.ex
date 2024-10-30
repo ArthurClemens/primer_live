@@ -5,6 +5,7 @@ defmodule PrimerLive.TestBase do
     quote do
       use ExUnit.Case
       use PrimerLive
+      use Phoenix.Component
       import Phoenix.Component
       import Phoenix.LiveViewTest
 

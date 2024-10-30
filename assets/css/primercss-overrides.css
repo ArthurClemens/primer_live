@@ -10,18 +10,7 @@ html[dir="rtl"] ol {
     padding-right: 0;
 }
 
-/* Utility classes */
-.pl-gap-1 {
-    gap: 4px;
-}
 
-.pl-gap-2 {
-    gap: 8px;
-}
-
-.pl-gap-3 {
-    gap: 12px;
-}
 
 /* Remove SelectMenu backdrop. */
 .SelectMenu::before {
@@ -1180,19 +1169,6 @@ html[dir="rtl"] .avatar-child {
 /* Fix wide dialog overflowing window */
 .Box-overlay--wide {
     width: min(90vw, 640px);
-}
-
-/* Use "aligned" start / end instead of left / right */
-.pl-aligned-end,
-html[dir="rtl"] .pl-aligned-start {
-    left: auto;
-    right: 0;
-}
-
-.pl-aligned-start,
-html[dir="rtl"] .pl-aligned-end {
-    left: 0;
-    right: auto;
 }
 
 /* Alert */

@@ -7322,6 +7322,7 @@ defmodule PrimerLive.Component do
   )
 
   DeclarationHelpers.is_aligned_end("the menu")
+  DeclarationHelpers.offset_x("the menu")
 
   attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
   attr(:is_borderless, :boolean, default: false, doc: "Removes the borders between list items.")
@@ -7577,6 +7578,7 @@ defmodule PrimerLive.Component do
           "SelectMenu",
           assigns.is_aligned_end and "pl-aligned-end",
           assigns[:is_right_aligned] && "pl-aligned-end",
+          assigns.offset_x && "pl-offset-x-#{assigns.offset_x}",
           assigns[:filter] !== [] && "SelectMenu--hasFilter",
           assigns_classes.menu
         ]),
@@ -7964,6 +7966,7 @@ defmodule PrimerLive.Component do
   )
 
   DeclarationHelpers.is_aligned_end("the menu")
+  DeclarationHelpers.offset_x("the menu")
 
   attr(:is_right_aligned, :boolean, doc: "Deprecated: use `is_aligned_end`. Since 0.5.1.")
 
@@ -8079,6 +8082,7 @@ defmodule PrimerLive.Component do
         AttributeHelpers.classnames([
           "ActionMenu",
           assigns.is_aligned_end and "pl-aligned-end",
+          assigns.offset_x && "pl-offset-x-#{assigns.offset_x}",
           assigns[:is_right_aligned] && "pl-aligned-end",
           assigns_classes.menu
         ]),
@@ -8661,8 +8665,8 @@ defmodule PrimerLive.Component do
   ```
   <.pagination
     ...
-    sibling_count="1"  # default: 2
-    side_count="2"     # default 1
+    sibling_count={1}  # default: 2
+    side_count={2}     # default 1
   />
   ```
 
@@ -12563,6 +12567,8 @@ defmodule PrimerLive.Component do
 
       """
     )
+
+    DeclarationHelpers.slot_rest()
   end
 
   def progress(assigns) do

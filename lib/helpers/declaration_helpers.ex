@@ -281,7 +281,35 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
         default: false,
         doc:
           """
-          Aligns {the_element} to the end (at the right in left-to-right languages).
+          Aligns {the_element} to the end (at the right in left-to-right languages and at the left in right-to-left languages).
+          """
+          |> String.replace("{the_element}", unquote(the_element))
+      )
+    end
+  end
+
+  defmacro offset_x(the_element) do
+    quote do
+      attr(:offset_x, :integer,
+      values: [nil, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        default: nil,
+        doc:
+          """
+          The absolute offset for the {the_element} on the horizontal axis. By default this is the start offset (at the left in left-to-right languages and at the right in right-to-left languages), unless `is_aligned_end` is used, in which case the value defines the end offset.
+          Integer values are translated to px values using the Primer Design System's base-8 scale, as documented in [CSS Utilities: Margin](https://primer.style/foundations/css-utilities/margin):
+          - `0`: `0`
+          - `1`: `4px`
+          - `2`: `8px`
+          - `3`: `16px`
+          - `4`: `24px`
+          - `5`: `32px`
+          - `6`: `40px`
+          - `7`: `48px`
+          - `8`: `64px`
+          - `9`: `80px`
+          - `10`: `96px`
+          - `11`: `112px`
+          - `12`: `128px`
           """
           |> String.replace("{the_element}", unquote(the_element))
       )
