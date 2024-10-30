@@ -720,7 +720,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     value = assigns[:value] || rest[:value]
     value_for_derived_label = checked_value || value
 
-    input_id =
+    input_id = assigns.input_id || 
       input_id(
         assigns[:input_id],
         id,
