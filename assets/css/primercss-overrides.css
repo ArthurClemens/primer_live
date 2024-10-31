@@ -680,6 +680,14 @@ html[dir="rtl"] ul.ActionList:not(.ActionList--full, .ActionList--subGroup) {
     padding: var(--base-size-8, 8px);
 }
 
+/* Hide UI state elements */
+.ActionList-content--visual16, 
+.ActionList-content--visual20, 
+.ActionList-content--visual24 {
+    padding: 0;
+    height: 0;
+}
+
 /* Align checkbox styles with action list select icons. */
 /* Multiple select: use smaller checkboxes when shown in an action list (mimic ui icon "multiple-select-16") */
 .ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type="checkbox"],

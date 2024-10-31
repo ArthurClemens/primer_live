@@ -29073,6 +29073,12 @@ ul.ActionList:not(.ActionList--full, .ActionList--subGroup),
 html[dir=rtl] ul.ActionList:not(.ActionList--full, .ActionList--subGroup) {
   padding: var(--base-size-8, 8px);
 }
+.ActionList-content--visual16,
+.ActionList-content--visual20,
+.ActionList-content--visual24 {
+  padding: 0;
+  height: 0;
+}
 .ActionList-item-visual .ActionList-item-multiSelectIcon input.FormControl-checkbox[type=checkbox],
 .ActionList-item-visual .ActionList-item-singleSelectCheckmark input.FormControl-checkbox[type=checkbox] {
   width: var(--base-size-16, 16px);
