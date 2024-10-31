@@ -5,7 +5,7 @@
 Add PrimerLive as a dependency in your Phoenix application's `mix.exs`
 
 ```
-{:primer_live, "~> 0.8"}
+{:primer_live, "~> 0.9"}
 ```
 
 Run `mix.deps get`.

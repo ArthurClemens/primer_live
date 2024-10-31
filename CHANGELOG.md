@@ -7,11 +7,12 @@
 - [Text input](`PrimerLive.Component.text_input/1`): Set disabled color on read-only field with inset style.
 - [Checkbox group](`PrimerLive.Component.checkbox_group/1`) and [Radio group](`PrimerLive.Component.radio_group/1`): Show required marker in legend.
 - Added support for right-to-left languages.
-- [Action menu](`PrimerLive.Component.action_menu/1`) and [Select menu](`PrimerLive.Component.select_menu/1`): Added `offset_x` to define the absolute offset for the menu on the horizontal axis.
+- [Action menu](`PrimerLive.Component.action_menu/1`) and [Select menu](`PrimerLive.Component.select_menu/1`): Added attribute `offset_x` to define the absolute offset for the menu on the horizontal axis.
 - Updated upstream Primer Design System libraries. This update includes a number of changes to modified CSS Custom Properties.
   - Updated upstream dependency `@primer/css` to `21.5.0`.
   - Added `@primer/view-components` version `0.34.0`. This is the Rails version of Primer Design, which is the most developed so far.
   - Updated [Octicon](`PrimerLive.Component.octicon/1`) icons to version `v19.12.0`.
+- Added documentation [Styling](doc-extra/styling.md). This contains notes about styling with custom CSS and pre-made classes, reusing styled components and RTL.
 
 ### Depreciations
 
@@ -56,9 +57,9 @@ to
 </.form>
 ```
 
-#### CSS Custom Properties
+#### CSS Custom Properties (Variables)
 
-If you are using CSS Custom Properties (Variables) from the Primer Design System, these may need to be updated. Verify the current available options in [primer-live.css](https://github.com/ArthurClemens/primer_live/blob/development/priv/static/primer-live.css).
+If you are using CSS Custom Properties from the Primer Design System, these may need to be updated. Verify the current available options in [primer-live.css](https://github.com/ArthurClemens/primer_live/blob/development/priv/static/primer-live.css).
 
 ## 0.8.0
 

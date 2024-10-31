@@ -281,7 +281,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
         default: false,
         doc:
           """
-          Aligns {the_element} to the end (at the right in left-to-right languages and at the left in right-to-left languages).
+          Aligns {the_element} at the end (at the right in left-to-right languages and at the left in right-to-left languages).
           """
           |> String.replace("{the_element}", unquote(the_element))
       )

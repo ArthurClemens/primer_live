@@ -61,8 +61,8 @@ defmodule PrimerLiveWeb.ComponentLive do
 
   defp phx_vsn, do: Application.spec(:phoenix, :vsn)
   defp lv_vsn, do: Application.spec(:phoenix_live_view, :vsn)
-  # Application.spec(:primer_live, :vsn)
   defp pl_vsn, do: "0.8.0"
+  # Application.spec(:primer_live, :vsn)
 
   def render("live.html", assigns) do
     ~H"""
