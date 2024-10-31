@@ -953,7 +953,7 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <%= if @content && @content !== [] do %>
-        <div class={@classes.label}><%= render_slot(@content) %></div>
+        <span class={@classes.label}><%= render_slot(@content) %></span>
       <% end %>
       <%= if @description && @description !== [] do %>
         <div class={@classes.description}><%= render_slot(@description) %></div>
@@ -983,11 +983,11 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @is_select do %>
         <%= if @has_leading_visual do %>
-          <div class={@classes.leading_visual}>
+          <span class={@classes.leading_visual}>
             <%= render_slot(@leading_visual) %>
-          </div>
+          </span>
         <% else %>
-          <div class={@classes.leading_visual}>
+          <span class={@classes.leading_visual}>
             <.checkbox
               is_multiple
               checked={@is_selected}
@@ -1005,13 +1005,13 @@ defmodule PrimerLive.Component do
               }
               input_id={@input_id}
             />
-          </div>
+          </span>
         <% end %>
       <% else %>
         <%= if @has_leading_visual do %>
-          <div class={@classes.leading_visual}>
+          <span class={@classes.leading_visual}>
             <%= render_slot(@leading_visual) %>
-          </div>
+          </span>
         <% end %>
       <% end %>
       <%= if @has_description do %>

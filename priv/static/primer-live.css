@@ -29073,9 +29073,9 @@ ul.ActionList:not(.ActionList--full, .ActionList--subGroup),
 html[dir=rtl] ul.ActionList:not(.ActionList--full, .ActionList--subGroup) {
   padding: var(--base-size-8, 8px);
 }
-.ActionList-content--visual16,
-.ActionList-content--visual20,
-.ActionList-content--visual24 {
+div.ActionList-content--visual16,
+div.ActionList-content--visual20,
+div.ActionList-content--visual24 {
   padding: 0;
   height: 0;
 }
@@ -29246,6 +29246,15 @@ html[dir=rtl] .ActionList-item.ActionList-item--navActive:not(.ActionList-item--
 }
 .ActionList-item-label > .octicon + span {
   margin-left: var(--base-size-8, 8px);
+}
+.ActionList-content--visual20 .ActionList-item-visual--leading {
+  width: 20px;
+}
+.ActionList-content--visual24 .ActionList-item-label {
+  padding: 2px 0;
+}
+.ActionList-content--visual24 .ActionList-item-visual--trailing {
+  min-height: 24px;
 }
 span.ActionList-content[aria-expanded] {
   display: none;

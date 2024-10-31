@@ -680,10 +680,10 @@ html[dir="rtl"] ul.ActionList:not(.ActionList--full, .ActionList--subGroup) {
     padding: var(--base-size-8, 8px);
 }
 
-/* Hide UI state elements */
-.ActionList-content--visual16, 
-.ActionList-content--visual20, 
-.ActionList-content--visual24 {
+/* Hide UI state elements when they are not interactive */
+div.ActionList-content--visual16, 
+div.ActionList-content--visual20, 
+div.ActionList-content--visual24 {
     padding: 0;
     height: 0;
 }
@@ -924,6 +924,18 @@ html[dir="rtl"] .ActionList-item.ActionList-item--navActive:not(.ActionList-item
 /* Add space to label following an octicon. */
 .ActionList-item-label>.octicon+span {
     margin-left: var(--base-size-8, 8px);
+}
+
+/* Adjust leading visual to size setting  */
+.ActionList-content--visual20 .ActionList-item-visual--leading {
+    width: 20px; 
+}
+/* Align label and trailing icon with leading icon */
+.ActionList-content--visual24 .ActionList-item-label {
+    padding: 2px 0; 
+}
+.ActionList-content--visual24 .ActionList-item-visual--trailing {
+    min-height: 24px;
 }
 
 /* Hide sub group toggles that are not button */
