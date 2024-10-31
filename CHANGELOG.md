@@ -2,9 +2,20 @@
 
 ## 0.9.0 (not released)
 
-### Deprecated form_control
+### Changes
 
-Standalone `form_control` as wrapper is deprecated.
+- [Text input](`PrimerLive.Component.text_input/1`): Set disabled color on read-only field with inset style.
+- [Checkbox group](`PrimerLive.Component.checkbox_group/1`) and [Radio group](`PrimerLive.Component.radio_group/1`): Show required marker in legend.
+- Added support for right-to-left languages.
+- [Action menu](`PrimerLive.Component.action_menu/1`) and [Select menu](`PrimerLive.Component.select_menu/1`): Added `offset_x` to define the absolute offset for the menu on the horizontal axis.
+- Updated upstream Primer Design System libraries. This update includes a number of changes to modified CSS Custom Properties.
+  - Updated upstream dependency `@primer/css` to `21.5.0`.
+  - Added `@primer/view-components` version `0.34.0`. This is the Rails version of Primer Design, which is the most developed so far.
+  - Updated [Octicon](`PrimerLive.Component.octicon/1`) icons to version `v19.12.0`.
+
+### Depreciations
+
+Standalone `form_control` as wrapper is soft-deprecated.
 
 The use of `form_control` as wrapper component around a form input component was causing compatibility issues with displaying validation messages. Since input components should be able to display a validation message even when not wrapped inside a `form_control`, it became difficult to distinguish between a validation messages originating from the `form_control` and one originating from the nested input.
 
@@ -14,23 +25,20 @@ Overall, moving `form_control` to the background and using it only as an interna
 
 See "Updating to 0.9" below.
 
-### Changes
+### Removals
 
-- Removed `form_group` component (was soft-deprecated in 0.5.0). Component attributes `form_group` and `is_form_group` have been removed as well.
-- [Text input](`PrimerLive.Component.text_input/1`): Set disabled color on read-only field with inset style.
-- [Checkbox group](`PrimerLive.Component.checkbox_group/1`) and [Radio group](`PrimerLive.Component.radio_group/1`): Show required marker in legend.
-- Added support for right-to-left languages.
+- `form_group` was soft-deprecated in 0.5.0 and has been removed, along with component attributes `form_group` and `is_form_group`.
 
 ### Bug fixes
 
 - [Checkbox group](`PrimerLive.Component.checkbox_group/1`) and [Radio group](`PrimerLive.Component.radio_group/1`): Restored display of validation message.
 - [Textarea](`PrimerLive.Component.textarea/1`): Set correct success color when displaying success feedback.
 
-Removed previously deprecated `form_group`.
-
 ### Updating to 0.9
 
-There have been several ways to create a form control. If you've been using `form_control` as wrapper around fields, change:
+#### form_control
+
+There have 2 ways to create a form control: as a wrapper, and as an input attribute. If you've been using `form_control` as wrapper around inputs, change:
 
 ```
 <.form :let={f} for={@changeset}>
@@ -47,6 +55,10 @@ to
   <.text_input form={f} field={:first_name} id="first-name" is_form_control />
 </.form>
 ```
+
+#### CSS Custom Properties
+
+If you are using CSS Custom Properties (Variables) from the Primer Design System, these may need to be updated. Verify the current available options in [primer-live.css](https://github.com/ArthurClemens/primer_live/blob/development/priv/static/primer-live.css).
 
 ## 0.8.0
 

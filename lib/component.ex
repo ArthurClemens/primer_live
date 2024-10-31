@@ -7292,6 +7292,30 @@ defmodule PrimerLive.Component do
   </.select_menu>
   ```
 
+  To place the menu at the far end, opening to the opposite side (for example from a menu button placed at the end):
+
+  ```
+  <.select_menu is_aligned_end>
+    ...
+  </.select_menu>
+  ```
+
+  To define the offset across the x-axis:
+
+  ```
+  <.select_menu offset_x={3}>
+    ...
+  </.select_menu>
+  ```
+
+  and
+
+  ```
+  <.select_menu is_aligned_end offset_x={3}>
+    ...
+  </.select_menu>
+  ```
+
   [INSERT LVATTRDOCS]
 
   ## Reference

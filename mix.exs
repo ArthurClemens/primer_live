@@ -93,6 +93,7 @@ defmodule PrimerLive.MixProject do
       extras: [
         "doc-extra/installation.md",
         "doc-extra/usage.md",
+        "doc-extra/styling.md",
         "doc-extra/menus-and-dialogs.md",
         "CHANGELOG.md",
         "LICENSE.md"

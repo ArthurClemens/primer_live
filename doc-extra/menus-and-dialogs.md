@@ -1,6 +1,8 @@
 # Menus and dialogs
 
+- [Introduction](#introduction)
 - [Usage](#usage)
+- [Component structure](#component-structure)
   - [Menus](#menus)
   - [Dialogs and drawers](#dialogs-and-drawers)
 - [Opening and closing](#opening-and-closing)
@@ -8,20 +10,24 @@
   - [Appearance](#appearance)
   - [Behavior](#behavior)
 - [Generated HTML](#generated-html)
-- [Conditional state](#conditional-state)
-- [Persisting dialogs and drawers](#persisting-dialogs-and-drawers)
+- [State](#state)
+  - [Conditional state](#conditional-state)
+  - [Persisting dialogs and drawers](#persisting-dialogs-and-drawers)
   - [Refinements](#refinements)
-- [Status callbacks](#status-callbacks)
+  - [Status callbacks](#status-callbacks)
 - [Prompt hook](#prompt-hook)
 - [CSS](#css)
   - [z-index](#z-index)
   - [Customization](#customization)
 
+
+## Introduction
+This page explains the structure and attributes for menu and dialog components - [`action_menu`](`PrimerLive.Component.action_menu/1`), [`dropdown`](`PrimerLive.Component.dropdown/1`), [`select_menu`](`PrimerLive.Component.select_menu/1`), [`drawer`](`PrimerLive.Component.drawer/1`) and [`dialog`](`PrimerLive.Component.dialog/1`).
+
 ## Usage
-
-Menu and dialog components - [`action_menu`](`PrimerLive.Component.action_menu/1`), [`dropdown`](`PrimerLive.Component.dropdown/1`), [`select_menu`](`PrimerLive.Component.select_menu/1`), [`drawer`](`PrimerLive.Component.drawer/1`) and [`dialog`](`PrimerLive.Component.dialog/1`) - share common interaction.
-
 To use these components, CSS and JavaScript must be installed - see [Installation](installation.md).
+
+## Component structure
 
 ### Menus
 
@@ -93,7 +99,9 @@ The HTML that is generated contains these common elements:
 - **Focus wrap container:** Encapsulates the component content and includes the Escape key command, unless `is_escapable` is set to `false`.
 - **Content:** Based on the content of `inner_block` and other slots and attributes.
 
-## Conditional state
+## State
+
+### Conditional state
 
 Helper component `PrimerLive.StatefulConditionComponent` takes a condition and compares the initial state with the current state after a re-render. This is useful when the wrapped component should behave differently on initial mount and subsequent updates.
 
@@ -106,7 +114,7 @@ To make that happen, we can set `is_show_on_mount` to `true` only when the curre
 
 See `PrimerLive.StatefulConditionComponent` for example code, and [primer-live.org/dialog](https://primer-live.org/dialog#conditional-dialog-show-on-mount) for a working example.
 
-## Persisting dialogs and drawers
+### Persisting dialogs and drawers
 
 To keep a dialog or drawer on screen when navigating to a different LiveView (using `navigate` instead of `patch`), the component must be available on the destination route. This approach is best suited for "global" components, such as navigation panels and app header menus.
 
@@ -192,7 +200,7 @@ window.addEventListener("phx:page-loading-stop", (_info) => {
 });
 ```
 
-## Status callbacks
+### Status callbacks
 
 The opened/closed status of the component can be read using attribute `status_callback_selector` and a LiveComponent that listens for the `"primer_live:prompt"` event.
 
@@ -243,14 +251,11 @@ defmodule MyAppWeb.StatusEventComponent do
   end
 
 end
-
 ```
 
 ## Prompt hook
 
-The Prompt hook does not expose an API because it operates under the hood.
-
-Functionality:
+The Prompt hook is used internally. The hook:
 
 - Listens for server commands `prompt:open`, `prompt:close` and `prompt:toggle` (enabling the toggle function).
 - Sends status event `"primer_live:prompt"` to the server.
