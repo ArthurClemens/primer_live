@@ -29850,6 +29850,15 @@ html:not([dir=rtl]) .pl-offset-x-12.pl-aligned-end,
 html[dir=rtl] .pl-offset-x-12:not(.pl-aligned-end) {
   right: var(--base-size-128, 128px);
 }
+.pl-border-thin {
+  border-width: var(--borderWidth-thin);
+}
+.pl-border-thick {
+  border-width: var(--borderWidth-thick);
+}
+.pl-border-thicker {
+  border-width: var(--borderWidth-thicker);
+}
 /*!
  * @primer/css/core
  * http://primer.style/css
