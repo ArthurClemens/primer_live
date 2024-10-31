@@ -88,7 +88,7 @@ Adding the "root" component class to the custom class in CSS may be needed to cr
 
 Instead of using "hardcoded" color values, a better approach would be to use the Primer's Custom Properties (Variables), which are designed to work with theme settings. For example, in dark mode, a white background automatically changes to a darker shade, preserving the intent of the color rather than applying a fixed hex value. This benefit becomes even more apparent if you are offering additional options for color blindness, such as "high contrast".
 
-Unfortunately, Primer's Custom Properties are poorly documented, so you'd need to read them from the [primer-live.css file](https://github.com/ArthurClemens/primer_live/blob/development/priv/static/primer-live.css).
+Primer's Custom Properties can be found at [Primer Design System: Primitives](https://primer.style/foundations/primitives). Use the Theme dropdowns to compare the color variants for each theme.
 
 The same styles, now with Custom Properties:
 
