@@ -2958,6 +2958,7 @@ defmodule PrimerLive.Component do
 
     %{
       caption: caption,
+      field_or_name: field_or_name,
       field: field,
       form: form,
       input_id: input_id,
@@ -3017,8 +3018,8 @@ defmodule PrimerLive.Component do
         assigns[:label] ->
           assigns[:label]
 
-        field ->
-          humanize_label = Phoenix.Naming.humanize(field)
+        field || field_or_name ->
+          humanize_label = Phoenix.Naming.humanize(field || field_or_name)
 
           if humanize_label === "Nil" do
             nil
@@ -3045,7 +3046,7 @@ defmodule PrimerLive.Component do
         assigns.is_wrap_in_fieldset ->
           label_text
 
-        field ->
+        field || field_or_name ->
           PhoenixHTMLHelpers.Form.label(
             form,
             field,
@@ -4054,8 +4055,6 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.field()
   DeclarationHelpers.name()
   DeclarationHelpers.input_id()
-  DeclarationHelpers.validation_message()
-  DeclarationHelpers.validation_message_id()
   DeclarationHelpers.caption("the select input")
 
   attr(:options, :any, required: true, doc: "Selectable options (list, map or keyword list).")
@@ -4150,6 +4149,8 @@ defmodule PrimerLive.Component do
 
   DeclarationHelpers.form_control("the select input")
   DeclarationHelpers.is_form_control("the select input")
+  DeclarationHelpers.validation_message()
+  DeclarationHelpers.validation_message_id()
 
   DeclarationHelpers.rest(include: ~w(disabled))
 
@@ -4173,18 +4174,18 @@ defmodule PrimerLive.Component do
     common_input_attrs = AttributeHelpers.common_input_attrs(assigns, :select)
 
     %{
-      rest: rest,
-      form: form,
+      caption: caption,
       field: field,
+      form_control_attrs: form_control_attrs,
+      form: form,
+      has_form_control: has_form_control,
       input_id: input_id,
       input_name: input_name,
-      has_form_control: has_form_control,
-      form_control_attrs: form_control_attrs,
+      rest: rest,
       show_message?: show_message?,
-      validation_message_id: validation_message_id,
       validation_marker_attrs: validation_marker_attrs,
       validation_marker_class: validation_marker_class,
-      caption: caption
+      validation_message_id: validation_message_id
     } = common_input_attrs
 
     is_multiple = assigns.is_multiple
