@@ -3850,7 +3850,7 @@ defmodule PrimerLive.Component do
             [size: assigns[:size]],
             # If value is nil, the value attribute is omitted. Querying the input value will return an empty string.
             !is_nil(value) && [value: value],
-            show_message? && [invalid: ""]
+            show_message? && [invalid: "true"]
           ]
         )
 
@@ -4240,7 +4240,7 @@ defmodule PrimerLive.Component do
             [name: input_name],
             !is_multiple && [prompt: assigns[:prompt]],
             [selected: assigns[:selected]],
-            show_message? && [invalid: ""]
+            show_message? && [invalid: "true"]
           ]
         )
 
@@ -4567,7 +4567,7 @@ defmodule PrimerLive.Component do
           assigns.input_type === :checkbox && !is_nil(value) &&
             [value: value],
           input_class && [class: input_class],
-          show_message? && [invalid: ""]
+          show_message? && [invalid: "true"]
         ]
       )
 
