@@ -1,1 +1,1 @@
-[{"ul", %{"aria-label" => "Menu", "class" => "ActionList", "role" => "list"}, [{"li", %{"class" => "ActionList-item"}, [{"div", %{"class" => "ActionList-content"}, [{"div", %{"class" => "ActionList-item-label"}, ["content"]}]}]}]}]
+[{"ul", %{"aria-label" => "Menu", "class" => "ActionList", "role" => "list"}, [{"li", %{"class" => "ActionList-item"}, [{"div", %{"class" => "ActionList-content"}, [{"span", %{"class" => "ActionList-item-label"}, ["content"]}]}]}]}]

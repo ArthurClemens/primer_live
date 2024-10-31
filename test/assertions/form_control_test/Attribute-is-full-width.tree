@@ -1,1 +1,1 @@
-[{"div", %{"class" => "FormControl FormControl--fullWidth"}, ["inputs"]}]
+[{"div", %{"class" => "FormControl FormControl--fullWidth"}, [{"div", %{"class" => "form-group-header"}, [{"label", %{"class" => "FormControl-label"}, []}]}, "inputs"]}]

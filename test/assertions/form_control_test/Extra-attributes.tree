@@ -1,1 +1,1 @@
-[{"div", %{"class" => "FormControl", "dir" => "rtl"}, ["inputs"]}]
+[{"div", %{"class" => "FormControl", "dir" => "rtl"}, [{"div", %{"class" => "form-group-header"}, [{"label", %{"class" => "FormControl-label"}, []}]}, "inputs"]}]

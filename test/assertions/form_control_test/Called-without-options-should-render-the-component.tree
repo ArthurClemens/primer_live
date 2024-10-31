@@ -1,1 +1,1 @@
-[{"div", %{"class" => "FormControl"}, ["inputs"]}]
+[{"div", %{"class" => "FormControl"}, [{"div", %{"class" => "form-group-header"}, [{"label", %{"class" => "FormControl-label"}, []}]}, "inputs"]}]
