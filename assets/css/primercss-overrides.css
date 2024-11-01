@@ -257,8 +257,8 @@ html[dir="rtl"] .dropdown-menu-sw:before {
 }
 
 html[dir="rtl"] .dropdown-menu-sw:after {
-    left: auto;
-    right: 10px;
+    right: auto;
+    left: 10px;
 }
 
 html[dir="rtl"] .dropdown-menu-se {
