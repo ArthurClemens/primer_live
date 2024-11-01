@@ -10,8 +10,6 @@ html[dir="rtl"] ol {
     padding-right: 0;
 }
 
-
-
 /* Remove SelectMenu backdrop. */
 .SelectMenu::before {
     display: none;
@@ -681,8 +679,8 @@ html[dir="rtl"] ul.ActionList:not(.ActionList--full, .ActionList--subGroup) {
 }
 
 /* Hide UI state elements when they are not interactive */
-div.ActionList-content--visual16, 
-div.ActionList-content--visual20, 
+div.ActionList-content--visual16,
+div.ActionList-content--visual20,
 div.ActionList-content--visual24 {
     padding: 0;
     height: 0;
@@ -928,12 +926,14 @@ html[dir="rtl"] .ActionList-item.ActionList-item--navActive:not(.ActionList-item
 
 /* Adjust leading visual to size setting  */
 .ActionList-content--visual20 .ActionList-item-visual--leading {
-    width: 20px; 
+    width: 20px;
 }
+
 /* Align label and trailing icon with leading icon */
 .ActionList-content--visual24 .ActionList-item-label {
-    padding: 2px 0; 
+    padding: 2px 0;
 }
+
 .ActionList-content--visual24 .ActionList-item-visual--trailing {
     min-height: 24px;
 }
