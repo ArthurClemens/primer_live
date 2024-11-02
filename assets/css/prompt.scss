@@ -1,0 +1,567 @@
+[data-prompt] {
+  /* Colors and opacity */
+
+  /* - Dark */
+  --prompt-background-color-backdrop-dark: black;
+  --prompt-background-opacity-backdrop-dark-strong: 0.5;
+  --prompt-background-opacity-backdrop-dark-medium: 0.2;
+  --prompt-background-opacity-backdrop-dark-light: 0.07;
+
+  /* - Light */
+  --prompt-background-color-backdrop-light: white;
+  --prompt-background-opacity-backdrop-light-strong: 0.9;
+  --prompt-background-opacity-backdrop-light-medium: 0.7;
+  --prompt-background-opacity-backdrop-light-light: 0.6;
+
+  /* Transitions */
+  --prompt-transition-timing-function: ease-in-out;
+  --prompt-transition-duration: 170ms;
+  --prompt-fast-transition-duration: 130ms;
+
+  /* Stacking z-index */
+
+  /* - Menus */
+  --prompt-z-index-menu-backdrop: 40;
+  --prompt-z-index-menu-touch: 41;
+  --prompt-z-index-menu-focus-wrap: 42;
+  --prompt-z-index-menu-content: 50;
+
+  /* - Dialog and drawer */
+  --prompt-z-index-backdrop: 190;
+  --prompt-z-index-touch: 191;
+  --prompt-z-index-focus-wrap: 192;
+  --prompt-z-index-drawer-content: 200;
+  --prompt-z-index-dialog-content: 300;
+
+  /* Sizes */
+
+  /* - Dialog max height */
+  --prompt-max-height-content: 80;
+
+  /* - Drawer width: defined by child content width */
+  --prompt-drawer-content-width: initial;
+
+  /* - Push drawer width */
+  --push-drawer-width: 320px;
+}
+
+/* -----------------------------------------------------
+GENERAL
+----------------------------------------------------- */
+
+/* Hide inner elements as long as prompt is not open */
+
+[data-prompt] [data-touch],
+[data-prompt] [data-backdrop],
+[data-prompt] [data-focuswrap],
+[data-prompt] [data-content] {
+  display: none;
+}
+
+[data-prompt].is-open [data-touch],
+[data-prompt].is-open [data-backdrop],
+[data-prompt].is-open [data-focuswrap],
+[data-prompt].is-open [data-content] {
+  display: block;
+}
+
+/* Reset any conflicting animation styles set on dialogs */
+[data-prompt]:not([data-menu]) [data-content] {
+  animation-name: unset;
+  animation-duration: unset;
+  animation-timing-function: unset;
+}
+
+/* Set content size and set up fade */
+[data-prompt]:not([data-isdrawer]) [data-content] {
+  transition-property: opacity;
+  transition-timing-function: inherit;
+  opacity: 0;
+}
+
+/* Transition duration */
+[data-prompt] {
+  transition-timing-function: var(--prompt-transition-timing-function);
+}
+
+[data-prompt]:not([data-isfast]) {
+  transition-duration: var(--prompt-transition-duration);
+}
+
+[data-prompt][data-isfast] {
+  transition-duration: var(--prompt-fast-transition-duration);
+}
+
+/* - Prevent backdrop black flash when using is_show_on_mount: */
+[data-prompt]:not(.is-show_on_mount) [data-backdrop],
+[data-prompt]:not(.is-show_on_mount) [data-focuswrap],
+[data-prompt]:not(.is-show_on_mount) [data-content],
+[data-prompt]:not(.is-show_on_mount) [data-drawer-content],
+[data-prompt]:not(.is-show_on_mount) .SelectMenu,
+[data-prompt]:not(.is-show_on_mount) .ActionMenu {
+  transition-duration: inherit;
+  transition-timing-function: inherit;
+}
+
+/* -----------------------------------------------------
+Z-INDEX
+----------------------------------------------------- */
+
+[data-prompt].is-open[data-focuswrap] {
+  position: relative;
+}
+
+/* Backdrop layer z-index */
+[data-prompt]:not([data-ismenu]) [data-backdrop] {
+  z-index: var(--prompt-z-index-backdrop);
+}
+
+[data-prompt][data-ismenu] [data-backdrop] {
+  z-index: var(--prompt-z-index-menu-backdrop);
+}
+
+/* Touch layer z-index */
+[data-prompt]:not([data-ismenu]) [data-touch] {
+  z-index: var(--prompt-z-index-touch);
+}
+
+[data-prompt][data-ismenu] [data-touch] {
+  z-index: var(--prompt-z-index-menu-touch);
+}
+
+/* Focus wrap layer z-index */
+[data-prompt]:not([data-ismenu]) [data-focuswrap] {
+  z-index: var(--prompt-z-index-focus-wrap);
+}
+
+[data-prompt][data-ismenu] [data-focuswrap] {
+  z-index: var(--prompt-z-index-menu-focus-wrap);
+}
+
+/* Content */
+[data-prompt]:not([data-isdrawer], [data-ismenu]) [data-content] {
+  z-index: var(--prompt-z-index-dialog-content);
+}
+
+[data-prompt][data-isdrawer]:not([data-ismenu]) [data-content] {
+  z-index: var(--prompt-z-index-drawer-content);
+}
+
+[data-prompt][data-ismenu] [data-content] {
+  z-index: var(--prompt-z-index-menu-content);
+}
+
+/* -----------------------------------------------------
+TOUCH AND BACKDROP
+----------------------------------------------------- */
+
+/* Touch and backdrop overlays */
+[data-prompt].is-open [data-touch],
+[data-prompt].is-open [data-backdrop] {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* Set up backdrop fade */
+[data-prompt] [data-backdrop] {
+  opacity: 0;
+  transition-property: opacity;
+}
+
+[data-prompt] [data-backdrop]:not([data-backdrop-tint="light"]) {
+  background: var(--prompt-background-color-backdrop-dark);
+}
+
+[data-prompt] [data-backdrop][data-backdrop-tint="light"] {
+  background: var(--prompt-background-color-backdrop-light);
+}
+
+/* Backdrop medium opacity */
+[data-prompt].is-showing [data-backdrop]:not([data-backdrop-tint="light"]) {
+  opacity: var(--prompt-background-opacity-backdrop-dark-medium);
+}
+
+[data-prompt].is-showing [data-backdrop][data-backdrop-tint="light"] {
+  opacity: var(--prompt-background-opacity-backdrop-light-medium);
+}
+
+/* Backdrop dark opacity */
+[data-prompt].is-showing
+  [data-backdrop][data-backdrop-strength="strong"]:not(
+    [data-backdrop-tint="light"]
+  ) {
+  opacity: var(--prompt-background-opacity-backdrop-dark-strong);
+}
+
+[data-prompt].is-showing
+  [data-backdrop][data-backdrop-strength="strong"][data-backdrop-tint="light"] {
+  opacity: var(--prompt-background-opacity-backdrop-light-strong);
+}
+
+/* Backdrop light opacity */
+[data-prompt].is-showing
+  [data-backdrop][data-backdrop-strength="light"]:not(
+    [data-backdrop-tint="light"]
+  ) {
+  opacity: var(--prompt-background-opacity-backdrop-dark-light);
+}
+
+[data-prompt].is-showing
+  [data-backdrop][data-backdrop-strength="light"][data-backdrop-tint="light"] {
+  opacity: var(--prompt-background-opacity-backdrop-light-light);
+}
+
+/* -----------------------------------------------------
+DIALOG
+----------------------------------------------------- */
+
+/* Set positioning of dialogs (excluding menus and the dialog element) */
+/* The dialog element has a specific (native) way of positioning, so we only position on the vertical axis here */
+[data-prompt]:not([data-isdrawer], [data-ismenu]) [data-content] {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  overflow: auto;
+  margin: 0 auto;
+}
+
+/* Center on screen */
+[data-prompt]:not([data-isdrawer], [data-ismenu]) [data-content]:not(dialog) {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Appear: fade in */
+[data-prompt]:not([data-isdrawer]).is-showing [data-content] {
+  opacity: 1;
+}
+
+/* -----------------------------------------------------
+DRAWER
+----------------------------------------------------- */
+
+/* Drawer content */
+[data-prompt][data-isdrawer] [data-content] {
+  transition-property: transform;
+  position: fixed;
+  height: 100%;
+  top: 0;
+}
+
+/* Content, drawer specific */
+[data-prompt][data-isdrawer] [data-drawer-content] {
+  flex-shrink: 0;
+  overflow-y: auto;
+  height: inherit;
+  transition-property: transform, opacity;
+}
+
+/* Position at start */
+[data-prompt][data-isdrawer] [data-content] {
+  left: 0;
+  right: auto;
+  transform: translateX(-100%);
+}
+
+/* Position at start (RTL) */
+@if $scoped {
+  html[dir="rtl"] .__AMP__ {
+    [data-prompt][data-isdrawer] [data-content] {
+      left: auto;
+      right: 0;
+      transform: translateX(100%);
+    }
+  }
+} @else {
+  html[dir="rtl"] [data-prompt][data-isdrawer] [data-content] {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* Position at end */
+[data-prompt][data-isdrawer][data-isfarside] [data-content] {
+  left: auto;
+  right: 0;
+  transform: translateX(100%);
+}
+
+/* Position at end (RTL) */
+@if $scoped {
+  html[dir="rtl"] .__AMP__ {
+    [data-prompt][data-isdrawer][data-isfarside] [data-content] {
+      left: 0;
+      right: auto;
+      transform: translateX(-100%);
+    }
+  }
+} @else {
+  html[dir="rtl"] [data-prompt][data-isdrawer][data-isfarside] [data-content] {
+    left: 0;
+    right: auto;
+    transform: translateX(-100%);
+  }
+}
+
+/* Appear: slide in */
+
+@if $scoped {
+  html:not([dir="rtl"]) .__AMP__ {
+    [data-prompt][data-isdrawer].is-showing [data-content] {
+      transform: translateX(0);
+    }
+  }
+  html[dir="rtl"] .__AMP__ {
+    [data-prompt][data-isdrawer].is-showing [data-content] {
+      transform: translateX(0);
+    }
+  }
+} @else {
+  [data-prompt][data-isdrawer].is-showing [data-content],
+  html[dir="rtl"] [data-prompt][data-isdrawer].is-showing [data-content] {
+    transform: translateX(0);
+  }
+}
+
+/* Local drawer */
+[data-prompt][data-isdrawer].is-open[data-islocal] [data-touch],
+[data-prompt][data-isdrawer].is-open[data-islocal] [data-backdrop],
+[data-prompt][data-isdrawer][data-islocal] [data-content] {
+  position: absolute;
+  z-index: initial;
+}
+
+/* Push drawer: touch and backdrop */
+[data-prompt][data-isdrawer].is-open[data-ispush] [data-touch],
+[data-prompt][data-isdrawer].is-open[data-ispush] [data-backdrop] {
+  z-index: 1;
+  position: absolute;
+}
+
+/* Push drawer: content */
+[data-prompt][data-isdrawer][data-ispush] [data-content] {
+  position: relative;
+  z-index: initial;
+  display: flex;
+  width: calc(100% + var(--push-drawer-width));
+}
+
+/* Push drawer: content shift: position at start */
+[data-prompt][data-isdrawer][data-ispush] [data-content] {
+  padding-left: var(--push-drawer-width);
+  padding-right: 0;
+}
+
+/* Push drawer: content shift: position at end */
+[data-prompt][data-isdrawer][data-ispush][data-isfarside] [data-content] {
+  padding-left: 0;
+  padding-right: var(--push-drawer-width);
+}
+
+/* Push drawer: content shift: position at start (RTL) */
+@if $scoped {
+  html[dir="rtl"] .__AMP__ {
+    [data-prompt][data-isdrawer][data-ispush] [data-content] {
+      padding-left: 0;
+      padding-right: var(--push-drawer-width);
+    }
+  }
+} @else {
+  html[dir="rtl"] [data-prompt][data-isdrawer][data-ispush] [data-content] {
+    padding-left: 0;
+    padding-right: var(--push-drawer-width);
+  }
+}
+
+/* Push drawer: content shift: position at end (RTL) */
+@if $scoped {
+  html[dir="rtl"] .__AMP__ {
+    [data-prompt][data-isdrawer][data-ispush][data-isfarside] [data-content] {
+      padding-left: var(--push-drawer-width);
+      padding-right: 0;
+    }
+  }
+} @else {
+  html[dir="rtl"]
+    [data-prompt][data-isdrawer][data-ispush][data-isfarside]
+    [data-content] {
+    padding-left: var(--push-drawer-width);
+    padding-right: 0;
+  }
+}
+
+/* Push drawer: content, drawer specific */
+[data-prompt][data-isdrawer][data-ispush] [data-drawer-content] {
+  position: absolute;
+  top: 0;
+  overflow-y: auto;
+  height: inherit;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--push-drawer-width);
+}
+
+/* Push drawer: position at start */
+[data-prompt][data-isdrawer][data-ispush] [data-drawer-content] {
+  left: 0;
+  right: auto;
+}
+
+/* Push drawer: position at end */
+[data-prompt][data-isdrawer][data-ispush][data-isfarside]
+  [data-drawer-content] {
+  left: auto;
+  right: 0;
+}
+
+/* Push drawer: position at start (RTL) */
+@if $scoped {
+  html[dir="rtl"] .__AMP__ {
+    [data-prompt][data-isdrawer][data-ispush] [data-drawer-content] {
+      left: auto;
+      right: 0;
+    }
+  }
+} @else {
+  html[dir="rtl"]
+    [data-prompt][data-isdrawer][data-ispush]
+    [data-drawer-content] {
+    left: auto;
+    right: 0;
+  }
+}
+
+/* Push drawer: position at end (RTL) */
+@if $scoped {
+  html[dir="rtl"] .__AMP__ {
+    [data-prompt][data-isdrawer][data-ispush][data-isfarside]
+      [data-drawer-content] {
+      left: 0;
+      right: auto;
+    }
+  }
+} @else {
+  html[dir="rtl"]
+    [data-prompt][data-isdrawer][data-ispush][data-isfarside]
+    [data-drawer-content] {
+    left: 0;
+    right: auto;
+  }
+}
+
+/* Push drawer: default content position */
+[data-prompt][data-isdrawer][data-ispush] [data-content] {
+  transform: translateX(calc(-1 * var(--push-drawer-width)));
+}
+
+/* Push drawer: content position, position at end */
+[data-prompt][data-isdrawer][data-ispush][data-isfarside] [data-content] {
+  flex-direction: row-reverse;
+  transform: translateX(0);
+}
+
+/* Push drawer: appear: slide in */
+[data-prompt][data-isdrawer][data-ispush].is-showing [data-content] {
+  transform: translateX(0);
+}
+
+/* Push drawer, position at end: appear: slide in */
+[data-prompt][data-isdrawer][data-ispush][data-isfarside].is-showing
+  [data-content] {
+  transform: translateX(calc(-1 * var(--push-drawer-width)));
+}
+
+/* Push drawer: default content position (RTL) */
+@if $scoped {
+  html[dir="rtl"] .__AMP__ {
+    [data-prompt][data-isdrawer][data-ispush] [data-content] {
+      transform: translateX(var(--push-drawer-width));
+    }
+  }
+} @else {
+  html[dir="rtl"] [data-prompt][data-isdrawer][data-ispush] [data-content] {
+    transform: translateX(var(--push-drawer-width));
+  }
+}
+
+/* Push drawer: appear: slide in (RTL) */
+@if $scoped {
+  html[dir="rtl"] .__AMP__ {
+    [data-prompt][data-isdrawer][data-ispush].is-showing [data-content] {
+      transform: translateX(0);
+    }
+  }
+} @else {
+  html[dir="rtl"]
+    [data-prompt][data-isdrawer][data-ispush].is-showing
+    [data-content] {
+    transform: translateX(0);
+  }
+}
+
+/* Push drawer: content position, position at end (RTL) */
+@if $scoped {
+  html[dir="rtl"] .__AMP__ {
+    [data-prompt][data-isdrawer][data-ispush][data-isfarside] [data-content] {
+      transform: translateX(0);
+    }
+  }
+} @else {
+  html[dir="rtl"]
+    [data-prompt][data-isdrawer][data-ispush][data-isfarside]
+    [data-content] {
+    transform: translateX(0);
+  }
+}
+
+/* Push drawer: appear: slide in (RTL) */
+@if $scoped {
+  html[dir="rtl"] .__AMP__ {
+    [data-prompt][data-isdrawer][data-ispush][data-isfarside].is-showing
+      [data-content] {
+      transform: translateX(var(--push-drawer-width));
+    }
+  }
+} @else {
+  html[dir="rtl"]
+    [data-prompt][data-isdrawer][data-ispush][data-isfarside].is-showing
+    [data-content] {
+    transform: translateX(var(--push-drawer-width));
+  }
+}
+
+/* Various styling tweaks */
+
+/* Adjusted backdrop opacities for dark theme. */
+[data-color-mode="dark"] [data-prompt] {
+  --prompt-background-opacity-backdrop-dark-strong: 0.7;
+  --prompt-background-opacity-backdrop-dark-medium: 0.5;
+  --prompt-background-opacity-backdrop-dark-light: 0.3;
+}
+
+/* Adjusted backdrop opacities for dimmed dark theme. */
+[data-color-mode="dark"][data-dark-theme="dark_dimmed"] [data-prompt] {
+  --prompt-background-opacity-backdrop-dark-strong: 0.5;
+  --prompt-background-opacity-backdrop-dark-medium: 0.35;
+  --prompt-background-opacity-backdrop-dark-light: 0.2;
+}
+
+/* Set max height on dialog content. */
+[data-prompt]:not([data-isdrawer], [data-ismenu]) [data-content] {
+  max-height: calc(1vh * var(--prompt-max-height-content));
+  max-height: calc(1dvh * var(--prompt-max-height-content));
+}
+
+/* Box--overlay: drawer width */
+[data-prompt][data-isdrawer] [data-drawer-content] {
+  width: var(--prompt-drawer-content-width);
+}
+
+/* Box--overlay: prevent shadow for push drawer when not showing. */
+[data-prompt][data-isdrawer]:not(.is-showing) [data-drawer-content] {
+  box-shadow: none;
+}

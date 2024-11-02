@@ -1,0 +1,121 @@
+$baseEightValues: (
+  0: 0,
+  1: 4,
+  2: 8,
+  3: 16,
+  4: 24,
+  5: 32,
+  6: 40,
+  7: 48,
+  8: 64,
+  9: 80,
+  10: 96,
+  11: 112,
+  12: 128,
+);
+
+/* -- Flex and grid gap */
+
+@each $key, $size in $baseEightValues {
+  .pl-gap-#{$key} {
+    gap: var(--base-size-#{$size}, #{$size}px);
+  }
+}
+
+/* -- Absolute position across the x axis */
+
+/* -- Base */
+@if $scoped {
+  html:not([dir="rtl"]) .__AMP__ {
+    .pl-aligned-start {
+      right: auto;
+      left: 0;
+    }
+  }
+  html[dir="rtl"] .__AMP__ {
+    .pl-aligned-end {
+      right: auto;
+      left: 0;
+    }
+  }
+} @else {
+  html:not([dir="rtl"]) .pl-aligned-start,
+  html[dir="rtl"] .pl-aligned-end {
+    right: auto;
+    left: 0;
+  }
+}
+
+@if $scoped {
+  html:not([dir="rtl"]) .__AMP__ {
+    .pl-aligned-end {
+      left: auto;
+      right: 0;
+    }
+  }
+  html[dir="rtl"] .__AMP__ {
+    .pl-aligned-start {
+      left: auto;
+      right: 0;
+    }
+  }
+} @else {
+  html:not([dir="rtl"]) .pl-aligned-end,
+  html[dir="rtl"] .pl-aligned-start {
+    left: auto;
+    right: 0;
+  }
+}
+
+/* -- Values 0-12 */
+@each $key, $size in $baseEightValues {
+  @if $scoped {
+    html:not([dir="rtl"]) .__AMP__ {
+      .pl-offset-x-#{$key}:not(.pl-aligned-end) {
+        left: var(--base-size-#{$size}, #{$size}px);
+      }
+    }
+    html[dir="rtl"] .__AMP__ {
+      .pl-offset-x-#{$key}.pl-aligned-end {
+        left: var(--base-size-#{$size}, #{$size}px);
+      }
+    }
+  } @else {
+    html:not([dir="rtl"]) .pl-offset-x-#{$key}:not(.pl-aligned-end),
+    html[dir="rtl"] .pl-offset-x-#{$key}.pl-aligned-end {
+      left: var(--base-size-#{$size}, #{$size}px);
+    }
+  }
+
+  @if $scoped {
+    html:not([dir="rtl"]) .__AMP__ {
+      .pl-offset-x-#{$key}.pl-aligned-end {
+        right: var(--base-size-#{$size}, #{$size}px);
+      }
+    }
+    html[dir="rtl"] .__AMP__ {
+      .pl-offset-x-#{$key}:not(.pl-aligned-end) {
+        right: var(--base-size-#{$size}, #{$size}px);
+      }
+    }
+  } @else {
+    html:not([dir="rtl"]) .pl-offset-x-#{$key}.pl-aligned-end,
+    html[dir="rtl"] .pl-offset-x-#{$key}:not(.pl-aligned-end) {
+      right: var(--base-size-#{$size}, #{$size}px);
+    }
+  }
+}
+
+/* Border */
+
+.pl-border-thin {
+  border-width: var(--borderWidth-thin);
+}
+
+.pl-border-thick {
+  border-width: var(--borderWidth-thick);
+}
+
+.pl-border-thicker {
+  border-width: var(--borderWidth-thicker);
+}

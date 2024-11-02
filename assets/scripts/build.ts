@@ -1,18 +1,27 @@
 import esbuild, { BuildOptions } from "esbuild";
 import { sassPlugin } from "esbuild-sass-plugin";
+import { writeFileSync } from "fs";
 
 declare var process: {
   argv: string[];
+  env: {
+    SCOPED: number;
+  };
 };
 
 type OptsFromArgs = Partial<BuildOptions>;
 
+/* Write a variables file that sets the $scoped variable for Sass */
+writeFileSync("./css/gen-variables.scss", `$scoped: ${!!process.env.SCOPED};`, {
+  flag: "w",
+});
+
 const args = process.argv.slice(2);
 
-const argRe = /^\s*--(?<key>\w+)\s*=?\s*(?<value>.*)$/;
+const ARGS_REGEXP = /^\s*--(?<key>\w+)\s*=?\s*(?<value>.*)$/;
 
 const optsFromArgs: OptsFromArgs = args.reduce((acc, arg) => {
-  const parts = arg.match(argRe);
+  const parts = arg.match(ARGS_REGEXP);
   if (parts !== null && parts.groups) {
     const key = parts.groups?.key;
     const value = parts.groups?.value !== "" ? parts.groups.value : true;
@@ -26,7 +35,7 @@ const optsFromArgs: OptsFromArgs = args.reduce((acc, arg) => {
 
 if (!optsFromArgs.outfile) {
   throw new Error(
-    'Missing outfile. Are you running the build script outside of the mix command "assets.build"?',
+    'Missing outfile. Are you running the build script outside of the mix command "assets.build"?'
   );
 }
 

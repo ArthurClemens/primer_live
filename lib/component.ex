@@ -4867,7 +4867,7 @@ defmodule PrimerLive.Component do
   @doc section: :forms
 
   @doc ~S"""
-  Groups [`radio buttons`](`radio_button/1`) in a tab-like row.
+  Groups [`radio buttons`](`radio_button/1`) in a tab-like row. Note that this component is not updated for RTL-display.
 
   Radio buttons are generated from the `radio_button` slot:
 
@@ -4943,9 +4943,10 @@ defmodule PrimerLive.Component do
     Default map:
     ```
     %{
-      radio_group: "", # Wrapper
-      label: "",       # Radio button label
-      radio_input: "", # Radio button input
+      radio_group_wrapper: "", # RTL-wrapper
+      radio_group: "",         # Radio group containe
+      label: "",               # Radio button label
+      radio_input: "",         # Radio button input
     }
     ```
     """
@@ -4985,11 +4986,16 @@ defmodule PrimerLive.Component do
     field = assigns[:field]
 
     classes = %{
+      radio_group_wrapper:
+        AttributeHelpers.classnames([
+          "radio-group-wrapper",
+          assigns.classes[:radio_group_wrapper],
+          assigns[:class]
+        ]),
       radio_group:
         AttributeHelpers.classnames([
           "radio-group",
           assigns.classes[:radio_group],
-          assigns[:class]
         ]),
       label:
         AttributeHelpers.classnames([
@@ -5060,21 +5066,24 @@ defmodule PrimerLive.Component do
       """
     end
 
-    radio_group_attrs =
+    wrapper_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
-        [class: classes.radio_group]
+        [class: classes.radio_group_wrapper]
       ])
 
     assigns =
       assigns
-      |> assign(:radio_group_attrs, radio_group_attrs)
+      |> assign(:classes, classes)
+      |> assign(:wrapper_attrs, wrapper_attrs)
       |> assign(:render_radio_button, render_radio_button)
 
     ~H"""
-    <div {@radio_group_attrs}>
-      <%= for slot <- @radio_button do %>
-        <%= @render_radio_button.(slot) %>
-      <% end %>
+    <div {@wrapper_attrs}>
+      <div class={@classes.radio_group}>
+        <%= for slot <- @radio_button do %>
+          <%= @render_radio_button.(slot) %>
+        <% end %>
+      </div>
     </div>
     """
   end
@@ -11690,7 +11699,7 @@ defmodule PrimerLive.Component do
       AttributeHelpers.append_attributes([
         [is_close_button: true],
         ["aria-label": "Close"],
-        [class: "Box-btn-octicon btn-octicon flex-shrink-0"],
+        [class: "btn-octicon"],
         ["phx-click": cancel_dialog(assigns.id)]
       ])
 
