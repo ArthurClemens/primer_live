@@ -29785,6 +29785,9 @@ html[dir=rtl] .ToggleSwitch-lineIcon {
 .pl-gap-2 {
   gap: var(--base-size-8, 8px);
 }
+.pl-gap-2_5 {
+  gap: var(--base-size-12, 12px);
+}
 .pl-gap-3 {
   gap: var(--base-size-16, 16px);
 }
@@ -29848,6 +29851,14 @@ html[dir=rtl] .pl-offset-x-2.pl-aligned-end {
 html:not([dir=rtl]) .pl-offset-x-2.pl-aligned-end,
 html[dir=rtl] .pl-offset-x-2:not(.pl-aligned-end) {
   right: var(--base-size-8, 8px);
+}
+html:not([dir=rtl]) .pl-offset-x-2_5:not(.pl-aligned-end),
+html[dir=rtl] .pl-offset-x-2_5.pl-aligned-end {
+  left: var(--base-size-12, 12px);
+}
+html:not([dir=rtl]) .pl-offset-x-2_5.pl-aligned-end,
+html[dir=rtl] .pl-offset-x-2_5:not(.pl-aligned-end) {
+  right: var(--base-size-12, 12px);
 }
 html:not([dir=rtl]) .pl-offset-x-3:not(.pl-aligned-end),
 html[dir=rtl] .pl-offset-x-3.pl-aligned-end {
@@ -29937,6 +29948,15 @@ html[dir=rtl] .pl-offset-x-12:not(.pl-aligned-end) {
 }
 .pl-border-thicker {
   border-width: var(--borderWidth-thicker);
+}
+@media (hover: hover) {
+  .pl-text-underline-hover:hover {
+    text-decoration: underline !important;
+  }
+}
+.pl-text-monospace {
+  font-family: var(--fontStack-monospace, ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace);
+  font-size: 13px;
 }
 /*!
  * @primer/css/core

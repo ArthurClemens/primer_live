@@ -13,6 +13,7 @@
   - [Alignment](#alignment)
   - [Offset](#offset)
   - [Border width](#border-width)
+  - [Text](#text)
 
 ## Primer Design System
 
@@ -45,8 +46,9 @@ All PrimerLive components accept the `class` attribute:
 To address inner elements, use the component `classes` attribute, is a key-classname map. The map keys are described in the component documentation.
 
 We can define the styles in 2 ways:
+
 1. Writing custom CSS
-2. Using predefined classes 
+2. Using predefined classes
 
 In the next two sections we're creating a custom styled Box. It will have a thicker border, a header row with larger heading and white background, and data rows with gray background.
 
@@ -105,7 +107,7 @@ The same styles, now with Custom Properties:
 }
 ```
 
-#### Using predefined classes 
+#### Using predefined classes
 
 One step up is to use CSS utility classes. These are documented in [Primer Design System's CSS utilities](https://primer.style/foundations/css-utilities), and using them won't require the creation of a separate CSS file.
 
@@ -166,62 +168,69 @@ To display components in right-to-left (RTL) languages, set the `dir` attribute 
 
 ### Flex and grid gap
 
-Gap (or gutter) between rows and columns. 
+Gap (or gutter) between rows and columns.
 
-*Integer values are translated to px values using the Primer Design System's base-8 scale.*
+_Integer values are translated to px values using the Primer Design System's base-8 scale._
 
-| **Class** | **Gap size in px** |
-| --------- | ------------------ |
-| `pl-gap-0` | `0` |
-| `pl-gap-1` | `4` |
-| `pl-gap-2` | `8` |
-| `pl-gap-3` | `16` |
-| `pl-gap-4` | `24` |
-| `pl-gap-5` | `32` |
-| `pl-gap-6` | `40` |
-| `pl-gap-7` | `48` |
-| `pl-gap-8` | `64` |
-| `pl-gap-9` | `80` |
-| `pl-gap-10` | `96` |
-| `pl-gap-11` | `112` |
-| `pl-gap-12` | `128` |
-
+| **Class**    | **Gap size in px** |
+| ------------ | ------------------ |
+| `pl-gap-0`   | `0`                |
+| `pl-gap-1`   | `4`                |
+| `pl-gap-2`   | `8`                |
+| `pl-gap-2_5` | `12`               |
+| `pl-gap-3`   | `16`               |
+| `pl-gap-4`   | `24`               |
+| `pl-gap-5`   | `32`               |
+| `pl-gap-6`   | `40`               |
+| `pl-gap-7`   | `48`               |
+| `pl-gap-8`   | `64`               |
+| `pl-gap-9`   | `80`               |
+| `pl-gap-10`  | `96`               |
+| `pl-gap-11`  | `112`              |
+| `pl-gap-12`  | `128`              |
 
 ### Alignment
 
-| **Class** | **Description** |
-| --------- | --------------- |
+| **Class**          | **Description**                                                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
 | `pl-aligned-start` | (default) Aligns the element at the start (at the left in left-to-right languages and at the right in right-to-left languages). |
-| `pl-aligned-end` | Aligns the element at the end (at the right in left-to-right languages and at the left in right-to-left languages). |
-
+| `pl-aligned-end`   | Aligns the element at the end (at the right in left-to-right languages and at the left in right-to-left languages).             |
 
 ### Offset
 
 The absolute offset for the element on the horizontal axis. This can be used together with the alignment classes:
 class `pl-offset-x-2 pl-aligned-end` will place the element 16px from the right in a left-to-right language.
 
-*Integer values are translated to px values using the Primer Design System's base-8 scale.*
+_Integer values are translated to px values using the Primer Design System's base-8 scale._
 
-| **Class** | **Offset in px** |
-| --------- | ---------------- |
-| `pl-offset-x-0` | `0` |
-| `pl-offset-x-1` | `4` |
-| `pl-offset-x-2` | `8` |
-| `pl-offset-x-3` | `16` |
-| `pl-offset-x-4` | `24` |
-| `pl-offset-x-5` | `32` |
-| `pl-offset-x-6` | `40` |
-| `pl-offset-x-7` | `48` |
-| `pl-offset-x-8` | `64` |
-| `pl-offset-x-9` | `80` |
-| `pl-offset-x-10` | `96` |
-| `pl-offset-x-11` | `112` |
-| `pl-offset-x-12` | `128` |
+| **Class**         | **Offset in px** |
+| ----------------- | ---------------- |
+| `pl-offset-x-0`   | `0`              |
+| `pl-offset-x-1`   | `4`              |
+| `pl-offset-x-2`   | `8`              |
+| `pl-offset-x-2_5` | `12`             |
+| `pl-offset-x-3`   | `16`             |
+| `pl-offset-x-4`   | `24`             |
+| `pl-offset-x-5`   | `32`             |
+| `pl-offset-x-6`   | `40`             |
+| `pl-offset-x-7`   | `48`             |
+| `pl-offset-x-8`   | `64`             |
+| `pl-offset-x-9`   | `80`             |
+| `pl-offset-x-10`  | `96`             |
+| `pl-offset-x-11`  | `112`            |
+| `pl-offset-x-12`  | `128`            |
 
 ### Border width
 
-| **Class** | **Width in px** |
-| --------- | --------------- |
-| `pl-border-thin` | `1` |
-| `pl-border-thick` | `2` |
-| `pl-border-thicker` | `4` |
+| **Class**           | **Width in px** |
+| ------------------- | --------------- |
+| `pl-border-thin`    | `1`             |
+| `pl-border-thick`   | `2`             |
+| `pl-border-thicker` | `4`             |
+
+### Text
+
+| **Class**                 | **Description**           |
+| ------------------------- | ------------------------- |
+| `pl-text-underline-hover` | Underline text on hover   |
+| `pl-text-monospace`       | Use monospace font family |
