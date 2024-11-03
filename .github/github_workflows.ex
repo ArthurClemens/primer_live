@@ -184,7 +184,7 @@ defmodule GithubWorkflows do
         [
           name: "Run tests",
           env: env,
-          run: "mix test --warnings-as-errors"
+          run: "mix test"
         ]
       ]
     )

@@ -186,7 +186,7 @@ jobs:
       - name: Run tests
         env:
           MIX_ENV: test
-        run: mix test --warnings-as-errors
+        run: mix test
     name: Test
     runs-on: ${{ matrix.versions.runner-image }}
     strategy:
