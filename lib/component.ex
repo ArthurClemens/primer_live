@@ -4995,7 +4995,7 @@ defmodule PrimerLive.Component do
       radio_group:
         AttributeHelpers.classnames([
           "radio-group",
-          assigns.classes[:radio_group],
+          assigns.classes[:radio_group]
         ]),
       label:
         AttributeHelpers.classnames([
@@ -6687,12 +6687,15 @@ defmodule PrimerLive.Component do
 
   """
 
-  attr :variant, :string, values: ~w(dark base), default: "dark", doc: """
-  Color variant. Use "base" for a light colored header.
-  """
+  attr :variant, :string,
+    values: ~w(dark base),
+    default: "dark",
+    doc: """
+    Color variant. Use "base" for a light colored header.
+    """
 
   attr :is_compact, :boolean, default: false, doc: "Creates somewhat smaller vertical padding."
-  
+
   DeclarationHelpers.class()
 
   attr(:classes, :map,
