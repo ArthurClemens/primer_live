@@ -29409,8 +29409,10 @@ span[data-color-mode] {
   display: flex;
   flex-direction: column;
   gap: var(--base-size-8, 8px);
+  margin-bottom: var(--base-size-4, 4px);
+}
+* + .pl-FormControl--input-group__container {
   margin-top: var(--base-size-4, 4px);
-  margin-bottom: calc(var(--base-size-4, 4px) / 2);
 }
 .pl-FormControl--input-group .form-group-header .FormControl-label,
 legend.FormControl-label {

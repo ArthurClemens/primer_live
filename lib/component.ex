@@ -3143,7 +3143,7 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <fieldset {@fieldset_attrs}>
-        <%= if @label do %>
+        <%= if @label && @label != "" do %>
           <legend class={@classes.legend}>
             <%= @label %>
             <%= if @show_required_marker do %>
