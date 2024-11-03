@@ -6361,7 +6361,7 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_class()
   end
 
-  slot(:inner_block, required: true, doc: "Unstructured content.")
+  slot(:inner_block, doc: "Unstructured content.")
 
   def box(assigns) do
     if not is_nil(assigns.stream) && is_nil(assigns.id),
@@ -6633,7 +6633,7 @@ defmodule PrimerLive.Component do
     <.link href="/" class={classes.link}>Regular anchor link</.link>
   </:item>
   <:item :let={classes}>
-    <.link navigate={Routes.page_path(@socket, :index)} class={[classes.link, "underline"]}>Home</.link>
+    <.link navigate={Routes.page_path(@socket, :index)} class={[classes.link, "text-underline"]}>Home</.link>
   </:item>
   ```
 
@@ -6642,6 +6642,14 @@ defmodule PrimerLive.Component do
   ```
   <:item :let={classes}>
     <.text_input form={:user} field={:first_name} type="search" class={classes.input} />
+  </:item>
+  ```
+
+  Buttons on a dark header can be styled with [Theme.html_attributes](`PrimerLive.Theme`):
+
+  ```
+  <:item>
+    <.button {PrimerLive.Theme.html_attributes([color_mode: "dark"])}>Menu</.button>
   </:item>
   ```
 
@@ -6679,6 +6687,12 @@ defmodule PrimerLive.Component do
 
   """
 
+  attr :variant, :string, values: ~w(dark base), default: "dark", doc: """
+  Color variant. Use "base" for a light colored header.
+  """
+
+  attr :is_compact, :boolean, default: false, doc: "Creates somewhat smaller vertical padding."
+  
   DeclarationHelpers.class()
 
   attr(:classes, :map,
@@ -6728,6 +6742,8 @@ defmodule PrimerLive.Component do
       header:
         AttributeHelpers.classnames([
           "Header",
+          assigns.variant == "base" && "pl-header--base",
+          assigns.is_compact && "pl-header--compact",
           assigns.classes[:header],
           assigns[:class]
         ]),
@@ -6739,7 +6755,7 @@ defmodule PrimerLive.Component do
         ]),
       input:
         AttributeHelpers.classnames([
-          "Header-input",
+          assigns.variant == "dark" && "Header-input",
           assigns.classes[:input]
         ])
     }

@@ -7,6 +7,7 @@
 - [Text input](`PrimerLive.Component.text_input/1`): Set disabled color on read-only field with inset style.
 - [Checkbox group](`PrimerLive.Component.checkbox_group/1`) and [Radio group](`PrimerLive.Component.radio_group/1`): Show required marker in legend.
 - [Action menu](`PrimerLive.Component.action_menu/1`) and [Select menu](`PrimerLive.Component.select_menu/1`): Added attribute `offset_x` to define the absolute offset for the menu on the horizontal axis.
+- [Header](`PrimerLive.Component.header/1`): added attributes `variant="base"` to create a light colored header, and `is_compact` for a smaller vertical height.
 - Updated upstream Primer Design System libraries. This update includes a number of changes to modified CSS Custom Properties.
   - Updated upstream dependency `@primer/css` to `21.5.0`.
   - Added `@primer/view-components` version `0.34.0`. This is the Rails version of Primer Design, which is the most developed so far.

@@ -77,6 +77,32 @@ defmodule PrimerLive.TestComponents.HeaderTest do
     )
   end
 
+  test "Attribute: variant" do
+    assigns = %{}
+
+    run_test(
+      ~H"""
+      <.header variant="base">
+        Content
+      </.header>
+      """,
+      __ENV__
+    )
+  end
+
+  test "Attribute: is_compact" do
+    assigns = %{}
+
+    run_test(
+      ~H"""
+      <.header is_compact>
+        Content
+      </.header>
+      """,
+      __ENV__
+    )
+  end
+
   test "Attribute: classes" do
     assigns = %{}
 

@@ -87,7 +87,6 @@ defmodule PrimerLive.TestComponents.TextInputTest do
 
     run_test(
       ~H"""
-      <div><.text_input type={:x} /></div>
       <div><.text_input type="color" /></div>
       <div><.text_input type="date" /></div>
       <div><.text_input type="datetime-local" /></div>

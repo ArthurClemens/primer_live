@@ -1542,7 +1542,9 @@ label.ActionList-content {
   margin: var(--base-size-8, 8px) 0 var(--base-size-16, 16px) 0;
 }
 
-/* Header: make whitespace work on both sides. */
+/* Header */
+
+/* -- Make whitespace work on both sides. */
 .Header {
   column-gap: var(--base-size-16, 16px);
 }
@@ -1551,6 +1553,25 @@ label.ActionList-content {
 .Header-item {
   margin-left: 0;
   margin-right: 0;
+}
+
+/* -- Variant base (light color) */
+.Header.pl-header--base {
+  color: var(--fgColor-default);
+  background-color: var(--bgColor-default);
+  border-bottom: 1px solid var(--borderColor-default);
+}
+
+.Header.pl-header--base .Header-link {
+  color: var(--fgColor-default);
+  font-weight: var(--base-text-weight-medium, 500);
+  white-space: nowrap;
+}
+
+/* -- Compact header */
+.Header.pl-header--compact {
+  padding-top: var(--base-size-12, 12px);
+  padding-bottom: var(--base-size-12, 12px);
 }
 
 /* Implement Primer React's IconButton. */

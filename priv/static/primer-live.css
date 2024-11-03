@@ -29348,6 +29348,20 @@ html[dir=rtl] .ActionList-content > :not(:last-child) {
   margin-left: 0;
   margin-right: 0;
 }
+.Header.pl-header--base {
+  color: var(--fgColor-default);
+  background-color: var(--bgColor-default);
+  border-bottom: 1px solid var(--borderColor-default);
+}
+.Header.pl-header--base .Header-link {
+  color: var(--fgColor-default);
+  font-weight: var(--base-text-weight-medium, 500);
+  white-space: nowrap;
+}
+.Header.pl-header--compact {
+  padding-top: var(--base-size-12, 12px);
+  padding-bottom: var(--base-size-12, 12px);
+}
 .btn-icon {
   padding: 5px var(--base-size-8, 8px);
 }
