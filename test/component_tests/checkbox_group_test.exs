@@ -104,7 +104,7 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
             checked_value={value}
           >
             <:label>
-              <%= label |> String.downcase() %>
+              {label |> String.downcase()}
             </:label>
           </.checkbox_in_group>
         </.checkbox_group>
@@ -145,7 +145,7 @@ defmodule PrimerLive.TestComponents.CheckboxGroupTest do
             checked={value in @values}
           >
             <:label>
-              <%= label %>
+              {label}
             </:label>
           </.checkbox_in_group>
         <% end %>

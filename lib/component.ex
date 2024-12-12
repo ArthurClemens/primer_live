@@ -432,7 +432,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <ul {@attributes}>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </ul>
     """
   end
@@ -547,7 +547,7 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <h3 {@attributes}>
-        <%= render_slot(@slot) %>
+        {render_slot(@slot)}
       </h3>
       """
     end
@@ -569,7 +569,7 @@ defmodule PrimerLive.Component do
         |> assign(:slot, slot)
 
       ~H"""
-      <span {@attributes}><%= render_slot(@slot) %></span>
+      <span {@attributes}>{render_slot(@slot)}</span>
       """
     end
 
@@ -597,12 +597,12 @@ defmodule PrimerLive.Component do
       <li {@attributes}>
         <%= if @has_title do %>
           <%= for slot <- @title do %>
-            <%= @render_title.(slot) %>
+            {@render_title.(slot)}
           <% end %>
         <% end %>
         <%= if @has_description do %>
           <%= for slot <- @description do %>
-            <%= @render_description.(slot) %>
+            {@render_description.(slot)}
           <% end %>
         <% end %>
       </li>
@@ -953,10 +953,10 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <%= if @content && @content !== [] do %>
-        <span class={@classes.label}><%= render_slot(@content) %></span>
+        <span class={@classes.label}>{render_slot(@content)}</span>
       <% end %>
       <%= if @description && @description !== [] do %>
-        <div class={@classes.description}><%= render_slot(@description) %></div>
+        <div class={@classes.description}>{render_slot(@description)}</div>
       <% end %>
       """
     end
@@ -984,7 +984,7 @@ defmodule PrimerLive.Component do
       <%= if @is_select do %>
         <%= if @has_leading_visual do %>
           <span class={@classes.leading_visual}>
-            <%= render_slot(@leading_visual) %>
+            {render_slot(@leading_visual)}
           </span>
         <% else %>
           <span class={@classes.leading_visual}>
@@ -1010,20 +1010,20 @@ defmodule PrimerLive.Component do
       <% else %>
         <%= if @has_leading_visual do %>
           <span class={@classes.leading_visual}>
-            <%= render_slot(@leading_visual) %>
+            {render_slot(@leading_visual)}
           </span>
         <% end %>
       <% end %>
       <%= if @has_description do %>
         <div class={@classes.description_container}>
-          <%= @render_content_elements.(@content) %>
+          {@render_content_elements.(@content)}
         </div>
       <% else %>
-        <%= @render_content_elements.(@content) %>
+        {@render_content_elements.(@content)}
       <% end %>
       <%= if @has_trailing_visual do %>
         <div class={@classes.trailing_visual}>
-          <%= render_slot(@trailing_visual) %>
+          {render_slot(@trailing_visual)}
         </div>
       <% else %>
         <%= if @is_collapsible do %>
@@ -1054,7 +1054,7 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <.action_list {@attributes}>
-        <%= render_slot(@slot) %>
+        {render_slot(@slot)}
       </.action_list>
       """
     end
@@ -1118,28 +1118,28 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @is_link do %>
         <Phoenix.Component.link {@link_attributes}>
-          <%= @render_maybe_wrap_content_elements.(@link_slot) %>
+          {@render_maybe_wrap_content_elements.(@link_slot)}
         </Phoenix.Component.link>
       <% else %>
         <%= if @is_button do %>
           <button {@attributes}>
-            <%= @render_maybe_wrap_content_elements.(@inner_block) %>
+            {@render_maybe_wrap_content_elements.(@inner_block)}
           </button>
         <% else %>
           <%= if @is_label do %>
             <label {@attributes}>
-              <%= @render_maybe_wrap_content_elements.(@inner_block) %>
+              {@render_maybe_wrap_content_elements.(@inner_block)}
             </label>
           <% else %>
             <div {@attributes}>
-              <%= @render_maybe_wrap_content_elements.(@inner_block) %>
+              {@render_maybe_wrap_content_elements.(@inner_block)}
             </div>
           <% end %>
         <% end %>
       <% end %>
       <%= if @has_sub_group do %>
         <%= for slot <- @sub_group do %>
-          <%= @render_sub_group.(slot) %>
+          {@render_sub_group.(slot)}
         <% end %>
       <% end %>
       """
@@ -1162,7 +1162,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <li {@attributes}>
-      <%= @render_content.() %>
+      {@render_content.()}
     </li>
     """
   end
@@ -1440,11 +1440,11 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @is_link do %>
         <Phoenix.Component.link {@attributes}>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         </Phoenix.Component.link>
       <% else %>
         <button {@attributes}>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         </button>
       <% end %>
       """
@@ -1468,7 +1468,7 @@ defmodule PrimerLive.Component do
         |> assign(:slot, slot)
 
       ~H"""
-      <div {@attributes}><%= render_slot(@slot) %></div>
+      <div {@attributes}>{render_slot(@slot)}</div>
       """
     end
 
@@ -1494,13 +1494,13 @@ defmodule PrimerLive.Component do
     <div {@tabnav_attrs}>
       <%= if @position_end && @position_end !== [] do %>
         <%= for slot <- @position_end do %>
-          <%= @render_position_end.(slot) %>
+          {@render_position_end.(slot)}
         <% end %>
       <% end %>
       <%= if @item && @item !== [] do %>
         <nav {@nav_attributes}>
           <%= for slot <- @item do %>
-            <%= @render_tab.(slot) %>
+            {@render_tab.(slot)}
           <% end %>
         </nav>
       <% end %>
@@ -1789,11 +1789,11 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @is_link do %>
         <Phoenix.Component.link {@attributes}>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         </Phoenix.Component.link>
       <% else %>
         <button {@attributes}>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         </button>
       <% end %>
       """
@@ -1817,7 +1817,7 @@ defmodule PrimerLive.Component do
         |> assign(:slot, slot)
 
       ~H"""
-      <div {@attributes}><%= render_slot(@slot) %></div>
+      <div {@attributes}>{render_slot(@slot)}</div>
       """
     end
 
@@ -1830,7 +1830,7 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @slots && @slots !== [] do %>
         <%= for slot <- @slots do %>
-          <%= @render_position_end.(slot) %>
+          {@render_position_end.(slot)}
         <% end %>
       <% end %>
       """
@@ -1846,17 +1846,17 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <%= if @is_reversed do %>
-        <%= @render_position_end_slots.(@position_end) %>
+        {@render_position_end_slots.(@position_end)}
       <% end %>
       <%= if @item && @items !== [] do %>
         <div {@body_attributes}>
           <%= for slot <- @item do %>
-            <%= @render_tab.(slot) %>
+            {@render_tab.(slot)}
           <% end %>
         </div>
       <% end %>
       <%= if not @is_reversed do %>
-        <%= @render_position_end_slots.(@position_end) %>
+        {@render_position_end_slots.(@position_end)}
       <% end %>
       """
     end
@@ -1876,10 +1876,10 @@ defmodule PrimerLive.Component do
     <nav {@underline_nav_attrs}>
       <%= if @is_container_width do %>
         <div class={@classes.container}>
-          <%= @render_items.(@item) %>
+          {@render_items.(@item)}
         </div>
       <% else %>
-        <%= @render_items.(@item) %>
+        {@render_items.(@item)}
       <% end %>
     </nav>
     """
@@ -2077,10 +2077,10 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @is_link do %>
         <Phoenix.Component.link {@attributes}>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         </Phoenix.Component.link>
       <% else %>
-        <%= render_slot(@slot) %>
+        {render_slot(@slot)}
       <% end %>
       """
     end
@@ -2104,7 +2104,7 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <span {@attributes}>
-        <%= render_slot(@slot) %>
+        {render_slot(@slot)}
       </span>
       """
     end
@@ -2127,12 +2127,12 @@ defmodule PrimerLive.Component do
     <nav {@prompt_attrs}>
       <%= if @heading && @heading !== [] do %>
         <%= for slot <- @heading do %>
-          <%= @render_heading.(slot) %>
+          {@render_heading.(slot)}
         <% end %>
       <% end %>
       <%= if @item && @item !== [] do %>
         <%= for slot <- @item do %>
-          <%= @render_item.(slot) %>
+          {@render_item.(slot)}
         <% end %>
       <% end %>
     </nav>
@@ -2359,10 +2359,10 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @is_link do %>
         <Phoenix.Component.link {@attributes}>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         </Phoenix.Component.link>
       <% else %>
-        <%= render_slot(@slot) %>
+        {render_slot(@slot)}
       <% end %>
       """
     end
@@ -2383,7 +2383,7 @@ defmodule PrimerLive.Component do
     <nav {@side_nav_attributes}>
       <%= if @item && @item !== [] do %>
         <%= for slot <- @item do %>
-          <%= @render_item.(slot) %>
+          {@render_item.(slot)}
         <% end %>
       <% end %>
     </nav>
@@ -2497,7 +2497,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@subnav_attrs}>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </div>
     """
   end
@@ -2606,10 +2606,10 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @is_link do %>
         <Phoenix.Component.link {@attributes}>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         </Phoenix.Component.link>
       <% else %>
-        <%= render_slot(@slot) %>
+        {render_slot(@slot)}
       <% end %>
       """
     end
@@ -2629,7 +2629,7 @@ defmodule PrimerLive.Component do
     <nav {@subnav_links_attributes}>
       <%= if @item && @item !== [] do %>
         <%= for slot <- @item do %>
-          <%= @render_item.(slot) %>
+          {@render_item.(slot)}
         <% end %>
       <% end %>
     </nav>
@@ -2669,7 +2669,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@subnav_search_attrs}>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
       <.octicon name="search-16" class="subnav-search-icon" />
     </div>
     """
@@ -2708,7 +2708,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@subnav_search_context_attrs}>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </div>
     """
   end
@@ -2883,13 +2883,13 @@ defmodule PrimerLive.Component do
       <li>
         <%= if @is_link do %>
           <Phoenix.Component.link {@attributes}>
-            <%= render_slot(@slot) %>
+            {render_slot(@slot)}
             <%= if @count do %>
-              <span class={@classes.count}><%= @count %></span>
+              <span class={@classes.count}>{@count}</span>
             <% end %>
           </Phoenix.Component.link>
         <% else %>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         <% end %>
       </li>
       """
@@ -2911,7 +2911,7 @@ defmodule PrimerLive.Component do
     <ul {@filter_list_attributes}>
       <%= if @item !== [] do %>
         <%= for slot <- @item do %>
-          <%= @render_item.(slot) %>
+          {@render_item.(slot)}
         <% end %>
       <% end %>
     </ul>
@@ -2942,7 +2942,7 @@ defmodule PrimerLive.Component do
           |> assign(:reason, reason)
 
         ~H"""
-        <%= @reason %>
+        {@reason}
         """
 
       _ ->
@@ -3078,9 +3078,9 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <div class={@classes.header}>
-        <%= @label %>
+        {@label}
         <%= if @show_required_marker do %>
-          <span aria-hidden="true"><%= @required_marker %></span>
+          <span aria-hidden="true">{@required_marker}</span>
         <% end %>
       </div>
       """
@@ -3102,24 +3102,24 @@ defmodule PrimerLive.Component do
       ~H"""
       <div {@control_attributes}>
         <%= if @has_header_label do %>
-          <%= @render_header_label.() %>
+          {@render_header_label.()}
         <% end %>
         <%= if @caption && @is_input_group do %>
           <div class={@classes.caption}>
-            <%= @caption %>
+            {@caption}
           </div>
         <% end %>
         <%= if @is_input_group do %>
           <div class={@classes.input_group_container}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </div>
         <% else %>
-          <%= render_slot(@inner_block) %>
+          {render_slot(@inner_block)}
         <% end %>
         <.input_validation_message common_input_attrs={@common_input_attrs} />
         <%= if @caption && !@is_input_group do %>
           <div class={@classes.caption}>
-            <%= @caption %>
+            {@caption}
           </div>
         <% end %>
       </div>
@@ -3145,13 +3145,13 @@ defmodule PrimerLive.Component do
       <fieldset {@fieldset_attrs}>
         <%= if @label && @label != "" do %>
           <legend class={@classes.legend}>
-            <%= @label %>
+            {@label}
             <%= if @show_required_marker do %>
-              <span aria-hidden="true"><%= @required_marker %></span>
+              <span aria-hidden="true">{@required_marker}</span>
             <% end %>
           </legend>
         <% end %>
-        <%= @render_content.() %>
+        {@render_content.()}
       </fieldset>
       """
     end
@@ -3163,9 +3163,9 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <%= if @is_wrap_in_fieldset do %>
-      <%= @render_fieldset.() %>
+      {@render_fieldset.()}
     <% else %>
-      <%= @render_content.() %>
+      {@render_content.()}
     <% end %>
     """
   end
@@ -3435,7 +3435,7 @@ defmodule PrimerLive.Component do
         <% else %>
           <.octicon name="alert-fill-12" />
         <% end %>
-        <span><%= @message %></span>
+        <span>{@message}</span>
       </div>
     <% end %>
     """
@@ -3722,7 +3722,7 @@ defmodule PrimerLive.Component do
           |> assign(:reason, reason)
 
         ~H"""
-        <%= @reason %>
+        {@reason}
         """
 
       _ ->
@@ -3825,7 +3825,7 @@ defmodule PrimerLive.Component do
         |> assign(:slot, slot)
 
       ~H"""
-      <span class={@class}><%= render_slot(@slot) %></span>
+      <span class={@class}>{render_slot(@slot)}</span>
       """
     end
 
@@ -3883,32 +3883,32 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @has_group_button do %>
         <div class={@classes.input_group}>
-          <%= @input %>
+          {@input}
           <div class={@classes.input_group_button}>
-            <%= render_slot(@group_button) %>
+            {render_slot(@group_button)}
           </div>
         </div>
       <% else %>
         <%= if @has_input_wrap do %>
           <div {@wrapper_attrs}>
             <%= if !is_nil(@leading_visual) && @leading_visual !== [] do %>
-              <span class={@classes.leading_visual}><%= render_slot(@leading_visual) %></span>
+              <span class={@classes.leading_visual}>{render_slot(@leading_visual)}</span>
             <% end %>
-            <%= @input %>
+            {@input}
             <%= if !is_nil(@trailing_action) && @trailing_action !== [] do %>
               <%= for slot <- @trailing_action do %>
-                <%= @render_trailing_action.(slot) %>
+                {@render_trailing_action.(slot)}
               <% end %>
             <% end %>
           </div>
         <% else %>
-          <%= @input %>
+          {@input}
         <% end %>
       <% end %>
       <.input_validation_message :if={!@hide_validation} common_input_attrs={@common_input_attrs} />
       <%= if @caption do %>
         <div class={@classes.caption}>
-          <%= @caption %>
+          {@caption}
         </div>
       <% end %>
       """
@@ -3929,10 +3929,10 @@ defmodule PrimerLive.Component do
         is_disabled={@is_form_control_disabled}
         common_input_attrs={@common_input_attrs}
       >
-        <%= @render.() %>
+        {@render.()}
       </.render_form_control>
     <% else %>
-      <%= @render.() %>
+      {@render.()}
     <% end %>
     """
   end
@@ -4162,7 +4162,7 @@ defmodule PrimerLive.Component do
           |> assign(:reason, reason)
 
         ~H"""
-        <%= @reason %>
+        {@reason}
         """
 
       _ ->
@@ -4273,12 +4273,12 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <div {@container_attrs}>
-        <%= @input %>
+        {@input}
       </div>
       <.input_validation_message :if={!@hide_validation} common_input_attrs={@common_input_attrs} />
       <%= if @caption do %>
         <div class={@classes.caption}>
-          <%= @caption %>
+          {@caption}
         </div>
       <% end %>
       """
@@ -4299,10 +4299,10 @@ defmodule PrimerLive.Component do
         is_disabled={@is_form_control_disabled}
         common_input_attrs={@common_input_attrs}
       >
-        <%= @render.() %>
+        {@render.()}
       </.render_form_control>
     <% else %>
-      <%= @render.() %>
+      {@render.()}
     <% end %>
     """
   end
@@ -4414,7 +4414,7 @@ defmodule PrimerLive.Component do
           |> assign(:reason, reason)
 
         ~H"""
-        <%= @reason %>
+        {@reason}
         """
 
       _ ->
@@ -4615,7 +4615,7 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= for slot <- @caption_slots do %>
         <span class={@classes.caption.(slot)}>
-          <%= render_slot(slot, @classes) %>
+          {render_slot(slot, @classes)}
         </span>
       <% end %>
       """
@@ -4625,7 +4625,7 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= for slot <- @disclosure do %>
         <span class={@classes.disclosure.(slot)}>
-          <%= render_slot(slot, @classes) %>
+          {render_slot(slot, @classes)}
         </span>
       <% end %>
       """
@@ -4635,12 +4635,12 @@ defmodule PrimerLive.Component do
       case assigns.is_emphasised_label do
         true ->
           ~H"""
-          <em class="highlight"><%= render_slot(@label_slot) || @derived_label %></em>
+          <em class="highlight">{render_slot(@label_slot) || @derived_label}</em>
           """
 
         false ->
           ~H"""
-          <%= render_slot(@label_slot) || @derived_label %>
+          {render_slot(@label_slot) || @derived_label}
           """
       end
 
@@ -4654,17 +4654,17 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@container_attrs}>
-      <%= @input %>
+      {@input}
       <%= if @has_label do %>
         <div {@label_container_attributes}>
           <label {@label_attributes}>
-            <%= @label %>
+            {@label}
           </label>
           <%= if @caption_slots && @caption_slots !== [] do %>
-            <%= @render_caption.(@caption_slots) %>
+            {@render_caption.(@caption_slots)}
           <% end %>
           <%= if @has_disclosure_slot do %>
-            <%= @render_disclosure.() %>
+            {@render_disclosure.()}
           <% end %>
         </div>
       <% end %>
@@ -4829,7 +4829,7 @@ defmodule PrimerLive.Component do
           |> assign(:reason, reason)
 
         ~H"""
-        <%= @reason %>
+        {@reason}
         """
 
       _ ->
@@ -4973,7 +4973,7 @@ defmodule PrimerLive.Component do
           |> assign(:reason, reason)
 
         ~H"""
-        <%= @reason %>
+        {@reason}
         """
 
       _ ->
@@ -5059,9 +5059,9 @@ defmodule PrimerLive.Component do
         |> assign(:slot, slot)
 
       ~H"""
-      <%= @input %>
+      {@input}
       <label {@label_opts}>
-        <%= @label || render_slot(@slot) |> ComponentHelpers.maybe_slot_content() || @derived_label %>
+        {@label || render_slot(@slot) |> ComponentHelpers.maybe_slot_content() || @derived_label}
       </label>
       """
     end
@@ -5081,7 +5081,7 @@ defmodule PrimerLive.Component do
     <div {@wrapper_attrs}>
       <div class={@classes.radio_group}>
         <%= for slot <- @radio_button do %>
-          <%= @render_radio_button.(slot) %>
+          {@render_radio_button.(slot)}
         <% end %>
       </div>
     </div>
@@ -5252,7 +5252,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@alert_attrs}>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </div>
     """
   end
@@ -5487,17 +5487,17 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <label {@container_attrs}>
-      <%= @input %>
+      {@input}
       <%= if @is_loading do %>
         <.spinner size="16" class={@classes.loading_icon} />
       <% end %>
       <%= if @has_labels do %>
         <span class={@classes.status_labels_container}>
           <%= if @on_label do %>
-            <span class={@classes.status_on_label}><%= @on_label %></span>
+            <span class={@classes.status_on_label}>{@on_label}</span>
           <% end %>
           <%= if @off_label do %>
-            <span class={@classes.status_off_label}><%= @off_label %></span>
+            <span class={@classes.status_off_label}>{@off_label}</span>
           <% end %>
         </span>
       <% end %>
@@ -5569,7 +5569,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@alert_messages_attrs}>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </div>
     """
   end
@@ -5621,7 +5621,7 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@styled_html_attrs}>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </div>
     """
   end
@@ -5991,23 +5991,23 @@ defmodule PrimerLive.Component do
           <%= if @is_centered_md || @is_centered_lg || @is_centered_xl do %>
             <div class={@classes.main}>
               <div class={@classes.main_center_wrapper}>
-                <%= render_slot(slot) %>
+                {render_slot(slot)}
               </div>
             </div>
           <% else %>
             <div class={@classes.main}>
-              <%= render_slot(slot) %>
+              {render_slot(slot)}
             </div>
           <% end %>
         <% end %>
         <%= if key == :divider && slot !== [] do %>
           <div class={@classes.divider}>
-            <%= render_slot(slot) %>
+            {render_slot(slot)}
           </div>
         <% end %>
         <%= if key == :sidebar && slot !== [] do %>
           <div class={@classes.sidebar}>
-            <%= render_slot(@sidebar) %>
+            {render_slot(@sidebar)}
           </div>
         <% end %>
       <% end %>
@@ -6449,11 +6449,11 @@ defmodule PrimerLive.Component do
         <div class={@classes.header.(slot)}>
           <%= if header_slot && header_slot !== [] do %>
             <h3 class={@classes.header_title.(header_slot)}>
-              <%= render_slot(header_slot) %>
+              {render_slot(header_slot)}
             </h3>
           <% end %>
           <%= if slot && slot !== [] do %>
-            <%= render_slot(slot) %>
+            {render_slot(slot)}
           <% end %>
         </div>
       <% end %>
@@ -6499,11 +6499,11 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @is_link do %>
         <Phoenix.Component.link {@attributes}>
-          <%= render_slot(@slot, @slot_data) %>
+          {render_slot(@slot, @slot_data)}
         </Phoenix.Component.link>
       <% else %>
         <div {@attributes}>
-          <%= render_slot(@slot, @slot_data) %>
+          {render_slot(@slot, @slot_data)}
         </div>
       <% end %>
       """
@@ -6513,7 +6513,7 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= for slot <- @body do %>
         <div class={@classes.body.(slot)}>
-          <%= render_slot(slot) %>
+          {render_slot(slot)}
         </div>
       <% end %>
       """
@@ -6523,7 +6523,7 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= for slot <- @footer do %>
         <div class={@classes.footer.(slot)}>
-          <%= render_slot(slot) %>
+          {render_slot(slot)}
         </div>
       <% end %>
       """
@@ -6544,20 +6544,20 @@ defmodule PrimerLive.Component do
     # Render inner_block, body and rows
     render_inner_content = fn ->
       ~H"""
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
       <%= if @body && @body !== [] do %>
-        <%= @render_body.() %>
+        {@render_body.()}
       <% end %>
       <%= if @row && @row !== [] do %>
         <%= if @stream && @stream !== [] do %>
           <div {@stream_attrs} data-stream-container="">
             <%= for row_entry <- @stream do %>
-              <%= @render_row.(List.first(@row), row_entry) %>
+              {@render_row.(List.first(@row), row_entry)}
             <% end %>
           </div>
         <% else %>
           <%= for slot <- @row do %>
-            <%= @render_row.(slot, nil) %>
+            {@render_row.(slot, nil)}
           <% end %>
         <% end %>
       <% end %>
@@ -6579,17 +6579,17 @@ defmodule PrimerLive.Component do
     ~H"""
     <div {@box_attrs}>
       <%= if @header_slots && @header_slots !== [] do %>
-        <%= @render_header.() %>
+        {@render_header.()}
       <% end %>
       <%= if @is_scrollable do %>
         <div class="overflow-auto">
-          <%= @render_inner_content.() %>
+          {@render_inner_content.()}
         </div>
       <% else %>
-        <%= @render_inner_content.() %>
+        {@render_inner_content.()}
       <% end %>
       <%= if @footer && @footer !== [] do %>
-        <%= @render_footer.() %>
+        {@render_footer.()}
       <% end %>
     </div>
     """
@@ -6809,7 +6809,7 @@ defmodule PrimerLive.Component do
       ~H"""
       <div {@item_container_attrs}>
         <%= if not is_nil(@item.inner_block) do %>
-          <%= render_slot(@item, @item_classes) %>
+          {render_slot(@item, @item_classes)}
         <% end %>
       </div>
       """
@@ -6828,7 +6828,7 @@ defmodule PrimerLive.Component do
     ~H"""
     <div {@header_attrs}>
       <%= for item <- @item do %>
-        <%= @render_item.(item) %>
+        {@render_item.(item)}
       <% end %>
     </div>
     """
@@ -7128,7 +7128,7 @@ defmodule PrimerLive.Component do
       <% else %>
         <li>
           <Phoenix.Component.link {@item_attrs}>
-            <%= render_slot(@item) %>
+            {render_slot(@item)}
           </Phoenix.Component.link>
         </li>
       <% end %>
@@ -7149,7 +7149,7 @@ defmodule PrimerLive.Component do
       <.focus_wrap {@focus_wrap_attrs}>
         <ul {@menu_attrs}>
           <%= for item <- @item do %>
-            <%= @render_item.(item) %>
+            {@render_item.(item)}
           <% end %>
         </ul>
       </.focus_wrap>
@@ -7180,7 +7180,7 @@ defmodule PrimerLive.Component do
     ~H"""
     <div {@prompt_attrs}>
       <button {@toggle_attrs}>
-        <%= render_slot(@toggle_slot) %>
+        {render_slot(@toggle_slot)}
         <%= if @is_dropdown_caret do %>
           <span class={@classes.caret}></span>
         <% end %>
@@ -7192,12 +7192,12 @@ defmodule PrimerLive.Component do
       <%= if not is_nil(@menu_title) do %>
         <div {@menu_container_attrs}>
           <div class={@classes.header} id={@menu_title_id}>
-            <%= @menu_title %>
+            {@menu_title}
           </div>
-          <%= @render_menu.(@menu_attrs) %>
+          {@render_menu.(@menu_attrs)}
         </div>
       <% else %>
-        <%= @render_menu.(@menu_container_attrs) %>
+        {@render_menu.(@menu_container_attrs)}
       <% end %>
     </div>
     """
@@ -7788,7 +7788,7 @@ defmodule PrimerLive.Component do
       <%= if @is_divider do %>
         <%= if @is_divider_content do %>
           <div {@divider_attributes.(@item)}>
-            <%= render_slot(@item) %>
+            {render_slot(@item)}
           </div>
         <% else %>
           <hr {@divider_attributes.(@item)} />
@@ -7799,7 +7799,7 @@ defmodule PrimerLive.Component do
           <%= if @is_any_item_selected do %>
             <.octicon name={@selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
           <% end %>
-          <%= render_slot(@item) %>
+          {render_slot(@item)}
         </button>
       <% end %>
       <%= if @is_link do %>
@@ -7807,7 +7807,7 @@ defmodule PrimerLive.Component do
           <%= if @is_any_item_selected do %>
             <.octicon name={@selected_octicon_name} class="SelectMenu-icon SelectMenu-icon--check" />
           <% end %>
-          <%= render_slot(@item) %>
+          {render_slot(@item)}
         </Phoenix.Component.link>
       <% end %>
       """
@@ -7838,11 +7838,11 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @is_link do %>
         <Phoenix.Component.link {@attributes}>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         </Phoenix.Component.link>
       <% else %>
         <button {@attributes}>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         </button>
       <% end %>
       """
@@ -7866,7 +7866,7 @@ defmodule PrimerLive.Component do
     ~H"""
     <div {@prompt_attrs}>
       <button {@toggle_attrs}>
-        <%= render_slot(@toggle_slot) %>
+        {render_slot(@toggle_slot)}
         <%= if @is_dropdown_caret do %>
           <span class={@classes.caret}></span>
         <% end %>
@@ -7880,7 +7880,7 @@ defmodule PrimerLive.Component do
           <.focus_wrap {@focus_wrap_attrs}>
             <%= if not is_nil(@menu_title) do %>
               <header class={@classes.header}>
-                <h3 class={@classes.menu_title}><%= @menu_title %></h3>
+                <h3 class={@classes.menu_title}>{@menu_title}</h3>
                 <button
                   class={@classes.header_close_button}
                   type="button"
@@ -7893,26 +7893,26 @@ defmodule PrimerLive.Component do
             <%= if @message do %>
               <%= for message <- @message do %>
                 <div class={AttributeHelpers.classnames([@classes.message, message[:class]])}>
-                  <%= render_slot(message) %>
+                  {render_slot(message)}
                 </div>
               <% end %>
             <% end %>
             <%= if @filter && @filter !== [] do %>
               <div class={@classes.filter}>
-                <%= render_slot(@filter) %>
+                {render_slot(@filter)}
               </div>
             <% end %>
             <%= if @tab && @tab !== [] do %>
               <div class={@classes.tabs}>
                 <%= for slot <- @tab do %>
-                  <%= @render_tab.(slot) %>
+                  {@render_tab.(slot)}
                 <% end %>
               </div>
             <% end %>
             <%= if @loading do %>
               <%= for loading <- @loading do %>
                 <div class={AttributeHelpers.classnames([@classes.loading, loading[:class]])}>
-                  <%= render_slot(loading) %>
+                  {render_slot(loading)}
                 </div>
               <% end %>
             <% end %>
@@ -7920,19 +7920,19 @@ defmodule PrimerLive.Component do
               <%= if @blankslate do %>
                 <%= for blankslate <- @blankslate do %>
                   <div class={AttributeHelpers.classnames([@classes.blankslate, blankslate[:class]])}>
-                    <%= render_slot(blankslate) %>
+                    {render_slot(blankslate)}
                   </div>
                 <% end %>
               <% end %>
 
               <%= for item <- @item_slots do %>
-                <%= @render_item.(item) %>
+                {@render_item.(item)}
               <% end %>
             </div>
             <%= if @footer do %>
               <%= for footer <- @footer do %>
                 <div class={AttributeHelpers.classnames([@classes.footer, footer[:class]])}>
-                  <%= render_slot(footer) %>
+                  {render_slot(footer)}
                 </div>
               <% end %>
             <% end %>
@@ -8188,7 +8188,7 @@ defmodule PrimerLive.Component do
     ~H"""
     <div {@prompt_attrs}>
       <button {@toggle_attrs}>
-        <%= render_slot(@toggle_slot) %>
+        {render_slot(@toggle_slot)}
         <%= if @is_dropdown_caret do %>
           <span class={@classes.caret}></span>
         <% end %>
@@ -8201,7 +8201,7 @@ defmodule PrimerLive.Component do
         <div {@menu_container_attrs}>
           <div class={@classes.menu_list}>
             <.focus_wrap {@focus_wrap_attrs}>
-              <%= render_slot(@inner_block) %>
+              {render_slot(@inner_block)}
             </.focus_wrap>
           </div>
         </div>
@@ -8534,7 +8534,7 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <%= if !is_nil(@inner_block) && @inner_block !== [] do %>
-        <span class={@classes.content}><%= render_slot(@inner_block) %></span>
+        <span class={@classes.content}>{render_slot(@inner_block)}</span>
       <% end %>
       <%= if @is_dropdown_caret do %>
         <span class={@classes.caret}></span>
@@ -8551,11 +8551,11 @@ defmodule PrimerLive.Component do
     ~H"""
     <%= if @is_link do %>
       <Phoenix.Component.link {@attributes}>
-        <%= @render_content.() %>
+        {@render_content.()}
       </Phoenix.Component.link>
     <% else %>
       <button {@attributes}>
-        <%= @render_content.() %>
+        {@render_content.()}
       </button>
     <% end %>
     """
@@ -8667,11 +8667,11 @@ defmodule PrimerLive.Component do
       <%= if !is_nil(@button) && @button !== [] do %>
         <%= for slot <- @button do %>
           <.button {slot} class={@classes.button.(slot)}>
-            <%= render_slot(slot) %>
+            {render_slot(slot)}
           </.button>
         <% end %>
       <% end %>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </div>
     """
   end
@@ -8932,7 +8932,7 @@ defmodule PrimerLive.Component do
                 aria-label={@labels.aria_label_previous_page}
                 replace={@link_options.replace}
               >
-                <%= @labels.previous_page %>
+                {@labels.previous_page}
               </Phoenix.Component.link>
             <% else %>
               <span class={@classes.previous_page} aria-disabled="true" phx-no-format><%= @labels.previous_page %></span>
@@ -8949,7 +8949,7 @@ defmodule PrimerLive.Component do
                   }
                   class={@classes.current_page}
                 >
-                  <%= @current_page %>
+                  {@current_page}
                 </em>
               <% else %>
                 <%= if item == 0 do %>
@@ -8963,7 +8963,7 @@ defmodule PrimerLive.Component do
                     }
                     replace={@link_options.replace}
                   >
-                    <%= item %>
+                    {item}
                   </Phoenix.Component.link>
                 <% end %>
               <% end %>
@@ -8978,7 +8978,7 @@ defmodule PrimerLive.Component do
                 aria-label={@labels.aria_label_next_page}
                 replace={@link_options.replace}
               >
-                <%= @labels.next_page %>
+                {@labels.next_page}
               </Phoenix.Component.link>
             <% else %>
               <span class={@classes.next_page} aria-disabled="true" phx-no-format><%= @labels.next_page %></span>
@@ -9151,9 +9151,9 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <%= if @icon do %>
-      <%= @icon %>
+      {@icon}
     <% else %>
-      Icon with name <%= @name %> does not exist.
+      Icon with name {@name} does not exist.
     <% end %>
     """
   end
@@ -9334,7 +9334,7 @@ defmodule PrimerLive.Component do
 
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span {@label_attrs}><%= render_slot(@inner_block) %></span>
+    <span {@label_attrs}>{render_slot(@inner_block)}</span>
     """
   end
 
@@ -9405,7 +9405,7 @@ defmodule PrimerLive.Component do
 
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span {@issue_label_attrs}><%= render_slot(@inner_block) %></span>
+    <span {@issue_label_attrs}>{render_slot(@inner_block)}</span>
     """
   end
 
@@ -9514,7 +9514,7 @@ defmodule PrimerLive.Component do
 
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span {@state_label_attrs}><%= render_slot(@inner_block) %></span>
+    <span {@state_label_attrs}>{render_slot(@inner_block)}</span>
     """
   end
 
@@ -9597,7 +9597,7 @@ defmodule PrimerLive.Component do
 
     # Keep this as a single line to preserve whitespace in the rendered HTML
     ~H"""
-    <span {@counter_attrs}><%= render_slot(@inner_block) %></span>
+    <span {@counter_attrs}>{render_slot(@inner_block)}</span>
     """
   end
 
@@ -9743,18 +9743,18 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <div {@subhead_attrs}>
-      <h2 class={@classes.heading}><%= render_slot(@inner_block) %></h2>
+      <h2 class={@classes.heading}>{render_slot(@inner_block)}</h2>
       <%= if @description do %>
         <%= for description <- @description do %>
           <div class={AttributeHelpers.classnames([@classes.description, description[:class]])}>
-            <%= render_slot(description) %>
+            {render_slot(description)}
           </div>
         <% end %>
       <% end %>
       <%= if @actions do %>
         <%= for action <- @actions do %>
           <div class={AttributeHelpers.classnames([@classes.actions, action[:class]])}>
-            <%= render_slot(action) %>
+            {render_slot(action)}
           </div>
         <% end %>
       <% end %>
@@ -9919,7 +9919,7 @@ defmodule PrimerLive.Component do
           <%= for {item, is_last} <- @items_data do %>
             <li {@item_attrs.(is_last)}>
               <Phoenix.Component.link {@link_attributes.(item)}>
-                <%= render_slot(item) %>
+                {render_slot(item)}
               </Phoenix.Component.link>
             </li>
           <% end %>
@@ -10081,10 +10081,10 @@ defmodule PrimerLive.Component do
     ~H"""
     <%= if @is_link do %>
       <Phoenix.Component.link {@attributes}>
-        <%= render_slot(@inner_block) %>
+        {render_slot(@inner_block)}
       </Phoenix.Component.link>
     <% else %>
-      <span {@attributes}><%= render_slot(@inner_block) %></span>
+      <span {@attributes}>{render_slot(@inner_block)}</span>
     <% end %>
     """
   end
@@ -10317,12 +10317,12 @@ defmodule PrimerLive.Component do
     <div {@parent_child_avatar_attrs}>
       <%= if @parent && @parent !== [] do %>
         <%= for parent <- @parent do %>
-          <%= @render_avatar.(parent, false) %>
+          {@render_avatar.(parent, false)}
         <% end %>
       <% end %>
       <%= if @child && @child !== [] do %>
         <%= for child <- @child do %>
-          <%= @render_avatar.(child, true) %>
+          {@render_avatar.(child, true)}
         <% end %>
       <% end %>
     </div>
@@ -10519,12 +10519,12 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @octicon && @octicon !== [] do %>
         <%= for octicon <- @octicon do %>
-          <%= @render_octicon.(octicon) %>
+          {@render_octicon.(octicon)}
         <% end %>
       <% end %>
       <%= if @img && @img !== [] do %>
         <%= for img <- @img do %>
-          <%= @render_img.(img) %>
+          {@render_img.(img)}
         <% end %>
       <% end %>
       """
@@ -10547,11 +10547,11 @@ defmodule PrimerLive.Component do
     ~H"""
     <%= if @is_link do %>
       <Phoenix.Component.link {@attributes}>
-        <%= @render_content.() %>
+        {@render_content.()}
       </Phoenix.Component.link>
     <% else %>
       <div {@attributes}>
-        <%= @render_content.() %>
+        {@render_content.()}
       </div>
     <% end %>
     """
@@ -11071,7 +11071,7 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <div {@action_attrs}>
-        <%= render_slot(@slot) %>
+        {render_slot(@slot)}
       </div>
       """
     end
@@ -11104,7 +11104,7 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <.dynamic_tag {@attributes}>
-        <%= render_slot(@slot) %>
+        {render_slot(@slot)}
       </.dynamic_tag>
       """
     end
@@ -11126,25 +11126,25 @@ defmodule PrimerLive.Component do
     <div {@blankslate_attrs}>
       <%= if @octicon && @octicon !== [] do %>
         <%= for slot <- @octicon do %>
-          <%= @render_octicon.(slot) %>
+          {@render_octicon.(slot)}
         <% end %>
       <% end %>
       <%= if @img && @img !== [] do %>
         <%= for slot <- @img do %>
-          <%= @render_img.(slot) %>
+          {@render_img.(slot)}
         <% end %>
       <% end %>
       <%= if @heading && @heading !== [] do %>
         <%= for slot <- @heading do %>
-          <%= @render_heading.(slot) %>
+          {@render_heading.(slot)}
         <% end %>
       <% end %>
       <%= if @inner_block && @inner_block !== [] do %>
-        <%= render_slot(@inner_block) %>
+        {render_slot(@inner_block)}
       <% end %>
       <%= if @action && @action !== [] do %>
         <%= for slot <- @action do %>
-          <%= @render_action.(slot) %>
+          {@render_action.(slot)}
         <% end %>
       <% end %>
     </div>
@@ -11337,11 +11337,11 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @is_link do %>
         <Phoenix.Component.link {@attributes}>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         </Phoenix.Component.link>
       <% else %>
         <.dynamic_tag {@attributes}>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         </.dynamic_tag>
       <% end %>
       """
@@ -11362,7 +11362,7 @@ defmodule PrimerLive.Component do
     <.dynamic_tag {@truncate_attrs}>
       <%= if @item && @item !== [] do %>
         <%= for slot <- @item do %>
-          <%= @render_item.(slot) %>
+          {@render_item.(slot)}
         <% end %>
       <% end %>
     </.dynamic_tag>
@@ -11770,7 +11770,7 @@ defmodule PrimerLive.Component do
               <.octicon name="x-16" />
             </.button>
           </:header>
-          <%= render_slot(@inner_block) %>
+          {render_slot(@inner_block)}
         </.box>
       </.focus_wrap>
     </div>
@@ -12189,11 +12189,11 @@ defmodule PrimerLive.Component do
           <% end %>
           <div {@touch_layer_attrs}></div>
         <% end %>
-        <%= render_slot(@inner_block) %>
+        {render_slot(@inner_block)}
         <%= if @body && @body !== [] do %>
           <div {@body_attrs}>
             <.focus_wrap {@focus_wrap_attrs}>
-              <%= render_slot(@body) %>
+              {render_slot(@body)}
             </.focus_wrap>
           </div>
         <% end %>
@@ -12284,7 +12284,7 @@ defmodule PrimerLive.Component do
     ~H"""
     <div {@content_attrs}>
       <.focus_wrap {@focus_wrap_attrs}>
-        <%= render_slot(@inner_block) %>
+        {render_slot(@inner_block)}
       </.focus_wrap>
     </div>
     """
@@ -12445,11 +12445,11 @@ defmodule PrimerLive.Component do
     ~H"""
     <%= if @is_link do %>
       <Phoenix.Component.link {@attributes}>
-        <%= render_slot(@inner_block) %>
+        {render_slot(@inner_block)}
       </Phoenix.Component.link>
     <% else %>
       <span {@attributes}>
-        <%= render_slot(@inner_block) %>
+        {render_slot(@inner_block)}
       </span>
     <% end %>
     """
@@ -12722,7 +12722,7 @@ defmodule PrimerLive.Component do
     <span {@progress_attributes}>
       <%= if @item !== [] do %>
         <%= for slot <- @item do %>
-          <%= @render_item.(slot) %>
+          {@render_item.(slot)}
         <% end %>
       <% end %>
     </span>
@@ -13003,11 +13003,11 @@ defmodule PrimerLive.Component do
       ~H"""
       <%= if @is_link do %>
         <Phoenix.Component.link {@attributes}>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         </Phoenix.Component.link>
       <% else %>
         <div {@attributes}>
-          <%= render_slot(@slot) %>
+          {render_slot(@slot)}
         </div>
       <% end %>
       """
@@ -13038,7 +13038,7 @@ defmodule PrimerLive.Component do
 
       ~H"""
       <div {@attributes}>
-        <%= render_slot(@slot) %>
+        {render_slot(@slot)}
       </div>
       """
     end
@@ -13063,17 +13063,17 @@ defmodule PrimerLive.Component do
       <div {@timeline_item_attributes}>
         <%= if @avatar && @avatar !== [] do %>
           <%= for slot <- @avatar do %>
-            <%= @render_avatar.(slot) %>
+            {@render_avatar.(slot)}
           <% end %>
         <% end %>
         <%= if @badge && @badge !== [] do %>
           <%= for slot <- @badge do %>
-            <%= @render_badge.(slot, @state) %>
+            {@render_badge.(slot, @state)}
           <% end %>
         <% end %>
         <%= if not is_nil(@inner_block) && @inner_block !== [] do %>
           <div class={@classes.body}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </div>
         <% end %>
       </div>
@@ -13222,11 +13222,11 @@ defmodule PrimerLive.Component do
     ~H"""
     <%= if @is_inline do %>
       <span {@attributes}>
-        <%= render_slot(@inner_block) %>
+        {render_slot(@inner_block)}
       </span>
     <% else %>
       <div {@attributes}>
-        <%= render_slot(@inner_block) %>
+        {render_slot(@inner_block)}
       </div>
     <% end %>
     """
@@ -13446,7 +13446,7 @@ defmodule PrimerLive.Component do
           phx-value-data=""
           is_disabled={!@is_reset_enabled}
         >
-          <%= assigns.labels.reset %>
+          {assigns.labels.reset}
         </.action_list_item>
       <% end %>
     </.action_list>
@@ -13474,7 +13474,7 @@ defmodule PrimerLive.Component do
     ~H"""
     <%= if @group.title && @is_show_group_labels do %>
       <.action_list_section_divider>
-        <:title><%= @group.title %></:title>
+        <:title>{@group.title}</:title>
       </.action_list_section_divider>
     <% end %>
     <%= for {value, label} <- @group.labeled_options do %>
@@ -13488,7 +13488,7 @@ defmodule PrimerLive.Component do
         phx-value-data={value}
         input_id={input_id}
       >
-        <%= label %>
+        {label}
       </.action_list_item>
     <% end %>
     """
@@ -13513,9 +13513,9 @@ defmodule PrimerLive.Component do
 
     ~H"""
     <%= if @icon do %>
-      <%= @icon %>
+      {@icon}
     <% else %>
-      Icon with name <%= @name %> does not exist.
+      Icon with name {@name} does not exist.
     <% end %>
     """
   end

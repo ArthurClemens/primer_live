@@ -48,7 +48,7 @@ defmodule PrimerLive.MixProject do
       {:phoenix_ecto, "~> 4.5", only: :test, runtime: false},
       {:phoenix_html_helpers, "~> 1.0"},
       {:phoenix_html, "~> 4.1"},
-      {:phoenix_live_view, "~> 0.20"},
+      {:phoenix_live_view, "~> 1.0"},
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false}
     ]
   end

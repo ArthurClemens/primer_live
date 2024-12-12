@@ -40,10 +40,10 @@ defmodule PrimerLive.StatefulConditionComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <%= render_slot(@inner_block, %{
+      {render_slot(@inner_block, %{
         equals_initial_condition: @equals_initial_condition,
         condition: @condition
-      }) %>
+      })}
     </div>
     """
   end

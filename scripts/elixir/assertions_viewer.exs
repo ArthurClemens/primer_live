@@ -10,7 +10,7 @@ Application.put_env(:sample, PrimerLiveWeb.Endpoint,
 Mix.install([
   {:floki, "~> 0.36"},
   {:jason, "~> 1.4"},
-  {:phoenix_live_view, "~> 0.20"},
+  {:phoenix_live_view, "~> 1.0"},
   {:phoenix, "~> 1.7"},
   {:plug_cowboy, "~> 2.7"},
   {:primer_live, path: "."}
@@ -133,7 +133,7 @@ defmodule PrimerLiveWeb.ComponentLive do
         margin-top: 1rem !important;
       }
     </style>
-    <%= @inner_content %>
+    {@inner_content}
     """
   end
 
@@ -155,7 +155,7 @@ defmodule PrimerLiveWeb.ComponentLive do
             <%= for [component, _] <- @assertions do %>
               <Primer.action_list_item is_selected={@path == component}>
                 <:link navigate={"/#{component}"}>
-                  <%= component %>
+                  {component}
                 </:link>
               </Primer.action_list_item>
             <% end %>
@@ -167,7 +167,7 @@ defmodule PrimerLiveWeb.ComponentLive do
             <%= if @not_found do %>
               <h1>Component not found</h1>
             <% else %>
-              <h1><%= @path %></h1>
+              <h1>{@path}</h1>
               <div class="assertions">
                 <%= for assertion <- @current_assertions do %>
                   <.assertion {assertion} />
@@ -193,9 +193,9 @@ defmodule PrimerLiveWeb.ComponentLive do
 
     ~H"""
     <section class="assertion-section">
-      <h2><%= @assertion_name %></h2>
+      <h2>{@assertion_name}</h2>
       <div class="assertion-html">
-        <%= Phoenix.HTML.raw(@html) %>
+        {Phoenix.HTML.raw(@html)}
       </div>
     </section>
     """

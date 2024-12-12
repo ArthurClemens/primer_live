@@ -168,7 +168,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
       ~H"""
       <.box>
         <:row :for={result <- @results}>
-          <%= result %>
+          {result}
         </:row>
       </.box>
       """,
@@ -307,7 +307,7 @@ defmodule PrimerLive.TestComponents.BoxTest do
       ~H"""
       <.box stream={@streams.clients} id="client-row-slot">
         <:row :let={{_dom_id, client}}>
-          <%= client.last_name %>
+          {client.last_name}
         </:row>
         <:row>This row is ignored</:row>
       </.box>
