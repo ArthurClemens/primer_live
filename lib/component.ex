@@ -11094,7 +11094,7 @@ defmodule PrimerLive.Component do
       attributes =
         AttributeHelpers.append_attributes(rest, [
           [class: class],
-          [name: tag]
+          [tag_name: tag]
         ])
 
       assigns =
@@ -11322,25 +11322,31 @@ defmodule PrimerLive.Component do
           :is_primary
         ])
 
-      attributes =
+      link_attributes =
+        AttributeHelpers.append_attributes(rest, [
+          [class: class]
+        ])
+
+      non_link_attributes =
         AttributeHelpers.append_attributes(rest, [
           [class: class],
-          [name: tag]
+          [tag_name: tag]
         ])
 
       assigns =
         assigns
         |> assign(:is_link, is_link)
-        |> assign(:attributes, attributes)
+        |> assign(:link_attributes, link_attributes)
+        |> assign(:non_link_attributes, non_link_attributes)
         |> assign(:slot, slot)
 
       ~H"""
       <%= if @is_link do %>
-        <Phoenix.Component.link {@attributes}>
+        <Phoenix.Component.link {@link_attributes}>
           {render_slot(@slot)}
         </Phoenix.Component.link>
       <% else %>
-        <.dynamic_tag {@attributes}>
+        <.dynamic_tag {@non_link_attributes}>
           {render_slot(@slot)}
         </.dynamic_tag>
       <% end %>
@@ -11350,7 +11356,7 @@ defmodule PrimerLive.Component do
     truncate_attrs =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: classes.truncate],
-        [name: assigns.tag]
+        [tag_name: assigns.tag]
       ])
 
     assigns =
