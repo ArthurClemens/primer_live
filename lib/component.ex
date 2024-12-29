@@ -3742,7 +3742,6 @@ defmodule PrimerLive.Component do
       input_name: input_name,
       rest: rest,
       show_message?: show_message?,
-      validation_marker_attrs: validation_marker_attrs,
       validation_marker_class: validation_marker_class,
       validation_message_id: validation_message_id,
       value: value,
@@ -3862,10 +3861,9 @@ defmodule PrimerLive.Component do
           input_attrs
         ])
 
-      wrapper_attrs =
-        AttributeHelpers.append_attributes(validation_marker_attrs, [
-          [class: AttributeHelpers.classnames([validation_marker_class, classes.input_wrap])]
-        ])
+      wrapper_attrs = [
+        class: AttributeHelpers.classnames([validation_marker_class, classes.input_wrap])
+      ]
 
       assigns =
         assigns
@@ -4183,7 +4181,6 @@ defmodule PrimerLive.Component do
       input_name: input_name,
       rest: rest,
       show_message?: show_message?,
-      validation_marker_attrs: validation_marker_attrs,
       validation_marker_class: validation_marker_class,
       validation_message_id: validation_message_id
     } = common_input_attrs
@@ -4222,10 +4219,7 @@ defmodule PrimerLive.Component do
       options = assigns.options
       is_auto_height = assigns.is_auto_height
 
-      container_attrs =
-        AttributeHelpers.append_attributes(validation_marker_attrs, [
-          [class: classes.select_container]
-        ])
+      container_attrs = [class: classes.select_container]
 
       input_attrs =
         AttributeHelpers.append_attributes(
@@ -4265,7 +4259,6 @@ defmodule PrimerLive.Component do
         |> assign(:hide_validation, has_form_control)
         |> assign(:input_id, input_id)
         |> assign(:input, input)
-        |> assign(:validation_marker_attrs, validation_marker_attrs)
         |> assign(:validation_message_class, classes.validation_message)
         |> assign(:validation_message_class, classes.validation_message)
         |> assign(:validation_message_id, validation_message_id)
@@ -4459,7 +4452,6 @@ defmodule PrimerLive.Component do
       rest: rest,
       show_message?: show_message?,
       value: value,
-      validation_marker_attrs: validation_marker_attrs,
       validation_marker_class: validation_marker_class
     } = AttributeHelpers.common_input_attrs(assigns, input_type)
 
@@ -4539,10 +4531,7 @@ defmodule PrimerLive.Component do
     has_label_slot = label_slot !== []
     has_label = !assigns[:is_omit_label] && (has_label_slot || derived_label !== "Nil")
 
-    container_attrs =
-      AttributeHelpers.append_attributes(validation_marker_attrs, [
-        [class: classes.container]
-      ])
+    container_attrs = [class: classes.container]
 
     input_class =
       AttributeHelpers.classnames([
@@ -4650,7 +4639,6 @@ defmodule PrimerLive.Component do
       |> assign(:caption_slots, caption_slots)
       |> assign(:render_caption, render_caption)
       |> assign(:render_disclosure, render_disclosure)
-      |> assign(:validation_marker_attrs, validation_marker_attrs)
 
     ~H"""
     <div {@container_attrs}>
@@ -5464,9 +5452,14 @@ defmodule PrimerLive.Component do
     input = PhoenixHTMLHelpers.Form.checkbox(form, field, input_opts)
 
     container_attrs =
-      AttributeHelpers.append_attributes(rest, [
-        [class: classes.container]
-      ])
+      AttributeHelpers.append_attributes(
+        AttributeHelpers.assigns_to_attributes_sorted(rest, [
+          :disabled
+        ]),
+        [
+          [class: classes.container]
+        ]
+      )
 
     on_label =
       assigns[:status_on_label] || if assigns.is_derived_label, do: derived_label, else: nil
