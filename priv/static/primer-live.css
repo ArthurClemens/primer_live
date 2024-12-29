@@ -29606,98 +29606,6 @@ label.ToggleSwitch {
 .ToggleSwitch-track:focus-visible {
   outline-offset: 1px;
 }
-@media (hover: hover) {
-  .ToggleSwitch-track:hover {
-    background-color: var(--controlTrack-bgColor-hover);
-  }
-}
-.ToggleSwitch-track:active {
-  background-color: var(--controlTrack-bgColor-active);
-}
-@media (pointer: coarse) {
-  .ToggleSwitch-track:before {
-    content: "";
-    height: 100%;
-    left: 50%;
-    min-height: 44px;
-    position: absolute;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    width: 100%;
-  }
-}
-@media (prefers-reduced-motion) {
-  .ToggleSwitch-track,
-  .ToggleSwitch-track * {
-    transition: none;
-  }
-}
-.ToggleSwitch input[type=checkbox]:checked:disabled ~ .ToggleSwitch-track {
-  background-color: var(--controlTrack-bgColor-disabled);
-  border-color: rgba(0, 0, 0, 0);
-  color: var(--control-checked-fgColor-disabled);
-}
-.ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track {
-  background-color: var(--control-checked-bgColor-rest);
-  border-color: var(--borderColor-transparent);
-}
-@media (hover: hover) {
-  .ToggleSwitch input[type=checkbox]:checked:not(:disabled) ~ .ToggleSwitch-track:hover {
-    background-color: var(--control-checked-bgColor-hover);
-  }
-}
-.ToggleSwitch input[type=checkbox]:checked:not(:disabled) ~ .ToggleSwitch-track:active {
-  background-color: var(--control-checked-bgColor-active);
-}
-.ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-knob {
-  background-color: var(--controlKnob-bgColor-checked);
-  border-color: var(--controlKnob-borderColor-checked);
-}
-html:not([dir=rtl]) .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-knob {
-  transform: translateX(100%);
-}
-html[dir=rtl] .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-knob {
-  transform: translateX(-100%);
-}
-.ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-lineIcon {
-  transform: translateX(0);
-}
-html:not([dir=rtl]) .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-circleIcon {
-  transform: translateX(100%);
-}
-html[dir=rtl] .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-circleIcon {
-  transform: translateX(-100%);
-}
-.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track {
-  background-color: var(--controlTrack-bgColor-disabled);
-  border-color: rgba(0, 0, 0, 0);
-  cursor: not-allowed;
-  transition-property: none;
-}
-.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track .ToggleSwitch-knob {
-  border-color: var(--borderColor-default);
-  box-shadow: none;
-}
-.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track .ToggleSwitch-circleIcon,
-.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track .ToggleSwitch-lineIcon {
-  color: var(--controlTrack-fgColor-disabled);
-}
-.ToggleSwitch-icons {
-  align-items: center;
-  display: flex;
-  height: 100%;
-  overflow: hidden;
-  width: 100%;
-}
-.ToggleSwitch-lineIcon {
-  color: var(--control-checked-fgColor-rest);
-}
-html:not([dir=rtl]) .ToggleSwitch-lineIcon {
-  transform: translateX(-100%);
-}
-html[dir=rtl] .ToggleSwitch-lineIcon {
-  transform: translateX(100%);
-}
 .ToggleSwitch-circleIcon,
 .ToggleSwitch-lineIcon {
   flex: 1 0 50%;
@@ -29769,6 +29677,98 @@ html[dir=rtl] .ToggleSwitch-lineIcon {
 }
 .ToggleSwitch--statusAtEnd .ToggleSwitch-status {
   text-align: left;
+}
+@media (hover: hover) {
+  .ToggleSwitch-track:hover {
+    background-color: var(--controlTrack-bgColor-hover);
+  }
+}
+.ToggleSwitch-track:active {
+  background-color: var(--controlTrack-bgColor-active);
+}
+@media (pointer: coarse) {
+  .ToggleSwitch-track:before {
+    content: "";
+    height: 100%;
+    left: 50%;
+    min-height: 44px;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion) {
+  .ToggleSwitch-track,
+  .ToggleSwitch-track * {
+    transition: none;
+  }
+}
+.ToggleSwitch input[type=checkbox]:checked:disabled ~ .ToggleSwitch-track {
+  background-color: var(--controlTrack-bgColor-disabled);
+  border-color: rgba(0, 0, 0, 0);
+  color: var(--control-checked-fgColor-disabled);
+}
+.ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track {
+  background-color: var(--control-checked-bgColor-rest);
+  border-color: var(--borderColor-transparent);
+}
+@media (hover: hover) {
+  .ToggleSwitch input[type=checkbox]:checked:not(:disabled) ~ .ToggleSwitch-track:hover {
+    background-color: var(--control-checked-bgColor-hover);
+  }
+}
+.ToggleSwitch input[type=checkbox]:checked:not(:disabled) ~ .ToggleSwitch-track:active {
+  background-color: var(--control-checked-bgColor-active);
+}
+.ToggleSwitch input[type=checkbox]:checked:not(:disabled) ~ .ToggleSwitch-track .ToggleSwitch-knob {
+  background-color: var(--controlKnob-bgColor-checked);
+  border-color: var(--controlKnob-borderColor-checked);
+}
+html:not([dir=rtl]) .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-knob {
+  transform: translateX(100%);
+}
+html[dir=rtl] .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-knob {
+  transform: translateX(-100%);
+}
+.ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-lineIcon {
+  transform: translateX(0);
+}
+html:not([dir=rtl]) .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-circleIcon {
+  transform: translateX(100%);
+}
+html[dir=rtl] .ToggleSwitch input[type=checkbox]:checked ~ .ToggleSwitch-track .ToggleSwitch-circleIcon {
+  transform: translateX(-100%);
+}
+.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track {
+  background-color: var(--controlTrack-bgColor-disabled);
+  border-color: rgba(0, 0, 0, 0);
+  cursor: not-allowed;
+  transition-property: none;
+}
+.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track .ToggleSwitch-knob {
+  border-color: var(--controlTrack-bgColor-disabled);
+  box-shadow: none;
+}
+.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track .ToggleSwitch-circleIcon,
+.ToggleSwitch input[type=checkbox]:disabled ~ .ToggleSwitch-track .ToggleSwitch-lineIcon {
+  color: var(--controlTrack-fgColor-disabled);
+}
+.ToggleSwitch-icons {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+.ToggleSwitch-lineIcon {
+  color: var(--control-checked-fgColor-rest);
+}
+html:not([dir=rtl]) .ToggleSwitch-lineIcon {
+  transform: translateX(-100%);
+}
+html[dir=rtl] .ToggleSwitch-lineIcon {
+  transform: translateX(100%);
 }
 .pl-gap-0 {
   gap: var(--base-size-0, 0px);
