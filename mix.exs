@@ -45,9 +45,9 @@ defmodule PrimerLive.MixProject do
       {:github_workflows_generator, "~> 0.1", only: :dev, runtime: false},
       {:jason, "~> 1.4"},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
-      {:phoenix_ecto, "~> 4.5", only: :test, runtime: false},
+      {:phoenix_ecto, "~> 4.6", only: :test, runtime: false},
       {:phoenix_html_helpers, "~> 1.0"},
-      {:phoenix_html, "~> 4.1"},
+      {:phoenix_html, "~> 4.2"},
       {:phoenix_live_view, "~> 1.0"},
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false}
     ]
