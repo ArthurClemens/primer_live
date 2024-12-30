@@ -2,9 +2,9 @@
 
 ## 1. Add primer_live dependency
 
-### For Phoenix.LiveView 1.0 and newer
+### For LiveView 1.0 and newer
 
-Add PrimerLive as a dependency to your Phoenix application's `mix.exs`
+Add PrimerLive as a dependency in your Phoenix application's `mix.exs`
 
 ```
 {:primer_live, "~> 0.10"}
@@ -12,7 +12,7 @@ Add PrimerLive as a dependency to your Phoenix application's `mix.exs`
 
 Run `mix.deps get`.
 
-### For Phoenix.LiveView 0.20
+### For LiveView 0.20
 
 Add PrimerLive as a dependency in your Phoenix application's `mix.exs` by referencing the LiveView 0.20 branch:
 
