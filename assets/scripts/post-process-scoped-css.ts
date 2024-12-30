@@ -1,38 +1,23 @@
 import { join } from "path";
-import * as fs from "fs";
 import * as prettier from "prettier";
 import yargs from "yargs/yargs";
 import { hideBin } from "yargs/helpers";
+import { getCssText, storeCssText } from "./shared"
 
 declare var process: {
   argv: string[];
 };
 
-function getCssText(path: string) {
-  return fs
-    .readFileSync(path, {
-      encoding: "utf8",
-      flag: "r",
-    })
-    .toString();
-}
-
 function replaceTexts(text: string) {
   return text
-  .replace(/:root/g, ":scope")
-  .replace(/.__AMP__/g, "&");
+    .replace(/:root/g, ":scope")
+    .replace(/.__AMP__/g, "&");
 }
 
 function wrapInScope(text: string) {
   return `@scope (.primer-live) {
   ${text}
 }`;
-}
-
-function storeCssText(path: string, data: string) {
-  fs.writeFileSync(path, data, {
-    flag: "w",
-  });
 }
 
 type ProcessFileOpts = {

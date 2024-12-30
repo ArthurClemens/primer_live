@@ -1,4 +1,3 @@
-@import "@primer/css/color-modes/index.scss";
 @import "@primer/css/core/index.scss";
 @import "@primer/css/product/index.scss";
 @import "@primer/css/marketing/index.scss";
@@ -12,8 +11,8 @@
 @import '@primer/primitives/dist/css/functional/size/viewport.css';
 @import '@primer/primitives/dist/css/functional/typography/typography.css';
 
-/* color */
-@import '@primer/primitives/dist/css/functional/themes/light.css';
+/* color modes */
+@import 'gen-themes-light.css';
 @import '@primer/primitives/dist/css/functional/themes/light-tritanopia.css';
 @import '@primer/primitives/dist/css/functional/themes/light-high-contrast.css';
 @import '@primer/primitives/dist/css/functional/themes/light-colorblind.css';

@@ -36,4 +36,4 @@ node_modules
 
 /test/assertion_failures/*
 !/test/assertion_failures/README.md
-assets/css/gen-variables.scss
+assets/css/gen-*
