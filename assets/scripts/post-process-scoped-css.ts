@@ -11,7 +11,9 @@ declare var process: {
 function replaceTexts(text: string) {
   return text
     .replace(/:root/g, ":scope")
-    .replace(/.__AMP__/g, "&");
+    .replace(/.__AMP__/g, "&")
+    .replace(/(\[data-color-mode=[a-z-_]+\]\[data-\w+-theme\*?=[a-z-_]+\])/g, "$1 :scope")
+    ;
 }
 
 function wrapInScope(text: string) {

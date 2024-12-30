@@ -144,15 +144,19 @@ defmodule PrimerLive.MixProject do
         "cmd mix docs"
       ],
       "assets.build": [
+        # Pre-process CSS
+        "cmd npm --prefix assets run pre-process-light-theme-css",
+        # Cleanup built files
         "cmd rm -rf priv/static/*",
+        # Build JS and CSS
         "cmd npm --prefix assets run build:types",
         "cmd npm --prefix assets run build -- --bundle --format=esm --sourcemap --outfile=../priv/static/primer-live.esm.js",
         "cmd npm --prefix assets run build -- --format=iife --target=es2016 --outfile=../priv/static/primer-live.js",
         "cmd npm --prefix assets run build -- --format=cjs --sourcemap --outfile=../priv/static/primer-live.cjs.js",
         "cmd npm --prefix assets run build -- --format=iife --target=es2016 --minify --outfile=../priv/static/primer-live.min.js",
-        # Scoped CSS (discard js later)
-        "cmd SCOPED=1 npm --prefix assets run build -- --format=iife --target=es2016 --minify --outfile=../priv/static/primer-live-scoped.min.js",
+        # Scoped CSS (discard JS later)
         "cmd SCOPED=1 npm --prefix assets run build -- --format=iife --target=es2016 --outfile=../priv/static/primer-live-scoped.js",
+        "cmd SCOPED=1 npm --prefix assets run build -- --format=iife --target=es2016 --minify --outfile=../priv/static/primer-live-scoped.min.js",
         # Post-process scoped CSS
         "cmd npm --prefix assets run post-process-scoped-css -- --file=priv/static/primer-live-scoped.css --prettify=true",
         "cmd npm --prefix assets run post-process-scoped-css -- --file=priv/static/primer-live-scoped.min.css --prettify=false",
