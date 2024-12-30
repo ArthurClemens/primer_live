@@ -1,6 +1,7 @@
 # Styling
 
 - [Primer Design System](#primer-design-system)
+- [Light and dark theme](#light-and-dark-theme)
 - [Customizing components](#customizing-components)
   - [Style attributes](#style-attributes)
   - [Adding classes](#adding-classes)
@@ -20,6 +21,10 @@
 PrimerLive components are based on the styling described in the [Primer Design System](https://primer.style/design/). Primer Design System is created by GitHub and includes 2 implementations: one for React and one for Ruby on Rails. The third implementation, using plain HTML and CSS, has been deprecated by GitHub.
 
 The CSS that comes with PrimerLive includes component styles and utility classes.
+
+## Light and dark theme
+
+PrimerLive contains styles for light and dark color modes and themes, with support for color blindness. See `PrimerLive.Theme` for usage and approaches to persist theme settings.
 
 ## Customizing components
 

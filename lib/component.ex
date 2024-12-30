@@ -1278,7 +1278,7 @@ defmodule PrimerLive.Component do
       phx-target={@myself}
     >
       <%= label %>
-    </:item>      
+    </:item>
   </.tabnav>
 
   ...
@@ -1608,7 +1608,7 @@ defmodule PrimerLive.Component do
       phx-target={@myself}
     >
       <%= label %>
-    </:item>      
+    </:item>
   </.underline_nav>
 
   ...
@@ -2546,7 +2546,7 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Subnav buttons item. 
+    Subnav buttons item.
 
     - To create a link element, pass attribute `href`, `navigate` or `patch`.
     - To pass event data, use `phx-click` and `phx-value-item`.
@@ -6976,7 +6976,7 @@ defmodule PrimerLive.Component do
   slot :item,
     required: true,
     doc: """
-    Menu item content. 
+    Menu item content.
 
     - To create a link element, pass attribute `href`, `navigate` or `patch`.
     - To pass event data, use `phx-click` and `phx-value-item`.
@@ -13088,9 +13088,9 @@ defmodule PrimerLive.Component do
   @doc section: :theme
 
   @doc ~S"""
-  Creates a wrapper that sets the light/dark color mode and theme, with support for color blindness.
+  Creates a wrapper that sets the light and dark color mode and theme, with support for color blindness.
 
-  See also `PrimerLive.Theme`.
+  See also `PrimerLive.Theme` for approaches to persist theme settings.
 
   ## Alternative method
 
@@ -13133,15 +13133,16 @@ defmodule PrimerLive.Component do
   </.theme>
   ```
 
-  Use a `theme_state` struct for easier passing around state:
+  Use a `theme_state` struct for passing around state:
 
   ```
-  assigns = assign
-    |> assign(:theme_state, %{
-      color_mode: "light",
-      light_theme: "light_high_contrast",
-      dark_theme: "dark_high_contrast"
-    })
+  theme_state = %{
+    color_mode: "light",
+    light_theme: "light_high_contrast",
+    dark_theme: "dark_high_contrast"
+  }
+
+  assigns = assigns |> assign(:theme_state, theme_state)
 
   <.theme theme_state={@theme_state}>
     Content

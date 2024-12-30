@@ -52,18 +52,25 @@ Otherwise:
 
 The relatively new `@scope` rule enables localized CSS. In practical terms, it allows multiple CSS libraries to coexist within a single codebase without causing style conflicts. For example, use Tailwind components in one section of the page, and use PrimerLive components in another section.
 
-Browser support for the @scope rule is still limited. For more details, see [Can I use: @scope rule](https://caniuse.com/css-cascade-scope). If you're using PrimerLive in a controlled environment where users have access to the latest browsers, you may consider experimenting with this feature.
+Browser support for the `@scope` rule is still limited. For more details, see [Can I use: @scope rule](https://caniuse.com/css-cascade-scope). If you're using PrimerLive in a controlled environment where users have access to the latest browsers, you may consider experimenting with this feature.
 
 To use PrimerLive CSS with CSS scope:
+
 - Change the CSS import to `primer-live-scoped.min.css` (or `primer-live-scoped.css`).
-- Create a container with class `primer-live` (not the `html` element) where you will be using PrimerLive components.
+- Create a container with class `primer-live` where you will be using PrimerLive components. This can be any element, except the `html` element.
+- To make theming work properly, the container must be a child of the `theme` component (or equivalent element with attributes created with `PrimerLive.Theme.html_attributes/2`).
 
 Example:
+
 ```
 <html>
   <body>
-    <section>Some content</section>
-    <section class="primer-live">PrimerLive components</section>
+    <section>
+      Some content
+    </section>
+    <section class="primer-live">
+      PrimerLive components
+    </section>
   </body>
 </html>
 ```
