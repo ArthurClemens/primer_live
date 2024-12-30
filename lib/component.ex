@@ -3394,7 +3394,6 @@ defmodule PrimerLive.Component do
 
     %{
       show_message?: show_message?,
-      phx_feedback_for_id: phx_feedback_for_id,
       message: message,
       valid?: valid?
     } = common_input_attrs
@@ -3416,8 +3415,7 @@ defmodule PrimerLive.Component do
     attributes =
       AttributeHelpers.append_attributes(assigns.rest, [
         [class: class],
-        [id: validation_message_id],
-        ["phx-feedback-for": assigns.rest["phx-feedback-for"] || phx_feedback_for_id]
+        [id: validation_message_id]
       ])
 
     assigns =
