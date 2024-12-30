@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.0
+
+Support for LiveView 1.0.
+
+See [Installation](doc-extra/installation.md) for using PrimerLive with LiveView 0.20.
+
 ## 0.9.1
 
 Improvements for theme color CSS variables:
