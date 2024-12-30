@@ -10992,7 +10992,8 @@
       var(--color-neutral-muted)
     );
     border-radius: 6px;
-    box-shadow: inset 0 -1px 0 var(--borderColor-neutral-muted, var(--color-neutral-muted));
+    box-shadow: inset 0 -1px 0
+      var(--borderColor-neutral-muted, var(--color-neutral-muted));
   }
   h1,
   h2,
@@ -24239,7 +24240,8 @@
     flex-shrink: 0;
     overflow-x: auto;
     overflow-y: hidden;
-    box-shadow: inset 0 -1px 0 var(--borderColor-muted, var(--color-border-muted));
+    box-shadow: inset 0 -1px 0
+      var(--borderColor-muted, var(--color-border-muted));
     -webkit-overflow-scrolling: touch;
   }
   .SelectMenu-tabs::-webkit-scrollbar {
@@ -24259,7 +24261,8 @@
     text-align: center;
     background-color: transparent;
     border: 0;
-    box-shadow: inset 0 -1px 0 var(--borderColor-muted, var(--color-border-muted));
+    box-shadow: inset 0 -1px 0
+      var(--borderColor-muted, var(--color-border-muted));
   }
   @media (min-width: 544px) {
     .SelectMenu-tab {
@@ -28483,7 +28486,8 @@
     flex-shrink: 0;
     overflow-x: auto;
     overflow-y: hidden;
-    box-shadow: inset 0 -1px 0 var(--borderColor-muted, var(--color-border-muted));
+    box-shadow: inset 0 -1px 0
+      var(--borderColor-muted, var(--color-border-muted));
     -webkit-overflow-scrolling: touch;
   }
   .SelectMenu-tabs::-webkit-scrollbar {
@@ -28503,7 +28507,8 @@
     text-align: center;
     background-color: transparent;
     border: 0;
-    box-shadow: inset 0 -1px 0 var(--borderColor-muted, var(--color-border-muted));
+    box-shadow: inset 0 -1px 0
+      var(--borderColor-muted, var(--color-border-muted));
   }
   @media (min-width: 544px) {
     .SelectMenu-tab {
@@ -29129,7 +29134,10 @@
     -webkit-tap-highlight-color: transparent;
     grid-template-rows: min-content;
     grid-template-areas: "leadingAction leadingVisual label trailingVisual trailingAction";
-    grid-template-columns: min-content min-content minmax(0, auto) min-content min-content;
+    grid-template-columns: min-content min-content minmax(
+        0,
+        auto
+      ) min-content min-content;
     align-items: start;
   }
   .ActionList-content > :not(:last-child) {
@@ -29676,8 +29684,8 @@
     box-shadow: none;
   }
   :scope {
-    --primer-fontStack-monospace: ui-monospace, SFMono-Regular, "SF Mono", Menlo,
-      Consolas, "Liberation Mono", monospace;
+    --primer-fontStack-monospace: ui-monospace, SFMono-Regular, "SF Mono",
+      Menlo, Consolas, "Liberation Mono", monospace;
   }
   ul,
   ol {

@@ -18,11 +18,11 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // index.ts
-var assets_exports = {};
-__export(assets_exports, {
+var index_exports = {};
+__export(index_exports, {
   Prompt: () => Prompt
 });
-module.exports = __toCommonJS(assets_exports);
+module.exports = __toCommonJS(index_exports);
 
 // javascript/prompt.ts
 var Prompt = {
