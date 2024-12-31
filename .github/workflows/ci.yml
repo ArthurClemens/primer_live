@@ -16,7 +16,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             _build
@@ -51,7 +51,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             _build
@@ -82,7 +82,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             _build
@@ -113,7 +113,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             _build
@@ -144,7 +144,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             _build
@@ -175,7 +175,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             _build
@@ -206,7 +206,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             _build
@@ -243,7 +243,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             _build
