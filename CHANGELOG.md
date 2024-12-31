@@ -2,9 +2,9 @@
 
 ## 0.10.0
 
-Support for LiveView 1.0.
-
-See [Installation](doc-extra/installation.md) for using PrimerLive with LiveView 0.20.
+- Support for Phoenix.LiveView 1.0.
+  - See [Installation](doc-extra/installation.md) for using PrimerLive with Phoenix.LiveView 0.20.
+- Improve disabled [Toggle](`PrimerLive.Component.toggle/1`) styles.
 
 ## 0.9.1
 
