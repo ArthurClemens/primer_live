@@ -4,7 +4,7 @@
 
 Improvements for theme color CSS variables:
 
-- The light theme variables are now set as default, so it is no longer needed to wrap components inside a theme wrapper.
+- Fix for a regression bug (introduced in version 0.9.0) that removed color styles unless components were wrapped in a theme wrapper. The light theme CSS variables are now set as the default.
 - When using the `@scope` rule, color CSS variables now work inside the scope.
 
 ## 0.9.0
