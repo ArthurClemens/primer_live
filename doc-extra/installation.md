@@ -14,7 +14,7 @@ Run `mix.deps get`.
 
 ### For Phoenix.LiveView 0.20
 
-Add PrimerLive as a dependency in your Phoenix application's `mix.exs` by referencing the LiveView 0.20 branch:
+Add PrimerLive as a dependency in your Phoenix application's `mix.exs` by referencing the LiveView 0.20 branch. This branch will get updated with bug fixes and compatible improvements.
 
 ```
 {:primer_live, git: "https://github.com/ArthurClemens/primer_live.git", branch: "live-view-0.20"}
