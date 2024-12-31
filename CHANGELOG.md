@@ -2,9 +2,17 @@
 
 ## 0.10.0
 
+### LiveView 1.0
+
 - Support for Phoenix.LiveView 1.0.
-  - See [Installation](doc-extra/installation.md) for using PrimerLive with Phoenix.LiveView 0.20.
+
+See [Installation](doc-extra/installation.md) for using PrimerLive with Phoenix.LiveView 0.20.
+
+### Other changes
+
 - Improve disabled [Toggle switch](`PrimerLive.Component.toggle_switch/1`) styles.
+- Updated upstream dependency `@primer/css` to `21.5.1`.
+- Updated upstream dependency `@primer/view-components` to `0.36.1`.
 
 ## 0.9.1
 

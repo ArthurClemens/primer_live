@@ -16,7 +16,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v3
         with:
           path: |
             _build
@@ -38,8 +38,8 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - elixir: 1.17
-            otp: 27.0
+          - elixir: 1.18
+            otp: 27.2
             runner-image: ubuntu-22.04
   credo:
     needs: compile
@@ -51,7 +51,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v3
         with:
           path: |
             _build
@@ -69,8 +69,8 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - elixir: 1.17
-            otp: 27.0
+          - elixir: 1.18
+            otp: 27.2
             runner-image: ubuntu-22.04
   deps_audit:
     needs: compile
@@ -82,7 +82,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v3
         with:
           path: |
             _build
@@ -100,8 +100,8 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - elixir: 1.17
-            otp: 27.0
+          - elixir: 1.18
+            otp: 27.2
             runner-image: ubuntu-22.04
   format:
     needs: compile
@@ -113,7 +113,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v3
         with:
           path: |
             _build
@@ -131,8 +131,8 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - elixir: 1.17
-            otp: 27.0
+          - elixir: 1.18
+            otp: 27.2
             runner-image: ubuntu-22.04
   hex_audit:
     needs: compile
@@ -144,7 +144,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v3
         with:
           path: |
             _build
@@ -162,8 +162,8 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - elixir: 1.17
-            otp: 27.0
+          - elixir: 1.18
+            otp: 27.2
             runner-image: ubuntu-22.04
   test:
     needs: compile
@@ -175,7 +175,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v3
         with:
           path: |
             _build
@@ -193,8 +193,8 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - elixir: 1.17
-            otp: 27.0
+          - elixir: 1.18
+            otp: 27.2
             runner-image: ubuntu-22.04
   unused_deps:
     needs: compile
@@ -206,7 +206,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v3
         with:
           path: |
             _build
@@ -224,8 +224,8 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - elixir: 1.17
-            otp: 27.0
+          - elixir: 1.18
+            otp: 27.2
             runner-image: ubuntu-22.04
   ci_status:
     needs:
@@ -243,7 +243,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.versions.elixir }}
           otp-version: ${{ matrix.versions.otp }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v3
         with:
           path: |
             _build
@@ -257,6 +257,6 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - elixir: 1.17
-            otp: 27.0
+          - elixir: 1.18
+            otp: 27.2
             runner-image: ubuntu-22.04
