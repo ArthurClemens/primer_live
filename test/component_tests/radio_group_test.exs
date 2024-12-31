@@ -106,7 +106,7 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
             id={value <> "-custom-label"}
           >
             <:label>
-              <%= label |> String.downcase() %>
+              {label |> String.downcase()}
             </:label>
           </.radio_button>
         </.radio_group>
@@ -142,7 +142,7 @@ defmodule PrimerLive.TestComponents.RadioGroupTest do
           <%= for {label, value} <- @options do %>
             <.radio_button form={f} field={@field} value={value} id={value <> "-default-error"}>
               <:label>
-                <%= label %>
+                {label}
               </:label>
             </.radio_button>
           <% end %>

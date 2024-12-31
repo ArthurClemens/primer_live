@@ -51,7 +51,7 @@ defmodule AttributeHelpersTest do
                          %{
                            names: ["is-open"],
                            to: "#some-id",
-                           transition: [["duration-"], [""], [""]]
+                           transition: [["duration-"], [], []]
                          }
                        ],
                        ["pop_focus", %{}]
@@ -69,7 +69,7 @@ defmodule AttributeHelpersTest do
                            names: ["is-showing"],
                            time: 30,
                            to: "#some-id",
-                           transition: [["duration-30"], [""], [""]]
+                           transition: [["duration-30"], [], []]
                          }
                        ]
                      ]
@@ -144,7 +144,7 @@ defmodule AttributeHelpersTest do
                        %{
                          names: ["is-open"],
                          to: "#some-id",
-                         transition: [["duration-"], [""], [""]]
+                         transition: [["duration-"], [], []]
                        }
                      ],
                      ["pop_focus", %{}]
@@ -234,7 +234,7 @@ defmodule AttributeHelpersTest do
                        %{
                          names: ["is-open"],
                          to: "#some-id",
-                         transition: [["duration-"], [""], [""]]
+                         transition: [["duration-"], [], []]
                        }
                      ],
                      ["pop_focus", %{}]
@@ -326,7 +326,7 @@ defmodule AttributeHelpersTest do
                        %{
                          names: ["is-open"],
                          to: "#some-id",
-                         transition: [["duration-"], [""], [""]]
+                         transition: [["duration-"], [], []]
                        }
                      ],
                      ["pop_focus", %{}]
@@ -343,7 +343,7 @@ defmodule AttributeHelpersTest do
                          names: ["is-showing"],
                          time: 30,
                          to: "#some-id",
-                         transition: [["duration-30"], [""], [""]]
+                         transition: [["duration-30"], [], []]
                        }
                      ]
                    ]
@@ -422,7 +422,7 @@ defmodule AttributeHelpersTest do
                        %{
                          names: ["is-open"],
                          to: "#some-id",
-                         transition: [["duration-"], [""], [""]]
+                         transition: [["duration-"], [], []]
                        }
                      ],
                      ["pop_focus", %{}]
@@ -520,7 +520,7 @@ defmodule AttributeHelpersTest do
                          names: ["is-open"],
                          time: 500,
                          to: "#some-id",
-                         transition: [["duration-500"], [""], [""]]
+                         transition: [["duration-500"], [], []]
                        }
                      ],
                      ["pop_focus", %{}]
@@ -548,7 +548,7 @@ defmodule AttributeHelpersTest do
                          names: ["is-showing"],
                          time: 30,
                          to: "#some-id",
-                         transition: [["duration-30"], [""], [""]]
+                         transition: [["duration-30"], [], []]
                        }
                      ]
                    ]
@@ -625,7 +625,7 @@ defmodule AttributeHelpersTest do
                          names: ["is-open"],
                          time: 170,
                          to: "#some-id",
-                         transition: [["duration-170"], [""], [""]]
+                         transition: [["duration-170"], [], []]
                        }
                      ],
                      ["pop_focus", %{}]
@@ -643,7 +643,7 @@ defmodule AttributeHelpersTest do
                          names: ["is-showing"],
                          time: 30,
                          to: "#some-id",
-                         transition: [["duration-30"], [""], [""]]
+                         transition: [["duration-30"], [], []]
                        }
                      ]
                    ]
@@ -724,7 +724,7 @@ defmodule AttributeHelpersTest do
                        %{
                          names: ["is-open"],
                          to: "#some-id",
-                         transition: [["duration-"], [""], [""]]
+                         transition: [["duration-"], [], []]
                        }
                      ],
                      ["pop_focus", %{}]
@@ -743,7 +743,7 @@ defmodule AttributeHelpersTest do
                          names: ["is-showing"],
                          time: 30,
                          to: "#some-id",
-                         transition: [["duration-30"], [""], [""]]
+                         transition: [["duration-30"], [], []]
                        }
                      ]
                    ]

@@ -28979,12 +28979,6 @@ input:not(:placeholder-shown) + .FormControl-input-trailingAction.pl-trailingAct
 .FormControl.pl-FormControl--input-group .FormControl-inlineValidation {
   font-weight: var(--base-text-weight-semibold, 600);
 }
-.FormControl-inlineValidation.phx-no-feedback {
-  display: none;
-}
-.pl-valid + .FormControl-inlineValidation--success.phx-no-feedback {
-  display: flex;
-}
 .FormControl-inlineValidation a[href] {
   color: inherit;
   text-decoration: underline;
@@ -28993,16 +28987,15 @@ input:not(:placeholder-shown) + .FormControl-input-trailingAction.pl-trailingAct
   color: inherit;
   text-decoration: underline;
 }
-.phx-no-feedback .FormControl-input[invalid]:not(:focus),
-.phx-no-feedback .FormControl-textarea[invalid]:not(:focus),
-.phx-no-feedback .FormControl-select[invalid]:not(:focus) {
+.FormControl-input[invalid]:not(:focus) .pl-neutral,
+.FormControl-textarea[invalid]:not(:focus) .pl-neutral,
+.FormControl-select[invalid]:not(:focus) .pl-neutral {
   border-color: var(--control-borderColor-rest);
 }
-.phx-no-feedback .FormControl-input:not(:focus)[invalid],
-.phx-no-feedback .FormControl-select:not(:focus)[invalid] {
+.FormControl-input:not(:focus)[invalid] .pl-neutral,
+.FormControl-select:not(:focus)[invalid] .pl-neutral {
   border-color: var(--control-borderColor-rest);
 }
-.phx-no-feedback .FormControl-inlineValidation--error,
 .pl-valid + .FormControl-inlineValidation--error,
 .pl-neutral + .FormControl-inlineValidation--error {
   display: none;

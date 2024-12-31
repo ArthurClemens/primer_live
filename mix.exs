@@ -4,7 +4,7 @@ defmodule PrimerLive.MixProject do
   def project do
     [
       app: :primer_live,
-      version: "0.9.1",
+      version: "0.10.0",
       elixir: "~> 1.17",
       homepage_url: "https://github.com/ArthurClemens/primer_live",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -45,10 +45,10 @@ defmodule PrimerLive.MixProject do
       {:github_workflows_generator, "~> 0.1", only: :dev, runtime: false},
       {:jason, "~> 1.4"},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
-      {:phoenix_ecto, "~> 4.5", only: :test, runtime: false},
+      {:phoenix_ecto, "~> 4.6", only: :test, runtime: false},
       {:phoenix_html_helpers, "~> 1.0"},
-      {:phoenix_html, "~> 4.1"},
-      {:phoenix_live_view, "~> 0.20"},
+      {:phoenix_html, "~> 4.2"},
+      {:phoenix_live_view, "~> 1.0"},
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false}
     ]
   end

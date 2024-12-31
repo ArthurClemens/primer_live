@@ -858,15 +858,6 @@ input:not(:placeholder-shown)
   font-weight: var(--base-text-weight-semibold, 600);
 }
 
-/* Reset error state to initial if element has class phx-no-feedback (but show success message when shown in form group with valid state). */
-.FormControl-inlineValidation.phx-no-feedback {
-  display: none;
-}
-
-.pl-valid + .FormControl-inlineValidation--success.phx-no-feedback {
-  display: flex;
-}
-
 /* Style links inside validation messages. */
 .FormControl-inlineValidation a[href] {
   color: inherit;
@@ -879,21 +870,20 @@ input:not(:placeholder-shown)
   text-decoration: underline;
 }
 
-/* Reset error state to initial if preceding marker element has class phx-no-feedback. */
-.phx-no-feedback .FormControl-input[invalid]:not(:focus),
-.phx-no-feedback .FormControl-textarea[invalid]:not(:focus),
-.phx-no-feedback .FormControl-select[invalid]:not(:focus) {
+/* Reset field error state to initial if the field status is neutral. */
+.FormControl-input[invalid]:not(:focus) .pl-neutral,
+.FormControl-textarea[invalid]:not(:focus) .pl-neutral,
+.FormControl-select[invalid]:not(:focus) .pl-neutral {
   border-color: var(--control-borderColor-rest);
 }
 
 /* -- idem */
-.phx-no-feedback .FormControl-input:not(:focus)[invalid],
-.phx-no-feedback .FormControl-select:not(:focus)[invalid] {
+.FormControl-input:not(:focus)[invalid] .pl-neutral,
+.FormControl-select:not(:focus)[invalid] .pl-neutral {
   border-color: var(--control-borderColor-rest);
 }
 
 /* -- idem */
-.phx-no-feedback .FormControl-inlineValidation--error,
 .pl-valid + .FormControl-inlineValidation--error,
 .pl-neutral + .FormControl-inlineValidation--error {
   display: none;

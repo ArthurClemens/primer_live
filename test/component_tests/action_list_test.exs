@@ -115,7 +115,7 @@ defmodule PrimerLive.TestComponents.ActionListTest do
               checked_value={value}
               is_selected={value in @values}
             >
-              <%= label %>
+              {label}
             </.action_list_item>
           <% end %>
         </.action_list>
@@ -148,7 +148,7 @@ defmodule PrimerLive.TestComponents.ActionListTest do
               is_multiple_select
               is_selected={value in @values}
             >
-              <%= label %>
+              {label}
             </.action_list_item>
           <% end %>
         </.action_list>

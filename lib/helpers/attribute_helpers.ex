@@ -425,7 +425,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
           iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id(nil)
           nil
-          
+
           iex> PrimerLive.Helpers.AttributeHelpers.create_dom_id("")
           nil
 
@@ -715,8 +715,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         do: input_name(form, field, name: name, is_multiple: is_multiple),
         else: name
 
-    phx_feedback_for_id = input_name
-
     value = assigns[:value] || rest[:value]
     value_for_derived_label = checked_value || value
 
@@ -744,7 +742,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       input_id: input_id,
       id: id,
       input_name: input_name,
-      phx_feedback_for_id: phx_feedback_for_id,
       value: value
     }
   end
@@ -773,7 +770,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     }
   end
 
-  defp common_field_state_attrs(assigns, %{input_name: input_name, input_id: input_id, id: id}, %{
+  defp common_field_state_attrs(assigns, %{input_id: input_id, id: id}, %{
          form: form,
          field_or_name: field_or_name
        }) do
@@ -782,6 +779,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     field_state = FormHelpers.field_state(form, field_or_name, validation_message, caption)
 
     %{
+      changeset: changeset,
       message: message,
       valid?: valid?,
       required?: required?,
@@ -789,7 +787,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       caption: caption
     } = field_state
 
-    has_changeset? = !is_nil(field_state.changeset)
+    has_changeset? = !is_nil(changeset)
     show_message? = !!message && !ignore_errors? && assigns[:type] !== "hidden"
 
     validation_message_id =
@@ -810,20 +808,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
         end
       end
 
-    ## Phoenix uses phx_feedback_for to hide form field errors that are untouched.
-    ## However, this attribute can't be set on the element itself (the JS DOM library stalls).
-    ## Element "validation_marker" is used as stopgap: a separate element placed just before the input element.
-    validation_marker_attrs =
-      case has_changeset? && show_message? do
-        true ->
-          [
-            "phx-feedback-for": input_name
-          ]
-
-        false ->
-          nil
-      end
-
     %{
       message: message,
       valid?: valid?,
@@ -831,7 +815,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ignore_errors?: ignore_errors?,
       show_message?: show_message?,
       validation_message_id: validation_message_id,
-      validation_marker_attrs: validation_marker_attrs,
       validation_marker_class: validation_marker_class,
       caption: caption
     }
