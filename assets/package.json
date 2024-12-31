@@ -12,19 +12,19 @@
   },
   "dependencies": {
     "@primer/css": "21.5.1",
-    "@primer/view-components": "^0.34.0",
-    "@types/phoenix_live_view": "^0.20.0",
-    "fs": "^0.0.1-security",
-    "prettier": "^3.4.2",
-    "yargs": "^17.7.2"
+    "@primer/view-components": "0.36.1",
+    "@types/phoenix_live_view": "0.20.0",
+    "fs": "0.0.1-security",
+    "prettier": "3.4.2",
+    "yargs": "17.7.2"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
-    "@types/yargs": "^17.0.33",
-    "esbuild": "^0.24.2",
-    "esbuild-sass-plugin": "^3.3.1",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "@types/node": "22.10.2",
+    "@types/yargs": "17.0.33",
+    "esbuild": "0.24.2",
+    "esbuild-sass-plugin": "3.3.1",
+    "tsx": "4.19.2",
+    "typescript": "5.7.2"
   },
   "author": "Arthur Clemens <arthurclemens@gmail.com> (http://arthurclemens.com)"
 }
