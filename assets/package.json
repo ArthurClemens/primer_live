@@ -19,7 +19,7 @@
     "yargs": "17.7.2"
   },
   "devDependencies": {
-    "@types/node": "22.10.2",
+    "@types/node": "22.10.3",
     "@types/yargs": "17.0.33",
     "esbuild": "0.24.2",
     "esbuild-sass-plugin": "3.3.1",
