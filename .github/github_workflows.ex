@@ -125,7 +125,7 @@ defmodule GithubWorkflows do
             ]
           ],
           [
-            uses: "actions/cache@v3",
+            uses: "actions/cache@v4",
             with:
               [
                 path: ~S"""
@@ -222,7 +222,7 @@ defmodule GithubWorkflows do
   #     steps: [
   #       [
   #         name: "Restore PLT cache",
-  #         uses: "actions/cache@v3",
+  #         uses: "actions/cache@v4",
   #         with:
   #           [
   #             path: "priv/plts"
