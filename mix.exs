@@ -39,7 +39,7 @@ defmodule PrimerLive.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.10", only: :test, runtime: false},
       {:ecto, "~> 3.10", runtime: false},
-      {:esbuild, "~> 0.8", only: [:dev, :test]},
+      {:esbuild, "~> 0.9", only: [:dev, :test]},
       {:ex_doc, "~> 0.36", only: :dev},
       {:floki, "~> 0.37", only: :test, runtime: false},
       {:github_workflows_generator, "~> 0.1", only: :dev, runtime: false},
