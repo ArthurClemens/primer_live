@@ -56,7 +56,7 @@ defmodule PrimerLive.TestComponents.LayoutTest do
         <:sidebar order="1">
           Sidebar content
         </:sidebar>
-        <:divider order="x"></:divider>
+        <:divider></:divider>
         <:main order={2}>
           Main content
         </:main>

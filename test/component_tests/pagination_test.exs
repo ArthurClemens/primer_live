@@ -282,6 +282,25 @@ defmodule PrimerLive.TestComponents.PaginationTest do
     )
   end
 
+  test "Attribute: button_attrs" do
+    assigns = %{page_count: 2, current_page: 1}
+
+    run_test(
+      ~H"""
+      <.pagination
+        page_count={@page_count}
+        current_page={@current_page}
+        button_attrs={
+          %{
+            "phx-click" => "search_page"
+          }
+        }
+      />
+      """,
+      __ENV__
+    )
+  end
+
   test "Extra attributes" do
     assigns = %{page_count: 2, current_page: 1}
 

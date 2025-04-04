@@ -1,4 +1,25 @@
-@import "@primer/css/core/index.scss";
+
+// Global requirements
+@import '@primer/css/support/index.scss';
+
+// Core modules
+@import '@primer/css/base/index.scss';
+@import '@primer/css/box/index.scss';
+@import '@primer/css/breadcrumb/index.scss';
+@import '@primer/css/buttons/index.scss';
+@import '@primer/css/table-object/index.scss';
+@import '@primer/css/forms/index.scss';
+@import '@primer/css/layout/index.scss';
+@import '@primer/css/links/index.scss';
+@import '@primer/css/navigation/index.scss';
+// @import '@primer/css/pagination/index.scss';
+@import '@primer/css/tooltips/index.scss';
+@import '@primer/css/truncate/index.scss';
+@import '@primer/css/overlay/index.scss';
+
+// Utilities always go last so that they can override components
+@import '@primer/css/utilities/index.scss';
+
 @import "@primer/css/product/index.scss";
 @import "@primer/css/marketing/index.scss";
 
