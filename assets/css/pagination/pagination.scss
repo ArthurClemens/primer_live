@@ -27,8 +27,9 @@
 
     /* PrimerLive changes */
     background: none;
-    display: inline-flex;
+    /* -- flex styling; display flex is set in media queries */
     align-items: center;
+    justify-content: center;
 
     &:hover {
       /* PrimerLive change: remove :focus */
@@ -76,6 +77,7 @@
       /* PrimerLive changes: inline-block to inline-flex */
       display: inline-flex;
       align-items: center;
+      justify-content: center;
 
       width: 16px;
       height: 16px;
@@ -131,7 +133,6 @@
   >.next_page {
     /* PrimerLive changes: inline-block to inline-flex */
     display: inline-flex;
-    align-items: center;
   }
 
   // sm -> md
@@ -145,7 +146,6 @@
     >.gap {
       /* PrimerLive changes: inline-block to inline-flex */
       display: inline-flex;
-      align-items: center;
     }
   }
 
@@ -156,7 +156,6 @@
     >* {
       /* PrimerLive changes: inline-block to inline-flex */
       display: inline-flex;
-      align-items: center;
     }
   }
 }
