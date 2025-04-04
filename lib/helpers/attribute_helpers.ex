@@ -29,8 +29,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       iex> is_foo = true
       iex> is_bar = false
       iex> PrimerLive.Helpers.AttributeHelpers.classnames([
-      ...>   is_foo and "foo",
-      ...>   is_bar and "bar"
+      ...>   is_foo && "foo",
+      ...>   is_bar && "bar"
       ...> ])
       "foo"
 
@@ -100,8 +100,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       iex> is_bar = false
       iex> extra = [class: "x"]
       iex> PrimerLive.Helpers.AttributeHelpers.append_attributes(extra, [
-      ...>   is_foo and [foo: "foo"],
-      ...>   is_bar and [bar: "bar"]
+      ...>   is_foo && [foo: "foo"],
+      ...>   is_bar && [bar: "bar"]
       ...> ])
       [class: "x", foo: "foo"]
 
@@ -109,8 +109,8 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       iex> is_bar = false
       iex> extra = %{class: "x"}
       iex> PrimerLive.Helpers.AttributeHelpers.append_attributes(extra, [
-      ...>   is_foo and [foo: "foo"],
-      ...>   is_bar and [bar: "bar"]
+      ...>   is_foo && [foo: "foo"],
+      ...>   is_bar && [bar: "bar"]
       ...> ])
       [class: "x", foo: "foo"]
   """
