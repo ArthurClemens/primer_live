@@ -1,19 +1,16 @@
-import { ViewHook, LiveSocket } from "phoenix_live_view";
+import { Hook } from "phoenix_live_view";
 /**
 Prompt Hook handles status callbacks.
 */
-interface IPrompt extends ViewHook<TPrompt> {
+interface IPrompt {
     handlePromptOpen?: (evt: CustomEvent) => void;
     handlePromptClose?: (evt: CustomEvent) => void;
     handlePromptToggle?: (evt: CustomEvent) => void;
 }
-export type TPrompt = IPrompt & {
-    liveSocket?: LiveSocket;
-};
-export declare const Prompt: TPrompt;
+export declare const Prompt: Hook<IPrompt>;
 declare global {
     interface Window {
-        Prompt: TPrompt;
+        Prompt: Hook<IPrompt>;
     }
 }
 export {};

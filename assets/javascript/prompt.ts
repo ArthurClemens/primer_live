@@ -1,19 +1,15 @@
-import { ViewHook, LiveSocket } from "phoenix_live_view";
+import { Hook } from "phoenix_live_view";
 
 /**
 Prompt Hook handles status callbacks.
 */
-interface IPrompt extends ViewHook<TPrompt> {
+interface IPrompt {
   handlePromptOpen?: (evt: CustomEvent) => void;
   handlePromptClose?: (evt: CustomEvent) => void;
   handlePromptToggle?: (evt: CustomEvent) => void;
 }
 
-export type TPrompt = IPrompt & {
-  liveSocket?: LiveSocket;
-};
-
-export const Prompt: TPrompt = {
+export const Prompt: Hook<IPrompt> = {
   mounted() {
     const el = this.el as HTMLElement;
     const contentEl = el.querySelector("[data-content]");
@@ -85,7 +81,7 @@ export const Prompt: TPrompt = {
 
 declare global {
   interface Window {
-    Prompt: TPrompt;
+    Prompt: Hook<IPrompt>;
   }
 }
 
