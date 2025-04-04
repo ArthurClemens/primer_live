@@ -8674,7 +8674,7 @@ defmodule PrimerLive.Component do
   @doc section: :pagination
 
   @doc ~S"""
-  Pagination is a horizontal set of links to navigate paginated content.
+  Pagination is a horizontal set of links (or buttons) to navigate paginated content.
 
   ```
   <.pagination
@@ -8690,6 +8690,7 @@ defmodule PrimerLive.Component do
   - Optionally disable page number display (minimal UI)
   - Custom labels
   - Custom classnames for all elements
+  - Render links (default) or buttons with `phx-` attributes
 
   If pages in the center (controlled by `sibling_count`) collide with pages near the sides (controlled by `side_count`), the center section will be pushed away from the side.
 
@@ -8728,6 +8729,25 @@ defmodule PrimerLive.Component do
   />
   ```
 
+  Render buttons with "phx-click":
+
+  ```
+  <.pagination
+    page_count={@page_count}
+    current_page={@current_page}
+    button_attrs={%{
+      "phx-click" => "search_page"
+    }}
+  />
+
+  ...
+
+  def handle_event("search_page", %{"item" => page}, socket) do
+    socket = socket |> assign(:current_page, page)
+    {:noreply, socket}
+  end
+  ```
+
   [INSERT LVATTRDOCS]
 
   ## Reference
@@ -8740,11 +8760,22 @@ defmodule PrimerLive.Component do
   attr(:current_page, :integer, required: true, doc: "Current page number.")
 
   attr(:link_path, :any,
-    required: true,
+    default: nil,
     doc: """
     Function that returns a path for the given page number. The link builder uses `Phoenix.Component.link/1` with attribute `navigate`. Extra options can be passed with `link_options`.
+    Required, unless `button_attrs` is used.
 
     Function signature: `(page_number) -> path`
+    """
+  )
+
+  attr(:button_attrs, :map,
+    default: nil,
+    doc: """
+    Use when buttons events are preferred over pagination link urls. Renders button elements instead of links
+    and adds button attributes such as `phx-click` and `phx-target` to each button.
+
+    The event value is passed as "phx-value-item", so the event params will contain `%{"item" => page}`.
     """
   )
 
@@ -8909,6 +8940,21 @@ defmodule PrimerLive.Component do
       |> assign(:show_numbers, show_numbers)
       |> assign(:pagination_elements, pagination_elements)
       |> assign(:current_page, current_page)
+      |> assign(
+        :pagination_item_type,
+        if(is_map(assigns.button_attrs) and not Enum.empty?(assigns.button_attrs),
+          do: "button",
+          else: "link"
+        )
+      )
+      |> assign(
+        :button_attrs,
+        assigns.button_attrs || %{}
+      )
+      |> assign(
+        :link_path,
+        assigns.link_path || fn page -> page end
+      )
 
     ~H"""
     <%= if @page_count > 1 do %>
@@ -8916,15 +8962,17 @@ defmodule PrimerLive.Component do
         <div class={@classes.pagination}>
           <%= if @show_prev_next do %>
             <%= if @has_previous_page do %>
-              <Phoenix.Component.link
-                navigate={@link_path.(@current_page - 1)}
-                class={@classes.previous_page}
-                rel="previous"
+              <.pagination_item
                 aria-label={@labels.aria_label_previous_page}
-                replace={@link_options.replace}
+                button_attrs={Map.put(@button_attrs, "phx-value-item", @current_page - 1)}
+                class={@classes.previous_page}
+                link_options={@link_options}
+                navigate={@link_path.(@current_page - 1)}
+                rel="previous"
+                type={@pagination_item_type}
               >
                 {@labels.previous_page}
-              </Phoenix.Component.link>
+              </.pagination_item>
             <% else %>
               <span class={@classes.previous_page} aria-disabled="true" phx-no-format><%= @labels.previous_page %></span>
             <% end %>
@@ -8946,31 +8994,35 @@ defmodule PrimerLive.Component do
                 <%= if item == 0 do %>
                   <span class={@classes.gap} phx-no-format><%= @labels.gap %></span>
                 <% else %>
-                  <Phoenix.Component.link
-                    navigate={@link_path.(item)}
-                    class={@classes.page}
+                  <.pagination_item
                     aria-label={
                       @labels.aria_label_page |> String.replace("{page_number}", to_string(item))
                     }
-                    replace={@link_options.replace}
+                    button_attrs={Map.put(@button_attrs, "phx-value-item", item)}
+                    class={@classes.page}
+                    link_options={@link_options}
+                    navigate={@link_path.(item)}
+                    type={@pagination_item_type}
                   >
                     {item}
-                  </Phoenix.Component.link>
+                  </.pagination_item>
                 <% end %>
               <% end %>
             <% end %>
           <% end %>
           <%= if @show_prev_next do %>
             <%= if @has_next_page do %>
-              <Phoenix.Component.link
-                navigate={@link_path.(@current_page + 1)}
-                class={@classes.next_page}
-                rel="next"
+              <.pagination_item
                 aria-label={@labels.aria_label_next_page}
-                replace={@link_options.replace}
+                button_attrs={Map.put(@button_attrs, "phx-value-item", @current_page + 1)}
+                class={@classes.next_page}
+                link_options={@link_options}
+                navigate={@link_path.(@current_page + 1)}
+                rel="next"
+                type={@pagination_item_type}
               >
                 {@labels.next_page}
-              </Phoenix.Component.link>
+              </.pagination_item>
             <% else %>
               <span class={@classes.next_page} aria-disabled="true" phx-no-format><%= @labels.next_page %></span>
             <% end %>
@@ -8978,6 +9030,29 @@ defmodule PrimerLive.Component do
         </div>
       </nav>
     <% end %>
+    """
+  end
+
+  attr :type, :string, values: ~w(link button)
+  attr :navigate, :string, default: nil
+  attr :link_options, :map, default: nil
+  attr :button_attrs, :map, default: nil
+  DeclarationHelpers.rest(include: ~w(aria-label class rel))
+  slot :inner_block, required: true
+
+  defp pagination_item(%{type: "button"} = assigns) do
+    ~H"""
+    <button {@button_attrs} {@rest}>
+      {render_slot(@inner_block)}
+    </button>
+    """
+  end
+
+  defp pagination_item(assigns) do
+    ~H"""
+    <Phoenix.Component.link navigate={@navigate} {@link_options} {@rest}>
+      {render_slot(@inner_block)}
+    </Phoenix.Component.link>
     """
   end
 

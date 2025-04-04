@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.1
+
+### Changes
+
+- Enable `pagination` to render buttons with `phx-` attributes. This is useful on pages where handling of url parameters is too complex - for example when using search within a nested component.
+
 ## 0.10.0
 
 ### LiveView 1.0

@@ -224,6 +224,11 @@ defmodule PrimerLiveWeb.ComponentLive do
 
     {:noreply, socket}
   end
+
+  def handle_event("search_page", %{"item" => page}, socket) do
+    socket = socket |> assign(:current_page, page)
+    {:noreply, socket}
+  end
 end
 
 defmodule PrimerLiveWeb.Router do

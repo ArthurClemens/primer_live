@@ -4,12 +4,12 @@
   },
 
   "[elixir]": {
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "editor.defaultFormatter": "JakeBecker.elixir-ls"
   },
 
   "[phoenix-heex]": {
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "editor.defaultFormatter": "JakeBecker.elixir-ls"
   }
 }
