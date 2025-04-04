@@ -2,9 +2,15 @@
 
 ## 0.11.0
 
-### Changes
+### Pagination component
 
-- Enable `pagination` to render buttons with `phx-` attributes. This is useful on pages where handling of url parameters is too complex - for example when using search within a nested component.
+- Added attribute `button_attrs` to render buttons with `phx-` attributes. This is useful on pages where handling of url parameters is too complex - for example when using search within a nested component.
+- Changed styling from inline-block to inline-flex to prevent spaces in labels from creating redundant whitespace.
+
+### Other changes
+
+- Updated upstream dependency `@primer/view-components` to `0.40.0`.
+- Updated LiveView JS dependency to `1.0.0`.
 
 ## 0.10.0
 
