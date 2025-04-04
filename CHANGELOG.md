@@ -9,6 +9,7 @@
 
 ### Other changes
 
+- Added possible attributes to slots.
 - Updated upstream dependency `@primer/view-components` to `0.40.0`.
 - Updated LiveView JS dependency to `1.0.0`.
 

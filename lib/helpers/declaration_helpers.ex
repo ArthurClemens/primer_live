@@ -13,9 +13,27 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
     end
   end
 
+  defmacro slot_id do
+    quote do
+      attr(:id, :any, doc: "Component DOM id.")
+    end
+  end
+
   defmacro slot_class do
     quote do
       attr(:class, :any, doc: "Additional classname.")
+    end
+  end
+
+  defmacro slot_aria do
+    quote do
+      attr(:"aria-disabled", :string, doc: "ARIA disabled attribute.")
+      attr(:"aria-expanded", :string, doc: "ARIA disabled attribute.")
+      attr(:"aria-hidden", :string, doc: "ARIA hiddeh attribute.")
+      attr(:"aria-label", :string, doc: "ARIA label attribute.")
+      attr(:"aria-labelledby", :string, doc: "ARIA labelledby attribute.")
+      attr(:"aria-required", :string, doc: "ARIA disabled attribute.")
+      attr(:"aria-role", :string, doc: "ARIA role attribute.")
     end
   end
 
@@ -75,7 +93,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
                   is_selected={id == @selected_tab}
                   phx-click="set_tab"
                   phx-value-item={tab_id}
-                >     
+                >
                   ...
 
                 def handle_event(
@@ -90,7 +108,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
                 <:row
                   phx-click="select_row"
                   phx-value-item={row_id}
-                >     
+                >
                   ...
 
                 def handle_event(
@@ -474,7 +492,7 @@ defmodule PrimerLive.Helpers.DeclarationHelpers do
             label: "",                 # {component_name_title} label
             input_group_container: "", # Input group container (for checkbox_group and radio_group)
             caption: "",               # {component_name_title} caption
-            fieldset: "",              # Fieldset wrapper (for checkbox_group and radio_group) 
+            fieldset: "",              # Fieldset wrapper (for checkbox_group and radio_group)
             legend: "",                # Legend (for checkbox_group and radio_group)
           }
           ```

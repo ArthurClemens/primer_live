@@ -488,7 +488,9 @@ defmodule PrimerLive.Component do
     Title separator. The input text is wrapped in a `<h3>` element. Omit to create a horizontal line only.
     """ do
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -498,7 +500,9 @@ defmodule PrimerLive.Component do
     Optional extra text. Requires `title` slot.
     """ do
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -811,26 +815,44 @@ defmodule PrimerLive.Component do
 
     DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
-  slot(:description, required: false, doc: "Description.")
+  slot :description, required: false, doc: "Description." do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
 
-  slot(:leading_visual,
+  slot :leading_visual,
     required: false,
     doc: """
     Container for a leading visual. Commonly a `octicon/1` component is used.
 
     The container's width is determined by the content. Use the same size icons and graphics for consistency. A common icon size is 16px.
-    """
-  )
+    """ do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
 
-  slot(:trailing_visual,
+  slot :trailing_visual,
     required: false,
     doc:
-      "Container for a trailing visual. Commonly a `octicon/1` component is used, but a textual \"visual\" is also possible."
-  )
+      "Container for a trailing visual. Commonly a `octicon/1` component is used, but a textual \"visual\" is also possible." do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
 
   slot :sub_group,
     required: false,
@@ -840,7 +862,9 @@ defmodule PrimerLive.Component do
     Use `is_sub_item` for child items to render them smaller.
     """ do
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -1360,7 +1384,9 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_phx_value_item(:tab_item)
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -1375,7 +1401,9 @@ defmodule PrimerLive.Component do
     )
 
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -1707,7 +1735,9 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_phx_value_item(:tab_item)
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -1716,7 +1746,9 @@ defmodule PrimerLive.Component do
     Container for elements positions at the far end.
     """ do
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -2007,16 +2039,23 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
-  slot(:heading,
+  slot :heading,
     required: false,
     doc: """
     Menu heading.
-    """
-  )
+    """ do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
 
   def menu(assigns) do
     classes = %{
@@ -2304,7 +2343,9 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -2563,7 +2604,9 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -2829,7 +2872,9 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -3668,7 +3713,7 @@ defmodule PrimerLive.Component do
       ~w(disabled max maxlength min minlength autocomplete pattern placeholder readonly required)
   )
 
-  slot(:group_button,
+  slot :group_button,
     doc: """
     Primer CSS "Input group". Attaches a button at the end of the input.
 
@@ -3682,15 +3727,25 @@ defmodule PrimerLive.Component do
       </:group_button>
     </.text_input>
     ```
-    """
-  )
+    """ do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
 
-  slot(:leading_visual,
+  slot :leading_visual,
     required: false,
     doc: """
     Container for a leading visual. Commonly a `octicon/1` component is used.
-    """
-  )
+    """ do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
 
   slot :trailing_action,
     required: false,
@@ -3710,6 +3765,10 @@ defmodule PrimerLive.Component do
     )
 
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
   end
 
   def text_input(assigns) do
@@ -4949,6 +5008,10 @@ defmodule PrimerLive.Component do
     attr(:label, :string, doc: "Custom radio button label.")
     attr(:checked, :boolean, doc: "See `radio_button/1`.")
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
   end
 
   def radio_tabs(assigns) do
@@ -5869,17 +5932,33 @@ defmodule PrimerLive.Component do
       Markup order, defines in what order the slot is rendered in HTML. Keyboard navigation follows the markup order. Decide carefully how the focus order should be be by deciding whether main or sidebar comes first in code. The markup order won't affect the visual position. Default value: 2.
       """
     )
+
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
   end
 
-  slot(:divider,
+  slot :divider,
     doc:
-      "Generates a divider element. The divider will only be shown with option `is_divided`. Generates a line between the main and sidebar elements - horizontal when the elements are stacked and vertical when they are shown side by side."
-  )
+      "Generates a divider element. The divider will only be shown with option `is_divided`. Generates a line between the main and sidebar elements - horizontal when the elements are stacked and vertical when they are shown side by side." do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
 
   slot :sidebar,
     doc:
       "Generates a sidebar element. Widths: md: 256px, lg: 296px (change with `is_narrow_sidebar` and `is_wide_sidebar`)." do
     attr(:order, :any, values: [1, 2, "1", "2"], doc: "See `main` slot. Default value: 1.")
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
   end
 
   def layout(assigns) do
@@ -6299,14 +6378,22 @@ defmodule PrimerLive.Component do
 
   slot :header,
     doc: "Generates a header row element." do
-    DeclarationHelpers.slot_class()
     attr(:is_blue, :boolean, doc: "Change the header border and background to blue.")
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :header_title,
     doc:
       "Generates a title within the header. If no header slot is passed, the header title will be wrapped inside a header element." do
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :row,
@@ -6338,18 +6425,28 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_phx_value_item(:row)
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
   slot :body,
     doc: "Generates a body element." do
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :footer,
     doc: "Generates a footer row element." do
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:inner_block, doc: "Unstructured content.")
@@ -6727,7 +6824,9 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_phx_value_item(:header_item)
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -6962,6 +7061,12 @@ defmodule PrimerLive.Component do
       Default: "se".
       """
     )
+
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
   end
 
   slot :item,
@@ -6987,7 +7092,9 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -7437,13 +7544,24 @@ defmodule PrimerLive.Component do
       Generates a menu header with specified title.
       """
     )
+
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
   end
 
-  slot(:filter,
+  slot :filter,
     doc: """
     Filter slot to insert a `text_input/1` component that will drive a custom filter function.
-    """
-  )
+    """ do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
 
   slot :tab,
     doc: """
@@ -7456,15 +7574,22 @@ defmodule PrimerLive.Component do
     )
 
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
-  slot(:footer,
+  slot :footer,
     doc: """
     Footer content.
-    """
-  )
+    """ do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
 
   slot :message,
     doc: """
@@ -7476,9 +7601,13 @@ defmodule PrimerLive.Component do
     ```
     """ do
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
   end
 
-  slot(:loading,
+  slot :loading,
     doc: """
     Slot to show a loading animation.
 
@@ -7486,14 +7615,24 @@ defmodule PrimerLive.Component do
     ```
     <:loading><.octicon name="copilot-48" class="anim-pulse" /></:loading>
     ```
-    """
-  )
+    """ do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
 
-  slot(:blankslate,
+  slot :blankslate,
     doc: """
     Slot to show blankslate content.
-    """
-  )
+    """ do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
 
   slot :item,
     doc: """
@@ -7537,7 +7676,9 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -8601,7 +8742,6 @@ defmodule PrimerLive.Component do
 
     Deprecation support: use `button/1` attributes to configure the button appearance and behaviour.
     """ do
-    DeclarationHelpers.slot_class()
     DeclarationHelpers.slot_href()
     DeclarationHelpers.navigate()
     DeclarationHelpers.patch()
@@ -8620,6 +8760,11 @@ defmodule PrimerLive.Component do
     attr(:is_selected, :boolean, doc: "See `button/1`.")
     attr(:is_small, :boolean, doc: "See `button/1`.")
     attr(:is_submit, :boolean, doc: "See `button/1`.")
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
   end
 
   slot(:inner_block, required: false, doc: "Buttons as children of group button.")
@@ -9767,8 +9912,22 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.rest()
 
   slot(:inner_block, required: true, doc: "Heading content.")
-  slot(:description, doc: "Description content.")
-  slot(:actions, doc: "Actions content.")
+
+  slot :description, doc: "Description content." do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
+
+  slot :actions, doc: "Actions content." do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
 
   def subhead(assigns) do
     classes = %{
@@ -9907,7 +10066,9 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_phx_value_item(:menu_item)
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -10312,7 +10473,9 @@ defmodule PrimerLive.Component do
     attr(:is_round, :any, doc: "Rounded avatar - see `avatar/1`.")
 
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -10323,7 +10486,9 @@ defmodule PrimerLive.Component do
     attr(:is_round, :any, doc: "Rounded avatar - see `avatar/1`.")
 
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -10493,7 +10658,9 @@ defmodule PrimerLive.Component do
     )
 
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -10505,8 +10672,16 @@ defmodule PrimerLive.Component do
       """
     )
 
+    attr(:alt, :string,
+      doc: """
+      Image description.
+      """
+    )
+
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -10971,7 +11146,9 @@ defmodule PrimerLive.Component do
     )
 
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -10984,7 +11161,9 @@ defmodule PrimerLive.Component do
     )
 
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -11015,14 +11194,18 @@ defmodule PrimerLive.Component do
     )
 
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
   slot :action,
     doc: "Adds a wrapper for a button or link." do
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -11350,7 +11533,9 @@ defmodule PrimerLive.Component do
     )
 
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -11712,7 +11897,9 @@ defmodule PrimerLive.Component do
     Note that slot `header` is automatically created to ensure the correct close button.
     """ do
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -11721,7 +11908,9 @@ defmodule PrimerLive.Component do
     Dialog body. Uses `box/1` `body` slot.
     """ do
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -11735,7 +11924,9 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.slot_phx_click_and_target()
     DeclarationHelpers.slot_phx_value_item(:row)
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -11744,7 +11935,9 @@ defmodule PrimerLive.Component do
     Dialog footer. Uses `box/1` `footer` slot.
     """ do
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -12138,8 +12331,6 @@ defmodule PrimerLive.Component do
     doc: """
     Drawer body.
     """ do
-    DeclarationHelpers.slot_class()
-
     attr(:width, :string,
       doc: """
       Sets the width of the drawer as CSS value. Add unit `px` or `rem` or other size unit.
@@ -12148,8 +12339,10 @@ defmodule PrimerLive.Component do
       """
     )
 
-    attr(:style, :string)
-
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -12693,6 +12886,10 @@ defmodule PrimerLive.Component do
       """
     )
 
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
@@ -12978,11 +13175,20 @@ defmodule PrimerLive.Component do
     DeclarationHelpers.patch()
     DeclarationHelpers.navigate()
     DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
     DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
     DeclarationHelpers.slot_rest()
   end
 
-  slot(:avatar, doc: "Avatar container.")
+  slot :avatar, doc: "Avatar container." do
+    DeclarationHelpers.slot_class()
+    DeclarationHelpers.slot_id()
+    DeclarationHelpers.slot_style()
+    DeclarationHelpers.slot_aria()
+    DeclarationHelpers.slot_rest()
+  end
+
   slot(:inner_block, doc: "Item body.")
 
   def timeline_item(assigns) do
