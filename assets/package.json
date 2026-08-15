@@ -24,7 +24,7 @@
     "esbuild": "^0.25.2",
     "esbuild-sass-plugin": "3.3.1",
     "tsx": "^4.19.3",
-    "typescript": "5.8.2"
+    "typescript": "5.9.3"
   },
   "author": "Arthur Clemens <arthurclemens@gmail.com> (http://arthurclemens.com)"
 }
