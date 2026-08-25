@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@primer/css": "21.5.1",
-    "@primer/view-components": "0.40.0",
+    "@primer/view-components": "0.53.3",
     "@types/phoenix_live_view": "1.0.0",
     "fs": "0.0.1-security",
     "prettier": "3.5.3",
