@@ -36,21 +36,22 @@ defmodule PrimerLive.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:phoenix_html_helpers, "~> 1.0"},
+      {:phoenix_html, "~> 4.2"},
+      {:phoenix_live_view, "~> 1.2"},
+      # test/dev
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:ecto_sql, "~> 3.10", only: :test, runtime: false},
-      {:ecto, "~> 3.10", runtime: false},
-      {:esbuild, "~> 0.9", only: [:dev, :test]},
-      {:ex_doc, "~> 0.36", only: :dev},
-      {:floki, "~> 0.37", only: :test, runtime: false},
+      {:ecto_sql, "~> 3.14", only: :test, runtime: false},
+      {:ecto, "~> 3.14", runtime: false},
+      {:esbuild, "~> 0.10", only: [:dev, :test]},
+      {:ex_doc, "~> 0.40", only: :dev},
+      {:floki, "~> 0.38", only: :test, runtime: false},
       {:github_workflows_generator, "~> 0.1", only: :dev, runtime: false},
       {:jason, "~> 1.4",
        [only: [:dev, :test], env: :prod, hex: "jason", repo: "hexpm", optional: false]},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
-      {:phoenix_ecto, "~> 4.6", only: :test, runtime: false},
-      {:phoenix_html_helpers, "~> 1.0"},
-      {:phoenix_html, "~> 4.2"},
-      {:phoenix_live_view, "~> 1.0"},
-      {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false}
+      {:phoenix_ecto, "~> 4.7", only: :test, runtime: false},
+      {:sobelow, "~> 0.16", only: [:dev, :test], runtime: false}
     ]
   end
 
