@@ -227,14 +227,12 @@ defmodule PrimerLive.TestComponents.DialogTest do
 
   test "Attribute: is_show_on_mount" do
     assigns = %{
-      condition: true,
       equals_initial_condition: true
     }
 
     run_test(
       ~H"""
       <.dialog
-        :if={@condition}
         id="dialog-show-on-mount"
         is_show
         is_show_on_mount={@equals_initial_condition}

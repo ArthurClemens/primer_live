@@ -72,8 +72,7 @@ defmodule PrimerLive.TestComponents.RadioTabsTest do
           name="role"
           value={value}
           label={label |> String.upcase()}
-        >
-        </:radio_button>
+        ></:radio_button>
       </.radio_tabs>
       """,
       __ENV__

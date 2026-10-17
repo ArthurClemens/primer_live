@@ -35,7 +35,7 @@ defmodule PrimerLive.TestBase do
         end
       end
 
-      @doc ~S"""
+      @doc """
       Tweaks Phoenix.LiveView.HTMLFormatter.format/2 to remove spaces surrounding HTML tags.
       """
       def format_html(html) do
@@ -49,7 +49,7 @@ defmodule PrimerLive.TestBase do
 
       defp create_html_tree_string(html) do
         Floki.parse_fragment!(html, attributes_as_maps: true)
-        |> inspect()
+        |> inspect(limit: :infinity)
       end
 
       defp read_test_assertion(filename, env_function) do

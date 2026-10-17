@@ -33,13 +33,13 @@ defmodule PrimerLive.TestComponents.DrawerContentDeprecatedTest do
     )
   end
 
-  test "Attribute: width" do
+  test "Content attribute: width" do
     assigns = %{}
 
     run_test(
       ~H"""
-      <.drawer id="my-drawer-id" width="10em">
-        <.drawer_content id="my-drawer-content-id">
+      <.drawer id="my-drawer-id">
+        <.drawer_content id="my-drawer-content-id" width="10em">
           Content
         </.drawer_content>
       </.drawer>

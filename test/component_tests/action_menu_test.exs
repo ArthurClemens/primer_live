@@ -183,14 +183,12 @@ defmodule PrimerLive.TestComponents.ActionMenuTest do
 
   test "Attribute: is_show_on_mount" do
     assigns = %{
-      condition: true,
       equals_initial_condition: true
     }
 
     run_test(
       ~H"""
       <.action_menu
-        :if={@condition}
         id="menu-show-on-mount"
         is_show
         is_show_on_mount={@equals_initial_condition}

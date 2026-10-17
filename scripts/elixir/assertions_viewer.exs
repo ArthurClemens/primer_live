@@ -68,9 +68,7 @@ defmodule PrimerLiveWeb.ComponentLive do
     ~H"""
     <script src={"https://cdn.jsdelivr.net/npm/phoenix@#{phx_vsn()}/priv/static/phoenix.min.js"}>
     </script>
-    <script
-      src={"https://cdn.jsdelivr.net/npm/phoenix_live_view@#{lv_vsn()}/priv/static/phoenix_live_view.min.js"}
-    >
+    <script src={"https://cdn.jsdelivr.net/npm/phoenix_live_view@#{lv_vsn()}/priv/static/phoenix_live_view.min.js"}>
     </script>
     <script src={"https://cdn.jsdelivr.net/npm/primer-live@#{pl_vsn()}/priv/static/primer-live.js"}>
     </script>

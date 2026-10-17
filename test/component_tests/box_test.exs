@@ -282,17 +282,17 @@ defmodule PrimerLive.TestComponents.BoxTest do
         __changed__: MapSet.new([:clients]),
         clients: %Phoenix.LiveView.LiveStream{
           name: :clients,
-          dom_id: fn {id, _item} -> id end,
+          dom_id: "clients",
           ref: "0",
           inserts: [
-            {"clients-1", -1, %{id: "1", first_name: "Ruth", last_name: "Saddlemore"}, nil},
-            {"clients-2", -1, %{id: "2", first_name: "John", last_name: "Bishop"}, nil},
-            {"clients-3", -1, %{id: "3", first_name: "Laura", last_name: "Manach"}, nil},
-            {"clients-4", -1, %{id: "4", first_name: "Julian", last_name: "Newton"}, nil},
-            {"clients-5", -1, %{id: "5", first_name: "Melissa", last_name: "Noakes"}, nil},
-            {"clients-6", -1, %{id: "6", first_name: "Quincy", last_name: "Pritchard"}, nil},
-            {"clients-7", -1, %{id: "7", first_name: "Melinda", last_name: "Crocket"}, nil},
-            {"clients-8", -1, %{id: "8", first_name: "Derek", last_name: "Samuel"}, nil}
+            {"clients-8", -1, %{id: "8", first_name: "Derek", last_name: "Samuel"}, nil, nil},
+            {"clients-7", -1, %{id: "7", first_name: "Melinda", last_name: "Crocket"}, nil, nil},
+            {"clients-6", -1, %{id: "6", first_name: "Quincy", last_name: "Pritchard"}, nil, nil},
+            {"clients-5", -1, %{id: "5", first_name: "Melissa", last_name: "Noakes"}, nil, nil},
+            {"clients-4", -1, %{id: "4", first_name: "Julian", last_name: "Newton"}, nil, nil},
+            {"clients-3", -1, %{id: "3", first_name: "Laura", last_name: "Manach"}, nil, nil},
+            {"clients-2", -1, %{id: "2", first_name: "John", last_name: "Bishop"}, nil, nil},
+            {"clients-1", -1, %{id: "1", first_name: "Ruth", last_name: "Saddlemore"}, nil, nil}
           ],
           deletes: [],
           reset?: false,
