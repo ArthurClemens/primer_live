@@ -5,7 +5,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   alias Phoenix.LiveView.JS
   alias PrimerLive.Helpers.{ComponentHelpers, FormHelpers, PromptHelpers}
 
-  @doc ~S"""
+  @doc """
   Concatenates a list of classnames to a single string.
   - Ignores any nil or false entries
   - Removes duplicate entries
@@ -26,11 +26,9 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       iex> PrimerLive.Helpers.AttributeHelpers.classnames(["foo", nil, "  foo  "])
       "foo"
 
-      iex> is_foo = true
-      iex> is_bar = false
       iex> PrimerLive.Helpers.AttributeHelpers.classnames([
-      ...>   is_foo && "foo",
-      ...>   is_bar && "bar"
+      ...>   "foo",
+      ...>   !"bar"
       ...> ])
       "foo"
 
@@ -71,7 +69,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   defp input_classnames_list_to_string(class) when is_list(class), do: Enum.join(class, " ")
   defp input_classnames_list_to_string(class), do: class
 
-  @doc ~S"""
+  @doc """
   Concatenates 2 keyword lists of attributes.
   - Ignores any nil or false entries
   - Removes duplicate entries
@@ -96,21 +94,17 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       iex> PrimerLive.Helpers.AttributeHelpers.append_attributes([dir: "rtl"], [false, [placeholder: "hello"], [placeholder: "hello"], nil])
       [dir: "rtl", placeholder: "hello"]
 
-      iex> is_foo = true
-      iex> is_bar = false
       iex> extra = [class: "x"]
       iex> PrimerLive.Helpers.AttributeHelpers.append_attributes(extra, [
-      ...>   is_foo && [foo: "foo"],
-      ...>   is_bar && [bar: "bar"]
+      ...>   [foo: "foo"],
+      ...>   ![bar: "bar"]
       ...> ])
       [class: "x", foo: "foo"]
 
-      iex> is_foo = true
-      iex> is_bar = false
       iex> extra = %{class: "x"}
       iex> PrimerLive.Helpers.AttributeHelpers.append_attributes(extra, [
-      ...>   is_foo && [foo: "foo"],
-      ...>   is_bar && [bar: "bar"]
+      ...>   [foo: "foo"],
+      ...>   ![bar: "bar"]
       ...> ])
       [class: "x", foo: "foo"]
   """
@@ -143,7 +137,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
   def append_attributes(input_attributes), do: append_attributes([], input_attributes)
 
-  @doc ~S"""
+  @doc """
   Passes arguments to Phoenix.LiveView.Helpers.assigns_to_attributes and sorts the result.
   """
   def assigns_to_attributes_sorted(assigns, exclude \\ []) do
@@ -162,7 +156,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   defp to_atom(key) when is_binary(key), do: String.to_existing_atom(key)
   defp to_atom(key), do: key
 
-  @doc ~S"""
+  @doc """
   Converts user input to an integer, with optionally a default value
 
   ## Tests
@@ -197,7 +191,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
 
   def as_integer(_input, default_value), do: default_value
 
-  @doc ~S"""
+  @doc """
   Converts user input to a boolean, with optionally a default value
 
   ## Tests
@@ -653,7 +647,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     |> String.replace(~r/(\_)*$/, "")
   end
 
-  @doc ~S"""
+  @doc """
   Extracts common attributes for form inputs. Shared for consistency.
   """
   def common_input_attrs(assigns, input_type \\ nil) do
@@ -820,19 +814,47 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
     }
   end
 
+  @type create_prompt_context :: %{
+          component: String.t(),
+          toggle_slot: String.t(),
+          toggle_class: String.t(),
+          menu_class: String.t(),
+          is_menu: boolean()
+        }
+
+  @type prompt_attrs :: %{
+          toggle_attrs: map(),
+          prompt_attrs: map(),
+          backdrop_attrs: map(),
+          touch_layer_attrs: map(),
+          focus_wrap_attrs: map()
+        }
+
+  @spec get_id(map()) :: String.t() | nil
+  defp get_id(%{id: id}) when is_binary(id), do: id
+  defp get_id(%{rest: %{id: id}}) when is_binary(id), do: id
+  defp get_id(_), do: nil
+
   @doc ~S"""
   Extracts menu/dialog prompt attributes.
   """
-  def prompt_attrs(assigns, %{
-        component: component,
-        toggle_slot: toggle_slot,
-        toggle_class: toggle_class,
-        menu_class: menu_class,
-        is_menu: is_menu
-      }) do
-    id = assigns[:id] || assigns.rest[:id] || random_string()
+  @spec prompt_attrs(map(), create_prompt_context()) :: prompt_attrs()
+  def prompt_attrs(assigns, context) do
+    %{
+      component: component,
+      toggle_slot: toggle_slot,
+      toggle_class: toggle_class,
+      menu_class: menu_class,
+      is_menu: is_menu
+    } = context
 
-    if is_nil(id), do: ComponentHelpers.missing_attribute(component, "'id'")
+    id = get_id(assigns)
+
+    if is_nil(id),
+      do:
+        ComponentHelpers.missing_attribute(component, "'id'", "Using random string as fallback.")
+
+    id = id || random_string()
 
     focus_wrap_id = "focus-wrap-#{id}"
 
@@ -845,11 +867,6 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
           "phx-window-keydown": assigns.is_escapable && PromptHelpers.cancel_prompt(id)
         ]
       ])
-
-    toggle_id =
-      if id,
-        do: "#{id}-toggle",
-        else: id
 
     toggle_rest = assigns_to_attributes_sorted(toggle_slot || [], [:class, :for, :options])
 
@@ -865,7 +882,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
       ])
 
     id_selector = "##{id}"
-    prompt_id = id || "menu-" <> toggle_id
+    prompt_id = id
     show_state = assigns.show_state || "default"
     is_show_on_mount = !!assigns.is_show_on_mount
     is_show = assigns.is_show || is_show_on_mount
@@ -904,7 +921,10 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
             )
             |> maybe_send_status_event(
               assigns.transition_duration,
-              if(is_opening_transitions_disabled, do: nil, else: assigns.status_callback_selector),
+              if(is_opening_transitions_disabled,
+                do: nil,
+                else: assigns.status_callback_selector
+              ),
               id_selector,
               is_menu,
               "prompt:open"

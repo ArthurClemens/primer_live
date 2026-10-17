@@ -507,7 +507,7 @@ defmodule PrimerLive.Component do
   end
 
   def action_list_section_divider(assigns) do
-    has_title = assigns.title !== []
+    has_title = !!assigns.title && assigns.title != []
 
     classes = %{
       section_divider:
@@ -583,7 +583,6 @@ defmodule PrimerLive.Component do
         !has_title && [role: "separator", "aria-hidden": "true"]
       ])
 
-    has_title = assigns.title && assigns.title !== []
     has_description = has_title && assigns.description && assigns.description !== []
 
     assigns =
@@ -599,10 +598,8 @@ defmodule PrimerLive.Component do
       <li {@attributes}></li>
     <% else %>
       <li {@attributes}>
-        <%= if @has_title do %>
-          <%= for slot <- @title do %>
-            {@render_title.(slot)}
-          <% end %>
+        <%= for slot <- @title do %>
+          {@render_title.(slot)}
         <% end %>
         <%= if @has_description do %>
           <%= for slot <- @description do %>
@@ -9344,7 +9341,7 @@ defmodule PrimerLive.Component do
 
   DeclarationHelpers.class()
 
-  DeclarationHelpers.rest()
+  DeclarationHelpers.rest(include: ~w(width height))
 
   def octicon(assigns) do
     assigns =
@@ -10276,7 +10273,7 @@ defmodule PrimerLive.Component do
   DeclarationHelpers.navigate()
   DeclarationHelpers.class()
 
-  DeclarationHelpers.rest()
+  DeclarationHelpers.rest(include: ~w(rel))
 
   slot(:inner_block, required: true, doc: "Link content.")
 
