@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.1
+
+- Type fixes for Elixir `1.20`.
+
 ## 0.11.0
 
 ### Pagination component
