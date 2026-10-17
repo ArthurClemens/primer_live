@@ -123,22 +123,22 @@ defmodule PrimerLive.Theme do
   @update_theme_event_key "update_theme"
   @reset_key "reset"
 
-  @doc ~S"""
+  @doc """
   Initial theme state.
   """
   def default_theme_state, do: @default_theme_state
 
-  @doc ~S"""
+  @doc """
   Default options for a theme menu.
   """
   def default_menu_options, do: @default_menu_options
 
-  @doc ~S"""
+  @doc """
   Default label for a theme menu.
   """
   def default_menu_labels, do: @default_menu_labels
 
-  @doc ~S"""
+  @doc """
   Default event name for the `handle_event` update callback.
 
   This value can be overridden in `theme_menu_options` with `update_theme_event`:
@@ -151,12 +151,12 @@ defmodule PrimerLive.Theme do
   """
   def update_theme_event_key, do: @update_theme_event_key
 
-  @doc ~S"""
+  @doc """
   Default reset link identifier for the `handle_event` update callback.
   """
   def reset_key, do: @reset_key
 
-  @doc ~S"""
+  @doc """
   Configures menu options from supplied params:
   - theme: the current theme state (used to define the selected menu items)
   - menu_options: which menu options will be displayed
@@ -250,7 +250,7 @@ defmodule PrimerLive.Theme do
     {option, group_labels[String.to_existing_atom(option)]}
   end
 
-  @doc ~S"""
+  @doc """
   Compares the supplied state with the supplied default state.
 
   ## Tests
@@ -279,7 +279,7 @@ defmodule PrimerLive.Theme do
     Map.equal?(theme, default_theme_state)
   end
 
-  @doc ~S"""
+  @doc """
   Creates HTML (data) attributes from the supplied theme state to set a theme on a component or element directly. This is useful to "theme" specific page parts regardless of the user selected theme, for example a dark page header.
 
   ```

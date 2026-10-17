@@ -835,7 +835,7 @@ defmodule PrimerLive.Helpers.AttributeHelpers do
   defp get_id(%{rest: %{id: id}}) when is_binary(id), do: id
   defp get_id(_), do: nil
 
-  @doc ~S"""
+  @doc """
   Extracts menu/dialog prompt attributes.
   """
   @spec prompt_attrs(map(), create_prompt_context()) :: prompt_attrs()

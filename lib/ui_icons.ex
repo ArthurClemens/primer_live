@@ -5,8 +5,6 @@ defmodule PrimerLive.UIIcons do
 
   use Phoenix.Component
 
-  require PrimerLive.Helpers.DeclarationHelpers
-
   @common_svg_attrs [
     viewBox: "0 0 16 16",
     xmlns: "http://www.w3.org/2000/svg",

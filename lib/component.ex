@@ -30,7 +30,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :menus
 
-  @doc ~S"""
+  @doc """
   Action list is a vertical list of interactive actions or options. It's composed of items presented in a consistent, single-column format, with room for icons, descriptions, side information, and other rich visuals.
 
   Action list is composed of one or more child components:
@@ -443,7 +443,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :menus
 
-  @doc ~S"""
+  @doc """
   Action list section divider for separating groups of content. See `action_list/1`.
 
   [INSERT LVATTRDOCS]
@@ -617,7 +617,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :menus
 
-  @doc ~S"""
+  @doc """
   Action list item. See `action_list/1`.
 
   [INSERT LVATTRDOCS]
@@ -1194,7 +1194,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :navigation
 
-  @doc ~S"""
+  @doc """
   Tab nav contains a set of links that let users navigate between different views in the same context.
 
   Tabs are by default rendered as buttons. To create link elements, pass attribute `href`, `navigate` or `patch`.
@@ -1539,7 +1539,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :navigation
 
-  @doc ~S"""
+  @doc """
   Generates a tab navigation with minimal underlined selected state, typically used for navigation placed at the top of the page.
 
   Tabs are by default rendered as buttons. To create link elements, pass attribute `href`, `navigate` or `patch`.
@@ -1920,7 +1920,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :navigation
 
-  @doc ~S"""
+  @doc """
   Generates a vertical list of navigational links.
 
   Menu items are rendered as link element.
@@ -2181,7 +2181,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :navigation
 
-  @doc ~S"""
+  @doc """
   Generates a vertical list of navigational links.
 
   Menu items are rendered as link element.
@@ -2434,7 +2434,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :navigation
 
-  @doc ~S"""
+  @doc """
   Use the sub nav component for navigation on a dashboard-type interface with another set of navigation components above it.
 
   Subnav is composed of one or more child components:
@@ -2546,7 +2546,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :navigation
 
-  @doc ~S"""
+  @doc """
   Subnav link row. See `subnav/1`.
 
   [INSERT LVATTRDOCS]
@@ -2682,7 +2682,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :navigation
 
-  @doc ~S"""
+  @doc """
   Subnav search field. See `subnav/1`.
 
   [INSERT LVATTRDOCS]
@@ -2721,7 +2721,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :navigation
 
-  @doc ~S"""
+  @doc """
   Subnav search filter adjacent to the search field. See `subnav/1`.
 
   [INSERT LVATTRDOCS]
@@ -2759,7 +2759,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :navigation
 
-  @doc ~S"""
+  @doc """
   Generates a vertical list of filters.
 
   Filter list items are rendered as link element.
@@ -2966,7 +2966,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :forms
 
-  @doc ~S"""
+  @doc """
   Deprecated: use a form input component with attr: `is_form_control`. Since 0.9.0.
   """
 
@@ -3218,7 +3218,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :forms
 
-  @doc ~S"""
+  @doc """
   Checkbox group renders a set of [`checkboxes`](`checkbox/1`) and wraps it in a `fieldset`. The `label` attribute generates a `legend` element.
 
   ```
@@ -3292,7 +3292,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :forms
 
-  @doc ~S"""
+  @doc """
   Radio group renders a set of [`radio buttons`](`radio_button/1`) and wraps it in a `fieldset`. The `label` attribute generates a `legend` element.
 
   ```
@@ -3357,7 +3357,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :forms
 
-  @doc ~S"""
+  @doc """
   Generates a validation message for a form input. It can be used as standalone component for inputs where the position of the validation feedback is not so obvious.
 
   This component is incorporated in "singular inputs" `text_input/1`, `textarea/1` and `select/1`.
@@ -3487,7 +3487,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :forms
 
-  @doc ~S"""
+  @doc """
   Generates a text input field.
 
   Wrapper around `PhoenixHTMLHelpers.Form.text_input/3`, optionally wrapped itself inside a "form control" to add a field label.
@@ -3995,7 +3995,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :forms
 
-  @doc ~S"""
+  @doc """
   Generates a textarea.
 
   ```
@@ -4024,7 +4024,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :forms
 
-  @doc ~S"""
+  @doc """
   Generates a single or multiple select input.
 
   Wrapper around `PhoenixHTMLHelpers.Form.select/4` and `PhoenixHTMLHelpers.Form.multiple_select/4`.
@@ -4360,7 +4360,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :forms
 
-  @doc ~S"""
+  @doc """
   Generates a checkbox.
 
   Wrapper around `PhoenixHTMLHelpers.Form.checkbox/3`.
@@ -4720,7 +4720,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :forms
 
-  @doc ~S"""
+  @doc """
   Convenience checkbox component for use inside `checkbox_group/1`.
 
   Sets attribute `is_multiple` to true, so that the server receives an array of strings for the checked values.
@@ -4764,7 +4764,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :forms
 
-  @doc ~S"""
+  @doc """
   Generates a radio button.
 
   Wrapper around `PhoenixHTMLHelpers.Form.radio_button/4`.
@@ -4908,7 +4908,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :forms
 
-  @doc ~S"""
+  @doc """
   Groups [`radio buttons`](`radio_button/1`) in a tab-like row. Note that this component is not updated for RTL-display.
 
   Radio buttons are generated from the `radio_button` slot:
@@ -5140,7 +5140,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :alerts
 
-  @doc ~S"""
+  @doc """
   Flash alert informs users of successful or pending actions.
 
   ```
@@ -5309,7 +5309,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :forms
 
-  @doc ~S"""
+  @doc """
   Toggle switch is used to immediately toggle a setting on or off.
 
   ```
@@ -5573,7 +5573,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :alerts
 
-  @doc ~S"""
+  @doc """
   Wrapper to render a vertical stack of `alert/1` messages with spacing in between.
 
   ```
@@ -5631,7 +5631,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :styled_html
 
-  @doc ~S"""
+  @doc """
   Adds styling to HTML. This can be used to format HTML generated by a Markdown library, or to create consistent layout of HTML content.
 
   ```
@@ -5683,7 +5683,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :layout
 
-  @doc ~S"""
+  @doc """
   Layout provides foundational patterns for responsive pages.
 
   ```
@@ -6088,7 +6088,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :box
 
-  @doc ~S"""
+  @doc """
   A box is a simple container with rounded corners, a white background, and a light gray border.
   It can be used to display a single item or a list of items, with an optional header and footer.
 
@@ -6686,7 +6686,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :header
 
-  @doc ~S"""
+  @doc """
   Generates a navigational header, to be placed at the top of the page.
 
   ```
@@ -6927,7 +6927,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :menus
 
-  @doc ~S"""
+  @doc """
   Generates a dropdown menu - a small context menu that can be used for navigation and actions. It is a simple alternative to [`select menus`](`select_menu/1`).
 
   Menu items are rendered as link element.
@@ -7304,7 +7304,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :menus
 
-  @doc ~S"""
+  @doc """
   Generates a select menu.
 
   ```
@@ -8078,7 +8078,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :menus
 
-  @doc ~S"""
+  @doc """
   Action menu is composed of action list and overlay patterns used for quick actions and selections.
 
   The action menu functions similarly to a `select_menu/1`, but with an `action_list/1` as content.
@@ -8422,7 +8422,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :buttons
 
-  @doc ~S"""
+  @doc """
   Generates a button.
 
   ```
@@ -8696,7 +8696,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :buttons
 
-  @doc ~S"""
+  @doc """
   Generates a group of buttons.
 
   ```
@@ -9294,7 +9294,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :icons
 
-  @doc ~S"""
+  @doc """
   Renders an icon from the set of GitHub icons, 643 including all size variations.
 
   ```
@@ -9372,7 +9372,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :labels
 
-  @doc ~S"""
+  @doc """
   Generates a label element to add metadata or indicate status of items and navigational elements.
 
   ```
@@ -9552,7 +9552,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :labels
 
-  @doc ~S"""
+  @doc """
   Issue labels are used for adding labels to issues and pull requests. They also come with emoji support.
 
   And issue label is basically labels without a border. It expects background and foreground colors.
@@ -9623,7 +9623,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :labels
 
-  @doc ~S"""
+  @doc """
   Shows an item's status.
 
   State labels are larger and styled with bolded text. Attribute settings allows to apply colors.
@@ -9732,7 +9732,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :labels
 
-  @doc ~S"""
+  @doc """
   Adds a count label to navigational elements and buttons.
 
   ```
@@ -9815,7 +9815,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :subhead
 
-  @doc ~S"""
+  @doc """
   Configurable and styled h2 heading.
 
   ```
@@ -9990,7 +9990,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :breadcrumbs
 
-  @doc ~S"""
+  @doc """
   Breadcrumb navigation to navigate a hierarchy of pages.
 
   All items are rendered as links. The last link will show a selected state.
@@ -10159,7 +10159,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :links
 
-  @doc ~S"""
+  @doc """
   Generates a consistent link-like appearance of actual links and spans inside links.
 
   The component name deviates from the PrimerCSS name `Link` to prevent a naming conflict with `Phoenix.Component.link/1`.
@@ -10319,7 +10319,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :avatars
 
-  @doc ~S"""
+  @doc """
   User profile image.
 
   A simple wrapper function that returns an `img` element, styled square and rounded. For correct rendering, the input image must be square.
@@ -10436,7 +10436,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :avatars
 
-  @doc ~S"""
+  @doc """
   Generates a larger "parent" avatar with a smaller "child" overlaid on top.
 
   ## Examples
@@ -10576,7 +10576,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :avatars
 
-  @doc ~S"""
+  @doc """
   Generates a badge-like icon or logo.
 
   ```
@@ -10801,7 +10801,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :loaders
 
-  @doc ~S"""
+  @doc """
   Adds animated ellipsis to indicate progress.
 
   ```
@@ -10864,7 +10864,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :loaders
 
-  @doc ~S"""
+  @doc """
   Indicator to show that content is being loaded.
 
   ```
@@ -10985,7 +10985,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :blankslate
 
-  @doc ~S"""
+  @doc """
   Blankslate is used as placeholder to tell users why content is missing.
 
   ```
@@ -11403,7 +11403,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :truncate
 
-  @doc ~S"""
+  @doc """
   Shortens text with ellipsis.
 
   ```
@@ -11629,7 +11629,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :dialog
 
-  @doc ~S"""
+  @doc """
   Dialog is a floating surface used to display transient content such as confirmation actions, selection options, and more.
 
   A dialog is created with `box/1` slots.
@@ -12129,7 +12129,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :drawer
 
-  @doc ~S"""
+  @doc """
   Generates a drawer with configuration options for backdrop, position and behavior.
 
   ```
@@ -12470,7 +12470,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :drawer
 
-  @doc ~S"""
+  @doc """
   Drawer content. Deprecated: use `:body` slot with `drawer/1`. Since 0.4.0.
 
   [INSERT LVATTRDOCS]
@@ -12642,7 +12642,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :branch_name
 
-  @doc ~S"""
+  @doc """
   Branch name is a label-type component rendered as a link that displays the name of a branch.
 
   ```
@@ -12723,7 +12723,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :progress
 
-  @doc ~S"""
+  @doc """
   Generates a progress bar to visualise task completion.
 
   The item slot creates the colored bar. Its width is a percentage value (0 - 100).
@@ -13001,7 +13001,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :timeline
 
-  @doc ~S"""
+  @doc """
   Generates a timeline item to display items on a vertical timeline.
 
   ```
@@ -13362,7 +13362,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :theme
 
-  @doc ~S"""
+  @doc """
   Creates a wrapper that sets the light and dark color mode and theme, with support for color blindness.
 
   See also `PrimerLive.Theme` for approaches to persist theme settings.
@@ -13513,7 +13513,7 @@ defmodule PrimerLive.Component do
 
   @doc section: :theme
 
-  @doc ~S"""
+  @doc """
   Generates theme menu options as an `action_list/1`, to be used inside an `action_menu/1`.
 
   See also `PrimerLive.Theme`.
